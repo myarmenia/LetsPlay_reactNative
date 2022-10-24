@@ -1,6 +1,6 @@
-
-
 import { Dimensions, Platform, PixelRatio } from 'react-native'
+
+import { SHADOW } from './colors'
 
 import {
     FONT_ROBOTO_THIN,
@@ -73,6 +73,17 @@ export const font = (
     }
 
     return fontStyle
+}
+
+export const shadow = {
+    elevation: 5,
+    shadowOffset: {
+        width: 0,
+        height: 0,
+    },
+    shadowRadius: 5,
+    shadowOpacity: 0.5,
+    shadowColor: SHADOW,
 }
 
 export const RW = (value) => RatioW * value
