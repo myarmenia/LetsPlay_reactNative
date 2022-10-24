@@ -1,0 +1,6 @@
+export const FONT_ROBOTO_BLACK = 'Roboto-Black'
+export const FONT_ROBOTO_BOLD = 'Roboto-Bold'
+export const FONT_ROBOTO_LIGHT = 'Roboto-Light'
+export const FONT_ROBOTO_MEDIUM = 'Roboto-Medium'
+export const FONT_ROBOTO_REGULAR = 'Roboto-Regular'
+export const FONT_ROBOTO_THIN = 'Roboto-Thin'
