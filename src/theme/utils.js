@@ -60,7 +60,7 @@ export const font = (
     lineHeight = undefined,
 ) => {
     const fontStyle = {
-        fontFamily: getFontFamily(fontFamily),
+        // fontFamily: getFontFamily(fontFamily),
     }
     if (fontSize !== undefined) {
         fontStyle.fontSize = normalizePixel(fontSize)

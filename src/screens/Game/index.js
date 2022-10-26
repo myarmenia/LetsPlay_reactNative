@@ -1,36 +1,53 @@
 import React from 'react';
-import { SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import { BACKGROUND } from '@/theme/colors';
+import ScreenMask from '@/components/wrappers/screen';
 import Type from '@/assets/imgs/type';
+import { RW } from '@/theme/utils';
 
 const TYPES = [
     {
-        title: 'Играть'
+        title: 'Играть',
+        navigateTo: 'Play'
     },
     {
         title: 'Команда',
+        navigateTo: 'Team'
     },
     {
-        title: 'Турнир'
+        title: 'Турнир',
+        navigateTo: 'Tournament'
     }
 ];
 
 const GameSelectScreen = () => {
+    const navigation = useNavigation()
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: BACKGROUND, }}>
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-evenly' }}>
+        <ScreenMask>
+            <View style={styles.container}>
                 {TYPES.map(type => {
                     return (
-                        <TouchableOpacity key={type.title} activeOpacity={0.8}>
+                        <TouchableOpacity key={type.title} activeOpacity={0.8} style={styles.button}>
                             <Type title={type.title} />
                         </TouchableOpacity>
                     )
                 })}
             </View>
-        </SafeAreaView>
+        </ScreenMask>
     )
 };
 
 export default GameSelectScreen;
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-evenly'
+    },
+    button: {
+        borderRadius: RW(207 / 2)
+    }
+});

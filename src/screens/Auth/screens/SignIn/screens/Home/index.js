@@ -2,15 +2,14 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import Message from '@/screens/Auth/shared/container/message';
 import ScreenMask from '@/components/wrappers/screen';
 import LightButton from '@/assets/imgs/Button';
-import Message from './shared/container/message';
+import { ICON, WHITE } from '@/theme/colors';
 import Row from '@/components/wrappers/row';
 import { font, RH } from '@/theme/utils';
-import { WHITE } from '@/theme/colors';
-import VKIcon from '@/assets/imgs/vk';
 
-const AuthHome = () => {
+const SignInHome = () => {
     const navigation = useNavigation();
 
     return (
@@ -18,32 +17,30 @@ const AuthHome = () => {
             <View style={styles.bottom}>
                 <Message
                     containerStyle={styles.message}
-                    message={'Добро пожаловать в “Играем” пожалуйста пройдите регистрацию'}
+                    message={'Осуществите вход в приложение. Для входа в «Играем?» вы можете воспользоваться своей стр ВК, или вести данные логина и пароля в приложении.'}
                 />
                 <Row justifyContent={'space-between'}>
                     <LightButton
                         label={'Вход'}
                         onPress={() => {
-                            navigation.push('SignInStack')
+                            navigation.push('SignIn')
                         }}
                     />
                     <LightButton
-                        label={'Регистрация'}
+                        label={'Вход  из ВК'}
                         onPress={() => {
-                            navigation.push('SignUp')
+                            // TODO
                         }}
                     />
                 </Row>
-                <View style={styles.vk}>
-                    <Text style={styles.title}>Вход через</Text>
-                    <VKIcon />
-                </View>
+                <Text style={styles.link} onPress={() => navigation.navigate('SignUp')}>Зарегистрироваться</Text>
             </View>
         </ScreenMask>
     )
 };
 
-export default AuthHome;
+export default SignInHome;
+
 
 const styles = StyleSheet.create({
     bottom: {
@@ -52,14 +49,17 @@ const styles = StyleSheet.create({
         bottom: RH(30),
         position: 'absolute',
     },
-    vk: {
-        alignItems: 'center'
-    },
     title: {
         marginVertical: RH(12),
         ...font('regular', 18, WHITE, 24)
     },
+    link: {
+        marginTop: RH(20),
+        alignSelf: 'center',
+        textDecorationLine: 'underline',
+        ...font('regular', 14, ICON, 24)
+    },
     message: {
-        marginBottom: RH(65)
+        marginBottom: RH(22)
     }
 })

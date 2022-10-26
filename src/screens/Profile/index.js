@@ -1,14 +1,14 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
-import { BACKGROUND } from '@/theme/colors';
+import ScreenMask from '@/components/wrappers/screen';
 
 const ProfileScreen = () => {
 
     return (
-        <View style={{ flex: 1, backgroundColor: BACKGROUND }}>
+        <ScreenMask>
             <Text style={{ marginTop: 100, color: 'white' }}>Profile</Text>
-        </View>
+        </ScreenMask>
     )
 };
 

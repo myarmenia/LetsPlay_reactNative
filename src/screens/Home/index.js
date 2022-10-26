@@ -1,37 +1,43 @@
 import React from 'react';
-import { Image, SafeAreaView, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
 
 import NotificationIcon from '@/assets/imgs/notification';
+import ScreenMask from '@/components/wrappers/screen';
 import CalendarIcon from '@/assets/imgs/calendar';
-import detail from '@/assets/imgs/detail.png';
-import { BACKGROUND } from '@/theme/colors';
+import Detail from '@/assets/imgs/detail.png';
 import { RH, RW } from '@/theme/utils';
 
 const HomeScreen = () => {
 
     return (
-        <View style={{ flex: 1, backgroundColor: BACKGROUND }}>
-            <SafeAreaView style={{ flex: 1 }}>
-                <View style={styles.header}>
-                    <CalendarIcon />
-                    <NotificationIcon />
-                </View>
-                <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                    <Image source={detail} />
-                </View>
-            </SafeAreaView>
-        </View>
+        <ScreenMask>
+            <View style={styles.header}>
+                <CalendarIcon />
+                <NotificationIcon />
+            </View>
+            <View style={styles.detailContainer}>
+                <Image source={Detail} resizeMode={'contain'} style={styles.detail} />
+            </View>
+        </ScreenMask>
     )
 };
 
 export default HomeScreen;
 
 const styles = StyleSheet.create({
+    detailContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    detail: {
+        width: RW(270),
+        height: RH(413)
+    },
     header: {
         paddingTop: RH(21),
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: RW(20),
         justifyContent: 'space-between'
     }
 })
