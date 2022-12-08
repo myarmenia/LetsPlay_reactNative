@@ -1,0 +1,41 @@
+import React from 'react';
+import {Image, ScrollView, Text, View} from "react-native";
+import {styles} from "@/components/game/style";
+import BgGamesLiner from "@/assets/imgs/games/BgGamesLiner";
+import Border from "@/assets/imgs/games/Border";
+import Button from "@/assets/imgs/Button";
+import item from "@/screens/Auth/screens/SignUp/screens/Onboard/components/item";
+import {useNavigation} from "@react-navigation/native";
+
+
+function  Index(props) {
+    const {data , setModalVisible , setGame , setFlag , } = props
+    const navigation = useNavigation()
+
+    return (
+        <View style={styles.bgFon}>
+            <View style={{...styles.border, ...styles.leftBorder}}>
+                <Border/>
+            </View>
+            <View style={{...styles.border, ...styles.rightBorder}}>
+                <Border/>
+            </View>
+            <View style={styles.bgGamesLiner}>
+                <BgGamesLiner/>
+            </View>
+            <View style={styles.title}>
+                <Image source={data.image} style={styles.image}/>
+            </View>
+            <View style={styles.btn} >
+                <Button
+                    onPress={() => {
+                        navigation.navigate('GameCreating', {game: data});
+                    }}
+                    label={data.title}
+                    size={{width: 191, height: 48}}/>
+            </View>
+        </View>
+    );
+}
+
+export default Index;

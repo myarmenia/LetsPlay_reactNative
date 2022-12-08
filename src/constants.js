@@ -11,7 +11,7 @@ export const LAST_LOCATION_PERMISSION = '@LastLocation'
 export const ONBOARDING_CHECK_KEY = '@GameOrganizingOnboarding'
 
 export const APP_LANGUAGES = {
-    RU: 'ru',
+  RU: 'ru',
 }
 
 export const SERVER_ENDPOINT = ''
@@ -20,10 +20,10 @@ export const DEEP_LINKING_SCHEMA = `gameOrganizing:/`
 export const IS_IOS = Platform.OS === 'ios'
 
 export const NAV_HEADER_OPTION = {
-    headerShown: false,
-    gestureEnabled: true,
-    gestureDirection: 'horizontal',
-    headerStatusBarHeight: IS_IOS ? undefined : 0,
+  headerShown: false,
+  gestureEnabled: true,
+  gestureDirection: 'horizontal',
+  headerStatusBarHeight: IS_IOS ? undefined : 0,
 }
 
 export const HORIZONTAL_DIM = RW(16)

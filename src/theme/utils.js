@@ -3,12 +3,12 @@ import { Dimensions, Platform, PixelRatio } from 'react-native'
 import { SHADOW } from './colors'
 
 import {
-    FONT_ROBOTO_THIN,
-    FONT_ROBOTO_BOLD,
-    FONT_ROBOTO_BLACK,
-    FONT_ROBOTO_LIGHT,
-    FONT_ROBOTO_MEDIUM,
-    FONT_ROBOTO_REGULAR,
+  FONT_INTER_THIN,
+  FONT_INTER_BOLD,
+  FONT_INTER_BLACK,
+  FONT_INTER_LIGHT,
+  FONT_INTER_MEDIUM,
+  FONT_INTER_REGULAR,
 } from './fonts'
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
@@ -17,33 +17,33 @@ export const RatioH = SCREEN_HEIGHT / 926
 export const RatioW = SCREEN_WIDTH / 428
 
 export const normalizePixel = (size) => {
-    const newSize = size * RatioW
+  const newSize = size * RatioW
 
-    if (Platform.OS === 'ios') {
-        return Math.round(PixelRatio.roundToNearestPixel(newSize))
-    }
-
-    if (size > 12) return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
-
+  if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(newSize))
+  }
+
+  if (size > 12) return Math.round(PixelRatio.roundToNearestPixel(newSize)) - 2
+
+  return Math.round(PixelRatio.roundToNearestPixel(newSize))
 }
 
 const getFontFamily = (fontFamily) => {
-    switch (fontFamily) {
-        // Roboto fonts
-        case 'black':
-            return FONT_ROBOTO_BLACK
-        case 'bold':
-            return FONT_ROBOTO_BOLD
-        case 'light':
-            return FONT_ROBOTO_LIGHT
-        case 'medium':
-            return FONT_ROBOTO_MEDIUM
-        case 'regular':
-            return FONT_ROBOTO_REGULAR
-        case 'thin':
-            return FONT_ROBOTO_THIN
-    }
+  switch (fontFamily) {
+    // Roboto fonts
+    case 'black':
+      return FONT_INTER_BLACK
+    case 'bold':
+      return FONT_INTER_BOLD
+    case 'light':
+      return FONT_INTER_LIGHT
+    case 'medium':
+      return FONT_INTER_MEDIUM
+    case 'regular':
+      return FONT_INTER_REGULAR
+    case 'thin':
+      return FONT_INTER_THIN
+  }
 }
 /**
  * Get font style object
@@ -54,36 +54,36 @@ const getFontFamily = (fontFamily) => {
  * @returns font style object
  */
 export const font = (
-    fontFamily,
-    fontSize = undefined,
-    color = undefined,
-    lineHeight = undefined,
+  fontFamily,
+  fontSize = undefined,
+  color = undefined,
+  lineHeight = undefined,
 ) => {
-    const fontStyle = {
-        // fontFamily: getFontFamily(fontFamily),
-    }
-    if (fontSize !== undefined) {
-        fontStyle.fontSize = normalizePixel(fontSize)
-    }
-    if (color !== undefined) {
-        fontStyle.color = color
-    }
-    if (lineHeight !== undefined) {
-        fontStyle.lineHeight = normalizePixel(lineHeight)
-    }
+  const fontStyle = {
+    fontFamily: getFontFamily(fontFamily),
+  }
+  if (fontSize !== undefined) {
+    fontStyle.fontSize = normalizePixel(fontSize)
+  }
+  if (color !== undefined) {
+    fontStyle.color = color
+  }
+  if (lineHeight !== undefined) {
+    fontStyle.lineHeight = normalizePixel(lineHeight)
+  }
 
-    return fontStyle
+  return fontStyle
 }
 
 export const shadow = {
-    elevation: 5,
-    shadowOffset: {
-        width: 0,
-        height: 0,
-    },
-    shadowRadius: 5,
-    shadowOpacity: 0.5,
-    shadowColor: SHADOW,
+  elevation: 5,
+  shadowOffset: {
+    width: 0,
+    height: 0,
+  },
+  shadowRadius: 5,
+  shadowOpacity: 0.5,
+  shadowColor: SHADOW,
 }
 
 export const RW = (value) => RatioW * value

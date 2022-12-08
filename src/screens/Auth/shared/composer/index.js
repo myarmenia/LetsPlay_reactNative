@@ -1,66 +1,68 @@
-import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import React from 'react'
+import { StyleSheet, TextInput, View } from 'react-native'
 
-import { BACKGROUND, BLACK, ICON, WHITE } from '@/theme/colors';
-import { font, RH, RW, shadow } from '@/theme/utils';
-import SendIcon from '@/assets/imgs/send';
+import { BACKGROUND, BLACK, ICON, WHITE } from '@/theme/colors'
+import { font, RH, RW, shadow } from '@/theme/utils'
+import SendIcon from '@/assets/imgs/send'
 
-const Composer = React.forwardRef(({
-    onSend,
-    disabled,
-    textStyle,
-    containerStyle,
-    secure = false,
-    placeholder = 'Написать'
-}, ref) => {
-    const [text, setText] = React.useState('');
+const Composer = React.forwardRef(
+  (
+    { onSend, disabled, textStyle, containerStyle, secure = false, placeholder = 'Написать' },
+    ref,
+  ) => {
+    const [text, setText] = React.useState('')
 
-    React.useImperativeHandle(ref, () => ({
+    React.useImperativeHandle(
+      ref,
+      () => ({
         text,
-        setText
-    }), [])
+        setText,
+      }),
+      [],
+    )
 
     const send = () => {
-        if (text.trim()) {
-            onSend?.(text);
-        }
-    };
+      if (text.trim()) {
+        onSend?.(text)
+      }
+    }
 
     return (
-        <View style={[styles.container, containerStyle]}>
-            <TextInput
-                value={text}
-                editable={!disabled}
-                onChangeText={setText}
-                secureTextEntry={secure}
-                placeholderTextColor={ICON}
-                placeholder={placeholder || ''}
-                style={[styles.textStyle, textStyle]}
-            />
-            <SendIcon onPress={send} />
-        </View>
+      <View style={[styles.container, containerStyle]}>
+        <TextInput
+          value={text}
+          editable={!disabled}
+          onChangeText={setText}
+          secureTextEntry={secure}
+          placeholderTextColor={ICON}
+          placeholder={placeholder || ''}
+          style={[styles.textStyle, textStyle]}
+        />
+        <SendIcon onPress={send} />
+      </View>
     )
-});
+  },
+)
 
-export default Composer;
+export default Composer
 
 const styles = StyleSheet.create({
-    container: {
-        ...shadow,
-        maxHeight: RH(48),
-        shadowColor: BLACK,
-        paddingLeft: RW(24),
-        paddingRight: RW(21),
-        flexDirection: 'row',
-        borderRadius: RW(10),
-        alignItems: 'center',
-        paddingVertical: RH(10),
-        backgroundColor: BACKGROUND,
-        justifyContent: 'space-between'
-    },
-    textStyle: {
-        width: RW(330),
-        paddingVertical: 0,
-        ...font('regular', 16, WHITE, 18),
-    }
-});
+  container: {
+    ...shadow,
+    maxHeight: RH(48),
+    shadowColor: BLACK,
+    paddingLeft: RW(24),
+    paddingRight: RW(21),
+    flexDirection: 'row',
+    borderRadius: RW(10),
+    alignItems: 'center',
+    paddingVertical: RH(10),
+    backgroundColor: BACKGROUND,
+    justifyContent: 'space-between',
+  },
+  textStyle: {
+    width: RW(330),
+    paddingVertical: 0,
+    ...font('regular', 16, WHITE, 18),
+  },
+})
