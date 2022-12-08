@@ -26,7 +26,7 @@ const GameSelectScreen = ({navigation}) =>
     return (
         <ScreenMask>
             <GestureRecognizer
-                onSwipeLeft={(state) => navigation.goBack()}
+                onSwipeRight={(state) => navigation.goBack()}
                 style={{
                     flex: 1,
                 }}

@@ -18,21 +18,27 @@ function Index(props) {
     const [goBack, setGoBack] = useState(true);
     const [modalRules, setModalRules] = useState(true);
 
-    const Qr = props => (<GoBack item={<QrCode modalRules={modalRules} setModalRules={setModalRules} setGoBack={setGoBack} {...props} />}/>);
-    const P = props => (<GoBack item={<Players setGoBack={setGoBack} {...props} />}/>);
-    const routes = [QrCode, Players]
+    const QrCodeComponent = props => (<GoBack item={<QrCode modalRules={modalRules} setModalRules={setModalRules} setGoBack={setGoBack} {...props} />}/>);
+    const PlayersComponent = props => (<GoBack item={<Players setGoBack={setGoBack} {...props} />}/>);
+    const AllocatePlayersComponent=props =>(<GoBack item={<AllocatePlayers  {...props} />}/>);
+    const EliasAllocatePlayersInfoComponent=props=>(<GoBack item={<EliasAllocatePlayersInfo  {...props} />}/>);
+    const SettingsComponent=props=>(<GoBack item={<Settings  {...props} />}/>);
+    const DifficultyLevelComponent=props=>(<GoBack item={<DifficultyLevel  {...props} />}/>);
+    const StartComponent=props=>(<GoBack item={<Start  {...props} />}/>);
+    const ResTeamComponent=props=>(<GoBack item={<EliasAllocatePlayersInfo  {...props} />}/>);
+    const ResTeamsComponent=props=>(<GoBack item={<ResTeams  {...props} />}/>);
 
     return (
         <Stack.Navigator screenOptions={NAV_HEADER_OPTION}  >
-            <Stack.Screen name="Qr" component={Qr}/>
-            <Stack.Screen name="EliasPlayers" component={P}/>
-            <Stack.Screen name="EliasAllocatePlayers" component={AllocatePlayers}/>
-            <Stack.Screen name="EliasAllocatePlayersInfo" component={EliasAllocatePlayersInfo}/>
-            <Stack.Screen name="SettingsElias" component={Settings}/>
-            <Stack.Screen name="DifficultyLevel" component={DifficultyLevel}/>
-            <Stack.Screen name="EliasStart" component={Start}/>
-            <Stack.Screen name="ResTeamElias" component={ResTeam}/>
-            <Stack.Screen name="ResTeamsElias" component={ResTeams}/>
+            <Stack.Screen name="Qr" component={QrCodeComponent}/>
+            <Stack.Screen name="EliasPlayers" component={PlayersComponent}/>
+            <Stack.Screen name="EliasAllocatePlayers" component={AllocatePlayersComponent}/>
+            <Stack.Screen name="EliasAllocatePlayersInfo" component={EliasAllocatePlayersInfoComponent}/>
+            <Stack.Screen name="SettingsElias" component={SettingsComponent}/>
+            <Stack.Screen name="DifficultyLevel" component={DifficultyLevelComponent}/>
+            <Stack.Screen name="EliasStart" component={StartComponent}/>
+            <Stack.Screen name="ResTeamElias" component={ResTeamComponent}/>
+            <Stack.Screen name="ResTeamsElias" component={ResTeamsComponent}/>
         </Stack.Navigator>
     );
 }
