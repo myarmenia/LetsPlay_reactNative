@@ -23,14 +23,14 @@ const Games = [
         gadget:true,
         title: 'Элиас',
         image: Elias,
-        navigationTo:'Elias'
+        navigateTo:'Elias'
     },    {
         // type:'',
         // id:'',
         gadget:false,
         title: 'Покер',
         image: Poker,
-        navigationTo:'Poker'
+        navigateTo:'Poker'
     },
     {
         // type:'',
@@ -38,7 +38,7 @@ const Games = [
         gadget:false,
         title: 'Монополия',
         image: Monopoly,
-        navigationTo:'Monopoly'
+        navigateTo:'Monopoly'
     },
     {
         // type:'',
@@ -46,7 +46,7 @@ const Games = [
         gadget:true,
         title: 'Крокодил',
         image: Crocodile,
-        navigationTo:'Crocodile'
+        navigateTo:'Crocodile'
     },
     {
         // type:'',
@@ -54,7 +54,7 @@ const Games = [
         gadget:true,
         title: 'Мафия',
         image: Mafia,
-        navigationTo:'Mafia'
+        navigateTo:'Mafia'
     },
     {
         // type:'',
@@ -62,7 +62,7 @@ const Games = [
         gadget:false,
         title: 'Своя игра',
         image: MyGame,
-        navigationTo:'MyGame'
+        navigateTo:'MyGame'
     },
 
 
