@@ -29,7 +29,7 @@ function  Index(props) {
             <View style={styles.btn} >
                 <Button
                     onPress={() => {
-                        navigation.navigate('GameCreating', {game: data});
+                        navigation.navigate(data.navigateTo, {game: data});
                     }}
                     label={data.title}
                     size={{width: 191, height: 48}}/>

@@ -19,54 +19,64 @@ const ActiveGames = [
         // id:'',
         title: 'Футбол',
         image: Soccer,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Навес',
         image: Naves,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Триста',
         image: Trista,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Баскетбол',
         image: Basketball,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Волейбол ',
         image: Volleyball,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Пионербол ',
         image: Pioneerball,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Пионербол ',
         image: Hokey,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Квест ',
         image: Quest,
+        navigateTo:'GameCreating'
     },
     {
         // type:'',
         // id:'',
         title: 'Своя игра ',
         image: MyownGame,
+        navigateTo:'GameCreating'
+
     },
 ]
 
