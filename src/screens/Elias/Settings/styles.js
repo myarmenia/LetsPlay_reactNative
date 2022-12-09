@@ -3,6 +3,13 @@ import {font, RH, RW} from "@/theme/utils";
 import {WHITE} from "@/theme/colors";
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginLeft: 10,
+        marginRight: 10,
+        alignItems: 'stretch',
+        justifyContent: 'center',
+    },
     title: {
         ...font('bold', 20, WHITE),
         textAlign: 'center',

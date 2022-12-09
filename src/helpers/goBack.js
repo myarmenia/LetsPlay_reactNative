@@ -3,11 +3,9 @@ import GestureRecognizer from "react-native-swipe-gestures";
 import {useNavigation} from "@react-navigation/native";
 
 function GoBack({item}) {
-
     const navigation=useNavigation()
 
     const back = (par) => {
-        console.log(navigation)
         // if (!par) {
         //     return null
         // }
@@ -17,7 +15,7 @@ function GoBack({item}) {
     return (
 
         <GestureRecognizer
-            onSwipeLeft={(state) => back()}
+            onSwipeRight={(state) => back()}
             style={{
                 flex: 1,
             }}>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Image, Text, View} from "react-native";
 import Modal from "@/components/modal";
 import ScreenMask from "@/components/wrappers/screen";
@@ -10,16 +10,17 @@ import HemisphereBottomSvg from "@/assets/svgs/hemisphereBottomSvg";
 import HemisphereTopSvg from "@/assets/svgs/hemisphereTopSvg";
 
 function Index({navigation}) {
-
-    const [modal, setModal] = useState(true);
+    const [explainsModal, setExplainsModal] = useState(true);
 
     useEffect(()=>{
-        if(!modal){
+        if(!explainsModal){
             setTimeout(()=>{
-                navigation.navigate('ResTeamElias')
-            },4000)
+                {navigation.navigate('ResTeamElias')}
+            },3000)
+
         }
-    },[modal])
+    },[explainsModal])
+
 
     return (
         <View style={{flex: 1}}>
@@ -37,9 +38,9 @@ function Index({navigation}) {
             <View style={{width: '100%', height: '100%', position: 'absolute'}}>
                 <ScreenMask>
                     <View style={styles.circle}>
-                        <Type title={'Слово'} />
+                        <Type  title={'Продолжить'} />
                     </View>
-                    <Modal modalVisible={modal} setIsVisible={setModal} item={<ModalItem setModal={setModal}/>}/>
+                    <Modal modalVisible={explainsModal} setIsVisible={explainsModal} item={<ModalItem setModal={setExplainsModal}/>}/>
                 </ScreenMask>
             </View>
             <View style={{...styles.infoBlock, top: '78%'}}>

@@ -7,7 +7,7 @@ import Button from "@/assets/imgs/Button";
 import DarkButton from "@/assets/imgs/DarkButton";
 
 function Index(props) {
-    const comOne = (props.route.params.comOne);
+    const comOne = props.route.params.comOne;
     const comTwo = (props.route.params.comTwo);
     const navigation=props.navigation;
     return (
@@ -17,13 +17,13 @@ function Index(props) {
                 <View style={styles.comBlock}>
                     <Text style={styles.comTitle}>Название команды 1</Text>
                     <View style={styles.users}>
-                        {comOne.map((item, i) => <User key={i} user={item}/>)}
+                        {comOne?.map((item, i) => <User key={i} user={item}/>)}
                     </View>
                 </View>
                 <View style={styles.comBlock}>
                     <Text style={styles.comTitle}>Название команды 2</Text>
                     <View  style={styles.users}>
-                        {comTwo.map((item, i) => <User key={i} user={item}/>)}
+                        {comTwo?.map((item, i) => <User key={i} user={item}/>)}
                     </View>
                 </View>
             </View>
