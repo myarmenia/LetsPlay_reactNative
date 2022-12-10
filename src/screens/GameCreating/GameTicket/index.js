@@ -42,7 +42,7 @@ function Index(props) {
                            }} size={{width: 144, height: 36}} label={'Оплатить'}/>
                        </View> :
                        <View style={style.secondTicketModalBlock}>
-                           <Text style={style.text}>Оплата прошла успешна. Вы успешно создали игру!</Text>
+                           <Text style={{...style.text , marginBottom:0}}>Оплата прошла успешна. Вы успешно создали игру!</Text>
                        </View>}
             />
         </ScreenMask>

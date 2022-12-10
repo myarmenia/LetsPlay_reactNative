@@ -4,7 +4,7 @@ import BGMask from '@/assets/imgs/BGMask.png'
 import { BACKGROUND } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import { IS_IOS } from '@/constants'
-
+  
 
 const ScreenMask = ({ children }) => {
 
