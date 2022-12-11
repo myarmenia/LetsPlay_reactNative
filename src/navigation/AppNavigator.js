@@ -17,6 +17,7 @@ import GameCreating from "@/screens/GameCreating";
 import GameTicket from "@/screens/GameCreating/GameTicket";
 import NotificationScreen from '@/screens/Notification'
 import PrivateChat from "@/screens/Chat/PrivateChat";
+import MyDetails from "@/screens/Profile/MyDetails";
 
 
 const Stack = createNativeStackNavigator();
@@ -64,6 +65,7 @@ const AppNavigator = () => {
                 <Stack.Screen name={'GameCreating'} component={GameCreating}/>
                 <Stack.Screen name={'GameTicket'} component={GameTicket}/>
                 <Stack.Screen name={'PrivateChat'} component={PrivateChat}/>
+                <Stack.Screen name={'MyDetails'} component={MyDetails}/>
             </Stack.Navigator>
         </>
     )

@@ -11,6 +11,7 @@ const Radio = (props) => {
     const handleChange = (ev) => {
         setChecked(false)
         setValue(ev[0]);
+        if (data){
         if (ev[1] === 'Платно' && type === 'priceView') {
             setFlag(true)
         } else if (ev[1] === 'Бесплатно' && type === 'priceView') {
@@ -22,6 +23,7 @@ const Radio = (props) => {
             setData({...data, statusOrganizer: ev[1]})
         } else {
             setData({...data, price: ev[1]})
+        }
         }
     }
     return (
