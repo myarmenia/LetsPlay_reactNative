@@ -27,7 +27,7 @@ const HomeScreen = (props) => {
        <TouchableOpacity onPress={() => navigation.navigate('Notification')}><NotificationIcon/></TouchableOpacity>
       </View>
       <View style={styles.detailContainer}>
-        <User user={Players[2]} isMax={true}/>
+        <User user={Players[0]} isMax={true}/>
       </View>
         {isVisible ?<Modal modalVisible={isVisible} setIsVisible={setIsVisible} btnClose={false}
                 item={<View style={{width: RW(400), height: RH(638), paddingTop: RH(34)}}><Ticket/></View>}

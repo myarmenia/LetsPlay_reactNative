@@ -17,10 +17,10 @@ const Stack = createNativeStackNavigator();
 function Index(props) {
     const [goBack, setGoBack] = useState(true);
 
-    const [modalRules, setModalRules] = useState(true);
+
 
     const [route, setRoute]=useState({
-        QrCodeComponent:props => (<GoBack item={<QrCode modalRules={modalRules} setModalRules={setModalRules} setGoBack={setGoBack} {...props} />}/>),
+        QrCodeComponent:props => (<GoBack item={<QrCode  setGoBack={setGoBack} {...props} />}/>),
         PlayersComponent:props => (<GoBack item={<Players setGoBack={setGoBack} {...props} />}/>),
         AllocatePlayersComponent:props =>(<GoBack item={<AllocatePlayers  {...props} />}/>),
         EliasAllocatePlayersInfoComponent:props=>(<GoBack item={<EliasAllocatePlayersInfo  {...props} />}/>),

@@ -15,7 +15,7 @@ function Index({navigation}) {
                 <View style={styles.container}>
                     {Players.map((item, i) =>
                         <View key={i} style={styles.item}>
-                            <User user={item}/>
+                            <User  user={item}/>
                         </View>
                     )}
                 </View>

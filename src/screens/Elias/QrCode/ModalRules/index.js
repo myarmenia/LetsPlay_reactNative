@@ -3,6 +3,7 @@ import {Text, Pressable , View} from "react-native";
 import {styles} from './styles'
 
 function ModalRules({setModalRules}) {
+
     return (
         <Pressable   onPress={()=>setModalRules(false)} style={styles.body}>
             <Text style={styles.title}>Правила</Text>
