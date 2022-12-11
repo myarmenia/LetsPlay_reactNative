@@ -27,7 +27,7 @@ function Index(props) {
             <View style={{height: RH(784)}}></View>
             <View style={style.chatInput}><SmilesSvg/><TextInput style={{width: RW(276)}} placeholder={'Сообщение...'} placeholderTextColor={ICON}/><VoiceSvg/></View>
             <Modal  modalVisible={isVisible} setIsVisible={setIsVisible} btnClose={false}
-                    item={<View style={{margin: RW(20)}}><Ticket image={true}/></View>}
+                    item={<View style={style.infoModal}><Ticket image={true}/></View>}
             />
         </ScreenMask>
     );

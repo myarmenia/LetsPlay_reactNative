@@ -10,8 +10,8 @@ import {useNavigation} from "@react-navigation/native";
 
 function  Index(props) {
     const {data , setModalVisible , setGame , setFlag , } = props
-    const navigation = useNavigation();
-
+    const navigation = useNavigation()
+    console.log(data  )
     return (
         <View style={styles.bgFon}>
             <View style={{...styles.border, ...styles.leftBorder}}>

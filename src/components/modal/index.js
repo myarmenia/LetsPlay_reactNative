@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Button, Pressable, Text, View} from "react-native";
 import Modal from "react-native-modal";
 
-function Index({modalVisible, item, setIsVisible}) {
+function Index({modalVisible, item, setIsVisible , modalClose }) {
     const [isModalVisible, setModalVisible] = useState(true);
 
     useMemo(()=>{
@@ -16,9 +16,14 @@ function Index({modalVisible, item, setIsVisible}) {
     return (
         <View style={{ flex: 1 }}>
             <Modal onBackdropPress={() => {
-                setModalVisible(false)
-                setIsVisible(false)
-            }} isVisible={isModalVisible}>
+                if (modalClose){
+                    setModalVisible(true)
+                    setIsVisible(true)
+                }else {
+                    setModalVisible(false)
+                    setIsVisible(false)
+                }
+            }}  isVisible={isModalVisible}>
                 {item}
             </Modal>
         </View>
