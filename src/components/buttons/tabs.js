@@ -9,21 +9,19 @@ import { TAB_BAR_HEIGHT } from '@/constants'
 import { RH, shadow } from '@/theme/utils'
 import ChatIcon from '@/assets/imgs/chat'
 
-const TabBarButton = ({ state, descriptors, navigation, setIsHome }) => {
+const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden }) => {
   return (
-    <View style={styles.tabBar}>
+    <View style={{...styles.tabBar,  display:tabBarHidden?'none':'flex'}}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
 
         const isFocused = state.index === index
-
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
             canPreventDefault: true,
           })
-
           setIsHome(route.name === 'Home')
           if (!isFocused && !event.defaultPrevented) {
             // The `merge: true` option makes sure that the params inside the tab screen are preserved
@@ -71,6 +69,7 @@ export default TabBarButton
 
 const styles = StyleSheet.create({
   tabBar: {
+    // display:'none',
     alignItems: 'center',
     flexDirection: 'row',
     height: TAB_BAR_HEIGHT,

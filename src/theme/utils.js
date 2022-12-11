@@ -3,13 +3,12 @@ import { Dimensions, Platform, PixelRatio } from 'react-native'
 import { SHADOW } from './colors'
 
 import {
-  FONT_ROBOTO_THIN,
-  FONT_ROBOTO_BOLD,
-  FONT_ROBOTO_BLACK,
-  FONT_ROBOTO_LIGHT,
-  FONT_ROBOTO_MEDIUM,
-  FONT_ROBOTO_REGULAR,
-  FONT_INTER,
+  FONT_INTER_THIN,
+  FONT_INTER_BOLD,
+  FONT_INTER_BLACK,
+  FONT_INTER_LIGHT,
+  FONT_INTER_MEDIUM,
+  FONT_INTER_REGULAR,
 } from './fonts'
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
@@ -33,19 +32,17 @@ const getFontFamily = (fontFamily) => {
   switch (fontFamily) {
     // Roboto fonts
     case 'black':
-      return FONT_ROBOTO_BLACK
+      return FONT_INTER_BLACK
     case 'bold':
-      return FONT_ROBOTO_BOLD
+      return FONT_INTER_BOLD
     case 'light':
-      return FONT_ROBOTO_LIGHT
+      return FONT_INTER_LIGHT
     case 'medium':
-      return FONT_ROBOTO_MEDIUM
+      return FONT_INTER_MEDIUM
     case 'regular':
-      return FONT_ROBOTO_REGULAR
+      return FONT_INTER_REGULAR
     case 'thin':
-      return FONT_ROBOTO_THIN
-    case 'inter':
-      return FONT_INTER
+      return FONT_INTER_THIN
   }
 }
 /**
@@ -63,7 +60,7 @@ export const font = (
   lineHeight = undefined,
 ) => {
   const fontStyle = {
-    // fontFamily: getFontFamily(fontFamily),
+    fontFamily: getFontFamily(fontFamily),
   }
   if (fontSize !== undefined) {
     fontStyle.fontSize = normalizePixel(fontSize)

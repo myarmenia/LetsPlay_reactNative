@@ -1,58 +1,55 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-
+import {StyleSheet, View} from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Type from '@/assets/imgs/type'
-import { RW } from '@/theme/utils'
+import GestureRecognizer from "react-native-swipe-gestures";
 
 const TYPES = [
-  {
-    title: 'Играть',
-    navigateTo: 'Play',
-  },
-  {
-    title: 'Команда',
-    navigateTo: 'Team',
-  },
-  {
-    title: 'Турнир',
-    navigateTo: 'Tournament',
-  },
+    {
+        title: 'Играть',
+        navigateTo: 'Play',
+    },
+    {
+        title: 'Команда',
+        navigateTo: 'Team',
+    },
+    {
+        title: 'Турнир',
+        navigateTo: 'Tournament',
+    },
 ]
 
-const GameSelectScreen = () => {
-  const navigation = useNavigation()
 
-  return (
-    <ScreenMask>
-      <View style={styles.container}>
-        {TYPES.map((type) => {
-          return (
-            <TouchableOpacity
-              key={type.title}
-              activeOpacity={0.8}
-              style={styles.button}
-              onPress={() => navigation.navigate(type.navigateTo)}
+const GameSelectScreen = ({navigation}) =>
+{
+
+    return (
+        <ScreenMask>
+            <GestureRecognizer
+                onSwipeRight={(state) => navigation.goBack()}
+                style={{
+                    flex: 1,
+                }}
             >
-              <Type title={type.title} />
-            </TouchableOpacity>
-          )
-        })}
-      </View>
-    </ScreenMask>
-  )
+                <View style={styles.container}>
+                    {TYPES.map((type) => {
+                        return <Type title={type.title} key={type.title}
+                                     onPress={() => navigation.navigate(type.navigateTo)}/>
+                        return <Type title={type.title} key={type.title}/>
+                    })}
+                </View>
+            </GestureRecognizer>
+        </ScreenMask>
+    )
 }
 
 export default GameSelectScreen
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-  },
-  button: {
-    borderRadius: RW(207 / 2),
-  },
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+    },
 })
+

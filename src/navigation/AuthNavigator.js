@@ -1,6 +1,5 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-
 import Preferences from '@/screens/Auth/screens/SignUp/screens/Preferences'
 import Onboard from '@/screens/Auth/screens/SignUp/screens/Onboard'
 import SignInHome from '@/screens/Auth/screens/SignIn/screens/Home'
@@ -16,11 +15,7 @@ const AuthNavigator = () => {
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION} initialRouteName={'Home'}>
       <Stack.Screen name={'Home'} component={AuthHome} />
       <Stack.Screen name={'SignUp'} component={SignUpStack} />
-      <Stack.Screen
-        name={'SignInStack'}
-        component={SignInStack}
-        options={{ gestureEnabled: false }}
-      />
+      <Stack.Screen name={'SignInStack'} component={SignInStack} options={{ gestureEnabled: false }}/>
     </Stack.Navigator>
   )
 }
@@ -39,11 +34,7 @@ const SignUpStack = () => {
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION} initialRouteName={'Home'}>
       <Stack.Screen name={'Home'} component={SignUp} />
       <Stack.Screen name={'Onboard'} component={Onboard} options={{ gestureEnabled: false }} />
-      <Stack.Screen
-        name={'Preferences'}
-        component={Preferences}
-        options={{ gestureEnabled: false }}
-      />
+      <Stack.Screen name={'Preferences'} component={Preferences} options={{ gestureEnabled: false }}/>
     </Stack.Navigator>
   )
 }

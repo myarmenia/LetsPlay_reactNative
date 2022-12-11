@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import Main from '@/assets/imgs/main'
 import styles from './styles'
 
-const CircleButton = ({ isHome, setIsHome }) => {
+const CircleButton = ({ isHome, setIsHome, tabBarHidden }) => {
   const navigation = useNavigation()
 
   const press = () => {
@@ -14,7 +14,7 @@ const CircleButton = ({ isHome, setIsHome }) => {
   }
 
   return (
-    <View style={styles.circleContainer}>
+    <View style={{...styles.circleContainer, display:tabBarHidden?'none':'flex'}}>
       <TouchableOpacity activeOpacity={0.8} onPress={press}>
         <Main isAdd={isHome} />
       </TouchableOpacity>

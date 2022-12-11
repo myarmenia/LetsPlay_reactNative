@@ -1,41 +1,33 @@
-import React, { useMemo, useState } from 'react'
-import { View } from 'react-native'
-import Modal from 'react-native-modal'
-import { styles } from './style'
-import BtnCloseModal from '@/assets/imgs/btnCloseModal'
+import React, {useEffect, useMemo, useState} from 'react';
+import {Button, Pressable, Text, View} from "react-native";
+import Modal from "react-native-modal";
 
-function Index({ modalVisible, item, btnClose, setIsVisible, backgroundColor }) {
-  console.log(modalVisible)
-  const [isModalVisible, setModalVisible] = useState(true)
+function Index({modalVisible, item, setIsVisible , modalClose }) {
+    const [isModalVisible, setModalVisible] = useState(true);
 
-  useMemo(() => {
-    setModalVisible(modalVisible)
-  }, [modalVisible])
+    useMemo(()=>{
+        setModalVisible(modalVisible)
+    },[modalVisible])
 
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible)
-  }
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
 
-  return (
-    <View style={{ flex: 1 }}>
-      <Modal
-        onBackdropPress={() => {
-          setModalVisible(false)
-          setIsVisible(false)
-        }}
-        isVisible={isModalVisible}
-      >
-        <View style={[styles.body, backgroundColor]}>
-          {btnClose ? (
-            <View style={styles.close} onPress={toggleModal}>
-              <BtnCloseModal />
-            </View>
-          ) : null}
-          {item}
+    return (
+        <View style={{ flex: 1 }}>
+            <Modal onBackdropPress={() => {
+                if (modalClose){
+                    setModalVisible(true)
+                    setIsVisible(true)
+                }else {
+                    setModalVisible(false)
+                    setIsVisible(false)
+                }
+            }}  isVisible={isModalVisible}>
+                {item}
+            </Modal>
         </View>
-      </Modal>
-    </View>
-  )
+    );
 }
 
-export default Index
+export default Index;
