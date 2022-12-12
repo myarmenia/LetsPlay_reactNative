@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.gameorganizing.app-mergeDebugResources-29:/values-fi/values-fi.xml",
+            "outputFile": "com.gameorganizing.app-mergeDebugResources-28:/values-fi/values-fi.xml",
             "map": [
                 {
                     "source": "C:\\Users\\User\\game_organization_react_native\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values-fi\\values-fi.xml",

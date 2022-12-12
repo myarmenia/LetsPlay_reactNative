@@ -21,7 +21,6 @@
     "eslint-config-americansoftware": "^9.0.8",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "link": "^1.5.1",
     "moment": "^2.29.4",
     "path": "^0.12.7",
     "radio-buttons-react-native": "^1.0.4",

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Image, Text, View, TouchableOpacity} from "react-native";
+import React from 'react';
+import {Image, Text, View} from "react-native";
 import Modal from "@/components/modal";
 import ScreenMask from "@/components/wrappers/screen";
 import QrTest from '@/assets/imgs/qrTest.jpg';
@@ -7,7 +7,6 @@ import Button from "@/assets/imgs/Button";
 import styles from '@/screens/Elias/DifficultyLevel/styles';
 
 function Index({navigation, modalRules, setModalRules}) {
-    const [selectLevel, setSelectLevel]=useState();
 
     const levels = [
         {
@@ -33,12 +32,10 @@ function Index({navigation, modalRules, setModalRules}) {
                 <Text style={styles.title}>Уровень сложности</Text>
                 <View>
                     {levels.map((item, i) => (
-                        <TouchableOpacity key={i} onPress={()=>setSelectLevel(item)}>
-                            <View style={styles.levelBlock} >
-                                <Text style={styles.levelTitle}>{item.title}</Text>
-                                <Text style={styles.level}>{item.level}</Text>
-                            </View>
-                        </TouchableOpacity>
+                        <View style={styles.levelBlock} key={i}>
+                            <Text style={styles.levelTitle}>{item.title}</Text>
+                            <Text style={styles.level}>{item.level}</Text>
+                        </View>
                     ))}
                 </View>
                 <View style={styles.btnBlock}>

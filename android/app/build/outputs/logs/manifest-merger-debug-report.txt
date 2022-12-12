@@ -1,22 +1,22 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-26:12
-INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-26:12
-INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-26:12
-INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-26:12
-MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-26:12
+ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-27:12
+INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-27:12
+INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-27:12
+INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-27:12
+MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-27:12
 MERGED from [com.facebook.flipper:flipper:0.125.0] C:\Users\User\.gradle\caches\transforms-3\e590b54d1aa93e985ce8beaedee07310\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:8:1-18:12
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.125.0] C:\Users\User\.gradle\caches\transforms-3\6ed5616b0f8e01fb7ec0cd79eb00906d\transformed\jetified-flipper-network-plugin-0.125.0\AndroidManifest.xml:8:1-15:12
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.125.0] C:\Users\User\.gradle\caches\transforms-3\cca5619ab3aafddce266110effff6dd7\transformed\jetified-flipper-fresco-plugin-0.125.0\AndroidManifest.xml:8:1-15:12
+MERGED from [:react-native-community_slider] C:\Users\User\game_organization_react_native\node_modules\@react-native-community\slider\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-masked-view_masked-view] C:\Users\User\game_organization_react_native\node_modules\@react-native-masked-view\masked-view\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [:lottie-react-native] C:\Users\User\game_organization_react_native\node_modules\lottie-react-native\src\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-date-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-gesture-handler] C:\Users\User\game_organization_react_native\node_modules\react-native-gesture-handler\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-linear-gradient] C:\Users\User\game_organization_react_native\node_modules\react-native-linear-gradient\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-safe-area-context] C:\Users\User\game_organization_react_native\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-screens] C:\Users\User\game_organization_react_native\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-svg] C:\Users\User\game_organization_react_native\node_modules\react-native-svg\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
-MERGED from [com.facebook.react:react-native:0.70.3] C:\Users\User\.gradle\caches\transforms-3\498910a45f2a6a83f4100c3aa2534472\transformed\jetified-react-native-0.70.3-debug\AndroidManifest.xml:2:1-11:12
+MERGED from [com.facebook.react:react-native:0.70.6] C:\Users\User\.gradle\caches\transforms-3\6ddc2b9ae3abd64508dbc1428cbbc5e9\transformed\jetified-react-native-0.70.6-debug\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\User\.gradle\caches\transforms-3\f58f58ae40dbc822cd4e93b44b502955\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [org.webkit:android-jsc:r250230] C:\Users\User\.gradle\caches\transforms-3\6110a1ddba3a87ff213f792d30fc2c57\transformed\jetified-android-jsc-r250230\AndroidManifest.xml:2:1-11:12
 MERGED from [:react-native-reanimated] C:\Users\User\game_organization_react_native\node_modules\react-native-reanimated\android\build\.transforms\1b8cc683f9f0896e92349b9ac4f54dd2\transformed\jetified-react-native-reanimated-70-jsc\AndroidManifest.xml:2:1-9:12
@@ -35,7 +35,6 @@ MERGED from [com.facebook.fresco:memory-type-ashmem:2.6.0] C:\Users\User\.gradle
 MERGED from [com.facebook.fresco:imagepipeline:2.6.0] C:\Users\User\.gradle\caches\transforms-3\c10666c4a8d94d2d82a1c1eb2684eaf3\transformed\jetified-imagepipeline-2.6.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:nativeimagetranscoder:2.6.0] C:\Users\User\.gradle\caches\transforms-3\3ac94c4e2b1ac13c6d196eb350904519\transformed\jetified-nativeimagetranscoder-2.6.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.facebook.fresco:imagepipeline-base:2.6.0] C:\Users\User\.gradle\caches\transforms-3\0be0a1db46624fe88e5a5480378abe15\transformed\jetified-imagepipeline-base-2.6.0\AndroidManifest.xml:2:1-9:12
-MERGED from [com.airbnb.android:lottie:5.1.1] C:\Users\User\.gradle\caches\transforms-3\fe34215e72477669b106aeb7f92e6334\transformed\jetified-lottie-5.1.1\AndroidManifest.xml:2:1-11:12
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\User\.gradle\caches\transforms-3\4d262dbe384bb38f2b858df6c14b3c9e\transformed\material-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat:1.4.1] C:\Users\User\.gradle\caches\transforms-3\28fad7ba1009b9a90d750a642518ad0f\transformed\appcompat-1.4.1\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite-framework:2.1.0] C:\Users\User\.gradle\caches\transforms-3\e70f213dc13084064e932108f6076d8b\transformed\sqlite-framework-2.1.0\AndroidManifest.xml:17:1-24:12
@@ -88,13 +87,13 @@ INJECTED from C:\Users\User\game_organization_react_native\android\app\src\debug
 		INJECTED from C:\Users\User\game_organization_react_native\android\app\src\debug\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-26:12
+		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-27:12
 		INJECTED from C:\Users\User\game_organization_react_native\android\app\src\debug\AndroidManifest.xml
 	xmlns:tools
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\debug\AndroidManifest.xml:3:5-51
 	android:versionCode
 		INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-26:12
+		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:1-27:12
 		INJECTED from C:\Users\User\game_organization_react_native\android\app\src\debug\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:1:11-69
@@ -102,20 +101,16 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:4:5-67
 MERGED from [com.facebook.flipper:flipper:0.125.0] C:\Users\User\.gradle\caches\transforms-3\e590b54d1aa93e985ce8beaedee07310\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:15:5-67
 MERGED from [com.facebook.flipper:flipper:0.125.0] C:\Users\User\.gradle\caches\transforms-3\e590b54d1aa93e985ce8beaedee07310\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:15:5-67
-MERGED from [:lottie-react-native] C:\Users\User\game_organization_react_native\node_modules\lottie-react-native\src\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
-MERGED from [:lottie-react-native] C:\Users\User\game_organization_react_native\node_modules\lottie-react-native\src\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-67
 	android:name
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:4:22-64
 application
-ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-25:19
-MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-25:19
-MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-25:19
-MERGED from [com.facebook.react:react-native:0.70.3] C:\Users\User\.gradle\caches\transforms-3\498910a45f2a6a83f4100c3aa2534472\transformed\jetified-react-native-0.70.3-debug\AndroidManifest.xml:9:5-20
-MERGED from [com.facebook.react:react-native:0.70.3] C:\Users\User\.gradle\caches\transforms-3\498910a45f2a6a83f4100c3aa2534472\transformed\jetified-react-native-0.70.3-debug\AndroidManifest.xml:9:5-20
+ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-26:19
+MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-26:19
+MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-26:19
+MERGED from [com.facebook.react:react-native:0.70.6] C:\Users\User\.gradle\caches\transforms-3\6ddc2b9ae3abd64508dbc1428cbbc5e9\transformed\jetified-react-native-0.70.6-debug\AndroidManifest.xml:9:5-20
+MERGED from [com.facebook.react:react-native:0.70.6] C:\Users\User\.gradle\caches\transforms-3\6ddc2b9ae3abd64508dbc1428cbbc5e9\transformed\jetified-react-native-0.70.6-debug\AndroidManifest.xml:9:5-20
 MERGED from [com.facebook.soloader:soloader:0.10.4] C:\Users\User\.gradle\caches\transforms-3\08b5c374dac693c5b84b42643077fa85\transformed\jetified-soloader-0.10.4\AndroidManifest.xml:11:5-20
 MERGED from [com.facebook.soloader:soloader:0.10.4] C:\Users\User\.gradle\caches\transforms-3\08b5c374dac693c5b84b42643077fa85\transformed\jetified-soloader-0.10.4\AndroidManifest.xml:11:5-20
-MERGED from [com.airbnb.android:lottie:5.1.1] C:\Users\User\.gradle\caches\transforms-3\fe34215e72477669b106aeb7f92e6334\transformed\jetified-lottie-5.1.1\AndroidManifest.xml:9:5-20
-MERGED from [com.airbnb.android:lottie:5.1.1] C:\Users\User\.gradle\caches\transforms-3\fe34215e72477669b106aeb7f92e6334\transformed\jetified-lottie-5.1.1\AndroidManifest.xml:9:5-20
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\User\.gradle\caches\transforms-3\4d262dbe384bb38f2b858df6c14b3c9e\transformed\material-1.1.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\User\.gradle\caches\transforms-3\4d262dbe384bb38f2b858df6c14b3c9e\transformed\material-1.1.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:25:5-35:19
@@ -157,7 +152,9 @@ MERGED from [net.time4j:time4j-android:4.8-2021a] C:\Users\User\.gradle\caches\t
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:7:7-38
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:7:7-38
 activity#com.gameorganizing.MainActivity
-ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:13:7-24:18
+ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:13:7-25:18
+	android:screenOrientation
+		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:19:9-45
 	android:label
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:15:9-41
 	android:launchMode
@@ -165,21 +162,21 @@ ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\And
 	android:windowSoftInputMode
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:18:9-51
 	android:exported
-		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:19:9-32
+		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:20:9-32
 	android:configChanges
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:16:9-118
 	android:name
 		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:14:9-37
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:20:9-23:25
+ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:21:9-24:25
 action#android.intent.action.MAIN
-ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:21:13-65
+ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:22:13-65
 	android:name
-		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:21:21-62
+		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:22:21-62
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:22:13-73
+ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:23:13-73
 	android:name
-		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:22:23-70
+		ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:23:23-70
 uses-sdk
 INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml
@@ -190,10 +187,10 @@ MERGED from [com.facebook.flipper:flipper-network-plugin:0.125.0] C:\Users\User\
 MERGED from [com.facebook.flipper:flipper-network-plugin:0.125.0] C:\Users\User\.gradle\caches\transforms-3\6ed5616b0f8e01fb7ec0cd79eb00906d\transformed\jetified-flipper-network-plugin-0.125.0\AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.125.0] C:\Users\User\.gradle\caches\transforms-3\cca5619ab3aafddce266110effff6dd7\transformed\jetified-flipper-fresco-plugin-0.125.0\AndroidManifest.xml:11:5-13:41
 MERGED from [com.facebook.flipper:flipper-fresco-plugin:0.125.0] C:\Users\User\.gradle\caches\transforms-3\cca5619ab3aafddce266110effff6dd7\transformed\jetified-flipper-fresco-plugin-0.125.0\AndroidManifest.xml:11:5-13:41
+MERGED from [:react-native-community_slider] C:\Users\User\game_organization_react_native\node_modules\@react-native-community\slider\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-community_slider] C:\Users\User\game_organization_react_native\node_modules\@react-native-community\slider\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-masked-view_masked-view] C:\Users\User\game_organization_react_native\node_modules\@react-native-masked-view\masked-view\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-masked-view_masked-view] C:\Users\User\game_organization_react_native\node_modules\@react-native-masked-view\masked-view\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:lottie-react-native] C:\Users\User\game_organization_react_native\node_modules\lottie-react-native\src\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [:lottie-react-native] C:\Users\User\game_organization_react_native\node_modules\lottie-react-native\src\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-date-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-date-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-gesture-handler] C:\Users\User\game_organization_react_native\node_modules\react-native-gesture-handler\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
@@ -206,8 +203,8 @@ MERGED from [:react-native-screens] C:\Users\User\game_organization_react_native
 MERGED from [:react-native-screens] C:\Users\User\game_organization_react_native\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-svg] C:\Users\User\game_organization_react_native\node_modules\react-native-svg\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-svg] C:\Users\User\game_organization_react_native\node_modules\react-native-svg\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.react:react-native:0.70.3] C:\Users\User\.gradle\caches\transforms-3\498910a45f2a6a83f4100c3aa2534472\transformed\jetified-react-native-0.70.3-debug\AndroidManifest.xml:5:5-7:41
-MERGED from [com.facebook.react:react-native:0.70.3] C:\Users\User\.gradle\caches\transforms-3\498910a45f2a6a83f4100c3aa2534472\transformed\jetified-react-native-0.70.3-debug\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.react:react-native:0.70.6] C:\Users\User\.gradle\caches\transforms-3\6ddc2b9ae3abd64508dbc1428cbbc5e9\transformed\jetified-react-native-0.70.6-debug\AndroidManifest.xml:5:5-7:41
+MERGED from [com.facebook.react:react-native:0.70.6] C:\Users\User\.gradle\caches\transforms-3\6ddc2b9ae3abd64508dbc1428cbbc5e9\transformed\jetified-react-native-0.70.6-debug\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\User\.gradle\caches\transforms-3\f58f58ae40dbc822cd4e93b44b502955\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.0.0] C:\Users\User\.gradle\caches\transforms-3\f58f58ae40dbc822cd4e93b44b502955\transformed\swiperefreshlayout-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [org.webkit:android-jsc:r250230] C:\Users\User\.gradle\caches\transforms-3\6110a1ddba3a87ff213f792d30fc2c57\transformed\jetified-android-jsc-r250230\AndroidManifest.xml:7:5-9:41
@@ -244,8 +241,6 @@ MERGED from [com.facebook.fresco:nativeimagetranscoder:2.6.0] C:\Users\User\.gra
 MERGED from [com.facebook.fresco:nativeimagetranscoder:2.6.0] C:\Users\User\.gradle\caches\transforms-3\3ac94c4e2b1ac13c6d196eb350904519\transformed\jetified-nativeimagetranscoder-2.6.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:imagepipeline-base:2.6.0] C:\Users\User\.gradle\caches\transforms-3\0be0a1db46624fe88e5a5480378abe15\transformed\jetified-imagepipeline-base-2.6.0\AndroidManifest.xml:5:5-7:41
 MERGED from [com.facebook.fresco:imagepipeline-base:2.6.0] C:\Users\User\.gradle\caches\transforms-3\0be0a1db46624fe88e5a5480378abe15\transformed\jetified-imagepipeline-base-2.6.0\AndroidManifest.xml:5:5-7:41
-MERGED from [com.airbnb.android:lottie:5.1.1] C:\Users\User\.gradle\caches\transforms-3\fe34215e72477669b106aeb7f92e6334\transformed\jetified-lottie-5.1.1\AndroidManifest.xml:5:5-7:41
-MERGED from [com.airbnb.android:lottie:5.1.1] C:\Users\User\.gradle\caches\transforms-3\fe34215e72477669b106aeb7f92e6334\transformed\jetified-lottie-5.1.1\AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\User\.gradle\caches\transforms-3\4d262dbe384bb38f2b858df6c14b3c9e\transformed\material-1.1.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.material:material:1.1.0] C:\Users\User\.gradle\caches\transforms-3\4d262dbe384bb38f2b858df6c14b3c9e\transformed\material-1.1.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.4.1] C:\Users\User\.gradle\caches\transforms-3\28fad7ba1009b9a90d750a642518ad0f\transformed\appcompat-1.4.1\AndroidManifest.xml:20:5-22:41

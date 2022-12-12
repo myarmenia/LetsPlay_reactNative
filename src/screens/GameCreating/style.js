@@ -1,34 +1,25 @@
 import {StyleSheet} from 'react-native'
 
-import {BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE} from '@/theme/colors'
+import {BACKGROUND, ICON, RED, WHITE} from '@/theme/colors'
 import {font, RH, RW} from '@/theme/utils'
 
 export default StyleSheet.create({
-    secondTicketModalBlock: {
+    secondTicketModalBlock:{
         width: RW(306),
         height: RH(191),
         alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: LIGHT_LABEL,
-        borderRadius: RW(20),
-        marginLeft: 'auto',
-        marginRight: 'auto'
+        justifyContent: "center"
     },
-    firstTicketModalBlock: {
+    firstTicketModalBlock:{
         width: RW(306),
         height: RH(300),
         alignItems: "center",
-        backgroundColor: LIGHT_LABEL,
-        paddingTop: RH(22),
-        marginRight: 'auto',
-        marginLeft: 'auto' ,
-        borderRadius: RW(20)
     },
     gameTicketButtonsBlock: {
         flexDirection: 'row',
-        marginTop: RH(200),
+        marginTop: 'auto',
         marginBottom: 'auto',
-        justifyContent: "space-between",
+        justifyContent: "space-between"
     },
     detailImg: {
         width: RW(20),
@@ -66,18 +57,17 @@ export default StyleSheet.create({
         ...font('regular', 16, WHITE, 25),
         width: RW(200),
         textAlign: "center",
+        marginTop: RH(49),
         marginBottom: RH(31)
     },
     topBlock: {
+        padding:RW(15),
         alignItems: "center",
-        backgroundColor: LIGHT_LABEL,
-        paddingHorizontal: RW(44),
-        paddingTop: RH(49),
-        paddingBottom: RH(27),
-        borderWidth: 1,
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        borderRadius: 20,
+        backgroundColor:BACKGROUND,
+        borderWidth:1,
+        marginLeft:'auto',
+        marginRight:'auto',
+        borderRadius:20,
     },
     titles: {
         ...font('regular', 16, ICON, 24),
@@ -118,10 +108,10 @@ export default StyleSheet.create({
         marginTop: RH(70)
     },
     regulationBlock: {
-        backgroundColor: LIGHT_LABEL,
-        marginRight: 'auto',
-        borderRadius: RW(20),
-        marginLeft: 'auto',
+        backgroundColor :BACKGROUND,
+        marginRight:'auto',
+        borderRadius:RW(20),
+        marginLeft:'auto',
         width: RW(357),
         height: RH(633),
         paddingTop: RH(41),
@@ -136,11 +126,6 @@ export default StyleSheet.create({
     textTwo: {
         ...font('regular', 16, WHITE, 19),
         textAlign: "center",
-        width: RW(265),
-    },
-    modalButtonsBlock: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: RW(219)
+        width: RW(265)
     }
 })

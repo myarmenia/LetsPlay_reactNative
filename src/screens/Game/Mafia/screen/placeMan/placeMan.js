@@ -5,6 +5,7 @@ import VectorIcon from '@/assets/svgs/vectorSvg'
 import { font, RH, RW } from '@/theme/utils'
 import { GRAY, ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
+import {useNavigation} from "@react-navigation/native";
 
 const PlaceMan = () => {
   const [choose, setChoose] = useState(false)
@@ -22,6 +23,7 @@ const PlaceMan = () => {
     { id: 11, img: require('@/assets/imgs/detail.png'), boolean: false },
     { id: 12, img: require('@/assets/imgs/detail.png'), boolean: false },
   ])
+  const navigation = useNavigation()
 
   useEffect(() => {
     let arr = data.map((item, index) => {
@@ -89,6 +91,7 @@ const PlaceMan = () => {
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
+              onPress={()=>navigation.navigate("Vote")}
             />
           </View>
         </View>

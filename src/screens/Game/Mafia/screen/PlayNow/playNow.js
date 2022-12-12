@@ -6,6 +6,7 @@ import { BTN_TEXT, LIGHT_LABEL, RADIO, WHITE } from '@/theme/colors'
 import { data } from '@/screens/Game/Mafia/screen/PlayNow/data'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import DarkButton from "@/assets/imgs/DarkButton";
 
 const PlayNow = () => {
   const navigate = useNavigation()
@@ -36,13 +37,17 @@ const PlayNow = () => {
               />
             </View>
             <View style={{ paddingBottom: 38 }}>
-              <LightButton
-                size={{ width: 281, height: 48 }}
-                labelStyle={styles.invitePlayers}
-                label={'Пригласить игроков'}
-                white={'white'}
-                background={'#142A5C'}
-                bgColor={'#142A5C'}
+              {/*<LightButton*/}
+              {/*  size={{ width: 281, height: 48 }}*/}
+              {/*  labelStyle={styles.invitePlayers}*/}
+              {/*  label={'Пригласить игроков'}*/}
+              {/*  white={'white'}*/}
+              {/*  background={'#142A5C'}*/}
+              {/*  bgColor={'#142A5C'}*/}
+              {/*/>*/}
+              <DarkButton
+                  size={{ width: 281, height: 48 }}
+                  label={'Пригласить игроков'}
               />
             </View>
           </View>

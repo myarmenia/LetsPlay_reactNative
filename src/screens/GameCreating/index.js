@@ -15,6 +15,7 @@ import DarkButton from "@/assets/imgs/DarkButton";
 
 const GameCreating = (props) => {
     const {navigation , game} = props
+    // const navigation = useNavigation()
     const text = [
         "Увлекательная командная игра для весёлой компании",
         "Задача каждого игрока - объяснить как можно больше слов товарищам по команде за ограниченное время",
@@ -58,7 +59,7 @@ const GameCreating = (props) => {
         setErrorText(true)
         setModalOpen(false)
     }
-    const handleSubmit = () => {
+    const handleSubmit = (flag) => {
         navigation.navigate("GameTicket", {flag})
         setModalOpen(true)
         setIsVisible(false)
@@ -82,15 +83,26 @@ const GameCreating = (props) => {
                 {errorText && (+data.ageFrom < 1 || +data.ageFrom > +data.ageTo) ? (!data.ageFrom || !data.ageTo ?
                     <Text style={style.errorText}>Обязательное поле для заполнения</Text> :
                     <Text style={style.errorText}>Введите корректную дату</Text>) : null}
-                <ThirdBlock data={data} setData={setData} type={'gender'} list={[[1, 'М', false], [2, 'Ж', false], [3, 'М/Ж', true]]} title={'Половой признак игрока'}/>
+                <ThirdBlock data={data} setData={setData} type={'gender'}
+                            list={[[1, 'М', false], [2, 'Ж', false], [3, 'М/Ж', true]]}
+                            title={'Половой признак игрока'}/>
                 <Map data={data} setData={setData} placeholder={'Адрес проведения игры'}/>
-                <FirstBlock data={data} setData={setData} gameDayDate={data.gameDayDate} day={'lastDay'} title={'Дата и время окончания поиска игроков'}/>
-                {errorText && !data.lastDayDate ? <Text style={style.errorText}>Обязательное поле для заполнения</Text> : errorText && data.lastDayDate >= data.gameDayDate ?
+                <FirstBlock data={data} setData={setData} gameDayDate={data.gameDayDate} day={'lastDay'}
+                            title={'Дата и время окончания поиска игроков'}/>
+                {errorText && !data.lastDayDate ? <Text style={style.errorText}>Обязательное поле для
+                    заполнения</Text> : errorText && data.lastDayDate >= data.gameDayDate ?
                     <Text style={style.errorText}>Введите корректную дату</Text> : null}
-                <ThirdBlock data={data} setData={setData} type={'statusOrganizer'} list={[[1, 'Участвует', true], [2, 'Не участвует', false]]} title={'Статус организатора в игре'}/>
-                <ThirdBlock data={data} setData={setData} type={'priceView'} setFlag={setFlag} list={[[1, 'Бесплатно', true], [2, 'Платно', false]]} title={'Стоимость входного билета на игру'}/>
-                {flag ? <View style={style.price}><Price data={data} setData={setData} sliceNumber={13} text={'Сумма оплаты '} margin={RW(18)} width={RW(210)} placeholder={'Сумма оплаты 200р.'}/></View> : null}
-                {errorText && (!data.priceValue && flag) ? <Text style={style.errorText}>Обязательное поле для заполнения</Text> : null}
+                <ThirdBlock data={data} setData={setData} type={'statusOrganizer'}
+                            list={[[1, 'Участвует', true], [2, 'Не участвует', false]]}
+                            title={'Статус организатора в игре'}/>
+                <ThirdBlock data={data} setData={setData} type={'priceView'} setFlag={setFlag}
+                            list={[[1, 'Бесплатно', true], [2, 'Платно', false]]}
+                            title={'Стоимость входного билета на игру'}/>
+                {flag ? <View style={style.price}><Price data={data} setData={setData} sliceNumber={13}
+                                                         text={'Сумма оплаты '} margin={RW(18)} width={RW(210)}
+                                                         placeholder={'Сумма оплаты 200р.'}/></View> : null}
+                {errorText && (!data.priceValue && flag) ?
+                    <Text style={style.errorText}>Обязательное поле для заполнения</Text> : null}
                 <Modal modalVisible={isVisible} setIsVisible={setIsVisible} btnClose={false}
                        item={modalOpen ?
                            <View style={style.regulationBlock}>
@@ -99,9 +111,12 @@ const GameCreating = (props) => {
                            </View>
                            : <View style={style.topBlock}>
                                <Text style={style.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
-                               <View style={style.modalButtonsBlock}><Button light={true}  onPress={handleSubmit} size={{width: 100, height: 36}}
+                               <View style={{
+                                   flexDirection: 'row',
+                                   justifyContent: 'space-between'
+                               }}><Button light={true}  onPress={() => handleSubmit(true)} size={{width: 100, height: 36}}
                                           label={'Да'}/>
-                                   <DarkButton light={false}  onPress={handleSubmit} size={{width: 100, height: 36}}
+                                   <DarkButton light={false}  onPress={() => handleSubmit(false)} size={{width: 100, height: 36}}
                                                label={'Нет'}/>
                                </View>
                            </View>}

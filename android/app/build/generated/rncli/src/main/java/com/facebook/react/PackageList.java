@@ -11,10 +11,10 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @react-native-community/slider
+import com.reactnativecommunity.slider.ReactSliderPackage;
 // @react-native-masked-view/masked-view
 import org.reactnative.maskedview.RNCMaskedViewPackage;
-// lottie-react-native
-import com.airbnb.android.react.lottie.LottiePackage;
 // react-native-date-picker
 import com.henninghall.date_picker.DatePickerPackage;
 // react-native-gesture-handler
@@ -74,8 +74,8 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
+      new ReactSliderPackage(),
       new RNCMaskedViewPackage(),
-      new LottiePackage(),
       new DatePickerPackage(),
       new RNGestureHandlerPackage(),
       new LinearGradientPackage(),
