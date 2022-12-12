@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import ScreenMask from "@/components/wrappers/screen";
-import {Text, TextInput, TouchableOpacity, View} from "react-native";
+import {ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import style from "@/screens/Chat/style";
 import SmilesSvg from "@/assets/svgs/SmilesSvg";
 import {ICON} from "@/theme/colors";
@@ -23,6 +23,20 @@ function Index(props) {
                 <TouchableOpacity onPress={() => setIsVisible(true)} style={style.infoSvgButton}>
                     <InfoSvg/>
                 </TouchableOpacity>
+            </View>
+            <View style={style.chatBlock}>
+                <View style={style.myItemBlock}>
+                    <Text style={style.timeText}>1:01</Text>
+                    <View style={style.myItem}></View>
+                </View>
+                <View style={style.userItemBlock}>
+                    <Text style={style.timeText}>1:01</Text>
+                    <View style={style.userItem}></View>
+                </View>
+                <View style={style.myItemBlock}>
+                    <Text style={style.timeText}>1:01</Text>
+                    <View style={style.myItem}></View>
+                </View>
             </View>
             <View style={{height: RH(784)}}></View>
             <View style={style.chatInput}><SmilesSvg/><TextInput style={{width: RW(276)}} placeholder={'Сообщение...'} placeholderTextColor={ICON}/><VoiceSvg/></View>

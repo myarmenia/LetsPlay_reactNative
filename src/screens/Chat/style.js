@@ -68,5 +68,48 @@ export default StyleSheet.create({
     infoSvgButton:{
         marginLeft: 'auto',
         marginRight: RW(10)
+    },
+    infoModal:{
+        backgroundColor: LIGHT_LABEL,
+        paddingLeft: RW(25),
+        paddingTop: RH(72),
+        paddingBottom: RH(30),
+        width: RW(370),
+        height: RH(420),
+        borderRadius: RW(20),
+        marginLeft: 'auto',
+        marginRight: 'auto'
+    },
+    chatBlock:{
+        marginBottom: RH(49),
+        marginTop: RH(25),
+        width: RW(396),
+    },
+    myItemBlock:{
+        flexDirection: "row",
+        marginLeft: RW(125)
+    },
+    userItemBlock:{
+        flexDirection: "row",
+        marginRight: RW(125)
+    },
+    myItem:{
+        width: RW(230),
+        height: RH(68),
+        backgroundColor: ICON,
+        borderRadius: RW(10),
+        borderBottomRightRadius: 0
+    },
+    userItem:{
+        width: RW(230),
+        height: RH(68),
+        backgroundColor: ICON,
+        borderRadius: RW(10),
+        borderBottomRightRadius: 0
+    },
+    timeText: {
+        color: ICON,
+        marginTop: RW(40),
+        marginRight: RW(9)
     }
 })
