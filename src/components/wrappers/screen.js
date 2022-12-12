@@ -10,7 +10,7 @@ const ScreenMask = ({ children }) => {
 
   return (
     <ImageBackground source={BGMask} imageStyle={styles.bgMask} style={styles.container}>
-      {/*<SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>*/}
+      <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
     </ImageBackground>
   )
 }
