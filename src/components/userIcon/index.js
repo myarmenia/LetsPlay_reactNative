@@ -26,22 +26,22 @@ function Index({user, isMax}) {
                 <UserLine isMax={isMax}  status={user.status}/>
                 <UserCircle isMax={isMax} count={user.participant}   status={user.status}/>
             </View>
-            <View style={{...style.titleBigBloc,marginTop:RW(isMax?10:3), width:RW(isMax?210:50)}}>
+            <View style={{...style.titleBigBloc,marginTop:RW(isMax?20:3), width:RW(isMax?170:40)}}>
                 <View style={style.titleBloc}>
-                    <Text style={font('bold',isMax?RW(10):RW(2),WHITE)}>Создано игр</Text>
-                    <Text style={font('bold',isMax?RW(16):RW(4),WHITE)}>{user.gamesCreated}</Text>
+                    <Text style={font('bold',isMax?RW(12):RW(2),WHITE)}>Создано игр</Text>
+                    <Text style={font('bold',isMax?RW(18):RW(6),WHITE)}>{user.gamesCreated}</Text>
                 </View>
                 <View style={style.titleBloc}>
-                    <Text  style={font('bold',isMax?RW(10):RW(2),WHITE)}>Принято игр</Text>
-                    <Text style={font('bold',isMax?RW(16):RW(4),WHITE)}>{user.acceptedGames}</Text>
+                    <Text  style={font('bold',isMax?RW(12):RW(2),WHITE)}>Принято игр</Text>
+                    <Text style={font('bold',isMax?RW(18):RW(6),WHITE)}>{user.acceptedGames}</Text>
                 </View>
                 <View style={style.titleBloc}>
-                    <Text  style={font('bold',isMax?RW(10):RW(2),WHITE)}>Отменено игр</Text>
-                    <Text style={font('bold',isMax?RW(16):RW(4),WHITE)}>{user.canceledGames}</Text>
+                    <Text  style={font('bold',isMax?RW(12):RW(2),WHITE)}>Отменено игр</Text>
+                    <Text style={font('bold',isMax?RW(18):RW(6),WHITE)}>{user.canceledGames}</Text>
                 </View>
                 <View style={style.titleBloc}>
-                    <Text  style={font('bold',isMax?RW(10):RW(2),WHITE)}>Отклонено игр</Text>
-                    <Text style={font('bold',isMax?RW(16):RW(4),WHITE)}>{user.disabledGames}</Text>
+                    <Text  style={font('bold',isMax?RW(12):RW(2),WHITE)}>Отклонено игр</Text>
+                    <Text style={font('bold',isMax?RW(18):RW(6),WHITE)}>{user.disabledGames}</Text>
                 </View>
             </View>
             <View   style={{...style.soc, marginTop:isMax?RH(10):RH(3)}}>

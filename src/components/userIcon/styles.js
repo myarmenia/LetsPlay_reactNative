@@ -14,6 +14,7 @@ export default StyleSheet.create({
     titleBloc:{
         alignItems:'center',
         justifyContent:'center',
+        marginTop:RW(2)
     },
     title:{
         ...font('bold',RW(10),WHITE)

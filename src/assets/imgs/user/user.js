@@ -3,7 +3,7 @@ import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg"
 import {RH, RW} from '@/theme/utils'
 import User from "@/components/userIcon";
 
-function SvgComponent({isMax, user}) {
+function    SvgComponent({isMax, user}) {
 
     const width=RW(isMax?300:80);
     const height=RH(isMax?500:122);
