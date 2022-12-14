@@ -10,7 +10,6 @@ import Modal from "@/components/modal";
 function Index(props) {
     const {navigation, route} = props
     const {flag} = route.params
-
     const [isVisible, setIsVisible] = useState(false);
     const [success, setSuccess] = useState(false);
     const [modalClose , setModalClose] = useState(true)

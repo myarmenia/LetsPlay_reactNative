@@ -50,5 +50,20 @@ export default StyleSheet.create({
     logOutText:{
         ...font('regular' , 16 , WHITE , 19),
         textDecorationLine: "underline"
+    },
+    myDetailsModal:{
+        width: RW(306),
+        height: RH(191),
+        paddingHorizontal: RW(46),
+        paddingTop: RH(57),
+        backgroundColor: LIGHT_LABEL,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: RW(20)
+    },
+    modalButtonsBlock:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: RW(219)
     }
 })

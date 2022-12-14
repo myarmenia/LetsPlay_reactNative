@@ -25,24 +25,40 @@ function Index(props) {
                 </TouchableOpacity>
             </View>
             <View style={style.chatBlock}>
-                <View style={style.myItemBlock}>
-                    <Text style={style.timeText}>1:01</Text>
-                    <View style={style.myItem}></View>
-                </View>
-                <View style={style.userItemBlock}>
-                    <Text style={style.timeText}>1:01</Text>
-                    <View style={style.userItem}></View>
-                </View>
-                <View style={style.myItemBlock}>
-                    <Text style={style.timeText}>1:01</Text>
-                    <View style={style.myItem}></View>
+                    <View style={style.userItemBlock}>
+                        <View style={style.userItem}></View>
+                        <Text style={style.timeText}>1:01</Text>
+                    </View>
+                    <View style={style.myItemBlock}>
+                        <Text style={style.timeText}>1:01</Text>
+                        <View style={style.myItem}></View>
+                    </View>
+                    <View style={style.userItemBlock}>
+                        <View style={style.userItem}></View>
+                        <Text style={style.timeText}>1:01</Text>
+                    </View>
+                    <View style={style.myItemBlock}>
+                        <Text style={style.timeText}>1:01</Text>
+                        <View style={style.myItem}></View>
+                    </View>
+                    <View style={style.userItemBlock}>
+                        <View style={style.userItem}></View>
+                        <Text style={style.timeText}>1:01</Text>
+                    </View>
+                    <View style={style.myItemBlock}>
+                        <Text style={style.timeText}>1:01</Text>
+                        <View style={style.myItem}></View>
                 </View>
             </View>
             <View style={{height: RH(784)}}></View>
-            <View style={style.chatInput}><SmilesSvg/><TextInput style={{width: RW(276)}} placeholder={'Сообщение...'} placeholderTextColor={ICON}/><VoiceSvg/></View>
-            <Modal  modalVisible={isVisible} setIsVisible={setIsVisible} btnClose={false}
-                    item={<View style={{margin: RW(20)}}><Ticket image={true}/></View>}
+            <View style={style.chatInput}><SmilesSvg/><TextInput style={{width: RW(276)}} placeholder={'Сообщение...'}
+                                                                 placeholderTextColor={ICON}/><VoiceSvg/></View>
+            <Modal modalVisible={isVisible} setIsVisible={setIsVisible} btnClose={false}
+                   item={<View style={style.infoModal}><Ticket image={true}/></View>}
             />
+            <View style={style.chatInput}><SmilesSvg/><TextInput style={{width: RW(276)}} placeholder={'Сообщение...'} placeholderTextColor={ICON}/><VoiceSvg/></View>
+
+
         </ScreenMask>
     );
 }

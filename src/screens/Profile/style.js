@@ -5,6 +5,7 @@ import {font, RH, RW} from '@/theme/utils'
 
 export default StyleSheet.create({
     container: {
+        width: '100%',
         paddingTop: RW(27),
         alignItems:"center",
     },
@@ -44,5 +45,11 @@ export default StyleSheet.create({
         borderStyle: "solid",
         borderColor: DARK_BLUE,
         paddingLeft: RW(28)
-    }
+    },
+    galleryText:{
+        ...font('medium' , 20 , WHITE , 22),
+        width: RW(260),
+        textAlign: "center",
+        marginTop: RH(25)
+    },
 })

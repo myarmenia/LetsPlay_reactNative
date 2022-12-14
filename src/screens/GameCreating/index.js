@@ -59,7 +59,7 @@ const GameCreating = (props) => {
         setErrorText(true)
         setModalOpen(false)
     }
-    const handleSubmit = (flag) => {
+    const handleSubmit = () => {
         navigation.navigate("GameTicket", {flag})
         setModalOpen(true)
         setIsVisible(false)
@@ -114,9 +114,9 @@ const GameCreating = (props) => {
                                <View style={{
                                    flexDirection: 'row',
                                    justifyContent: 'space-between'
-                               }}><Button light={true}  onPress={() => handleSubmit(true)} size={{width: 100, height: 36}}
+                               }}><Button light={true}  onPress={handleSubmit} size={{width: 100, height: 36}}
                                           label={'Да'}/>
-                                   <DarkButton light={false}  onPress={() => handleSubmit(false)} size={{width: 100, height: 36}}
+                                   <DarkButton light={false}  onPress={handleSubmit} size={{width: 100, height: 36}}
                                                label={'Нет'}/>
                                </View>
                            </View>}

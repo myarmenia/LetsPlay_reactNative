@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native'
 
-import {BACKGROUND, ICON, RED, WHITE} from '@/theme/colors'
+import {BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE} from '@/theme/colors'
 import {font, RH, RW} from '@/theme/utils'
 
 export default StyleSheet.create({
@@ -8,11 +8,19 @@ export default StyleSheet.create({
         width: RW(306),
         height: RH(191),
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        backgroundColor: LIGHT_LABEL,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: RW(20),
     },
     firstTicketModalBlock:{
         width: RW(306),
         height: RH(300),
+        backgroundColor: LIGHT_LABEL,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: RW(20),
         alignItems: "center",
     },
     gameTicketButtonsBlock: {
@@ -108,7 +116,7 @@ export default StyleSheet.create({
         marginTop: RH(70)
     },
     regulationBlock: {
-        backgroundColor :BACKGROUND,
+        backgroundColor :LIGHT_LABEL,
         marginRight:'auto',
         borderRadius:RW(20),
         marginLeft:'auto',

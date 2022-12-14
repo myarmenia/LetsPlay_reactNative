@@ -8,6 +8,7 @@ import User from "@/assets/imgs/user/user";
 import {Players} from "@/assets/TestData";
 import Modal from "@/components/modal";
 import Ticket from "@/screens/GameCreating/GameTicket/ticket";
+import {LIGHT_LABEL} from "@/theme/colors";
 
 
 const HomeScreen = (props) => {
@@ -33,7 +34,7 @@ const HomeScreen = (props) => {
             </View>
             {isVisible ? <Modal modalVisible={isVisible} setIsVisible={setIsVisible} btnClose={false}
                                 item={<View
-                                    style={{width: RW(400), height: RH(638), paddingTop: RH(34)}}><Ticket/></View>}
+                                    style={{width: RW(400), height: RH(638), backgroundColor: LIGHT_LABEL, marginRight: 'auto', marginLeft: 'auto', borderRadius: RW(10),  paddingTop: RH(34)}}><Ticket/></View>}
             /> : null}
         </ScreenMask>
     )

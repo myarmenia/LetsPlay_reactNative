@@ -18,6 +18,10 @@ import GameTicket from "@/screens/GameCreating/GameTicket";
 import NotificationScreen from '@/screens/Notification'
 import PrivateChat from "@/screens/Chat/PrivateChat";
 import MyDetails from "@/screens/Profile/MyDetails";
+import Gallery from "@/screens/Profile/Gallery";
+import Wallet from "@/screens/Profile/Wallet";
+import Feedback from "@/screens/Profile/Feedback";
+import Preference from "@/screens/Profile/Preference";
 import TeamNavigator from "@/navigation/TeamNavigator";
 import MafiaGame from "@/navigation/MafiaNavigation";
 
@@ -70,6 +74,10 @@ const AppNavigator = () => {
                 <Stack.Screen name={'PrivateChat'} component={PrivateChat}/>
                 <Stack.Screen name={'MyDetails'} component={MyDetails}/>
                 <Stack.Screen name={'Mafia'} component={MafiaGame}/>
+                <Stack.Screen name={'Gallery'} component={Gallery}/>
+                <Stack.Screen name={'Wallet'} component={Wallet}/>
+                <Stack.Screen name={'Feedback'} component={Feedback}/>
+                <Stack.Screen name={'Preference'} component={Preference}/>
             </Stack.Navigator>
         </>
     )

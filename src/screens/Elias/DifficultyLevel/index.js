@@ -1,5 +1,5 @@
-import React from 'react';
-import {Image, Text, View} from "react-native";
+import React, {useState} from 'react';
+import {Image, Text, TouchableOpacity, View} from "react-native";
 import Modal from "@/components/modal";
 import ScreenMask from "@/components/wrappers/screen";
 import QrTest from '@/assets/imgs/qrTest.jpg';
