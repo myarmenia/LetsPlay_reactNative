@@ -5,6 +5,7 @@ import { BACKGROUND } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import { IS_IOS } from '@/constants'
 
+
 const ScreenMask = ({ children }) => {
   return (
     <ImageBackground source={BGMask} imageStyle={styles.bgMask} style={styles.container}>
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     backgroundColor: BACKGROUND,
   },
   bgMask: {
-    top: IS_IOS ? RH(-35) : 0,
+    top: IS_IOS ? RH(-35) : RH(-15),
     position: 'absolute',
   },
 })

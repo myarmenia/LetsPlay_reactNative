@@ -11,9 +11,9 @@ import SecondBlock from '@/components/forms/secondBlock'
 import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
-
 const GameCreating = props => {
   const { navigation, game } = props
+  // const navigation = useNavigation()
   const text = [
     'Увлекательная командная игра для весёлой компании',
     'Задача каждого игрока - объяснить как можно больше слов товарищам по команде за ограниченное время',
@@ -44,14 +44,10 @@ const GameCreating = props => {
   const handleClick = () => {
     if (
       !data.gameDayDate ||
-      +data.playerCountFrom < 1 ||
-      +data.playerCountFrom > +data.playerCountTo ||
-      !data.playerCountFrom ||
-      !data.playerCountTo ||
-      +data.ageFrom < 1 ||
-      +data.ageFrom > +data.ageTo ||
-      !data.ageFrom ||
-      !data.ageTo ||
+      +data.playerCountFrom < 1 || +data.playerCountFrom > +data.playerCountTo ||
+      !data.playerCountFrom || !data.playerCountTo ||
+      +data.ageFrom < 1 || +data.ageFrom > +data.ageTo ||
+      !data.ageFrom || !data.ageTo ||
       !data.lastDayDate ||
       data.lastDayDate >= data.gameDayDate ||
       (!data.priceValue && flag)
@@ -115,7 +111,7 @@ const GameCreating = props => {
           ]}
           title={'Половой признак игрока'}
         />
-        <Map data={data} setData={setData} placeholder={'Адрес проведения игры'} />
+        <Map data={data} setData={setData} placeholder={'Адрес проведения игры'} availablePress={false} />
         <FirstBlock
           data={data}
           setData={setData}
@@ -182,7 +178,12 @@ const GameCreating = props => {
             ) : (
               <View style={style.topBlock}>
                 <Text style={style.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
-                <View style={style.modalButtonsBlock}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
+                >
                   <Button
                     light={true}
                     onPress={handleSubmit}

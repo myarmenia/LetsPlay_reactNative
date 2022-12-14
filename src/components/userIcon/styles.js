@@ -14,6 +14,7 @@ export default StyleSheet.create({
   titleBloc: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop: RW(2),
   },
   title: {
     ...font('bold', RW(10), WHITE),
@@ -35,16 +36,15 @@ export default StyleSheet.create({
   },
   bg: {},
   imgMaxBlock: {
-    width: RW(170),
-    height: RH(190),
+    width: RW(180),
+    height: RW(180),
     marginLeft: 'auto',
     marginRight: 'auto',
-    backgroundColor: 'red',
     borderRadius: 150,
   },
   imgBlock: {
     width: RW(43),
-    height: RH(47),
+    height: RW(43),
     marginLeft: 'auto',
     marginRight: 'auto',
   },

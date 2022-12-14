@@ -16,8 +16,15 @@ import Elias from './EliasNavigator'
 import GameCreating from '@/screens/GameCreating'
 import GameTicket from '@/screens/GameCreating/GameTicket'
 import NotificationScreen from '@/screens/Notification'
+
 import PrivateChat from '@/screens/Chat/PrivateChat'
 import MyDetails from '@/screens/Profile/MyDetails'
+import Gallery from '@/screens/Profile/Gallery'
+import Wallet from '@/screens/Profile/Wallet'
+import Feedback from '@/screens/Profile/Feedback'
+import Preference from '@/screens/Profile/Preference'
+import TeamNavigator from '@/navigation/TeamNavigator'
+import MafiaGame from '@/navigation/MafiaNavigation'
 import GamesList from '@/screens/Game/gamesList/gamesList'
 import GameItem from '@/screens/Game/gamesList/gameItem'
 import CalendarScreen from '@/screens/Calendar/screens/Calendar/CalendarScreen'
@@ -45,6 +52,7 @@ const TabNavigator = () => {
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
         <Tab.Screen name={'Notification'} component={NotificationScreen} />
+        <Tab.Screen name={'Calendar'} component={CalendarScreen} />
       </Tab.Navigator>
       <CircleButton isHome={isHome} setIsHome={setIsHome} />
     </>
@@ -62,12 +70,17 @@ const AppNavigator = () => {
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'ActiveGames'} component={ActiveGames} />
         <Stack.Screen name={'BoardGames'} component={BoardGames} />
-        <Tab.Screen name={'Calendar'} component={CalendarScreen} />
         <Stack.Screen name={'Elias'} component={Elias} />
+        <Stack.Screen name={'Team'} component={TeamNavigator} />
         <Stack.Screen name={'GameCreating'} component={GameCreating} />
         <Stack.Screen name={'GameTicket'} component={GameTicket} />
         <Stack.Screen name={'PrivateChat'} component={PrivateChat} />
         <Stack.Screen name={'MyDetails'} component={MyDetails} />
+        <Stack.Screen name={'Mafia'} component={MafiaGame} />
+        <Stack.Screen name={'Gallery'} component={Gallery} />
+        <Stack.Screen name={'Wallet'} component={Wallet} />
+        <Stack.Screen name={'Feedback'} component={Feedback} />
+        <Stack.Screen name={'Preference'} component={Preference} />
       </Stack.Navigator>
     </>
   )

@@ -23,7 +23,7 @@ const GameSelectScreen = ({ navigation }) => {
   return (
     <ScreenMask>
       <GestureRecognizer
-        onSwipeRight={state => navigation.goBack()}
+        onSwipeLeft={state => navigation.goBack()}
         style={{
           flex: 1,
         }}
@@ -37,7 +37,6 @@ const GameSelectScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate(type.navigateTo)}
               />
             )
-            return <Type title={type.title} key={type.title} />
           })}
         </View>
       </GestureRecognizer>

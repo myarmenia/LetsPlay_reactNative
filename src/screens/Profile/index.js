@@ -8,18 +8,17 @@ import UserEditSvg from '@/assets/svgs/userEdit'
 const ProfileScreen = props => {
   const { navigation } = props
   const list = [
-    { id: 1, text: 'Мои данные' },
-    { id: 2, text: 'Моя галерея' },
-    { id: 3, text: 'Мои подписки и предпочтения' },
-    { id: 4, text: 'Мой кошелек' },
-    { id: 5, text: 'Правила “Играем?' },
-    { id: 6, text: 'Обратная связь' },
+    { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
+    { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
+    { id: 3, text: 'Мои подписки и предпочтения', navigateTo: 'Preference' },
+    { id: 4, text: 'Мой кошелек', navigateTo: 'Wallet' },
+    // {id: 5, text: 'Правила “Играем?'},
+    { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
   const forNavigate = item => {
-    if (item.id === 1) {
-      navigation.navigate('MyDetails')
-    }
+    navigation.navigate(item.navigateTo)
   }
+
   const LinkItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => forNavigate(item)}

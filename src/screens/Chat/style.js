@@ -1,6 +1,14 @@
 import { StyleSheet } from 'react-native'
-
-import { ACTIVE, BACKGROUND, ICON, LIGHT_GRAY, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
+import {
+  ACTIVE,
+  BACKGROUND,
+  ICON,
+  LIGHT_GRAY,
+  LIGHT_LABEL,
+  MESSAGE_CONTAINER,
+  RED,
+  WHITE,
+} from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 
 export default StyleSheet.create({
@@ -79,5 +87,39 @@ export default StyleSheet.create({
     borderRadius: RW(20),
     marginLeft: 'auto',
     marginRight: 'auto',
+  },
+  chatBlock: {
+    width: RW(396),
+    height: RH(730),
+    marginTop: RH(200),
+  },
+  myItemBlock: {
+    flexDirection: 'row',
+    marginLeft: RW(125),
+    marginBottom: RH(30),
+  },
+  userItemBlock: {
+    flexDirection: 'row',
+    marginRight: RW(125),
+    marginBottom: RH(30),
+  },
+  myItem: {
+    width: RW(230),
+    height: RH(68),
+    backgroundColor: ICON,
+    borderRadius: RW(10),
+    borderBottomRightRadius: 0,
+  },
+  userItem: {
+    width: RW(230),
+    height: RH(68),
+    backgroundColor: MESSAGE_CONTAINER,
+    borderRadius: RW(10),
+    borderBottomLeftRadius: 0,
+  },
+  timeText: {
+    color: ICON,
+    marginTop: RW(40),
+    marginRight: RW(9),
   },
 })

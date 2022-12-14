@@ -17,7 +17,7 @@ function Index(props) {
         <View style={styles.comBlock}>
           <Text style={styles.comTitle}>Название команды 1</Text>
           <View style={styles.users}>
-            {comOne?.map((item, i) => (
+            {comOne.map((item, i) => (
               <User key={i} user={item} />
             ))}
           </View>
@@ -25,7 +25,7 @@ function Index(props) {
         <View style={styles.comBlock}>
           <Text style={styles.comTitle}>Название команды 2</Text>
           <View style={styles.users}>
-            {comTwo?.map((item, i) => (
+            {comTwo.map((item, i) => (
               <User key={i} user={item} />
             ))}
           </View>

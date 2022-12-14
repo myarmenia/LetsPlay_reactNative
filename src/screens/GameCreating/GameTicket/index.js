@@ -10,7 +10,6 @@ import Modal from '@/components/modal'
 function Index(props) {
   const { navigation, route } = props
   const { flag } = route.params
-
   const [isVisible, setIsVisible] = useState(false)
   const [success, setSuccess] = useState(false)
   const [modalClose, setModalClose] = useState(true)
@@ -66,9 +65,7 @@ function Index(props) {
             </View>
           ) : (
             <View style={style.secondTicketModalBlock}>
-              <Text style={{ ...style.text, marginBottom: 0 }}>
-                Оплата прошла успешна. Вы успешно создали игру!
-              </Text>
+              <Text style={style.text}>Оплата прошла успешна. Вы успешно создали игру!</Text>
             </View>
           )
         }

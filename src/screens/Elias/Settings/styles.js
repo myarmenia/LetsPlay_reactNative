@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
   },
+
   title: {
     ...font('bold', 20, WHITE),
     textAlign: 'center',

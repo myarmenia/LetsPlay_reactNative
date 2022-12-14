@@ -8,9 +8,9 @@ import item from '@/screens/Auth/screens/SignUp/screens/Onboard/components/item'
 import { useNavigation } from '@react-navigation/native'
 
 function Index(props) {
-  const { data, setModalVisible, setGame, setFlag } = props
+  const { data, setModalVisible, setGame, setFlag, onPress } = props
   const navigation = useNavigation()
-  console.log(data)
+
   return (
     <View style={styles.bgFon}>
       <View style={{ ...styles.border, ...styles.leftBorder }}>
@@ -28,7 +28,8 @@ function Index(props) {
       <View style={styles.btn}>
         <Button
           onPress={() => {
-            navigation.navigate(data.navigateTo, { game: data })
+            onPress ? onPress() : null
+            data.navigateTo ? navigation.navigate(data.navigateTo, { game: data }) : null
           }}
           label={data.title}
           size={{ width: 191, height: 48 }}
