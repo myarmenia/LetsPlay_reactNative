@@ -11,7 +11,7 @@ const TYPES = [
     },
     {
         title: 'Команда',
-        navigateTo: 'Team',
+        navigateTo: 'TeamsCreating',
     },
     {
         title: 'Турнир',
@@ -26,7 +26,7 @@ const GameSelectScreen = ({navigation}) =>
     return (
         <ScreenMask>
             <GestureRecognizer
-                onSwipeRight={(state) => navigation.goBack()}
+                onSwipeLeft={(state) => navigation.goBack()}
                 style={{
                     flex: 1,
                 }}
@@ -35,7 +35,6 @@ const GameSelectScreen = ({navigation}) =>
                     {TYPES.map((type) => {
                         return <Type title={type.title} key={type.title}
                                      onPress={() => navigation.navigate(type.navigateTo)}/>
-                        return <Type title={type.title} key={type.title}/>
                     })}
                 </View>
             </GestureRecognizer>

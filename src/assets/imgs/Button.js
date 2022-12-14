@@ -137,7 +137,7 @@ const LightButton = ({onPress, label, labelStyle, wrapper, size,}) => {
     )
 }
 
-export default LightButton
+export default LightButton;
 
 const styles = StyleSheet.create({
     root: {

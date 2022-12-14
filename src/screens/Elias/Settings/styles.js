@@ -3,6 +3,7 @@ import {font, RH, RW} from "@/theme/utils";
 import {WHITE} from "@/theme/colors";
 
 const styles = StyleSheet.create({
+
     time:{
         marginVertical:RH(23),
         ...font('bold', 16, WHITE),
@@ -14,6 +15,7 @@ const styles = StyleSheet.create({
         alignItems: 'stretch',
         justifyContent: 'center',
     },
+
     title: {
         ...font('bold', 20, WHITE),
         textAlign: 'center',

@@ -9,7 +9,6 @@ import {RH} from "@/theme/utils";
 function Index({ navigation}) {
 
     return (
-
         <ScreenMask>
             <Text style={styles.title}>Настройки</Text>
             <View>
@@ -23,6 +22,7 @@ function Index({ navigation}) {
                 </View>
                           </View>
             <View style={{marginLef:'auto', marginTop:RH(20),  alignItems:'center'}}>
+
                     <Button onPress={() => navigation.navigate('DifficultyLevel')} size={styles.btn} label={'Продолжить'}/>
             </View>
         </ScreenMask>
@@ -30,4 +30,3 @@ function Index({ navigation}) {
 }
 
 export default Index;
-

@@ -10,6 +10,8 @@ import TeamBoardGame from '@/screens/Team/GameCategory/BoardGames';
 import SelectTeam from '@/screens/Team/SelectTeam';
 import SearchTeam from "@/screens/Team/SearchTeam";
 import SelectPlayers from "@/screens/Team/SelectPlayers";
+import CreatingTeams from '@/screens/Team/CreateTeam/CreatingTeams'
+// import CreateTeamTitle from "@/screens/Team/createTeamTitle/createTeamTitile";
 
 
 const Stack = createNativeStackNavigator();
@@ -23,6 +25,7 @@ function Index(props) {
         SelectTeamComponent:props => (<GoBack item={<SelectTeam   {...props} />}/>),
         SearchTeamComponent:props => (<GoBack item={<SearchTeam   {...props} />}/>),
         SelectPlayersComponent:props => (<GoBack item={<SelectPlayers   {...props} />}/>),
+        CreatingTeamsComponent:props => (<GoBack item={<CreatingTeams   {...props} />}/>),
     })
 
     return (
@@ -35,6 +38,8 @@ function Index(props) {
             <Stack.Screen name="SelectTeam" component={route.SelectTeamComponent}/>
             <Stack.Screen name="SearchTeam" component={route.SearchTeamComponent}/>
             <Stack.Screen name="SelectPlayers" component={route.SelectPlayersComponent}/>
+            <Stack.Screen name="TeamsCreating" component={route.CreatingTeamsComponent}/>
+            {/*<Stack.Screen name={"CreateTeamTitle"} component={CreateTeamTitle}/>*/}
         </Stack.Navigator>
     );
 }

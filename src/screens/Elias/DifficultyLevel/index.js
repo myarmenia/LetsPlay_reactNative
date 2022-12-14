@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Image, Text, View, TouchableOpacity} from "react-native";
+import React from 'react';
+import {Image, Text, View} from "react-native";
 import Modal from "@/components/modal";
 import ScreenMask from "@/components/wrappers/screen";
 import QrTest from '@/assets/imgs/qrTest.jpg';
@@ -7,7 +7,9 @@ import Button from "@/assets/imgs/Button";
 import styles from '@/screens/Elias/DifficultyLevel/styles';
 
 function Index({navigation, modalRules, setModalRules}) {
+
     const [selectLevel, setSelectLevel] = useState(false);
+
 
     const levels = [
         {

@@ -8,7 +8,6 @@ import User from "@/assets/imgs/user/user";
 import {Players} from "@/assets/TestData";
 import Modal from "@/components/modal";
 import Ticket from "@/screens/GameCreating/GameTicket/ticket";
-import {LIGHT_LABEL} from "@/theme/colors";
 
 
 const HomeScreen = (props) => {
@@ -23,20 +22,22 @@ const HomeScreen = (props) => {
         }
     }, [route])
     return (
-        // navigation.navigate('CreatingTeams')
         <ScreenMask>
             <View style={styles.header}>
                 <CalendarIcon/>
-                <TouchableOpacity onPress={() => navigation.navigate('Notification')}><NotificationIcon/></TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Notification')}><NotificationIcon/></TouchableOpacity>
             </View>
             <View style={styles.detailContainer}>
                 <User user={Players[2]} isMax={true}/>
             </View>
             {isVisible ? <Modal modalVisible={isVisible} setIsVisible={setIsVisible} btnClose={false}
-                                item={<View style={styles.homeModalBlock}><Ticket/></View>}
+                                item={<View
+                                    style={{width: RW(400), height: RH(638), paddingTop: RH(34)}}><Ticket/></View>}
             /> : null}
         </ScreenMask>
     )
+
 }
 
 export default HomeScreen
@@ -64,13 +65,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    homeModalBlock: {
-        width: RW(380),
-        height: RH(638),
-        paddingTop: RH(34),
-        backgroundColor: LIGHT_LABEL,
-        borderRadius: RW(20),
-        marginLeft: 'auto',
-        marginRight: 'auto',
-    }
 })

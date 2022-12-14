@@ -68,16 +68,5 @@ export default StyleSheet.create({
     infoSvgButton:{
         marginLeft: 'auto',
         marginRight: RW(10)
-    },
-    infoModal:{
-        backgroundColor: LIGHT_LABEL,
-        paddingLeft: RW(25),
-        paddingTop: RH(72),
-        paddingBottom: RH(30),
-        width: RW(370),
-        height: RH(420),
-        borderRadius: RW(20),
-        marginLeft: 'auto',
-        marginRight: 'auto'
     }
 })

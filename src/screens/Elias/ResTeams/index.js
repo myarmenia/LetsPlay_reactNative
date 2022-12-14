@@ -19,7 +19,7 @@ const ResTeams = ({navigation}) => {
                 </View>
             </View>
             <View style={{alignItems:'center'}} >
-                <Button onPress={() => navigation.navigate('Home')} size={styles.btn} label={'Продолжить'}/>
+                <Button onPress={() => navigation.navigate('ResTeamsElias')} size={styles.btn} label={'Продолжить'}/>
             </View>
         </ScreenMask>
     )

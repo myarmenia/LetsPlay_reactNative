@@ -19,15 +19,15 @@ import NotificationScreen from '@/screens/Notification'
 import PrivateChat from "@/screens/Chat/PrivateChat";
 import MyDetails from "@/screens/Profile/MyDetails";
 import TeamNavigator from "@/navigation/TeamNavigator";
+import MafiaGame from "@/navigation/MafiaNavigation";
 
 
-
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator()
+const Tab = createBottomTabNavigator()
 
 
 const TabNavigator = () => {
-    const [isHome, setIsHome] = React.useState(true);
+  const [isHome, setIsHome] = React.useState(true)
 
     return (
         <>
@@ -69,6 +69,7 @@ const AppNavigator = () => {
                 <Stack.Screen name={'GameTicket'} component={GameTicket}/>
                 <Stack.Screen name={'PrivateChat'} component={PrivateChat}/>
                 <Stack.Screen name={'MyDetails'} component={MyDetails}/>
+                <Stack.Screen name={'Mafia'} component={MafiaGame}/>
             </Stack.Navigator>
         </>
     )
