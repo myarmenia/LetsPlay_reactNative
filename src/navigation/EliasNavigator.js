@@ -19,7 +19,7 @@ function Index(props) {
 
 
 
-    const [route, setRoute]=useState({
+    const [route]=useState({
         QrCodeComponent:props => (<GoBack item={<QrCode  setGoBack={setGoBack} {...props} />}/>),
         PlayersComponent:props => (<GoBack item={<Players setGoBack={setGoBack} {...props} />}/>),
         AllocatePlayersComponent:props =>(<GoBack item={<AllocatePlayers  {...props} />}/>),

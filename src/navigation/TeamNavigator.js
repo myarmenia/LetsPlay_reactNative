@@ -10,15 +10,15 @@ import TeamBoardGame from '@/screens/Team/GameCategory/BoardGames';
 import SelectTeam from '@/screens/Team/SelectTeam';
 import SearchTeam from "@/screens/Team/SearchTeam";
 import SelectPlayers from "@/screens/Team/SelectPlayers";
-import CreatingTeams from '@/screens/Team/CreateTeam/CreatingTeams'
-// import CreateTeamTitle from "@/screens/Team/createTeamTitle/createTeamTitile";
+import CreatingTeams from '@/screens/Team/CreatingTeams'
+import CreateTeamTitle from "@/screens/Team/CreateTeamTitle";
 
 
 const Stack = createNativeStackNavigator();
 
 function Index(props) {
 
-    const [route, setRoute]=useState({
+    const [route]=useState({
         MyTeamComponent:props => (<GoBack item={<MyTeam   {...props} />}/>),
         MyTeamInfoComponent:props => (<GoBack item={<MyTeamInfo   {...props} />}/>),
         TeamSelectCategoryComponent:props => (<GoBack item={<TeamSelectCategoryComponent   {...props} />}/>),
@@ -26,10 +26,12 @@ function Index(props) {
         SearchTeamComponent:props => (<GoBack item={<SearchTeam   {...props} />}/>),
         SelectPlayersComponent:props => (<GoBack item={<SelectPlayers   {...props} />}/>),
         CreatingTeamsComponent:props => (<GoBack item={<CreatingTeams   {...props} />}/>),
+        CreateTeamTitleComponent:props => (<GoBack item={<CreateTeamTitle   {...props} />}/>),
     })
 
     return (
-        <Stack.Navigator screenOptions={NAV_HEADER_OPTION} initialRouteName={'MyTeam'}  >
+        <Stack.Navigator screenOptions={NAV_HEADER_OPTION} initialRouteName={'teamStart'}  >
+            <Stack.Screen name="teamStart" component={route.CreatingTeamsComponent}/>
             <Stack.Screen name="MyTeam" component={route.MyTeamComponent}/>
             <Stack.Screen name="MyTeamInfo" component={route.MyTeamInfoComponent}/>
             <Stack.Screen name="TeamSelectGameCategory" component={route.TeamSelectCategoryComponent}/>
@@ -39,7 +41,7 @@ function Index(props) {
             <Stack.Screen name="SearchTeam" component={route.SearchTeamComponent}/>
             <Stack.Screen name="SelectPlayers" component={route.SelectPlayersComponent}/>
             <Stack.Screen name="TeamsCreating" component={route.CreatingTeamsComponent}/>
-            {/*<Stack.Screen name={"CreateTeamTitle"} component={CreateTeamTitle}/>*/}
+            <Stack.Screen name={"CreateTeamTitle"} component={route.CreateTeamTitleComponent}/>
         </Stack.Navigator>
     );
 }

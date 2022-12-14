@@ -18,7 +18,6 @@ const CreateTeamTitle = () => {
     const setToastMsg = (msg) => {
         ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
     }
-    console.log(avatar, "avatar")
 
     const uploadImageHandle = () => {
         let options = {

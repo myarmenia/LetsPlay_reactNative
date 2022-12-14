@@ -8,22 +8,38 @@ import PlayerOut from "@/screens/Mafia/screen/playerOut/playerOut";
 import Vote from "@/screens/Mafia/screen/Vote/Vote";
 import Ratings from "@/screens/Mafia/screen/Ratings/Ratings";
 import RatingPlayer from "@/screens/Mafia/screen/RatingPlayer/RatingPlayer";
+import GoBack from "@/helpers/goBack";
+import QrCode from "@/screens/Elias/QrCode";
+import AllocatePlayers from "@/screens/Elias/AllocatePlayers";
+import EliasAllocatePlayersInfo from "@/screens/Elias/AllocatePlayersInfo";
+import Settings from "@/screens/Elias/Settings";
+import DifficultyLevel from "@/screens/Elias/DifficultyLevel";
+import Start from "@/screens/Elias/Start";
+import ResTeam from "@/screens/Elias/ResTeam";
+import ResTeams from "@/screens/Elias/ResTeams";
 
 const MafiaGame = () => {
     const Stack = createNativeStackNavigator();
 
     const [route]=useState({
+        PlayNowComponent:props => (<GoBack item={<PlayNow   />}/>),
+        AboutGameComponent:props => (<GoBack item={<AboutGame />}/>),
+        PlaceManComponent:props =>(<GoBack item={<PlaceMan  {...props} />}/>),
+        VoteComponent:props=>(<GoBack item={<Vote  {...props} />}/>),
+        PlayerOutComponent:props=>(<GoBack item={<PlayerOut  {...props} />}/>),
+        RatingsComponent:props=>(<GoBack item={<Ratings  {...props} />}/>),
+        RatingPlayerComponent:props=>(<GoBack item={<RatingPlayer   {...props} />}/>),
     })
     return (
         <>
             <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
-                <Stack.Screen name={'playNow'} component={PlayNow}/>
-                <Stack.Screen name={'aboutGame'} component={AboutGame}/>
-                <Stack.Screen name={'PlaceMan'} component={PlaceMan}/>
-                <Stack.Screen name={"Vote"} component={Vote}/>
-                <Stack.Screen name={"PlayerOut"} component={PlayerOut}/>
-                <Stack.Screen name={"Ratings"} component={Ratings}/>
-                <Stack.Screen name={"RatingPlayer"} component={RatingPlayer}/>
+                <Stack.Screen name={'playNow'} component={route.PlayNowComponent}/>
+                <Stack.Screen name={'aboutGame'} component={route.AboutGameComponent}/>
+                <Stack.Screen name={'PlaceMan'} component={route.PlaceManComponent}/>
+                <Stack.Screen name={"Vote"} component={route.VoteComponent}/>
+                <Stack.Screen name={"PlayerOut"} component={route.PlayerOutComponent}/>
+                <Stack.Screen name={"Ratings"} component={route.RatingsComponent}/>
+                <Stack.Screen name={"RatingPlayer"} component={route.RatingPlayerComponent}/>
             </Stack.Navigator>
         </>
     )

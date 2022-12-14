@@ -11,7 +11,7 @@ const TYPES = [
     },
     {
         title: 'Команда',
-        navigateTo: 'TeamsCreating',
+        navigateTo: 'Team',
     },
     {
         title: 'Турнир',
