@@ -62,7 +62,7 @@ const SignUp = () => {
   }, [])
 
   const onSend = React.useCallback(
-    (message) => {
+    message => {
       setLoading(true)
       updateMessages({
         message,
@@ -82,8 +82,8 @@ const SignUp = () => {
     [index, messages, navigation],
   )
 
-  const updateMessages = (data) => {
-    setMessages((prevData) => [...prevData, data])
+  const updateMessages = data => {
+    setMessages(prevData => [...prevData, data])
   }
 
   return (

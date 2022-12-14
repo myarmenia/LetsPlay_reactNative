@@ -11,7 +11,7 @@ import ChatIcon from '@/assets/imgs/chat'
 
 const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden }) => {
   return (
-    <View style={{...styles.tabBar,  display:tabBarHidden?'none':'flex'}}>
+    <View style={{ ...styles.tabBar, display: tabBarHidden ? 'none' : 'flex' }}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key]
 

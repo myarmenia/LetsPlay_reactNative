@@ -16,7 +16,7 @@ const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
 export const RatioH = SCREEN_HEIGHT / 926
 export const RatioW = SCREEN_WIDTH / 428
 
-export const normalizePixel = (size) => {
+export const normalizePixel = size => {
   const newSize = size * RatioW
 
   if (Platform.OS === 'ios') {
@@ -28,7 +28,7 @@ export const normalizePixel = (size) => {
   return Math.round(PixelRatio.roundToNearestPixel(newSize))
 }
 
-const getFontFamily = (fontFamily) => {
+const getFontFamily = fontFamily => {
   switch (fontFamily) {
     // Roboto fonts
     case 'black':
@@ -86,5 +86,5 @@ export const shadow = {
   shadowColor: SHADOW,
 }
 
-export const RW = (value) => RatioW * value
-export const RH = (value) => RatioH * value
+export const RW = value => RatioW * value
+export const RH = value => RatioH * value

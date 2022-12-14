@@ -7,7 +7,7 @@ import { RW } from '@/theme/utils'
 const OnBoardingIndicator = ({ itemsCount, activeIndex = 0 }) => {
   return (
     <View style={[styles.indicatorContainer]}>
-      {Array.from(Array(itemsCount).keys()).map((key) => (
+      {Array.from(Array(itemsCount).keys()).map(key => (
         <View style={[styles.dot, key === activeIndex && styles.activeDot]} key={key} />
       ))}
     </View>

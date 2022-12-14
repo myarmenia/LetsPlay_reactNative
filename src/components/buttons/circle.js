@@ -14,7 +14,7 @@ const CircleButton = ({ isHome, setIsHome, tabBarHidden }) => {
   }
 
   return (
-    <View style={{...styles.circleContainer, display:tabBarHidden?'none':'flex'}}>
+    <View style={{ ...styles.circleContainer, display: tabBarHidden ? 'none' : 'flex' }}>
       <TouchableOpacity activeOpacity={0.8} onPress={press}>
         <Main isAdd={isHome} />
       </TouchableOpacity>

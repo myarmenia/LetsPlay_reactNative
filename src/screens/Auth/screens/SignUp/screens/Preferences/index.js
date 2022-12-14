@@ -26,12 +26,12 @@ const Preferences = () => {
   const { setAuthenticated } = useAuth()
   const [selecteds, setSelecteds] = React.useState(new Set())
 
-  const select = React.useCallback((item) => {
-    setSelecteds((prevState) => new Set([...prevState, item]))
+  const select = React.useCallback(item => {
+    setSelecteds(prevState => new Set([...prevState, item]))
   }, [])
 
-  const unselect = React.useCallback((item) => {
-    setSelecteds((prevState) => {
+  const unselect = React.useCallback(item => {
+    setSelecteds(prevState => {
       prevState.delete(item)
       return new Set([...prevState])
     })
@@ -45,7 +45,7 @@ const Preferences = () => {
       </Text>
       <Text style={[styles.subTitle, styles.mt40]}>Выбрать предпочтения</Text>
       <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {GAMES.map((game) => {
+        {GAMES.map(game => {
           return (
             <Select
               key={game}
