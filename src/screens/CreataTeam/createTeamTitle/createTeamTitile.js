@@ -93,6 +93,7 @@ const CreateTeamTitle = () => {
                 }
                 modalVisible={modalVisible}
                 setIsVisible={setModalVisible}
+                navigation={"Home"}
             />
         </ScreenMask>
 

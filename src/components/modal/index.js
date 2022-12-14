@@ -3,7 +3,7 @@ import {Button, Pressable, Text, View} from "react-native";
 import Modal from "react-native-modal";
 import {useNavigation} from "@react-navigation/native";
 
-function Index({modalVisible, item, setIsVisible, backgroundColor}) {
+function Index({modalVisible, item, setIsVisible, backgroundColor,navigation}) {
     const [isModalVisible, setModalVisible] = useState(true);
     const navigate = useNavigation()
 
@@ -19,7 +19,7 @@ function Index({modalVisible, item, setIsVisible, backgroundColor}) {
             <Modal onBackdropPress={() => {
                 setModalVisible(false)
                 setIsVisible(false)
-                navigate.navigate("Home")
+                navigate.navigate(navigation)
             }} isVisible={isModalVisible}>
                 {item}
             </Modal>
