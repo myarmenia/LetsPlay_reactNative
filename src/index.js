@@ -5,6 +5,7 @@ import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
 import { AppProvider } from '@/context'
 import { useAuth } from '@/hooks'
+import MyTeam from "@/screens/Team/MyTeam";
 
 
 const MyApp = () => {
@@ -13,8 +14,8 @@ const MyApp = () => {
   return (
     <AppProvider>
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
-        {/*<AppNavigator />*/}
-        {authenticated ? <AppNavigator /> : <AuthNavigator />}
+        <AppNavigator />
+        {/*{authenticated ? <AppNavigator /> : <AuthNavigator />}*/}
     </AppProvider>
   )
 }

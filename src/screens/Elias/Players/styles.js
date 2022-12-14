@@ -1,29 +1,42 @@
 import {StyleSheet} from "react-native";
 import {font, RH, RW} from "@/theme/utils";
-import {FONT_ROBOTO_THIN} from "@/theme/fonts";
 import {WHITE} from "@/theme/colors";
 
 export const styles = StyleSheet.create({
-    title: {
-        color: WHITE,
-        fontSize: 20,
-        textAlign: 'center',
-        marginTop: RH(100),
-        marginBottom: RH(40),
+
+    titleBlock:{
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
     },
-    scroll:{
-       marginRight:'auto',
-        marginLeft:'auto',
-        width:RW(310),
-        height:RH(500),
-        flexGrow:0,
+    imageBlock:{
+        width:RW(50),
+        height:RW(50),
+        borderRadius:RW(50),
+        marginRight:RW(15),
+    },
+    image:{
+        width:'100%',
+        height:'100%',
+        resizeMode:'contain',
+        borderRadius:RW(50)
+    },
+    title: {
+        textAlign: 'center',
+        ...font('bold', 24, WHITE),
+        marginVertical:RH(30)
+    },
+    scroll: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        width: RW(310),
+        height: RH(600),
+        flexGrow: 0,
     },
     container: {
         flexDirection: 'row',
-        justifyContent:'space-around',
+        justifyContent: 'space-around',
         flexWrap: 'wrap',
-        // marginLeft: 'auto',
-        // marginRight: 'auto'
     },
     containerT: {
         backgroundColor: 'red',
@@ -32,16 +45,20 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    item:{
-      marginTop:RH(15)
+    item: {
+        padding:RW(3),
+        marginTop: RH(30),
+    },
+    activeItem:{
+        padding:RW(3),
+        marginTop: RH(30),
+        borderWidth:1,
+        borderColor:'#7DCE8A',
+        borderRadius:RW(15)
     },
     receivingZone: {
         height: 200,
         borderRadius: 10,
-    },
-    receiving: {
-        // borderColor: 'red',
-        // borderWidth: 2,
     },
     incomingPayload: {
         marginTop: 10,
@@ -65,8 +82,6 @@ export const styles = StyleSheet.create({
     },
     scrollBlock: {
         height: 100,
-        // display: 'flex',
-        // alignItems:'center'
     },
     dragging: {
         opacity: 0.01,
@@ -103,5 +118,6 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         height: 50,
         backgroundColor: "black"
-    }
+    },
+
 })

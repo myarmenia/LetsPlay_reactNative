@@ -13,7 +13,7 @@ export default StyleSheet.create({
         width: RW(395),
         height: RH(111),
         marginVertical:RH(18),
-        padding:RW(17),
+        padding:RW(13),
     },
     imageBlock:{
         width:RW(80),
