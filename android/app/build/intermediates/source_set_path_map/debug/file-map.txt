@@ -35,7 +35,8 @@ com.gameorganizing.app-packaged_res-33 C:\Users\User\game_organization_react_nat
 com.gameorganizing.app-packaged_res-34 C:\Users\User\game_organization_react_native\node_modules\@react-native-masked-view\masked-view\android\build\intermediates\packaged_res\debug
 com.gameorganizing.app-packaged_res-35 C:\Users\User\game_organization_react_native\node_modules\react-native-date-picker\android\build\intermediates\packaged_res\debug
 com.gameorganizing.app-packaged_res-36 C:\Users\User\game_organization_react_native\node_modules\react-native-gesture-handler\android\build\intermediates\packaged_res\debug
-com.gameorganizing.app-packaged_res-37 C:\Users\User\game_organization_react_native\node_modules\react-native-linear-gradient\android\build\intermediates\packaged_res\debug
-com.gameorganizing.app-packaged_res-38 C:\Users\User\game_organization_react_native\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
-com.gameorganizing.app-packaged_res-39 C:\Users\User\game_organization_react_native\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
-com.gameorganizing.app-packaged_res-40 C:\Users\User\game_organization_react_native\node_modules\react-native-svg\android\build\intermediates\packaged_res\debug
+com.gameorganizing.app-packaged_res-37 C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\packaged_res\debug
+com.gameorganizing.app-packaged_res-38 C:\Users\User\game_organization_react_native\node_modules\react-native-linear-gradient\android\build\intermediates\packaged_res\debug
+com.gameorganizing.app-packaged_res-39 C:\Users\User\game_organization_react_native\node_modules\react-native-safe-area-context\android\build\intermediates\packaged_res\debug
+com.gameorganizing.app-packaged_res-40 C:\Users\User\game_organization_react_native\node_modules\react-native-screens\android\build\intermediates\packaged_res\debug
+com.gameorganizing.app-packaged_res-41 C:\Users\User\game_organization_react_native\node_modules\react-native-svg\android\build\intermediates\packaged_res\debug

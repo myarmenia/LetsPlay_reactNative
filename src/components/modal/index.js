@@ -1,23 +1,25 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import {Button, Pressable, Text, View} from "react-native";
 import Modal from "react-native-modal";
+import {useNavigation} from "@react-navigation/native";
 
-function Index({modalVisible, item, setIsVisible,backgroundColor}) {
+function Index({modalVisible, item, setIsVisible, backgroundColor}) {
     const [isModalVisible, setModalVisible] = useState(true);
+    const navigate = useNavigation()
 
-    useMemo(()=>{
+    useMemo(() => {
         setModalVisible(modalVisible)
-    },[modalVisible])
+    }, [modalVisible])
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-
     return (
-        <View style={[{ flex: 1,backgroundColor:backgroundColor },]}>
+        <View style={[{flex: 1, backgroundColor: backgroundColor},]}>
             <Modal onBackdropPress={() => {
                 setModalVisible(false)
                 setIsVisible(false)
+                navigate.navigate("Home")
             }} isVisible={isModalVisible}>
                 {item}
             </Modal>

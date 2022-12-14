@@ -72,26 +72,43 @@
 41        </activity>
 42
 43        <provider
-43-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
-44            android:name="androidx.startup.InitializationProvider"
-44-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
-45            android:authorities="com.gameorganizing.androidx-startup"
-45-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
-46            android:exported="false" >
-46-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
-47            <meta-data
-47-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
-48                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-48-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
-49                android:value="androidx.startup" />
-49-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
-50            <meta-data
-50-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\User\.gradle\caches\transforms-3\151bac0ea0012255cb89da9c60b86c67\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
-51                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-51-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\User\.gradle\caches\transforms-3\151bac0ea0012255cb89da9c60b86c67\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
-52                android:value="androidx.startup" />
-52-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\User\.gradle\caches\transforms-3\151bac0ea0012255cb89da9c60b86c67\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
-53        </provider>
-54    </application>
-55
-56</manifest>
+43-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+44            android:name="com.imagepicker.ImagePickerProvider"
+44-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-63
+45            android:authorities="com.gameorganizing.imagepickerprovider"
+45-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-71
+46            android:exported="false"
+46-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+47            android:grantUriPermissions="true" >
+47-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+48            <meta-data
+48-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:70
+49                android:name="android.support.FILE_PROVIDER_PATHS"
+49-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
+50                android:resource="@xml/imagepicker_provider_paths" />
+50-->[:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-67
+51        </provider>
+52        <provider
+52-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
+53            android:name="androidx.startup.InitializationProvider"
+53-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
+54            android:authorities="com.gameorganizing.androidx-startup"
+54-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
+55            android:exported="false" >
+55-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
+56            <meta-data
+56-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
+57                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+57-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
+58                android:value="androidx.startup" />
+58-->[androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
+59            <meta-data
+59-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\User\.gradle\caches\transforms-3\151bac0ea0012255cb89da9c60b86c67\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
+60                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+60-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\User\.gradle\caches\transforms-3\151bac0ea0012255cb89da9c60b86c67\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
+61                android:value="androidx.startup" />
+61-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\User\.gradle\caches\transforms-3\151bac0ea0012255cb89da9c60b86c67\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
+62        </provider>
+63    </application>
+64
+65</manifest>

@@ -12,6 +12,7 @@ MERGED from [:react-native-community_slider] C:\Users\User\game_organization_rea
 MERGED from [:react-native-masked-view_masked-view] C:\Users\User\game_organization_react_native\node_modules\@react-native-masked-view\masked-view\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-date-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-gesture-handler] C:\Users\User\game_organization_react_native\node_modules\react-native-gesture-handler\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-21:12
 MERGED from [:react-native-linear-gradient] C:\Users\User\game_organization_react_native\node_modules\react-native-linear-gradient\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-safe-area-context] C:\Users\User\game_organization_react_native\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:react-native-screens] C:\Users\User\game_organization_react_native\node_modules\react-native-screens\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-9:12
@@ -45,6 +46,7 @@ MERGED from [com.facebook.fresco:ui-common:2.6.0] C:\Users\User\.gradle\caches\t
 MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\User\.gradle\caches\transforms-3\69b36c8984a129b7005ace8e6d148944\transformed\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\User\.gradle\caches\transforms-3\fe8431f3cfea9c3936642937301d6e86\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.6.0] C:\Users\User\.gradle\caches\transforms-3\a4887708c0db0f4ee01a1628efe294fd\transformed\jetified-core-ktx-1.6.0\AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\User\.gradle\caches\transforms-3\e650a91f53d27a31005d7bfce05d9817\transformed\exifinterface-1.3.3\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\User\.gradle\caches\transforms-3\7a4c9193ea23d49518466aec1c75805e\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite:2.1.0] C:\Users\User\.gradle\caches\transforms-3\57303df237680c0c4e6acbe595a5a435\transformed\sqlite-2.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\2736d159dd92adc1df93c41ca2194c38\transformed\jetified-viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -107,6 +109,8 @@ application
 ADDED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-26:19
 MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-26:19
 MERGED from C:\Users\User\game_organization_react_native\android\app\src\main\AndroidManifest.xml:6:5-26:19
+MERGED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
+MERGED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-19:19
 MERGED from [com.facebook.react:react-native:0.70.6] C:\Users\User\.gradle\caches\transforms-3\6ddc2b9ae3abd64508dbc1428cbbc5e9\transformed\jetified-react-native-0.70.6-debug\AndroidManifest.xml:9:5-20
 MERGED from [com.facebook.react:react-native:0.70.6] C:\Users\User\.gradle\caches\transforms-3\6ddc2b9ae3abd64508dbc1428cbbc5e9\transformed\jetified-react-native-0.70.6-debug\AndroidManifest.xml:9:5-20
 MERGED from [com.facebook.soloader:soloader:0.10.4] C:\Users\User\.gradle\caches\transforms-3\08b5c374dac693c5b84b42643077fa85\transformed\jetified-soloader-0.10.4\AndroidManifest.xml:11:5-20
@@ -195,6 +199,8 @@ MERGED from [:react-native-date-picker] C:\Users\User\game_organization_react_na
 MERGED from [:react-native-date-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-date-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-gesture-handler] C:\Users\User\game_organization_react_native\node_modules\react-native-gesture-handler\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-gesture-handler] C:\Users\User\game_organization_react_native\node_modules\react-native-gesture-handler\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
+MERGED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-linear-gradient] C:\Users\User\game_organization_react_native\node_modules\react-native-linear-gradient\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-linear-gradient] C:\Users\User\game_organization_react_native\node_modules\react-native-linear-gradient\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
 MERGED from [:react-native-safe-area-context] C:\Users\User\game_organization_react_native\node_modules\react-native-safe-area-context\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-7:41
@@ -261,6 +267,8 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\User\.gradle\cac
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\User\.gradle\caches\transforms-3\fe8431f3cfea9c3936642937301d6e86\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core-ktx:1.6.0] C:\Users\User\.gradle\caches\transforms-3\a4887708c0db0f4ee01a1628efe294fd\transformed\jetified-core-ktx-1.6.0\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.core:core-ktx:1.6.0] C:\Users\User\.gradle\caches\transforms-3\a4887708c0db0f4ee01a1628efe294fd\transformed\jetified-core-ktx-1.6.0\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\User\.gradle\caches\transforms-3\e650a91f53d27a31005d7bfce05d9817\transformed\exifinterface-1.3.3\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.3] C:\Users\User\.gradle\caches\transforms-3\e650a91f53d27a31005d7bfce05d9817\transformed\exifinterface-1.3.3\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\User\.gradle\caches\transforms-3\7a4c9193ea23d49518466aec1c75805e\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.coordinatorlayout:coordinatorlayout:1.1.0] C:\Users\User\.gradle\caches\transforms-3\7a4c9193ea23d49518466aec1c75805e\transformed\coordinatorlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.1.0] C:\Users\User\.gradle\caches\transforms-3\57303df237680c0c4e6acbe595a5a435\transformed\sqlite-2.1.0\AndroidManifest.xml:20:5-22:41
@@ -347,6 +355,22 @@ uses-permission#android.permission.ACCESS_WIFI_STATE
 ADDED from [com.facebook.flipper:flipper:0.125.0] C:\Users\User\.gradle\caches\transforms-3\e590b54d1aa93e985ce8beaedee07310\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:16:5-76
 	android:name
 		ADDED from [com.facebook.flipper:flipper:0.125.0] C:\Users\User\.gradle\caches\transforms-3\e590b54d1aa93e985ce8beaedee07310\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:16:22-73
+provider#com.imagepicker.ImagePickerProvider
+ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
+	android:grantUriPermissions
+		ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
+	android:authorities
+		ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-71
+	android:exported
+		ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
+	android:name
+		ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-63
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:70
+	android:resource
+		ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-67
+	android:name
+		ADDED from [:react-native-image-picker] C:\Users\User\game_organization_react_native\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 provider#androidx.startup.InitializationProvider
 ADDED from [androidx.emoji2:emoji2:1.0.0] C:\Users\User\.gradle\caches\transforms-3\4baa5585be2b1eae9b579067dbf6c69e\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
 MERGED from [androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\User\.gradle\caches\transforms-3\151bac0ea0012255cb89da9c60b86c67\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:26:9-34:20
