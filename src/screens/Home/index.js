@@ -10,6 +10,7 @@ import Modal from "@/components/modal";
 import Ticket from "@/screens/GameCreating/GameTicket/ticket";
 import {LIGHT_LABEL} from "@/theme/colors";
 
+
 const HomeScreen = (props) => {
     const {navigation, route} = props
     const [isVisible, setIsVisible] = useState(false);
@@ -22,7 +23,7 @@ const HomeScreen = (props) => {
         }
     }, [route])
     return (
-
+        // navigation.navigate('CreatingTeams')
         <ScreenMask>
             <View style={styles.header}>
                 <CalendarIcon/>

@@ -11,6 +11,7 @@ import SelectTeam from '@/screens/Team/SelectTeam';
 import SearchTeam from "@/screens/Team/SearchTeam";
 import SelectPlayers from "@/screens/Team/SelectPlayers";
 
+
 const Stack = createNativeStackNavigator();
 
 function Index(props) {
