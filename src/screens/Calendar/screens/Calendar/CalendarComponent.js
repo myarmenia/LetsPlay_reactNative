@@ -62,7 +62,7 @@ const CalendarComponent = () => {
         <FlatList
           data={GamesData}
           key={'#'}
-          keyExtractor={(item) => '#' + item.key}
+          keyExtractor={item => '#' + item.key}
           // contentContainerStyle={styles.list}
           renderItem={({ item }) => (
             <View>
