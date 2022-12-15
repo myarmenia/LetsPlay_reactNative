@@ -2,6 +2,7 @@ import { StyleSheet, Text, FlatList, Image, View } from 'react-native'
 import React from 'react'
 import { LocaleConfig, Calendar } from 'react-native-calendars'
 import { GamesData } from '@/components/gamesData/GamesData'
+import { RH, RW } from '@/theme/utils'
 
 const CalendarComponent = () => {
   LocaleConfig.locales['fr'] = {
@@ -62,7 +63,6 @@ const CalendarComponent = () => {
         <FlatList
           data={GamesData}
           key={'#'}
-
           keyExtractor={(item) => '#' + item.key}
           // contentContainerStyle={styles.list}
           renderItem={({ item }) => (
@@ -70,7 +70,7 @@ const CalendarComponent = () => {
               <Text style={{ color: '#657AC5', marginBottom: -15, fontSize: 18 }}>{item.date}</Text>
               <View style={styles.main}>
                 <View style={{ flex: 2 }}>
-                  <Image source={item.img} />
+                  <Image style={{ width: 29, height: 29 }} source={item.img} />
                 </View>
                 <View style={{ flex: 9 }}>
                   <Text style={styles.text}>{item.title}</Text>

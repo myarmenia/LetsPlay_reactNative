@@ -27,7 +27,9 @@ import TeamNavigator from '@/navigation/TeamNavigator'
 import MafiaGame from '@/navigation/MafiaNavigation'
 import GamesList from '@/screens/Game/gamesList/gamesList'
 import GameItem from '@/screens/Game/gamesList/gameItem'
-import CalendarScreen from '@/screens/Calendar/screens/Calendar/CalendarScreen'
+import Calendar from './CalendarNavigator'
+import Tournament from './TournamentNavigator'
+
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 
@@ -38,7 +40,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -52,7 +54,7 @@ const TabNavigator = () => {
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
         <Tab.Screen name={'Notification'} component={NotificationScreen} />
-        <Tab.Screen name={'Calendar'} component={CalendarScreen} />
+        {/* <Tab.Screen name={'Calendar'} component={CalendarScreen} /> */}
       </Tab.Navigator>
       <CircleButton isHome={isHome} setIsHome={setIsHome} />
     </>
@@ -81,6 +83,8 @@ const AppNavigator = () => {
         <Stack.Screen name={'Wallet'} component={Wallet} />
         <Stack.Screen name={'Feedback'} component={Feedback} />
         <Stack.Screen name={'Preference'} component={Preference} />
+        <Stack.Screen name={'Calendar'} component={Calendar} />
+        <Stack.Screen name={'Tournament'} component={Tournament} />
       </Stack.Navigator>
     </>
   )
