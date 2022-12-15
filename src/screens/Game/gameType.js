@@ -13,6 +13,7 @@ function GameType({
   errorMessage,
 }) {
   const [showDropDown, setShowDropDown] = useState(false)
+  // GameTypeEdited1
   const [selected, setSelected] = useState('Выбрать игру')
   const checkElem = id => {
     setGameTypes([
