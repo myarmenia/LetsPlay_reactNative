@@ -12,6 +12,7 @@ const Radio = (props) => {
     setChecked(false)
     setValue(ev.id);
     if (data){
+
     if (ev.text === 'Платно' && type === 'priceView') {
       setFlag(true)
     } else if (ev.text === 'Бесплатно' && type === 'priceView') {
@@ -29,6 +30,7 @@ const Radio = (props) => {
     }
   }
   }
+
   return (
       list.map((ev) => <TouchableOpacity style={{...style.radioBlock, marginLeft: margin}} onPress={() => {handleChange(ev)}} key={ev.id}>
             <View style={style.radio}>
