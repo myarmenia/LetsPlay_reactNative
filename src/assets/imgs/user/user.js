@@ -45,7 +45,6 @@ function SvgComponent({ isMax, user }) {
           >
             <Stop stopColor="#873B23" />
             <Stop offset={0.0582217} stopColor="#A66842" />
-            Vashik, [12/14/2022 5:40 PM]
             <Stop offset={0.276042} stopColor="#E5BA8C" />
             <Stop offset={0.485208} stopColor="#E8D2AE" />
             <Stop offset={0.708333} stopColor="#C09067" />
