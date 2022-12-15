@@ -4,7 +4,7 @@
             "outputFile": "com.gameorganizing.app-mergeDebugResources-28:/values-he/values-he.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\hp\\Desktop\\game_organization_react_native\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values-he\\values-he.xml",
+                    "source": "C:\\Users\\User\\LetsPlay_reactNative\\node_modules\\react-native-date-picker\\android\\build\\intermediates\\packaged_res\\debug\\values-he\\values-he.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
