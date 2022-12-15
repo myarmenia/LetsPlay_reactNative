@@ -38,8 +38,13 @@ const GameCreating = ({navigation, route}) => {
                     <Map data={gameParams} setData={setGameParams} placeholder={'Геолокация игры'}/>
                 </View>
                 <ThirdBlock data={gameParams} setData={setGameParams} type={'price'}
-                            list={[{id:1, text:'Бесплатно', checked:true}, {id:2, text:'Платно', checked:false}]}
+
+                            list={[{id:1, text:'Бесплатно', checked: true}, {id:2, text: 'Платно', checked: false}]}
                             title={'Стоимость входного билета в игру'}/>
+                <ThirdBlock data={gameParams} setData={setGameParams}  type={'statusOrganizer'}
+                            list={[{id: 1, text: 'Весь состав команды', checked: true}, {id: 2, text: 'Выбрать игроков', checked: false}]}
+                            title={'Участие игроков'}/>
+
             </View>
             <View style={{marginTop:'auto', marginLeft:'auto', marginBottom:RH(20)}}>
                 <Button onPress={()=>navigation.navigate('SearchRes')} size={{width:RW(144), height:RH(40)}} label={'Далее>>'}/>

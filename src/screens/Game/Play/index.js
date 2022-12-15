@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useMemo, useState} from 'react'
 import { View, Text, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { styles } from '@/screens/Game/Play/style'
@@ -20,7 +20,12 @@ function Index({ navigation }) {
   const [chooseType, setChooseType] = useState(false)
   const [showGameTypes, setShowGameTypes] = useState(false)
   const [showDropDown, setShowDropDown] = useState(false)
-
+  const [flag, setFlag] = useState(false)
+  const initialState = {
+    price: 'Бесплатно',
+    gameValue: 'Игры из Ваших предпочтений'
+  }
+  const [data , setData] = useState(initialState)
   const types = [
     { id: 1, name: 'Элиас', checked: false },
     { id: 2, name: 'Мафия', checked: false },
@@ -36,8 +41,6 @@ function Index({ navigation }) {
     { id: 2, text: 'Все игры', checked: false },
     { id: 3, text: 'Выбрать игру', checked: false },
   ]
-  const [list, setList] = useState(chooseGameType)
-
   const freeOrPaid = [
     { id: 4, text: 'Бесплатно', checked: true },
     { id: 5, text: 'Платно', checked: false },
@@ -47,19 +50,24 @@ function Index({ navigation }) {
   const checkChecks = gameTypes.some(elm => elm.checked === true)
   const [errorMessage, setErrorMessage] = useState(false)
   const showHideError = () => {
-    if (!checkChecks && list[2].checked == true) {
+    if (!checkChecks && data.gameValue === 'Выбрать игру') {
       setErrorMessage(true)
       console.log('Выберите один из игр')
     } else {
       setErrorMessage(false)
-      if (list[2].id !== true) {
+      if (data.gameValue !== 'Выбрать') {
         navigation.navigate('GameList')
       } else {
         console.log('error')
       }
     }
   }
+  useMemo(()=>{
 
+  })
+  useEffect(()=>{
+    setErrorMessage(!errorMessage)
+  },[data.gameValue])
   if (!chooseType) {
     return (
       <ScreenMask>
@@ -126,6 +134,7 @@ function Index({ navigation }) {
     )
   }
   if (chooseType === PARTICIPATION_GAME) {
+    console.log(data)
     return (
       <ScreenMask>
         <ScrollView>
@@ -137,19 +146,16 @@ function Index({ navigation }) {
           >
             <Text style={styles.someTitle}>Игра</Text>
             <View style={styles.gameTypesContainer}>
-              <Radio
-                list={list}
-                setShowGameTypes={setShowGameTypes}
-                showDropDown={showDropDown}
-                setShowDropDown={setShowDropDown}
-                showGameTypes={showGameTypes}
-                topBtn={true}
-                setList={setList}
-                typeFunc={'game'}
+              <Radio list={chooseGameType} setShowGameTypes={setShowGameTypes} showDropDown={showDropDown}
+                     setShowDropDown={setShowDropDown}
+                     showGameTypes={showGameTypes}
+                     type={'gameType'}
+                     data={data}
+                     setData={setData}
               />
             </View>
 
-            {showGameTypes ? (
+            {data.gameValue === 'Выбрать игру' ? (
               <>
                 <GameType
                   showGameTypes={showGameTypes}
@@ -190,7 +196,7 @@ function Index({ navigation }) {
               <View>
                 <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
                 <View style={styles.gameTypesContainer}>
-                  <Radio list={free} topBtn={false} setFree={setFree} typeFunc={'paid'} />
+                  <Radio list={free} type={'priceView'} setFlag={setFlag} data={data} setData={setData}/>
                 </View>
               </View>
             </View>

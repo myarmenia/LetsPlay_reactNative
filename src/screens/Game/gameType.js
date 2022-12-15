@@ -5,7 +5,6 @@ import ArrowDown from '@/assets/svgs/arrowDown'
 import CheckboxNotChecked from '@/assets/svgs/checkboxNotChecked'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 function GameType({
-  showGameTypes,
   setShowGameTypes,
   gameTypes,
   setGameTypes,
