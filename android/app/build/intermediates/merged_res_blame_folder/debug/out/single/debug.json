@@ -4,20 +4,12 @@
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_imgs_games_naves.png"
     },
     {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-mdpi_ic_launcher.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-mdpi\\ic_launcher.png"
-    },
-    {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-xxhdpi_node_modules_reactnativecalendars_src_calendar_img_previous.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-xxhdpi/node_modules_reactnativecalendars_src_calendar_img_previous.png"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_assets_imgs_userimage.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_imgs_userimage.png"
-    },
-    {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-mdpi_ic_launcher_round.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-mdpi\\ic_launcher_round.png"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-xxhdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
@@ -40,6 +32,10 @@
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_imgs_games_hokey.png"
     },
     {
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
     },
@@ -52,8 +48,8 @@
         "source": "com.gameorganizing.app-main-32:/drawable-xhdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
     },
     {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-xhdpi_ic_launcher_round.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-xhdpi\\ic_launcher_round.png"
+        "merged": "com.gameorganizing.app-merged_res-30:/drawable_rn_edit_text_material.xml.flat",
+        "source": "com.gameorganizing.app-main-32:/drawable/rn_edit_text_material.xml"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_assets_mafiapng_don.png.flat",
@@ -62,10 +58,6 @@
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_assets_mafiapng_doctor.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_mafiapng_doctor.png"
-    },
-    {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-hdpi_ic_launcher_round.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-hdpi\\ic_launcher_round.png"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_node_modules_reactnavigation_elements_src_assets_backiconmask.png.flat",
@@ -96,24 +88,32 @@
         "source": "com.gameorganizing.app-main-32:/drawable-xhdpi/node_modules_reactnativecalendars_src_img_down.png"
     },
     {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-xxhdpi_ic_launcher_round.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-xxhdpi\\ic_launcher_round.png"
-    },
-    {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-hdpi_node_modules_reactnavigation_elements_src_assets_backicon.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-hdpi/node_modules_reactnavigation_elements_src_assets_backicon.png"
+    },
+    {
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-hdpi/ic_launcher.png"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-hdpi_node_modules_reactnativecalendars_src_img_up.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-hdpi/node_modules_reactnativecalendars_src_img_up.png"
     },
     {
-        "merged": "com.gameorganizing.app-merged_res-30:/drawable-xhdpi_node_modules_reactnativecalendars_src_calendar_img_next.png.flat",
-        "source": "com.gameorganizing.app-main-32:/drawable-xhdpi/node_modules_reactnativecalendars_src_calendar_img_next.png"
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-xhdpi/ic_launcher_round.png"
     },
     {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-xxhdpi_ic_launcher.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-xxhdpi\\ic_launcher.png"
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.gameorganizing.app-merged_res-30:/drawable-xhdpi_node_modules_reactnativecalendars_src_calendar_img_next.png.flat",
+        "source": "com.gameorganizing.app-main-32:/drawable-xhdpi/node_modules_reactnativecalendars_src_calendar_img_next.png"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_assets_mafiapng_sherif.png.flat",
@@ -128,8 +128,8 @@
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_imgs_games_krokodil.png"
     },
     {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\drawable_rn_edit_text_material.xml.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\drawable\\rn_edit_text_material.xml"
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-mdpi/ic_launcher_round.png"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_screens_game_gamesdatasjs_gamepics_.png.flat",
@@ -156,14 +156,6 @@
         "source": "com.gameorganizing.app-main-32:/drawable-xxxhdpi/node_modules_reactnativecalendars_src_calendar_img_next.png"
     },
     {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-xxxhdpi_ic_launcher.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-xxxhdpi\\ic_launcher.png"
-    },
-    {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-xxxhdpi_ic_launcher_round.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-xxxhdpi\\ic_launcher_round.png"
-    },
-    {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_node_modules_reactnativecalendars_src_img_down.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/node_modules_reactnativecalendars_src_img_down.png"
     },
@@ -176,16 +168,12 @@
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_mafiapng_mafia.png"
     },
     {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-hdpi_ic_launcher.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-hdpi\\ic_launcher.png"
-    },
-    {
-        "merged": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-merged_res-30:\\mipmap-xhdpi_ic_launcher.png.flat",
-        "source": "C:\\Users\\hp\\.gradle\\daemon\\7.3.3\\com.gameorganizing.app-main-32:\\mipmap-xhdpi\\ic_launcher.png"
-    },
-    {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_assets_imgs_games_quest.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_imgs_games_quest.png"
+    },
+    {
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-xxxhdpi/ic_launcher_round.png"
     },
     {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_assets_imgs_games_basketball.png.flat",
@@ -240,11 +228,23 @@
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_imgs_games_poker.png"
     },
     {
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-mdpi_src_assets_imgs_games_mafia.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-mdpi/src_assets_imgs_games_mafia.png"
     },
     {
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
         "merged": "com.gameorganizing.app-merged_res-30:/drawable-xxhdpi_node_modules_reactnativecalendars_src_img_up.png.flat",
         "source": "com.gameorganizing.app-main-32:/drawable-xxhdpi/node_modules_reactnativecalendars_src_img_up.png"
+    },
+    {
+        "merged": "com.gameorganizing.app-merged_res-30:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.gameorganizing.app-main-32:/mipmap-xxhdpi/ic_launcher.png"
     }
 ]
