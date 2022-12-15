@@ -4,7 +4,7 @@
             "outputFile": "com.gameorganizing.app-mergeDebugResources-28:/values-ldltr-v21/values-ldltr-v21.xml",
             "map": [
                 {
-                    "source": "/home/on-off/.gradle/caches/transforms-3/28fad7ba1009b9a90d750a642518ad0f/transformed/appcompat-1.4.1/res/values-ldltr-v21/values-ldltr-v21.xml",
+                    "source": "C:\\Users\\Kamo\\.gradle\\caches\\transforms-3\\28fad7ba1009b9a90d750a642518ad0f\\transformed\\appcompat-1.4.1\\res\\values-ldltr-v21\\values-ldltr-v21.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
