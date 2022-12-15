@@ -44,10 +44,14 @@ const GameCreating = props => {
   const handleClick = () => {
     if (
       !data.gameDayDate ||
-      +data.playerCountFrom < 1 || +data.playerCountFrom > +data.playerCountTo ||
-      !data.playerCountFrom || !data.playerCountTo ||
-      +data.ageFrom < 1 || +data.ageFrom > +data.ageTo ||
-      !data.ageFrom || !data.ageTo ||
+      +data.playerCountFrom < 1 ||
+      +data.playerCountFrom > +data.playerCountTo ||
+      !data.playerCountFrom ||
+      !data.playerCountTo ||
+      +data.ageFrom < 1 ||
+      +data.ageFrom > +data.ageTo ||
+      !data.ageFrom ||
+      !data.ageTo ||
       !data.lastDayDate ||
       data.lastDayDate >= data.gameDayDate ||
       (!data.priceValue && flag)
@@ -111,7 +115,12 @@ const GameCreating = props => {
           ]}
           title={'Половой признак игрока'}
         />
-        <Map data={data} setData={setData} placeholder={'Адрес проведения игры'} availablePress={false} />
+        <Map
+          data={data}
+          setData={setData}
+          placeholder={'Адрес проведения игры'}
+          availablePress={false}
+        />
         <FirstBlock
           data={data}
           setData={setData}

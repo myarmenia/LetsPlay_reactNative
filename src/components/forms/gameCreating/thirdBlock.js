@@ -4,7 +4,7 @@ import style from './style'
 import Radio from '@/components/checkbox/radio'
 import { RW } from '@/theme/utils'
 
-const ThirdBlock = (props) => {
+const ThirdBlock = props => {
   const { title, type, data, setPriceInputView, setFlag } = props
   return (
     <View>

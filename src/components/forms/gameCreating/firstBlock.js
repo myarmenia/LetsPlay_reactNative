@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 import style from './style'
 import DateTime from '@/services/DateTime'
 
-const FirstBlock = (props) => {
+const FirstBlock = props => {
   const { title, margin } = props
   return (
     <View style={{ marginTop: margin }}>

@@ -21,35 +21,35 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  checkboxBox:{
-    flexDirection:"row",
-    padding:RH(10),
-    alignItems:"center"
+  checkboxBox: {
+    flexDirection: 'row',
+    padding: RH(10),
+    alignItems: 'center',
   },
-  errorText:{
-    color:"red",
-    fontSize:RW(16)
+  errorText: {
+    color: 'red',
+    fontSize: RW(16),
   },
-  dateMap:{
-    height:RH(122),
-    flexDirection:"column",
-    justifyContent:"space-between"
-  },  
-  dash:{
-    width:RW(10),
-    height:0,
-    borderColor:ICON,
-    borderWidth:RW(2),
-    borderRadius:RW(2),
-    marginHorizontal:RW(8)
+  dateMap: {
+    height: RH(122),
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
-  gameTypesContainer:{
-    marginLeft:RW(20)
+  dash: {
+    width: RW(10),
+    height: 0,
+    borderColor: ICON,
+    borderWidth: RW(2),
+    borderRadius: RW(2),
+    marginHorizontal: RW(8),
   },
-  typeText:{
-    color:RADIO_TEXT,
-    fontSize:RW(16),
-    paddingHorizontal:RW(10)
+  gameTypesContainer: {
+    marginLeft: RW(20),
+  },
+  typeText: {
+    color: RADIO_TEXT,
+    fontSize: RW(16),
+    paddingHorizontal: RW(10),
   },
   gameTypeBtn: {
     backgroundColor: BACKGROUND,
@@ -77,19 +77,19 @@ export const styles = StyleSheet.create({
   someTitle: {
     color: ICON,
     marginVertical: RH(20),
-    marginLeft:RW(20),
+    marginLeft: RW(20),
   },
   datesContainer: {
     flexDirection: 'row',
     marginVertical: RH(10),
-    width:RW(366),
-    justifyContent:"space-around",
-    alignSelf:"center",
-    alignItems:"center"
+    width: RW(366),
+    justifyContent: 'space-around',
+    alignSelf: 'center',
+    alignItems: 'center',
   },
-  bottomButton:{
-    alignItems:"flex-end"
-  },  
+  bottomButton: {
+    alignItems: 'flex-end',
+  },
   btnActiveGames: {
     marginBottom: 24,
   },

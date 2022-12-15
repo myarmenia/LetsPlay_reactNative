@@ -48,7 +48,7 @@ const HomeScreen = props => {
       ) : null}
     </ScreenMask>
   )
-        }
+}
 
 export default HomeScreen
 

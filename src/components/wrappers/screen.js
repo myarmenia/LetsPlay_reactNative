@@ -5,7 +5,6 @@ import { BACKGROUND } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import { IS_IOS } from '@/constants'
 
-
 const ScreenMask = ({ children }) => {
   return (
     <ImageBackground source={BGMask} imageStyle={styles.bgMask} style={styles.container}>

@@ -57,7 +57,7 @@ const Radio = props => {
           }
         }),
       ])
-    } else if(typeFunc === "paid" && setFree !== undefined) {
+    } else if (typeFunc === 'paid' && setFree !== undefined) {
       setFree([
         ...list.map(elm => {
           if (elm.id === evcopy.id) {

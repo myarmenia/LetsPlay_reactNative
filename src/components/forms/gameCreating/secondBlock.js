@@ -3,7 +3,7 @@ import { Text, View } from 'react-native'
 import style from './style'
 import Count from '@/components/inputs/count'
 
-const SecondBlock = (props) => {
+const SecondBlock = props => {
   const { title } = props
   return (
     <View>

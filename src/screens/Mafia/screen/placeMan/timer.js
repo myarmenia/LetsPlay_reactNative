@@ -6,7 +6,7 @@ const Timer = () => {
   const Ref = useRef(null)
   const [timer, setTimer] = useState('00:00')
   const navigate = useNavigation()
-  const getTimeRemaining = (e) => {
+  const getTimeRemaining = e => {
     const total = Date.parse(e) - Date.parse(new Date())
     const seconds = Math.floor((total / 1000) % 60)
     const minutes = Math.floor((total / 1000 / 60) % 60)
@@ -17,7 +17,7 @@ const Timer = () => {
     }
   }
 
-  const startTimer = (e) => {
+  const startTimer = e => {
     let { total, minutes, seconds } = getTimeRemaining(e)
     if (total >= 0) {
       setTimer(
@@ -26,7 +26,7 @@ const Timer = () => {
     }
   }
 
-  const clearTimer = (e) => {
+  const clearTimer = e => {
     setTimer('02:00')
     if (Ref.current) clearInterval(Ref.current)
     const ID = setInterval(() => {
