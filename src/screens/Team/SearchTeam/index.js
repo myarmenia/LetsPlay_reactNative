@@ -41,10 +41,10 @@ const GameCreating = ({navigation, route}) => {
                     <Map data={gameParams} setData={setGameParams} placeholder={'Геолокация игры'}/>
                 </View>
                 <ThirdBlock data={gameParams} setData={setGameParams} type={'price'}
-                            list={[[1, 'Бесплатно', true], [2, 'Платно', false]]}
+                            list={[{id:1, text:'Бесплатно', checked: true}, {id:2, text: 'Платно', checked: false}]}
                             title={'Стоимость входного билета в игру'}/>
                 <ThirdBlock data={gameParams} setData={setGameParams}  type={'statusOrganizer'}
-                            list={[[1, 'Весь состав команды', true], [2, 'Выбрать игроков', false]]}
+                            list={[{id: 1, text: 'Весь состав команды', checked: true}, {id: 2, text: 'Выбрать игроков', checked: false}]}
                             title={'Участие игроков'}/>
             </View>
             <View style={{marginTop:'auto', marginLeft:'auto', marginBottom:RH(20)}}>
