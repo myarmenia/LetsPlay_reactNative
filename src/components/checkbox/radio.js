@@ -57,7 +57,7 @@ const Radio = props => {
           }
         }),
       ])
-    } else {
+    } else if(typeFunc === "paid" && setFree !== undefined) {
       setFree([
         ...list.map(elm => {
           if (elm.id === evcopy.id) {
@@ -71,6 +71,8 @@ const Radio = props => {
         }),
       ])
       console.log(list)
+    } else {
+      return null
     }
   }
   return list.map(ev => (

@@ -181,7 +181,7 @@ function Index({ navigation }) {
                 <View style={styles.dateMap}>
                   <View style={styles.datesContainer}>
                     <DateTime type={'date'} width={166} />
-                    <View style={styles.line} />
+                    <View style={styles.dash}></View>
                     <DateTime type={'date'} width={166} />
                   </View>
                   <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
