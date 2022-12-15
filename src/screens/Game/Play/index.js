@@ -43,7 +43,8 @@ function Index({ navigation }) {
     { id: 5, text: 'Платно', checked: false },
   ]
   const [free, setFree] = useState(freeOrPaid)
-
+  const [firstDate, setFirstDate] = useState("")
+  const [secondDate, setSecondDate] = useState("")
   const checkChecks = gameTypes.some(elm => elm.checked === true)
   const [errorMessage, setErrorMessage] = useState(false)
   const showHideError = () => {
@@ -126,6 +127,7 @@ function Index({ navigation }) {
     )
   }
   if (chooseType === PARTICIPATION_GAME) {
+    
     return (
       <ScreenMask>
         <ScrollView>
@@ -180,11 +182,11 @@ function Index({ navigation }) {
               >
                 <View style={styles.dateMap}>
                   <View style={styles.datesContainer}>
-                    <DateTime type={'date'} width={166} />
+                    <DateTime type={'date'} width={166} dateTime={firstDate} setter={setFirstDate}/>
                     <View style={styles.dash}></View>
-                    <DateTime type={'date'} width={166} />
+                    <DateTime type={'date'} width={166} dateTime={secondDate} setter={setSecondDate}/>
                   </View>
-                  <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
+                  <Map placeholder={'Геолокация игры'} width={366} availablePress={false} />
                 </View>
               </View>
               <View>

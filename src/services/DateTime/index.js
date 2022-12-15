@@ -8,7 +8,7 @@ import TimeSvg from '@/assets/svgs/timeSvg'
 import { RW } from '@/theme/utils'
 
 const DateTime = props => {
-  const { type, day, data, setData, gameDayDate, errorText, width } = props
+  const { type, day, data, setData, gameDayDate, errorText, width, setter, dateTime } = props
   const currentDate = new Date()
   const minimumDate = currentDate.setDate(currentDate.getDate() + 1)
   const [date, setDate] = useState('ДД/ММ/ГГГГ')
@@ -18,6 +18,12 @@ const DateTime = props => {
   const handleConfirm = date => {
     setOpen(false)
     setDate(date)
+    let monts =  date.getMonth()+1
+    let day =  date.toString().slice(8,10)
+    let year =  date.toString().slice(11,16)
+    // setter(day, monts, year)
+    setter((prev)=>{return {day: day, month:monts, year:year}})
+    console.log(dateTime)
     if (day === 'gameDay' && type === 'date') {
       setData({ ...data, gameDayDate: date })
     } else if (day === 'gameDay' && type === 'time') {
@@ -84,7 +90,7 @@ const DateTime = props => {
             : new Date(minimumDate)
         }
         onConfirm={date => {
-          console.log(date)
+          // console.log(date)
           handleConfirm(date)
         }}
         onCancel={() => {

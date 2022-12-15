@@ -30,6 +30,11 @@ export const styles = StyleSheet.create({
     color:"red",
     fontSize:RW(16)
   },
+  dateMap:{
+    height:RH(122),
+    flexDirection:"column",
+    justifyContent:"space-between"
+  },  
   dash:{
     width:RW(10),
     height:0,
@@ -37,6 +42,9 @@ export const styles = StyleSheet.create({
     borderWidth:RW(2),
     borderRadius:RW(2),
     marginHorizontal:RW(8)
+  },
+  gameTypesContainer:{
+    marginLeft:RW(20)
   },
   typeText:{
     color:RADIO_TEXT,
@@ -67,17 +75,21 @@ export const styles = StyleSheet.create({
     paddingHorizontal: RW(15),
   },
   someTitle: {
-    color: WHITE,
-    marginVertical: RH(10),
+    color: ICON,
+    marginVertical: RH(20),
+    marginLeft:RW(20),
   },
   datesContainer: {
     flexDirection: 'row',
     marginVertical: RH(10),
-    width:RW(357),
+    width:RW(366),
+    justifyContent:"space-around",
     alignSelf:"center",
     alignItems:"center"
   },
-
+  bottomButton:{
+    alignItems:"flex-end"
+  },  
   btnActiveGames: {
     marginBottom: 24,
   },
