@@ -9,6 +9,7 @@ import { Players } from '@/assets/TestData'
 import Modal from '@/components/modal'
 import Ticket from '@/screens/GameCreating/GameTicket/ticket'
 import { LIGHT_LABEL } from '@/theme/colors'
+// import Carusel from "@/components/carusel";
 
 const HomeScreen = props => {
   const { navigation, route } = props
@@ -32,6 +33,7 @@ const HomeScreen = props => {
         </TouchableOpacity>
       </View>
       <View style={styles.detailContainer}>
+        {/*<Carusel/>*/}
         <User user={Players[2]} isMax={true} />
       </View>
       {isVisible ? (

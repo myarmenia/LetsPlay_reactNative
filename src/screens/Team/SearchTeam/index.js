@@ -19,9 +19,6 @@ LogBox.ignoreLogs([
 
 const GameCreating = ({navigation, route}) => {
 
-    console.log(route.params, 88888)
-
-
     const [gameParams, setGameParams] = useState({
         game:route.params,
         gameDayTime:  undefined,
@@ -41,14 +38,11 @@ const GameCreating = ({navigation, route}) => {
                     <Map data={gameParams} setData={setGameParams} placeholder={'Геолокация игры'}/>
                 </View>
                 <ThirdBlock data={gameParams} setData={setGameParams} type={'price'}
-                            list={[[1, 'Бесплатно', true], [2, 'Платно', false]]}
+                            list={[{id:1, text:'Бесплатно', checked:true}, {id:2, text:'Платно', checked:false}]}
                             title={'Стоимость входного билета в игру'}/>
-                <ThirdBlock data={gameParams} setData={setGameParams}  type={'statusOrganizer'}
-                            list={[[1, 'Весь состав команды', true], [2, 'Выбрать игроков', false]]}
-                            title={'Участие игроков'}/>
             </View>
             <View style={{marginTop:'auto', marginLeft:'auto', marginBottom:RH(20)}}>
-                <Button onPress={()=>navigation.navigate('SelectPlayers', gameParams )} size={{width:RW(144), height:RH(40)}} label={'Далее>>'}/>
+                <Button onPress={()=>navigation.navigate('SearchRes')} size={{width:RW(144), height:RH(40)}} label={'Далее>>'}/>
             </View>
         </ScreenMask>
     )
