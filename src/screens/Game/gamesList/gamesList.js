@@ -27,7 +27,7 @@ function GamesList() {
         if (elm.id === id) {
           return (
             // { ...elm, clicked: true },
-            // console.log(elem),
+            console.log(elem),
             // if (elm !== undefined) {
             setProp(() => {
               return { ...elm, clicked: true }
