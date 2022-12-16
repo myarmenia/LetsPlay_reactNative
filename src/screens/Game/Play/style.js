@@ -30,6 +30,9 @@ export const styles = StyleSheet.create({
     color:"red",
     fontSize:RW(16)
   },
+  gameTypesContainer:{
+    marginLeft:RW(15)
+  },
   dash:{
     width:RW(10),
     height:0,
