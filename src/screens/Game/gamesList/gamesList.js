@@ -1,5 +1,5 @@
 import ScreenMask from '@/components/wrappers/screen'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { styles } from '../gamesList/style'
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native'
 import GestureRecognizer from 'react-native-swipe-gestures'
@@ -10,32 +10,16 @@ import { useNavigation } from '@react-navigation/native'
 
 function GamesList() {
   const navigation = useNavigation()
-  const [prop, setProp] = useState({})
+  const [prop, setProp] = useState(null)
   const gameData = useMemo(() => {
     return _gamesData
   }, [])
-  const handleSubmit = elm => {
-    if (elm !== undefined) {
-      setProp({ ...elm, clicked: true })
-    } else {
-      return null
-    }
-  }
+
   const passIdGameItem = id => {
-    return gameData.map(elem => {
-      return elem.data.map(elm => {
+    gameData.map(elem => {
+      elem.data.forEach(elm => {
         if (elm.id === id) {
-          return (
-            // { ...elm, clicked: true },
-            console.log(elem),
-            // if (elm !== undefined) {
-            setProp(() => {
-              return { ...elm, clicked: true }
-            }),
-            console.log(prop),
-            navigation.navigate('GameItems', { item: prop })
-            // }
-          )
+          navigation.navigate('GameItem', { item: { ...elm, clicked: true } })
         } else {
           return null
         }
