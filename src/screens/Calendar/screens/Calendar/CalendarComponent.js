@@ -6,7 +6,7 @@ import { GamesData } from '@/components/gamesData/GamesData'
 const CalendarComponent = () => {
   LocaleConfig.locales['fr'] = {
     monthNames: [
-      'January',
+      'January1',
       'February',
       'March',
       'April',

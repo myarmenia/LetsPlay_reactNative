@@ -5,7 +5,6 @@ import ArrowDown from '@/assets/svgs/arrowDown'
 import CheckboxNotChecked from '@/assets/svgs/checkboxNotChecked'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 function GameType({
-  showGameTypes,
   setShowGameTypes,
   gameTypes,
   setGameTypes,
@@ -13,6 +12,7 @@ function GameType({
   errorMessage,
 }) {
   const [showDropDown, setShowDropDown] = useState(false)
+  // GameTypeEdited1
   const [selected, setSelected] = useState('Выбрать игру')
   const checkElem = id => {
     setGameTypes([

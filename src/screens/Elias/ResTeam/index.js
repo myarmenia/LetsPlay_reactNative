@@ -9,6 +9,7 @@ const guessed = ['Слово', 'Слово', 'Слово', 'Слово', 'Сло
 const missed = ['Слово', 'Слово', 'Слово', 'Слово', 'Слово', 'Слово']
 const ProfileScreen = ({ navigation }) => {
   return (
+
     <ScreenMask>
       <ScrollView>
         <Text style={styles.title}>Команда 1</Text>
