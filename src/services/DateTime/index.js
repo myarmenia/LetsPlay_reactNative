@@ -18,9 +18,9 @@ const DateTime = props => {
   const handleConfirm = date => {
     setOpen(false)
     setDate(date)
-    let monts = date.getMonth() + 1
-    let day = date.toString().slice(8, 10)
-    let year = date.toString().slice(11, 16)
+    // let monts = date.getMonth() + 1
+    // let day = date.toString().slice(8, 10)
+    // let year = date.toString().slice(11, 16)
     setter(prev => {
       return { day: day, month: monts, year: year }
     })
