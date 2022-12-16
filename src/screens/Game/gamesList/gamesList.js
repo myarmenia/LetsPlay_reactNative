@@ -22,24 +22,25 @@ function GamesList() {
     }
   }
   const passIdGameItem = id => {
-
-   return gameData.map(elem =>{
-     return elem.data.map(elm => {
+    return gameData.map(elem => {
+      return elem.data.map(elm => {
         if (elm.id === id) {
           return (
             // { ...elm, clicked: true },
             // console.log(elem),
             // if (elm !== undefined) {
-            setProp(()=>{return{...elm, clicked: true}}),
+            setProp(() => {
+              return { ...elm, clicked: true }
+            }),
             console.log(prop),
-            navigation.navigate('GameItem', { item: prop })
+            navigation.navigate('GameItems', { item: prop })
             // }
           )
         } else {
           return null
         }
-       })
       })
+    })
   }
   return (
     <ScreenMask>
@@ -60,7 +61,7 @@ function GamesList() {
                       <TouchableOpacity
                         key={Math.random().toString()}
                         style={styles.gameBox}
-                        onPress={()=> passIdGameItem(elem.id)}
+                        onPress={() => passIdGameItem(elem.id)}
                       >
                         <View style={styles.iconComponent}>{elem?.component}</View>
                         <View style={styles.gameMiddleContainer}>
