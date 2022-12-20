@@ -84,7 +84,6 @@ const DateTime = props => {
             : new Date(minimumDate)
         }
         onConfirm={date => {
-          console.log(date)
           handleConfirm(date)
         }}
         onCancel={() => {

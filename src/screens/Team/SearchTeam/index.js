@@ -19,7 +19,7 @@ LogBox.ignoreLogs([
 
 const GameCreating = ({navigation, route}) => {
 
-    console.log(route.params, 88888)
+
 
 
     const [gameParams, setGameParams] = useState({

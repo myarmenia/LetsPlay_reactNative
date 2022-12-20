@@ -182,6 +182,7 @@ const GameCreating = props => {
                   style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    width: RW(220)
                   }}
                 >
                   <Button
