@@ -48,7 +48,7 @@ const GameCreating = ({navigation, route}) => {
                             title={'Участие игроков'}/>
             </View>
             <View style={{marginTop:'auto', marginLeft:'auto', marginBottom:RH(20)}}>
-                <Button onPress={()=>navigation.navigate('SelectPlayers', gameParams )} size={{width:RW(144), height:RH(40)}} label={'Далее>>'}/>
+                <Button onPress={()=>navigation.navigate('SearchRes')} size={{width:RW(144), height:RH(40)}} label={'Далее>>'}/>
             </View>
         </ScreenMask>
     )

@@ -3,7 +3,7 @@ module.exports = {
   extends: '@react-native-community',
   plugins: ['react-hooks'],
   rules: {
-    'camelcase': 'off',
+    'camelcase': 'on',
     'func-names': 'off',
     'import/no-cycle': 'off',
     'import/order': 'off',

@@ -10,8 +10,11 @@ import TeamBoardGame from '@/screens/Team/GameCategory/BoardGames';
 import SelectTeam from '@/screens/Team/SelectTeam';
 import SearchTeam from "@/screens/Team/SearchTeam";
 import SelectPlayers from "@/screens/Team/SelectPlayers";
-import CreatingTeams from '@/screens/Team/CreatingTeams'
+import CreatingTeams from '@/screens/Team/CreatingTeams';
 import CreateTeamTitle from "@/screens/Team/CreateTeamTitle";
+import SearchRes from '@/screens/Team/SearchRes';
+import SearchTeamRes from '@/screens/Team/SearchTeamRes';
+import SelectPlayersRival from '@/screens/Team/SelectPlayersRival'
 
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +30,9 @@ function Index(props) {
         SelectPlayersComponent:props => (<GoBack item={<SelectPlayers   {...props} />}/>),
         CreatingTeamsComponent:props => (<GoBack item={<CreatingTeams   {...props} />}/>),
         CreateTeamTitleComponent:props => (<GoBack item={<CreateTeamTitle   {...props} />}/>),
+        SearchResComponent:props => (<GoBack item={<SearchRes   {...props} />}/>),
+        SearchTeamResComponent:props => (<GoBack item={<SearchTeamRes   {...props} />}/>),
+        SelectPlayersRivalComponent:props => (<GoBack item={<SelectPlayersRival   {...props} />}/>),
     })
 
     return (
@@ -41,7 +47,10 @@ function Index(props) {
             <Stack.Screen name="SearchTeam" component={route.SearchTeamComponent}/>
             <Stack.Screen name="SelectPlayers" component={route.SelectPlayersComponent}/>
             <Stack.Screen name="TeamsCreating" component={route.CreatingTeamsComponent}/>
-            <Stack.Screen name={"CreateTeamTitle"} component={route.CreateTeamTitleComponent}/>
+            <Stack.Screen name="CreateTeamTitle" component={route.CreateTeamTitleComponent}/>
+            <Stack.Screen name="SearchRes" component={route.SearchResComponent}/>
+            <Stack.Screen name="SearchTeamRes" component={route.SearchTeamResComponent}/>
+            <Stack.Screen name="SelectPlayersRival" component={route.SelectPlayersRivalComponent}/>
         </Stack.Navigator>
     );
 }
