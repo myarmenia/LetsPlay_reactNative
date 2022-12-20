@@ -6,9 +6,9 @@ import { RH, RW } from '@/theme/utils'
 import { IS_IOS } from '@/constants'
 
 
-const ScreenMask = ({ children }) => {
+const ScreenMask = ({ children, style }) => {
   return (
-    <ImageBackground source={BGMask} imageStyle={styles.bgMask} style={styles.container}>
+    <ImageBackground source={BGMask} imageStyle={styles.bgMask} style={{...styles.container,...style}}>
       <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
     </ImageBackground>
   )

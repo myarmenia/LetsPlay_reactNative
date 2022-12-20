@@ -1,3 +1,137 @@
+import Soccer from "@/assets/imgs/games/soccer.png";
+import Naves from "@/assets/imgs/games/naves.png";
+import Trista from "@/assets/imgs/games/trist.png";
+import Basketball from "@/assets/imgs/games/Basketball.png";
+import Volleyball from "@/assets/imgs/games/Volleyball.png";
+import Pioneerball from "@/assets/imgs/games/Pioneerball.png";
+import Hokey from "@/assets/imgs/games/Hokey.png";
+import Quest from "@/assets/imgs/games/Quest.png";
+import MyownGame from "@/assets/imgs/games/MyownGame.png";
+import Elias from "@/assets/imgs/games/Elias.png";
+import Poker from "@/assets/imgs/games/poker.png";
+import Monopoly from "@/assets/imgs/games/monopolia.png";
+import Crocodile from "@/assets/imgs/games/krokodil.png";
+import Mafia from "@/assets/imgs/games/mafia.png";
+import MyGame from "@/assets/imgs/games/MyownGame.png";
+
+export const BoardGames = [
+  {
+    // type:'',
+    // id:'',
+    gadget: true,
+    title: 'Элиас',
+    image: Elias,
+    navigateTo: 'Elias',
+  },
+  {
+    // type:'',
+    // id:'',
+    gadget: false,
+    title: 'Покер',
+    image: Poker,
+    navigateTo: 'Poker',
+  },
+  {
+    // type:'',
+    // id:'',
+    gadget: false,
+    title: 'Монополия',
+    image: Monopoly,
+    navigateTo: 'Monopoly',
+  },
+  {
+    // type:'',
+    // id:'',
+    gadget: true,
+    title: 'Крокодил',
+    image: Crocodile,
+    navigateTo: 'Crocodile',
+  },
+  {
+    // type:'',
+    // id:'',
+    gadget: true,
+    title: 'Мафия',
+    image: Mafia,
+    navigateTo: 'Mafia',
+  },
+  {
+    // type:'',
+    // id:'',
+    gadget: false,
+    title: 'Своя игра',
+    image: MyGame,
+    navigateTo: 'MyGame',
+  },
+]
+
+export const  ActiveGames = [
+  {
+    // type:'',
+    // id:'',
+    title: 'Футбол',
+    image: Soccer,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Навес',
+    image: Naves,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Триста',
+    image: Trista,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Баскетбол',
+    image: Basketball,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Волейбол ',
+    image: Volleyball,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Пионербол ',
+    image: Pioneerball,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Хоккей',
+    image: Hokey,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Квест ',
+    image: Quest,
+    navigateTo: 'GameCreating',
+  },
+  {
+    // type:'',
+    // id:'',
+    title: 'Своя игра ',
+    image: MyownGame,
+    navigateTo: 'GameCreating',
+  },
+]
+
+
 export const Players = [
   {
     id: 1,

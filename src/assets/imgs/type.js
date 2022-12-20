@@ -1,201 +1,183 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import {
-  Svg,
-  Defs,
-  Path,
-  LinearGradient,
-  Stop,
-  Rect,
-  G,
-  RadialGradient,
-  ClipPath,
+    Svg,
+    Defs,
+    Path,
+    LinearGradient,
+    Stop,
+    Rect,
+    G,
+    RadialGradient,
+    ClipPath,
 } from 'react-native-svg'
 
-import { LIGHT_LABEL } from '@/theme/colors'
-import { font, RW } from '@/theme/utils'
+import {LIGHT_LABEL} from '@/theme/colors'
+import {font, RW} from '@/theme/utils'
 
-const Type = ({ title, size = 207, onPress, wrapper, labelStyle }) => {
-  return (
-    <TouchableOpacity
-      onPress={onPress && onPress}
-      activeOpacity={0.7}
-      style={{ borderRadius: RW(size / 2) }}
-    >
-      <Svg
-        width={RW(size)}
-        height={RW(size)}
-        viewBox="0 0 207 207"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <G clipPath="url(#clip0_1223_17418)">
-          <Path
-            d="M0.363281 103.794C0.363284 124.195 6.40877 144.138 17.7354 161.102C29.062 178.066 45.1611 191.289 63.9974 199.098C82.8336 206.908 103.561 208.954 123.559 204.977C143.557 201.001 161.928 191.181 176.349 176.758C190.77 162.335 200.593 143.958 204.577 123.95C208.561 103.942 206.526 83.2008 198.73 64.3494C190.934 45.4981 177.727 29.3829 160.779 18.0413C143.831 6.69967 123.903 0.640944 103.513 0.631115C89.9698 0.624587 76.5577 3.28815 64.0433 8.46962C51.5288 13.6511 40.1572 21.249 30.5782 30.8291C20.9992 40.4093 13.4005 51.784 8.21608 64.3035C3.03169 76.823 0.36328 90.2419 0.363281 103.794Z"
-            fill="#3EC9F4"
-          />
-          <Path
-            style="mix-blend-mode:multiply"
-            d="M0.363281 103.794C0.363284 124.195 6.40877 144.138 17.7354 161.102C29.062 178.066 45.1611 191.289 63.9974 199.098C82.8336 206.908 103.561 208.954 123.559 204.977C143.557 201.001 161.928 191.181 176.349 176.758C190.77 162.335 200.593 143.958 204.577 123.95C208.561 103.942 206.526 83.2008 198.73 64.3494C190.934 45.4981 177.727 29.3829 160.779 18.0413C143.831 6.69967 123.903 0.640944 103.513 0.631115C89.9698 0.624587 76.5577 3.28815 64.0433 8.46962C51.5288 13.6511 40.1572 21.249 30.5782 30.8291C20.9992 40.4093 13.4005 51.784 8.21608 64.3035C3.03169 76.823 0.36328 90.2419 0.363281 103.794Z"
-            fill="url(#paint0_radial_1223_17418)"
-          />
-          <Path
-            style="mix-blend-mode:multiply"
-            d="M0.363281 103.794C0.363284 124.195 6.40877 144.138 17.7354 161.102C29.062 178.066 45.1611 191.289 63.9974 199.098C82.8336 206.908 103.561 208.954 123.559 204.977C143.557 201.001 161.928 191.181 176.349 176.758C190.77 162.335 200.593 143.958 204.577 123.95C208.561 103.942 206.526 83.2008 198.73 64.3494C190.934 45.4981 177.727 29.3829 160.779 18.0413C143.831 6.69967 123.903 0.640944 103.513 0.631115C89.9698 0.624587 76.5577 3.28815 64.0433 8.46962C51.5288 13.6511 40.1572 21.249 30.5782 30.8291C20.9992 40.4093 13.4005 51.784 8.21608 64.3035C3.03169 76.823 0.36328 90.2419 0.363281 103.794Z"
-            fill="url(#paint1_radial_1223_17418)"
-          />
-          <G style="mix-blend-mode:hard-light">
-            <Path
-              d="M0.363281 103.794C0.363284 124.195 6.40877 144.138 17.7354 161.102C29.062 178.066 45.1611 191.289 63.9974 199.098C82.8336 206.908 103.561 208.954 123.559 204.977C143.557 201.001 161.928 191.181 176.349 176.758C190.77 162.335 200.593 143.958 204.577 123.95C208.561 103.942 206.526 83.2008 198.73 64.3494C190.934 45.4981 177.727 29.3829 160.779 18.0413C143.831 6.69967 123.903 0.640944 103.513 0.631115C89.9698 0.624587 76.5577 3.28815 64.0433 8.46962C51.5288 13.6511 40.1572 21.249 30.5782 30.8291C20.9992 40.4093 13.4005 51.784 8.21608 64.3035C3.03169 76.823 0.36328 90.2419 0.363281 103.794Z"
-              fill="url(#paint2_linear_1223_17418)"
-            />
-          </G>
-          <Path
-            style="mix-blend-mode:screen"
-            opacity={0.1}
-            d="M167.572 54.8051C167.572 80.2685 138.879 100.911 103.464 100.911C68.0482 100.911 39.355 80.2685 39.355 54.8051C39.355 29.3416 68.0648 8.69922 103.513 8.69922C138.962 8.69922 167.572 29.3416 167.572 54.8051Z"
-            fill="url(#paint3_linear_1223_17418)"
-          />
-          <G style="mix-blend-mode:screen">
-            <G style="mix-blend-mode:overlay">
-              <Path
-                d="M170.983 103.611C170.98 97.5705 170.621 91.5352 169.907 85.5368C168.845 76.1961 166.86 66.9839 163.979 58.0356C162.953 54.8879 161.849 51.8285 160.668 48.8575C148.714 19.8985 127.554 0.631104 103.513 0.631104C79.4726 0.631104 58.2631 19.8985 46.309 48.8575C45.0837 51.8285 43.9799 54.8879 42.9976 58.0356C40.1174 66.9839 38.1319 76.1961 37.0701 85.5368C36.3564 91.5352 35.997 97.5705 35.9939 103.611V103.794C35.9506 117.3 37.7215 130.751 41.259 143.786C45.0339 158.276 51.69 171.855 60.8294 183.713C72.4193 198.225 87.3206 206.906 103.513 206.906C119.706 206.906 134.574 198.192 146.214 183.713C155.356 171.851 162.013 158.266 165.784 143.77C169.323 130.741 171.094 117.295 171.049 103.794L170.983 103.611Z"
-                fill="url(#paint4_linear_1223_17418)"
-                fillOpacity={0.2}
-                style="mix-blend-mode:screen"
-              />
-            </G>
-          </G>
-          <Path
-            opacity={0.95}
-            d="M144.442 34.6597C143.813 38.2878 139.011 40.4581 133.713 39.6298C128.415 38.8014 124.623 35.0407 125.253 31.3463C125.882 27.6519 130.683 25.5478 135.981 26.4756C141.28 27.4033 145.055 31.0481 144.442 34.6597Z"
-            fill="white"
-          />
-          <G style="mix-blend-mode:screen" opacity={0.4}>
-            <Path
-              d="M146.446 178.577C118.423 185.601 89.1007 185.601 61.0777 178.577C45.1499 174.452 31.3745 168.09 21.0264 160.188C30.6195 173.1 43.0982 183.589 57.4654 190.815C71.8325 198.042 87.6898 201.805 103.77 201.805C119.85 201.805 135.707 198.042 150.074 190.815C164.442 183.589 176.92 173.1 186.513 160.188C176.165 168.09 162.39 174.452 146.446 178.577Z"
-              fill="#3B97D9"
-            />
-          </G>
-        </G>
-        <View style={[styles.root, wrapper]}>
-          <Text style={[styles.labelStyle, labelStyle]}>{title}</Text>
-        </View>
-        <Defs>
-          <RadialGradient
-            id="paint0_radial_1223_17418"
-            cx="0"
-            cy="0"
-            r="1"
-            gradientUnits="userSpaceOnUse"
-            gradientTransform="translate(102.437 64.0509) rotate(180) scale(182.044 132.972)"
-          >
-            <Stop stopColor="white" />
-            <Stop offset={0.24} stopColor="#FDFEFE" />
-            <Stop offset={0.33} stopColor="#F6F8FA" />
-            <Stop offset={0.39} stopColor="#EAEFF2" />
-            <Stop offset={0.44} stopColor="#DAE2E8" />
-            <Stop offset={0.48} stopColor="#C4D1DA" />
-            <Stop offset={0.52} stopColor="#A8BCC9" />
-            <Stop offset={0.55} stopColor="#88A2B5" />
-            <Stop offset={0.59} stopColor="#62859E" />
-            <Stop offset={0.61} stopColor="#396584" />
-            <Stop offset={0.63} stopColor="#1D4F73" />
-            <Stop offset={0.81} stopColor="#205D7D" />
-            <Stop offset={0.91} stopColor="#44A5BA" />
-            <Stop offset={1} stopColor="#57D9E8" />
-          </RadialGradient>
-          <RadialGradient
-            id="paint1_radial_1223_17418"
-            cx="0"
-            cy="0"
-            r="1"
-            gradientUnits="userSpaceOnUse"
-            gradientTransform="translate(102.983 -0.015) rotate(180) scale(151.248 151.339)"
-          >
-            <Stop offset={0.23} stopColor="#3B97D9" />
-            <Stop offset={0.24} stopColor="#3D98D9" />
-            <Stop offset={0.52} stopColor="#8FC4E9" />
-            <Stop offset={0.74} stopColor="#CBE4F5" />
-            <Stop offset={0.91} stopColor="#F1F7FC" />
-            <Stop offset={1} stopColor="white" />
-          </RadialGradient>
-          <LinearGradient
-            id="paint2_linear_1223_17418"
-            x1="0.363282"
-            y1="120.988"
-            x2="206.565"
-            y2="121.067"
-            gradientUnits="userSpaceOnUse"
-          >
-            <Stop stopColor="#7DCE8A" />
-            <Stop offset={1} stopColor="#4D7CFE" />
-          </LinearGradient>
-          <LinearGradient
-            id="paint3_linear_1223_17418"
-            x1="77.8831"
-            y1="121.222"
-            x2="129.761"
-            y2="-13.2973"
-            gradientUnits="userSpaceOnUse"
-          >
-            <Stop offset={0.12} />
-            <Stop offset={0.26} stopColor="#343434" />
-            <Stop offset={0.57} stopColor="#A0A0A0" />
-            <Stop offset={0.79} stopColor="#E4E4E4" />
-            <Stop offset={0.88} stopColor="white" />
-          </LinearGradient>
-          <LinearGradient
-            id="paint4_linear_1223_17418"
-            x1="103.464"
-            y1="206.939"
-            x2="103.464"
-            y2="-65.703"
-            gradientUnits="userSpaceOnUse"
-          >
-            <Stop stopColor="#696969" />
-            <Stop offset={0.02} stopColor="#898989" />
-            <Stop offset={0.07} stopColor="#DADADA" />
-            <Stop offset={0.09} stopColor="white" />
-            <Stop offset={0.12} stopColor="#F3F3F3" />
-            <Stop offset={0.17} stopColor="#D4D4D4" />
-            <Stop offset={0.24} stopColor="#A2A2A2" />
-            <Stop offset={0.32} stopColor="#5B5B5B" />
-            <Stop offset={0.41} />
-            <Stop offset={0.48} stopColor="#040404" />
-            <Stop offset={0.56} stopColor="#101010" />
-            <Stop offset={0.63} stopColor="#252525" />
-            <Stop offset={0.71} stopColor="#414141" />
-            <Stop offset={0.78} stopColor="#666666" />
-            <Stop offset={0.86} stopColor="#939393" />
-            <Stop offset={0.93} stopColor="#C8C8C8" />
-            <Stop offset={1} stopColor="white" />
-          </LinearGradient>
-          <ClipPath id="clip0_1223_17418">
-            <Rect
-              width="206.168"
-              height="206.292"
-              fill="white"
-              transform="translate(0.363281 0.631104)"
-            />
-          </ClipPath>
-        </Defs>
-      </Svg>
-    </TouchableOpacity>
-  )
+const Type = ({title, size = 207, onPress, wrapper, labelStyle}) => {
+    return (
+        <TouchableOpacity
+            onPress={onPress && onPress}
+            activeOpacity={0.7}
+            style={{borderRadius: RW(size / 2)}}
+        >
+            <Svg
+                width={RW(size)}
+                height={RW(size)}
+                viewBox="0 0 207 207"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <G clipPath="url(#clip0_3172_10177)">
+                    <Path
+                        d="M0 103.162c0 20.402 6.045 40.345 17.372 57.309a103.11 103.11 0 0046.262 37.996 103.035 103.035 0 0059.562 5.879 103.083 103.083 0 0052.79-28.219 103.185 103.185 0 0028.228-52.808 103.226 103.226 0 00-5.847-59.6 103.152 103.152 0 00-37.951-46.309A103.056 103.056 0 0063.68 7.84a103.098 103.098 0 00-33.465 22.359A103.167 103.167 0 007.853 63.672 103.216 103.216 0 000 103.162z"
+                        fill="url(#paint0_linear_3172_10177)"
+                    />
+                    <Path
+                        style={{
+                            mixBlendMode: "multiply"
+                        }}
+                        d="M0 103.162c0 20.402 6.045 40.345 17.372 57.309a103.11 103.11 0 0046.262 37.996 103.035 103.035 0 0059.562 5.879 103.083 103.083 0 0052.79-28.219 103.185 103.185 0 0028.228-52.808 103.226 103.226 0 00-5.847-59.6 103.152 103.152 0 00-37.951-46.309A103.056 103.056 0 0063.68 7.84a103.098 103.098 0 00-33.465 22.359A103.167 103.167 0 007.853 63.672 103.216 103.216 0 000 103.162z"
+                        fill="url(#paint1_radial_3172_10177)"
+                        fillOpacity={0.2}
+                    />
+                    <G opacity={0.8}>
+                        <Path
+                            d="M0 103.162c0 20.402 6.045 40.345 17.372 57.309a103.11 103.11 0 0046.262 37.996 103.035 103.035 0 0059.562 5.879 103.083 103.083 0 0052.79-28.219 103.185 103.185 0 0028.228-52.808 103.226 103.226 0 00-5.847-59.6 103.152 103.152 0 00-37.951-46.309A103.056 103.056 0 0063.68 7.84a103.098 103.098 0 00-33.465 22.359A103.167 103.167 0 007.853 63.672 103.216 103.216 0 000 103.162z"
+                            fill="url(#paint2_radial_3172_10177)"
+                        />
+                        <Path
+                            d="M0 103.162c0 20.402 6.045 40.345 17.372 57.309a103.11 103.11 0 0046.262 37.996 103.035 103.035 0 0059.562 5.879 103.083 103.083 0 0052.79-28.219 103.185 103.185 0 0028.228-52.808 103.226 103.226 0 00-5.847-59.6 103.152 103.152 0 00-37.951-46.309A103.056 103.056 0 0063.68 7.84a103.098 103.098 0 00-33.465 22.359A103.167 103.167 0 007.853 63.672 103.216 103.216 0 000 103.162z"
+                            fill="url(#paint3_radial_3172_10177)"
+                        />
+                    </G>
+                    <Path
+                        opacity={0.6}
+                        d="M146.179 178.362a175.557 175.557 0 01-85.368 0c-15.928-4.125-29.703-10.487-40.051-18.389a103.122 103.122 0 0036.439 30.628 103.052 103.052 0 0092.609 0 103.123 103.123 0 0036.439-30.628c-10.348 7.902-24.124 14.264-40.068 18.389z"
+                        fill="#50DFFF"
+                    />
+                    <Path
+                        style={{
+                            mixBlendMode: "screen"
+                        }}
+                        d="M169.99 103.205a153.778 153.778 0 00-1.076-18.075 142.197 142.197 0 00-5.928-27.5 154.249 154.249 0 00-3.311-9.179C147.721 19.492 126.561.225 102.52.225c-24.04 0-45.25 19.267-57.204 48.226a110.101 110.101 0 00-3.312 9.178 142.166 142.166 0 00-5.927 27.501 153.628 153.628 0 00-1.076 18.075v.182a150.845 150.845 0 005.265 39.993 111.41 111.41 0 0019.57 39.926c11.59 14.513 26.491 23.194 42.684 23.194 16.193 0 31.061-8.714 42.701-23.194a111.371 111.371 0 0019.57-39.943 150.592 150.592 0 005.265-39.976l-.066-.182z"
+                        fill="url(#paint4_linear_3172_10177)"
+                        fillOpacity={0.4}
+                    />
+                    <Path
+                        style={{
+                            mixBlendMode: "screen"
+                        }}
+                        d="M168.732 50.123c0 25.464-28.693 46.106-64.108 46.106-35.416 0-64.109-20.642-64.109-46.106 0-25.463 28.71-46.105 64.158-46.105 35.449 0 64.059 20.642 64.059 46.105z"
+                        fill="url(#paint5_linear_3172_10177)"
+                        opacity={0.5}
+                    />
+                    <Path
+                        opacity={0.95}
+                        d="M145.738 30.148c-.651 4.017-5.621 6.42-11.105 5.503-5.484-.917-9.408-5.08-8.757-9.171.651-4.09 5.621-6.42 11.105-5.393 5.484 1.028 9.391 5.063 8.757 9.061z"
+                        fill="#fff"
+                    />
+                </G>
+                  <View style={[styles.root, wrapper]}>
+                    <Text style={[styles.labelStyle, labelStyle]}>{title}</Text>
+                  </View>
+                <Defs>
+                    <LinearGradient
+                        id="paint0_linear_3172_10177"
+                        x1={9.6764e-7}
+                        y1={120.356}
+                        x2={206.202}
+                        y2={120.436}
+                        gradientUnits="userSpaceOnUse"
+                    >
+                        <Stop stopColor="#43D351"/>
+                        <Stop offset={1} stopColor="#0445F4"/>
+                    </LinearGradient>
+                    <RadialGradient
+                        id="paint1_radial_3172_10177"
+                        cx={0}
+                        cy={0}
+                        r={1}
+                        gradientUnits="userSpaceOnUse"
+                        gradientTransform="matrix(-151.248 0 0 -151.339 102.62 -.646)"
+                    >
+                        <Stop offset={0.23} stopColor="#3B97D9"/>
+                        <Stop offset={0.24} stopColor="#3D98D9"/>
+                        <Stop offset={0.52} stopColor="#0AC3EB"/>
+                        <Stop offset={0.74} stopColor="#E6FAFF"/>
+                        <Stop offset={0.91} stopColor="#30C5F2"/>
+                        <Stop offset={1} stopColor="#054FF0"/>
+                    </RadialGradient>
+                    <RadialGradient
+                        id="paint2_radial_3172_10177"
+                        cx={0}
+                        cy={0}
+                        r={1}
+                        gradientUnits="userSpaceOnUse"
+                        gradientTransform="matrix(-269.96424 -36.18878 24.70978 -184.3322 85.514 62.086)"
+                    >
+                        <Stop stopColor="#37F1FF"/>
+                        <Stop offset={0.198881} stopColor="#37DBFF"/>
+                        <Stop offset={0.333238} stopColor="#37D1FF" stopOpacity={0.724868}/>
+                        <Stop offset={0.5} stopColor="#37B7FF" stopOpacity={0}/>
+                    </RadialGradient>
+                    <RadialGradient
+                        id="paint3_radial_3172_10177"
+                        cx={0}
+                        cy={0}
+                        r={1}
+                        gradientUnits="userSpaceOnUse"
+                        gradientTransform="matrix(-269.96424 -36.18878 24.70978 -184.3322 85.514 62.086)"
+                    >
+                        <Stop stopColor="#37F1FF"/>
+                        <Stop offset={0.198881} stopColor="#37DBFF"/>
+                        <Stop offset={0.333238} stopColor="#37D1FF" stopOpacity={0.724868}/>
+                        <Stop offset={0.5} stopColor="#37B7FF" stopOpacity={0}/>
+                    </RadialGradient>
+                    <LinearGradient
+                        id="paint4_linear_3172_10177"
+                        x1={102.47}
+                        y1={202.309}
+                        x2={102.47}
+                        y2={-70.3331}
+                        gradientUnits="userSpaceOnUse"
+                    >
+                        <Stop stopColor="#fff"/>
+                        <Stop offset={0.401042} stopColor="#fff" stopOpacity={0}/>
+                        <Stop offset={1} stopColor="#fff" stopOpacity={0}/>
+                    </LinearGradient>
+                    <LinearGradient
+                        id="paint5_linear_3172_10177"
+                        x1={82.0502}
+                        y1={101.635}
+                        x2={130.915}
+                        y2={-17.9802}
+                        gradientUnits="userSpaceOnUse"
+                    >
+                        <Stop stopColor="#fff" stopOpacity={0}/>
+                        <Stop offset={0.759703} stopColor="#fff"/>
+                    </LinearGradient>
+                    <ClipPath id="clip0_3172_10177">
+                        <Path fill="#fff" d="M0 0H207V207H0z"/>
+                    </ClipPath>
+                </Defs>
+            </Svg>
+        </TouchableOpacity>
+    )
 }
 
 export default Type
 
 const styles = StyleSheet.create({
-  root: {
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  labelStyle: {
-    fontWeight: '700',
-    ...font('bold', 24, LIGHT_LABEL, 24),
-  },
+    root: {
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    labelStyle: {
+        fontWeight: '700',
+        ...font('bold', 24, LIGHT_LABEL, 24),
+    },
 })

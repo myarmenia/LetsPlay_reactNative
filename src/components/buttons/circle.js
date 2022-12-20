@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 
 import Main from '@/assets/imgs/main'
 import styles from './styles'
+import Type from "@/assets/imgs/type";
 
 const CircleButton = ({ isHome, setIsHome, tabBarHidden }) => {
   const navigation = useNavigation()

@@ -4,6 +4,24 @@ import { FONT_ROBOTO_THIN } from '@/theme/fonts'
 import { BLACK, WHITE, BACKGROUND, ICON, RADIO_TEXT } from '@/theme/colors'
 
 export const styles = StyleSheet.create({
+  body: {
+    backgroundColor: '#001034',
+    borderRadius: 20,
+    padding: RH(35),
+  },
+  text: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: WHITE,
+  },
+  btn: {
+    width: RW(220),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
   btnBlock: {
     alignItems: 'center',
     marginTop: 'auto',
@@ -82,4 +100,5 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
   },
   title: font('bold', 18, BLACK),
+
 })
