@@ -4,7 +4,7 @@ import Soccer from '@/assets/imgs/games/soccer.png'
 import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
 import { ScrollView } from 'react-native-gesture-handler'
-import DataSvg from '@/assets/svgs/dateSvg'
+import OrganizerSvg from '@/assets/svgs/OrganizerSvg'
 import GestureRecognizer from "react-native-swipe-gestures";
 
 function TournamentScreen({props, navigation}) {
@@ -73,7 +73,7 @@ function TournamentScreen({props, navigation}) {
               ]}
             >
               <Text style={[styles.ticketText, { marginRight: RW(10) }]}>Организатор турнира:</Text>
-              <DataSvg />
+              <OrganizerSvg/>
             </View>
           </View>
         </GestureRecognizer>

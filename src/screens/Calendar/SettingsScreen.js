@@ -4,11 +4,18 @@ import { View, Text } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { RW } from '@/theme/utils'
 import Toggle from '@/components/toggleSwitch/Toggle'
+import GestureRecognizer from 'react-native-swipe-gestures'
 // import LinearGradient from 'react-native-linear-gradient';
 
-const SettingsScreen = () => {
+const SettingsScreen = ({navigation}) => {
   return (
     <ScreenMask>
+      <GestureRecognizer
+        onSwipeRight={state => navigation.goBack()}
+        style={{
+          flex: 1,
+        }}
+      >
       <Text
         style={{
           color: '#FFFFFF',
@@ -65,6 +72,7 @@ const SettingsScreen = () => {
             
             <Toggle />
               </LinearGradient> */}
+              </GestureRecognizer>
     </ScreenMask>
   )
 }

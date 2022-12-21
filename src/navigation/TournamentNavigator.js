@@ -4,6 +4,8 @@ import { NAV_HEADER_OPTION } from '@/constants'
 import CreateActiveGame from '@/screens/Tournament/CreateActiveGame'
 import OrganizeScreen from '@/screens/Tournament/OrganizeScreen'
 import TournamentScreen from '@/screens/Tournament/TournamentScreen'
+import GameCreating from '@/screens/Tournament/GameCreating'
+import DataGame from '@/screens/Tournament/DataGame'
 
 
 const Stack = createNativeStackNavigator()
@@ -15,6 +17,8 @@ function Index(props) {
       <Stack.Screen name="CreateActiveGame" component={CreateActiveGame} />
       <Stack.Screen name="OrganizeScreen" component={OrganizeScreen} />
       <Stack.Screen name="TournamentScreen" component={TournamentScreen} />
+      <Stack.Screen name="GameCreating" component={GameCreating} />
+      <Stack.Screen name="DataGame" component={DataGame} />
     </Stack.Navigator>
   )
 }

@@ -1,13 +1,20 @@
-import { StyleSheet, Text, FlatList, Image, View } from 'react-native'
+import { StyleSheet, Text, FlatList, Image, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { LocaleConfig, Calendar } from 'react-native-calendars'
 import { GamesData } from '@/components/gamesData/GamesData'
+import LinearGradient from 'react-native-linear-gradient'
+import LineSvg from '@/assets/svgs/LineSvg'
+import SettingsSvg from '@/assets/svgs/SettingsSvg'
+import OpenSvg from '@/assets/svgs/OpenSvg'
 import { RH, RW } from '@/theme/utils'
+import { NavigationContainer } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 
 const CalendarComponent = () => {
+  const navigation = useNavigation()
   LocaleConfig.locales['fr'] = {
     monthNames: [
-      'January1',
+      'January',
       'February',
       'March',
       'April',
@@ -35,13 +42,59 @@ const CalendarComponent = () => {
       'Dec.',
     ],
     dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    dayNamesShort: ['Sun.', 'Mon.', 'Tue.', 'Wed.', 'Thurs.', 'Fri.', 'Sat.'],
+    dayNamesShort: [''],
     today: "Aujourd'hui",
   }
   LocaleConfig.defaultLocale = 'fr'
   return (
     <View>
       <View>
+        <View style={styles.header}>
+          <View
+            style={styles.parent}
+          >
+            <Text style={{ color: '#657AC5' }}>Ноябрь 2022</Text>
+            <TouchableOpacity
+              style={styles.opacity}
+              onPress={() => {
+                navigation.navigate('SettingsScreen')
+              }}
+            >
+              <Text style={{ marginRight: 5, color: '#657AC5' }}>Настройки</Text>
+              <SettingsSvg />
+            </TouchableOpacity>
+          </View>
+
+          <View
+            style={styles.today}
+          >
+            <Text style={{ color: '#657AC5' }}>Сегодня</Text>
+            <TouchableOpacity
+              style={styles.month}
+            >
+              <Text style={{ marginRight: 5, color: '#657AC5' }}>Месяц</Text>
+              <OpenSvg />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <LineSvg />
+        <View></View>
+        <View
+          style={styles.week}
+        >
+          <Text style={styles.days}>Пн</Text>
+          <Text style={styles.days}>Вт</Text>
+          <Text style={styles.days}>Ср</Text>
+          <Text style={styles.days}>Чт</Text>
+          <Text style={styles.days}>Пт</Text>
+          <Text style={styles.days}>Сб</Text>
+          <Text style={styles.days}>Вс</Text>
+        </View>
+ <View style={{position: 'absolute',
+            top: 145,
+            zIndex: 99,}}>
+          <LineSvg />
+        </View>
         <Calendar
           theme={{
             calendarBackground: '#142A5C',
@@ -57,6 +110,7 @@ const CalendarComponent = () => {
             '2012-05-19': { disabled: true, disableTouchEvent: true },
           }}
         />
+       
       </View>
 
       <View style={{ marginTop: 25 }}>
@@ -68,9 +122,18 @@ const CalendarComponent = () => {
           renderItem={({ item }) => (
             <View>
               <Text style={{ color: '#657AC5', marginBottom: -15, fontSize: 18 }}>{item.date}</Text>
-              <View style={styles.main}>
+              <TouchableOpacity onPress={() => {
+             navigation.navigate('TournamentScreen')
+           }}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#7DCE8A', '#4D7CFE']}
+                style={styles.main}
+              >
+        
                 <View style={{ flex: 2 }}>
-                  <Image style={{ width: 29, height: 29 }} source={item.img} />
+                  <Image style={{width:27, height:27}} source={item.img} resizeMode="cover"/>
                 </View>
                 <View style={{ flex: 9 }}>
                   <Text style={styles.text}>{item.title}</Text>
@@ -78,7 +141,9 @@ const CalendarComponent = () => {
                 <View style={{ flex: 2 }}>
                   <Text style={styles.hour}>{item.hour}</Text>
                 </View>
-              </View>
+               
+              </LinearGradient>
+              </TouchableOpacity>
             </View>
           )}
         />
@@ -90,6 +155,18 @@ const CalendarComponent = () => {
 export default CalendarComponent
 
 const styles = StyleSheet.create({
+  days:{
+    color: '#657AC5'
+  },
+  header: {
+    // position:'absolute',
+    borderTopStartRadius: 20,
+    borderTopEndRadius: 20,
+    width: '100%',
+    // top:130,
+    height: 100,
+    backgroundColor: '#142A5C',
+  },
   list: {
     backgroundColor: '#142A5C',
   },
@@ -112,4 +189,46 @@ const styles = StyleSheet.create({
   hour: {
     color: '#FFFFFF',
   },
+  parent:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: RW(20),
+    marginTop: RH(20),
+  },
+  opacity:{
+    borderRadius: RW(30),
+    borderWidth: RW(1),
+    borderColor: '#657AC5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: RW(5),
+  },
+  today:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: RW(20),
+    marginTop: RH(10),
+  },
+  month:{
+    borderRadius: RW(30),
+    borderWidth: RW(1),
+    borderColor: '#657AC5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: RW(5),
+  },
+  week:{
+    width: '100%',
+    height: RH(40),
+    backgroundColor: '#142A5C',
+    position: 'absolute',
+    top: RH(155),
+    zIndex: 99,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  }
 })

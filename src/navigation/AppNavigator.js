@@ -16,7 +16,7 @@ import Elias from './EliasNavigator'
 import GameCreating from '@/screens/GameCreating'
 import GameTicket from '@/screens/GameCreating/GameTicket'
 import NotificationScreen from '@/screens/Notification'
-
+import {useState} from 'react'
 import PrivateChat from '@/screens/Chat/PrivateChat'
 import MyDetails from '@/screens/Profile/MyDetails'
 import Gallery from '@/screens/Profile/Gallery'
@@ -29,12 +29,15 @@ import GamesList from '@/screens/Game/gamesList/gamesList'
 import GameItem from '@/screens/Game/gamesList/gameItem'
 import Calendar from './CalendarNavigator'
 import Tournament from './TournamentNavigator'
+import GameAdd from '@/screens/Participate/GameAdd'
+import TournamentTicket from '@/screens/Participate/TournamentTicket'
+import TournamentList from '@/screens/Participate/TournamentList'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
-  const [isHome, setIsHome] = React.useState(true)
+  const [isHome, setIsHome] = useState(true)
 
   return (
     <>
@@ -54,7 +57,6 @@ const TabNavigator = () => {
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
         <Tab.Screen name={'Notification'} component={NotificationScreen} />
-        {/* <Tab.Screen name={'Calendar'} component={CalendarScreen} /> */}
       </Tab.Navigator>
       <CircleButton isHome={isHome} setIsHome={setIsHome} />
     </>
@@ -85,6 +87,12 @@ const AppNavigator = () => {
         <Stack.Screen name={'Preference'} component={Preference} />
         <Stack.Screen name={'Calendar'} component={Calendar} />
         <Stack.Screen name={'Tournament'} component={Tournament} />
+        {/* <Stack.Screen name={'ParticipateNavigator'} component={ParticipateNavigator} /> */}
+        <Stack.Screen name={'GameAdd'} component={GameAdd} />
+
+        <Stack.Screen name={'TournamentTicket'} component={TournamentTicket} />
+        <Stack.Screen name={'TournamentList'} component={TournamentList} />
+        
       </Stack.Navigator>
     </>
   )
