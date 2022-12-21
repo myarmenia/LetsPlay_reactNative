@@ -146,7 +146,7 @@ function Index({navigation}) {
                                             size={{width: 100, height: 36}}
                                             onPress={() => {
                                                 setModalVisible(false),
-                                                    navigation.navigate('GameListCarousel', {list:BoardGames.filter((item, i) => item.gadget)})
+                                                    navigation.navigate('GameListCarousel', {list:BoardGames.filter((item, i) => item.gadget),})
                                             }}
                                             label={'Да'}
                                         />
@@ -154,7 +154,7 @@ function Index({navigation}) {
                                             size={{width: 100, height: 36}}
                                             onPress={() => {
                                                 setModalVisible(false)
-                                                navigation.navigate('GameListCarousel',  {list:ActiveGames})
+                                                navigation.navigate('GameListCarousel',  {list:BoardGames})
                                             }}
                                             label={'Нет'}
                                             labelStyle={font('bold', 16)}

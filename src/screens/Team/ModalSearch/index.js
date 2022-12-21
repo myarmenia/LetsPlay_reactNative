@@ -13,7 +13,6 @@ function Index(props) {
 
     return (
         <ScreenMask>
-            <Text>Searcxax</Text>
             {/*<Modal*/}
             {/*    setIsVisible={setModal}*/}
             {/*    modalVisible={true}*/}

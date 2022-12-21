@@ -1,14 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import {
-    Image,
     StyleSheet,
-    Dimensions,
-    SafeAreaView,
-    Text,
-    useColorScheme,
     TouchableOpacity,
     View,
-    Pressable
 } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
@@ -19,8 +13,6 @@ import {Players} from '@/assets/TestData'
 import Modal from '@/components/modal'
 import Ticket from '@/screens/GameCreating/GameTicket/ticket'
 import {LIGHT_LABEL} from '@/theme/colors';
-import Button from "@/assets/imgs/Button";
-import LinearGradient from "react-native-linear-gradient";
 
 const HomeScreen = props => {
     const {navigation, route} = props
@@ -44,11 +36,9 @@ const HomeScreen = props => {
                 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
                     <NotificationIcon/></TouchableOpacity>
             </View>
-
             <View style={styles.detailContainer}>
-                <User user={Players[2]} isMax={true} />
+                <User user={Players[9]} size={370}/>
             </View>
-
             {isVisible ? (
                 <Modal
                     modalVisible={isVisible}

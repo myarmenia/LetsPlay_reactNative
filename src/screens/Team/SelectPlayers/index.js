@@ -7,11 +7,13 @@ import {styles} from "@/screens/Team/SelectPlayers/style";
 import {Players} from "@/assets/TestData";
 import User from "@/assets/imgs/user/user";
 import Button from "@/assets/imgs/Button";
+import PlayerList from "@/components/playerList";
 
 function Index({route, navigation}) {
 
     const [modal, setModal] = useState(false);
     const [user, setUser] = useState([]);
+    const [activePlayers, setActivePlayers]=useState([])
     const data = route.params;
 
     useEffect(() => {
@@ -46,17 +48,7 @@ function Index({route, navigation}) {
                 </View>
                 <Text style={styles.title}>{data.game.name}</Text>
             </View>
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-                <View style={styles.container}>
-                    {Players.map((item, i) =>
-                        <TouchableOpacity onPress={() => handlerActiveUser(item.id)} key={i}
-                                          style={user.includes(item.id) ? styles.activeItem : styles.item}>
-                            <User user={item}/>
-                        </TouchableOpacity>
-                    )}
-                </View>
-            </ScrollView>
-
+            <PlayerList players={Players} activePlayers={activePlayers} setActivePlayers={setActivePlayers} isSelected={true} />
             <View style={styles.btn}>
                 <Button onPress={() => setModal(true)}
                         size={{width: 281, height: 48}}

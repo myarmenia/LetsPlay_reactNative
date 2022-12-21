@@ -6,7 +6,6 @@ import {font, RH, RW} from '@/theme/utils'
 export default StyleSheet.create({
     bg:{
         width:RW(306),
-        height:RH(191),
         marginLeft:'auto',
         marginRight:'auto',
         marginTop:'auto',

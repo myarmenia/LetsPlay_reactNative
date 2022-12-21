@@ -12,15 +12,9 @@ import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
 const GameCreating = props => {
-  const { navigation, game } = props
-  // const navigation = useNavigation()
-  const text = [
-    'Увлекательная11 командная игра для весёлой компании',
-    'Задача каждого игрока - объяснить как можно больше слов товарищам по команде за ограниченное время',
-    'Во время объяснение нельзя использовать однокоренные слова озвучивать перевод с иностранных языков',
-    'Отгаданные слово приносит команде одно очко, за пропущенное слово команда штрафуется в зависимости от настроек',
-    'Победителем становится команда у которой количество очков достигла заранее установленного значения',
-  ]
+  const { navigation} = props;
+  const {info}=props.route.params.data;
+
   const initialState = {
     gameDayDate: undefined,
     gameDayTime: new Date(),
@@ -169,11 +163,10 @@ const GameCreating = props => {
             modalOpen ? (
               <View style={style.regulationBlock}>
                 <Text style={style.title}>Правила</Text>
-                {text.map(ev => (
-                  <Text key={ev} style={style.textTwo}>
-                    {ev}
+
+                  <Text style={style.textTwo}>
+                    {info}
                   </Text>
-                ))}
               </View>
             ) : (
               <View style={style.topBlock}>

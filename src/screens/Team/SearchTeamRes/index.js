@@ -44,7 +44,7 @@ function Index({navigation, route}) {
             </View>
             <Modal modalVisible={modal} setIsVisible={setModal} item={
                 <View style={{marginLeft:'auto', marginRight:'auto'}}>
-                <User isMax={true} user={Players[1]}/>
+                <User user={Players[1]} size={370}/>
             </View>}/>
 
                 <View style={style.btn}>

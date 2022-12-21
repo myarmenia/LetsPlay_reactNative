@@ -6,20 +6,13 @@ import User from '@/assets/imgs/user/user'
 import { styles } from './styles'
 import Button from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
+import PlayerList from "@/components/playerList";
 
 function Index({ navigation }) {
   return (
     <ScreenMask>
       <Text style={styles.title}>Игроки добавились в игру</Text>
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-        <View style={styles.container}>
-          {Players.map((item, i) => (
-            <View key={i} style={styles.item}>
-              <User user={item} />
-            </View>
-          ))}
-        </View>
-      </ScrollView>
+        <PlayerList players={Players} isSelected={false}/>
       <View
         style={{ marginLeft: 'auto', alignItems: 'center', marginTop: 20, marginRight: 'auto' }}
       >

@@ -19,7 +19,7 @@ function Index(props) {
             onPress={() => {
                 setActive(true)
                 setTimeout(() => {
-                    data.navigateTo ? navigation.navigate(data.navigateTo, { screen: data.screenTwo, params:game} ) : null
+                    data.navigateTo ? navigation.navigate(data.navigateTo, { screen: data.screenTwo, params:game, data} ) : null
                     setActive(false)
                 }, 100)
             }} style={styles.bgFon}>
