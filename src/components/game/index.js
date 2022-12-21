@@ -8,10 +8,12 @@ import LinearGradient from "react-native-linear-gradient";
 import {RH, RW} from "@/theme/utils";
 
 function Index(props) {
+
     const [active, setActive] = useState(false);
     const [longPress, setLongPress] = useState(false)
     const {data, setModalVisible, setGame, setFlag, navigationTo, onPress, game} = props
     const navigation = useNavigation();
+
 
 
     return (

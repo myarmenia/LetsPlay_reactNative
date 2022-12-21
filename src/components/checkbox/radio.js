@@ -26,6 +26,8 @@ const Radio = (props) => {
       setData({...data, price: ev.text})
     }else if (type === 'gameType'){
       setData({...data, gameValue: ev.text})
+    }else if (type === 'prizeFund'){
+      setData({...data, prizeFund: ev.text})
     }
   }
   }

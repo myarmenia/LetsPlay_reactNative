@@ -12,8 +12,10 @@ import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
 const GameCreating = props => {
+
   const { navigation} = props;
   const game=props.route.params.data;
+
 
   const initialState = {
     gameDayDate: undefined,
@@ -54,7 +56,7 @@ const GameCreating = props => {
     setModalOpen(false)
   }
   const handleSubmit = () => {
-    navigation.navigate('GameTicket', { flag })
+    navigation.navigate('GameTicket', { flag , data , game })
     setModalOpen(true)
     setIsVisible(false)
   }
@@ -71,6 +73,7 @@ const GameCreating = props => {
               errorText={errorText}
               data={data}
               setData={setData}
+
               day={'gameDay'}
               margin={RH(29)}
               title={'Дата и время начала игры'}
@@ -150,6 +153,7 @@ const GameCreating = props => {
                     width={RW(210)}
                     placeholder={'Сумма оплаты 200р.'}
                 />
+
               </View>
           ) : null}
           {errorText && !data.priceValue && flag ? (
