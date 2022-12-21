@@ -1,12 +1,13 @@
 import * as React from 'react'
 import Svg, { Circle, Defs, LinearGradient, Rect, Stop } from 'react-native-svg'
 import { Text, View } from 'react-native'
-import { font, RW } from '@/theme/utils'
+import {font, RH, RW} from '@/theme/utils'
 import { BLACK } from '@/theme/colors'
 
-function SvgComponent({ isMax, count, status }) {
-  const width = isMax ? RW(29) : RW(9)
-  const height = isMax ? RW(30) : RW(8)
+function SvgComponent({ count, status, size }) {
+  const width = size/RW(17);
+  const height =size/RW(20);
+  const fontSize=size/RW(55)
   if (status === 'GOLD') {
     return (
       <Svg
@@ -28,9 +29,7 @@ function SvgComponent({ isMax, count, status }) {
         >
           <Text
             style={
-              isMax
-                ? { ...font('bold', RW(10), BLACK), textAlign: 'center' }
-                : { ...font('bold', RW(2), BLACK), textAlign: 'center' }
+              { ...font('bold', fontSize, BLACK), textAlign: 'center' }
             }
           >
             {count}
@@ -89,10 +88,7 @@ function SvgComponent({ isMax, count, status }) {
         >
           <Text
             style={
-              isMax
-                ? { ...font('bold', RW(10), BLACK), textAlign: 'center' }
-                : { ...font('bold', RW(2), BLACK), textAlign: 'center' }
-            }
+            { ...font('bold', fontSize, BLACK), textAlign: 'center' }}
           >
             {count}
           </Text>
@@ -139,9 +135,8 @@ function SvgComponent({ isMax, count, status }) {
         >
           <Text
             style={
-              isMax
-                ? { ...font('bold', RW(10), BLACK), textAlign: 'center' }
-                : { ...font('bold', RW(2), BLACK), textAlign: 'center' }
+            { ...font('bold',fontSize, BLACK), textAlign: 'center' }
+
             }
           >
             {count}

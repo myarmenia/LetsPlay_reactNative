@@ -7,46 +7,35 @@ export default StyleSheet.create({
   titleBigBloc: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     marginLeft: 'auto',
+
     marginRight: 'auto',
   },
   titleBloc: {
     alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: RW(2),
+    justifyContent:'center',
+    // flexWrap: 'wrap',
+    // backgroundColor:"red",
+    marginLeft: 'auto',
+    marginRight: 'auto',
+
   },
   title: {
     ...font('bold', RW(10), WHITE),
   },
   titleCount: { ...font('bold', RW(16), WHITE) },
-  statusBlockMax: {
-    backgroundColor: 'rgba(52, 52, 52, 0)',
-    paddingHorizontal: RW(25),
-    marginTop: RH(5),
+  statusBlock: {
+    marginLeft:'auto',
+    marginRight:'auto',
+    // backgroundColor: 'rgba(52, 52, 52, 0)',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
   },
-  statusBloc: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(52, 52, 52, 0)',
-  },
-  bg: {},
-  imgMaxBlock: {
-    width: RW(180),
-    height: RW(180),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    borderRadius: 150,
-  },
-  imgBlock: {
-    width: RW(43),
-    height: RW(43),
-    marginLeft: 'auto',
-    marginRight: 'auto',
+  bg: {
+    width:'100%',
+    height:'100%',
   },
   image: {
     borderRadius: 100,
@@ -57,19 +46,6 @@ export default StyleSheet.create({
   nameBlock: {
     marginLeft: 'auto',
     marginRight: 'auto',
-  },
-  nameMax: {
-    color: WHITE,
-    textAlign: 'center',
-    // fontFamily:
-    fontSize: 20,
-    lineHeight: 24,
-  },
-  name: {
-    color: WHITE,
-    textAlign: 'center',
-    fontSize: 4,
-    lineHeight: 5,
   },
   soc: {
     backgroundColor: 'rgba(52, 52, 52, 0)',

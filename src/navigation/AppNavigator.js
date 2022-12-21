@@ -1,7 +1,5 @@
 import {ICON} from '@/theme/colors'
 import Play from '@/screens/Game/Play'
-import ActiveGames from '@/screens/Game/Play/ActiveGames'
-import BoardGames from '@/screens/Game/Play/BoardGames'
 import React from 'react'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
@@ -27,8 +25,11 @@ import MafiaGame from '@/navigation/MafiaNavigation'
 import GamesList from '@/screens/Game/gamesList/gamesList'
 import GameItem from '@/screens/Game/gamesList/gameItem'
 import CalendarScreen from '@/screens/Calendar/screens/Calendar/CalendarScreen'
+
 import Tournament from './TournamentNavigator'
 import ProfileNavigator from "@/navigation/ProfileNavigator";
+
+import GamesListCarousel from '@/screens/GameListCarousel'
 
 
 const Stack = createNativeStackNavigator()
@@ -51,11 +52,14 @@ const TabNavigator = () => {
                     tabBarInactiveTintColor: ICON,
                 }}
             >
-                <Tab.Screen name={'Chat'} component={ChatScreen}/>
+
                 <Tab.Screen name={'Home'} component={HomeScreen}/>
+                <Tab.Screen name={'Chat'} component={ChatScreen}/>
                 <Tab.Screen name={'Profile'} component={ProfileScreen}/>
                 <Tab.Screen name={'Notification'} component={NotificationScreen}/>
                 <Tab.Screen name={'Calendar'} component={CalendarScreen}/>
+                <Tab.Screen name={'GameListCarousel'} component={GamesListCarousel}/>
+
             </Tab.Navigator>
             <CircleButton isHome={isHome} setIsHome={setIsHome}/>
         </>
@@ -71,16 +75,18 @@ const AppNavigator = () => {
                 <Stack.Screen name={'GameList'} component={GamesList}/>
                 <Stack.Screen name={'GameItem'} component={GameItem}/>
                 <Stack.Screen name={'Play'} component={Play}/>
-                <Stack.Screen name={'ActiveGames'} component={ActiveGames}/>
-                <Stack.Screen name={'BoardGames'} component={BoardGames}/>
+
+                
                 <Stack.Screen name={'Elias'} component={Elias}/>
                 <Stack.Screen name={'Team'} component={TeamNavigator}/>
                 <Stack.Screen name={'GameCreating'} component={GameCreating}/>
                 <Stack.Screen name={'GameTicket'} component={GameTicket}/>
                 <Stack.Screen name={'PrivateChat'} component={PrivateChat}/>
+
                 <Stack.Screen name={'Mafia'} component={MafiaGame}/>
                 <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator}/>
                 <Stack.Screen name={'Tournament'} component={Tournament} />
+
             </Stack.Navigator>
         </>
     )

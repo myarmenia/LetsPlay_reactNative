@@ -1,35 +1,42 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View} from "react-native";
 import ScreenMask from "@/components/wrappers/screen";
 import {styles} from "@/screens/Game/Play/style";
 import Button from "@/assets/imgs/Button";
+import {ActiveGames, BoardGames} from "@/assets/TestData";
 
 
 
 function Index({navigation, route}) {
+    const game = route.params;
 
-    const game=route.params
+    useEffect(()=>{
+        ActiveGames.forEach((item,i)=>{item.navigateTo='Team', item.screenTwo='TeamModalSearch'})
+    },[])
+
+
+
 
     return (
         <ScreenMask>
-                <View style={styles.btnBlock}>
-                    <View style={styles.btnActiveGames}>
-                        <Button onPress={() => {
-                            navigation.navigate('TeamActiveGame', game);
-                        }}
-                                label={'Активные игры'}
-                                size={{width: 281, height: 50}}
-                        />
-                    </View>
-                    <View>
-                        <Button onPress={() => {
-                            navigation.navigate('TeamBoardGame', game);
-                        }}
-                                label={'Настольные игры'}
-                                size={{width: 281, height: 50}}
-                        />
-                    </View>
+            <View style={styles.btnBlock}>
+                <View style={styles.btnActiveGames}>
+                    <Button onPress={() => {
+                        navigation.navigate('GameListCarousel', {list:ActiveGames, game})
+                    }}
+                            label={'Активные игры'}
+                            size={{width: 281, height: 50}}
+                    />
                 </View>
+                <View>
+                    <Button onPress={() => {
+                        navigation.navigate('GameListCarousel', {list: ActiveGames, game})
+                    }}
+                            label={'Настольные игры'}
+                            size={{width: 281, height: 50}}
+                    />
+                </View>
+            </View>
         </ScreenMask>
     )
 }
