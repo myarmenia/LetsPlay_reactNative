@@ -23,7 +23,7 @@ function GameItem({ route, navigation }) {
             <Text style={styles.eachInfo}>Тип игры: {item?.name}</Text>
             <Text style={styles.eachInfo}>Дата и время игры: {[item?.date, item?.time]}</Text>
             <Text style={styles.eachInfo}>
-              Кол. игроков: от {item?.players.slice(0, 2)} до {item?.players.slice(3)}
+              Кол. игроков: от {item?.players?.slice(0, 2)} до {item?.players?.slice(3)}
             </Text>
             <Text style={styles.eachInfo}>Возраст игроков: {item?.playersAge}</Text>
             <Text style={styles.eachInfo}>Половой признак игроков: {item?.gender}</Text>

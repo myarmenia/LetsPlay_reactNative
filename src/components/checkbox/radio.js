@@ -12,20 +12,24 @@ const Radio = (props) => {
     setChecked(false)
     setValue(ev.id);
     if (data){
-      if (ev.text === 'Платно' && type === 'priceView') {
-        setFlag(true)
-      } else if (ev.text === 'Бесплатно' && type === 'priceView') {
-        setFlag(false)
-      }
-      if (type === 'gender') {
-        setData({...data, gender: ev.text})
-      } else if (type === 'statusOrganizer') {
-        setData({...data, statusOrganizer: ev.text})
-      } else {
-        setData({...data, price: ev.text})
-      }
+
+    if (ev.text === 'Платно' && type === 'priceView') {
+      setFlag(true)
+    } else if (ev.text === 'Бесплатно' && type === 'priceView') {
+      setFlag(false)
+    }
+    if (type === 'gender') {
+      setData({...data, gender: ev.text})
+    } else if (type === 'statusOrganizer') {
+      setData({...data, statusOrganizer: ev.text})
+    } else if (type === 'priceView'){
+      setData({...data, price: ev.text})
+    }else if (type === 'gameType'){
+      setData({...data, gameValue: ev.text})
     }
   }
+  }
+
   return (
       list.map((ev) => <TouchableOpacity style={{...style.radioBlock, marginLeft: margin}} onPress={() => {handleChange(ev)}} key={ev.id}>
             <View style={style.radio}>

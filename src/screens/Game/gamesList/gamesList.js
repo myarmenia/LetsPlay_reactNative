@@ -1,5 +1,5 @@
 import ScreenMask from '@/components/wrappers/screen'
-import React, { useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { styles } from '../gamesList/style'
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native'
 import GestureRecognizer from 'react-native-swipe-gestures'
@@ -10,34 +10,21 @@ import { useNavigation } from '@react-navigation/native'
 
 function GamesList() {
   const navigation = useNavigation()
-  const [prop, setProp] = useState()
+  const [prop, setProp] = useState(null)
   const gameData = useMemo(() => {
     return _gamesData
   }, [])
-  const handleSubmit = elm => {
-    if (elm !== undefined) {
-      setProp({ ...elm, clicked: true })
-    } else {
-      return null
-    }
-  }
+
   const passIdGameItem = id => {
-    gameData.map(elem =>
-      elem.data.map(elm => {
+    gameData.map(elem => {
+      elem.data.forEach(elm => {
         if (elm.id === id) {
-          return (
-            { ...elm, clicked: true },
-            // console.log(elem),
-            // if (elm !== undefined) {
-            setProp({ ...elm, clicked: true }),
-            navigation.navigate('GameItem', { item: prop })
-            // }
-          )
+          navigation.navigate('GameItem', { item: { ...elm, clicked: true } })
         } else {
           return null
         }
-      }),
-    )
+      })
+    })
   }
   return (
     <ScreenMask>
@@ -50,17 +37,15 @@ function GamesList() {
         >
           {gameData.map(elm => {
             return (
-              <View style={styles.gameListContainer} key={elm.id}>
+              <View style={styles.gameListContainer} key={Math.random().toString()}>
                 <Text style={styles.gameTitle}>{elm.title}</Text>
                 <>
                   {elm.data.map(elem => {
                     return (
                       <TouchableOpacity
-                        key={elem.id + 10}
+                        key={Math.random().toString()}
                         style={styles.gameBox}
-                        onPress={() => {
-                          passIdGameItem(elem.id)
-                        }}
+                        onPress={() => passIdGameItem(elem.id)}
                       >
                         <View style={styles.iconComponent}>{elem?.component}</View>
                         <View style={styles.gameMiddleContainer}>

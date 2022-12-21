@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-import {View, Text, ScrollView} from 'react-native'
+import React, {useEffect, useMemo, useState} from 'react'
+import { View, Text, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import {styles} from '@/screens/Game/Play/style'
 import Button from '@/assets/imgs/Button'
@@ -17,12 +17,17 @@ import Modal from '@/components/modal'
 const CREATE_GAME = 'CREATE_GAME'
 const PARTICIPATION_GAME = 'PARTICIPATION_GAME'
 
+
 function Index({navigation}) {
     const [chooseType, setChooseType] = useState(false);
     const [showGameTypes, setShowGameTypes] = useState(false);
     const [showDropDown, setShowDropDown] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
-
+     const [flag, setFlag] = useState(false)
+      const initialState = {
+        price: 'Бесплатно',
+        gameValue: 'Игры из Ваших предпочтений'
+      }
     const types = [
         {id: 1, name: 'Элиас', checked: false},
         {id: 2, name: 'Мафия', checked: false},
@@ -31,6 +36,9 @@ function Index({navigation}) {
         {id: 5, name: 'Крокодил', checked: false},
         {id: 6, name: 'Иные игры', checked: false},
     ]
+     const [data , setData] = useState(initialState)
+  
+  
     const [gameTypes, setGameTypes] = useState(types)
 
     const chooseGameType = [
@@ -40,12 +48,18 @@ function Index({navigation}) {
     ]
     const [list, setList] = useState(chooseGameType)
 
+ 
+  
+  const [free
     const freeOrPaid = [
         {id: 4, text: 'Бесплатно', checked: true},
         {id: 5, text: 'Платно', checked: false},
     ]
     const [free, setFree] = useState(freeOrPaid)
-
+    const initialState = {
+        price: 'Бесплатно',
+        gameValue: 'Игры из Ваших предпочтений'
+      }
     const checkChecks = gameTypes.some(elm => elm.checked === true)
     const [errorMessage, setErrorMessage] = useState(false)
     const showHideError = () => {
@@ -205,6 +219,7 @@ function Index({navigation}) {
                                 />
                                 {/* Добавить игру */}
 
+
                                 {/* <View style={styles.circleAddBox}>
                   <CircleAdd />
                   <Text style={styles.addGameText}>Добавить игру</Text>
@@ -249,9 +264,11 @@ function Index({navigation}) {
                         // selectAvailable={true}
                     />
                 </View>
+
             </ScreenMask>
         )
     }
+
 }
 
 export default Index
