@@ -24,19 +24,21 @@ function Index(props) {
         {id: 12, text: 'Мафия', checked: false},
         {id: 13, text: 'Своя игра', checked: false},
     ]
-    const [data , setData] = useState(list)
     const count = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}]
-    // const handleClick = (item) => {
-    //     const newItem = {id: item.id , text: item.text , checked: item.checked}
-    //     const newData = data.splice(item.id - 1 , 1 , newItem)
-    //     setData(newData)
-    //     console.log(data)
-    //     console.log(data[item.id - 1].checked)
-    //
-    // }
+    const [game, setGame] = useState([]);
+
+
     const PreferenceItem = ({item}) => {
+        const handlerActiveUser = () => {
+            if (game.includes(item.id)) {
+                const temp = game.filter((ev, i) => ev !== item.id);
+                setGame(temp)
+            } else {
+                setGame([...game, item.id])
+            }
+        }
         return(
-        <TouchableOpacity style={style.nameButton}>
+        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButtonTwo : style.nameButton }>
             <Text style={styles.linkText}>{item.text}</Text>
         </TouchableOpacity>
     )};
@@ -61,7 +63,7 @@ function Index(props) {
                         <FlatList
                             columnWrapperStyle={style.flatList}
                             numColumns={3}
-                            data={data}
+                            data={list}
                             renderItem={renderItem}
                             keyExtractor={item => item.id}
                         />
