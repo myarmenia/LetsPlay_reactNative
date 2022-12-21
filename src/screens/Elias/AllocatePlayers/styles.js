@@ -23,9 +23,6 @@ export const styles = StyleSheet.create({
     // paddingTop: 40,
     // justifyContent: 'space-evenly',
   },
-  containerT: {
-    backgroundColor: 'red',
-  },
   centeredContent: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -67,18 +64,16 @@ export const styles = StyleSheet.create({
     opacity: 0.01,
   },
   hoverDragging: {
-    borderColor: 'black',
     width: 50,
     height: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 2,
   },
   stagedCount: {
     fontSize: 18,
   },
   players: {
-    left: RW(-7),
+    left: RW(-10),
     top: RH(-7),
     zIndex: 10,
   },
@@ -96,6 +91,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     height: 50,
-    backgroundColor: 'black',
+
   },
 })

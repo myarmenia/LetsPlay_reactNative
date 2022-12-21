@@ -4,6 +4,9 @@ import { useNavigation } from '@react-navigation/native'
 
 import Main from '@/assets/imgs/main'
 import styles from './styles'
+import Type from "@/assets/imgs/type";
+import AddSvg from "@/assets/svgs/addSvg";
+import HomeSvg from "@/assets/svgs/homeSvg";
 
 const CircleButton = ({ isHome, setIsHome, tabBarHidden }) => {
   const navigation = useNavigation()
@@ -16,7 +19,10 @@ const CircleButton = ({ isHome, setIsHome, tabBarHidden }) => {
   return (
     <View style={{ ...styles.circleContainer, display: tabBarHidden ? 'none' : 'flex' }}>
       <TouchableOpacity activeOpacity={0.8} onPress={press}>
-        <Main isAdd={isHome} />
+        <Main size={64} label={
+         isHome?<AddSvg/>:<HomeSvg/>
+        } />
+          {/*<Main  size={64} isAdd={isHome} />*/}
       </TouchableOpacity>
     </View>
   )

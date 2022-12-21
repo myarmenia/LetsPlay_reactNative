@@ -122,19 +122,17 @@ export default StyleSheet.create({
         borderRadius:RW(20),
         marginLeft:'auto',
         width: RW(357),
-        height: RH(633),
-        paddingTop: RH(41),
-        paddingBottom: RH(80),
+        padding:RW(35),
         alignItems: "center",
         justifyContent: "space-between"
 
     },
     title: {
         ...font('bold', 24, WHITE, 24),
+        marginBottom:RH(15),
     },
     textTwo: {
         ...font('regular', 16, WHITE, 19),
         textAlign: "center",
-        width: RW(265)
     }
 })

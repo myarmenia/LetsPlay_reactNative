@@ -8,6 +8,7 @@ import {useNavigation} from '@react-navigation/native'
 import DarkButton from "@/assets/imgs/DarkButton";
 import {Players} from "@/assets/TestData";
 import User from "@/assets/imgs/user/user";
+import PlayerList from "@/components/playerList";
 
 const PlayNow = () => {
     const navigate = useNavigation()
@@ -16,15 +17,7 @@ const PlayNow = () => {
             <View>
                 <View style={styles.common}>
                     <Text style={styles.title}>Игроки добавились в игру</Text>
-                    <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
-                        <View style={styles.container}>
-                            {Players.map((item, i) =>
-                                <View key={i} style={styles.item}>
-                                    <User  user={item}/>
-                                </View>
-                            )}
-                        </View>
-                    </ScrollView>
+                  <PlayerList players={Players}/>
                     <View>
                         <View style={{paddingVertical: 38}}>
                             <LightButton
