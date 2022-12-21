@@ -8,7 +8,7 @@ import item from '@/screens/Auth/screens/SignUp/screens/Onboard/components/item'
 import { useNavigation } from '@react-navigation/native'
 
 function Index(props) {
-  const { data, setModalVisible, setGame, setFlag, onPress } = props
+  const { data,  onPress } = props
   const navigation = useNavigation()
 
   return (

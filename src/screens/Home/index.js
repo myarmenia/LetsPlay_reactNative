@@ -45,7 +45,7 @@ const HomeScreen = props => {
                             </View>
                             :
                             <View style={styles.homeModalBlock}>
-                                <Ticket/>
+                                <Ticket game={route.params.game} data={route.params.data}/>
                             </View>
                     }
                 />

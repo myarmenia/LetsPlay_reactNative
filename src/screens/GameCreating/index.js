@@ -12,7 +12,9 @@ import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
 const GameCreating = props => {
-  const { navigation, game } = props
+  const { navigation , route } = props
+  const {game} = route.params
+  console.log(game)
   // const navigation = useNavigation()
   const text = [
     'Увлекательная11 командная игра для весёлой компании',
@@ -60,7 +62,7 @@ const GameCreating = props => {
     setModalOpen(false)
   }
   const handleSubmit = () => {
-    navigation.navigate('GameTicket', { flag })
+    navigation.navigate('GameTicket', { flag , data , game })
     setModalOpen(true)
     setIsVisible(false)
   }
