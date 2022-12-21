@@ -6,6 +6,7 @@ import {font, RH, RW} from '@/theme/utils'
 export default StyleSheet.create({
     bg:{
         width:RW(306),
+        height:RH(191),
         marginLeft:'auto',
         marginRight:'auto',
         marginTop:'auto',
@@ -17,7 +18,7 @@ export default StyleSheet.create({
     title:{
         textAlign:'center',
         marginBottom:RH(5),
-      ...font('bold', 16, WHITE)
+        ...font('bold', 16, WHITE)
     },
     btnBlock:{
         flexDirection:'row',

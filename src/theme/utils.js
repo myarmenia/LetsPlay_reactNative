@@ -1,6 +1,5 @@
-import { Dimensions, Platform, PixelRatio } from 'react-native'
-
-import { SHADOW } from './colors'
+import { Dimensions, Platform, PixelRatio } from 'react-native';
+import { SHADOW } from './colors';
 
 import {
   FONT_INTER_THIN,
@@ -85,6 +84,7 @@ export const shadow = {
   shadowOpacity: 0.5,
   shadowColor: SHADOW,
 }
+
 
 export const RW = value => RatioW * value
 export const RH = value => RatioH * value
