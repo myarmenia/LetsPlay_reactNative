@@ -13,11 +13,15 @@ const index = props => {
         { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
         { id: 3, text: 'Мои подписки и предпочтения', navigateTo: 'Preference' },
         { id: 4, text: 'Мой кошелек', navigateTo: 'Wallet' },
-        // {id: 5, text: 'Правила “Играем?'},
+        {id: 5, text: 'Правила “Играем?'},
         { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
     ]
     const forNavigate = item => {
+        if (item.id !== 5){
         navigation.navigate('ProfileNavigator' , {screen: item.navigateTo})
+        }else{
+            console.log(111)
+        }
     }
 
     const LinkItem = ({ item }) => (

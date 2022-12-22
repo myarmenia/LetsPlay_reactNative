@@ -14,8 +14,8 @@ const MyApp = () => {
   return (
     <AppProvider>
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
-      <AppNavigator />
-      {/*{authenticated ? <AppNavigator /> : <AuthNavigator />}*/}
+      {/*<AppNavigator />*/}
+      {authenticated ? <AppNavigator /> : <AuthNavigator />}
     </AppProvider>
   )
 }

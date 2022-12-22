@@ -34,7 +34,7 @@ const HomeScreen = props => {
 
         <ScreenMask>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
+                <TouchableOpacity onPress={() => navigation.navigate('CalendarNavigator')}>
                     <CalendarIcon/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>

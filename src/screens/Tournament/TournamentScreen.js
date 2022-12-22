@@ -19,7 +19,7 @@ const Index = ({navigation}) => {
           <LightButton onPress={() => {navigation.navigate('OrganizeScreen')}} label={'Создать турнир'} size={{ width: 284, height: 48 }} />
         </View>
         <View style={{marginTop:20}}>
-          <LightButton label={'Принять участие в турнире'} size={{ width: 284, height: 48 }} />
+          <LightButton onPress={() => {navigation.navigate('TourParticipantNavigator')}} label={'Принять участие в турнире'} size={{ width: 284, height: 48 }} />
         </View>
       </View>
       </GestureRecognizer>
