@@ -19,15 +19,12 @@ import TeamNavigator from '@/navigation/TeamNavigator'
 import MafiaGame from '@/navigation/MafiaNavigation'
 import GamesList from '@/screens/Game/gamesList/gamesList'
 import GameItem from '@/screens/Game/gamesList/gameItem'
-
-import CalendarScreen from '@/screens/Calendar/screens/Calendar/CalendarScreen'
 import Tournament from './TournamentNavigator'
 import ProfileNavigator from "@/navigation/ProfileNavigator";
 import GameAdd from "@/screens/Participate/GameAdd";
 import TournamentList from "@/screens/Participate/TournamentList";
 import TournamentTicket from "@/screens/Participate/TournamentTicket";
 import Calendar from "@/screens/Calendar";
-
 import GamesListCarousel from '@/screens/GameListCarousel'
 import CalendarNavigator from "@/navigation/CalendarNavigator";
 import TourParticipantNavigator from "@/navigation/TourParticipantNavigator";

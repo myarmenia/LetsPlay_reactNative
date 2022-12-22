@@ -8,66 +8,73 @@ import GestureRecognizer from 'react-native-swipe-gestures'
 // import LinearGradient from 'react-native-linear-gradient';
 
 const SettingsScreen = ({navigation}) => {
-  return (
-    <ScreenMask>
-      <GestureRecognizer
-        onSwipeRight={state => navigation.goBack()}
-        style={{
-          flex: 1,
-        }}
-      >
-      <Text
-        style={{
-          color: '#FFFFFF',
-          textAlign: 'center',
-          fontSize: RW(24),
-          fontWeight: 'bold',
-          marginTop: RW(20),
-        }}
-      >
-        Настройки
-      </Text>
+    return (
+        <ScreenMask>
+            <GestureRecognizer
+                onSwipeRight={state => navigation.goBack()}
+                style={{
+                    flex: 1,
+                }}
+            >
+                <Text
+                    style={{
+                        color: '#FFFFFF',
+                        textAlign: 'center',
+                        fontSize: RW(24),
+                        fontWeight: 'bold',
+                        marginTop: RW(20),
+                    }}
+                >
+                    Настройки
+                </Text>
 
-      <Text style={{ color: '#B3B7C2', fontSize: 16, marginTop: 30 }}>Отображение</Text>
+                <Text style={{ color: '#B3B7C2', fontSize: 16, marginTop: 30 }}>Отображение</Text>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginTop: 20,
-        }}
-      >
-        <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Индивидуальные игры</Text>
-        <Toggle />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginTop: 20,
-        }}
-      >
-        <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Командные игры</Text>
-        <Toggle />
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginTop: 20,
-        }}
-      >
-        <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Турниры</Text>
-        <Toggle />
-      </View>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginTop: 20,
+                    }}
+                >
+                    <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Индивидуальные игры</Text>
+                    <Toggle />
+                </View>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginTop: 20,
+                    }}
+                >
+                    <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Командные игры</Text>
+                    <Toggle />
+                </View>
+                <View
+                    style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginTop: 20,
+                    }}
+                >
+                    <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Турниры</Text>
+                    <Toggle />
+                </View>
 
+                {/* <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                colors={['#7DCE8A', '#4D7CFE']}
+              >
 
-              </GestureRecognizer>
-    </ScreenMask>
-  )
+            <Toggle />
+              </LinearGradient> */}
+            </GestureRecognizer>
+        </ScreenMask>
+    )
 }
 
 export default SettingsScreen

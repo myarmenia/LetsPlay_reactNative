@@ -70,103 +70,103 @@ function Index({ navigation }) {
   }, [data.gameValue])
 
   return (
-    <ScreenMask>
-      <ScrollView>
-        <GestureRecognizer
-          onSwipeLeft={(state) => navigation.goBack()}
-          style={{
-            flex: 1,
-          }}
-        >
-          <Text style={styles.someTitle}>Игра</Text>
-          <View style={styles.gameTypesContainer}>
-            <Radio
-              list={chooseGameType}
-              setShowGameTypes={setShowGameTypes}
-              showDropDown={showDropDown}
-              setShowDropDown={setShowDropDown}
-              showGameTypes={showGameTypes}
-              type={'gameType'}
-              data={data}
-              setData={setData}
-            />
-          </View>
-
-          {data.gameValue === 'Выбрать игру' ? (
-            <>
-              <GameType
-                showGameTypes={showGameTypes}
-                setShowGameTypes={setShowGameTypes}
-                setShowDropDown={setShowDropDown}
-                gameTypes={gameTypes}
-                setGameTypes={setGameTypes}
-                types={types}
-                errorMessage={errorMessage}
+      <ScreenMask>
+        <ScrollView>
+          <GestureRecognizer
+              onSwipeLeft={(state) => navigation.goBack()}
+              style={{
+                flex: 1,
+              }}
+          >
+            <Text style={styles.someTitle}>Игра</Text>
+            <View style={styles.gameTypesContainer}>
+              <Radio
+                  list={chooseGameType}
+                  setShowGameTypes={setShowGameTypes}
+                  showDropDown={showDropDown}
+                  setShowDropDown={setShowDropDown}
+                  showGameTypes={showGameTypes}
+                  type={'gameType'}
+                  data={data}
+                  setData={setData}
               />
-              {/* Добавить игру */}
+            </View>
 
-              {/* <View style={styles.circleAddBox}>
+            {data.gameValue === 'Выбрать игру' ? (
+                <>
+                  <GameType
+                      showGameTypes={showGameTypes}
+                      setShowGameTypes={setShowGameTypes}
+                      setShowDropDown={setShowDropDown}
+                      gameTypes={gameTypes}
+                      setGameTypes={setGameTypes}
+                      types={types}
+                      errorMessage={errorMessage}
+                  />
+                  {/* Добавить игру */}
+
+                  {/* <View style={styles.circleAddBox}>
                   <CircleAdd />
                   <Text style={styles.addGameText}>Добавить игру</Text>
                 </View> */}
-            </>
-          ) : null}
-          <Text style={{ color: '#657AC5', fontSize: RW(16), marginBottom: RH(20) }}>
-            Формат турнира
-          </Text>
-          <View style={{ marginHorizontal: RW(10) }}>
-            <Radio
-              list={[
-                { id: 1, text: 'Индивидуальный', checked: true },
-                { id: 2, text: 'Командный', checked: false },
-              ]}
-            />
-          </View>
-          <View>
-            <Text style={styles.someTitle}>Дата турнира</Text>
-            <View
-              style={{
-                flexDirection: 'column',
-                width: RW(367),
-                alignSelf: 'center',
-                justifyContent: 'space-around',
-              }}
-            >
-              <View style={styles.dateMap}>
-                <View style={styles.datesContainer}>
-                  <DateTime type={'date'} width={166} />
-                  <View style={styles.dash}></View>
-                  <DateTime type={'date'} width={166} />
-                </View>
-                <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
-              </View>
+                </>
+            ) : null}
+            <Text style={{ color: '#657AC5', fontSize: RW(16), marginBottom: RH(20) }}>
+              Формат турнира
+            </Text>
+            <View style={{ marginHorizontal: RW(10) }}>
+              <Radio
+                  list={[
+                    { id: 1, text: 'Индивидуальный', checked: true },
+                    { id: 2, text: 'Командный', checked: false },
+                  ]}
+              />
             </View>
             <View>
-              <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
-              <View style={styles.gameTypesContainer}>
-                <Radio
-                  list={free}
-                  type={'priceView'}
-                  setFlag={setFlag}
-                  data={data}
-                  setData={setData}
-                />
+              <Text style={styles.someTitle}>Дата турнира</Text>
+              <View
+                  style={{
+                    flexDirection: 'column',
+                    width: RW(367),
+                    alignSelf: 'center',
+                    justifyContent: 'space-around',
+                  }}
+              >
+                <View style={styles.dateMap}>
+                  <View style={styles.datesContainer}>
+                    <DateTime type={'date'} width={166} />
+                    <View style={styles.dash}></View>
+                    <DateTime type={'date'} width={166} />
+                  </View>
+                  <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
+                </View>
+              </View>
+              <View>
+                <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
+                <View style={styles.gameTypesContainer}>
+                  <Radio
+                      list={free}
+                      type={'priceView'}
+                      setFlag={setFlag}
+                      data={data}
+                      setData={setData}
+                  />
+                </View>
               </View>
             </View>
-          </View>
-        </GestureRecognizer>
-      </ScrollView>
-      <View style={[styles.bottomButton, { bottom: RH(20), alignItems: 'flex-end' }]}>
-        <Button
-          label={'Готово'}
-          onPress={() => {
-            showHideError()
-          }}
-          size={{ width: 144, height: 36 }}
-          // selectAvailable={true}
-        />
-      </View>
-    </ScreenMask>
+          </GestureRecognizer>
+        </ScrollView>
+        <View style={[styles.bottomButton, { bottom: RH(20), alignItems: 'flex-end' }]}>
+          <Button
+              label={'Готово'}
+              onPress={() => {
+                showHideError()
+              }}
+              size={{ width: 144, height: 36 }}
+              // selectAvailable={true}
+          />
+        </View>
+      </ScreenMask>
   )
 }
 
