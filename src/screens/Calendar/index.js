@@ -1,6 +1,5 @@
 import React from 'react'
 import { Image, StyleSheet, View, Pressable } from 'react-native'
-
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
