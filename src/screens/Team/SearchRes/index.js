@@ -59,7 +59,8 @@ function Index({navigation}) {
                     <BgMyTem/>
                 </View>
             </View>
-        </TouchableOpacity>)
+        </TouchableOpacity>
+    )
 
     return (
         <ScreenMask>

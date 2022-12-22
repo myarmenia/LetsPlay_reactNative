@@ -13,14 +13,17 @@ export default StyleSheet.create({
         width: RW(395),
         height: RH(111),
         marginVertical:RH(18),
-        padding:RW(13),
+        alignItems:'flex-start',
+        justifyContent:'center'
     },
     imageBlock:{
         width:RW(80),
         height:RW(80),
         borderWidth:1,
         borderRadius:50,
-        borderColor:WHITE
+        borderColor:WHITE,
+        marginTop:'auto',
+        marginBottom:'auto',
     },
     image:{
         borderWidth:1,

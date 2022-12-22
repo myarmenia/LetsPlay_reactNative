@@ -9,10 +9,11 @@ import Modal from '@/components/modal'
 
 function Index(props) {
   const { navigation, route } = props
-  const { flag } = route.params
+  const { flag , game , data } = route.params
   const [isVisible, setIsVisible] = useState(false)
   const [success, setSuccess] = useState(false)
   const [modalClose, setModalClose] = useState(true)
+    console.log(game  , 756 )
   useEffect(() => {
     if (flag) {
       setIsVisible(true)
@@ -23,18 +24,18 @@ function Index(props) {
   return (
     <ScreenMask>
       <View style={style.ticketBlock}>
-        <Ticket />
+        <Ticket data={data} game={game} />
       </View>
       <View style={style.gameTicketButtonsBlock}>
         <Button
           onPress={() => {
-            navigation.navigate('GameCreating')
+            navigation.navigate('GameCreating' , {data: game })
           }}
           size={{ width: 192, height: 36 }}
           label={'Редактировать'}
         />
         <Button
-          onPress={() => navigation.navigate('Home', { flag: true })}
+          onPress={() => navigation.navigate('Home', { flag: true , game , data})}
           size={{ width: 166, height: 36 }}
           label={'Готово'}
         />

@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import ScreenMask from "@/components/wrappers/screen";
 import style from './style';
+import {RW} from '@/theme/utils'
 import BgMyTem from "@/assets/bgMyTem";
 
 const myTeam = [
@@ -38,7 +39,7 @@ function Index({navigation}) {
     const item = (arr) => arr.map((item, i) =>
         <TouchableOpacity key={i} onPress={()=>(navigation.navigate("MyTeamInfo", item))}>
             <View  style={style.homeBlock}>
-                <View style={{zIndex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{zIndex: 1, marginLeft:RW(10), flexDirection: 'row', alignItems: 'center'}}>
                     <View style={style.imageBlock}>
                         <Image style={style.image} source={{uri: item.image}}/>
                     </View>

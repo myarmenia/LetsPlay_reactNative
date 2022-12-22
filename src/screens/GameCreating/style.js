@@ -26,9 +26,9 @@ export default StyleSheet.create({
     },
     gameTicketButtonsBlock: {
         flexDirection: 'row',
-        marginTop: 'auto',
+        marginTop: RH(200),
         marginBottom: 'auto',
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     detailImg: {
         width: RW(20),
@@ -70,10 +70,10 @@ export default StyleSheet.create({
         marginBottom: RH(31)
     },
     topBlock: {
-        padding:RW(15),
+        width: RW(306),
+        height: RH(191),
         alignItems: "center",
-        backgroundColor:BACKGROUND,
-        borderWidth:1,
+        backgroundColor:LIGHT_LABEL,
         marginLeft:'auto',
         marginRight:'auto',
         borderRadius:20,
@@ -122,19 +122,17 @@ export default StyleSheet.create({
         borderRadius:RW(20),
         marginLeft:'auto',
         width: RW(357),
-        height: RH(633),
-        paddingTop: RH(41),
-        paddingBottom: RH(80),
+        padding:RW(35),
         alignItems: "center",
         justifyContent: "space-between"
 
     },
     title: {
         ...font('bold', 24, WHITE, 24),
+        marginBottom:RH(15),
     },
     textTwo: {
         ...font('regular', 16, WHITE, 19),
         textAlign: "center",
-        width: RW(265)
     }
 })

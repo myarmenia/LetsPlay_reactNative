@@ -17,7 +17,7 @@ function Index(props) {
             <View style={styles.container}>
                 <Text style={{...styles.title , marginTop: RH(53) , marginBottom: RH(83)}}>Обратная связь</Text>
                 <TextInput placeholderTextColor={ICON} placeholder={'Тема'} style={style.input}/>
-                <TextInput placeholderTextColor={ICON} multiline={true} numberOfLines={20} textAlignVertical={"top"} placeholder={'Сообщение'} style={style.input}/>
+                <TextInput placeholderTextColor={ICON} multiline={true}  numberOfLines={20} textAlignVertical={"top"} placeholder={'Сообщение'} style={{...style.input , height: RH(405)}}/>
                 <View style={style.buttonBlock}><Button onPress={() => setIsVisible(true)} size={{width: 356 , height: 48}} label={'Отправить'}/></View>
                 <Modal modalVisible={isVisible} setIsVisible={setIsVisible}
                        item={

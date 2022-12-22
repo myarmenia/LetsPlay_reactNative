@@ -54,7 +54,7 @@ const Elias = ({ navigation }) => {
                               longPressDelay={0}
                             >
                               <View style={styles.players}>
-                                <User user={comOne[i]} />
+                                <User user={comOne[i]}  size={95} />
                               </View>
                             </DraxView>
                           ) : null}
@@ -141,7 +141,7 @@ const Elias = ({ navigation }) => {
                               longPressDelay={0}
                             >
                               <View style={styles.players}>
-                                <User user={comTwo[i]} />
+                                <User user={comTwo[i]} size={95} />
                               </View>
                             </DraxView>
                           ) : null}
@@ -229,7 +229,7 @@ const Elias = ({ navigation }) => {
                         longPressDelay={0}
                       >
                         <View style={styles.players}>
-                          <User user={item} />
+                          <User user={item} size={80} />
                         </View>
                       </DraxView>
                     ))}

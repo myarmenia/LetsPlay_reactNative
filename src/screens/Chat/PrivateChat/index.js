@@ -12,7 +12,6 @@ import Modal from '@/components/modal'
 import Ticket from '@/screens/GameCreating/GameTicket/ticket'
 
 function Index(props) {
-  const [isVisible, setIsVisible] = useState(false)
   const { navigation } = props
   return (
     <ScreenMask>
@@ -23,7 +22,7 @@ function Index(props) {
         <View style={style.countBlock}>
           <Text style={style.countText}>12</Text>
         </View>
-        <TouchableOpacity onPress={() => setIsVisible(true)} style={style.infoSvgButton}>
+        <TouchableOpacity  style={style.infoSvgButton}>
           <InfoSvg />
         </TouchableOpacity>
       </View>
@@ -63,16 +62,6 @@ function Index(props) {
         />
         <VoiceSvg />
       </View>
-      <Modal
-        modalVisible={isVisible}
-        setIsVisible={setIsVisible}
-        btnClose={false}
-        item={
-          <View style={style.infoModal}>
-            <Ticket image={true} />
-          </View>
-        }
-      />
       <View style={style.chatInput}>
         <SmilesSvg />
         <TextInput

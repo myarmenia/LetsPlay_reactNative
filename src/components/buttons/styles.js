@@ -14,7 +14,6 @@ export default StyleSheet.create({
     borderRadius: RW(39),
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: BACKGROUND,
   },
   selectContainer: {
     paddingTop: RH(10),

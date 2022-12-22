@@ -10,7 +10,7 @@ function Index({ setModal }) {
   return (
     <View style={styles.body}>
       <Text style={styles.title}>Объясняет</Text>
-      <User user={Players[3]} isMax={true} />
+      <User user={Players[3]} size={370} />
       <View style={{ marginTop: RH(50) }}>
         <Button onPress={() => setModal(false)} size={styles.btn} label={'Начать'} />
       </View>

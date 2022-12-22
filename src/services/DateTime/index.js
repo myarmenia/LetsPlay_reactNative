@@ -67,7 +67,7 @@ const DateTime = props => {
       <DatePicker
         modal
         minimumDate={
-          type === 'date'
+          type === 'date' && day
             ? day === 'gameDay'
               ? new Date(minimumDate)
               : new Date()
@@ -84,7 +84,6 @@ const DateTime = props => {
             : new Date(minimumDate)
         }
         onConfirm={date => {
-          console.log(date)
           handleConfirm(date)
         }}
         onCancel={() => {
