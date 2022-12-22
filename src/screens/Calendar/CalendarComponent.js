@@ -110,7 +110,7 @@ const CalendarComponent = () => {
             '2012-05-19': { disabled: true, disableTouchEvent: true },
           }}
         />
-       
+
       </View>
 
       <View style={{ marginTop: 25 }}>
@@ -131,7 +131,7 @@ const CalendarComponent = () => {
                 colors={['#7DCE8A', '#4D7CFE']}
                 style={styles.main}
               >
-        
+
                 <View style={{ flex: 2 }}>
                   <Image style={{width:27, height:27}} source={item.img} resizeMode="cover"/>
                 </View>
@@ -141,7 +141,7 @@ const CalendarComponent = () => {
                 <View style={{ flex: 2 }}>
                   <Text style={styles.hour}>{item.hour}</Text>
                 </View>
-               
+
               </LinearGradient>
               </TouchableOpacity>
             </View>
@@ -150,6 +150,7 @@ const CalendarComponent = () => {
       </View>
     </View>
   )
+
 }
 // RW(100),
 export default CalendarComponent
@@ -231,4 +232,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
   }
+
 })

@@ -67,7 +67,7 @@ const DateTime = props => {
       <DatePicker
         modal
         minimumDate={
-          type === 'date'
+          type === 'date' && day
             ? day === 'gameDay'
               ? new Date(minimumDate)
               : new Date()

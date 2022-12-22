@@ -19,6 +19,7 @@ import TeamNavigator from '@/navigation/TeamNavigator'
 import MafiaGame from '@/navigation/MafiaNavigation'
 import GamesList from '@/screens/Game/gamesList/gamesList'
 import GameItem from '@/screens/Game/gamesList/gameItem'
+
 import CalendarScreen from '@/screens/Calendar/screens/Calendar/CalendarScreen'
 import Tournament from './TournamentNavigator'
 import ProfileNavigator from "@/navigation/ProfileNavigator";
@@ -26,7 +27,13 @@ import GameAdd from "@/screens/Participate/GameAdd";
 import TournamentList from "@/screens/Participate/TournamentList";
 import TournamentTicket from "@/screens/Participate/TournamentTicket";
 import Calendar from "@/screens/Calendar";
+
 import GamesListCarousel from '@/screens/GameListCarousel'
+import CalendarNavigator from "@/navigation/CalendarNavigator";
+import TourParticipantNavigator from "@/navigation/TourParticipantNavigator";
+import NavigationSearchTeams from "@/navigation/NavigationSearchTeams";
+import CrocodileNavigator from "@/navigation/CrocodileNavigator";
+
 
 
 const Stack = createNativeStackNavigator()
@@ -49,14 +56,11 @@ const TabNavigator = () => {
                     tabBarInactiveTintColor: ICON,
                 }}
             >
-
                 <Tab.Screen name={'Home'} component={HomeScreen}/>
                 <Tab.Screen name={'Chat'} component={ChatScreen}/>
                 <Tab.Screen name={'Profile'} component={ProfileScreen}/>
                 <Tab.Screen name={'Notification'} component={NotificationScreen}/>
-                <Tab.Screen name={'Calendar'} component={CalendarScreen}/>
                 <Tab.Screen name={'GameListCarousel'} component={GamesListCarousel}/>
-
             </Tab.Navigator>
             <CircleButton isHome={isHome} setIsHome={setIsHome}/>
         </>
@@ -77,6 +81,7 @@ const AppNavigator = () => {
                 <Stack.Screen name={'GameCreating'} component={GameCreating}/>
                 <Stack.Screen name={'GameTicket'} component={GameTicket}/>
                 <Stack.Screen name={'PrivateChat'} component={PrivateChat}/>
+                <Stack.Screen name={"Crocodile"} component={CrocodileNavigator}/>
                 <Stack.Screen name={'Mafia'} component={MafiaGame}/>
                 <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator}/>
                 <Stack.Screen name={'Calendar'} component={Calendar}/>
@@ -84,6 +89,9 @@ const AppNavigator = () => {
                 <Stack.Screen name={'GameAdd'} component={GameAdd} />
                 <Stack.Screen name={'TournamentTicket'} component={TournamentTicket} />
                 <Stack.Screen name={'TournamentList'} component={TournamentList} />
+                <Stack.Screen name={'CalendarNavigator'} component={CalendarNavigator} />
+                <Stack.Screen name={'TourParticipantNavigator'} component={TourParticipantNavigator} />
+                <Stack.Screen name={'NavigationSearchTeams'} component={NavigationSearchTeams} />
 
             </Stack.Navigator>
         </>
