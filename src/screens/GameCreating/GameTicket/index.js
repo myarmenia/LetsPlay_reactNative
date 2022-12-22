@@ -13,6 +13,7 @@ function Index(props) {
   const [isVisible, setIsVisible] = useState(false)
   const [success, setSuccess] = useState(false)
   const [modalClose, setModalClose] = useState(true)
+    console.log(game  , 756 )
   useEffect(() => {
     if (flag) {
       setIsVisible(true)
@@ -28,7 +29,7 @@ function Index(props) {
       <View style={style.gameTicketButtonsBlock}>
         <Button
           onPress={() => {
-            navigation.navigate('GameCreating')
+            navigation.navigate('GameCreating' , {data: game })
           }}
           size={{ width: 192, height: 36 }}
           label={'Редактировать'}

@@ -64,14 +64,7 @@ const SettingsScreen = ({navigation}) => {
         <Toggle />
       </View>
 
-      {/* <LinearGradient
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0 }}
-                colors={['#7DCE8A', '#4D7CFE']}
-              >
-            
-            <Toggle />
-              </LinearGradient> */}
+
               </GestureRecognizer>
     </ScreenMask>
   )
