@@ -24,6 +24,7 @@ function Index({navigation}) {
     const [showDropDown, setShowDropDown] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
      const [flag, setFlag] = useState(false)
+
       const initialState = {
         price: 'Бесплатно',
         gameValue: 'Игры из Ваших предпочтений'
@@ -37,8 +38,8 @@ function Index({navigation}) {
         {id: 6, name: 'Иные игры', checked: false},
     ]
      const [data , setData] = useState(initialState)
-  
-  
+    console.log(data)
+
     const [gameTypes, setGameTypes] = useState(types)
 
     const chooseGameType = [
@@ -48,18 +49,12 @@ function Index({navigation}) {
     ]
     const [list, setList] = useState(chooseGameType)
 
- 
-  
-  const [free
+
     const freeOrPaid = [
         {id: 4, text: 'Бесплатно', checked: true},
         {id: 5, text: 'Платно', checked: false},
     ]
     const [free, setFree] = useState(freeOrPaid)
-    const initialState = {
-        price: 'Бесплатно',
-        gameValue: 'Игры из Ваших предпочтений'
-      }
     const checkChecks = gameTypes.some(elm => elm.checked === true)
     const [errorMessage, setErrorMessage] = useState(false)
     const showHideError = () => {
@@ -203,10 +198,13 @@ function Index({navigation}) {
                                 topBtn={true}
                                 setList={setList}
                                 typeFunc={'game'}
+                                data={data}
+                                type ={'gameType'}
+                                setData={setData}
                             />
                         </View>
 
-                        {showGameTypes ? (
+                        {data.gameValue === 'Выбрать игру' ? (
                             <>
                                 <GameType
                                     showGameTypes={showGameTypes}

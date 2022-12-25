@@ -9,7 +9,7 @@ export default StyleSheet.create({
         backgroundColor: BACKGROUND,
         color: WHITE,
         borderRadius: RW(10),
-        paddingLeft: RW(20),
+        paddingHorizontal: RW(20),
         marginBottom: RH(23),
     },
     buttonBlock: {

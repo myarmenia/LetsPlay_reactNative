@@ -5,24 +5,24 @@ import {styles} from "@/screens/Game/Play/style";
 import Button from "@/assets/imgs/Button";
 import {ActiveGames, BoardGames} from "@/assets/TestData";
 
-
+const data = ActiveGames.map((item, i) => (
+        {
+            ...item,
+            navigateTo: 'Team',
+            screenTwo: 'TeamModalSearch'
+        }
+    )
+);
 
 function Index({navigation, route}) {
     const game = route.params;
-
-    useEffect(()=>{
-        ActiveGames.forEach((item,i)=>{item.navigateTo='Team', item.screenTwo='TeamModalSearch'})
-    },[])
-
-
-
 
     return (
         <ScreenMask>
             <View style={styles.btnBlock}>
                 <View style={styles.btnActiveGames}>
                     <Button onPress={() => {
-                        navigation.navigate('GameListCarousel', {list:ActiveGames, game})
+                        navigation.navigate('GameListCarousel', {list: data, game})
                     }}
                             label={'Активные игры'}
                             size={{width: 281, height: 50}}
@@ -30,7 +30,7 @@ function Index({navigation, route}) {
                 </View>
                 <View>
                     <Button onPress={() => {
-                        navigation.navigate('GameListCarousel', {list: ActiveGames, game})
+                        navigation.navigate('GameListCarousel', {list: data, game})
                     }}
                             label={'Настольные игры'}
                             size={{width: 281, height: 50}}

@@ -88,7 +88,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: RW(15),
   },
   someTitle: {
-    color: WHITE,
+    color: ICON,
+    marginLeft: RW(10),
     marginVertical: RH(10),
   },
   datesContainer: {
@@ -102,6 +103,10 @@ export const styles = StyleSheet.create({
   btnActiveGames: {
     marginBottom: 24,
   },
+  bottomButton:{
+    marginLeft: 'auto',
+    marginRight: RW(10)
+  } ,
   title: font('bold', 18, BLACK),
 
 })

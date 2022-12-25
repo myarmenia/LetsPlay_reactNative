@@ -1,53 +1,64 @@
 import React, {useEffect, useState} from 'react'
-import {
-    StyleSheet,
-    TouchableOpacity,
-    View,
-} from 'react-native'
+
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
-import {RH, RW} from '@/theme/utils'
+import {font, RH, RW} from '@/theme/utils'
+
 import User from '@/assets/imgs/user/user'
 import {Players} from '@/assets/TestData'
 import Modal from '@/components/modal'
 import Ticket from '@/screens/GameCreating/GameTicket/ticket'
-import {LIGHT_LABEL} from '@/theme/colors';
+
+import {LIGHT_LABEL, WHITE} from '@/theme/colors'
+
 
 const HomeScreen = props => {
     const {navigation, route} = props
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
-        if (route.params && route.params.flag) {
+
+        if ((route.params && route.params.flag) || (route.params && route.params.type)) {
+
             setIsVisible(true)
         } else {
             setIsVisible(false)
         }
     }, [route])
 
+
     return (
+
 
         <ScreenMask>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.navigate('Calendar')}>
+                <TouchableOpacity onPress={() => navigation.navigate('CalendarNavigator')}>
                     <CalendarIcon/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+
                     <NotificationIcon/></TouchableOpacity>
             </View>
             <View style={styles.detailContainer}>
                 <User user={Players[9]} size={370}/>
+
             </View>
             {isVisible ? (
                 <Modal
                     modalVisible={isVisible}
                     setIsVisible={setIsVisible}
-                    btnClose={false}
+
                     item={
-                        <View style={styles.homeModalBlock}>
-                            <Ticket/>
-                        </View>
+                        route.params && route.params.type && route.params.type === 'tournament' ?
+                            <View style={styles.homeSecondModalBlock}>
+                                <Text style={styles.nodalText}>Вы успешно создали турнир!</Text>
+                            </View>
+                            :
+                            <View style={styles.homeModalBlock}>
+                                <Ticket game={route.params.game} data={route.params.data}/>
+                            </View>
                     }
                 />
 
@@ -90,4 +101,20 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
     },
+
+    homeSecondModalBlock: {
+        width: RW(306),
+        height: RH(120),
+        backgroundColor: LIGHT_LABEL,
+        borderRadius: RW(20),
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    nodalText: {
+        ...font('regular', 16, WHITE, 25),
+        textAlign: "center",
+    }
+
 })

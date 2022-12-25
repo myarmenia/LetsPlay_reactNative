@@ -29,6 +29,7 @@ const CreatingTeams = ({navigation}) => {
                     <LightButton
                         label={"Поиск команды"}
                         size={{width: 270, height: 48}}
+                        onPress={() => navigation.navigate("NavigationSearchTeams")}
                     />
                 </View>
             </View>
