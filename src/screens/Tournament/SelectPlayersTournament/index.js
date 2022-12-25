@@ -61,11 +61,14 @@ function Index({route, navigation}) {
                         size={{width: 281, height: 48}}
                         label={'Подтвердить'}/>
             </View>
+            <View style={{position: 'absolute'}}>
             <Modal modalClose={false} modalVisible={isVisible} setIsVisible={setIsVisible}
                    item={
                        <View style={modalStyle.secondTicketModalBlock}>
                            <Text style={modalStyle.text}>Необходимо утвердить состав игроков команды {'\n'} на игру!</Text>
-                       </View>}/>
+                       </View>}
+            />
+            </View>
         </ScreenMask>
     );
 }

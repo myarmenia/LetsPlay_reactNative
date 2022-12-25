@@ -34,7 +34,7 @@ const index = props => {
     )
     const renderItem = ({ item }) => <LinkItem item={item} />
     return (
-        <ScreenMask>
+        <ScreenMask style={{paddingHorizontal: 0}}>
             <View style={style.container}>
                 <Text style={style.title}>Мой кабинет</Text>
                 <View style={style.infoBlock}>
