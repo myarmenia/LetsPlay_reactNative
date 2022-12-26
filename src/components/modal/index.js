@@ -4,7 +4,6 @@ import Modal from 'react-native-modal'
 
 function Index({modalVisible, item, setIsVisible, modalClose, navigation, navigationText}) {
     const [isModalVisible, setModalVisible] = useState(true)
-    console.log(navigationText)
     useMemo(() => {
         setModalVisible(modalVisible)
     }, [modalVisible])
