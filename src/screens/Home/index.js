@@ -19,9 +19,7 @@ const HomeScreen = props => {
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
-
         if ((route.params && route.params.flag) || (route.params && route.params.type)) {
-
             setIsVisible(true)
         } else {
             setIsVisible(false)
@@ -38,7 +36,6 @@ const HomeScreen = props => {
                     <CalendarIcon/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
-
                     <NotificationIcon/></TouchableOpacity>
             </View>
             <View style={styles.detailContainer}>
@@ -46,10 +43,10 @@ const HomeScreen = props => {
 
             </View>
             {isVisible ? (
+            <View style={{position: 'absolute'}}>
                 <Modal
                     modalVisible={isVisible}
                     setIsVisible={setIsVisible}
-
                     item={
                         route.params && route.params.type && route.params.type === 'tournament' ?
                             <View style={styles.homeSecondModalBlock}>
@@ -61,8 +58,8 @@ const HomeScreen = props => {
                             </View>
                     }
                 />
-
-            ) : null}
+            </View>
+            ): null }
         </ScreenMask>
     )
 }
