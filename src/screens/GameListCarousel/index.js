@@ -6,15 +6,11 @@ import ScreenMask from "@/components/wrappers/screen";
 import {RH} from '@/theme/utils'
 import Modal from "@/components/modal";
 
-function Index({navigation, route,}) {
+function Index({navigation, route, setIsHome}) {
     const {list, game}=route.params;
 
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
-
-
-    console.log(list)
-
 
     return (
         <ScreenMask style={{paddingHorizontal:0}}>

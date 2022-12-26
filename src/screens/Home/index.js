@@ -42,7 +42,7 @@ const HomeScreen = props => {
                     <NotificationIcon/></TouchableOpacity>
             </View>
             <View style={styles.detailContainer}>
-                <User user={Players[9]} size={370}/>
+                <User user={Players[6]} size={370}/>
 
             </View>
             {isVisible ? (

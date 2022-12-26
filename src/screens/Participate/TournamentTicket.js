@@ -96,7 +96,6 @@ function TournamentTicket(props) {
                 label={'Готово'}
                 onPress={() => {
                   setIsVisible(true)
-                  console.log(111)
                 }}
                 size={{ width: 166, height: 36 }}
               />

@@ -9,8 +9,8 @@ function SvgComponent({size}) {
       style={{
         overflow: 'hidden',
         borderRadius: size/RW(3),
-        width: '100%',
-        height: '100%',
+          width: '93%',
+          height: '93%',
         backgroundColor: '#B3B7C2',
         justifyContent: 'center',
         alignItems: 'center',

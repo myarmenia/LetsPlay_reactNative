@@ -22,15 +22,16 @@ function Index({user, size}) {
             alignItems: 'center',
         }}>
             <View style={{
-                width: size / RW(2.4),
-                height: size / RW(2.4),
+                width: size / RW(3),
+                height: size / RW(3),
                 overflow: 'hidden',
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 resizeMode: 'cover',
-                borderWidth: size / RW(80),
-                borderColor: user.status === 'BRONZE' ? '#d28460' : user.status === 'GOLD' ? '#ffe033' : '#A9A9A9',
-                borderRadius: size / RW(3)
+                flexDirection:'row',
+                justifyContent:'center',
+                alignItems:'flex-end',
+
             }}>
                 {user.image ? (
                     <Image style={{...style.image, borderRadius: size / RW(3)}} source={{uri: user.image}}/>
@@ -46,7 +47,7 @@ function Index({user, size}) {
             </View>
             <View style={{
                 ...style.statusBlock,
-                 width: size / RW(1.8),
+                width: size / RW(1.8),
                 marginTop: size / RH(70),
             }}
             >
