@@ -158,6 +158,10 @@ const GameCreating = props => {
                 {errorText && !data.priceValue && flag ? (
                     <Text style={style.errorText}>Обязательное поле для заполнения</Text>
                 ) : null}
+<<<<<<< HEAD
+=======
+                <View style={{position: 'absolute'}}>
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
                 <Modal
                     modalVisible={isVisible}
                     setIsVisible={setIsVisible}
@@ -198,6 +202,10 @@ const GameCreating = props => {
                         )
                     }
                 />
+<<<<<<< HEAD
+=======
+                </View>
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
                 <View style={flag ? {...style.submitBlock} : {...style.submitBlock, marginTop: 20}}>
                     <Button onPress={handleClick} size={{width: 144, height: 36}} label={'Готово'}/>
                 </View>

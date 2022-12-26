@@ -9,7 +9,10 @@ import moment from "moment";
 
 function Ticket(props) {
   const { image , game , data } = props
+<<<<<<< HEAD
   console.log(game , 11111 , data)
+=======
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
   return (
     <View>
       {!image ? (

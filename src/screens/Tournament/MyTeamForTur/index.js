@@ -64,6 +64,10 @@ function Index(props) {
             <View>
                 {item(myTeam)}
             </View>
+<<<<<<< HEAD
+=======
+            <View style={{position: 'absolute'}}>
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
             <Modal
                 modalClose={modalClose}
                 modalVisible={isVisible}
@@ -95,6 +99,10 @@ function Index(props) {
                     )
                 }
             />
+<<<<<<< HEAD
+=======
+            </View>
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
         </ScreenMask>
     );
 }

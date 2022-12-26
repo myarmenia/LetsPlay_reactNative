@@ -15,7 +15,7 @@ function Index({route, navigation}) {
 
     const [isVisible, setIsVisible] = useState(false)
     const [user, setUser] = useState([]);
-    const {item , isTeam} = route.params;
+    const {item, isTeam} = route.params;
 
     const handlerActiveUser = (id) => {
         if (user.includes(id)) {
@@ -27,10 +27,10 @@ function Index({route, navigation}) {
     }
     const handleSubmit = () => {
         if (user.length > 0) {
-            if (isTeam === 'Индивидуальный'){
-            navigation.navigate('DataGame' , {isTeam})
-            }else {
-                navigation.navigate('DataGameTeam' , {isTeam})
+            if (isTeam === 'Индивидуальный') {
+                navigation.navigate('DataGame', {isTeam})
+            } else {
+                navigation.navigate('DataGameTeam', {isTeam})
             }
         } else {
             setIsVisible(true)
@@ -61,11 +61,15 @@ function Index({route, navigation}) {
                         size={{width: 281, height: 48}}
                         label={'Подтвердить'}/>
             </View>
-            <Modal modalClose={false} modalVisible={isVisible} setIsVisible={setIsVisible}
-                   item={
-                       <View style={modalStyle.secondTicketModalBlock}>
-                           <Text style={modalStyle.text}>Необходимо утвердить состав игроков команды {'\n'} на игру!</Text>
-                       </View>}/>
+            <View style={{position: 'absolute'}}>
+                <Modal modalClose={false} modalVisible={isVisible} setIsVisible={setIsVisible}
+                       item={
+                           <View style={modalStyle.secondTicketModalBlock}>
+                               <Text style={modalStyle.text}>Необходимо утвердить состав игроков команды {'\n'} на
+                                   игру!</Text>
+                           </View>}
+                />
+            </View>
         </ScreenMask>
     );
 }

@@ -38,7 +38,10 @@ function Index({navigation}) {
         {id: 6, name: 'Иные игры', checked: false},
     ]
      const [data , setData] = useState(initialState)
+<<<<<<< HEAD
     console.log(data)
+=======
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
 
     const [gameTypes, setGameTypes] = useState(types)
 

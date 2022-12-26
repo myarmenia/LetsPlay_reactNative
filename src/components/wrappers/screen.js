@@ -1,7 +1,7 @@
 import React from 'react'
 import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native'
 import BGMask from '@/assets/imgs/BGMask.png'
-import { BACKGROUND } from '@/theme/colors'
+import {BACKGROUND, SCREEN_BACKGROUND} from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import { IS_IOS } from '@/constants'
 
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: RW(16),
-    backgroundColor: BACKGROUND,
+    backgroundColor: SCREEN_BACKGROUND,
   },
   bgMask: {
     top: IS_IOS ? RH(-35) : RH(-15),

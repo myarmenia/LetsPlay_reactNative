@@ -28,3 +28,4 @@ const Index = ({navigation}) => {
 }
 
 export default Index
+

@@ -12,6 +12,12 @@ function Index({navigation, route, setIsHome}) {
     const width = Dimensions.get('window').width;
     const height = Dimensions.get('window').height;
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
     return (
         <ScreenMask style={{paddingHorizontal:0}}>
             <Carousel

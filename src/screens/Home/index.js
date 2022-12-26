@@ -19,9 +19,13 @@ const HomeScreen = props => {
     const [isVisible, setIsVisible] = useState(false)
 
     useEffect(() => {
+<<<<<<< HEAD
 
         if ((route.params && route.params.flag) || (route.params && route.params.type)) {
 
+=======
+        if ((route.params && route.params.flag) || (route.params && route.params.type)) {
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
             setIsVisible(true)
         } else {
             setIsVisible(false)
@@ -42,14 +46,22 @@ const HomeScreen = props => {
                     <NotificationIcon/></TouchableOpacity>
             </View>
             <View style={styles.detailContainer}>
+<<<<<<< HEAD
                 <User user={Players[6]} size={370}/>
+=======
+                <User user={Players[9]} size={370}/>
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
 
             </View>
             {isVisible ? (
+            <View style={{position: 'absolute'}}>
                 <Modal
                     modalVisible={isVisible}
                     setIsVisible={setIsVisible}
+<<<<<<< HEAD
 
+=======
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
                     item={
                         route.params && route.params.type && route.params.type === 'tournament' ?
                             <View style={styles.homeSecondModalBlock}>
@@ -61,8 +73,8 @@ const HomeScreen = props => {
                             </View>
                     }
                 />
-
-            ) : null}
+            </View>
+            ): null }
         </ScreenMask>
     )
 }

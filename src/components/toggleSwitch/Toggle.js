@@ -3,6 +3,11 @@ import React from 'react'
 import { View } from 'react-native'
 import ToggleSwitch from 'toggle-switch-react-native'
 import {useState} from 'react'
+<<<<<<< HEAD
+=======
+import LinearGradient from "react-native-linear-gradient";
+
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
 
 const Toggle = () => {
     const [on, setOn] = useState(false)

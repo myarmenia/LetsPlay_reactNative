@@ -1,12 +1,13 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-
+import React ,{useState} from 'react'
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
-import Select from '@/components/buttons/select'
 import { ICON, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import { useAuth } from '@/hooks'
+import style from "@/screens/Profile/Preference/style";
+import pStyles from "@/screens/Profile/style";
+import Button from "@/assets/imgs/Button";
 
 const GAMES = [
   'Футбол',
@@ -24,40 +25,55 @@ const GAMES = [
 
 const Preferences = () => {
   const { setAuthenticated } = useAuth()
-  const [selecteds, setSelecteds] = React.useState(new Set())
-
-  const select = React.useCallback(item => {
-    setSelecteds(prevState => new Set([...prevState, item]))
-  }, [])
-
-  const unselect = React.useCallback(item => {
-    setSelecteds(prevState => {
-      prevState.delete(item)
-      return new Set([...prevState])
-    })
-  }, [])
+  const list = [
+    {id: 1, text: 'Футбол', checked: false},
+    {id: 2, text: 'Навес', checked: false},
+    {id: 3, text: 'Триста', checked: false},
+    {id: 4, text: 'Баскетбол', checked: false},
+    {id: 5, text: 'Волейбол', checked: false},
+    {id: 6, text: 'Пионербол', checked: false},
+    {id: 7, text: 'Хоккей', checked: false},
+    {id: 8, text: 'Элиас', checked: false},
+    {id: 9, text: 'Покер', checked: false},
+    {id: 10, text: 'Монополия', checked: false},
+    {id: 11, text: 'Крокодил', checked: false},
+    {id: 12, text: 'Мафия', checked: false},
+    {id: 13, text: 'Своя игра', checked: false},
+  ]
+  const [game, setGame] = useState([]);
+  const PreferenceItem = ({item}) => {
+    const handlerActiveUser = () => {
+      if (game.includes(item.id)) {
+        const temp = game.filter((ev, i) => ev !== item.id);
+        setGame(temp)
+      } else {
+        setGame([...game, item.id])
+      }
+    }
+    return(
+        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButtonTwo : style.nameButton }>
+          <Text style={pStyles.linkText}>{item.text}</Text>
+        </TouchableOpacity>
+    )};
+  const renderItem = ({item}) => (
+      <PreferenceItem item={item}/>
+  );
 
   return (
     <ScreenMask>
       <Text style={[styles.title, styles.mt60]}>Введите ваши предпочтения</Text>
-      <Text style={[styles.subTitle, styles.mt60]}>
-        Первая выбранная игра, является предпочтением в играх
-      </Text>
       <Text style={[styles.subTitle, styles.mt40]}>Выбрать предпочтения</Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        {GAMES.map(game => {
-          return (
-            <Select
-              key={game}
-              label={game}
-              isActive={selecteds.has(game)}
-              onPress={() => (selecteds.has(game) ? unselect(game) : select(game))}
-            />
-          )
-        })}
+      <View style={style.flatListBlock}>
+        <FlatList
+            columnWrapperStyle={style.flatList}
+            numColumns={3}
+            data={list}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+        />
       </View>
       <View style={styles.next}>
-        <DarkButton label={'Далее>>'} onPress={() => selecteds.size && setAuthenticated(true)} />
+        <Button label={'Далее>>'} size={{width: 171 , height: 36}} onPress={() => setAuthenticated(true)} />
       </View>
     </ScreenMask>
   )

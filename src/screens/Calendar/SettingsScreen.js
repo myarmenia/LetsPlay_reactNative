@@ -5,7 +5,8 @@ import ScreenMask from '@/components/wrappers/screen'
 import { RW } from '@/theme/utils'
 import Toggle from '@/components/toggleSwitch/Toggle'
 import GestureRecognizer from 'react-native-swipe-gestures'
-// import LinearGradient from 'react-native-linear-gradient';
+// import {LinearGradient} from "react-native-svg";
+import LinearGradient from 'react-native-linear-gradient';
 
 const SettingsScreen = ({navigation}) => {
     return (

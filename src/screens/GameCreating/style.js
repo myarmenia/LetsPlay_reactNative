@@ -26,8 +26,13 @@ export default StyleSheet.create({
     },
     gameTicketButtonsBlock: {
         flexDirection: 'row',
+<<<<<<< HEAD
         marginTop: RH(200),
         marginBottom: 'auto',
+=======
+        marginTop: 'auto',
+        marginBottom: RH(23),
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
         justifyContent: "space-between",
     },
     detailImg: {
@@ -71,7 +76,11 @@ export default StyleSheet.create({
     },
     topBlock: {
         width: RW(306),
+<<<<<<< HEAD
         height: RH(191),
+=======
+        paddingBottom: RH(25),
+>>>>>>> a6bf9b1f955cf66f812a859938c3c3fcf62b5f1b
         alignItems: "center",
         backgroundColor:LIGHT_LABEL,
         marginLeft:'auto',
