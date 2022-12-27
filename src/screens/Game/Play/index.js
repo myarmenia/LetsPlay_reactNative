@@ -52,7 +52,6 @@ function Index({navigation}) {
     ]
 
     const [gameTypes, setGameTypes] = useState(types)
-    console.log(gameTypes)
     const chooseGameType = [
         {id: 1, text: 'Игры из Ваших предпочтений', checked: true},
         {id: 2, text: 'Все игры', checked: false},

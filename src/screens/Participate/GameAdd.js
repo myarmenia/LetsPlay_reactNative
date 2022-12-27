@@ -52,7 +52,6 @@ function Index({ navigation }) {
   ]
 
   const [gameTypes, setGameTypes] = useState(types)
-  console.log(gameTypes)
   const chooseGameType = [
     {id: 1, text: 'Игры из Ваших предпочтений', checked: true},
     {id: 4, text: 'Игры из подписок', checked: false},
@@ -79,7 +78,7 @@ function Index({ navigation }) {
         if (data.statusOrganizer === 'Индивидуальный'){
         navigation.navigate('TournamentList')
         }else {
-          console.log('success')
+        navigation.navigate('TournamentTeam')
         }
       } else {
         console.log('error')

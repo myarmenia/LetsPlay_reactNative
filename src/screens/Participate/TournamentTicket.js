@@ -103,7 +103,7 @@ function TournamentTicket(props) {
                         setIsVisible={setIsVisible}
                         item={
                             <View style={style.secondTicketModalBlock}>
-                                <Text style={style.text}>Вы успешно создали турнир!</Text>
+                                <Text style={style.text}>Вы успешно присоединились к турниру!</Text>
                             </View>
                         }
                     />

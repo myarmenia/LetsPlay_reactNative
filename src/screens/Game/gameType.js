@@ -18,7 +18,6 @@ function GameType({
     const [selected, setSelected] = useState('Выбрать игру')
     const [gameKindOf, setGameKindOf] = useState('')
     useMemo(()=>{
-        console.log(gameKindOf)
         if (gameKindOf === 'Активные игры'){
             setGameTypes(typesActive)
         }

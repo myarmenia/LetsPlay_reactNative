@@ -6,6 +6,7 @@ import { RH, RW } from '@/theme/utils'
 import OnBoardingItem from './components/item'
 import Logo from './components/logo'
 import SignUpLogoSvg from '@/assets/svgs/SignUpLogoSvg'
+import Button from "@/assets/imgs/Button";
 
 const ITEMS = [
   {
@@ -41,10 +42,10 @@ const Onboard = ({ navigation }) => {
       <ScreenMask>
         <View style={styles.logo}>
           <SignUpLogoSvg/>
-        </View>  
+        </View>
         <OnBoardingItem items={ITEMS}/>
         <View style={styles.next}>
-          <DarkButton label={'Далее>>'} onPress={() => navigation.push('Preferences')} />
+          <Button size={{width: 171 , height: 36}} label={'Далее>>'} onPress={() => navigation.push('Preferences')} />
         </View>
       </ScreenMask>
   )

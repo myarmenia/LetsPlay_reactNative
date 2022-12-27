@@ -217,7 +217,6 @@ function GamesList() {
         if (elm.id === id) {
           return (
             { ...elm, clicked: true },
-            // console.log(elem),
             // if (elm !== undefined) {
             setProp({ ...elm, clicked: true }),
             navigation.navigate('TournamentTicket')
