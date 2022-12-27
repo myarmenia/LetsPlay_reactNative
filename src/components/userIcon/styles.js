@@ -39,8 +39,8 @@ export default StyleSheet.create({
   },
   image: {
     borderRadius: 100,
-    width: '100%',
-    height: '100%',
+    width: '93%',
+    height: '93%',
     resizeMode: 'contain',
   },
   nameBlock: {

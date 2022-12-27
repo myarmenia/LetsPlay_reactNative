@@ -67,8 +67,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: RW(15),
   },
   someTitle: {
-    color: WHITE,
-    marginVertical: RH(10),
+    ...font('regular', 16 , ICON , 24),
+    marginVertical: RH(20),
   },
   datesContainer: {
     flexDirection: 'row',
@@ -77,7 +77,11 @@ export const styles = StyleSheet.create({
     alignSelf:"center",
     alignItems:"center"
   },
-
+  bottomButton:{
+    marginLeft: 'auto',
+    marginRight: RW(10),
+    marginBottom: RH(25)
+  } ,
   btnActiveGames: {
     marginBottom: 24,
   },

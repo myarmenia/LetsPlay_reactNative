@@ -128,6 +128,7 @@ const TournamentCreating = props => {
                 {errorText && !data.priceValue && flag ? (
                     <Text style={style.errorText}>Обязательное поле для заполнения</Text>
                 ) : null}
+                <View style={{position: 'absolute'}}>
                 <Modal
                     modalVisible={isVisible}
                     setIsVisible={setIsVisible}
@@ -159,6 +160,7 @@ const TournamentCreating = props => {
                     )
                     }
                 />
+                </View>
                 <View style={flag ? { ...style.submitBlock, marginTop: RH(308)} : { ...style.submitBlock, marginTop: RH(308) }}>
                     <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
                 </View>

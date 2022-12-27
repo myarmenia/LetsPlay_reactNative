@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
   },
   description: {
     maxWidth: RW(280),
+    textAlign: 'center',
     letterSpacing: 0.5,
     ...font('regular', 16, ICON, 24),
   },

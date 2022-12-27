@@ -23,25 +23,35 @@ function Index({navigation}) {
     const [showGameTypes, setShowGameTypes] = useState(false);
     const [showDropDown, setShowDropDown] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
-     const [flag, setFlag] = useState(false)
+    const [flag, setFlag] = useState(false)
 
-      const initialState = {
+    const initialState = {
         price: 'Бесплатно',
         gameValue: 'Игры из Ваших предпочтений'
-      }
+    }
+    const [data , setData] = useState(initialState)
+
     const types = [
         {id: 1, name: 'Элиас', checked: false},
         {id: 2, name: 'Мафия', checked: false},
         {id: 3, name: 'Покер', checked: false},
         {id: 4, name: 'Монополия', checked: false},
         {id: 5, name: 'Крокодил', checked: false},
-        {id: 6, name: 'Иные игры', checked: false},
+        {id: 6, name: 'Своя игра', checked: false},
     ]
-     const [data , setData] = useState(initialState)
-    console.log(data)
+    const typesActive = [
+        {id: 7, name: 'Футбол', checked: false},
+        {id: 8, name: 'Навес', checked: false},
+        {id: 9, name: 'Триста', checked: false},
+        {id: 10, name: 'Баскетбол', checked: false},
+        {id: 11, name: 'Волейбол ', checked: false},
+        {id: 12, name: 'Пионербол', checked: false},
+        {id: 13, name: 'Хоккей', checked: false},
+        {id: 14, name: 'Квест', checked: false},
+        {id: 15, name: 'Своя игра', checked: false},
+    ]
 
     const [gameTypes, setGameTypes] = useState(types)
-
     const chooseGameType = [
         {id: 1, text: 'Игры из Ваших предпочтений', checked: true},
         {id: 2, text: 'Все игры', checked: false},
@@ -70,7 +80,6 @@ function Index({navigation}) {
             }
         }
     }
-
     if (!chooseType) {
         return (
             <ScreenMask>
@@ -214,6 +223,7 @@ function Index({navigation}) {
                                     setGameTypes={setGameTypes}
                                     types={types}
                                     errorMessage={errorMessage}
+                                    typesActive={typesActive}
                                 />
                                 {/* Добавить игру */}
 

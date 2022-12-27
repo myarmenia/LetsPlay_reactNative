@@ -8,7 +8,6 @@ function GoBack({item}) {
     const navigation=useNavigation()
 
     const back = (par) => {
-        console.log(navigation)
         // if (!par) {
         //     return null
         // }

@@ -13,7 +13,6 @@ function Index({navigation, route,}) {
     const height = Dimensions.get('window').height;
 
 
-    console.log(list)
 
 
     return (
