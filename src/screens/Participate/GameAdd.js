@@ -26,7 +26,8 @@ function Index({ navigation }) {
 
   const initialState = {
     price: 'Бесплатно',
-    gameValue: 'Игры из Ваших предпочтений'
+    gameValue: 'Игры из Ваших предпочтений',
+    statusOrganizer: 'Индивидуальный',
   }
   const [data , setData] = useState(initialState)
 
@@ -75,7 +76,11 @@ function Index({ navigation }) {
     } else {
       setErrorMessage(false)
       if (list[2].id !== true) {
+        if (data.statusOrganizer === 'Индивидуальный'){
         navigation.navigate('TournamentList')
+        }else {
+          console.log('success')
+        }
       } else {
         console.log('error')
       }
@@ -134,6 +139,9 @@ function Index({ navigation }) {
               </Text>
               <View style={{ marginHorizontal: RW(10) }}>
                 <Radio
+                    data={data}
+                    setData={setData}
+                    type={'statusOrganizer'}
                     list={[
                       { id: 1, text: 'Индивидуальный', checked: true },
                       { id: 2, text: 'Командный', checked: false },
