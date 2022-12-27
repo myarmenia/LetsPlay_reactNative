@@ -129,7 +129,7 @@ const TournamentCreating = props => {
                     <Text style={style.errorText}>Обязательное поле для заполнения</Text>
                 ) : null}
                 <View style={{position: 'absolute'}}>
-
+                <Modal
                     modalVisible={isVisible}
                     setIsVisible={setIsVisible}
                     btnClose={false}

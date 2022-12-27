@@ -7,13 +7,203 @@ import { _gamesData } from '../Game/gamesDatas.js/gamesData'
 import { RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import PrizeCup from "@/screens/Game/gamesDatas.js/gameSVGs/prizeCup";
+import Wave from "@/screens/Game/gamesDatas.js/gameSVGs/wave";
 
 function GamesList() {
   const navigation = useNavigation()
   const [prop, setProp] = useState()
-  const gameData = useMemo(() => {
-    return _gamesData
-  }, [])
+  const tournamentData =  [{
+    title: 'Турниры',
+    data: [
+      {
+        id: 11,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        addres: 'наб. 25',
+        players: '10-12',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 12,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 13,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 14,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 15,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+    ],
+  },
+  {
+    title: 'ТОП Турниры',
+    data: [
+      {
+        id: 26,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        addres: 'наб. 25',
+        players: '10-12',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 27,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 28,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 29,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+      {
+        id: 30,
+        bigComponent: (
+            <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
+        ),
+        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        date: '07.07.22 ',
+        gender: 'M',
+        time: '18:30 ',
+        location: 'Пресненская ',
+        playersAge: '25-35',
+        players: '10-12',
+        addres: 'наб. 25',
+        distantion: '1.6 км',
+        playersText: 'Игроки',
+        playersIn: '12/10',
+        wave: <Wave />,
+      },
+    ],
+  }]
+
   const handleSubmit = (elm) => {
     if (elm !== undefined) {
       setProp({ ...elm, clicked: true })
@@ -22,12 +212,11 @@ function GamesList() {
     }
   }
   const passIdGameItem = (id) => {
-    gameData.map((elem) =>
+    tournamentData.map((elem) =>
       elem.data.map((elm) => {
         if (elm.id === id) {
           return (
             { ...elm, clicked: true },
-            // console.log(elem),
             // if (elm !== undefined) {
             setProp({ ...elm, clicked: true }),
             navigation.navigate('TournamentTicket')
@@ -48,7 +237,7 @@ function GamesList() {
             flex: 1,
           }}
         >
-          {gameData.map((elm) => {
+          {tournamentData.map((elm) => {
             return (
               <View style={styles.gameListContainer} key={elm.id}>
                 <Text style={styles.gameTitle}>{elm.title}</Text>

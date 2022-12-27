@@ -18,76 +18,95 @@ const CREATE_GAME = 'CREATE_GAME'
 const PARTICIPATION_GAME = 'PARTICIPATION_GAME'
 
 function Index({ navigation }) {
-  const [chooseType, setChooseType] = useState(false)
-  const [showGameTypes, setShowGameTypes] = useState(false)
-  const [showDropDown, setShowDropDown] = useState(false)
+  const [chooseType, setChooseType] = useState(false);
+  const [showGameTypes, setShowGameTypes] = useState(false);
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [isModalVisible, setModalVisible] = useState(false);
   const [flag, setFlag] = useState(false)
+
   const initialState = {
     price: 'Бесплатно',
-    gameValue: 'Выбрать игру',
+    gameValue: 'Игры из Ваших предпочтений',
+    statusOrganizer: 'Индивидуальный',
   }
-  const [data, setData] = useState(initialState)
-  const types = [
-    { id: 1, name: 'Элиас', checked: false },
-    { id: 2, name: 'Мафия', checked: false },
-    { id: 3, name: 'Покер', checked: false },
-    { id: 4, name: 'Монополия', checked: false },
-    { id: 5, name: 'Крокодил', checked: false },
-    { id: 6, name: 'Иные игры', checked: false },
-  ]
-  const [gameTypes, setGameTypes] = useState(types)
+  const [data , setData] = useState(initialState)
 
-  const chooseGameType = [
-    { id: 1, text: 'Игры из Ваших предпочтений', checked: true },
-    { id: 2, text: 'Игры из подписок', checked: false },
-    { id: 3, text: 'Все игры', checked: false },
-    { id: 4, text: 'Выбрать игру', checked: false },
+  const types = [
+    {id: 1, name: 'Элиас', checked: false},
+    {id: 2, name: 'Мафия', checked: false},
+    {id: 3, name: 'Покер', checked: false},
+    {id: 4, name: 'Монополия', checked: false},
+    {id: 5, name: 'Крокодил', checked: false},
+    {id: 6, name: 'Своя игра', checked: false},
   ]
+  const typesActive = [
+    {id: 7, name: 'Футбол', checked: false},
+    {id: 8, name: 'Навес', checked: false},
+    {id: 9, name: 'Триста', checked: false},
+    {id: 10, name: 'Баскетбол', checked: false},
+    {id: 11, name: 'Волейбол ', checked: false},
+    {id: 12, name: 'Пионербол', checked: false},
+    {id: 13, name: 'Хоккей', checked: false},
+    {id: 14, name: 'Квест', checked: false},
+    {id: 15, name: 'Своя игра', checked: false},
+  ]
+
+  const [gameTypes, setGameTypes] = useState(types)
+  const chooseGameType = [
+    {id: 1, text: 'Игры из Ваших предпочтений', checked: true},
+    {id: 4, text: 'Игры из подписок', checked: false},
+    {id: 2, text: 'Все игры', checked: false},
+    {id: 3, text: 'Выбрать игру', checked: false},
+  ]
+  const [list, setList] = useState(chooseGameType)
+
+
   const freeOrPaid = [
-    { id: 4, text: 'Бесплатно', checked: true },
-    { id: 5, text: 'Платно', checked: false },
+    {id: 4, text: 'Бесплатно', checked: true},
+    {id: 5, text: 'Платно', checked: false},
   ]
   const [free, setFree] = useState(freeOrPaid)
-
-  const checkChecks = gameTypes.some((elm) => elm.checked === true)
+  const checkChecks = gameTypes.some(elm => elm.checked === true)
   const [errorMessage, setErrorMessage] = useState(false)
   const showHideError = () => {
-    if (!checkChecks && data.gameValue === 'Выбрать игру') {
+    if (!checkChecks && list[2].checked === true) {
       setErrorMessage(true)
       console.log('Выберите один из игр')
     } else {
       setErrorMessage(false)
-      if (data.gameValue !== 'Выбрать') {
+      if (list[2].id !== true) {
+        if (data.statusOrganizer === 'Индивидуальный'){
         navigation.navigate('TournamentList')
+        }else {
+        navigation.navigate('TournamentTeam')
+        }
       } else {
         console.log('error')
       }
     }
   }
-  useMemo(() => {})
-  useEffect(() => {
-    setErrorMessage(!errorMessage)
-  }, [data.gameValue])
-
   return (
       <ScreenMask>
         <ScrollView>
           <GestureRecognizer
-              onSwipeLeft={(state) => navigation.goBack()}
+              onSwipeLeft={state => navigation.goBack()}
               style={{
                 flex: 1,
               }}
           >
             <Text style={styles.someTitle}>Игра</Text>
-            <View style={styles.gameTypesContainer}>
+            <View style={{...styles.gameTypesContainer , marginLeft: RW(10)}}>
               <Radio
-                  list={chooseGameType}
+                  list={list}
                   setShowGameTypes={setShowGameTypes}
                   showDropDown={showDropDown}
                   setShowDropDown={setShowDropDown}
                   showGameTypes={showGameTypes}
-                  type={'gameType'}
+                  topBtn={true}
+                  setList={setList}
+                  typeFunc={'game'}
                   data={data}
+                  type ={'gameType'}
                   setData={setData}
               />
             </View>
@@ -102,8 +121,10 @@ function Index({ navigation }) {
                       setGameTypes={setGameTypes}
                       types={types}
                       errorMessage={errorMessage}
+                      typesActive={typesActive}
                   />
                   {/* Добавить игру */}
+
 
                   {/* <View style={styles.circleAddBox}>
                   <CircleAdd />
@@ -111,19 +132,22 @@ function Index({ navigation }) {
                 </View> */}
                 </>
             ) : null}
-            <Text style={{ color: '#657AC5', fontSize: RW(16), marginBottom: RH(20) }}>
-              Формат турнира
-            </Text>
-            <View style={{ marginHorizontal: RW(10) }}>
-              <Radio
-                  list={[
-                    { id: 1, text: 'Индивидуальный', checked: true },
-                    { id: 2, text: 'Командный', checked: false },
-                  ]}
-              />
-            </View>
             <View>
-              <Text style={styles.someTitle}>Дата турнира</Text>
+              <Text style={{ color: '#657AC5', fontSize: RW(16), marginBottom: RH(20), marginTop: RH(20) }}>
+                Формат турнира
+              </Text>
+              <View style={{ marginHorizontal: RW(10) }}>
+                <Radio
+                    data={data}
+                    setData={setData}
+                    type={'statusOrganizer'}
+                    list={[
+                      { id: 1, text: 'Индивидуальный', checked: true },
+                      { id: 2, text: 'Командный', checked: false },
+                    ]}
+                />
+              </View>
+              <Text style={styles.someTitle}>Дата игры</Text>
               <View
                   style={{
                     flexDirection: 'column',
@@ -134,38 +158,33 @@ function Index({ navigation }) {
               >
                 <View style={styles.dateMap}>
                   <View style={styles.datesContainer}>
-                    <DateTime type={'date'} width={166} />
+                    <DateTime type={'date'} width={166}/>
                     <View style={styles.dash}></View>
-                    <DateTime type={'date'} width={166} />
+                    <DateTime type={'date'} width={166}/>
                   </View>
-                  <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
+                  <Map placeholder={'Геолокация игры'} width={367} availablePress={false}/>
                 </View>
               </View>
               <View>
                 <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
-                <View style={styles.gameTypesContainer}>
-                  <Radio
-                      list={free}
-                      type={'priceView'}
-                      setFlag={setFlag}
-                      data={data}
-                      setData={setData}
-                  />
+                <View style={{...styles.gameTypesContainer , marginLeft: RW(10)}}>
+                  <Radio list={free} topBtn={false} setFree={setFree} typeFunc={'paid'}/>
                 </View>
               </View>
             </View>
           </GestureRecognizer>
         </ScrollView>
-        <View style={[styles.bottomButton, { bottom: RH(20), alignItems: 'flex-end' }]}>
+        <View style={styles.bottomButton}>
           <Button
               label={'Готово'}
               onPress={() => {
                 showHideError()
               }}
-              size={{ width: 144, height: 36 }}
+              size={{width: 144, height: 36}}
               // selectAvailable={true}
           />
         </View>
+
       </ScreenMask>
   )
 }
