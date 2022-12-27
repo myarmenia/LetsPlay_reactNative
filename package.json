@@ -44,6 +44,9 @@
     "react-native-shadow-2": "^7.0.6",
     "react-native-svg": "^13.4.0",
     "react-native-swipe-gestures": "^1.0.5",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.0",
+    "redux-saga": "^1.2.2",
     "toggle-switch-react-native": "^3.3.0"
   },
   "devDependencies": {
