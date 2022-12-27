@@ -41,7 +41,7 @@ const Organize = ({navigation}) => {
         </View>
         <View style={{marginTop:20}}>
           <LightButton label={'Настольные игры'}
-                       onPress={navigation.navigate('GameListCarousel', {list: dataBoardGames})}
+                       onPress={()=>navigation.navigate('GameListCarousel', {list: dataBoardGames})}
                        size={{ width: 284, height: 48 }} />
         </View>
       </View>
