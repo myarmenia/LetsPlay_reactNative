@@ -5,6 +5,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AuthProvider } from '@/context';
 import MyApp from '@/index';
 
+// test1
+
 const App = () => {
 
   return (
