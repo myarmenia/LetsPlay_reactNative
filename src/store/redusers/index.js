@@ -1,11 +1,8 @@
 import {combineReducers} from "redux";
-import {userFromId} from "./userFromId";
-import {getAllUsers} from "./users";
-
+import {getCommentsTest} from "./testReducer";
 
 const reducers=combineReducers({
-    userFromId,
-    getAllUsers,
+    getCommentsTest
 })
 
 export default reducers;

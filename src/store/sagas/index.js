@@ -1,10 +1,8 @@
 import { all, fork } from 'redux-saga/effects'
-import users from './users'
-import userFromId from "./userFromId";
+import testSaga from './testSaga'
 
 export default function* watchers() {
     yield all([
-        users,
-        userFromId,
+        testSaga,
     ].map(fork))
 }
