@@ -16,7 +16,7 @@ import {LIGHT_LABEL, WHITE} from '@/theme/colors'
 
 const HomeScreen = props => {
     const {navigation, route} = props
-    const [isVisible, setIsVisible] = useState(false)
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
         if ((route.params && route.params.flag) || (route.params && route.params.type)) {
