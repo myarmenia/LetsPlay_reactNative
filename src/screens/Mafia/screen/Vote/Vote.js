@@ -7,53 +7,25 @@ import {GRAY, ICON, WHITE} from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import Index from "@/components/modal";
 import {useNavigation} from "@react-navigation/native";
+import User from "@/assets/imgs/user/user";
+import {Players} from "@/assets/TestData";
 
 const Vote = () => {
-    const [choose, setChoose] = useState(false)
-    const [data, setData] = useState([
-        {id: 1, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 2, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 3, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 4, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 5, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 6, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 7, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 8, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 9, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 10, img: require('@/assets/imgs/detail.png'), boolean: false},
-        {id: 9, img: "", boolean: false},
-        {id: 10, img: "", boolean: false},
-    ])
+    const [user, setUser] = useState([]);
     const navigation = useNavigation()
-    useEffect(() => {
-        let arr = data.map((item, index) => {
-            item.boolean = false
-            return {...item}
-        })
-        setData(arr)
-        console.log('arr data', arr)
-    }, [choose])
 
-    const handleSubmit = (ind) => {
-        console.log(ind, 'id')
-        const arr = data.map((item, index) => {
-            if (ind === index) {
-                if (!item.boolean) {
-                    item.boolean = true
-                } else {
-                    item.boolean = false
-                }
-                setChoose(true)
-            }
-            return {...item}
-        })
-        console.log('click', arr)
-        setData(arr)
+
+    const handlerActiveUser = (id) => {
+        if (user.includes(id)) {
+            const temp = user.filter((item, i) => item !== id);
+            setUser(temp)
+        } else {
+            setUser([...user, id])
+        }
     }
 
     return (
         <ScreenMask>
-            <ScrollView>
                 <View style={styles.common}>
                     <View style={styles.youPlaceMen}>
                         <View>
@@ -72,17 +44,18 @@ const Vote = () => {
                         <Text style={styles.morningText}>Утро</Text>
                         <Text style={styles.morningText}>{/*<Timer/>*/}</Text>
                     </View>
+                    <ScrollView>
                     <View style={styles.peopleInfo}>
-                        {data.map((item, index) => (
-                            <TouchableOpacity
-                                key={item.id}
-                                style={[item.boolean ? styles.borderRadius : styles.imgView]}
-                                onPress={() => handleSubmit(index)}
-                            >
-                                <Image source={item.img} style={styles.imgData}/>
-                            </TouchableOpacity>
-                        ))}
+                        {
+                            Players.map((item, index) => (
+                                <TouchableOpacity onPress={() => handlerActiveUser(item.id)} key={index}
+                                                  style={user.includes(item.id) ? styles.activeItem : styles.item}>
+                                    <User user={item}/>
+                                </TouchableOpacity>
+                            ))
+                        }
                     </View>
+                    </ScrollView>
                     <View style={{paddingBottom: 38}}>
                         <LightButton
                             size={{width: 281, height: 48}}
@@ -95,11 +68,21 @@ const Vote = () => {
                         />
                     </View>
                 </View>
-            </ScrollView>
         </ScreenMask>
     )
 }
 const styles = StyleSheet.create({
+    item: {
+        padding: RW(3),
+        marginTop: RH(30),
+    },
+    activeItem: {
+        padding: RW(3),
+        marginTop: RH(30),
+        borderWidth: 1,
+        borderColor: '#7DCE8A',
+        borderRadius: RW(15)
+    },
     common: {
         flexDirection: 'column',
         justifyContent: 'center',
@@ -146,30 +129,12 @@ const styles = StyleSheet.create({
         letterSpacing: 0.01,
         paddingVertical: RH(5),
     },
-    imgView: {
-        paddingHorizontal: RW(10.29),
-        margin: RW(10),
-        paddingVertical: RH(20),
-    },
-    imgData: {
-        width: 76,
-        height: 150,
-        resizeMode: 'contain',
-    },
     peopleInfo: {
         width: '100%',
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    borderRadius: {
-        borderRadius: RW(20),
-        borderWidth: 1,
-        borderColor: '#7DCE8A',
-        paddingHorizontal: RW(10.29),
-        margin: RW(10),
-        paddingVertical: RH(20),
     },
     modals: {
         flexDirection: "column",

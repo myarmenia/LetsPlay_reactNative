@@ -4,52 +4,52 @@ import ScreenMask from "@/components/wrappers/screen";
 import VectorIcon from "@/assets/svgs/vectorSvg";
 import {font, RH, RW} from "@/theme/utils";
 import {ICON, WHITE} from "@/theme/colors";
-import {RatingsData} from "@/screens/Game/Mafia/screen/RatingPlayer/RatingsData";
 import LightButton from "@/assets/imgs/Button";
+import {RatingsData} from "@/screens/Mafia/screen/RatingPlayer/RatingsData";
 
 const RatingPlayer = () => {
     return (
         <ScreenMask>
             <ScrollView>
-                {/*<View>*/}
-                {/*    <View style={styles.ratingsView}>*/}
-                {/*        <Text style={styles.ratingsText}> Рейтинги игроков</Text>*/}
-                {/*        <View style={styles.vectorView}>*/}
-                {/*            <VectorIcon/>*/}
-                {/*        </View>*/}
-                {/*    </View>*/}
-                {/*    <View style={styles.ratingsCommon}>*/}
-                {/*        {*/}
-                {/*            RatingsData.map((item) => (*/}
-                {/*                <View style={styles.ratingsPlayers} key={item.id}>*/}
-                {/*                    <View style={styles.imgView}>*/}
-                {/*                        <Image source={item.img} style={styles.img}/>*/}
-                {/*                    </View>*/}
-                {/*                    <View style={styles.definedView}>*/}
-                {/*                        <Text style={styles.definedText}>{item.defined}</Text>*/}
-                {/*                        <Text style={styles.RatingsText}>{item.ratings}</Text>*/}
-                {/*                    </View>*/}
-                {/*                </View>*/}
-                {/*            ))*/}
-                {/*        }*/}
-                {/*    </View>*/}
-                {/*    <View style={styles.btns}>*/}
-                {/*        <View style={styles.btnsView}>*/}
-                {/*            <LightButton*/}
-                {/*                size={{width: 281, height: 48}}*/}
-                {/*                labelStyle={styles.invitePlayers}*/}
-                {/*                label={'Завершить игру'}*/}
-                {/*            />*/}
-                {/*        </View>*/}
-                {/*        <View style={styles.btnsView}>*/}
-                {/*            <LightButton*/}
-                {/*                size={{width: 281, height: 48}}*/}
-                {/*                labelStyle={styles.invitePlayers}*/}
-                {/*                label={'Играть заново'}*/}
-                {/*            />*/}
-                {/*        </View>*/}
-                {/*    </View>*/}
-                {/*</View>*/}
+                <View>
+                    <View style={styles.ratingsView}>
+                        <Text style={styles.ratingsText}> Рейтинги игроков</Text>
+                        <View style={styles.vectorView}>
+                            <VectorIcon/>
+                        </View>
+                    </View>
+                    <View style={styles.ratingsCommon}>
+                        {
+                            RatingsData.map((item) => (
+                                <View style={styles.ratingsPlayers} key={item.id}>
+                                    <View style={styles.imgView}>
+                                        <Image source={item.img} style={styles.img}/>
+                                    </View>
+                                    <View style={styles.definedView}>
+                                        <Text style={styles.definedText}>{item.defined}</Text>
+                                        <Text style={styles.RatingsText}>{item.ratings}</Text>
+                                    </View>
+                                </View>
+                            ))
+                        }
+                    </View>
+                    <View style={styles.btns}>
+                        <View style={styles.btnsView}>
+                            <LightButton
+                                size={{width: 281, height: 48}}
+                                labelStyle={styles.invitePlayers}
+                                label={'Завершить игру'}
+                            />
+                        </View>
+                        <View style={styles.btnsView}>
+                            <LightButton
+                                size={{width: 281, height: 48}}
+                                labelStyle={styles.invitePlayers}
+                                label={'Играть заново'}
+                            />
+                        </View>
+                    </View>
+                </View>
             </ScrollView>
         </ScreenMask>
     )

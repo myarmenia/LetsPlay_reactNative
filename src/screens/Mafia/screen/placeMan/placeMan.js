@@ -10,7 +10,6 @@ import {Players} from "@/assets/TestData";
 import User from "@/assets/imgs/user/user";
 
 const PlaceMan = () => {
-
     const navigation = useNavigation();
     const [user, setUser] = useState([]);
 
