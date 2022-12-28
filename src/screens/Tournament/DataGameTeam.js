@@ -14,17 +14,10 @@ function DataGame(props) {
   const {isTeam} = route.params
   return (
     <ScreenMask>
-      <ScrollView>
-        <GestureRecognizer
-          onSwipeRight={(state) => navigation.goBack()}
-          style={{
-            flex: 1,
-          }}
-        >
+        <GestureRecognizer style={{height: '100%'}} onSwipeRight={(state) => navigation.goBack()}>
           <View style={styles.svg}>
-            <Image source={require('../Game/gamesDatas.js/gamePics/Футбол.png')} />
+            <Image style={style.ticketImg} source={require('../Game/gamesDatas.js/gamePics/Футбол.png')} />
           </View>
-
           <View>
             <View style={styles.firstTextBlock}>
               <Text style={[styles.ticketText, { marginTop: RH(35) }]}>Тип турнира: Своя игра</Text>
@@ -94,7 +87,6 @@ function DataGame(props) {
             </View>
           </View>
           </GestureRecognizer>
-      </ScrollView>
     </ScreenMask>
   )
 }
@@ -128,6 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 'auto',
     marginBottom: RH(20),
     marginRight: RW(10)
   },

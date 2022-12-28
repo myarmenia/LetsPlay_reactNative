@@ -22,7 +22,7 @@ function Index(props) {
                 <Modal modalVisible={isVisible} setIsVisible={setIsVisible}
                        item={
                            <View style={style.feedbackModal}>
-                               <Text style={style.modalText}>Спасибо за ваше сообщение. В ближайшее время с вами свяжется менеджер  приложение «Играем?».</Text>
+                               <Text style={style.modalText}>Спасибо за ваше сообщение. В ближайшее время с вами свяжется менеджер  приложения «Играем?».</Text>
                            </View>
                        }
                 />

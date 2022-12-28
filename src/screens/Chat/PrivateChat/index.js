@@ -26,6 +26,7 @@ function Index(props) {
           <InfoSvg />
         </TouchableOpacity>
       </View>
+      <View style={{height: '80%' , marginTop: 'auto'}}>
       <View style={style.chatBlock}>
         <View style={style.userItemBlock}>
           <View style={style.userItem}></View>
@@ -47,20 +48,11 @@ function Index(props) {
           <View style={style.userItem}></View>
           <Text style={style.timeText}>1:01</Text>
         </View>
-        <View style={style.myItemBlock}>
+        <View style={{...style.myItemBlock , marginBottom: 0}}>
           <Text style={style.timeText}>1:01</Text>
           <View style={style.myItem}></View>
         </View>
       </View>
-      <View style={{ height: RH(784) }}></View>
-      <View style={style.chatInput}>
-        <SmilesSvg />
-        <TextInput
-          style={{ width: RW(276) }}
-          placeholder={'Сообщение...'}
-          placeholderTextColor={ICON}
-        />
-        <VoiceSvg />
       </View>
       <View style={style.chatInput}>
         <SmilesSvg />

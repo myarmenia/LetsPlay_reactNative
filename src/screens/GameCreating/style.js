@@ -17,12 +17,12 @@ export default StyleSheet.create({
     },
     firstTicketModalBlock:{
         width: RW(306),
-        height: RH(300),
         backgroundColor: LIGHT_LABEL,
         marginLeft: 'auto',
         marginRight: 'auto',
         borderRadius: RW(20),
         alignItems: "center",
+        paddingBottom: RH(30)
     },
     gameTicketButtonsBlock: {
         flexDirection: 'row',
@@ -48,15 +48,18 @@ export default StyleSheet.create({
         marginLeft: RW(11),
     },
     ticketImg: {
-        width: RW(206),
-        height: RH(218),
+        width: RW(207),
+        height: RH(207),
+        resizeMode: 'contain',
     },
     ticketBlock: {
         marginTop: RH(87),
     },
     ticketImgBlock: {
-        alignItems: "center",
-        marginBottom: RW(46)
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: RW(46),
+
     },
     errorText: {
         ...font('regular', 16, RED, 24),

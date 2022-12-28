@@ -91,17 +91,17 @@ const styles = StyleSheet.create({
     },
     homeModalBlock: {
         width: RW(380),
-        height: RH(638),
         paddingTop: RH(34),
         backgroundColor: LIGHT_LABEL,
         borderRadius: RW(20),
         marginLeft: 'auto',
         marginRight: 'auto',
+        paddingBottom:  RH(20)
     },
 
     homeSecondModalBlock: {
+        paddingVertical: RH(75),
         width: RW(306),
-        height: RH(120),
         backgroundColor: LIGHT_LABEL,
         borderRadius: RW(20),
         marginLeft: 'auto',
