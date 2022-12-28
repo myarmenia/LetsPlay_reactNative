@@ -38,14 +38,13 @@ const index = props => {
             <View style={style.container}>
                 <Text style={style.title}>Мой кабинет</Text>
                 <View style={style.infoBlock}>
+                    <View style={style.imageBlock}>
                     <Image style={style.image} source={image} />
+                    </View>
                     <View>
                         <Text style={style.name}>Имя Фамилия</Text>
                         <Text style={style.id}>Номер ID: </Text>
                     </View>
-                    <TouchableOpacity style={style.userEdit}>
-                        <UserEditSvg />
-                    </TouchableOpacity>
                 </View>
             </View>
             <FlatList data={list} renderItem={renderItem} keyExtractor={item => item.id} />
