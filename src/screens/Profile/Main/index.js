@@ -3,7 +3,6 @@ import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import style from '../style'
 import ScreenMask from '@/components/wrappers/screen'
 import image from '@/assets/imgs/userImage.png'
-import UserEditSvg from '@/assets/svgs/userEdit'
 import {useNavigation} from "@react-navigation/native";
 
 const index = props => {
@@ -13,7 +12,7 @@ const index = props => {
         { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
         { id: 3, text: 'Мои подписки и предпочтения', navigateTo: 'Preference' },
         { id: 4, text: 'Мой кошелек', navigateTo: 'Wallet' },
-        {id: 5, text: 'Правила “Играем?'},
+        {id: 5, text: 'Условия использования'},
         { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
     ]
     const forNavigate = item => {
