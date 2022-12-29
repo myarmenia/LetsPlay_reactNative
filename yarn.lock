@@ -1682,6 +1682,11 @@
   resolved "https://registry.npmjs.org/@react-native-community/slider/-/slider-4.3.3.tgz"
   integrity sha512-eVhMaVR08wWlseVWlDS7zgdhbVY0n2i7BF1qRxK+2N1VIKd7NsTIRzL57sFLgHVjbUmu/+hHfxCzLHmEaGxIQg==
 
+"@react-native-masked-view/masked-view@^0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@react-native-masked-view/masked-view/-/masked-view-0.2.8.tgz#34405a4361882dae7c81b1b771fe9f5fbd545a97"
+  integrity sha512-+1holBPDF1yi/y0uc1WB6lA5tSNHhM7PpTMapT3ypvSnKQ9+C6sy/zfjxNxRA/llBQ1Ci6f94EaK56UCKs5lTA==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@react-native/assets/-/assets-1.0.0.tgz"
@@ -6603,6 +6608,11 @@ react-native-lightbox-v2@0.9.0:
   version "0.9.0"
   resolved "https://registry.npmjs.org/react-native-lightbox-v2/-/react-native-lightbox-v2-0.9.0.tgz"
   integrity sha512-Fc5VFHFj2vokS+OegyTsANKb1CYoUlOtAv+EBH5wtpJn1b5cey6jVXH7136G5+8OC9JmKWSgKHc5thFwOoZTUg==
+
+react-native-linear-gradient-text@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient-text/-/react-native-linear-gradient-text-0.3.1.tgz#a4efbc3bc673202ff7bc7741c0376401a7536f5d"
+  integrity sha512-6xgS6XdjXlLdXriUluwgA7J2Z1l2n0RPB+gsZCr33iQQFG4joOAgNaJlK95P8e0DH2lvejyA7UWglcL1ORauEw==
 
 react-native-linear-gradient@^2.6.2:
   version "2.6.2"
