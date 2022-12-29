@@ -9,7 +9,7 @@ function Index(props) {
         <ScreenMask>
             <View style={{...style.container , marginTop: RH(16)}}>
                 <Text style={style.title}>Моя галерея</Text>
-                <Text style={style.galleryText}>Фотографии с игр нету.     Для того, чтобы фотографии отображались, нужно по окончанию игры, поделиться впечатлениями.</Text>
+                <Text style={style.galleryText}>Фотографий с игр нету. Для того, чтобы Фотографии отображались, нужно по окончанию игры поделиться впечатлениями.</Text>
             </View>
         </ScreenMask>
     );
