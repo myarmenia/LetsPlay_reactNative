@@ -19,7 +19,7 @@ function Index(props) {
           <View style={style.imageBlock}>
             <Image style={style.image} source={image} />
           </View>
-          <UserEditSvg style={style.tickSvg} />
+          <TickSvg style={style.tickSvg} />
         </View>
         <View style={style.formBlock}>
           <InputBlock text={'Имя:'} placeholder={'Имя'} />
