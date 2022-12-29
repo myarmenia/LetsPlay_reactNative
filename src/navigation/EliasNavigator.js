@@ -5,7 +5,6 @@ import Players from '@/screens/Elias/Players'
 import AllocatePlayers from '@/screens/Elias/AllocatePlayers'
 import { NAV_HEADER_OPTION } from '@/constants'
 import GoBack from '@/helpers/goBack'
-import EliasAllocatePlayersInfo from '@/screens/Elias/AllocatePlayersInfo'
 import Settings from '@/screens/Elias/Settings'
 import DifficultyLevel from '@/screens/Elias/DifficultyLevel'
 import Start from '@/screens/Elias/Start'
@@ -21,9 +20,6 @@ function Index(props) {
     QrCodeComponent: props => <GoBack item={<QrCode setGoBack={setGoBack} {...props} />} />,
     PlayersComponent: props => <GoBack item={<Players setGoBack={setGoBack} {...props} />} />,
     AllocatePlayersComponent: props => <GoBack item={<AllocatePlayers {...props} />} />,
-    EliasAllocatePlayersInfoComponent: props => (
-      <GoBack item={<EliasAllocatePlayersInfo {...props} />} />
-    ),
     SettingsComponent: props => <GoBack item={<Settings {...props} />} />,
     DifficultyLevelComponent: props => <GoBack item={<DifficultyLevel {...props} />} />,
     StartComponent: props => <GoBack item={<Start {...props} />} />,
@@ -36,10 +32,6 @@ function Index(props) {
       <Stack.Screen name="Qr" component={route.QrCodeComponent} />
       <Stack.Screen name="EliasPlayers" component={route.PlayersComponent} />
       <Stack.Screen name="EliasAllocatePlayers" component={route.AllocatePlayersComponent} />
-      <Stack.Screen
-        name="EliasAllocatePlayersInfo"
-        component={route.EliasAllocatePlayersInfoComponent}
-      />
       <Stack.Screen name="SettingsElias" component={route.SettingsComponent} />
       <Stack.Screen name="DifficultyLevel" component={route.DifficultyLevelComponent} />
       <Stack.Screen name="EliasStart" component={route.StartComponent} />

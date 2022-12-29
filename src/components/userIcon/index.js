@@ -14,7 +14,8 @@ function Index({user, size}) {
     const fontSizeCount = size / RW(35)
     return (
         <View style={{
-            width: size - RW(10),
+            // width: size - RW(10),
+            // backgroundColor:'black',
             marginLeft: 'auto',
             marginRight: 'auto',
             height: '100%',
@@ -24,12 +25,13 @@ function Index({user, size}) {
             <View style={{
                 width: size / RW(3),
                 height: size / RW(3),
-                overflow: 'hidden',
+                // overflow: 'hidden',
                 marginLeft: 'auto',
                 marginRight: 'auto',
                 resizeMode: 'cover',
                 flexDirection:'row',
                 justifyContent:'center',
+                // backgroundColor:'red',
                 alignItems:'flex-end',
 
             }}>

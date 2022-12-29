@@ -5,8 +5,8 @@ import { RW, RH } from '@/theme/utils'
 function SvgComponent(props) {
   return (
     <Svg
-      width={RW(70)}
-      height={RH(115)}
+      width={RW(60)}
+      height={RH(105)}
       viewBox="0 0 53 81"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

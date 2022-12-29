@@ -53,7 +53,7 @@ const Elias = ({ navigation }) => {
                               dragPayload={comOne[i]}
                               longPressDelay={0}
                             >
-                              <View style={styles.players}>
+                              <View style={{...styles.players, ...styles.playersComBlock}}>
                                 <User user={comOne[i]}  size={95} />
                               </View>
                             </DraxView>
@@ -140,7 +140,7 @@ const Elias = ({ navigation }) => {
                               dragPayload={comTwo[i]}
                               longPressDelay={0}
                             >
-                              <View style={styles.players}>
+                              <View style={{...styles.players, ...styles.playersComBlock}}>
                                 <User user={comTwo[i]} size={95} />
                               </View>
                             </DraxView>
@@ -282,7 +282,7 @@ const Elias = ({ navigation }) => {
         style={{ marginLeft: 'auto', alignItems: 'center', marginTop: 20, marginRight: 'auto' }}
       >
         <Button
-          onPress={() => navigation.navigate('EliasAllocatePlayersInfo', { comTwo, comOne })}
+            onPress={() => navigation.navigate('SettingsElias', { comTwo, comOne })}
           size={{ width: 281, height: 48 }}
           label={'Продолжить'}
         />

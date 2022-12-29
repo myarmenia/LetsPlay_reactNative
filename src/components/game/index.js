@@ -68,7 +68,7 @@ function Index(props) {
                         justifyContent:'center',
                         width: RW(191),
                         height: RH(48),
-                        opacity:0.9
+                        opacity:0.9,
                     }}
                 >
                     <Text style={styles.btnText}>{data.title}</Text>
