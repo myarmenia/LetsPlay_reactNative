@@ -112,8 +112,9 @@ const CalendarComponent = () => {
   </View>
   return (
       <View>
-        <SafeAreaView style={{marginTop: 25}}>
+        <View style={{marginTop: 25}}>
           <FlatList
+              showsVerticalScrollIndicator={false}
               data={GamesData}
               key={'#'}
               keyExtractor={(item) => '#' + item.key}
@@ -147,7 +148,7 @@ const CalendarComponent = () => {
                   </View>
               )}
           />
-        </SafeAreaView>
+        </View>
       </View>
   )
 }

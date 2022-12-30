@@ -1,16 +1,13 @@
 import React, {useEffect, useState} from 'react'
-
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
 import {font, RH, RW} from '@/theme/utils'
-
 import User from '@/assets/imgs/user/user'
 import {Players} from '@/assets/TestData'
 import Modal from '@/components/modal'
 import Ticket from '@/screens/GameCreating/GameTicket/ticket'
-
 import {LIGHT_LABEL, WHITE} from '@/theme/colors'
 
 
@@ -28,19 +25,17 @@ const HomeScreen = props => {
 
 
     return (
-
-
         <ScreenMask>
             <View style={styles.header}>
                 <TouchableOpacity onPress={() => navigation.navigate('CalendarNavigator')}>
                     <CalendarIcon/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
-                    <NotificationIcon/></TouchableOpacity>
+                    <NotificationIcon/>
+                </TouchableOpacity>
             </View>
             <View style={styles.detailContainer}>
-                <User user={Players[9]} size={370}/>
-
+                <User user={Players[0]} size={370}/>
             </View>
             {isVisible ? (
             <View style={{position: 'absolute'}}>
@@ -91,17 +86,17 @@ const styles = StyleSheet.create({
     },
     homeModalBlock: {
         width: RW(380),
-        height: RH(638),
         paddingTop: RH(34),
         backgroundColor: LIGHT_LABEL,
         borderRadius: RW(20),
         marginLeft: 'auto',
         marginRight: 'auto',
+        paddingBottom:  RH(20)
     },
 
     homeSecondModalBlock: {
+        paddingVertical: RH(75),
         width: RW(306),
-        height: RH(120),
         backgroundColor: LIGHT_LABEL,
         borderRadius: RW(20),
         marginLeft: 'auto',

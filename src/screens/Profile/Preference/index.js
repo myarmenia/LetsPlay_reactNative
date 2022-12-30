@@ -24,7 +24,7 @@ function Index(props) {
         {id: 12, text: 'Мафия', checked: false},
         {id: 13, text: 'Своя игра', checked: false},
     ]
-    const count = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}]
+    const count = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6},{id: 11},{id: 10},{id: 9},{id: 8},{id: 7}]
     const [game, setGame] = useState([]);
 
 
@@ -61,6 +61,7 @@ function Index(props) {
                     <Text style={style.gameNamesTitle}>Предпочтения в играх</Text>
                     <View style={style.flatListBlock}>
                         <FlatList
+                            nestedScrollEnabled
                             columnWrapperStyle={style.flatList}
                             numColumns={3}
                             data={list}
@@ -70,7 +71,9 @@ function Index(props) {
                     </View>
                     <Text style={{...style.gameNamesTitle, marginBottom: RH(23)}}>Мои подписки на организаторов</Text>
                     <FlatList
+                        showsVerticalScrollIndicator={false}
                         columnWrapperStyle={{...style.flatList, marginBottom: RH(45)}}
+                        style={{height: RW(240)}}
                         numColumns={3}
                         data={count}
                         renderItem={renderItemTwo}

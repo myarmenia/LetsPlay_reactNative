@@ -7,6 +7,7 @@ import TickSvg from '@/assets/svgs/tickSvg'
 import InputBlock from '@/screens/Profile/MyDetails/inputBlock'
 import RadioBlock from '@/screens/Profile/MyDetails/radioBlock'
 import DateBlock from '@/screens/Profile/MyDetails/DateBlock'
+import UserEditSvg from "@/assets/svgs/userEdit";
 
 function Index(props) {
   const { navigation } = props
@@ -15,7 +16,9 @@ function Index(props) {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={style.container}>
         <Text style={style.title}>Мои данные</Text>
         <View style={style.imgBlock}>
-          <Image style={style.image} source={image} />
+          <View style={style.imageBlock}>
+            <Image style={style.image} source={image} />
+          </View>
           <TickSvg style={style.tickSvg} />
         </View>
         <View style={style.formBlock}>

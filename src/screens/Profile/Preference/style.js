@@ -7,7 +7,6 @@ export default StyleSheet.create({
     container: {
         width: '100%',
         paddingTop: RW(43),
-        paddingBottom: RH(35),
         paddingHorizontal: RW(8),
         alignItems:"center",
     },
@@ -16,7 +15,7 @@ export default StyleSheet.create({
     },
     gameNamesTitle:{
         ...font('medium' , 18 , WHITE , 28),
-        marginTop: RH(31),
+        marginTop: RH(15),
         marginBottom: RW(9)
     },
     nameButton:{
@@ -39,13 +38,14 @@ export default StyleSheet.create({
         justifyContent: "space-around"
     },
     flatListBlock: {
-        marginBottom: RH(38)
+        marginBottom: RH(48)
     },
     detail:{
         width: RW(60),
         height: RH(92)
     },
     buttonBlock:{
-        marginLeft: 'auto'
+        marginLeft: 'auto',
+        marginTop: RH(17)
     }
 })
