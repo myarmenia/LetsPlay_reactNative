@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {View, Text, StyleSheet, ScrollView, Image} from 'react-native'
+import {View, Text, StyleSheet, ScrollView, Image, ImageBackground} from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import ScreenMask from '@/components/wrappers/screen'
 import {font, RH, RW} from '@/theme/utils'
@@ -8,6 +8,7 @@ import MafiaData from '@/screens/Mafia/screen/AboutGame/data'
 import LightButton from '@/assets/imgs/Button'
 import {useNavigation} from '@react-navigation/native'
 import Modal from "@/components/modal";
+import BackgroundGradientIcon from "@/assets/svgs/backgroundGrandient";
 
 const AboutGame = () => {
     const [modalVisible, setModalVisible] = useState(true)
@@ -21,28 +22,25 @@ const AboutGame = () => {
                         <Text style={styles.aboutMe}>Словарь игроков</Text>
                     </View>
                     <View>
-                        {MafiaData.map((item, i) => (
-                            <View key={i}>
-                                <LinearGradient
-                                    colors={['#7DCE8A', '#4D7CFE']}
-                                    start={{x: 0, y: 0}}
-                                    end={{x: 1, y: 1}}
-                                    useAngle={true}
-                                    angle={105}
-                                    angleCenter={{x: 0.5, y: 0.5}}
-                                    style={styles.rules}
-                                    key={item.id}
-                                >
-                                    <View style={{margin: RW(15)}}>
-                                        <Image source={item.img}/>
-                                    </View>
-                                    <View style={{width: RW(200)}}>
-                                        <Text style={styles.text}>{item.title}</Text>
-                                        <Text style={styles.textDecretion}>{item.text}</Text>
-                                    </View>
-                                </LinearGradient>
-                            </View>
-                        ))}
+                        {
+                            MafiaData.map((item, i) => (
+                                <View key={i} style={{borderRadius:20}}>
+                                    <ImageBackground
+                                        source={require("@/assets/imgs/Grandient.png")}
+                                        resizeMode="stretch"
+                                        borderRadius={RW(20)}
+                                        style={styles.rules}>
+                                        <View style={{margin: RW(15)}}>
+                                            <Image source={item.img}/>
+                                        </View>
+                                        <View style={{width: RW(200)}}>
+                                            <Text style={styles.text}>{item.title}</Text>
+                                            <Text style={styles.textDecretion}>{item.text}</Text>
+                                        </View>
+                                    </ImageBackground>
+                                </View>
+                            ))
+                        }
                     </View>
                     <View style={{paddingVertical: 38, marginHorizontal: 'auto'}}>
                         <LightButton
@@ -68,7 +66,7 @@ const AboutGame = () => {
                                     нужно вычислить кто есть кто и выгнать всю мафию, чтобы спастись. Если им не удастся
                                     это сделать, мафия захватит город, и мирные жители будут обречены.
                                 </Text>
-                                <Text style={{...styles.mafiaText, marginTop:RH(20)}}>
+                                <Text style={{...styles.mafiaText, marginTop: RH(20)}}>
                                     Игра делится на два периода: утро и ночь. В утреннем обсуждении — участвуют все
                                     игроки, а ночью… у каждого персонажа своя роль. Весь игровой процесс используется
                                     при помощи мобильного устройства.
@@ -102,8 +100,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 24,
         marginHorizontal: 24,
-        // backgroundColor:MAFIA_BACKGROUND,
-        borderRadius: RW(20),
     },
     text: {
         ...font('inter', 18, BLACK, 24),
@@ -136,12 +132,12 @@ const styles = StyleSheet.create({
         paddingVertical: RH(38),
     },
     mafiaText: {
-        textAlign:'center',
+        textAlign: 'center',
         ...font('inter', 16, WHITE, 24),
         paddingHorizontal: RW(24),
     },
     gamesText: {
-        alignItems:'center',
+        alignItems: 'center',
         ...font('inter', 16, WHITE, 24),
         paddingHorizontal: RW(24),
         paddingVertical: RH(24),
@@ -153,7 +149,7 @@ const styles = StyleSheet.create({
     },
     backgroundModal: {
         backgroundColor: LIGHT_LABEL,
-        borderRadius:RW(20),
+        borderRadius: RW(20),
     },
 })
 
