@@ -41,7 +41,14 @@ const RatingsCrocodile = () => {
                                 size={{width: 281, height: 48}}
                                 labelStyle={styles.invitePlayers}
                                 label={'Завершить игру'}
-                                onPress={()=>navigation.navigate("Home")}
+                                onPress={() => navigation.navigate("Home")}
+                            />
+                        </View>
+                        <View style={styles.btnsView}>
+                            <LightButton
+                                size={{width: 281, height: 48}}
+                                labelStyle={styles.invitePlayers}
+                                label={'Играть заново'}
                             />
                         </View>
                     </View>
@@ -104,8 +111,8 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center"
     },
-    btnsView:{
-        marginBottom:RH(24)
+    btnsView: {
+        marginBottom: RH(24)
     }
 })
 export default RatingsCrocodile

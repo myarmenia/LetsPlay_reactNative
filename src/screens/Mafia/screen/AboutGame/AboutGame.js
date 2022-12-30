@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         letterSpacing: RW(0.01),
     },
     rules: {
-        width: RW(350),
+        width: RW(360),
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',

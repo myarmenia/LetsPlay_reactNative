@@ -6,12 +6,14 @@ import {ACTIVE, LIGHT_LABEL, WHITE} from "@/theme/colors"
 import LightButton from "@/assets/imgs/Button";
 import DarkButton from "@/assets/imgs/DarkButton";
 import {useNavigation} from "@react-navigation/native";
-import {AddData} from "@/screens/Crocodile/screen/addPlayers/addData";
+// import {AddData} from "@/screens/Crocodile/screen/addPlayers/addData";
+import {Players} from "@/assets/TestData";
+import User from "@/assets/imgs/user/user";
 
 const AddPlayer = () => {
     const navigation = useNavigation()
     const handlePerson = (ID) => {
-        AddData.find((item) => {
+        Players.find((item) => {
             if (item.id === ID) {
                 navigation.navigate("PersonInfo")
             }
@@ -30,14 +32,23 @@ const AddPlayer = () => {
                 </View>
                 <ScrollView>
                     <View style={styles.peopleInfo}>
+                        {/*{*/}
+                        {/*    AddData.map((item) => (*/}
+                        {/*        <TouchableOpacity*/}
+                        {/*            style={styles.imgView}*/}
+                        {/*            key={item.id}*/}
+                        {/*            onPress={() => handlePerson(item.id)}*/}
+                        {/*        >*/}
+                        {/*            <Image source={item.img} style={styles.img}/>*/}
+                        {/*        </TouchableOpacity>*/}
+                        {/*    ))*/}
+                        {/*}*/}
                         {
-                            AddData.map((item) => (
+                            Players.map((item, index) => (
                                 <TouchableOpacity
-                                    style={styles.imgView}
-                                    key={item.id}
-                                    onPress={() => handlePerson(item.id)}
-                                >
-                                    <Image source={item.img} style={styles.img}/>
+                                    onPress={() => handlePerson(item.id)} key={index}
+                                    style={styles.item}>
+                                    <User user={item}/>
                                 </TouchableOpacity>
                             ))
                         }
@@ -66,6 +77,10 @@ const AddPlayer = () => {
     )
 }
 const styles = StyleSheet.create({
+    item: {
+        padding: RW(3),
+        marginTop: RH(30),
+    },
     common: {
         flexDirection: 'column',
         justifyContent: "center",

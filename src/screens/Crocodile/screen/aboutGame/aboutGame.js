@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
         backgroundColor: LIGHT_LABEL,
         borderRadius: RW(20),
         paddingHorizontal: RW(18),
+        marginHorizontal:RW(15)
 
     },
 })

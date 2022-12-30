@@ -1,5 +1,6 @@
 import React, {useState} from "react"
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet,Animated} from "react-native";
+import { PanGestureHandler } from 'react-native-gesture-handler';
 import ScreenMask from "@/components/wrappers/screen";
 import LightButton from "@/assets/imgs/Button";
 import {font, RH, RW} from "@/theme/utils";
@@ -12,25 +13,47 @@ const Words = () => {
     const [modalRules, setModalRules] = useState(false)
     const [modal, setModal] = useState(false)
     const navigation = useNavigation()
+    const translateY = new Animated.Value(0)
+    const  onPanGestureEvent = Animated.event(
+        [
+            {
+                nativeEvent: {
+                    translationY: translateY,
+                },
+            },
+        ],
+        { useNativeDriver: true }
+    );
     return (
         <ScreenMask>
             <View style={styles.common}>
                 <View></View>
-                <View>
+                <PanGestureHandler onGestureEvent={onPanGestureEvent}>
+                <Animated.View style={[
+                    {
+                        transform: [
+                            {
+                                translateY: translateY,
+                            },
+                        ],
+                    },
+                ]}>
                     <Type
                         size={185}
                         title={"Слово"}
                         onPress={() => setModalRules(true)}
                     />
-                </View>
-                <View style={styles.btn}>
-                    <LightButton
-                        label={"Стоп"}
-                        size={{width: 98, height: 36}}
-                        labelStyle={styles.labelStyle}
-                        onPress={() => setModal(true)}
-                    />
-                </View>
+                </Animated.View>
+                </PanGestureHandler>
+                    <View style={styles.btn}>
+                        <LightButton
+                            label={"Стоп"}
+                            size={{width: 98, height: 36}}
+                            labelStyle={styles.labelStyle}
+                            onPress={() => setModal(true)}
+                        />
+                    </View>
+
             </View>
             <Index
                 modalVisible={modalRules}

@@ -40,7 +40,7 @@ const Teams = () => {
                                 Показывает
                             </Text>
                         </View>
-                        <View>
+                        <View style={styles.img}>
                             <Image source={require("@/assets/imgs/detail.png")}/>
                         </View>
                         <View style={styles.btnStart}>
