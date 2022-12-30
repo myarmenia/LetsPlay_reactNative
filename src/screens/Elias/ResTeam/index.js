@@ -3,6 +3,7 @@ import { ScrollView, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { styles } from '@/screens/Elias/ResTeam/styles'
 import Button from '@/assets/imgs/Button'
+
 import { RH } from '@/theme/utils'
 
 const guessed = ['Слово', 'Слово', 'Слово', 'Слово', 'Слово', 'Слово', 'Слово', 'Слово']
