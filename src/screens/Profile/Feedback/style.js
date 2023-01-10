@@ -7,7 +7,7 @@ export default StyleSheet.create({
     input:{
         width: RW(354),
         backgroundColor: BACKGROUND,
-        color: ICON,
+        color: WHITE,
         borderRadius: RW(10),
         paddingHorizontal: RW(20),
         marginBottom: RH(23),

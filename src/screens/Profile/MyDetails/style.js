@@ -53,7 +53,7 @@ export default StyleSheet.create({
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     paddingLeft: RW(20),
-    color: ICON,
+    color: WHITE,
   },
   inputBlock: {
     marginBottom: RH(14),
