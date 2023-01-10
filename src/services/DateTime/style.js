@@ -14,7 +14,7 @@ export default StyleSheet.create({
     // justifyContent: 'center',
   },
   dateButtonText: {
-    ...font('regular', 16, ICON, 19),
+    ...font('regular', 16, WHITE, 19),
     marginLeft: RW(16),
   },
   dateSvg: {

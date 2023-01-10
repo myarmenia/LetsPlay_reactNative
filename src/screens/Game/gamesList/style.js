@@ -10,15 +10,17 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   gameBox: {
-    width: RW(405),
-    height: RH(74),
-    marginTop: RH(10),
+    width: '100%',
+    // height: RH(74),
+    marginTop: RH(15),
     backgroundColor: ICON,
     borderRadius: RW(10),
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'center',
+    // alignSelf: 'center',
     justifyContent: 'center',
+    paddingBottom: RH(10),
+    paddingTop: RH(10)
   },
   gameTitle: {
     ...font('bold', 20, LIGHT_LABEL, 20),
@@ -30,11 +32,13 @@ export const styles = StyleSheet.create({
   iconComponent: {
     width: RW(45),
     height: RH(60),
-    zIndex: 12,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // backgroundColor: 'red'
+    // zIndex: 12,
   },
   gameMiddleContainer: {
     width: RW(274),
-    height: RH(43),
     justifyContent: 'space-around',
     alignItems: 'center',
     alignSelf: 'center',
