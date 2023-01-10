@@ -31,7 +31,8 @@ function Index({navigation, route,}) {
                             justifyContent: 'center',
                         }}
                     >
-                            <Game data={list[index]} game={game}/>
+                        <Game data={list[index]} game={game}/>
+
                     </View>
                 )}
             />
