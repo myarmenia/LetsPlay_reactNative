@@ -1,33 +1,62 @@
-import React from 'react'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, {useRef, useState} from 'react'
+import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'react-native'
 
 import { font, RH, RW, shadow } from '@/theme/utils'
 import { BACKGROUND, ICON } from '@/theme/colors'
 import ChevronIcon from '@/assets/imgs/chevron'
-
 import OnBoardingIndicator from './indicator'
+import Carousel from "react-native-reanimated-carousel";
+import Game from "@/components/game";
+import index from "@/screens/Profile/Main";
 
 const OnBoardingItem = ({ items = [], next, previous }) => {
+  const scrollRef = useRef();
+  const width = Dimensions.get('window').width;
+  const height = Dimensions.get('window').height;
+  const [activeIndex, setActiveIndex]=useState(0);
+
+  const nextSlide = () => {
+    scrollRef.current.prev()
+  }
+
+  const prevSlide = () => {
+    scrollRef.current.next()
+  }
+
   return (
     <View style={[styles.container]}>
       {items.length > 1 && (
         <View style={styles.buttons}>
-          <ChevronIcon onPress={previous} />
-          <ChevronIcon isRight onPress={next} />
+          <ChevronIcon onPress={nextSlide} />
+          <ChevronIcon isRight onPress={prevSlide} />
         </View>
       )}
-      <ScrollView horizontal pagingEnabled showsHorizontalScrollIndicator={false}>
-        {items.map((item, idx) => {
-          return (
-            <View key={idx.toString()} style={styles.itemContainer}>
-              <Image source={item.image} style={styles.image} />
-              <Text style={[styles.description]}>{item.description}</Text>
-            </View>
-          )
-        })}
-      </ScrollView>
+      <Carousel
+          loop
+          width={width}
+          ref={scrollRef}
+          onScrollBegin={()=>setActiveIndex(scrollRef.current.getCurrentIndex())}
+          height={height}
+          data={[...items.keys()]}
+          scrollAnimationDuration={1000}
+          renderItem={({index}) => (
+                <View
+                  key={index}
+                  style={{
+                  width:'100%',
+                  height:'100%',
+                  alignItems:'center',
+                  }}
+              >
+                  <Image source={items[index].image} style={styles.image} />
+                  <Text style={[styles.description]}>{items[index].description}</Text>
+              </View>
+          )}
+      />
+
+
       <View style={styles.indicator}>
-        <OnBoardingIndicator itemsCount={items.length} />
+        <OnBoardingIndicator activeIndex={activeIndex} itemsCount={items.length} />
       </View>
     </View>
   )

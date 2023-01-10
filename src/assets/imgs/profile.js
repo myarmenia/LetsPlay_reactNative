@@ -3,7 +3,7 @@ import { Svg, Path } from 'react-native-svg'
 
 import { RW } from '@/theme/utils'
 
-const ProfileIcon = ({ color = 'white', size = 27 }) => {
+const ProfileIcon = ({ color = '#7190FF', size = 35 }) => {
   return (
     <Svg
       width={RW(size)}
