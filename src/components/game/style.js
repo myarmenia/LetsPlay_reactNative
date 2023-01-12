@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
-import {font, RH, RW} from '@/theme/utils'
-import {BLACK, WHITE} from '@/theme/colors'
+import { font, RH, RW } from '@/theme/utils'
+import { BLACK, WHITE } from '@/theme/colors'
 
 export const styles = StyleSheet.create({
   bgFon: {
@@ -13,13 +13,13 @@ export const styles = StyleSheet.create({
     borderWidth: RW(2),
     borderRadius: RW(20),
     borderColor: WHITE,
-    overflow:'hidden',
+    overflow: 'hidden',
     zIndex: -1,
     backgroundColor: 'rgba(217, 217, 217, 0.15)',
     paddingBottom: RH(80),
   },
-  btnText:{
-    ...font('bold', 20, BLACK)
+  btnText: {
+    ...font('bold', 20, BLACK),
   },
   border: {
     position: 'absolute',
@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
     marginTop: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
-    zIndex:-2,
+    zIndex: -2,
   },
 
   image: {
