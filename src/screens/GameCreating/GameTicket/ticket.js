@@ -5,10 +5,10 @@ import { RH, RW } from '@/theme/utils'
 import style from '@/screens/GameCreating/style'
 import ShareSvg from '@/assets/svgs/shareSvg'
 import Detail from '@/assets/imgs/detail.png'
-import moment from "moment";
+import moment from 'moment'
 
 function Ticket(props) {
-  const { image , game , data } = props
+  const { image, game, data } = props
   return (
     <View>
       {!image ? (
@@ -22,13 +22,20 @@ function Ticket(props) {
           <ShareSvg />
         </View>
         <View style={style.ticketTextBlock}>
-          <Text style={style.ticketText}>Дата и время игры: {moment(data.gameDayDate).format('DD.MM.YY')} , {moment(data.gameDayTime).format('HH:mm')}</Text>
+          <Text style={style.ticketText}>
+            Дата и время игры: {moment(data.gameDayDate).format('DD.MM.YY')} ,{' '}
+            {moment(data.gameDayTime).format('HH:mm')}
+          </Text>
         </View>
         <View style={style.ticketTextBlock}>
-          <Text style={style.ticketText}>Количество игроков: от {data.playerCountFrom} до {data.playerCountTo}</Text>
+          <Text style={style.ticketText}>
+            Количество игроков: от {data.playerCountFrom} до {data.playerCountTo}
+          </Text>
         </View>
         <View style={style.ticketTextBlock}>
-          <Text style={style.ticketText}>Возраст игроков: {data.ageFrom}-{data.ageTo}</Text>
+          <Text style={style.ticketText}>
+            Возраст игроков: {data.ageFrom}-{data.ageTo}
+          </Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Половой признак игроков: {data.gender}</Text>
@@ -38,10 +45,15 @@ function Ticket(props) {
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Дата и время окончания поиска </Text>
-          <Text style={style.ticketText}>игроков: {moment(data.lastDayDate).format('DD.MM.YY')} , {moment(data.lastDayTime).format('HH:mm')}</Text>
+          <Text style={style.ticketText}>
+            игроков: {moment(data.lastDayDate).format('DD.MM.YY')} ,{' '}
+            {moment(data.lastDayTime).format('HH:mm')}
+          </Text>
         </View>
         <View style={style.ticketTextBlock}>
-          <Text style={style.ticketText}>Стоимость входного билета на игру: {data.priceValue? data.priceValue : 0} руб.</Text>
+          <Text style={style.ticketText}>
+            Стоимость входного билета на игру: {data.priceValue ? data.priceValue : 0} руб.
+          </Text>
         </View>
         <View style={{ ...style.ticketTextBlock, flexDirection: 'row' }}>
           <Text style={style.ticketText}>Организатор игры:</Text>
