@@ -3,7 +3,7 @@ import { Svg, Path } from 'react-native-svg'
 
 import { RW } from '@/theme/utils'
 
-const ChatActiveIcon = ({ color = '#657AC5', size = 28 }) => {
+const ChatActiveIcon = ({ color = '#657AC5', size = 35 }) => {
   return (
     <Svg
       width={RW(size)}

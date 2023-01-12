@@ -73,7 +73,8 @@ export const styles = StyleSheet.create({
     fontSize: 18,
   },
   players: {
-    left: RW(-9),
+    // left: RW(10),
+    marginRight:2,
     top: RH(-7),
     zIndex: 10,
   },
