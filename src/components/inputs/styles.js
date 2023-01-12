@@ -9,13 +9,13 @@ export default StyleSheet.create({
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     paddingLeft: RW(24),
-    color: WHITE,
+    color: ICON,
   },
   priceInput: {
     height: RH(48),
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
-    color: WHITE,
+    color: ICON,
   },
   priceText: {
     ...font('regular', 16, ICON, 19),

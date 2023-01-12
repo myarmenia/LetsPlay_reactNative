@@ -36,7 +36,7 @@ const Composer = React.forwardRef(
           secureTextEntry={secure}
           placeholderTextColor={ICON}
           placeholder={placeholder || ''}
-          style={[styles.textStyle, textStyle , {color: WHITE}]}
+          style={[styles.textStyle, textStyle , {color: ICON}]}
         />
         <SendIcon onPress={send} />
       </View>

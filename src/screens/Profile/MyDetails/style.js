@@ -50,10 +50,11 @@ export default StyleSheet.create({
   },
   input: {
     width: RW(354),
+    height: RH(48),
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     paddingLeft: RW(20),
-    color: WHITE,
+    color: ICON,
   },
   inputBlock: {
     marginBottom: RH(14),

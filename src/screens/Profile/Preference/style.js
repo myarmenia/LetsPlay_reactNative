@@ -16,7 +16,6 @@ export default StyleSheet.create({
     gameNamesTitle:{
         ...font('medium' , 18 , WHITE , 28),
         marginTop: RH(15),
-        marginBottom: RW(9)
     },
     nameButton:{
         backgroundColor: ACTIVE,
@@ -38,7 +37,7 @@ export default StyleSheet.create({
         justifyContent: "space-around"
     },
     flatListBlock: {
-        marginBottom: RH(48)
+        marginBottom: RH(30)
     },
     detail:{
         width: RW(60),
