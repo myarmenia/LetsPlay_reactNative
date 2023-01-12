@@ -57,7 +57,7 @@ function Index(props) {
       <View style={style.chatInput}>
         <SmilesSvg />
         <TextInput
-          style={{ width: RW(276) , color: WHITE}}
+          style={{ width: RW(276) , color: ICON}}
           placeholder={'Сообщение...'}
           placeholderTextColor={ICON}
         />
