@@ -48,7 +48,7 @@ const OnBoardingItem = ({ items = [], next, previous }) => {
                   alignItems:'center',
                   }}
               >
-                  <Image source={items[index].image} style={styles.image} />
+                  {items[index].svg?items[index].svg:<Image source={items[index].image} style={styles.image} />}
                   <Text style={[styles.description]}>{items[index].description}</Text>
               </View>
           )}
