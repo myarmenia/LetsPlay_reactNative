@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 
 import { ICON } from '@/theme/colors'
 import { RW } from '@/theme/utils'
@@ -8,9 +8,9 @@ const OnBoardingIndicator = ({ itemsCount, activeIndex = 0 }) => {
 
   return (
     <View style={[styles.indicatorContainer]}>
-      {Array.from(Array(itemsCount).keys()).map(key => (
-        <View style={[styles.dot, key === activeIndex?styles.activeDot:null]} key={key} />
-      ))}
+      {/*{Array.from(Array(itemsCount).keys()).map(key => (*/}
+      {/*  <View style={[styles.dot, key === activeIndex?styles.activeDot:null]} key={key} />*/}
+      {/*))}*/}
     </View>
   )
 }
