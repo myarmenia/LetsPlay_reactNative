@@ -56,6 +56,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    // color: ICON
   },
   chatHeadBlock: {
     flexDirection: 'row',
@@ -90,12 +91,11 @@ export default StyleSheet.create({
   },
   chatBlock: {
     width: RW(396),
-    height: RH(730),
-    marginTop: RH(200),
+    marginTop: 'auto',
   },
   myItemBlock: {
     flexDirection: 'row',
-    marginLeft: RW(125),
+    marginLeft: RW(116),
     marginBottom: RH(30),
   },
   userItemBlock: {
@@ -121,5 +121,6 @@ export default StyleSheet.create({
     color: ICON,
     marginTop: RW(40),
     marginRight: RW(9),
+    marginLeft: RW(9),
   },
 })

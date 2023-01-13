@@ -24,27 +24,33 @@ export default StyleSheet.create({
   imgBlock: {
     flexDirection: 'row',
     width: '100%',
-    paddingLeft: RW(107),
+    paddingLeft: RW(120),
     // marginBottom: RH(30)
   },
+  imageBlock: {
+    width: RW(150),
+    height: RH(168),
+    borderRadius: RW(84),
+  },
   image: {
-    width: RW(167),
-    height: RH(178),
-    marginRight: RW(18),
+    width: '100%',
+    height: "100%",
+    borderRadius: RW(84)
   },
   tickSvg: {
     marginLeft: RW(60),
   },
-  formBlock: {
-    width: '100%',
-    marginLeft: RW(22),
-  },
+  // formBlock: {
+  //   width: '100%',
+  //   marginLeft: RW(22),
+  // },
   inputTitle: {
     ...font('regular', 16, WHITE, 19),
     marginBottom: RH(14),
   },
   input: {
     width: RW(354),
+    height: RH(48),
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     paddingLeft: RW(20),

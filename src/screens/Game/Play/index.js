@@ -13,6 +13,8 @@ import {BoardGames, ActiveGames} from "@/assets/TestData";
 import BtnCloseModal from "@/assets/imgs/btnCloseModal";
 import DarkButton from "@/assets/imgs/DarkButton";
 import Modal from '@/components/modal'
+import style from "@/screens/GameCreating/style";
+import Price from "@/components/inputs/price";
 
 const CREATE_GAME = 'CREATE_GAME'
 const PARTICIPATION_GAME = 'PARTICIPATION_GAME'
@@ -187,6 +189,7 @@ function Index({navigation}) {
         )
     }
     if (chooseType === PARTICIPATION_GAME) {
+        console.log(data.price)
         return (
             <ScreenMask>
                 <ScrollView>
@@ -256,8 +259,22 @@ function Index({navigation}) {
                             <View>
                                 <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
                                 <View style={styles.gameTypesContainer}>
-                                    <Radio list={free} topBtn={false} setFree={setFree} typeFunc={'paid'}/>
+                                    <Radio flag={flag} setFlag={setFlag} data={data} setData={setData} list={free} topBtn={false} setFree={setFree} type={'priceView'} typeFunc={'paid'}/>
                                 </View>
+                                {flag ? (
+                                    <View style={style.price}>
+                                        <Price
+                                            data={data}
+                                            setData={setData}
+                                            sliceNumber={13}
+                                            text={'Сумма оплаты '}
+                                            margin={RW(18)}
+                                            width={RW(210)}
+                                            placeholder={'Сумма оплаты 200р.'}
+                                        />
+
+                                    </View>
+                                ) : null}
                             </View>
                         </View>
                     </GestureRecognizer>

@@ -7,7 +7,7 @@ export default StyleSheet.create({
     input:{
         width: RW(354),
         backgroundColor: BACKGROUND,
-        color: WHITE,
+        color: ICON,
         borderRadius: RW(10),
         paddingHorizontal: RW(20),
         marginBottom: RH(23),
@@ -15,7 +15,7 @@ export default StyleSheet.create({
     buttonBlock: {
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: RH(140)
+        marginTop: RH(105)
     },
     feedbackModal:{
         width: RW(289),

@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     borderColor:ICON,
     borderWidth:RW(2),
     borderRadius:RW(2),
-    marginHorizontal:RW(8)
+    marginHorizontal:RW(12)
   },
   typeText:{
     color:RADIO_TEXT,
@@ -68,13 +68,14 @@ export const styles = StyleSheet.create({
   },
   someTitle: {
     ...font('regular', 16 , ICON , 24),
-    marginVertical: RH(20),
+    // marginVertical: RH(20),
+    marginLeft: RW(15)
   },
   datesContainer: {
     flexDirection: 'row',
     marginVertical: RH(10),
     width:RW(357),
-    alignSelf:"center",
+    marginBottom: RH(27),
     alignItems:"center"
   },
   bottomButton:{
@@ -82,6 +83,9 @@ export const styles = StyleSheet.create({
     marginRight: RW(10),
     marginBottom: RH(25)
   } ,
+  dateMap: {
+    marginBottom: RH(33)
+  },
   btnActiveGames: {
     marginBottom: 24,
   },

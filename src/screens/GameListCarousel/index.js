@@ -10,29 +10,33 @@ function Index({ navigation, route }) {
   const width = Dimensions.get('window').width
   const height = Dimensions.get('window').height
 
-  return (
-    <ScreenMask style={{ paddingHorizontal: 0 }}>
-      <Carousel
-        loop
-        width={width}
-        height={height}
-        data={[...list.keys()]}
-        scrollAnimationDuration={1000}
-        snapEnabled={false}
-        renderItem={({ index }) => (
-          <View
-            key={index}
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-            }}
-          >
-            <Game data={list[index]} game={game} />
-          </View>
-        )}
-      />
-    </ScreenMask>
-  )
+
+
+
+
+    return (
+        <ScreenMask style={{paddingHorizontal:0}}>
+            <Carousel
+                loop
+                width={width}
+                height={height}
+                data={[...list.keys()]}
+                scrollAnimationDuration={1000}
+                renderItem={({index}) => (
+                    <View
+                        key={index}
+                        style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <Game data={list[index]} game={game}/>
+
+                    </View>
+                )}
+            />
+        </ScreenMask>
+    );
 }
 
 export default Index

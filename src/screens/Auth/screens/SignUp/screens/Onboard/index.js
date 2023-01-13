@@ -4,35 +4,34 @@ import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { RH, RW } from '@/theme/utils'
 import OnBoardingItem from './components/item'
-import Logo from './components/logo'
+import Logo from '@//assets/imgs/Logo'
 import SignUpLogoSvg from '@/assets/svgs/SignUpLogoSvg'
 import Button from "@/assets/imgs/Button";
 
 const ITEMS = [
   {
-    image: require('@/assets/imgs/onboard.png'),
+    image: require('@/assets/imgs/registrSlide/loginSlideImageSearch.png'),
+    description:'Хотите поиграть, но не можете найти себе компанию?'},
+  {
+    image: require('@/assets/imgs/registrSlide/loginSlideImageBall.png'),
     description:
-        'С помощью этого приложения вы можете организовать игры․ Повседневная практика показывает, что укрепление и развитие структуры играет важную роль',
+        'Ваши друзья не готовы сорваться и приехать через час поиграть с Вами в футбол?',
   },
   {
-    image: require('@/assets/imgs/onboard.png'),
+    image: require('@/assets/imgs/registrSlide/loginSlideImageEvent.png'),
     description:
-        'С помощью этого приложения вы можете организовать игры․ Повседневная практика показывает, что укрепление и развитие структуры играет важную роль',
+        'Вы собрались компанией в кафе и внезапно решили поиграть в мафию?',
   },
   {
-    image: require('@/assets/imgs/onboard.png'),
+    image: require('@/assets/imgs/registrSlide/loginSlideImageEssy.png'),
     description:
-        'С помощью этого приложения вы можете организовать игры․ Повседневная практика показывает, что укрепление и развитие структуры играет важную роль',
+        'Что может быть проще?',
   },
   {
-    image: require('@/assets/imgs/onboard.png'),
+    image:'',
     description:
-        'С помощью этого приложения вы можете организовать игры․ Повседневная практика показывает, что укрепление и развитие структуры играет важную роль',
-  },
-  {
-    image: require('@/assets/imgs/onboard.png'),
-    description:
-        'С помощью этого приложения вы можете организовать игры․ Повседневная практика показывает, что укрепление и развитие структуры играет важную роль',
+        '',
+    svg: <SignUpLogoSvg/>
   },
 ]
 
@@ -41,7 +40,7 @@ const Onboard = ({ navigation }) => {
 
       <ScreenMask>
         <View style={styles.logo}>
-          <SignUpLogoSvg/>
+          <Logo/>
         </View>
         <OnBoardingItem items={ITEMS}/>
         <View style={styles.next}>

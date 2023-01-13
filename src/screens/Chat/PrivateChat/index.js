@@ -3,7 +3,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import style from '@/screens/Chat/style'
 import SmilesSvg from '@/assets/svgs/SmilesSvg'
-import { ICON } from '@/theme/colors'
+import {ICON, WHITE} from '@/theme/colors'
 import VoiceSvg from '@/assets/svgs/voiceSvg'
 import { RH, RW } from '@/theme/utils'
 import LeftArrow from '@/assets/svgs/leftArrow'
@@ -26,6 +26,7 @@ function Index(props) {
           <InfoSvg />
         </TouchableOpacity>
       </View>
+      <View style={{height: '80%' , marginTop: 'auto'}}>
       <View style={style.chatBlock}>
         <View style={style.userItemBlock}>
           <View style={style.userItem}></View>
@@ -47,25 +48,16 @@ function Index(props) {
           <View style={style.userItem}></View>
           <Text style={style.timeText}>1:01</Text>
         </View>
-        <View style={style.myItemBlock}>
+        <View style={{...style.myItemBlock , marginBottom: 0}}>
           <Text style={style.timeText}>1:01</Text>
           <View style={style.myItem}></View>
         </View>
       </View>
-      <View style={{ height: RH(784) }}></View>
-      <View style={style.chatInput}>
-        <SmilesSvg />
-        <TextInput
-          style={{ width: RW(276) }}
-          placeholder={'Сообщение...'}
-          placeholderTextColor={ICON}
-        />
-        <VoiceSvg />
       </View>
       <View style={style.chatInput}>
         <SmilesSvg />
         <TextInput
-          style={{ width: RW(276) }}
+          style={{ width: RW(276) , color: ICON}}
           placeholder={'Сообщение...'}
           placeholderTextColor={ICON}
         />

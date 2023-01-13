@@ -9,14 +9,6 @@ import Vote from "@/screens/Mafia/screen/Vote/Vote";
 import Ratings from "@/screens/Mafia/screen/Ratings/Ratings";
 import RatingPlayer from "@/screens/Mafia/screen/RatingPlayer/RatingPlayer";
 import GoBack from "@/helpers/goBack";
-import QrCode from "@/screens/Elias/QrCode";
-import AllocatePlayers from "@/screens/Elias/AllocatePlayers";
-import EliasAllocatePlayersInfo from "@/screens/Elias/AllocatePlayersInfo";
-import Settings from "@/screens/Elias/Settings";
-import DifficultyLevel from "@/screens/Elias/DifficultyLevel";
-import Start from "@/screens/Elias/Start";
-import ResTeam from "@/screens/Elias/ResTeam";
-import ResTeams from "@/screens/Elias/ResTeams";
 
 const MafiaGame = () => {
     const Stack = createNativeStackNavigator();

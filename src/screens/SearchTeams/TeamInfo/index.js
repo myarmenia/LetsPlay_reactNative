@@ -28,7 +28,7 @@ function Index({navigation, route}) {
             <Text style={style.text}>{team.address}</Text>
             <View style={style.btns}>
                 <View style={style.btn}>
-                    <Button onPress={()=>navigation.navigate('Home')} size={{width:360, height:48}} label={'Присоеденится к команде'} labelStyle={font('bold', 18, BLACK)}/>
+                    <Button onPress={()=>navigation.navigate('Home')} size={{width:360, height:48}} label={'Присоединиться к команде'} labelStyle={font('bold', 18, BLACK)}/>
                 </View>
             </View>
 

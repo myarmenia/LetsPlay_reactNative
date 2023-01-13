@@ -65,6 +65,7 @@ const DateTime = props => {
         </Text>
       </TouchableOpacity>
       <DatePicker
+        locale={'ru'}
         modal
         minimumDate={
           type === 'date' && day

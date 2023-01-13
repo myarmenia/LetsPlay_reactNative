@@ -48,7 +48,7 @@ const TabBarButton = ({state, descriptors, navigation, setIsHome, tabBarHidden }
             TabIcon = isFocused ? ChatActiveIcon : ChatIcon
           }
 
-          if (!TabIcon) return null
+          if (!TabIcon || state.index===4) return null
 
           return (
               <TouchableOpacity

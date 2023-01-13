@@ -48,12 +48,12 @@ const Elias = ({ navigation }) => {
                               key={i}
                               style={[styles.centeredContent, styles.draggableBox]}
                               draggingStyle={styles.dragging}
-                              dragReleasedStyle={styles.dragging}
-                              hoverDraggingStyle={styles.hoverDragging}
+                              // dragReleasedStyle={styles.dragging}
+                              // hoverDraggingStyle={styles.hoverDragging}
                               dragPayload={comOne[i]}
-                              longPressDelay={0}
+                              // longPressDelay={0}
                             >
-                              <View style={styles.players}>
+                              <View style={{...styles.players, ...styles.playersComBlock}}>
                                 <User user={comOne[i]}  size={95} />
                               </View>
                             </DraxView>
@@ -66,23 +66,23 @@ const Elias = ({ navigation }) => {
               )
             }}
             renderHoverContent={({ viewState }) => {
-              const offsetStyle = viewState.grabOffset
-                ? {
-                    marginLeft: viewState.grabOffset.x - 30,
-                    marginTop: viewState.grabOffset.y - 30,
-                  }
-                : undefined
-              const combinedStyles = [
-                styles.centeredContent,
-                styles.draggableBox,
-                styles.cyan,
-                offsetStyle,
-              ]
-              if (dragging) {
-                combinedStyles.push({ opacity: 0.2 })
-              } else if (receivingDrag) {
-                combinedStyles.push(styles.receiving)
-              }
+              // const offsetStyle = viewState.grabOffset
+              //   ? {
+              //       marginLeft: viewState.grabOffset.x - 30,
+              //       marginTop: viewState.grabOffset.y - 30,
+              //     }
+              //   : undefined
+              // const combinedStyles = [
+              //   styles.centeredContent,
+              //   styles.draggableBox,
+              //   styles.cyan,
+              //   offsetStyle,
+              // ]
+              // if (dragging) {
+              //   combinedStyles.push({ opacity: 0.2 })
+              // } else if (receivingDrag) {
+              //   combinedStyles.push(styles.receiving)
+              // }
               return null
             }}
             onReceiveDragDrop={event => {
@@ -135,12 +135,12 @@ const Elias = ({ navigation }) => {
                               key={i}
                               style={[styles.centeredContent, styles.draggableBox]}
                               draggingStyle={styles.dragging}
-                              dragReleasedStyle={styles.dragging}
-                              hoverDraggingStyle={styles.hoverDragging}
+                              // dragReleasedStyle={styles.dragging}
+                              // hoverDraggingStyle={styles.hoverDragging}
                               dragPayload={comTwo[i]}
-                              longPressDelay={0}
+                              // longPressDelay={0}
                             >
-                              <View style={styles.players}>
+                              <View style={{...styles.players, ...styles.playersComBlock}}>
                                 <User user={comTwo[i]} size={95} />
                               </View>
                             </DraxView>
@@ -153,23 +153,23 @@ const Elias = ({ navigation }) => {
               )
             }}
             renderHoverContent={({ viewState }) => {
-              const offsetStyle = viewState.grabOffset
-                ? {
-                    marginLeft: viewState.grabOffset.x - 30,
-                    marginTop: viewState.grabOffset.y - 30,
-                  }
-                : undefined
-              const combinedStyles = [
-                styles.centeredContent,
-                styles.draggableBox,
-                styles.cyan,
-                offsetStyle,
-              ]
-              if (dragging) {
-                combinedStyles.push({ opacity: 0.2 })
-              } else if (receivingDrag) {
-                combinedStyles.push(styles.receiving)
-              }
+              // const offsetStyle = viewState.grabOffset
+              //   ? {
+              //       marginLeft: viewState.grabOffset.x - 30,
+              //       marginTop: viewState.grabOffset.y - 30,
+              //     }
+              //   : undefined
+              // const combinedStyles = [
+              //   styles.centeredContent,
+              //   styles.draggableBox,
+              //   styles.cyan,
+              //   offsetStyle,
+              // ]
+              // if (dragging) {
+              //   combinedStyles.push({ opacity: 0.2 })
+              // } else if (receivingDrag) {
+              //   combinedStyles.push(styles.receiving)
+              // }
               return null
             }}
             onReceiveDragDrop={event => {
@@ -209,7 +209,7 @@ const Elias = ({ navigation }) => {
               //     combinedStyles.push(styles.receiving);
               // }
               return (
-                <ScrollView style={{ height: RH(200) }} horizontal={true}>
+                <View style={{ height: RH(200),}}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -221,35 +221,35 @@ const Elias = ({ navigation }) => {
                     {list.map((item, i) => (
                       <DraxView
                         key={i}
-                        style={[]}
+                        // style={[]}
                         draggingStyle={styles.dragging}
-                        dragReleasedStyle={styles.dragging}
-                        hoverDraggingStyle={styles.hoverDragging}
+                        // dragReleasedStyle={styles.dragging}
+                        // hoverDraggingStyle={styles.hoverDragging}
                         dragPayload={item}
-                        longPressDelay={0}
+                        // longPressDelay={0}
                       >
-                        <View style={styles.players}>
+                        <View style={{...styles.players, marginLeft:i===0?-RW(15):null}}>
                           <User user={item} size={80} />
                         </View>
                       </DraxView>
                     ))}
                   </View>
-                </ScrollView>
+                </View>
               )
             }}
             renderHoverContent={({ viewState }) => {
-              const offsetStyle = viewState.grabOffset
-                ? {
-                    marginLeft: viewState.grabOffset.x - 30,
-                    marginTop: viewState.grabOffset.y - 30,
-                  }
-                : undefined
-              const combinedStyles = [
-                styles.centeredContent,
-                styles.draggableBox,
-                styles.cyan,
-                offsetStyle,
-              ]
+              // const offsetStyle = viewState.grabOffset
+              //   ? {
+              //       marginLeft: viewState.grabOffset.x - 30,
+              //       marginTop: viewState.grabOffset.y - 30,
+              //     }
+              //   : undefined
+              // const combinedStyles = [
+              //   styles.centeredContent,
+              //   styles.draggableBox,
+              //   styles.cyan,
+              //   offsetStyle,
+              // ]
               // if (dragging) {
               //     combinedStyles.push({opacity: 0.2});
               // } else if (receivingDrag) {
@@ -279,10 +279,10 @@ const Elias = ({ navigation }) => {
         </View>
       </DraxProvider>
       <View
-        style={{ marginLeft: 'auto', alignItems: 'center', marginTop: 20, marginRight: 'auto' }}
+        style={{ marginLeft: 'auto', alignItems: 'center', marginVertical: 20, marginRight: 'auto' }}
       >
         <Button
-          onPress={() => navigation.navigate('EliasAllocatePlayersInfo', { comTwo, comOne })}
+            onPress={() => navigation.navigate('SettingsElias', { comTwo, comOne })}
           size={{ width: 281, height: 48 }}
           label={'Продолжить'}
         />
