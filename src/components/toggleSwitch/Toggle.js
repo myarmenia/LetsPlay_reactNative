@@ -18,7 +18,7 @@ const Toggle = () => {
                 thumbOffStyle={{width:RW(30),height:RH(30), borderRadius:50, backgroundColor:'#4D7CFE' , left: RW(-10)}}
                 trackOffStyle={{width:RW(60),height:RH(25)}}
                 label=""
-                size="large"
+                size="small"
                 onToggle={() => setIs(!is)}
             />
         </View>
