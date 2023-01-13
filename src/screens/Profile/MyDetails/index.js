@@ -32,9 +32,9 @@ function Index(props) {
             title={'Пол:'}
           />
           <DateBlock />
-          <InputBlock text={'Контактный тел.:'} placeholder={'тел.'} />
+          <InputBlock text={'Контактный тел.:'} placeholder={'Tел.'} />
           <InputBlock text={'E-mail:'} placeholder={'E-mail'} />
-          <InputBlock text={'Vk:'} placeholder={'Profile link'} />
+          <InputBlock text={'Vk:'} placeholder={'Ссылка на профиль'} />
           <TouchableOpacity onPress={() => navigation.navigate('Home')} style={style.logOut}>
             <Text style={style.logOutText}>Выход из аккаунта</Text>
           </TouchableOpacity>
