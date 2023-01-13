@@ -1,14 +1,21 @@
+
 import React, {useEffect, useState} from 'react'
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
 import {font, RH, RW} from '@/theme/utils'
+
 import User from '@/assets/imgs/user/user'
-import {Players} from '@/assets/TestData'
+import { Players } from '@/assets/TestData'
 import Modal from '@/components/modal'
 import Ticket from '@/screens/GameCreating/GameTicket/ticket'
+
 import {LIGHT_LABEL, WHITE} from '@/theme/colors'
+
+const HomeScreen = (props) => {
+  const { navigation, route } = props
+  const [isVisible, setIsVisible] = useState(false)
 
 
 const HomeScreen = props => {
@@ -62,6 +69,7 @@ const HomeScreen = props => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
+
     container: {
         flex: 1,
         marginLeft: 10,
@@ -109,4 +117,18 @@ const styles = StyleSheet.create({
         textAlign: "center",
     }
 
+  homeSecondModalBlock: {
+    width: RW(306),
+    height: RH(120),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  nodalText: {
+    ...font('regular', 16, WHITE, 25),
+    textAlign: 'center',
+  },
 })

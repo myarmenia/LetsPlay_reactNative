@@ -1,16 +1,15 @@
-import React, {useEffect} from 'react';
-import {Dimensions, Text, BackHandler, View} from "react-native";
-import Carousel from "react-native-reanimated-carousel";
-import Game from "@/components/game";
-import ScreenMask from "@/components/wrappers/screen";
-import {RH} from '@/theme/utils'
-import Modal from "@/components/modal";
+import React from 'react'
+import { Dimensions, View } from 'react-native'
+import Carousel from 'react-native-reanimated-carousel'
+import Game from '@/components/game'
+import ScreenMask from '@/components/wrappers/screen'
 
-function Index({navigation, route,}) {
-    const {list, game}=route.params;
+function Index({ navigation, route }) {
+  const { list, game } = route.params
 
-    const width = Dimensions.get('window').width;
-    const height = Dimensions.get('window').height;
+  const width = Dimensions.get('window').width
+  const height = Dimensions.get('window').height
+
 
 
 
@@ -40,4 +39,4 @@ function Index({navigation, route,}) {
     );
 }
 
-export default Index;
+export default Index

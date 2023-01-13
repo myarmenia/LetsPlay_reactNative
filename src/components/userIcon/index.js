@@ -1,11 +1,11 @@
 import React from 'react'
-import {Image, Text, View} from 'react-native'
+import { Image, Platform, Text, View } from 'react-native'
 import style from './styles'
 import UserDefault from '@/assets/imgs/user/userDefault'
 import UserLine from '@/assets/imgs/user/userLine'
 import UserCircle from '@/assets/imgs/user/userCircle'
-import {font, RH, RW} from '@/theme/utils'
-import {WHITE} from '@/theme/colors'
+import { font, RH, RW } from '@/theme/utils'
+import { WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
 
 function Index({user, size}) {
@@ -89,7 +89,12 @@ function Index({user, size}) {
                 <Vk size={size / RH(12)}/>
             </View>
         </View>
-    )
+      </View>
+      <View style={{ ...style.soc, marginTop: size / RH(110) }}>
+        <Vk size={size / RH(12)} />
+      </View>
+    </View>
+  )
 }
 
 export default Index
