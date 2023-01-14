@@ -56,7 +56,7 @@ function Index(props) {
     return (
         <ScreenMask>
             <View style={style.container}>
-                <Text style={styles.title}>Мои подписки и предпочтения</Text>
+                <Text style={styles.title}>Мои предпочтения</Text>
                 <View style={style.gameNamesBlock}>
                     <Text style={style.gameNamesTitle}>Предпочтения в играх</Text>
                     <View style={style.flatListBlock}>
@@ -73,13 +73,12 @@ function Index(props) {
                     <FlatList
                         showsVerticalScrollIndicator={false}
                         columnWrapperStyle={{...style.flatList, marginBottom: RH(45)}}
-                        style={{height: RW(240)}}
                         numColumns={3}
+                        style={{height: RH(400)}}
                         data={count}
                         renderItem={renderItemTwo}
                         keyExtractor={item => item.id}
                     />
-                    <View style={style.buttonBlock}><Button label={'Продолжить'} size={{width: 172, height: 48}}/></View>
                 </View>
             </View>
         </ScreenMask>

@@ -10,7 +10,21 @@ import { useState } from 'react'
 import Modal from '@/components/modal'
 
 function Index(props) {
-  const [isVisible, setIsVisible] = useState(false)
+    const {navigation} = props
+    const [isVisible, setIsVisible] = useState(false);
+    const [value, setValue] = useState('')
+    const [secondValue, setSecondValue] = useState('')
+    const [errorText, setErrorText] = useState(false)
+    const handleClick = () => {
+        if (value && secondValue) {
+            setIsVisible(true)
+            setTimeout(()=> {
+                navigation.navigate('Home')
+            }, 3000)
+        } else {
+            setErrorText(true)
+        }
+    }
 
   return (
     <ScreenMask>
@@ -18,12 +32,14 @@ function Index(props) {
         <Text style={{ ...styles.title, marginTop: RH(53), marginBottom: RH(83) }}>
           Обратная связь
         </Text>
-        <TextInput
-          placeholderTextColor={ICON}
-          placeholder={'Тема'}
+        <View style={style.inputBlock}>
+        <TextInput onChangeText={(ev) => setValue(ev)}  placeholderTextColor={ICON} placeholder={'Тема'}
           style={[style.input, Platform.OS == 'ios' && { fontSize: 16, height: 51 }]}
         />
+          {errorText && !value ? <Text style={style.errorText}>Обязательное поле для заполнения</Text> : null}
+         </View>
         <TextInput
+          onChangeText={(ev) => setSecondValue(ev)}
           placeholderTextColor={ICON}
           multiline={true}
           numberOfLines={20}
@@ -31,13 +47,10 @@ function Index(props) {
           placeholder={'Сообщение'}
           style={[{ ...style.input, height: RH(405) }, Platform.OS == 'ios' && { fontSize: 16 }]}
         />
-        <View style={style.buttonBlock}>
-          <Button
-            onPress={() => setIsVisible(true)}
-            size={{ width: 356, height: 48 }}
-            label={'Отправить'}
-          />
-        </View>
+        {errorText && !secondValue ?
+                        <Text style={style.errorText}>Обязательное поле для заполнения</Text> : null}
+        <View style={style.buttonBlock}><Button onPress={handleClick} size={{width: 356, height: 48}}
+                                                        label={'Отправить'}/></View>
         <Modal
           modalVisible={isVisible}
           setIsVisible={setIsVisible}
@@ -47,10 +60,10 @@ function Index(props) {
                 Спасибо за ваше сообщение. В ближайшее время с вами свяжется менеджер приложения
                 «Играем?».
               </Text>
-            </View>
-          }
-        />
-      </View>
+                           </View>
+                       }
+                />
+                      </View>
     </ScreenMask>
   )
 }

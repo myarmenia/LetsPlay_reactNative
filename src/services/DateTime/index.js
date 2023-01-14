@@ -66,6 +66,9 @@ const DateTime = (props) => {
       </TouchableOpacity>
       <DatePicker
         locale={'ru'}
+        cancelText={'ОТМЕНИТЬ'}
+        confirmText={'ПОДТВЕРЖДАТЬ'}
+        title={'Выберите дату'}
         modal
         minimumDate={
           type === 'date' && day
