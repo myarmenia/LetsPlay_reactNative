@@ -4,6 +4,85 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 
 export default StyleSheet.create({
+  secondTicketModalBlock: {
+    width: RW(306),
+    height: RH(191),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: RW(20),
+  },
+  firstTicketModalBlock: {
+    width: RW(306),
+    height: RH(300),
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: RW(20),
+    alignItems: 'center',
+  },
+  gameTicketButtonsBlock: {
+    flexDirection: 'row',
+    marginTop: 'auto',
+    marginBottom: RH(23),
+    justifyContent: 'space-between',
+  },
+  detailImg: {
+    width: RW(20),
+    height: RH(31),
+    marginLeft: RW(20),
+  },
+  ticketTextBlock: {
+    marginBottom: RH(14),
+  },
+  firstTextBlock: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginRight: RW(18),
+  },
+  ticketText: {
+    ...font('bold', 14, WHITE, 20),
+    marginLeft: RW(15),
+  },
+  ticketImg: {
+    width: RW(206),
+    height: RH(218),
+    resizeMode: 'contain',
+  },
+  ticketBlock: {
+    marginTop: RH(87),
+  },
+  ticketImgBlock: {
+    alignItems: 'center',
+    marginBottom: RW(46),
+  },
+  errorText: {
+    ...font('regular', 16, RED, 24),
+    marginLeft: RW(20),
+  },
+  text: {
+    ...font('regular', 16, WHITE, 25),
+    width: RW(200),
+    textAlign: 'center',
+    marginTop: RH(49),
+    marginBottom: RH(31),
+  },
+  topBlock: {
+    width: RW(306),
+    paddingBottom: RH(25),
+    alignItems: 'center',
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 20,
+  },
+  titles: {
+    ...font('regular', 16, ICON, 24),
+    marginTop: RH(24),
+    marginLeft: RW(20),
+  },
 
     secondTicketModalBlock:{
         width: RW(306),

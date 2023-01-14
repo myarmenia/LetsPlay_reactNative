@@ -1,14 +1,17 @@
 import React from 'react'
 import { ImageBackground, SafeAreaView, StyleSheet } from 'react-native'
 import BGMask from '@/assets/imgs/BGMask.png'
-import {BACKGROUND, SCREEN_BACKGROUND} from '@/theme/colors'
+import { SCREEN_BACKGROUND } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import { IS_IOS } from '@/constants'
 
-
 const ScreenMask = ({ children, style }) => {
   return (
-    <ImageBackground source={BGMask} imageStyle={styles.bgMask} style={{...styles.container,...style}}>
+    <ImageBackground
+      source={BGMask}
+      imageStyle={styles.bgMask}
+      style={{ ...styles.container, ...style }}
+    >
       <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
     </ImageBackground>
   )

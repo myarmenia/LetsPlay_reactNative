@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
 
 import ProfileActiveIcon from '@/assets/imgs/profileActive'
@@ -9,64 +9,63 @@ import { TAB_BAR_HEIGHT } from '@/constants'
 import { RH, shadow } from '@/theme/utils'
 import ChatIcon from '@/assets/imgs/chat'
 
-const TabBarButton = ({state, descriptors, navigation, setIsHome, tabBarHidden }) => {
-
-  useEffect(()=>{
-    setIsHome(state.index===0)
-  },[state.index])
+const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden }) => {
+  useEffect(() => {
+    setIsHome(state.index === 0)
+  }, [state.index])
 
   return (
-      <View style={{ ...styles.tabBar, display: tabBarHidden ? 'none' : 'flex' }}>
-        {state.routes.map((route, index) => {
-          const { options } = descriptors[route.key]
+    <View style={{ ...styles.tabBar, display: tabBarHidden ? 'none' : 'flex' }}>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key]
 
-          const isFocused = state.index === index
-          const onPress = () => {
-            const event = navigation.emit({
-              type: 'tabPress',
-              target: route.key,
-              canPreventDefault: true,
-            })
+        const isFocused = state.index === index
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          })
 
-            if (!isFocused && !event.defaultPrevented) {
-              // The merge: true option makes sure that the params inside the tab screen are preserved
-              navigation.navigate({ name: route.name, merge: true })
-            }
+          if (!isFocused && !event.defaultPrevented) {
+            // The merge: true option makes sure that the params inside the tab screen are preserved
+            navigation.navigate({ name: route.name, merge: true })
           }
+        }
 
-          const onLongPress = () => {
-            navigation.emit({
-              type: 'tabLongPress',
-              target: route.key,
-            })
-          }
+        const onLongPress = () => {
+          navigation.emit({
+            type: 'tabLongPress',
+            target: route.key,
+          })
+        }
 
-          let TabIcon
-          if (route.name === 'Profile') {
-            TabIcon = isFocused ? ProfileActiveIcon : ProfileIcon
-          } else if (route.name === 'Chat') {
-            TabIcon = isFocused ? ChatActiveIcon : ChatIcon
-          }
+        let TabIcon
+        if (route.name === 'Profile') {
+          TabIcon = isFocused ? ProfileActiveIcon : ProfileIcon
+        } else if (route.name === 'Chat') {
+          TabIcon = isFocused ? ChatActiveIcon : ChatIcon
+        }
 
-          if (!TabIcon || state.index===4) return null
+        if (!TabIcon || state.index === 4) return null
 
-          return (
-              <TouchableOpacity
-                  onPress={onPress}
-                  activeOpacity={0.7}
-                  key={index.toString()}
-                  onLongPress={onLongPress}
-                  accessibilityRole="button"
-                  testID={options.tabBarTestID}
-                  style={{ alignItems: 'center' }}
-                  accessibilityLabel={options.tabBarAccessibilityLabel}
-                  accessibilityState={isFocused ? { selected: true } : {}}
-              >
-                <TabIcon height={RH(27)} width={RH(27)} />
-              </TouchableOpacity>
-          )
-        })}
-      </View>
+        return (
+          <TouchableOpacity
+            onPress={onPress}
+            activeOpacity={0.7}
+            key={index.toString()}
+            onLongPress={onLongPress}
+            accessibilityRole="button"
+            testID={options.tabBarTestID}
+            style={{ alignItems: 'center' }}
+            accessibilityLabel={options.tabBarAccessibilityLabel}
+            accessibilityState={isFocused ? { selected: true } : {}}
+          >
+            <TabIcon height={RH(27)} width={RH(27)} />
+          </TouchableOpacity>
+        )
+      })}
+    </View>
   )
 }
 

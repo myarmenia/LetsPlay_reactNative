@@ -8,8 +8,8 @@ import Button from "@/assets/imgs/Button";
 
 function Index(props) {
     const list = [
-        {id: 1, text: 'Продвижение игр'},
-        {id: 2, text: 'История покупок'},
+        {id: 1, text: 'Платные услуги'},
+        {id: 2, text: 'История'},
         {id: 3, text: 'Тарифы'},
     ]
     const LinkItem = ({item}) => (
@@ -21,8 +21,8 @@ function Index(props) {
         <LinkItem item={item}/>
     );
     return (
-        <ScreenMask>
-                <Text style={{...styles.title , marginTop: RH(16) , marginBottom: RH(50)}}>Мой кошелек</Text>
+        <ScreenMask style={{paddingHorizontal: 0 ,}}>
+                <Text style={{...styles.title , marginTop: RH(16) , marginLeft: 'auto', marginRight: 'auto', marginBottom: RH(50)}}>Мой кошелек</Text>
                 <View style={style.priceBlock}><Text style={style.balanceText}>Ваш баланс:</Text><Text style={style.price}>200 руб</Text></View>
                 <FlatList
                     data={list}

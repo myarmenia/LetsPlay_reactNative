@@ -14,28 +14,27 @@ export default StyleSheet.create({
   },
   titleBloc: {
     alignItems: 'center',
-    justifyContent:'center',
+    justifyContent: 'center',
     // flexWrap: 'wrap',
     // backgroundColor:"red",
     marginLeft: 'auto',
     marginRight: 'auto',
-
   },
   title: {
     ...font('bold', RW(10), WHITE),
   },
   titleCount: { ...font('bold', RW(16), WHITE) },
   statusBlock: {
-    marginLeft:'auto',
-    marginRight:'auto',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     // backgroundColor: 'rgba(52, 52, 52, 0)',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   bg: {
-    width:'100%',
-    height:'100%',
+    width: '100%',
+    height: '100%',
   },
   image: {
     borderRadius: 100,

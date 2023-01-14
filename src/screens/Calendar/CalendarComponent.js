@@ -8,43 +8,44 @@ import OpenSvg from '@/assets/svgs/OpenSvg'
 import LineSvg from "@/assets/svgs/LineSvg";
 import {RH, RW} from '@/theme/utils'
 import {useNavigation} from '@react-navigation/native'
+import {ICON} from "@/theme/colors";
 
 const CalendarComponent = () => {
   const navigation = useNavigation()
-  LocaleConfig.locales['fr'] = {
+  LocaleConfig.locales['ru'] = {
     monthNames: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
+      'Январь',
+      'Февраль',
+      'Март',
+      'Апрель',
+      'Май',
+      'Июнь',
+      'Июль',
+      'Август',
+      'Сентябрь',
+      'Октябрь',
+      'Ноябрь',
+      'Декабрь',
     ],
     monthNamesShort: [
-      'Jan.',
-      'Feb.',
-      'March',
-      'April',
-      'May',
-      'June',
-      'Jule.',
-      'Aug',
-      'Sep.',
-      'Oct.',
-      'Nov.',
-      'Dec.',
+      'Янв',
+      'Фев',
+      'Мар',
+      'Апр',
+      'Май',
+      'Июн',
+      'Июл',
+      'Авг',
+      'Сен',
+      'Окт',
+      'Ноя',
+      'Дек',
     ],
-    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-    dayNamesShort: [''],
+    dayNames: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
+    dayNamesShort: ['Пн' , 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' , 'Вс'],
     today: "Aujourd'hui",
   }
-  LocaleConfig.defaultLocale = 'fr'
+  LocaleConfig.defaultLocale = 'ru'
   const header = <View>
     <View style={styles.header}>
       <View
@@ -105,10 +106,12 @@ const CalendarComponent = () => {
           dayTextColor: '#fff',
           arrowColor: '#7DCE8A',
           selectedDayBackgroundColor: '#7DCE8A',
-          monthTextColor: '#142A5C'
+          monthTextColor: '#142A5C',
+          agendaDayNumColor: ICON,
         }}
         headerStyle={{backgroundColor: '#142A5C'}}
         hideArrows={true}
+        day
         // markedDates={{
         //   '2012-05-16': {selected: true, marked: true, selectedColor: 'blue'},
         //   '2012-05-17': {marked: true, backgroundColor: 'red'},

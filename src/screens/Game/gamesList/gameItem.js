@@ -12,7 +12,7 @@ function GameItem({ route, navigation }) {
   return (
     <ScreenMask>
       <GestureRecognizer
-        onSwipeLeft={state => navigation.goBack()}
+        onSwipeLeft={(state) => navigation.goBack()}
         style={{
           flex: 1,
         }}
@@ -37,8 +37,8 @@ function GameItem({ route, navigation }) {
               Организатор игры:{' '}
               <Image
                 source={require('../../../assets/imgs/detail.png')}
-                resizeMode="center"
-                style={{ width: RW(21), height: RH(31) }}
+                // resizeMode="center"
+                style={{ width: RW(21), height: RH(31), resizeMode: 'contain' }}
               />
             </Text>
           </View>

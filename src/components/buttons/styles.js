@@ -2,12 +2,13 @@ import { StyleSheet } from 'react-native'
 
 import { ACTIVE, BACKGROUND, INACTIVE, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
+import { TAB_BAR_HEIGHT } from '@/constants'
 
 export default StyleSheet.create({
   circleContainer: {
     width: RW(78),
     height: RW(78),
-    bottom: RH(28),
+    bottom: TAB_BAR_HEIGHT - RW(78) / 2,
     padding: RW(8),
     alignSelf: 'center',
     position: 'absolute',

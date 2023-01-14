@@ -28,14 +28,14 @@ export default StyleSheet.create({
     // marginBottom: RH(30)
   },
   imageBlock: {
-    width: RW(150),
-    height: RH(168),
+    width: RW(168),
+    height: RW(168),
     borderRadius: RW(84),
   },
   image: {
     width: '100%',
-    height: "100%",
-    borderRadius: RW(84)
+    height: '100%',
+    borderRadius: RW(84),
   },
   tickSvg: {
     marginLeft: RW(60),

@@ -1,5 +1,13 @@
 import React from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import ScreenMask from '@/components/wrappers/screen'
@@ -64,7 +72,7 @@ const SignIn = () => {
   }, [])
 
   const onSend = React.useCallback(
-    message => {
+    (message) => {
       setLoading(true)
       updateMessages({
         message,
@@ -84,34 +92,47 @@ const SignIn = () => {
     [index, messages, navigation],
   )
 
-  const updateMessages = data => {
-    setMessages(prevData => [...prevData, data])
+  const updateMessages = (data) => {
+    setMessages((prevData) => [...prevData, data])
   }
 
   return (
     <ScreenMask>
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {messages.map((message, idx) => {
-          return (
-            <Message
-              key={idx.toString()}
-              clear={message.clear}
-              secure={message.secure}
-              isLeft={message.isLeft}
-              isWrong={message.isWrong}
-              message={message.message}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        {...(Platform.OS === 'ios'
+          ? {
+              behavior: 'padding',
+              keyboardVerticalOffset: RH(10),
+              enabled: true,
+            }
+          : {})}
+      >
+        <View style={{ flex: 1 }}>
+          <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+            {messages.map((message, idx) => {
+              return (
+                <Message
+                  key={idx.toString()}
+                  clear={message.clear}
+                  secure={message.secure}
+                  isLeft={message.isLeft}
+                  isWrong={message.isWrong}
+                  message={message.message}
+                />
+              )
+            })}
+          </ScrollView>
+          <View style={styles.bottom}>
+            <Composer
+              onSend={onSend}
+              ref={ref}
+              disabled={loading}
+              secure={messages[messages.length - 1]?.secure}
             />
-          )
-        })}
-      </ScrollView>
-      <View style={styles.bottom}>
-        <Composer
-          onSend={onSend}
-          ref={ref}
-          disabled={loading}
-          secure={messages[messages.length - 1]?.secure}
-        />
-      </View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </ScreenMask>
   )
 }
@@ -122,7 +143,7 @@ const styles = StyleSheet.create({
   bottom: {
     left: 0,
     right: 0,
-    bottom: RH(30),
+    bottom: RH(20),
     position: 'absolute',
   },
   vk: {

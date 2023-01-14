@@ -10,7 +10,7 @@ export default StyleSheet.create({
         color: ICON,
         borderRadius: RW(10),
         paddingHorizontal: RW(20),
-        marginBottom: RH(23),
+
     },
     buttonBlock: {
         marginLeft: 'auto',
@@ -32,6 +32,11 @@ export default StyleSheet.create({
         ...font('regular' , 16 , WHITE , 24),
         textAlign: "center",
         width: RW(235)
+    },
+    errorText: {
+        ...font('regular', 16, RED, 24),
+    },
+    inputBlock:{
+        marginBottom: RH(23),
     }
-
 })

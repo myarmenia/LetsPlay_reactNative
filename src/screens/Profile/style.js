@@ -27,18 +27,18 @@ export default StyleSheet.create({
     width: '100%',
     paddingLeft: RW(31),
     marginBottom: RH(30),
-    marginTop: RH(15)
+    marginTop: RH(15),
   },
   imageBlock: {
-    width: RW(87),
-    height: RH(98),
+    width: RW(98),
+    height: RW(98),
     borderRadius: RW(43),
     marginRight: RW(20),
   },
   image: {
     width: '100%',
-    height: "100%",
-    borderRadius: RW(43)
+    height: '100%',
+    borderRadius: RW(43),
   },
   userEdit: {
     marginLeft: RW(80),
@@ -63,9 +63,21 @@ export default StyleSheet.create({
     paddingLeft: RW(44),
   },
   galleryText: {
-    ...font('medium', 20, WHITE, 22),
-    width: RW(260),
+    ...font('regular', 20, WHITE, 25),
     textAlign: 'center',
-    marginTop: RH(25),
+    marginTop: RH(40)
   },
+  GalleryTitle:{
+    ...font('regular', 24, WHITE, 26),
+  },
+  galleryTextBlock:{
+    marginTop: RH(208),
+    paddingTop: RH(23),
+    paddingBottom: RH(40),
+    borderRadius: RW(20),
+    backgroundColor: LIGHT_LABEL,
+    width: RW(325),
+    alignItems: "center",
+    justifyContent: "center"
+  }
 })
