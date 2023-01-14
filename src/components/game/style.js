@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   bgFon: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: RH(65),
+    marginTop: RH(45),
     marginBottom: 'auto',
     width: RW(335),
     height: RH(707),
@@ -40,14 +40,14 @@ export const styles = StyleSheet.create({
   title: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    zIndex:1,
+    zIndex: 1,
     marginTop: RH(190),
   },
   btn: {
     marginTop: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
-    zIndex:10,
+    zIndex: 10,
   },
 
   image: {

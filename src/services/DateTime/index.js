@@ -7,7 +7,7 @@ import moment from 'moment'
 import TimeSvg from '@/assets/svgs/timeSvg'
 import { RW } from '@/theme/utils'
 
-const DateTime = props => {
+const DateTime = (props) => {
   const { type, day, data, setData, gameDayDate, errorText, width } = props
   const currentDate = new Date()
   const minimumDate = currentDate.setDate(currentDate.getDate() + 1)
@@ -15,7 +15,7 @@ const DateTime = props => {
   const [open, setOpen] = useState(false)
   const lastDate =
     new Date(gameDayDate).setDate(new Date(gameDayDate).getDate() - 1) || new Date('2099-12-31')
-  const handleConfirm = date => {
+  const handleConfirm = (date) => {
     setOpen(false)
     setDate(date)
     if (day === 'gameDay' && type === 'date') {
@@ -84,12 +84,15 @@ const DateTime = props => {
             ? date
             : new Date(minimumDate)
         }
-        onConfirm={date => {
+        onConfirm={(date) => {
           handleConfirm(date)
         }}
         onCancel={() => {
           setOpen(false)
         }}
+        title="Дата и время"
+        confirmText="Подтверждать"
+        cancelText="Отменить"
       />
     </View>
   )
