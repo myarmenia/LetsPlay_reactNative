@@ -53,8 +53,8 @@ const Elias = ({ navigation }) => {
                               dragPayload={comOne[i]}
                               // longPressDelay={0}
                             >
-                              <View style={{...styles.players, ...styles.playersComBlock}}>
-                                <User user={comOne[i]}  size={95} />
+                              <View style={{ ...styles.players, ...styles.playersComBlock }}>
+                                <User user={comOne[i]} size={95} />
                               </View>
                             </DraxView>
                           ) : null}
@@ -85,7 +85,7 @@ const Elias = ({ navigation }) => {
               // }
               return null
             }}
-            onReceiveDragDrop={event => {
+            onReceiveDragDrop={(event) => {
               if (
                 event.dragged.payload.id &&
                 comOne.length < 5 &&
@@ -140,7 +140,7 @@ const Elias = ({ navigation }) => {
                               dragPayload={comTwo[i]}
                               // longPressDelay={0}
                             >
-                              <View style={{...styles.players, ...styles.playersComBlock}}>
+                              <View style={{ ...styles.players, ...styles.playersComBlock }}>
                                 <User user={comTwo[i]} size={95} />
                               </View>
                             </DraxView>
@@ -172,7 +172,7 @@ const Elias = ({ navigation }) => {
               // }
               return null
             }}
-            onReceiveDragDrop={event => {
+            onReceiveDragDrop={(event) => {
               if (
                 event.dragged.payload.id &&
                 comTwo.length < 5 &&
@@ -209,7 +209,7 @@ const Elias = ({ navigation }) => {
               //     combinedStyles.push(styles.receiving);
               // }
               return (
-                <View style={{ height: RH(200),}}>
+                <View style={{ height: RH(200) }}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -228,7 +228,7 @@ const Elias = ({ navigation }) => {
                         dragPayload={item}
                         // longPressDelay={0}
                       >
-                        <View style={{...styles.players, marginLeft:i===0?-RW(15):null}}>
+                        <View style={{ ...styles.players, marginLeft: i === 0 ? -RW(15) : null }}>
                           <User user={item} size={80} />
                         </View>
                       </DraxView>
@@ -257,7 +257,7 @@ const Elias = ({ navigation }) => {
               // }
               return null
             }}
-            onReceiveDragDrop={event => {
+            onReceiveDragDrop={(event) => {
               if (
                 event.dragged.payload.id &&
                 !list.filter((item, i) => item.id === event.dragged.payload?.id).length
@@ -279,10 +279,15 @@ const Elias = ({ navigation }) => {
         </View>
       </DraxProvider>
       <View
-        style={{ marginLeft: 'auto', alignItems: 'center', marginVertical: 20, marginRight: 'auto' }}
+        style={{
+          marginLeft: 'auto',
+          alignItems: 'center',
+          marginVertical: 20,
+          marginRight: 'auto',
+        }}
       >
         <Button
-            onPress={() => navigation.navigate('SettingsElias', { comTwo, comOne })}
+          onPress={() => navigation.navigate('SettingsElias', { comTwo, comOne })}
           size={{ width: 281, height: 48 }}
           label={'Продолжить'}
         />
