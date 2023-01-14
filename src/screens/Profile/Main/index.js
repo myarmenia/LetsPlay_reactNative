@@ -23,7 +23,7 @@ const index = props => {
             console.log(111)
         }
     }
-  }
+
 
   const LinkItem = ({ item }) => (
     <TouchableOpacity
@@ -52,5 +52,4 @@ const index = props => {
     </ScreenMask>
   )
 }
-
 export default index
