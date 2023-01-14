@@ -19,7 +19,6 @@ export const styles = StyleSheet.create({
     padding: 12,
     // backgroundColor:"red",
     // borderWidth:5,
-
     // paddingTop: 40,
     // justifyContent: 'space-evenly',
   },
@@ -74,12 +73,12 @@ export const styles = StyleSheet.create({
   },
   players: {
     // left: RW(10),
-    marginRight:2,
+    marginRight: 2,
     top: RH(-7),
     zIndex: 10,
   },
-  playersComBlock:{
-    left:RW(-15)
+  playersComBlock: {
+    left: RW(-15),
   },
   comBg: {
     flexDirection: 'row',
@@ -95,6 +94,5 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     height: 50,
-
   },
 })

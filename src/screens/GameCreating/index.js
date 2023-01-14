@@ -49,6 +49,7 @@ const GameCreating = (props) => {
       !data.lastDayDate ||
       data.lastDayDate >= data.gameDayDate ||
       (!data.priceValue && flag)
+      // false
     ) {
       setIsVisible(false)
     } else {

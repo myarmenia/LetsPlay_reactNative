@@ -21,7 +21,7 @@ export default StyleSheet.create({
     marginLeft: RW(20),
   },
   radio: {
-    width: RW(16),
+    width: RH(16),
     height: RH(16),
     alignItems: 'center',
     justifyContent: 'center',

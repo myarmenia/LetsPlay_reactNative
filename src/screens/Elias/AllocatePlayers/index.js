@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Pressable, ScrollView, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { DraxProvider, DraxView } from 'react-native-drax'
 import { styles } from './styles'
@@ -11,7 +11,7 @@ import Button from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 
 const Elias = ({ navigation }) => {
-  const [staged, setStaged] = React.useState([])
+  const [staged, setStaged] = useState([])
   const [comOne, setComOne] = useState([])
   const [comTwo, setComTwo] = useState([])
   const [list, setList] = useState(Players)
@@ -65,26 +65,26 @@ const Elias = ({ navigation }) => {
                 </View>
               )
             }}
-            renderHoverContent={({ viewState }) => {
-              // const offsetStyle = viewState.grabOffset
-              //   ? {
-              //       marginLeft: viewState.grabOffset.x - 30,
-              //       marginTop: viewState.grabOffset.y - 30,
-              //     }
-              //   : undefined
-              // const combinedStyles = [
-              //   styles.centeredContent,
-              //   styles.draggableBox,
-              //   styles.cyan,
-              //   offsetStyle,
-              // ]
-              // if (dragging) {
-              //   combinedStyles.push({ opacity: 0.2 })
-              // } else if (receivingDrag) {
-              //   combinedStyles.push(styles.receiving)
-              // }
-              return null
-            }}
+            // renderHoverContent={({ viewState }) => {
+            //   // const offsetStyle = viewState.grabOffset
+            //   //   ? {
+            //   //       marginLeft: viewState.grabOffset.x - 30,
+            //   //       marginTop: viewState.grabOffset.y - 30,
+            //   //     }
+            //   //   : undefined
+            //   // const combinedStyles = [
+            //   //   styles.centeredContent,
+            //   //   styles.draggableBox,
+            //   //   styles.cyan,
+            //   //   offsetStyle,
+            //   // ]
+            //   // if (dragging) {
+            //   //   combinedStyles.push({ opacity: 0.2 })
+            //   // } else if (receivingDrag) {
+            //   //   combinedStyles.push(styles.receiving)
+            //   // }
+            //   return null
+            // }}
             onReceiveDragDrop={(event) => {
               if (
                 event.dragged.payload.id &&
@@ -114,6 +114,7 @@ const Elias = ({ navigation }) => {
             dragPayload={staged.join(' ')}
             draggable={staged.length > 0}
             renderContent={({ viewState }) => {
+              console.log(viewState)
               const receivingDrag = viewState && viewState.receivingDrag
               const payload = receivingDrag && receivingDrag.payload
               const dragging = viewState && viewState.dragStatus !== 0
@@ -196,8 +197,8 @@ const Elias = ({ navigation }) => {
         </View>
         <View style={styles.container}>
           <DraxView
-            dragPayload={staged.join(' ')}
-            draggable={staged.length > 0}
+            // dragPayload={staged.join(' ')}
+            // draggable={staged.length > 0}
             renderContent={({ viewState }) => {
               const receivingDrag = viewState && viewState.receivingDrag
               const payload = receivingDrag && receivingDrag.payload
@@ -210,30 +211,44 @@ const Elias = ({ navigation }) => {
               // }
               return (
                 <View style={{ height: RH(200) }}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: 'auto',
-                      alignItems: 'center',
-                      marginBottom: 'auto',
+                  <Pressable
+                    onPress={() => {
+                      console.log('press')
                     }}
                   >
-                    {list.map((item, i) => (
-                      <DraxView
-                        key={i}
-                        // style={[]}
-                        draggingStyle={styles.dragging}
-                        // dragReleasedStyle={styles.dragging}
-                        // hoverDraggingStyle={styles.hoverDragging}
-                        dragPayload={item}
-                        // longPressDelay={0}
-                      >
-                        <View style={{ ...styles.players, marginLeft: i === 0 ? -RW(15) : null }}>
-                          <User user={item} size={80} />
-                        </View>
-                      </DraxView>
-                    ))}
-                  </View>
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: 'auto',
+                        alignItems: 'center',
+                        marginBottom: 'auto',
+                      }}
+                    >
+                      {list.map((item, i) => (
+                        <DraxView
+                          key={i + 1}
+                          // style={[]}
+                          draggingStyle={styles.dragging}
+                          // dragReleasedStyle={styles.dragging}
+                          // hoverDraggingStyle={styles.hoverDragging}
+                          dragPayload={item}
+                          onDragStart={() => {
+                            console.log('onDragStart')
+                          }}
+                          // longPressDelay={0}
+                        >
+                          <View
+                            style={{
+                              ...styles.players,
+                              marginLeft: i === 0 ? -RW(15) : null,
+                            }}
+                          >
+                            <User user={item} size={80} />
+                          </View>
+                        </DraxView>
+                      ))}
+                    </View>
+                  </Pressable>
                 </View>
               )
             }}

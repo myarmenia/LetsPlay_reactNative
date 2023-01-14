@@ -10,7 +10,7 @@ import { RH, RW } from '@/theme/utils'
 function Index(props) {
   const [active, setActive] = useState(false)
   const [longPress, setLongPress] = useState(false)
-  const { data, setModalVisible, setGame, setFlag, navigationTo, onPress, game } = props
+  const { data, setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
   const navigation = useNavigation()
 
   return (
@@ -47,13 +47,15 @@ function Index(props) {
     // return (
     <Pressable
       onPress={() => {
-        setActive(true)
-        setTimeout(() => {
-          data.navigateTo
-            ? navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: game, data })
-            : null
-          setActive(false)
-        }, 100)
+        if (pressable) {
+          setActive(true)
+          setTimeout(() => {
+            data.navigateTo
+              ? navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: game, data })
+              : null
+            setActive(false)
+          }, 100)
+        }
       }}
       style={styles.bgFon}
     >

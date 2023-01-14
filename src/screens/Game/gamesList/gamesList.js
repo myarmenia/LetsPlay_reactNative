@@ -15,9 +15,9 @@ function GamesList() {
     return _gamesData
   }, [])
 
-  const passIdGameItem = id => {
-    gameData.map(elem => {
-      elem.data.forEach(elm => {
+  const passIdGameItem = (id) => {
+    gameData.map((elem) => {
+      elem.data.forEach((elm) => {
         if (elm.id === id) {
           navigation.navigate('GameItem', { item: { ...elm, clicked: true } })
         } else {
@@ -30,17 +30,17 @@ function GamesList() {
     <ScreenMask>
       <ScrollView>
         <GestureRecognizer
-          onSwipeLeft={state => navigation.goBack()}
+          onSwipeLeft={(state) => navigation.goBack()}
           style={{
             flex: 1,
           }}
         >
-          {gameData.map(elm => {
+          {gameData.map((elm) => {
             return (
               <View style={styles.gameListContainer} key={Math.random().toString()}>
                 <Text style={styles.gameTitle}>{elm.title}</Text>
                 <>
-                  {elm.data.map(elem => {
+                  {elm.data.map((elem) => {
                     return (
                       <TouchableOpacity
                         key={Math.random().toString()}

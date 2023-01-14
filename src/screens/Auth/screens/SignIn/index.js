@@ -99,12 +99,12 @@ const SignIn = () => {
   return (
     <ScreenMask>
       <KeyboardAvoidingView
+        style={{ flex: 1 }}
         {...(Platform.OS === 'ios'
           ? {
               behavior: 'padding',
               keyboardVerticalOffset: RH(10),
               enabled: true,
-              style: { flex: 1 },
             }
           : {})}
       >
