@@ -99,6 +99,7 @@ const SignUp = () => {
               secure={message.secure}
               isLeft={message.isLeft}
               isWrong={message.isWrong}
+
               message={message.message}
               previus={idx > 0 ? arr[idx - 1].isLeft : false}
             />
