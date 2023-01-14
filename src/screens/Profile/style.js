@@ -63,9 +63,21 @@ export default StyleSheet.create({
     paddingLeft: RW(44),
   },
   galleryText: {
-    ...font('medium', 20, WHITE, 22),
-    width: RW(260),
+    ...font('regular', 20, WHITE, 25),
     textAlign: 'center',
-    marginTop: RH(25),
+    marginTop: RH(40)
   },
+  GalleryTitle:{
+    ...font('regular', 24, WHITE, 26),
+  },
+  galleryTextBlock:{
+    marginTop: RH(208),
+    paddingTop: RH(23),
+    paddingBottom: RH(40),
+    borderRadius: RW(20),
+    backgroundColor: LIGHT_LABEL,
+    width: RW(325),
+    alignItems: "center",
+    justifyContent: "center"
+  }
 })
