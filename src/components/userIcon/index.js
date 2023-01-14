@@ -8,6 +8,7 @@ import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
 
+
 function Index({ user, size }) {
   const fontSizeTitle = size / RW(55)
   const fontSizeCount = size / RW(35)
