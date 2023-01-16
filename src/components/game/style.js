@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
   bgFon: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: RH(45),
-    marginBottom: 'auto',
+    marginTop: RH(40),
+    // marginBottom: 'auto',
     width: RW(335),
     height: RH(707),
     borderWidth: RW(2),
