@@ -1,6 +1,6 @@
 import {StyleSheet} from "react-native";
 import {font, RH, RW} from "@/theme/utils";
-import {WHITE} from "@/theme/colors";
+import {BACKGROUND, WHITE} from "@/theme/colors";
 
 export  const styles = StyleSheet.create({
     btn:{
@@ -31,6 +31,8 @@ export  const styles = StyleSheet.create({
         marginVertical:RH(30)
     },
     scroll: {
+        backgroundColor:BACKGROUND,
+        borderRadius:15,
         marginRight: 'auto',
         marginLeft: 'auto',
         width: RW(310),

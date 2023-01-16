@@ -2,6 +2,7 @@ import React from 'react';
 import { ScrollView, TouchableOpacity, View} from "react-native";
 import {styles} from "@/screens/Team/SelectPlayers/style";
 import User from "@/assets/imgs/user/user";
+import {Players} from "@/assets/TestData";
 
 
 function Index({players, isSelected=false, activePlayers=[], setActivePlayers}) {
@@ -17,12 +18,15 @@ function Index({players, isSelected=false, activePlayers=[], setActivePlayers}) 
         }
     }
     return (
-            <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
+            <ScrollView  style={styles.scroll} >
                 <View style={styles.container}>
                     {players.map((item, i) =>
                         <TouchableOpacity onPress={() => handlerActiveUser(item.id)} key={i}
                                           style={activePlayers.includes(item.id) && isSelected ? styles.activeItem : styles.item}>
-                            <User size={90} user={item}/>
+                            <User size={90} user={item} onPressItem={!isSelected?{
+                                item: <User user={item} size={390}/>,
+                                modalClose:false,
+                            }:null}/>
                         </TouchableOpacity>
                     )}
                 </View>

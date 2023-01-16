@@ -30,7 +30,7 @@ function Index({ navigation, route }) {
             key={index}
             style={{
               flex: 1,
-              justifyContent: 'center',
+              // justifyContent: 'center',
             }}
           >
             <Game data={list[index]} game={game} pressable={pressable} />
