@@ -91,7 +91,7 @@ function Index(props) {
       </View>
       <View style={styles.btn}>
         <LinearGradient
-          colors={['#7DCE8A', '#4D7CFE']}
+          colors={['#16A672', '#29CEEC', '#57E5FF', '#0649F5']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           useAngle={true}
