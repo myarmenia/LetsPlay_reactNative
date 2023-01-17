@@ -10,6 +10,7 @@ const ResTeams = ({ navigation }) => {
     <ScreenMask>
       <View>
         <View style={styles.itemBlockOne}>
+            <Text style={styles.com}>Команда 1</Text>
             {/*<LinearGradientText*/}
             {/*    colors={['#7DCE8A', '#4D7CFE']}*/}
             {/*    text="Команда 1"*/}
@@ -28,12 +29,13 @@ const ResTeams = ({ navigation }) => {
             {/*    end={{ x: 1, y: 1 }}*/}
             {/*    textStyle={styles.com}*/}
             {/*/>*/}
+            <Text style={styles.com}>Команда 1</Text>
           <Text style={styles.count}>Очки: 13</Text>
         </View>
       </View>
       <View style={{ alignItems: 'center' }}>
         <Button
-          onPress={() => navigation.navigate('ResTeamsElias')}
+          onPress={() => navigation.navigate('Home')}
           size={styles.btn}
           label={'Продолжить'}
         />

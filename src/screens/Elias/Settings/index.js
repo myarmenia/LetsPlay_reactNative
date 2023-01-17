@@ -31,7 +31,7 @@ function Index({navigation}) {
                     <Slider step={3} maxValue={180} val={valTime} setVal={setTimeVal}/>
                 </View>
             </View>
-            <View style={{marginLef: 'auto', marginVertical: RH(40), alignItems: 'center'}}>
+            <View style={{marginLef: 'auto', marginVertical: RH(80), alignItems: 'center'}}>
                 <Button
                     onPress={() => navigation.navigate('DifficultyLevel')}
                     size={styles.btn}

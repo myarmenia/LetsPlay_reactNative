@@ -114,7 +114,6 @@ const Elias = ({ navigation }) => {
             dragPayload={staged.join(' ')}
             draggable={staged.length > 0}
             renderContent={({ viewState }) => {
-              console.log(viewState)
               const receivingDrag = viewState && viewState.receivingDrag
               const payload = receivingDrag && receivingDrag.payload
               const dragging = viewState && viewState.dragStatus !== 0
@@ -212,9 +211,6 @@ const Elias = ({ navigation }) => {
               return (
                 <View style={{ height: RH(200) }}>
                   <Pressable
-                    onPress={() => {
-                      console.log('press')
-                    }}
                   >
                     <View
                       style={{
@@ -233,7 +229,6 @@ const Elias = ({ navigation }) => {
                           // hoverDraggingStyle={styles.hoverDragging}
                           dragPayload={item}
                           onDragStart={() => {
-                            console.log('onDragStart')
                           }}
                           // longPressDelay={0}
                         >
