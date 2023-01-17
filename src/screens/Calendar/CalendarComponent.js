@@ -42,7 +42,8 @@ const CalendarComponent = () => {
       'Дек',
     ],
     dayNames: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
-    dayNamesShort: ['Пн' , 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' , 'Вс'],
+    // dayNamesShort: ['Пн' , 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' , 'Вс'],
+    dayNamesShort: [''],
     today: "Aujourd'hui",
   }
   LocaleConfig.defaultLocale = 'ru'

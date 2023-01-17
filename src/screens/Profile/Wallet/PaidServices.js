@@ -5,26 +5,29 @@ import styles from  '../style'
 import {RH, RW} from "@/theme/utils";
 import style from "@/screens/Profile/Wallet/style";
 import Button from "@/assets/imgs/Button";
+import Toggle from "@/components/toggleSwitch/Toggle";
 
 function Index(props) {
-    const {navigation} = props
     const list = [
-        {id: 1, text: 'Платные услуги' , navigationTo: 'PaidServices'},
-        {id: 2, text: 'История'},
-        {id: 3, text: 'Тарифы'},
+        {id: 1, text: '”Входной билет”'},
+        {id: 2, text: '“Продвижение игры”'},
+        {id: 3, text: '“Все и сразу”'},
     ]
     const LinkItem = ({item}) => (
-        <TouchableOpacity onPress={() => navigation.navigate(item.navigationTo)} style={item.id === 3 ? {...styles.linkBlock , borderBottomWidth: 1 , borderTopWidth: 1} : {...styles.linkBlock, borderBottomWidth: 0 , borderTopWidth: 1}}>
+        <View style={item.id === 3 ? {...styles.linkBlock , borderBottomWidth: 1 , borderTopWidth: 1} : {...styles.linkBlock, borderBottomWidth: 0 , borderTopWidth: 1}}>
             <Text style={styles.linkText}>{item.text}</Text>
-        </TouchableOpacity>
+            <View  style={{marginLeft: 'auto' , marginRight: RW(30)}} >
+                <Toggle/>
+            </View>
+        </View>
     );
     const renderItem = ({item}) => (
         <LinkItem item={item}/>
     );
     return (
         <ScreenMask style={{paddingHorizontal: 0 ,}}>
-                <Text style={{...styles.title , marginTop: RH(43) , marginLeft: 'auto', marginRight: 'auto', marginBottom: RH(50)}}>Мой кошелек</Text>
-                <View style={style.priceBlock}><Text style={style.balanceText}>Ваш баланс:</Text><Text style={style.price}>0 руб</Text></View>
+                <Text style={{...styles.title , marginTop: RW(43),  marginLeft: 'auto', marginRight: 'auto', marginBottom: RH(45)}}>Платные услуги</Text>
+                <View style={style.bannerTitleBlock}><Text style={style.bannerTitle}>Подписки за месяц:</Text></View>
                 <FlatList
                     data={list}
                     renderItem={renderItem}
