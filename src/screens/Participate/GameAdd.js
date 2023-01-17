@@ -168,7 +168,7 @@ function Index({ navigation }) {
                 </View>
               </View>
               <View>
-                <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
+                <Text style={{...styles.someTitle , marginBottom: RH(15)}}>Стоимость входного билета в игру</Text>
                 <View style={{...styles.gameTypesContainer , marginLeft: RW(30)}}>
                   <Radio flag={flag} setFlag={setFlag} data={data} setData={setData} list={free} topBtn={false} setFree={setFree} type={'priceView'} typeFunc={'paid'}/>
                 </View>

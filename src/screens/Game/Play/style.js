@@ -96,7 +96,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: RH(10),
     width:RW(357),
-    alignItems:"center"
+    alignItems:"center",
+    marginBottom: RH(30)
   },
 
   btnActiveGames: {
