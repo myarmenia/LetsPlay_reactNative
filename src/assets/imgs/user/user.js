@@ -7,7 +7,7 @@ import Modal from "@/components/modal";
 import {useState} from "react";
 
 function SvgComponent({size = RW(100), user, onPressItem}) {
-    const width = RW(size < 60 ? 60 : size);
+    const width = RW(size < 40 ? 40 : size);
     const [modalVisible, setModalVisible] = useState(false)
 
     const item = <Svg

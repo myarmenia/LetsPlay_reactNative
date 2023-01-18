@@ -5,6 +5,7 @@ import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
 import { AppProvider } from '@/context'
 import { useAuth } from '@/hooks'
+import User from "@/assets/imgs/user/user";
 
 
 

@@ -104,13 +104,17 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: RH(73)
   },
   eachInfo: {
-    color: WHITE,
-    fontFamily: FONT_INTER_BOLD,
-    fontSize: RH(14),
-    lineHeight: RH(20),
-    paddingVertical: RH(8),
+    ...font('regular', 14, WHITE, 20),
+    marginLeft: RW(11),
+    marginBottom: RH(6)
+  },
+  eachInfoTwo: {
+    ...font('bold', 16, ICON, 20),
+    marginLeft: RW(11),
+    marginBottom: RH(24)
   },
   eachInfoRegular: {
     fontFamily: FONT_INTER_BOLD,
