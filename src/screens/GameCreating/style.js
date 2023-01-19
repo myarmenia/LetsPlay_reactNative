@@ -61,7 +61,7 @@ export default StyleSheet.create({
         resizeMode: 'contain',
     },
     ticketBlock: {
-        marginTop: RH(42),
+        paddingTop: RH(42),
     },
     ticketImgBlock: {
         alignItems: 'center',

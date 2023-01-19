@@ -51,7 +51,7 @@ const Preferences = () => {
       }
     }
     return(
-        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButtonTwo : style.nameButton }>
+        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButton : style.nameButtonTwo }>
           <Text style={pStyles.linkText}>{item.text}</Text>
         </TouchableOpacity>
     )};

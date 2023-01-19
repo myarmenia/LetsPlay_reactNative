@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import {Image, ScrollView, Text, View} from 'react-native'
 import Soccer from '@/assets/imgs/games/soccer.png'
 import { RH, RW } from '@/theme/utils'
 import style from '@/screens/GameCreating/style'
@@ -12,7 +12,7 @@ import {Players} from "@/assets/TestData";
 function Ticket(props) {
   const { image, game, data } = props
   return (
-    <View>
+    <ScrollView showsVerticalScrollIndicator={false} style={style.ticketBlock}>
       {!image ? (
         <View style={style.ticketImgBlock}>
           <Image style={style.ticketImg} source={game.image} />
@@ -76,7 +76,7 @@ function Ticket(props) {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

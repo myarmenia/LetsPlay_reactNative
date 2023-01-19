@@ -12,168 +12,122 @@ function ShareSvg(props) {
           xmlns="http://www.w3.org/2000/svg"
           {...props}
       >
-        <G clipPath="url(#clip0_4139_25458)">
-          <Path
-              d="M0 31.513a31.513 31.513 0 1063.026 0 31.513 31.513 0 00-63.026 0z"
-              fill="#3EC9F4"
-          />
-          <Path
-              style={{
-                mixBlendMode: "multiply"
-              }}
-              d="M0 31.513a31.513 31.513 0 1063.026 0 31.513 31.513 0 00-63.026 0z"
-              fill="url(#paint0_radial_4139_25458)"
-          />
-          <Path
-              style={{
-                mixBlendMode: "multiply"
-              }}
-              d="M0 31.513a31.513 31.513 0 1063.026 0 31.513 31.513 0 00-63.026 0z"
-              fill="url(#paint1_radial_4139_25458)"
-          />
-          <Path
-              d="M0 31.513a31.513 31.513 0 1063.026 0 31.513 31.513 0 00-63.026 0z"
-              fill="url(#paint2_linear_4139_25458)"
-          />
-          <Path
-              style={{
-                mixBlendMode: "screen"
-              }}
-              opacity={0.5}
-              d="M51.108 16.548c0 7.779-8.77 14.084-19.595 14.084s-19.595-6.305-19.595-14.084c0-7.778 8.775-14.084 19.61-14.084 10.835 0 19.58 6.306 19.58 14.084z"
-              fill="url(#paint3_linear_4139_25458)"
-          />
-          <G
-              style={{
-                mixBlendMode: "screen"
-              }}
-          >
-            <G
-                style={{
-                  mixBlendMode: "overlay"
-                }}
-            >
-              <Path
-                  d="M52.151 31.457a46.909 46.909 0 00-.329-5.52 43.406 43.406 0 00-1.812-8.402 47.218 47.218 0 00-1.012-2.803C45.344 5.886 38.877 0 31.528 0c-7.348 0-13.83 5.886-17.484 14.732a33.584 33.584 0 00-1.012 2.803 43.399 43.399 0 00-1.812 8.401 46.887 46.887 0 00-.33 5.521v.056A46.049 46.049 0 0012.5 43.73a34.023 34.023 0 005.982 12.196c3.543 4.433 8.097 7.085 13.047 7.085 4.949 0 9.493-2.662 13.051-7.085a34.008 34.008 0 005.982-12.201 45.982 45.982 0 001.61-12.212l-.021-.056z"
-                  fill="url(#paint4_linear_4139_25458)"
-                  fillOpacity={0.2}
-                  style={{
-                    mixBlendMode: "screen"
-                  }}
-              />
-            </G>
-          </G>
-          <Path
-              opacity={0.95}
-              d="M44.039 10.395c-.193 1.108-1.66 1.771-3.28 1.518-1.62-.253-2.778-1.402-2.586-2.53.192-1.129 1.66-1.772 3.28-1.488 1.619.283 2.773 1.397 2.586 2.5z"
-              fill="#fff"
-          />
-          <Path
-              d="M44.65 54.357a53.69 53.69 0 01-26.092 0c-4.869-1.26-9.08-3.203-12.242-5.617a31.512 31.512 0 0050.582 0c-3.163 2.414-7.374 4.357-12.247 5.617z"
-              fill="#3B97D9"
-              opacity={0.4}
-          />
-        </G>
-        <G clipPath="url(#clip1_4139_25458)">
+        <Path
+            d="M0 31.936c0 6.315 1.871 12.489 5.378 17.74a31.92 31.92 0 0014.32 11.763 31.898 31.898 0 0034.781-6.916 31.942 31.942 0 006.928-34.798A31.931 31.931 0 0049.66 5.39 31.902 31.902 0 009.353 9.348 31.938 31.938 0 000 31.935z"
+            fill="url(#paint0_linear_4184_25136)"
+        />
+        <Path
+            d="M0 31.936c0 6.315 1.871 12.489 5.378 17.74a31.92 31.92 0 0014.32 11.763 31.898 31.898 0 0034.781-6.916 31.942 31.942 0 006.928-34.798A31.931 31.931 0 0049.66 5.39 31.902 31.902 0 009.353 9.348 31.938 31.938 0 000 31.935z"
+            fill="url(#paint1_radial_4184_25136)"
+            fillOpacity={0.2}
+            style={{
+              mixBlendMode: "multiply"
+            }}
+        />
+        <Path
+            d="M0 31.936c0 6.315 1.871 12.489 5.378 17.74a31.92 31.92 0 0014.32 11.763 31.898 31.898 0 0034.781-6.916 31.942 31.942 0 006.928-34.798A31.931 31.931 0 0049.66 5.39 31.902 31.902 0 009.353 9.348 31.938 31.938 0 000 31.935z"
+            fill="url(#paint2_radial_4184_25136)"
+            style={{
+              mixBlendMode: "multiply"
+            }}
+            opacity={0.8}
+        />
+        <Path
+            opacity={0.95}
+            d="M44.632 10.663c-.195 1.123-1.681 1.795-3.322 1.539-1.64-.257-2.814-1.42-2.619-2.565.195-1.143 1.681-1.795 3.322-1.507 1.64.287 2.808 1.415 2.619 2.533z"
+            fill="#fff"
+        />
+        <Path
+            opacity={0.6}
+            d="M45.252 55.215a54.346 54.346 0 01-26.427 0c-4.93-1.277-9.195-3.247-12.398-5.693A31.92 31.92 0 0032.04 62.405a31.9 31.9 0 0025.615-12.883c-3.204 2.446-7.468 4.416-12.404 5.693z"
+            fill="#50DFFF"
+        />
+        <Path
+            d="M52.181 32.024a47.56 47.56 0 00-.333-5.596 44.01 44.01 0 00-1.835-8.513 47.737 47.737 0 00-1.025-2.841C45.288 6.109 38.738.144 31.295.144c-7.442 0-14.008 5.965-17.708 14.93a34.07 34.07 0 00-1.025 2.841 44.01 44.01 0 00-1.835 8.513 47.538 47.538 0 00-.333 5.596v.056a46.692 46.692 0 001.63 12.38 34.488 34.488 0 006.058 12.36c3.588 4.493 8.2 7.18 13.213 7.18s9.616-2.697 13.219-7.18a34.472 34.472 0 006.058-12.365 46.624 46.624 0 001.63-12.375l-.02-.056z"
+            fill="url(#paint3_linear_4184_25136)"
+            fillOpacity={0.4}
+            style={{
+              mixBlendMode: "screen"
+            }}
+        />
+        <Path
+            d="M51.792 16.9c0 7.882-8.882 14.272-19.846 14.272-10.963 0-19.845-6.39-19.845-14.273 0-7.882 8.887-14.273 19.86-14.273 10.974 0 19.831 6.39 19.831 14.273z"
+            fill="url(#paint4_linear_4184_25136)"
+            style={{
+              mixBlendMode: "screen"
+            }}
+            opacity={0.5}
+        />
+        <G clipPath="url(#clip0_4184_25136)">
           <Path
               d="M32.827 24.639c-3.854.2-7.458 1.804-10.223 4.569-2.96 2.96-4.59 6.882-4.59 11.043V46l2.082-4.8c2.433-4.848 7.365-8.061 12.731-8.36v6.625l13.16-10.749L32.826 18v6.639z"
               fill="#1A2848"
           />
         </G>
         <Defs>
-          <RadialGradient
-              id="paint0_radial_4139_25458"
-              cx={0}
-              cy={0}
-              r={1}
+          <LinearGradient
+              id="paint0_linear_4184_25136"
+              x1={2.99944e-7}
+              y1={37.2582}
+              x2={63.833}
+              y2={37.2829}
               gradientUnits="userSpaceOnUse"
-              gradientTransform="matrix(-55.6427 0 0 -40.6192 31.2 19.373)"
           >
-            <Stop stopColor="#fff" />
-            <Stop offset={0.24} stopColor="#FDFEFE" />
-            <Stop offset={0.33} stopColor="#F6F8FA" />
-            <Stop offset={0.39} stopColor="#EAEFF2" />
-            <Stop offset={0.44} stopColor="#DAE2E8" />
-            <Stop offset={0.48} stopColor="#C4D1DA" />
-            <Stop offset={0.52} stopColor="#A8BCC9" />
-            <Stop offset={0.55} stopColor="#88A2B5" />
-            <Stop offset={0.59} stopColor="#62859E" />
-            <Stop offset={0.61} stopColor="#396584" />
-            <Stop offset={0.63} stopColor="#1D4F73" />
-            <Stop offset={0.81} stopColor="#205D7D" />
-            <Stop offset={0.91} stopColor="#44A5BA" />
-            <Stop offset={1} stopColor="#57D9E8" />
-          </RadialGradient>
+            <Stop stopColor="#43D351" />
+            <Stop offset={1} stopColor="#0445F4" />
+          </LinearGradient>
           <RadialGradient
-              id="paint1_radial_4139_25458"
+              id="paint1_radial_4184_25136"
               cx={0}
               cy={0}
               r={1}
               gradientUnits="userSpaceOnUse"
-              gradientTransform="rotate(180 15.683 -.099) scale(46.2297)"
+              gradientTransform="matrix(-46.8212 0 0 -46.8494 31.768 -.2)"
           >
             <Stop offset={0.23} stopColor="#3B97D9" />
             <Stop offset={0.24} stopColor="#3D98D9" />
-            <Stop offset={0.52} stopColor="#8FC4E9" />
-            <Stop offset={0.74} stopColor="#CBE4F5" />
-            <Stop offset={0.91} stopColor="#F1F7FC" />
-            <Stop offset={1} stopColor="#fff" />
+            <Stop offset={0.52} stopColor="#0AC3EB" />
+            <Stop offset={0.74} stopColor="#E6FAFF" />
+            <Stop offset={0.91} stopColor="#30C5F2" />
+            <Stop offset={1} stopColor="#054FF0" />
+          </RadialGradient>
+          <RadialGradient
+              id="paint2_radial_4184_25136"
+              cx={0}
+              cy={0}
+              r={1}
+              gradientUnits="userSpaceOnUse"
+              gradientTransform="rotate(-172.365 13.877 8.727) scale(84.319 57.5733)"
+          >
+            <Stop stopColor="#37F1FF" />
+            <Stop offset={0.198881} stopColor="#37DBFF" />
+            <Stop offset={0.333238} stopColor="#37D1FF" stopOpacity={0.724868} />
+            <Stop offset={0.5} stopColor="#37B7FF" stopOpacity={0} />
           </RadialGradient>
           <LinearGradient
-              id="paint2_linear_4139_25458"
-              x1={2.96155e-7}
-              y1={36.7654}
-              x2={63.0267}
-              y2={36.7898}
+              id="paint3_linear_4184_25136"
+              x1={31.2798}
+              y1={64.0104}
+              x2={31.2798}
+              y2={-20.3902}
               gradientUnits="userSpaceOnUse"
           >
-            <Stop stopColor="#7DCE8A" />
-            <Stop offset={1} stopColor="#4D7CFE" />
+            <Stop stopColor="#fff" />
+            <Stop offset={0.401042} stopColor="#fff" stopOpacity={0} />
+            <Stop offset={1} stopColor="#fff" stopOpacity={0} />
           </LinearGradient>
           <LinearGradient
-              id="paint3_linear_4139_25458"
-              x1={23.6943}
-              y1={36.8368}
-              x2={39.5344}
-              y2={-4.26135}
+              id="paint4_linear_4184_25136"
+              x1={24.9584}
+              y1={32.8454}
+              x2={40.0852}
+              y2={-4.18328}
               gradientUnits="userSpaceOnUse"
           >
-            <Stop offset={0.12} />
-            <Stop offset={0.26} stopColor="#343434" />
-            <Stop offset={0.57} stopColor="#A0A0A0" />
-            <Stop offset={0.79} stopColor="#E4E4E4" />
-            <Stop offset={0.88} stopColor="#fff" />
+            <Stop stopColor="#fff" stopOpacity={0} />
+            <Stop offset={0.759703} stopColor="#fff" />
           </LinearGradient>
-          <LinearGradient
-              id="paint4_linear_4139_25458"
-              x1={31.5133}
-              y1={63.0212}
-              x2={31.5133}
-              y2={-20.2632}
-              gradientUnits="userSpaceOnUse"
-          >
-            <Stop stopColor="#696969" />
-            <Stop offset={0.02} stopColor="#898989" />
-            <Stop offset={0.07} stopColor="#DADADA" />
-            <Stop offset={0.09} stopColor="#fff" />
-            <Stop offset={0.12} stopColor="#F3F3F3" />
-            <Stop offset={0.17} stopColor="#D4D4D4" />
-            <Stop offset={0.24} stopColor="#A2A2A2" />
-            <Stop offset={0.32} stopColor="#5B5B5B" />
-            <Stop offset={0.41} />
-            <Stop offset={0.48} stopColor="#040404" />
-            <Stop offset={0.56} stopColor="#101010" />
-            <Stop offset={0.63} stopColor="#252525" />
-            <Stop offset={0.71} stopColor="#414141" />
-            <Stop offset={0.78} stopColor="#666" />
-            <Stop offset={0.86} stopColor="#939393" />
-            <Stop offset={0.93} stopColor="#C8C8C8" />
-            <Stop offset={1} stopColor="#fff" />
-          </LinearGradient>
-          <ClipPath id="clip0_4139_25458">
-            <Path fill="#fff" d="M0 0H63.0162V63.0162H0z" />
-          </ClipPath>
-          <ClipPath id="clip1_4139_25458">
+          <ClipPath id="clip0_4184_25136">
             <Path fill="#fff" transform="translate(18 18)" d="M0 0H28V28H0z" />
           </ClipPath>
         </Defs>

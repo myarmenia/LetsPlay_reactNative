@@ -26,7 +26,7 @@ function Index(props) {
     return (
         <ScreenMask style={{paddingHorizontal: 0}}>
             <View style={{height: '100%'}}>
-                <View style={style.ticketBlock}>
+                <View>
                     <Ticket data={data} game={game}/>
                 </View>
                 <View style={style.gameTicketButtonsBlock}>
