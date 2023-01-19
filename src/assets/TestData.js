@@ -223,7 +223,7 @@ export const Players = [
     lName: 'Maik',
     fName: 'Joni',
     image: 'https://cdnstatic.rg.ru/crop560x374/uploads/images/177/18/63/1000s.jpg',
-    status: 'GOLD',
+    status: 'BRONZE',
     organizer: 30,
     participant: 30,
     gamesCreated: 0,

@@ -13,16 +13,16 @@ import Button from "@/assets/imgs/Button";
 const Rules = ({navigationProps, label}) => {
     const [modalRules, setModalRules] = useState(true)
     const navigation = useNavigation()
-    return (
-        <ScreenMask>
-            <View style={styles.common}>
-                <View style={styles.body}>
-                    <Modal
-                        modalVisible={modalRules}
-                        setIsVisible={setModalRules}
-                        item={<View style={styles.modalRules}>
+    return (<ScreenMask>
+        <View style={styles.common}>
+            <View style={styles.body}>
+                <Modal
+                    modalVisible={modalRules}
+                    setIsVisible={setModalRules}
+                    item={<View style={styles.modalBody}>
+                        <View style={styles.modalRules}>
                             <Text style={styles.rulesText}>
-                                 "Правила"
+                                "Правила"
                             </Text>
                             <Text style={styles.wordGame}>
                                 Словесная игра «Крокодил».
@@ -34,7 +34,8 @@ const Rules = ({navigationProps, label}) => {
                                 Есть два варианта этой игры — индивидуальный и командный.
                             </Text>
                             <Text style={styles.wordGame}>
-                                Индивидуальный - игрок показывает загаданное слово остальным игрокам. Кто отгадает получит
+                                Индивидуальный - игрок показывает загаданное слово остальным игрокам. Кто отгадает
+                                получит
                                 право показывать следующее слово или любой другой игрок на усмотрение игрока, который
                                 показывал угаданное слово.
                             </Text>
@@ -53,68 +54,42 @@ const Rules = ({navigationProps, label}) => {
                             <Text style={styles.wordGame}>
                                 Удачной игры!
                             </Text>
-                        </View>}
-                    />
-                    <Text style={styles.title}>Пригласить игроков</Text>
-                    <View style={styles.qrBlock}>
-                        <Image style={styles.qr} source={QrTest}/>
-                    </View>
-                    <Button
-                        onPress={() => navigation.navigate("AddPlayer")}
-                        size={styles.btn}
-                        label={'Продолжить'}
-                    />
+                        </View>
+                    </View>}
+                />
+                <Text style={styles.title}>Пригласить игроков</Text>
+                <View style={styles.qrBlock}>
+                    <Image style={styles.qr} source={QrTest}/>
                 </View>
+                <Button
+                    onPress={() => navigation.navigate("AddPlayer")}
+                    size={styles.btn}
+                    label={'Продолжить'}
+                />
             </View>
-        </ScreenMask>
-    )
+        </View>
+    </ScreenMask>)
 }
 const styles = StyleSheet.create({
-    modalRules: {
-        width: RW(358),
-        backgroundColor: LIGHT_LABEL,
-        borderRadius: RW(20),
-        paddingHorizontal: RW(18),
+    modalBody: {
+        width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center',
+    }, modalRules: {
+        width: RW(358), backgroundColor: LIGHT_LABEL, borderRadius: RW(20), paddingHorizontal: RW(18),
 
-    },
-    body: {
-        marginTop: RW(125),
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        alignItems: 'center',
-    },
-    title: {
-        color: WHITE,
-        textAlign: 'center',
-        fontSize: 24,
-    },
-    qrBlock: {
-        width: RW(281),
-        height: RH(280),
-        marginTop: RH(127),
-        marginBottom: RH(90),
-    },
-    qr: {
-        width: '100%',
-        height: '100%',
-        resizeMode: 'contain',
-    },
-    btn: {
-        width: 281,
-        height: 48,
-    },
-    rulesText: {
-        ...font("inter", 24, WHITE, 24),
-        fontWeight: "700",
-        textAlign: "center",
-        marginTop: RH(42),
-        marginBottom: RH(40)
-    },
-    wordGame: {
-        ...font("inter", 16, WHITE, 19),
-        fontWeight: "400",
-        textAlign: "center",
-        marginBottom: RH(20)
+    }, body: {
+        marginTop: RW(125), marginLeft: 'auto', marginRight: 'auto', alignItems: 'center',
+    }, title: {
+        color: WHITE, textAlign: 'center', fontSize: 24,
+    }, qrBlock: {
+        width: RW(281), height: RH(280), marginTop: RH(127), marginBottom: RH(90),
+    }, qr: {
+        width: '100%', height: '100%', resizeMode: 'contain',
+    }, btn: {
+        width: 281, height: 48,
+    }, rulesText: {
+        ...font("inter", 24, WHITE, 24), fontWeight: "700", textAlign: "center", marginTop: RH(42), marginBottom: RH(40)
+    }, wordGame: {
+        ...font("inter", 16, WHITE, 19), fontWeight: "400", textAlign: "center", marginBottom: RH(20)
     }
 })
 export default Rules
