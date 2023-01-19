@@ -2,11 +2,14 @@ import axios from "axios";
 
 const base = axios.create(
     {
-        // Test
-        baseURL: "https://jsonplaceholder.typicode.com/comments"
+        baseURL: "http://to-play.ru",
+        headers: {
+            'Content-Type': 'application/json',
+        },
     }
 )
 
+export default base;
 
 // Test
 // export class ApiUsers {
@@ -15,6 +18,6 @@ const base = axios.create(
 // }
 // Test
 
-export class  ApiTest {
-    static  getCommentsTest =()=> base();
-}
+// export class  ApiTest {
+//     static  getCommentsTest =()=> base();
+// }

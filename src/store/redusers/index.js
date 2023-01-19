@@ -1,8 +1,8 @@
 import {combineReducers} from "redux";
-import {getCommentsTest} from "./testReducer";
+import {signUpFirst} from "./SignUpReducer";
 
 const reducers=combineReducers({
-    getCommentsTest
+    signUpFirst
 })
 
 export default reducers;
