@@ -53,8 +53,8 @@ const DateTime = (props) => {
           setOpen(true)
         }}
       >
-        {type === 'date' ? <DateSvg style={style.dateSvg} /> : <TimeSvg style={style.dateSvg} />}
-        <Text style={style.dateButtonText}>
+        {type === 'date' ? <DateSvg style={width?{...style.dateSvg , marginLeft: RW(10)} : style.dateSvg} /> : <TimeSvg style={style.dateSvg} />}
+        <Text style={width ? {...style.dateButtonText , marginLeft: RW(6)} : style.dateButtonText}>
           {type === 'date'
             ? date === 'ДД/ММ/ГГГГ'
               ? date

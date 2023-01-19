@@ -1,14 +1,29 @@
 import React from 'react'
 import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import Soccer from '@/assets/imgs/games/soccer.png'
-import { RH, RW } from '@/theme/utils'
+import {font, RH, RW} from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
 import { ScrollView } from 'react-native-gesture-handler'
 import OrganizerSvg from '@/assets/svgs/OrganizerSvg'
 import GestureRecognizer from "react-native-swipe-gestures";
+import User from "@/assets/imgs/user/user";
+import {ICON, WHITE} from "@/theme/colors";
 
 function TournamentScreen({props, navigation}) {
   // const { image } = props
+  const item = {
+    id: 1,
+    lName: 'Maik',
+    fName: 'Joni',
+    image: 'https://cdnstatic.rg.ru/crop560x374/uploads/images/177/18/63/1000s.jpg',
+    status: 'GOLD',
+    organizer: 30,
+    participant: 30,
+    gamesCreated: 0,
+    acceptedGames: 0,
+    canceledGames: 0,
+    disabledGames: 0,
+  }
   return (
       <ScreenMask>
         <ScrollView>
@@ -24,16 +39,18 @@ function TournamentScreen({props, navigation}) {
 
             <View>
               <View style={styles.firstTextBlock}>
-                <Text style={[styles.ticketText, { marginTop: RH(35) }]}>Тип турнира: Своя игра</Text>
+                <Text style={[styles.ticketText, { marginTop: RH(35) }]}>Тип турнира:</Text>
+                <Text style={styles.ticketTextTwo}>Своя игра</Text>
               </View>
               <View style={styles.ticketTextBlock}>
-                <Text style={[styles.ticketText, { marginTop: RH(15) }]}>
-                  Название турнира: Велосипедная гонка
-                </Text>
+                <Text style={styles.ticketText}>Название турнира:</Text>
+                <Text style={styles.ticketTextTwo}>Велосипедная гонка</Text>
               </View>
               <View style={styles.ticketTextBlock}>
                 <Text style={styles.ticketText}>
-                  Описание турнира: Повседневная практика показывает, что укрепление и развитие
+                  Описание турнира:
+                </Text><Text style={styles.ticketTextTwo}>
+                  Повседневная практика показывает, что укрепление и развитие
                   структуры играет важную роль в формировании соответствующий условий активизации.{' '}
                 </Text>
               </View>
@@ -45,35 +62,41 @@ function TournamentScreen({props, navigation}) {
                 </TouchableOpacity>
               </View>
               <View style={styles.ticketTextBlock}>
-                <Text style={styles.ticketText}>Количество участников: от 10 до 12</Text>
+                <Text style={styles.ticketText}>Количество участников:</Text>
+                <Text style={styles.ticketTextTwo}>от 10 до 12</Text>
               </View>
               <View style={styles.ticketTextBlock}>
-                <Text style={styles.ticketText}>Возраст игроков: 25-35</Text>
+                <Text style={styles.ticketText}>Возраст игроков:</Text>
+                <Text style={styles.ticketTextTwo}>25-35</Text>
               </View>
               <View style={styles.ticketTextBlock}>
-                <Text style={styles.ticketText}>Пол участников: М</Text>
+                <Text style={styles.ticketText}>Пол участников:</Text>
+                <Text style={styles.ticketTextTwo}>М</Text>
               </View>
               <View style={styles.ticketTextBlock}>
-                <Text style={styles.ticketText}>Дата турнира: 07.07.2022</Text>
+                <Text style={styles.ticketText}>Дата турнира:</Text>
+                <Text style={styles.ticketTextTwo}>07.07.2022</Text>
               </View>
               <View style={styles.ticketTextBlock}>
-                <Text style={styles.ticketText}>Время: 18:30</Text>
+                <Text style={styles.ticketText}>Время:</Text>
+                <Text style={styles.ticketTextTwo}>18:30</Text>
               </View>
               <View style={styles.ticketTextBlock}>
                 <Text style={styles.ticketText}>Адрес проведения турнира:</Text>
               </View>
 
               <View style={styles.ticketTextBlock}>
-                <Text style={styles.ticketText}>Плата за участие: 500 руб.</Text>
+                <Text style={styles.ticketText}>Плата за участие:</Text>
+                <Text style={styles.ticketTextTwo}>500 руб.</Text>
               </View>
-              <View
-                  style={[
-                    styles.ticketTextBlock,
-                    { marginBottom: RH(50), flexDirection: 'row', alignItems: 'center' },
-                  ]}
-              >
-                <Text style={[styles.ticketText, { marginRight: RW(10) }]}>Организатор турнира:</Text>
-                <OrganizerSvg/>
+              <View style={styles.ticketTextBlock}>
+                <Text style={styles.ticketText}>Организатор турнира:</Text>
+                <View style={{width: RW(60)}}>
+                   <User size={40} user={item} onPressItem={{
+                      item: <User user={item} size={390}/>,
+                      modalClose:false,
+                  }}/>
+                </View>
               </View>
             </View>
           </GestureRecognizer>
@@ -84,19 +107,21 @@ function TournamentScreen({props, navigation}) {
 
 const styles = StyleSheet.create({
   ticketTextBlock: {
-    marginBottom: RH(14),
+    marginBottom: RH(24),
   },
   ticketText: {
-    // ...font('bold', 14, WHITE, 20),
+    ...font('regular', 14, WHITE, 20),
     marginLeft: RW(11),
-    fontWeight: 'bold',
-    fontSize: 14,
-    color: '#FFFFFF',
+    marginBottom: RH(6)
+  },
+  ticketTextTwo:{
+    ...font('bold', 16, ICON, 20),
+    marginLeft: RW(11),
   },
   firstTextBlock: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
     marginRight: RW(18),
+    marginBottom: RH(24)
   },
 
   ticketImgBlock: {

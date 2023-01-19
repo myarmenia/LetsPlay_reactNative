@@ -55,6 +55,7 @@ export default StyleSheet.create({
   },
   linkBlock: {
     height: RH(56),
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,

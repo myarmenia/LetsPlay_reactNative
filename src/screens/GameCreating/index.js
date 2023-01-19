@@ -122,7 +122,7 @@ const GameCreating = (props) => {
             list={[
               { id: 1, text: 'М', checked: false },
               { id: 2, text: 'Ж', checled: false },
-              { id: 3, text: 'М/Ж', checked: true },
+              { id: 3, text: 'Без ограничений', checked: true },
             ]}
             title={'Половой признак игрока'}
           />
