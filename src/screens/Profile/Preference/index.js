@@ -38,7 +38,7 @@ function Index(props) {
             }
         }
         return(
-        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButtonTwo : style.nameButton }>
+        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButton : style.nameButtonTwo }>
             <Text style={styles.linkText}>{item.text}</Text>
         </TouchableOpacity>
     )};

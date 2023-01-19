@@ -26,7 +26,7 @@ function TournamentScreen({props, navigation}) {
   }
   return (
       <ScreenMask>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <GestureRecognizer
               onSwipeRight={(state) => navigation.goBack()}
               style={{

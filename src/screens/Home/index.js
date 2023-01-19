@@ -37,25 +37,6 @@ const HomeScreen = (props) => {
       <View style={styles.detailContainer}>
         <User user={Players[0]} size={370} />
       </View>
-      {isVisible ? (
-        <View style={{ position: 'absolute' }}>
-          <Modal
-            modalVisible={isVisible}
-            setIsVisible={setIsVisible}
-            item={
-              route.params && route.params.type && route.params.type === 'tournament' ? (
-                <View style={styles.homeSecondModalBlock}>
-                  <Text style={styles.nodalText}>Вы успешно создали турнир!</Text>
-                </View>
-              ) : (
-                <View style={styles.homeModalBlock}>
-                  <Ticket game={route.params.game} data={route.params.data} />
-                </View>
-              )
-            }
-          />
-        </View>
-      ) : null}
     </ScreenMask>
   )
 }
