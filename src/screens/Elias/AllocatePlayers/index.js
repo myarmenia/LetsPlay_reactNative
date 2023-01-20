@@ -27,8 +27,6 @@ const Elias = ({ navigation }) => {
             dragPayload={staged.join(' ')}
             draggable={staged.length > 0}
             renderContent={({ viewState }) => {
-              const receivingDrag = viewState && viewState.receivingDrag
-              const payload = receivingDrag && receivingDrag.payload
               const dragging = viewState && viewState.dragStatus !== 0
               const combinedStyles = [styles.centeredContent, styles.receivingZone, styles.cyan]
               if (dragging) {
@@ -48,10 +46,7 @@ const Elias = ({ navigation }) => {
                               key={i}
                               style={[styles.centeredContent, styles.draggableBox]}
                               draggingStyle={styles.dragging}
-                              // dragReleasedStyle={styles.dragging}
-                              // hoverDraggingStyle={styles.hoverDragging}
                               dragPayload={comOne[i]}
-                              // longPressDelay={0}
                             >
                               <View style={{ ...styles.players, ...styles.playersComBlock }}>
                                 <User user={comOne[i]} size={95} />
@@ -65,26 +60,6 @@ const Elias = ({ navigation }) => {
                 </View>
               )
             }}
-            // renderHoverContent={({ viewState }) => {
-            //   // const offsetStyle = viewState.grabOffset
-            //   //   ? {
-            //   //       marginLeft: viewState.grabOffset.x - 30,
-            //   //       marginTop: viewState.grabOffset.y - 30,
-            //   //     }
-            //   //   : undefined
-            //   // const combinedStyles = [
-            //   //   styles.centeredContent,
-            //   //   styles.draggableBox,
-            //   //   styles.cyan,
-            //   //   offsetStyle,
-            //   // ]
-            //   // if (dragging) {
-            //   //   combinedStyles.push({ opacity: 0.2 })
-            //   // } else if (receivingDrag) {
-            //   //   combinedStyles.push(styles.receiving)
-            //   // }
-            //   return null
-            // }}
             onReceiveDragDrop={(event) => {
               if (
                 event.dragged.payload.id &&
@@ -135,10 +110,7 @@ const Elias = ({ navigation }) => {
                               key={i}
                               style={[styles.centeredContent, styles.draggableBox]}
                               draggingStyle={styles.dragging}
-                              // dragReleasedStyle={styles.dragging}
-                              // hoverDraggingStyle={styles.hoverDragging}
                               dragPayload={comTwo[i]}
-                              // longPressDelay={0}
                             >
                               <View style={{ ...styles.players, ...styles.playersComBlock }}>
                                 <User user={comTwo[i]} size={95} />
@@ -151,26 +123,6 @@ const Elias = ({ navigation }) => {
                   })}
                 </View>
               )
-            }}
-            renderHoverContent={({ viewState }) => {
-              // const offsetStyle = viewState.grabOffset
-              //   ? {
-              //       marginLeft: viewState.grabOffset.x - 30,
-              //       marginTop: viewState.grabOffset.y - 30,
-              //     }
-              //   : undefined
-              // const combinedStyles = [
-              //   styles.centeredContent,
-              //   styles.draggableBox,
-              //   styles.cyan,
-              //   offsetStyle,
-              // ]
-              // if (dragging) {
-              //   combinedStyles.push({ opacity: 0.2 })
-              // } else if (receivingDrag) {
-              //   combinedStyles.push(styles.receiving)
-              // }
-              return null
             }}
             onReceiveDragDrop={(event) => {
               if (
@@ -210,8 +162,7 @@ const Elias = ({ navigation }) => {
               // }
               return (
                 <View style={{ height: RH(200) }}>
-                  <Pressable
-                  >
+                  <Pressable>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -228,8 +179,7 @@ const Elias = ({ navigation }) => {
                           // dragReleasedStyle={styles.dragging}
                           // hoverDraggingStyle={styles.hoverDragging}
                           dragPayload={item}
-                          onDragStart={() => {
-                          }}
+                          onDragStart={() => {}}
                           // longPressDelay={0}
                         >
                           <View
@@ -247,44 +197,76 @@ const Elias = ({ navigation }) => {
                 </View>
               )
             }}
-            renderHoverContent={({ viewState }) => {
-              // const offsetStyle = viewState.grabOffset
-              //   ? {
-              //       marginLeft: viewState.grabOffset.x - 30,
-              //       marginTop: viewState.grabOffset.y - 30,
-              //     }
-              //   : undefined
-              // const combinedStyles = [
-              //   styles.centeredContent,
-              //   styles.draggableBox,
-              //   styles.cyan,
-              //   offsetStyle,
-              // ]
-              // if (dragging) {
-              //     combinedStyles.push({opacity: 0.2});
-              // } else if (receivingDrag) {
-              //     combinedStyles.push(styles.receiving);
-              // }
-              return null
-            }}
-            onReceiveDragDrop={(event) => {
-              if (
-                event.dragged.payload.id &&
-                !list.filter((item, i) => item.id === event.dragged.payload?.id).length
-              ) {
-                setList([event.dragged.payload, ...list])
-                const filterDataComOne = comOne.filter(
-                  (item, i) => item.id !== event.dragged.payload.id,
-                )
-                setComOne(filterDataComOne)
-                const filterDataComTwo = comTwo.filter(
-                  (item, i) => item.id !== event.dragged.payload.id,
-                )
-                setComTwo(filterDataComTwo)
-              }
-              setStaged([...staged, event.dragged.payload || '?'])
-            }}
-            onDragDrop={() => setStaged([])}
+            // <View style={{ height: RH(200) }}>
+            //   <View
+            //     style={{
+            //       flexDirection: 'row',
+            //       marginTop: 'auto',
+            //       alignItems: 'center',
+            //       marginBottom: 'auto',
+            //     }}
+            //   >
+            //     {list.map((item, i) => (
+            //       <DraxView
+            //         key={i}
+            //         // style={[]}
+            //         draggingStyle={styles.dragging}
+            //         // dragReleasedStyle={styles.dragging}
+            //         // hoverDraggingStyle={styles.hoverDragging}
+            //         dragPayload={item}
+            //         // longPressDelay={0}
+            //         onReceiveDragDrop={(event) => {
+            //           if (
+            //             event.dragged.payload.id &&
+            //             !list.filter((item, i) => item.id === event.dragged.payload?.id).length
+            //           ) {
+            //             setList([event.dragged.payload, ...list])
+            //             const filterDataComOne = comOne.filter(
+            //               (item, i) => item.id !== event.dragged.payload.id,
+            //             )
+            //             setComOne(filterDataComOne)
+            //             const filterDataComTwo = comTwo.filter(
+            //               (item, i) => item.id !== event.dragged.payload.id,
+            //             )
+            //             setComTwo(filterDataComTwo)
+            //           }
+            //           setStaged([...staged, event.dragged.payload || '?'])
+            //         }}
+            //         onDragDrop={() => setStaged([])}
+            //       >
+            //         <View
+            //           style={{
+            //             ...styles.players,
+            //             marginLeft: i === 0 ? -RW(15) : null,
+            //           }}
+            //         >
+            //           <User user={item} size={80} />
+            //         </View>
+            //       </DraxView>
+            //     ))}
+            //   </View>
+            // </View>
+
+            //   renderHoverContent={({ viewState }) => {
+            //     // const offsetStyle = viewState.grabOffset
+            //     //   ? {
+            //     //       marginLeft: viewState.grabOffset.x - 30,
+            //     //       marginTop: viewState.grabOffset.y - 30,
+            //     //     }
+            //     //   : undefined
+            //     // const combinedStyles = [
+            //     //   styles.centeredContent,
+            //     //   styles.draggableBox,
+            //     //   styles.cyan,
+            //     //   offsetStyle,
+            //     // ]
+            //     // if (dragging) {
+            //     //     combinedStyles.push({opacity: 0.2});
+            //     // } else if (receivingDrag) {
+            //     //     combinedStyles.push(styles.receiving);
+            //     // }
+            //     return null
+            //   }}
           />
         </View>
       </DraxProvider>

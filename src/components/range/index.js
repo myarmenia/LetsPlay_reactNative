@@ -28,7 +28,6 @@ function Index({ step, maxValue, val, setVal }) {
           width: '100%',
           marginLeft: 'auto',
           marginRight: 'auto',
-          // top: RH(-9.2),
         }}
         onValueChange={(ev) => setVal(Math.round(ev * 100 * p))}
         // value={(val/maxValue)}
