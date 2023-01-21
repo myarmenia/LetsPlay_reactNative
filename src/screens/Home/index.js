@@ -35,7 +35,7 @@ const HomeScreen = (props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.detailContainer}>
-        <User user={Players[0]} size={370} />
+        <User user={Players[0]} size={370} onPressImg={true}/>
       </View>
     </ScreenMask>
   )

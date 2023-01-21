@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {View, Text,StyleSheet} from "react-native";
+import {View, Text, StyleSheet} from "react-native";
 import Index from "@/components/modal";
 import {font, RH, RW} from "@/theme/utils";
 import {LIGHT_LABEL, WHITE} from "@/theme/colors";
@@ -18,40 +18,48 @@ const AboutGameCrocodile = () => {
                     setIsVisible={setModalRules}
                     navigation={navigation}
                     navigationText={"Teams"}
-                    item={<View style={styles.modalRules}>
-                        <Text style={styles.rulesText}>
-                            "Правила"
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Словесная игра «Крокодил».
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Цель и задачи – нужно показать загаданное слово, используя только жесты и мимику.
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Есть два варианта этой игры — индивидуальный и командный.
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Индивидуальный - игрок показывает загаданное слово остальным игрокам. Кто отгадает получит
-                            право показывать следующее слово или любой другой игрок на усмотрение игрока, который
-                            показывал угаданное слово.
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Командный - все игроки делятся на две команды. Начинает первая команда. Игрок от первой
-                            команды получает загаданное слово и он должен показать его участникам своей команды за
-                            определенное время. За угаданное слово команда получает 1 балл.
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Далее показывает вторая команда. Выигрывает та команда, которая быстрее наберет заранее
-                            определенное колличество баллов.
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Количество игроков должно быть не менее 3 человек.
-                        </Text>
-                        <Text style={styles.wordGame}>
-                            Удачной игры!
-                        </Text>
-                    </View>
+                    item={
+                        <View style={styles.modalBody}>
+                            <View style={styles.modalRules}>
+                                <Text style={styles.rulesText}>
+                                    "Правила"
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Словесная игра «Крокодил».
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Цель и задачи – нужно показать загаданное слово, используя только жесты и мимику.
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Есть два варианта этой игры — индивидуальный и командный.
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Индивидуальный - игрок показывает загаданное слово остальным игрокам. Кто отгадает
+                                    получит
+                                    право показывать следующее слово или любой другой игрок на усмотрение игрока,
+                                    который
+                                    показывал угаданное слово.
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Командный - все игроки делятся на две команды. Начинает первая команда. Игрок от
+                                    первой
+                                    команды получает загаданное слово и он должен показать его участникам своей команды
+                                    за
+                                    определенное время. За угаданное слово команда получает 1 балл.
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Далее показывает вторая команда. Выигрывает та команда, которая быстрее наберет
+                                    заранее
+                                    определенное колличество баллов.
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Количество игроков должно быть не менее 3 человек.
+                                </Text>
+                                <Text style={styles.wordGame}>
+                                    Удачной игры!
+                                </Text>
+                            </View>
+                        </View>
                     }
                 />
             </ScreenMask>
@@ -60,6 +68,10 @@ const AboutGameCrocodile = () => {
     )
 }
 const styles = StyleSheet.create({
+    modalBody:{
+      alignItems:'center',
+      justifyContent:'center'
+    },
     rulesText: {
         ...font("inter", 24, WHITE, 24),
         fontWeight: "700",

@@ -6,7 +6,8 @@ import {ACTIVE, LIGHT_LABEL, WHITE} from "@/theme/colors"
 import LightButton from "@/assets/imgs/Button";
 import DarkButton from "@/assets/imgs/DarkButton";
 import {useNavigation} from "@react-navigation/native";
-import {AddData} from "@/screens/Crocodile/screen/addPlayers/addData";
+import PlayerList from "@/components/playerList";
+import {Players} from "@/assets/TestData";
 
 const AddPlayer = () => {
     const navigation = useNavigation()
@@ -30,17 +31,7 @@ const AddPlayer = () => {
                 </View>
                 <ScrollView>
                     <View style={styles.peopleInfo}>
-                        {
-                            AddData.map((item) => (
-                                <TouchableOpacity
-                                    style={styles.imgView}
-                                    key={item.id}
-                                    onPress={() => handlePerson(item.id)}
-                                >
-                                    <Image source={item.img} style={styles.img}/>
-                                </TouchableOpacity>
-                            ))
-                        }
+                        <PlayerList players={Players} isSelected={false} />
                     </View>
                 </ScrollView>
                 <View style={styles.btns}>

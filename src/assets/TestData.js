@@ -353,3 +353,26 @@ export const Players = [
     disabledGames: 0,
   },
 ]
+
+export  const levels = [
+  {
+    id: 0,
+    title: 'Быстрая игра',
+    level: 'Легкий',
+  },
+  {
+    id: 1,
+    title: 'Оптимус',
+    level: 'Средний',
+  },
+  {
+    id: 2,
+    title: 'Мозговой штурм',
+    level: 'Сложный',
+  },
+  {
+    id: 3,
+    title: 'Рулетка',
+    level: 'От простого до сложного',
+  },
+]
