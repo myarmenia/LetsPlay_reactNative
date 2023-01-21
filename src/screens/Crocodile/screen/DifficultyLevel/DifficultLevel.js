@@ -5,48 +5,19 @@ import Button from "@/assets/imgs/Button";
 import {useNavigation} from "@react-navigation/native";
 import {font, RH, RW} from "@/theme/utils";
 import {WHITE} from "@/theme/colors";
+import {levels} from "@/assets/TestData";
+import DifficultyLevel from "@/components/DifficultyLevel";
 
 
-const DifficultyLevel = () => {
+const Difficulty = () => {
     const [selectLevel, setSelectLevel] = useState(false)
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
-    const levels = [
-        {
-            id: 0,
-            title: 'Быстрая игра',
-            level: 'Легкий',
-        },
-        {
-            id: 1,
-            title: 'Оптимус',
-            level: 'Средний',
-        },
-        {
-            id: 2,
-            title: 'Мозговой штурм',
-            level: 'Сложный',
-        },
-        {
-            id: 3,
-            title: 'Рулетка',
-            level: 'От простого до сложного',
-        },
-    ]
     return (
         <ScreenMask>
             <View style={styles.body}>
                 <Text style={styles.title}>Уровень сложности</Text>
-                <View>
-                    {levels.map((item, i) => (
-                        <TouchableOpacity key={i} onPress={() => setSelectLevel(item.id)}>
-                            <View style={{...styles.levelBlock, opacity: selectLevel === item.id ? 0.3 : 1}}>
-                                <Text style={styles.levelTitle}>{item.title}</Text>
-                                <Text style={styles.level}>{item.level}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    ))}
-                </View>
+                <DifficultyLevel levels={levels} selectLevel={selectLevel} setSelectLevel={setSelectLevel}/>
                 <View style={styles.btnBlock}>
                     <Button
                         onPress={() => navigation.navigate('AboutGameCrocodile')}
@@ -88,4 +59,4 @@ const styles = StyleSheet.create({
         marginTop: RH(155),
     },
 })
-export default DifficultyLevel
+export default Difficulty;

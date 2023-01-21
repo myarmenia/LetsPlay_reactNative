@@ -6,12 +6,35 @@ import { RADIO, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import Index from '@/components/modal'
 import { useNavigation } from '@react-navigation/native'
+import User from "@/assets/imgs/user/user";
+import {Players} from "@/assets/TestData";
 
 const Teams = () => {
   const [modalRules, setModalRules] = useState(true)
   const navigation = useNavigation()
   return (
     <ScreenMask>
+      <Index
+          modalVisible={modalRules}
+          setIsVisible={setModalRules}
+          item={
+            <View style={styles.modal}>
+
+              <Text style={styles.showStyle}>Показывает</Text>
+
+              <View>
+                <User size={370} user={Players[0]}/>
+              </View>
+              <View style={styles.btnStart}>
+                <LightButton
+                    label={'Начать'}
+                    size={{ width: 281, height: 48 }}
+                    onPress={() => navigation.navigate('Words')}
+                />
+              </View>
+            </View>
+          }
+      />
       <View style={styles.common}>
         <View style={styles.team}>
           <Text style={styles.teamText}>Каманда 1</Text>
@@ -26,27 +49,7 @@ const Teams = () => {
           </View>
         </View>
       </View>
-      <Index
-        modalVisible={modalRules}
-        setIsVisible={setModalRules}
-        item={
-          <View style={styles.modal}>
-            <View>
-              <Text style={styles.showStyle}>Показывает</Text>
-            </View>
-            <View>
-              <Image source={require('@/assets/imgs/detail.png')} />
-            </View>
-            <View style={styles.btnStart}>
-              <LightButton
-                label={'Начать'}
-                size={{ width: 281, height: 48 }}
-                onPress={() => navigation.navigate('Words')}
-              />
-            </View>
-          </View>
-        }
-      />
+
     </ScreenMask>
   )
 }
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
   },
   showStyle: {
     marginBottom: RH(53),
-    ...font('inter', 20, WHITE, 20),
+    ...font('bold', 28, WHITE, 28),
     fontWeight: '400',
   },
   btnStart: {
