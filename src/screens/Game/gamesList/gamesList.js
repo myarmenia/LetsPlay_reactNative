@@ -1,7 +1,7 @@
 import ScreenMask from '@/components/wrappers/screen'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { styles } from '../gamesList/style'
-import { ScrollView, View, Text, TouchableOpacity } from 'react-native'
+import {ScrollView, View, Text, TouchableOpacity, Image} from 'react-native'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { _gamesData } from '../gamesDatas.js/gamesData'
 import { RH, RW } from '@/theme/utils'
@@ -47,24 +47,31 @@ function GamesList() {
                         style={styles.gameBox}
                         onPress={() => passIdGameItem(elem.id)}
                       >
-                        <View style={styles.iconComponent}>{elem?.component}</View>
+                        <View style={{flexDirection: 'row'}}>
+                        <Image style={{width: RW(40) , height: RW(40) , marginTop: RH(10)}} source={elem?.image}/>
                         <View style={styles.gameMiddleContainer}>
                           <View style={styles.gameItemTop}>
                             <Text style={styles.gameItemTopText}>
-                              {[elem.date, elem.time, elem.location]}
+                              {elem.date + ', '}
+                            </Text>
+                            <Text style={styles.gameItemTopText}>
+                              {elem.time + ', '}
+                            </Text>
+                            <Text style={styles.gameItemTopText}>
+                              {elem.location}
                             </Text>
                           </View>
                           <View style={styles.gameItemBottom}>
-                            <Text style={styles.gameItemTopText}>{elem.addres}</Text>
-                            <View style={styles.distanceBox}>
+                            <Text style={styles.gameItemBottomText}>{elem.addres}</Text>
+                            <View style={{...styles.distanceBox , marginLeft: 'auto'}}>
                               {elem.wave}
-                              <Text style={[styles.gameItemTopText, { paddingLeft: RW(10) }]}>
+                              <Text style={styles.gameItemBottomText}>
                                 {elem.distantion}
                               </Text>
                             </View>
-                          </View>
-                          <View style={styles.line} />
                         </View>
+                        </View>
+                        <View style={styles.line} />
                         <View style={styles.gameItemRight}>
                           <Text style={styles.gameItemRightText}>{elem.playersText}</Text>
                           <Text style={styles.gameItemRightText}>{elem.players}</Text>
@@ -76,6 +83,8 @@ function GamesList() {
                             <Text style={styles.playersIn}>{elem.playersIn}</Text>
                           )}
                         </View>
+                        </View>
+                        <View style={styles.priceTextBlock}><View style={styles.horizontalLine}/><Text style={styles.gameItemPriceText}>Сумма участия-100 руб. </Text></View>
                       </TouchableOpacity>
                     )
                   })}

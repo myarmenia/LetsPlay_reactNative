@@ -10,7 +10,6 @@ import DateTime from '@/services/DateTime'
 import Map from '@/components/inputs/map'
 import { font, RH, RW } from '@/theme/utils'
 import { SCREEN_HEIGHT } from '@/constants'
-import { _tournamentData } from './tournamentData'
 import style from "@/screens/GameCreating/style";
 import Price from "@/components/inputs/price";
 // import CircleButton from '@/components/buttons/circle'

@@ -33,7 +33,7 @@ function Index(props) {
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
                 />
-                <View style={style.buttonBlock}><Button size={{width: 281 , height: 48}} label={'Пополнить баланс'}/></View>
+                <View style={style.buttonBlock}><Button size={{width: 281 , height: 48}} label={'Подтвердить'}/></View>
         </ScreenMask>
     );
 }

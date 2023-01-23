@@ -16,7 +16,7 @@ function DataGame(props) {
     <ScreenMask>
         <GestureRecognizer style={{height: '100%'}} onSwipeRight={(state) => navigation.goBack()}>
           <View style={styles.svg}>
-            <Image style={style.ticketImg} source={require('../Game/gamesDatas.js/gamePics/Футбол.png')} />
+            <Image style={style.ticketImg} source={require('@/assets/imgs/games/soccer.png')} />
           </View>
           <View>
             <View style={styles.firstTextBlock}>
