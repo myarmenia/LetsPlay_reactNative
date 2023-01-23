@@ -48,7 +48,7 @@ function GamesList() {
                         onPress={() => passIdGameItem(elem.id)}
                       >
                         <View style={{flexDirection: 'row'}}>
-                        <Image style={{width: RW(40) , height: RW(40) , marginTop: RH(10)}} source={elem?.image}/>
+                        <Image style={{width: RW(40) , height: RW(40) ,resizeMode: 'contain' ,  marginTop: RH(10)}} source={elem?.image}/>
                         <View style={styles.gameMiddleContainer}>
                           <View style={styles.gameItemTop}>
                             <Text style={styles.gameItemTopText}>
