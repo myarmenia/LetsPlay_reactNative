@@ -34,7 +34,7 @@ function TournamentScreen({props, navigation}) {
               }}
           >
             <View style={styles.svg}>
-              <Image source={require('../Game/gamesDatas.js/gamePics/Футбол.png')} />
+              <Image source={require('@/assets/imgs/games/soccer.png')} />
             </View>
 
             <View>

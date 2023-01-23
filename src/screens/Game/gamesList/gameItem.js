@@ -1,7 +1,7 @@
 import { styles } from '../gamesList/style'
 import ScreenMask from '@/components/wrappers/screen'
 import React from 'react'
-import { View, Text, Image } from 'react-native'
+import {View, Text, Image, ScrollView} from 'react-native'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import { RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
@@ -20,8 +20,8 @@ function GameItem({ route, navigation }) {
           flex: 1,
         }}
       >
-        <View style={styles.itemWrapper}>
-          <View style={styles.bigIcon}>{item?.bigComponent}</View>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.itemWrapper}>
+          <View style={styles.bigIcon}><Image style={{width: RW(260) , height: RW(260) , resizeMode: 'contain'}} source={item?.image}/></View>
           <View>
             <Text style={styles.eachInfo}>Тип игры:</Text>
             <Text style={styles.eachInfoTwo}>{item?.name}</Text>
@@ -46,9 +46,9 @@ function GameItem({ route, navigation }) {
               }}/>
             </View>
           </View>
-        </View>
+        </ScrollView>
       </GestureRecognizer>
-      <View style={{ justifyContent: 'center', alignItems: 'center', bottom: RH(20) }}>
+      <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 'auto', marginBottom: RH(30) }}>
         <Button
           label={'Присоединиться'}
           size={{ width: 313, height: 48 }}

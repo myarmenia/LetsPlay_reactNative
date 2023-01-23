@@ -1,21 +1,20 @@
-import Trista from './gameSVGs/trista'
-import Quest from './gameSVGs/quest'
-import Labyrinth from './gameSVGs/labyrinth'
-import Wave from './gameSVGs/wave'
-import FootballBall from './gameSVGs/footballBall'
-import Volleyball from './gameSVGs/volleyball'
-import Poker from './gameSVGs/poker'
-import PrizeCup from './gameSVGs/prizeCup'
+import Wave from '@/assets/svgs/wave'
 import { RH, RW } from '@/theme/utils'
+import FootBall from '@/assets/imgs/games/soccer.png'
+import Basketball from '@/assets/imgs/games/Basketball.png'
+import Mafia from '@/assets/imgs/games/mafia.png'
+import Naves from '@/assets/imgs/games/naves.png'
+import Poker from '@/assets/imgs/games/poker.png'
+import {Image} from "react-native";
+import Cup from "@/assets/imgs/Cup.png";
 export const _gamesData = [
   {
     title: 'Игры',
     data: [
       {
         id: 1,
-        bigComponent: <Labyrinth width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Labyrinth width={RW(40)} height={RH(40)} top={RH(8)} left={RW(1)} />,
-        name: 'Лабиринт',
+        image: FootBall,
+        name: 'FootBall',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -30,10 +29,9 @@ export const _gamesData = [
       },
       {
         id: 2,
-        bigComponent: <Quest width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Quest width={RW(50)} height={RH(50)} top={RH(5)} />,
+        image: Basketball,
         date: '07.07.22 ',
-        name: 'Своя игра',
+        name: 'Basketball',
         gender: 'M',
         time: '18:30 ',
         location: 'Пресненская ',
@@ -47,9 +45,8 @@ export const _gamesData = [
       },
       {
         id: 3,
-        component: <FootballBall width={RW(40)} height={RH(40)} top={RH(10)} left={RW(7)} />,
-        bigComponent: <FootballBall width={RW(260)} height={RH(260)} top={RH(0)} />,
-        name: 'Футбол',
+        image: Mafia,
+        name: 'Mafia',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -64,10 +61,9 @@ export const _gamesData = [
       },
       {
         id: 4,
-        bigComponent: <Trista width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Trista width={RW(40)} height={RH(40)} top={RH(8)} left={RW(9)} />,
+        image: Naves,
         date: '07.07.22 ',
-        name: 'Триста',
+        name: 'Naves',
         gender: 'M',
         time: '18:30 ',
         location: 'Пресненская ',
@@ -81,9 +77,8 @@ export const _gamesData = [
       },
       {
         id: 5,
-        bigComponent: <Volleyball width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Volleyball width={RW(40)} height={RH(40)} top={RH(8)} left={RW(10)} />,
-        name: 'Волейбол',
+        image: Poker,
+        name: 'Poker',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -103,9 +98,8 @@ export const _gamesData = [
     data: [
       {
         id: 6,
-        bigComponent: <Poker width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Poker width={RW(60)} height={RH(40)} top={RH(8)} left={RW(-7)} />,
-        name: 'Покер',
+        image: FootBall,
+        name: 'FootBall',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -120,10 +114,9 @@ export const _gamesData = [
       },
       {
         id: 7,
-        bigComponent: <Quest width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Quest width={RW(50)} height={RH(50)} top={RH(5)} />,
+        image: Basketball,
         date: '07.07.22 ',
-        name: 'Своя игра',
+        name: 'Basketball',
         gender: 'M',
         time: '18:30 ',
         location: 'Пресненская ',
@@ -137,9 +130,8 @@ export const _gamesData = [
       },
       {
         id: 8,
-        component: <FootballBall width={RW(40)} height={RH(40)} top={RH(10)} left={RW(7)} />,
-        bigComponent: <FootballBall width={RW(260)} height={RH(260)} top={RH(0)} />,
-        name: 'Футбол',
+        image: Mafia,
+        name: 'Mafia',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -154,9 +146,8 @@ export const _gamesData = [
       },
       {
         id: 9,
-        bigComponent: <Trista width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Trista width={RW(40)} height={RH(40)} top={RH(8)} left={RW(9)} />,
-        name: 'Триста',
+        image: Naves,
+        name: 'Naves',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -171,10 +162,9 @@ export const _gamesData = [
       },
       {
         id: 10,
-        bigComponent: <Volleyball width={RW(260)} height={RH(260)} top={RH(0)} />,
-        component: <Volleyball width={RW(40)} height={RH(40)} top={RH(8)} left={RW(10)} />,
+        image: Poker,
         date: '07.07.22 ',
-        name: 'Волейбол',
+        name: 'Poker',
         gender: 'M',
         time: '18:30 ',
         location: 'Пресненская ',
@@ -193,10 +183,8 @@ export const _gamesData = [
     data: [
       {
         id: 11,
-        bigComponent: (
-          <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
-        ),
-        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        image: Cup,
+        name: 'Basketball',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -211,10 +199,8 @@ export const _gamesData = [
       },
       {
         id: 12,
-        bigComponent: (
-          <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
-        ),
-        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        image: Cup,
+        name: 'Basketball',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -229,10 +215,8 @@ export const _gamesData = [
       },
       {
         id: 13,
-        bigComponent: (
-          <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
-        ),
-        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        image: Cup,
+        name: 'Basketball',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -247,10 +231,8 @@ export const _gamesData = [
       },
       {
         id: 14,
-        bigComponent: (
-          <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
-        ),
-        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        image: Cup,
+        name: 'Basketball',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
@@ -265,10 +247,8 @@ export const _gamesData = [
       },
       {
         id: 15,
-        bigComponent: (
-          <PrizeCup width={RW(260)} height={RH(260)} top={RH(0)} viewBox={'0 0 40 50'} />
-        ),
-        component: <PrizeCup width={42} height={40} viewBox={'0 0 33 49'} />,
+        image: Cup,
+        name: 'Basketball',
         date: '07.07.22 ',
         gender: 'M',
         time: '18:30 ',
