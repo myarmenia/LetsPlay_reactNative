@@ -4,6 +4,7 @@ import style from '../style'
 import ScreenMask from '@/components/wrappers/screen'
 import image from '@/assets/imgs/userImage.png'
 import { useNavigation } from '@react-navigation/native'
+import {Players} from "@/assets/TestData";
 
 
 const index = props => {
@@ -40,7 +41,7 @@ const index = props => {
         <Text style={style.title}>Мой кабинет</Text>
         <View style={style.infoBlock}>
           <View style={style.imageBlock}>
-            <Image style={style.image} source={image} />
+            <Image style={style.image} source={{uri: Players[0].image}} />
           </View>
           <View>
             <Text style={style.name}>Имя Фамилия</Text>

@@ -30,8 +30,8 @@ export default StyleSheet.create({
     marginTop: RH(15),
   },
   imageBlock: {
-    width: RW(98),
-    height: RW(98),
+    width: RW(87),
+    height: RW(87),
     borderRadius: RW(43),
     marginRight: RW(20),
   },
@@ -39,6 +39,7 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
     borderRadius: RW(43),
+    resizeMode: 'contain'
   },
   userEdit: {
     marginLeft: RW(80),
@@ -54,8 +55,9 @@ export default StyleSheet.create({
     ...font('regular', 16, WHITE, 19),
   },
   linkBlock: {
-    height: RH(56),
+    // height: RH(56),
     width: '100%',
+    paddingVertical: RH(17),
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,

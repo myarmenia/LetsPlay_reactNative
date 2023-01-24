@@ -11,10 +11,10 @@ function Index(props) {
     const list = [
         {id: 1, text: 'Платные услуги' , navigationTo: 'PaidServices'},
         {id: 2, text: 'История'},
-        {id: 3, text: 'Тарифы'},
+        {id: 3, text: 'Тарифы' , navigationTo: 'Tariff'},
     ]
     const LinkItem = ({item}) => (
-        <TouchableOpacity onPress={() => navigation.navigate(item.navigationTo)} style={item.id === 3 ? {...styles.linkBlock , borderBottomWidth: 1 , borderTopWidth: 1} : {...styles.linkBlock, borderBottomWidth: 0 , borderTopWidth: 1}}>
+        <TouchableOpacity onPress={() => item.id !== 2 ? navigation.navigate(item.navigationTo) : console.log('История')} style={item.id === 3 ? {...styles.linkBlock , paddingVertical:RH(27), borderBottomWidth: 1 , borderTopWidth: 1} : {...styles.linkBlock, paddingVertical:RH(27), borderBottomWidth: 0 , borderTopWidth: 1}}>
             <Text style={styles.linkText}>{item.text}</Text>
         </TouchableOpacity>
     );

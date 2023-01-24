@@ -99,7 +99,7 @@ const GameCreating = (props) => {
             !data.playerCountFrom || !data.playerCountTo ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
-              <Text style={style.errorText}>Введите корректную дату</Text>
+              <Text style={style.errorText}>Введите корректную число</Text>
             )
           ) : null}
           <SecondBlock
@@ -112,7 +112,7 @@ const GameCreating = (props) => {
             !data.ageFrom || !data.ageTo ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
-              <Text style={style.errorText}>Введите корректную дату</Text>
+              <Text style={style.errorText}>Введите корректную возраст</Text>
             )
           ) : null}
           <ThirdBlock

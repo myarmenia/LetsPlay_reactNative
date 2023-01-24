@@ -1,21 +1,22 @@
 import {StyleSheet} from 'react-native';
 import {RH, RW, font} from '@/theme/utils'
-import {TAB_BAR_COLOR, WHITE} from "@/theme/colors";
+import {BACKGROUND, ICON, TAB_BAR_COLOR, WHITE} from "@/theme/colors";
 
 export default StyleSheet.create({
     btn: {
-        width: RW(363),
+        width: RW(397),
         height: RH(48),
     },
     input: {
-        backgroundColor: TAB_BAR_COLOR,
-        marginBottom: RH(20),
+        backgroundColor: BACKGROUND,
+        marginBottom: RH(49),
         borderRadius: RW(10),
         width: RW(363),
         height: RH(48),
         marginLeft: 'auto',
         marginRight: 'auto',
-        color: 'white',
+        color: ICON,
+        paddingLeft: RW(24)
     },
     title: {
         ...font('bold', 24, WHITE),

@@ -11,7 +11,7 @@ function Index(props) {
                 <Text style={style.title}>Моя галерея</Text>
                 <View style={style.galleryTextBlock}>
                     <Text style={style.GalleryTitle}>Галерея пуста.</Text>
-                    <Text style={style.galleryText}>Фото/Видео добавляются после Вашего  подтверждения  по окончанию проведенной игры.</Text>
+                    <Text style={style.galleryText}>Фото/Видео добавляются после вашего  подтверждения  по окончанию проведенной игры.</Text>
                 </View>
             </View>
         </ScreenMask>

@@ -18,7 +18,7 @@ const STEPS = [
   {
     isLeft: true,
     isWrong: false,
-    message: 'Напишите имя и фамилию',
+    message: 'Напишите своё имя и фамилию',
   },
   {
     isLeft: true,

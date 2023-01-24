@@ -67,7 +67,7 @@ const DateTime = (props) => {
       <DatePicker
         locale={'ru'}
         cancelText={'ОТМЕНИТЬ'}
-        confirmText={'ПОДТВЕРЖДАТЬ'}
+        confirmText={'ПОДТВЕРДИТЬ'}
         title={'Выберите дату'}
         modal
         minimumDate={
@@ -93,9 +93,6 @@ const DateTime = (props) => {
         onCancel={() => {
           setOpen(false)
         }}
-        title="Дата и время"
-        confirmText="Подтверждать"
-        cancelText="Отменить"
       />
     </View>
   )
