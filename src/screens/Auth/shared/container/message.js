@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   label: {
-    ...font('regular', 14, WHITE, 20),
+    ...font('regular', 16, WHITE, 20),
   },
 })

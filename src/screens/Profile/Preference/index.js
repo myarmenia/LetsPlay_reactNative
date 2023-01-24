@@ -6,6 +6,10 @@ import styles from '../style'
 import {RH, RW} from "@/theme/utils";
 import Detail from '@/assets/imgs/detail.png'
 import Button from "@/assets/imgs/Button";
+import {Players} from "@/assets/TestData";
+import User from "@/assets/imgs/user/user";
+import IsFollow from "@/assets/svgs/IsFollow";
+import AddFollower from "@/assets/svgs/AddFolloerSvg";
 
 
 function Index(props) {
@@ -24,7 +28,7 @@ function Index(props) {
         {id: 12, text: 'Мафия', checked: false},
         {id: 13, text: 'Своя игра', checked: false},
     ]
-    const count = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6},{id: 11},{id: 10},{id: 9},{id: 8},{id: 7}]
+    const [flag , setFlag] = useState(true)
     const [game, setGame] = useState([]);
 
 
@@ -46,9 +50,16 @@ function Index(props) {
         <PreferenceItem item={item}/>
     );
     const UserItem = ({item}) => (
-        <TouchableOpacity>
-            <Image source={Detail} resizeMode={'contain'} style={style.detail}/>
-        </TouchableOpacity>
+        <User size={100} user={Players[item.id - 1]} onPressItem={{
+            item: <View style={style.followerModal}>
+                    <User user={Players[item.id - 1]} size={250}/>
+                    <View style={style.followerModalTextBLock}>
+                         <Text style={style.followerModalText}>Вы подписаны на этого {"\n"}игрока</Text>
+                         <TouchableOpacity onPress={() => setFlag(!flag)} style={style.modalSvg}><IsFollow/></TouchableOpacity>
+                    </View>
+                  </View>,
+            modalClose:false,
+        }}/>
     );
     const renderItemTwo = ({item}) => (
         <UserItem item={item}/>
@@ -75,7 +86,7 @@ function Index(props) {
                         columnWrapperStyle={{...style.flatList, marginBottom: RH(45)}}
                         numColumns={3}
                         style={{height: RH(400)}}
-                        data={count}
+                        data={Players}
                         renderItem={renderItemTwo}
                         keyExtractor={item => item.id}
                     />

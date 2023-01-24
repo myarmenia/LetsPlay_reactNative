@@ -1,9 +1,11 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import {Button, Pressable, Text, View} from 'react-native'
 import Modal from 'react-native-modal'
+import {useNavigation} from "@react-navigation/native";
 
-function Index({modalVisible, item, setIsVisible, modalClose, navigation, navigationText}) {
+function Index({modalVisible, item, setIsVisible, modalClose, navigationText}) {
     const [isModalVisible, setModalVisible] = useState(true)
+    const navigation = useNavigation()
     useMemo(() => {
         setModalVisible(modalVisible)
     }, [modalVisible])
@@ -19,11 +21,11 @@ function Index({modalVisible, item, setIsVisible, modalClose, navigation, naviga
                     if (modalClose) {
                         setModalVisible(true)
                         setIsVisible(true)
-                        navigation ? navigation.navigate(navigationText) : null
+                        navigationText ? navigation.navigate(navigationText) : null
                     } else {
                         setModalVisible(false)
                         setIsVisible(false)
-                        navigation ? navigation.navigate(navigationText) : null
+                        navigationText ? navigation.navigate(navigationText) : null
                     }
                 }}
                 isVisible={isModalVisible}

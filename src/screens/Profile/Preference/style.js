@@ -46,5 +46,26 @@ export default StyleSheet.create({
     buttonBlock:{
         marginLeft: 'auto',
         marginTop: RH(17)
+    },
+    followerModal:{
+        width: RW(313),
+        borderRadius: RW(20),
+        backgroundColor: LIGHT_LABEL,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingBottom: RH(30),
+        paddingTop: RH(75),
+        paddingLeft: RW(33),
+        paddingRight: RW(21)
+    },
+    followerModalText: {
+        ...font('regular' , 16 , WHITE , 25),
+    },
+    followerModalTextBLock:{
+        marginTop: RH(40),
+        flexDirection: 'row'
+    },
+    modalSvg: {
+        marginLeft: 'auto'
     }
 })

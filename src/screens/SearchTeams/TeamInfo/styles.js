@@ -6,15 +6,16 @@ import {font, RH, RW} from '@/theme/utils'
 export default StyleSheet.create({
     team:{
         textAlign:'center',
-        ...font("bold",22, WHITE),
-        marginVertical:RH(15)
+        ...font("bold",22, WHITE , 27),
+        marginTop:RH(39),
+        marginBottom:RH(57),
     },
     imageBlock:{
         width:RW(240),
         height:RW(240),
         marginLeft:'auto',
         marginRight:'auto',
-        marginVertical:RH(25),
+        marginBottom:RH(33),
         borderWidth:1,
         borderRadius:RW(150),
         borderColor:WHITE
@@ -27,9 +28,16 @@ export default StyleSheet.create({
         resizeMode:'contain'
     },
     text:{
-        textAlign:'center',
-        marginVertical:RH(5),
-        ...font('italic',18, WHITE)
+        ...font('bold',14, WHITE, 20),
+        marginTop: RH(5)
+    },
+    line:{
+        width: RW(130),
+        height: RH(1),
+        backgroundColor: 'white',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        marginBottom: RH(45)
     },
     btns:{
         marginTop:RH(150),
@@ -37,6 +45,9 @@ export default StyleSheet.create({
         marginRight:'auto',
     },
     btn:{
-        marginBottom:RH(15),
+        marginTop: 'auto',
+        width: '100%',
+        alignItems: 'center',
+        marginBottom:RH(64),
     },
 })

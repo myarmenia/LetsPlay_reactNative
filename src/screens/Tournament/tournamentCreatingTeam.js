@@ -73,7 +73,7 @@ const TournamentCreating = props => {
                     !data.playerCountFrom || !data.playerCountTo ? (
                         <Text style={style.errorText}>Обязательное поле для заполнения</Text>
                     ) : (
-                        <Text style={style.errorText}>Введите корректную дату</Text>
+                        <Text style={style.errorText}>Введите корректную число</Text>
                     )
                 ) : null}
                 <View style={{marginTop: RW(20) , width: RW(386)}}>
