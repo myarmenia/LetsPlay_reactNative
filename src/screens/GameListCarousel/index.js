@@ -9,7 +9,6 @@ function Index({ navigation, route }) {
   const [pressable, setPressable] = useState(true)
   const width = Dimensions.get('window').width
   const height = Dimensions.get('window').height
-
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <Carousel

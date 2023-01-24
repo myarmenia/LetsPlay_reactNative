@@ -30,7 +30,7 @@ function Index({navigation, route}) {
                 </View>
                 <View>
                     <Button onPress={() => {
-                        navigation.navigate('GameListCarousel', {list: data, game})
+                        navigation.navigate('GameListCarousel', {list: BoardGames, game})
                     }}
                             label={'Настольные игры'}
                             size={{width: 281, height: 50}}

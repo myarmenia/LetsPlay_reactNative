@@ -9,12 +9,16 @@ import Vote from "@/screens/Mafia/screen/Vote/Vote";
 import Ratings from "@/screens/Mafia/screen/Ratings/Ratings";
 import RatingPlayer from "@/screens/Mafia/screen/RatingPlayer/RatingPlayer";
 import GoBack from "@/helpers/goBack";
+import QrCode from "@/screens/Mafia/screen/QrCode";
+import Settings from "@/screens/Mafia/screen/Settings";
 
 const MafiaGame = () => {
     const Stack = createNativeStackNavigator();
 
     const [route]=useState({
-        PlayNowComponent:props => (<GoBack item={<PlayNow   />}/>),
+        QrCodeComponent: props => <GoBack item={<QrCode {...props} />} />,
+        SettingsComponent: props => <GoBack item={<Settings {...props} />} />,
+        PlayNowComponent:props => (<GoBack item={<PlayNow {...props}  />}/>),
         AboutGameComponent:props => (<GoBack item={<AboutGame />}/>),
         PlaceManComponent:props =>(<GoBack item={<PlaceMan  {...props} />}/>),
         VoteComponent:props=>(<GoBack item={<Vote  {...props} />}/>),
@@ -25,6 +29,8 @@ const MafiaGame = () => {
     return (
         <>
             <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
+                <Stack.Screen name="QrMafia" component={route.QrCodeComponent} />
+                <Stack.Screen name="SettingsMafia" component={route.SettingsComponent} />
                 <Stack.Screen name={'playNow'} component={route.PlayNowComponent}/>
                 <Stack.Screen name={'aboutGame'} component={route.AboutGameComponent}/>
                 <Stack.Screen name={'PlaceMan'} component={route.PlaceManComponent}/>

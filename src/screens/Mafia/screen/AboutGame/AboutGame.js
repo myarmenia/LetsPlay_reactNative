@@ -21,7 +21,7 @@ const AboutGame = () => {
                     <View>
                         <Text style={styles.aboutMe}>Словарь игроков</Text>
                     </View>
-                    <View>
+                    <ScrollView>
                         {
                             MafiaData.map((item, i) => (
                                 <View key={i} style={{borderRadius:20}}>
@@ -41,7 +41,7 @@ const AboutGame = () => {
                                 </View>
                             ))
                         }
-                    </View>
+                    </ScrollView>
                     <View style={{paddingVertical: 38, marginHorizontal: 'auto'}}>
                         <LightButton
                             size={{width: 281, height: 48}}

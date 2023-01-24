@@ -17,20 +17,15 @@ function Index({navigation}) {
             <View>
                 <View>
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text style={styles.time}>Количество слов</Text>
+                        <Text style={styles.time}>Время до голосования</Text>
                         <Text style={styles.time}>{valWord}</Text>
                     </View>
-                    <Text style={styles.timeTitle}>для достижения победы</Text>
-                    <Slider step={9} maxValue={90} val={valWord} setVal={setValWord}/>
+                    <Text style={styles.timeTitle}>продолжительность в менутах</Text>
+                    <Slider step={4} maxValue={20} val={valWord} setVal={setValWord}/>
                 </View>
-                <View>
-                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-                        <Text style={styles.time}>Время раунда</Text>
-                        <Text style={styles.time}>{valTime}</Text>
-                    </View>
-                    <Text style={styles.timeTitle}>продолжительность в секундах</Text>
-                    <Slider step={3} maxValue={180} val={valTime} setVal={setTimeVal}/>
-                </View>
+                <Text style={{...styles.time, fontSize:14,color:'#B3B7C2',marginVertical:40}}>
+                    Дополнительные персoнажы участвующие в игре
+                </Text>
             </View>
             <View  style={{
                 flexDirection:'row',
@@ -38,8 +33,8 @@ function Index({navigation}) {
                 justifyContent:'space-around'
             }}>
                 <View>
-                    <Text style={{...styles.time,  marginTop:RH(50), marginBottom:5}} >Штраф за пропуск</Text>
-                    <Text style={{...styles.timeTitle, marginVertical:2, fontSize:11}}>каждое пропущенное слово отнимает одно очко</Text>
+                    <Text style={{...styles.time,  marginTop:RH(20), marginBottom:5}} >Шпион и Дон</Text>
+                    <Text style={{...styles.timeTitle, marginVertical:2, fontSize:10}}>(Количество игроков должно быть не менее 7 человек)</Text>
                 </View>
                 <View style={{
                     marginTop:RH(30)
@@ -50,7 +45,7 @@ function Index({navigation}) {
             </View>
             <View style={{marginLef: 'auto', marginVertical: RH(80), alignItems: 'center'}}>
                 <Button
-                    onPress={() => navigation.navigate('DifficultyLevel')}
+                    onPress={() => navigation.navigate('playNow')}
                     size={styles.btn}
                     label={'Продолжить'}
                 />

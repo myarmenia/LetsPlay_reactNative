@@ -26,6 +26,20 @@ function Index({navigation}) {
     const [showDropDown, setShowDropDown] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
     const [flag, setFlag] = useState(false)
+    const [modalResNo, setModalResNo]=useState([])
+
+    useEffect(()=>{
+        const temp=[];
+        BoardGames.forEach((item, i)=>(
+            temp.push({
+                ...item,
+                navigateTo:"GameCreating"
+            })
+        ));
+        setModalResNo(temp)
+
+        // BoardGames.forEach((item, i) =>(item.navigateTo='GameCreating'))
+    },[])
 
     const initialState = {
         price: 'Бесплатно',
@@ -174,7 +188,7 @@ function Index({navigation}) {
                                             size={{width: 100, height: 36}}
                                             onPress={() => {
                                                 setModalVisible(false)
-                                                navigation.navigate('GameListCarousel',  {list:BoardGames})
+                                                navigation.navigate('GameListCarousel',  {list:modalResNo})
                                             }}
                                             label={'Нет'}
                                             labelStyle={font('bold', 16)}
