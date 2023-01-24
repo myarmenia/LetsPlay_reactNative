@@ -20,7 +20,7 @@ const Difficulty = () => {
                 <DifficultyLevel levels={levels} selectLevel={selectLevel} setSelectLevel={setSelectLevel}/>
                 <View style={styles.btnBlock}>
                     <Button
-                        onPress={() => navigation.navigate('AboutGameCrocodile')}
+                        onPress={() => navigation.navigate('Teams')}
                         size={styles.btn}
                         label={'Продолжить'}
                     />
