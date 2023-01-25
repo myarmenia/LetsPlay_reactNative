@@ -66,11 +66,11 @@ function Ticket(props) {
           <Text style={style.ticketText}>Стоимость входного билета на игру:</Text>
           <Text style={style.ticketTextTwo}>{data.priceValue ? data.priceValue : 0} руб.</Text>
         </View>
-        <View style={style.ticketTextBlock}>
+        <View style={{...style.ticketTextBlock , marginBottom: RH(150)}}>
           <Text style={style.ticketText}>Организатор игры:</Text>
           <View style={{width: RW(60) , marginLeft: RW(20)}}>
-            <User size={40} user={Players[0]} onPressItem={{
-              item: <User user={Players[0]} size={390}/>,
+            <User size={40} user={Players[6]} onPressItem={{
+              item: <User user={Players[6]} size={390}/>,
               modalClose:false,
             }}/>
           </View>

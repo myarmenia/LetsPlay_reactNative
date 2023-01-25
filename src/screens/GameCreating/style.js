@@ -62,6 +62,7 @@ export default StyleSheet.create({
     },
     ticketBlock: {
         paddingTop: RH(42),
+        paddingBottom: 100
     },
     ticketImgBlock: {
         alignItems: 'center',
