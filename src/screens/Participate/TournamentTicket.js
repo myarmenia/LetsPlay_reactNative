@@ -8,7 +8,7 @@ import GestureRecognizer from 'react-native-swipe-gestures'
 import LightButton from '@/assets/imgs/Button'
 import style from '@/screens/GameCreating/style'
 import Modal from '@/components/modal'
-import Wave from "@/screens/Game/gamesDatas.js/gameSVGs/wave";
+import Wave from "@/assets/svgs/wave";
 
 
 function TournamentTicket(props) {
@@ -24,7 +24,7 @@ function TournamentTicket(props) {
                     style={{height: '100%'}}
                 >
                     <View style={styles.svg}>
-                        <Image style={{ width: RW(220) , height: RW(220)}} source={require('../Game/gamesDatas.js/gamePics/Футбол.png')}/>
+                        <Image style={{ width: RW(220) , height: RW(220)}} source={require('@/assets/imgs/games/soccer.png')}/>
                     </View>
 
                     <View>

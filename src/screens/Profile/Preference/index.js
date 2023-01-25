@@ -6,6 +6,10 @@ import styles from '../style'
 import {RH, RW} from "@/theme/utils";
 import Detail from '@/assets/imgs/detail.png'
 import Button from "@/assets/imgs/Button";
+import {Players} from "@/assets/TestData";
+import User from "@/assets/imgs/user/user";
+import IsFollow from "@/assets/svgs/IsFollow";
+import AddFollower from "@/assets/svgs/AddFolloerSvg";
 
 
 function Index(props) {
@@ -24,7 +28,7 @@ function Index(props) {
         {id: 12, text: 'Мафия', checked: false},
         {id: 13, text: 'Своя игра', checked: false},
     ]
-    const count = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}]
+    const [flag , setFlag] = useState(true)
     const [game, setGame] = useState([]);
 
 
@@ -38,7 +42,7 @@ function Index(props) {
             }
         }
         return(
-        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButtonTwo : style.nameButton }>
+        <TouchableOpacity onPress={handlerActiveUser} style={game.includes(item.id) ? style.nameButton : style.nameButtonTwo }>
             <Text style={styles.linkText}>{item.text}</Text>
         </TouchableOpacity>
     )};
@@ -46,9 +50,16 @@ function Index(props) {
         <PreferenceItem item={item}/>
     );
     const UserItem = ({item}) => (
-        <TouchableOpacity>
-            <Image source={Detail} resizeMode={'contain'} style={style.detail}/>
-        </TouchableOpacity>
+        <User size={100} user={Players[item.id - 1]} onPressItem={{
+            item: <View style={style.followerModal}>
+                    <User user={Players[item.id - 1]} size={250}/>
+                    <View style={style.followerModalTextBLock}>
+                         <Text style={style.followerModalText}>Вы подписаны на этого {"\n"}игрока</Text>
+                         <TouchableOpacity onPress={() => setFlag(!flag)} style={style.modalSvg}><IsFollow/></TouchableOpacity>
+                    </View>
+                  </View>,
+            modalClose:false,
+        }}/>
     );
     const renderItemTwo = ({item}) => (
         <UserItem item={item}/>
@@ -56,11 +67,12 @@ function Index(props) {
     return (
         <ScreenMask>
             <View style={style.container}>
-                <Text style={styles.title}>Мои подписки и предпочтения</Text>
+                <Text style={styles.title}>Мои предпочтения</Text>
                 <View style={style.gameNamesBlock}>
                     <Text style={style.gameNamesTitle}>Предпочтения в играх</Text>
                     <View style={style.flatListBlock}>
                         <FlatList
+                            nestedScrollEnabled
                             columnWrapperStyle={style.flatList}
                             numColumns={3}
                             data={list}
@@ -70,13 +82,14 @@ function Index(props) {
                     </View>
                     <Text style={{...style.gameNamesTitle, marginBottom: RH(23)}}>Мои подписки на организаторов</Text>
                     <FlatList
+                        showsVerticalScrollIndicator={false}
                         columnWrapperStyle={{...style.flatList, marginBottom: RH(45)}}
                         numColumns={3}
-                        data={count}
+                        style={{height: RH(400)}}
+                        data={Players}
                         renderItem={renderItemTwo}
                         keyExtractor={item => item.id}
                     />
-                    <View style={style.buttonBlock}><Button label={'Продолжить'} size={{width: 172, height: 48}}/></View>
                 </View>
             </View>
         </ScreenMask>

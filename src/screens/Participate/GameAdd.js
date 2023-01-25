@@ -10,7 +10,8 @@ import DateTime from '@/services/DateTime'
 import Map from '@/components/inputs/map'
 import { font, RH, RW } from '@/theme/utils'
 import { SCREEN_HEIGHT } from '@/constants'
-import { _tournamentData } from './tournamentData'
+import style from "@/screens/GameCreating/style";
+import Price from "@/components/inputs/price";
 // import CircleButton from '@/components/buttons/circle'
 // import CircleAdd from '@/components/buttons/circleAdd'
 // import GamesList from '../gamesList/gamesList'
@@ -94,8 +95,8 @@ function Index({ navigation }) {
                 flex: 1,
               }}
           >
-            <Text style={styles.someTitle}>Игра</Text>
-            <View style={{...styles.gameTypesContainer , marginLeft: RW(10)}}>
+            <Text style={{...styles.someTitle , marginTop: RH(20), marginBottom: RH(17)}}>Игра</Text>
+            <View style={{...styles.gameTypesContainer , marginLeft: RW(30)}}>
               <Radio
                   list={list}
                   setShowGameTypes={setShowGameTypes}
@@ -133,10 +134,10 @@ function Index({ navigation }) {
                 </>
             ) : null}
             <View>
-              <Text style={{ color: '#657AC5', fontSize: RW(16), marginBottom: RH(20), marginTop: RH(20) }}>
+              <Text style={{ color: '#657AC5', fontSize: RW(16), marginLeft: RW(15), marginBottom: RH(20)}}>
                 Формат турнира
               </Text>
-              <View style={{ marginHorizontal: RW(10) }}>
+              <View style={{ marginLeft: RW(30) }}>
                 <Radio
                     data={data}
                     setData={setData}
@@ -166,10 +167,24 @@ function Index({ navigation }) {
                 </View>
               </View>
               <View>
-                <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
-                <View style={{...styles.gameTypesContainer , marginLeft: RW(10)}}>
-                  <Radio list={free} topBtn={false} setFree={setFree} typeFunc={'paid'}/>
+                <Text style={{...styles.someTitle , marginBottom: RH(15)}}>Стоимость входного билета в игру</Text>
+                <View style={{...styles.gameTypesContainer , marginLeft: RW(30)}}>
+                  <Radio flag={flag} setFlag={setFlag} data={data} setData={setData} list={free} topBtn={false} setFree={setFree} type={'priceView'} typeFunc={'paid'}/>
                 </View>
+                {flag ? (
+                    <View style={style.price}>
+                      <Price
+                          data={data}
+                          setData={setData}
+                          sliceNumber={13}
+                          text={'Сумма оплаты '}
+                          margin={RW(18)}
+                          width={RW(210)}
+                          placeholder={'Сумма оплаты 200р.'}
+                      />
+
+                    </View>
+                ) : null}
               </View>
             </View>
           </GestureRecognizer>

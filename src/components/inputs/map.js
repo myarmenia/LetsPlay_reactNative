@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from '@/components/inputs/styles'
-import { ICON, RED } from '@/theme/colors'
+import {ICON, RED, WHITE} from '@/theme/colors'
 import { font, RW } from '@/theme/utils'
 import MapSvg from '@/assets/svgs/mapSvg'
 
@@ -27,7 +27,7 @@ function Map(props) {
           <Text style={styles.mapInput}>{placeholder}</Text>
         ) : (
           <TextInput
-            style={styles.mapInput}
+            style={{...styles.mapInput, color: WHITE}}
             value={value}
             onChangeText={ev => {
               setValue(ev)

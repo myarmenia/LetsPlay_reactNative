@@ -6,6 +6,8 @@ import Gallery from "@/screens/Profile/Gallery";
 import Wallet from "@/screens/Profile/Wallet";
 import Feedback from "@/screens/Profile/Feedback";
 import Preference from "@/screens/Profile/Preference";
+import PaidServices from "@/screens/Profile/Wallet/PaidServices";
+import Tariff from "@/screens/Profile/Wallet/Tariff";
 
 
 
@@ -20,6 +22,8 @@ function Index(props) {
             <Stack.Screen name={'Wallet'} component={Wallet} />
             <Stack.Screen name={'Feedback'} component={Feedback} />
             <Stack.Screen name={'Preference'} component={Preference} />
+            <Stack.Screen name={'PaidServices'} component={PaidServices} />
+            <Stack.Screen name={'Tariff'} component={Tariff} />
         </Stack.Navigator>
     );
 }

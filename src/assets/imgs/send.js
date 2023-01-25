@@ -4,7 +4,7 @@ import { Svg, Path } from 'react-native-svg'
 
 import { RW } from '@/theme/utils'
 
-const SendIcon = ({ size = 18, onPress }) => {
+const SendIcon = ({ size = 26, onPress }) => {
   return (
     <TouchableOpacity onPress={onPress && onPress} activeOpacity={0.7}>
       <Svg

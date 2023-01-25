@@ -57,7 +57,7 @@ export const styles = StyleSheet.create({
     borderColor:ICON,
     borderWidth:RW(2),
     borderRadius:RW(2),
-    marginHorizontal:RW(8)
+    marginHorizontal:RW(12)
   },
   typeText:{
     color:RADIO_TEXT,
@@ -96,8 +96,8 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: RH(10),
     width:RW(357),
-    alignSelf:"center",
-    alignItems:"center"
+    alignItems:"center",
+    marginBottom: RH(30)
   },
 
   btnActiveGames: {

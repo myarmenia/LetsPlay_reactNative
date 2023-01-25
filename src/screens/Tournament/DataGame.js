@@ -6,6 +6,8 @@ import { ScrollView } from 'react-native-gesture-handler'
 import OrganizerSvg from '@/assets/svgs/OrganizerSvg'
 import GestureRecognizer from 'react-native-swipe-gestures'
 import LightButton from '@/assets/imgs/Button'
+import style from "@/screens/GameCreating/style";
+
 
 
 function DataGame(props) {
@@ -13,15 +15,9 @@ function DataGame(props) {
   const {isTeam} = route.params
   return (
     <ScreenMask>
-      <ScrollView>
-        <GestureRecognizer
-          onSwipeRight={(state) => navigation.goBack()}
-          style={{
-            flex: 1,
-          }}
-        >
+        <GestureRecognizer onSwipeRight={(state) => navigation.goBack()} style={{height: "100%"}}>
           <View style={styles.svg}>
-            <Image source={require('../Game/gamesDatas.js/gamePics/Футбол.png')} />
+            <Image style={style.ticketImg} source={require('@/assets/imgs/games/soccer.png')} />
           </View>
 
           <View>
@@ -99,7 +95,6 @@ function DataGame(props) {
             </View>
           </View>
           </GestureRecognizer>
-      </ScrollView>
     </ScreenMask>
   )
 }
@@ -133,6 +128,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 'auto',
     marginBottom: RH(20),
     marginRight: RW(10)
   },

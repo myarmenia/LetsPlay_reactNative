@@ -10,7 +10,7 @@ const Price = props => {
 
   return (
     <View style={{ ...styles.priceBlock, width: width || RW(124) }}>
-      <Text style={styles.priceText}>Сумма оплаты </Text>
+      <Text style={styles.priceText}>Сумма оплаты до</Text>
       <TextInput
         style={styles.priceInput}
         value={value}

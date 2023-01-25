@@ -7,15 +7,15 @@ export default StyleSheet.create({
     input:{
         width: RW(354),
         backgroundColor: BACKGROUND,
-        color: WHITE,
+        color: ICON,
         borderRadius: RW(10),
         paddingHorizontal: RW(20),
-        marginBottom: RH(23),
+
     },
     buttonBlock: {
         marginLeft: 'auto',
         marginRight: 'auto',
-        marginTop: RH(140)
+        marginTop: RH(105)
     },
     feedbackModal:{
         width: RW(289),
@@ -32,6 +32,11 @@ export default StyleSheet.create({
         ...font('regular' , 16 , WHITE , 24),
         textAlign: "center",
         width: RW(235)
+    },
+    errorText: {
+        ...font('regular', 16, RED, 24),
+    },
+    inputBlock:{
+        marginBottom: RH(23),
     }
-
 })

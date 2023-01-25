@@ -8,43 +8,45 @@ import OpenSvg from '@/assets/svgs/OpenSvg'
 import LineSvg from "@/assets/svgs/LineSvg";
 import {RH, RW} from '@/theme/utils'
 import {useNavigation} from '@react-navigation/native'
+import {ICON} from "@/theme/colors";
 
 const CalendarComponent = () => {
   const navigation = useNavigation()
-  LocaleConfig.locales['fr'] = {
+  LocaleConfig.locales['ru'] = {
     monthNames: [
-      'January',
-      'February',
-      'March',
-      'April',
-      'May',
-      'June',
-      'July',
-      'August',
-      'September',
-      'October',
-      'November',
-      'December',
+      'Январь',
+      'Февраль',
+      'Март',
+      'Апрель',
+      'Май',
+      'Июнь',
+      'Июль',
+      'Август',
+      'Сентябрь',
+      'Октябрь',
+      'Ноябрь',
+      'Декабрь',
     ],
     monthNamesShort: [
-      'Jan.',
-      'Feb.',
-      'March',
-      'April',
-      'May',
-      'June',
-      'Jule.',
-      'Aug',
-      'Sep.',
-      'Oct.',
-      'Nov.',
-      'Dec.',
+      'Янв',
+      'Фев',
+      'Мар',
+      'Апр',
+      'Май',
+      'Июн',
+      'Июл',
+      'Авг',
+      'Сен',
+      'Окт',
+      'Ноя',
+      'Дек',
     ],
-    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    dayNames: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
+    // dayNamesShort: ['Пн' , 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' , 'Вс'],
     dayNamesShort: [''],
     today: "Aujourd'hui",
   }
-  LocaleConfig.defaultLocale = 'fr'
+  LocaleConfig.defaultLocale = 'ru'
   const header = <View>
     <View style={styles.header}>
       <View
@@ -74,7 +76,13 @@ const CalendarComponent = () => {
         </TouchableOpacity>
       </View>
     </View>
+    <View style={{
+      position: 'absolute',
+      top: RH(110),
+      zIndex: 118,
+    }}>
     <LineSvg/>
+    </View>
     <View
         style={styles.week}
     >
@@ -88,7 +96,7 @@ const CalendarComponent = () => {
     </View>
     <View style={{
       position: 'absolute',
-      top: 160,
+      top: RH(175),
       zIndex: 99,
     }}>
       <LineSvg/>
@@ -99,21 +107,26 @@ const CalendarComponent = () => {
           dayTextColor: '#fff',
           arrowColor: '#7DCE8A',
           selectedDayBackgroundColor: '#7DCE8A',
+          monthTextColor: '#142A5C',
+          agendaDayNumColor: ICON,
         }}
         headerStyle={{backgroundColor: '#142A5C'}}
-        markedDates={{
-          '2012-05-16': {selected: true, marked: true, selectedColor: 'blue'},
-          '2012-05-17': {marked: true, backgroundColor: 'red'},
-          '2012-05-18': {marked: true, dotColor: '#657AC5', activeOpacity: 0},
-          '2012-05-19': {disabled: true, disableTouchEvent: true},
-        }}
+        hideArrows={true}
+        day
+        // markedDates={{
+        //   '2012-05-16': {selected: true, marked: true, selectedColor: 'blue'},
+        //   '2012-05-17': {marked: true, backgroundColor: 'red'},
+        //   '2012-05-18': {marked: true, dotColor: '#657AC5', activeOpacity: 0},
+        //   '2012-05-19': {disabled: true, disableTouchEvent: true},
+        // }}
     />
 
   </View>
   return (
       <View>
-        <SafeAreaView style={{marginTop: 25}}>
+        <View style={{marginTop: 25}}>
           <FlatList
+              showsVerticalScrollIndicator={false}
               data={GamesData}
               key={'#'}
               keyExtractor={(item) => '#' + item.key}
@@ -147,7 +160,7 @@ const CalendarComponent = () => {
                   </View>
               )}
           />
-        </SafeAreaView>
+        </View>
       </View>
   )
 }
@@ -160,11 +173,11 @@ const styles = StyleSheet.create({
   },
   header: {
     // position:'absolute',
-    borderTopStartRadius: 20,
-    borderTopEndRadius: 20,
+    borderTopStartRadius: RW(20),
+    borderTopEndRadius: RW(20),
     width: '100%',
     // top:130,
-    height: 100,
+    height: RH(100),
     backgroundColor: '#142A5C',
   },
   list: {
@@ -173,11 +186,11 @@ const styles = StyleSheet.create({
   main: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
+    padding: RW(15),
     marginHorizontal: 0,
     flex: 13,
     backgroundColor: '#7DCE8A',
-    margin: 20,
+    margin: RW(20),
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
     borderBottomLeftRadius: 5,
@@ -226,7 +239,7 @@ const styles = StyleSheet.create({
     height: RH(40),
     backgroundColor: '#142A5C',
     position: 'absolute',
-    top: RH(155),
+    top: RH(125),
     zIndex: 99,
     flexDirection: 'row',
     justifyContent: 'space-around',

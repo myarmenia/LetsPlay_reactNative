@@ -1,11 +1,14 @@
 import React, {useEffect, useMemo, useState} from 'react'
-import {ScrollView, Text, View} from 'react-native'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Ticket from '@/screens/GameCreating/GameTicket/ticket'
 import style from '@/screens/GameCreating/style'
 import Button from '@/assets/imgs/Button'
 import {RH, RW} from '@/theme/utils'
 import Modal from '@/components/modal'
+import EditSvg from "@/assets/svgs/editSvg";
+import CheckedCheckbox from "@/assets/svgs/checkedCheckbox";
+import ShareSvg from "@/assets/svgs/shareSvg";
 
 function Index(props) {
     const {navigation, route} = props
@@ -21,24 +24,30 @@ function Index(props) {
         }
     }, [])
     return (
-        <ScreenMask>
+        <ScreenMask style={{paddingHorizontal: 0}}>
             <View style={{height: '100%'}}>
-                <View style={style.ticketBlock}>
+                <View>
                     <Ticket data={data} game={game}/>
                 </View>
                 <View style={style.gameTicketButtonsBlock}>
-                    <Button
-                        onPress={() => {
-                            navigation.navigate('GameCreating', {data: game})
-                        }}
-                        size={{width: 192, height: 36}}
-                        label={'Редактировать'}
-                    />
-                    <Button
-                        onPress={() => navigation.navigate('Home', {flag: true, game, data})}
-                        size={{width: 166, height: 36}}
-                        label={'Готово'}
-                    />
+                    <TouchableOpacity onPress={() => {navigation.navigate('GameCreating', {data: game})}}>
+                    <EditSvg/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={style.shareButton}>
+                    <ShareSvg/>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Home', {flag: true, game, data})}>
+                        <CheckedCheckbox/>
+                    </TouchableOpacity>
+                    {/*<Button*/}
+
+                    {/*    size={{width: 192, height: 36}}*/}
+                    {/*    label={'Редактировать'}*/}
+                    {/*/>*/}
+                    {/*<Button*/}
+                    {/*    size={{width: 166, height: 36}}*/}
+                    {/*    label={'Готово'}*/}
+                    {/*/>*/}
                 </View>
                 <View style={{position: 'absolute'}}>
                     <Modal

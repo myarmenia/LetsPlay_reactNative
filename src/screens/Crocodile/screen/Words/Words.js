@@ -69,6 +69,7 @@ const Words = () => {
                         </View>
                         <View style={styles.countinueBtn}>
                             <LightButton
+                                onPress={()=>setModal(false)}
                                 label={"Продолжить"}
                                 size={{width: 198, height: 36}}
                             />

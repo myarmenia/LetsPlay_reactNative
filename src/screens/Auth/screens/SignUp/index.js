@@ -1,5 +1,5 @@
 import React from 'react'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import ScreenMask from '@/components/wrappers/screen'
@@ -13,12 +13,12 @@ const STEPS = [
   {
     isLeft: true,
     isWrong: false,
-    message: 'Добро пожаловать “Играем” пожалуйста пройдите регистрацию',
+    message: 'Добро пожаловать в “Играем” пожалуйста пройдите регистрацию',
   },
   {
     isLeft: true,
     isWrong: false,
-    message: 'Напишите имя и фамилию',
+    message: 'Напишите своё имя и фамилию',
   },
   {
     isLeft: true,
@@ -62,7 +62,7 @@ const SignUp = () => {
   }, [])
 
   const onSend = React.useCallback(
-    message => {
+    (message) => {
       setLoading(true)
       updateMessages({
         message,
@@ -82,37 +82,50 @@ const SignUp = () => {
     [index, messages, navigation],
   )
 
-  const updateMessages = data => {
-    setMessages(prevData => [...prevData, data])
+  const updateMessages = (data) => {
+    setMessages((prevData) => [...prevData, data])
   }
 
   return (
     <ScreenMask>
-      <ScrollView
-        style={{ flexDirection: 'column-reverse', flex: 1, paddingBottom: RH(94) }}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        {...(Platform.OS === 'ios'
+          ? {
+              behavior: 'padding',
+              keyboardVerticalOffset: RH(10),
+              enabled: true,
+            }
+          : {})}
       >
-        {messages.map((message, idx, arr) => {
-          return (
-            <Message
-              key={idx.toString()}
-              secure={message.secure}
-              isLeft={message.isLeft}
-              isWrong={message.isWrong}
-              message={message.message}
-              previus={idx > 0 ? arr[idx - 1].isLeft : false}
+        <View style={{ flex: 1 }}>
+          <ScrollView
+            style={{ flexDirection: 'column-reverse', flex: 1, paddingBottom: RH(94) }}
+            showsVerticalScrollIndicator={false}
+          >
+            {messages.map((message, idx, arr) => {
+              return (
+                <Message
+                  key={idx.toString()}
+                  secure={message.secure}
+                  isLeft={message.isLeft}
+                  isWrong={message.isWrong}
+                  message={message.message}
+                  previus={idx > 0 ? arr[idx - 1].isLeft : false}
+                />
+              )
+            })}
+          </ScrollView>
+          <View style={styles.bottom}>
+            <Composer
+              onSend={onSend}
+              ref={ref}
+              disabled={loading}
+              secure={messages[messages.length - 1]?.secure}
             />
-          )
-        })}
-      </ScrollView>
-      <View style={styles.bottom}>
-        <Composer
-          onSend={onSend}
-          ref={ref}
-          disabled={loading}
-          secure={messages[messages.length - 1]?.secure}
-        />
-      </View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     </ScreenMask>
   )
 }

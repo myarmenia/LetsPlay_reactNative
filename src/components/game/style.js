@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
   bgFon: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: RH(65),
-    marginBottom: 'auto',
+    marginTop: RH(40),
+    // marginBottom: 'auto',
     width: RW(335),
     height: RH(707),
     borderWidth: RW(2),
@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     borderColor: WHITE,
     overflow: 'hidden',
     zIndex: -1,
-    backgroundColor: 'rgba(217, 217, 217, 0.15)',
+    backgroundColor: 'rgba(217, 217, 217, 0.2)',
     paddingBottom: RH(80),
   },
   btnText: {
@@ -40,13 +40,14 @@ export const styles = StyleSheet.create({
   title: {
     marginLeft: 'auto',
     marginRight: 'auto',
+    zIndex: 1,
     marginTop: RH(190),
   },
   btn: {
     marginTop: 'auto',
     marginLeft: 'auto',
     marginRight: 'auto',
-    zIndex: -2,
+    zIndex: 10,
   },
 
   image: {

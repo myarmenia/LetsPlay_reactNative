@@ -7,7 +7,7 @@ import moment from 'moment'
 import TimeSvg from '@/assets/svgs/timeSvg'
 import { RW } from '@/theme/utils'
 
-const DateTime = props => {
+const DateTime = (props) => {
   const { type, day, data, setData, gameDayDate, errorText, width } = props
   const currentDate = new Date()
   const minimumDate = currentDate.setDate(currentDate.getDate() + 1)
@@ -15,7 +15,7 @@ const DateTime = props => {
   const [open, setOpen] = useState(false)
   const lastDate =
     new Date(gameDayDate).setDate(new Date(gameDayDate).getDate() - 1) || new Date('2099-12-31')
-  const handleConfirm = date => {
+  const handleConfirm = (date) => {
     setOpen(false)
     setDate(date)
     if (day === 'gameDay' && type === 'date') {
@@ -53,8 +53,8 @@ const DateTime = props => {
           setOpen(true)
         }}
       >
-        {type === 'date' ? <DateSvg style={style.dateSvg} /> : <TimeSvg style={style.dateSvg} />}
-        <Text style={style.dateButtonText}>
+        {type === 'date' ? <DateSvg style={width?{...style.dateSvg , marginLeft: RW(10)} : style.dateSvg} /> : <TimeSvg style={style.dateSvg} />}
+        <Text style={width ? {...style.dateButtonText , marginLeft: RW(6)} : style.dateButtonText}>
           {type === 'date'
             ? date === 'ДД/ММ/ГГГГ'
               ? date
@@ -65,6 +65,10 @@ const DateTime = props => {
         </Text>
       </TouchableOpacity>
       <DatePicker
+        locale={'ru'}
+        cancelText={'ОТМЕНИТЬ'}
+        confirmText={'ПОДТВЕРДИТЬ'}
+        title={'Выберите дату'}
         modal
         minimumDate={
           type === 'date' && day
@@ -83,7 +87,7 @@ const DateTime = props => {
             ? date
             : new Date(minimumDate)
         }
-        onConfirm={date => {
+        onConfirm={(date) => {
           handleConfirm(date)
         }}
         onCancel={() => {

@@ -10,9 +10,22 @@ export default StyleSheet.create({
     },
     balanceText:{
         ...font('regular' , 16 , ICON , 19),
+        marginBottom: RH(6)
+    },
+    bannerTitle:{
+        ...font('bold' , 16 , ICON , 19),
+        marginLeft: RW(40),
+        marginBottom: RW(20)
     },
     price:{
         ...font('medium' , 28 , ICON , 30),
+    },
+    tariffText:{
+        ...font('regular' , 12 , WHITE , 14),
+        marginLeft: RW(12)
+    },
+    tariffSvg:{
+        marginBottom: RH(10)
     },
     buttonBlock: {
         marginLeft: 'auto',

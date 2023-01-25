@@ -7,13 +7,14 @@ import style from "@/screens/Profile/Wallet/style";
 import Button from "@/assets/imgs/Button";
 
 function Index(props) {
+    const {navigation} = props
     const list = [
-        {id: 1, text: 'Продвижение игр'},
-        {id: 2, text: 'История покупок'},
-        {id: 3, text: 'Тарифы'},
+        {id: 1, text: 'Платные услуги' , navigationTo: 'PaidServices'},
+        {id: 2, text: 'История'},
+        {id: 3, text: 'Тарифы' , navigationTo: 'Tariff'},
     ]
     const LinkItem = ({item}) => (
-        <TouchableOpacity style={item.id === 6 ? {...styles.linkBlock , borderBottomWidth: 1 , borderTopWidth: 0} : {...styles.linkBlock, borderBottomWidth: 0 , borderTopWidth: 1}}>
+        <TouchableOpacity onPress={() => item.id !== 2 ? navigation.navigate(item.navigationTo) : console.log('История')} style={item.id === 3 ? {...styles.linkBlock , paddingVertical:RH(27), borderBottomWidth: 1 , borderTopWidth: 1} : {...styles.linkBlock, paddingVertical:RH(27), borderBottomWidth: 0 , borderTopWidth: 1}}>
             <Text style={styles.linkText}>{item.text}</Text>
         </TouchableOpacity>
     );
@@ -21,9 +22,9 @@ function Index(props) {
         <LinkItem item={item}/>
     );
     return (
-        <ScreenMask>
-                <Text style={{...styles.title , marginTop: RH(16) , marginBottom: RH(50)}}>Мой кошелек</Text>
-                <View style={style.priceBlock}><Text style={style.balanceText}>Ваш баланс:</Text><Text style={style.price}>200 руб</Text></View>
+        <ScreenMask style={{paddingHorizontal: 0 ,}}>
+                <Text style={{...styles.title , marginTop: RH(43) , marginLeft: 'auto', marginRight: 'auto', marginBottom: RH(50)}}>Мой кошелек</Text>
+                <View style={style.priceBlock}><Text style={style.balanceText}>Ваш баланс:</Text><Text style={style.price}>0 руб</Text></View>
                 <FlatList
                     data={list}
                     renderItem={renderItem}

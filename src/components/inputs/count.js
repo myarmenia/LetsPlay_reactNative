@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
-import { Text, TextInput } from 'react-native'
+import { TextInput } from 'react-native'
 import styles from './styles'
 import { ICON } from '@/theme/colors'
 import { RW } from '@/theme/utils'
 
-const Count = props => {
+const Count = (props) => {
   const { placeholder, width, data, setData, type, countType } = props
   const [value, setValue] = useState('')
   return (
     <>
       <TextInput
         value={value}
-        onChangeText={number => {
+        onChangeText={(number) => {
           setValue(number)
           if (type === 'player') {
             countType === 'from'

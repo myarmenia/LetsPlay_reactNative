@@ -7,8 +7,8 @@ import { _gamesData } from '../Game/gamesDatas.js/gamesData'
 import { RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
-import PrizeCup from "@/screens/Game/gamesDatas.js/gameSVGs/prizeCup";
-import Wave from "@/screens/Game/gamesDatas.js/gameSVGs/wave";
+import PrizeCup from "@/assets/svgs/prizeCup";
+import Wave from "@/assets/svgs/wave";
 
 function GamesList() {
   const navigation = useNavigation()

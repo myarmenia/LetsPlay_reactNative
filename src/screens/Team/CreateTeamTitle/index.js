@@ -7,14 +7,16 @@ import DownloadingIcon from "@/assets/svgs/downloadingSvg";
 import LightButton from "@/assets/imgs/Button";
 import {launchImageLibrary} from "react-native-image-picker";
 import Index from "@/components/modal";
-import {useNavigation} from "@react-navigation/native";
+import style from "@/screens/GameCreating/style";
 
 const CreateTeamTitle = () => {
     const [avatar, setAvatar] = useState("")
     const [modalVisible, setModalVisible] = useState(false)
-    const navigation = useNavigation()
+    const [teamName, setTeamName] = useState('')
+    const [teamAddress, setTeamAddress] = useState('')
+    const [errorText, setErrorText] = useState(false)
 
-
+    console.log(teamName, teamAddress)
     const setToastMsg = (msg) => {
         ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
     }
@@ -46,19 +48,26 @@ const CreateTeamTitle = () => {
 
     return (
         <ScreenMask>
-            <View style={styles.common}>
-                <View>
+                <View style={{height: '100%'}}>
                     <View style={styles.inputsView}>
+                        <View style={styles.inputBlock}>
                         <TextInput
                             placeholder={"Название команды"}
                             placeholderTextColor={ICON}
                             style={styles.inputs}
+                            onChangeText={(value) => setTeamName(value)}
                         />
+                        {!teamName && errorText ? <Text style={style.errorText}>Обязательное поле для заполнения</Text> : null}
+                        </View>
+                        <View style={styles.inputBlock}>
                         <TextInput
                             placeholder={"Адрес нахождения команды"}
                             style={styles.inputs}
                             placeholderTextColor={ICON}
+                            onChangeText={(value) => setTeamAddress(value)}
                         />
+                        {!teamAddress && errorText ? <Text style={style.errorText}>Обязательное поле для заполнения</Text> : null}
+                        </View>
                     </View>
                     <TouchableOpacity style={styles.downloadingImg} onPress={uploadImageHandle}>
                         <DownloadingIcon/>
@@ -75,13 +84,17 @@ const CreateTeamTitle = () => {
                 <View style={styles.nextBtn}>
                     <LightButton
                         label={"Готово"}
+                        size={{width: 144 , height: 36}}
                         onPress={() => {
-                            setModalVisible(true)
+                            if (teamName && teamAddress) {
+                                setModalVisible(true)
+                            }else {
+                                setErrorText(true)
+                            }
                         }}
                     />
 
                 </View>
-            </View>
             <Index
                 item={
                     <View style={styles.modal}>
@@ -92,7 +105,7 @@ const CreateTeamTitle = () => {
                 }
                 modalVisible={modalVisible}
                 setIsVisible={setModalVisible}
-                navigation={"Home"}
+                navigationText={"Home"}
             />
         </ScreenMask>
 
@@ -106,17 +119,22 @@ const styles = StyleSheet.create({
         height: "100%"
     },
     inputsView: {
-        marginTop: RH(100),
-        marginHorizontal: RW(20),
-        width: RW(375)
+        width: '100%',
+        marginTop: RH(60),
     },
     inputs: {
         borderWidth: RW(0),
         backgroundColor: BACKGROUND,
         borderRadius: RW(10),
         padding: RW(12),
-        marginVertical: RH(20),
-        color: ICON
+        color: ICON,
+        width: RW(375),
+        marginLeft: 'auto',
+        marginRight: 'auto',
+    },
+    inputBlock: {
+        width: "100%",
+        marginBottom: RH(20)
     },
     downloadingImg: {
         flexDirection: "row",
@@ -135,6 +153,8 @@ const styles = StyleSheet.create({
     },
     nextBtn: {
         marginBottom: RH(30),
+        marginTop: 'auto',
+        marginLeft: "auto",
         marginRight: RW(20)
     },
     fileName: {

@@ -20,7 +20,7 @@ const PersonInfo = () => {
                     </Text>
                 </View>
                 <View style={styles.imageView}>
-                    <Image source={require("@/assets/imgs/detail.png")}/>
+                    {/*<Image source={require("@/assets/imgs/detail.png")}/>*/}
                 </View>
                 <View>
                     <LightButton

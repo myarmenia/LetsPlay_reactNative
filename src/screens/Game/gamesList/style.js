@@ -10,15 +10,21 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   gameBox: {
-    width: RW(405),
-    height: RH(74),
-    marginTop: RH(10),
+    width: '100%',
+    // height: RH(74),
+    marginTop: RH(15),
     backgroundColor: ICON,
     borderRadius: RW(10),
-    flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
+    // alignSelf: 'center',
+    // justifyContent: 'center',
+    paddingLeft: RW(20),
+    paddingRight: RW(9),
+    paddingBottom: RH(10),
+    paddingTop: RH(10)
+  },
+  gameItemTop: {
+    flexDirection: 'row',
   },
   gameTitle: {
     ...font('bold', 20, LIGHT_LABEL, 20),
@@ -27,17 +33,10 @@ export const styles = StyleSheet.create({
     marginBottom: RH(25),
     textAlign: 'center',
   },
-  iconComponent: {
-    width: RW(45),
-    height: RH(60),
-    zIndex: 12,
-  },
   gameMiddleContainer: {
-    width: RW(274),
-    height: RH(43),
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    alignSelf: 'center',
+    marginLeft: RW(25),
+    marginRight: RW(15),
+    marginTop: RH(10)
   },
   distanceBox: {
     flexDirection: 'row',
@@ -45,25 +44,31 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   gameItemTopText: {
-    fontFamily: FONT_INTER_REGULAR,
-    color: WHITE,
-    fontSize: RH(18),
+    ...font('bold', 18, WHITE, 20),
+  },
+  gameItemPriceText:{
+    ...font('bold', 12, WHITE, 20),
+    marginTop: RH(7)
+  },
+  gameItemBottomText: {
+    ...font('bold', 18, WHITE, 20),
+    marginTop: RH(5)
   },
   gameItemBottom: {
-    width: '115%',
     flexDirection: 'row',
-    alignSelf: 'center',
-    justifyContent: 'space-around',
+    marginRight: RW(3)
   },
   line: {
     borderWidth: RW(1),
-    width: RW(35),
-    top: RH(-24),
-    height: RW(1),
-    transform: [{ rotate: '90deg' }],
-    alignSelf: 'flex-end',
-    left: RW(10),
+    height: RW(35),
     borderColor: RADIO_TEXT,
+    marginTop: RH(10)
+  },
+  horizontalLine:{
+    borderWidth: RW(1),
+    width: RW(154),
+    borderColor: RADIO_TEXT,
+    marginTop: RH(5)
   },
   gameItemRight: {
     flexDirection: 'column',
@@ -97,16 +102,19 @@ export const styles = StyleSheet.create({
   },
   bigIcon: {
     width: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
     alignItems: 'center',
+    marginTop: RH(42),
+    marginBottom: RH(33)
   },
   eachInfo: {
-    color: WHITE,
-    fontFamily: FONT_INTER_BOLD,
-    fontSize: RH(14),
-    lineHeight: RH(20),
-    paddingVertical: RH(8),
+    ...font('regular', 14, WHITE, 20),
+    marginLeft: RW(11),
+    marginBottom: RH(6)
+  },
+  eachInfoTwo: {
+    ...font('bold', 16, ICON, 20),
+    marginLeft: RW(11),
+    marginBottom: RH(24)
   },
   eachInfoRegular: {
     fontFamily: FONT_INTER_BOLD,
@@ -117,7 +125,11 @@ export const styles = StyleSheet.create({
   itemWrapper: {
     height: '85%',
     flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'space-evenly',
+    // alignItems: 'flex-start',
+    // justifyContent: 'space-evenly',
   },
+  priceTextBlock: {
+    width: "100%",
+    marginLeft: RW(130)
+  }
 })

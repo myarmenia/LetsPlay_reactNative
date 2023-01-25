@@ -1,19 +1,26 @@
 import * as React from 'react'
-import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg'
-import { RH, RW } from '@/theme/utils'
+import Svg, {Path, Defs, LinearGradient, Stop} from 'react-native-svg'
+import {RH, RW} from '@/theme/utils'
 import User from '@/components/userIcon'
+import {Text, TouchableOpacity, View} from "react-native";
+import Modal from "@/components/modal";
+import {useState} from "react";
 
-function SvgComponent({ size=RW(100), user }) {
-  const width = RW(size<60?60:size);
+function SvgComponent({size = RW(100), user, onPressItem, onPressImg}) {
+    const width = RW(size < 40 ? 40 : size);
+    const [modalVisible, setModalVisible] = useState(false)
 
-  return (
-      <Svg
-          width={width}
-          height={width+RH(size<200?15:25)}
-          viewBox={"0 0 270 414"}
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-      >
+    const item = <View
+        style={{
+            position: 'relative',
+            alignItems:'center'
+        }}><Svg
+        width={width}
+        height={width + RH(size < 200 ? 15 : 25)}
+        viewBox={'0 0 270 414'}
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+    >
         <Path
             fillRule="evenodd"
             clipRule="evenodd"
@@ -24,80 +31,105 @@ function SvgComponent({ size=RW(100), user }) {
             d="M258.3 182.481c0 19.202-.3 38.404 0 57.607.847 46.949-18.237 84.914-51.477 116.584a227.898 227.898 0 01-66.371 43.754c-2.826 1.234-6.99 1.906-9.556.74-40.502-18.132-75.08-43.548-98.71-82.185a140.394 140.394 0 01-20.981-73.503c-.273-45.935 0-91.896-.205-137.776 0-5.486 1.706-7.16 7.167-7.9C57.509 94.466 96.1 86.305 131.47 66.966a8.06 8.06 0 016.634 0c35.356 19.408 73.947 27.514 113.303 32.918 5.665.768 7.057 2.675 7.003 8.037-.246 24.758-.11 49.666-.11 74.56z"
             fill="url(#paint1_linear_3194_9885)"
         />
-        <User user={user} size={width} />
         <Defs>
-          {user.status === 'BRONZE' ? (
-              <LinearGradient
-                  id="paint0_linear_2837_24276"
-                  x1={-8.51229}
-                  y1={69.5403}
-                  x2={278.853}
-                  y2={69.5403}
-                  gradientUnits="userSpaceOnUse"
-              >
-                <Stop stopColor="#873B23" />
-                <Stop offset={0.0582217} stopColor="#A66842" />
-                <Stop offset={0.276042} stopColor="#E5BA8C" />
-                <Stop offset={0.485208} stopColor="#E8D2AE" />
-                <Stop offset={0.708333} stopColor="#C09067" />
-                <Stop offset={1} stopColor="#A05E2E" />
-              </LinearGradient>
-          ) : user.status === 'GOLD' ? (
-              <LinearGradient
-                  id="paint0_linear_2837_24276"
-                  x1={0.863037}
-                  y1={69.5403}
-                  x2={270.309}
-                  y2={69.5403}
-                  gradientUnits="userSpaceOnUse"
-              >
-                <Stop stopColor="#A37A1E" />
-                <Stop offset={0.0001} stopColor="#D3A84C" />
-                <Stop offset={0.276042} stopColor="#FFEC95" />
-                <Stop offset={0.485208} stopColor="#E6BE69" />
-                <Stop offset={0.708333} stopColor="#FFD67A" />
-                <Stop offset={0.9999} stopColor="#B58F3E" />
-                <Stop offset={1} stopColor="#956E13" />
-              </LinearGradient>
-          ) : (
-              <LinearGradient
-                  id="paint0_linear_2837_24276"
-                  x1={0.863032}
-                  y1={183.329}
-                  x2={270.309}
-                  y2={183.329}
-                  gradientUnits="userSpaceOnUse"
-              >
-                <Stop stopColor="#9E9E9E" />
-                <Stop offset={0.0659772} stopColor="#D9D9D9" />
-                <Stop offset={0.238602} stopColor="#9C9C9C" />
-                <Stop offset={0.485208} stopColor="#D9D9D9" />
-                <Stop offset={0.620842} stopColor="#9C9C9C" />
-                <Stop offset={0.694824} stopColor="#D9D9D9" />
-                <Stop offset={0.882861} stopColor="#D9D9D9" />
-                <Stop offset={0.938473} stopColor="#9C9C9C" />
-                <Stop offset={1} stopColor="#D9D9D9" />
-              </LinearGradient>
-          )}
-          <LinearGradient
-              id="paint1_linear_3194_9885"
-              x1={4}
-              y1={190}
-              x2={258}
-              y2={187.5}
-              gradientUnits="userSpaceOnUse"
-          >
-            <Stop stopColor="#157185" />
-            <Stop offset={0.249292} stopColor="#87C4CC" />
-            <Stop offset={0.517997} stopColor="#1568A7" />
-            <Stop offset={0.829809} stopColor="#7BADE6" />
-            <Stop offset={1} stopColor="#024ABA" />
-          </LinearGradient>
+            {user.status === 'BRONZE' ? (
+                <LinearGradient
+                    id="paint0_linear_2837_24276"
+                    x1={-8.51229}
+                    y1={69.5403}
+                    x2={278.853}
+                    y2={69.5403}
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <Stop stopColor="#873B23"/>
+                    <Stop offset={0.0582217} stopColor="#A66842"/>
+                    <Stop offset={0.276042} stopColor="#E5BA8C"/>
+                    <Stop offset={0.485208} stopColor="#E8D2AE"/>
+                    <Stop offset={0.708333} stopColor="#C09067"/>
+                    <Stop offset={1} stopColor="#A05E2E"/>
+                </LinearGradient>
+            ) : user.status === 'GOLD' ? (
+                <LinearGradient
+                    id="paint0_linear_2837_24276"
+                    x1={0.863037}
+                    y1={69.5403}
+                    x2={270.309}
+                    y2={69.5403}
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <Stop stopColor="#A37A1E"/>
+                    <Stop offset={0.0001} stopColor="#D3A84C"/>
+                    <Stop offset={0.276042} stopColor="#FFEC95"/>
+                    <Stop offset={0.485208} stopColor="#E6BE69"/>
+                    <Stop offset={0.708333} stopColor="#FFD67A"/>
+                    <Stop offset={0.9999} stopColor="#B58F3E"/>
+                    <Stop offset={1} stopColor="#956E13"/>
+                </LinearGradient>
+            ) : (
+                <LinearGradient
+                    id="paint0_linear_2837_24276"
+                    x1={0.863032}
+                    y1={183.329}
+                    x2={270.309}
+                    y2={183.329}
+                    gradientUnits="userSpaceOnUse"
+                >
+                    <Stop stopColor="#9E9E9E"/>
+                    <Stop offset={0.0659772} stopColor="#D9D9D9"/>
+                    <Stop offset={0.238602} stopColor="#9C9C9C"/>
+                    <Stop offset={0.485208} stopColor="#D9D9D9"/>
+                    <Stop offset={0.620842} stopColor="#9C9C9C"/>
+                    <Stop offset={0.694824} stopColor="#D9D9D9"/>
+                    <Stop offset={0.882861} stopColor="#D9D9D9"/>
+                    <Stop offset={0.938473} stopColor="#9C9C9C"/>
+                    <Stop offset={1} stopColor="#D9D9D9"/>
+                </LinearGradient>
+            )}
+            <LinearGradient
+                id="paint1_linear_3194_9885"
+                x1={4}
+                y1={190}
+                x2={258}
+                y2={187.5}
+                gradientUnits="userSpaceOnUse"
+            >
+                <Stop stopColor="#157185"/>
+                <Stop offset={0.249292} stopColor="#87C4CC"/>
+                <Stop offset={0.517997} stopColor="#1568A7"/>
+                <Stop offset={0.829809} stopColor="#7BADE6"/>
+                <Stop offset={1} stopColor="#024ABA"/>
+            </LinearGradient>
         </Defs>
-      </Svg>
-  )
+
+    </Svg>
+        <View style={{
+            position: "absolute",
+            marginLeft:'auto',
+            marginRight:'auto'
+        }}>
+            <User user={user} size={width} onPressImg={onPressImg}/>
+        </View>
+    </View>
+
+    return onPressItem ?
+        <TouchableOpacity
+            onPress={() => setModalVisible(true)}
+            style={{
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                borderRadius: 100,
+            }}>
+            {item}
+            <View style={{
+                position: 'absolute'
+            }}>
+                <Modal modalVisible={modalVisible} modalClose={onPressItem.modalClose} item={onPressItem.item}
+                       setIsVisible={setModalVisible}/>
+            </View>
+        </TouchableOpacity>
+        : <View style={{
+            zIndex: 10
+        }}>{item}</View>
 }
-export default SvgComponent;
 
-
-
+export default SvgComponent

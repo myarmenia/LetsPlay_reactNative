@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
@@ -36,27 +35,8 @@ const HomeScreen = (props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.detailContainer}>
-        <User user={Players[9]} size={370} />
+        <User user={Players[0]} size={370} onPressImg={true}/>
       </View>
-      {isVisible ? (
-        <View style={{ position: 'absolute' }}>
-          <Modal
-            modalVisible={isVisible}
-            setIsVisible={setIsVisible}
-            item={
-              route.params && route.params.type && route.params.type === 'tournament' ? (
-                <View style={styles.homeSecondModalBlock}>
-                  <Text style={styles.nodalText}>Вы успешно создали турнир!</Text>
-                </View>
-              ) : (
-                <View style={styles.homeModalBlock}>
-                  <Ticket game={route.params.game} data={route.params.data} />
-                </View>
-              )
-            }
-          />
-        </View>
-      ) : null}
     </ScreenMask>
   )
 }
@@ -88,17 +68,18 @@ const styles = StyleSheet.create({
   },
   homeModalBlock: {
     width: RW(380),
-    height: RH(638),
     paddingTop: RH(34),
     backgroundColor: LIGHT_LABEL,
     borderRadius: RW(20),
     marginLeft: 'auto',
     marginRight: 'auto',
+    paddingBottom: RH(20),
   },
 
   homeSecondModalBlock: {
+    paddingVertical: RH(75),
+    // height: RH(120),
     width: RW(306),
-    height: RH(120),
     backgroundColor: LIGHT_LABEL,
     borderRadius: RW(20),
     marginLeft: 'auto',

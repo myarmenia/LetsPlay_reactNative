@@ -7,6 +7,8 @@ import {GRAY, ICON, WHITE} from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import Index from "@/components/modal";
 import {useNavigation} from "@react-navigation/native";
+import {Players} from "@/assets/TestData";
+import User from "@/assets/imgs/user/user";
 
 const Ratings = () => {
     const [modalVisible, setIsVisible] = useState(true)
@@ -34,14 +36,13 @@ const Ratings = () => {
 
 
                     <View style={styles.peopleInfo}>
-                        {data.map((item, index) => (
-                            <TouchableOpacity
-                                key={item.id}
-                                style={styles.imgView}
-                            >
-                                <Image source={item.img} style={styles.imgData}/>
-                            </TouchableOpacity>
-                        ))}
+                        {
+                            Players.map((item, index) => (
+                                <View  key={index} style={styles.item}>
+                                    <User user={item}/>
+                                </View>
+                            ))
+                        }
                     </View>
 
                 </View>
@@ -80,6 +81,10 @@ const Ratings = () => {
     )
 }
 const styles = StyleSheet.create({
+    item: {
+        padding: RW(3),
+        marginTop: RH(30),
+    },
     common: {
         flexDirection: 'column',
         justifyContent: 'center',
@@ -94,10 +99,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: RW(1),
         borderBottomColor: GRAY,
         width: '100%',
-    },
-    img: {
-        width: RW(46),
-        height: RW(55),
     },
     infoMafia: {
         paddingRight: RW(90),
@@ -125,16 +126,6 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         letterSpacing: 0.01,
         paddingVertical: RH(5),
-    },
-    imgView: {
-        paddingHorizontal: RW(10.29),
-        margin: RW(10),
-        paddingVertical: RH(20),
-    },
-    imgData: {
-        width: 76,
-        height: 150,
-        resizeMode: 'contain',
     },
     peopleInfo: {
         width: '100%',
@@ -189,7 +180,7 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     placeMan: {
-        ...font("inter", 24, WHITE, 24),
+        ...font("inter", 20, WHITE, 24),
         fontWeight: "700",
         letterSpacing: 0.01,
         marginTop: RH(15.16),

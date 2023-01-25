@@ -49,6 +49,7 @@ const GameCreating = (props) => {
       !data.lastDayDate ||
       data.lastDayDate >= data.gameDayDate ||
       (!data.priceValue && flag)
+      // false
     ) {
       setIsVisible(false)
     } else {
@@ -98,7 +99,7 @@ const GameCreating = (props) => {
             !data.playerCountFrom || !data.playerCountTo ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
-              <Text style={style.errorText}>Введите корректную дату</Text>
+              <Text style={style.errorText}>Введите корректную число</Text>
             )
           ) : null}
           <SecondBlock
@@ -111,7 +112,7 @@ const GameCreating = (props) => {
             !data.ageFrom || !data.ageTo ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
-              <Text style={style.errorText}>Введите корректную дату</Text>
+              <Text style={style.errorText}>Введите корректную возраст</Text>
             )
           ) : null}
           <ThirdBlock
@@ -121,7 +122,7 @@ const GameCreating = (props) => {
             list={[
               { id: 1, text: 'М', checked: false },
               { id: 2, text: 'Ж', checled: false },
-              { id: 3, text: 'М/Ж', checked: true },
+              { id: 3, text: 'Без ограничений', checked: true },
             ]}
             title={'Половой признак игрока'}
           />
