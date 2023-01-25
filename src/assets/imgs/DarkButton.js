@@ -22,7 +22,7 @@ const DarkButton = ({ onPress, label, labelStyle, wrapper, size }) => {
           y={0.5}
           width={width - RW(2)}
           height={height - RH(1)}
-          rx={14.5}
+          rx={10}
           fill="#142A5C"
           stroke="url(#paint0_linear_3124_10044)"
         />

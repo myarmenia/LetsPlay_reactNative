@@ -8,6 +8,7 @@ import { Shadow } from 'react-native-shadow-2'
 const LightButton = ({ onPress, label, labelStyle, wrapper, size, selectAvailable }) => {
   const width = RW(size?.width) || RW(172)
   const height = RH(size?.height) || RH(36)
+  const radius = '10'
   return (
     <TouchableOpacity disabled={false} activeOpacity={0.5} onPress={onPress && onPress}>
       <Shadow
@@ -29,7 +30,7 @@ const LightButton = ({ onPress, label, labelStyle, wrapper, size, selectAvailabl
             y="0.425781"
             width={width - RW(1)}
             height={height - RH(1)}
-            rx="15"
+            rx={radius}
             fill="url(#paint0_linear_3011_31801)"
           />
           <Rect
