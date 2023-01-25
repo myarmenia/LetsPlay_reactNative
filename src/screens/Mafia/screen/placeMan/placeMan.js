@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import {font, RH, RW} from '@/theme/utils'
-import {GRAY, ICON, WHITE} from '@/theme/colors'
+import {BACKGROUND, GRAY, ICON, WHITE} from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import {useNavigation} from "@react-navigation/native";
 import {Players} from "@/assets/TestData";
@@ -88,8 +88,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     container: {
+        backgroundColor:BACKGROUND,
+        borderRadius:10,
         width: RW(330),
-        height: RH(500),
+        height: RH(600),
 
     },
     youPlaceMen: {

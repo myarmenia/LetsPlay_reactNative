@@ -22,7 +22,7 @@ const MyApp = () => {
 
     useEffect(()=>{
         dispatch(signUpFirstStep({
-            "email": "noyarmenia@mail.ru",
+            "email": "test@mail.ru",
             "name": "Kamo",
             "surname": "Hovhannisyan"
         }))
@@ -33,6 +33,7 @@ const MyApp = () => {
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
       {/*<AppNavigator />*/}
       {authenticated ? <AppNavigator /> : <AuthNavigator />}
+        <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
     </AppProvider>
   )
 }
