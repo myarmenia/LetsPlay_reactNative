@@ -80,7 +80,21 @@ const PlayerOut = () => {
                             <Text style={styles.playerOut}>Игрок выбыл</Text>
                         </View>
                         <View style={styles.detailGray}>
-                            <Image source={require("@/assets/imgs/GrayDetail.png")}/>
+                            <View style={{
+                                width: '100%',
+                                height: '100%',
+                                backgroundColor: 'black',
+                                opacity:0.5,
+                                position:'absolute',
+                                zIndex:1,
+                            }}>
+                            </View>
+                                <View style={{
+                                    zIndex:-4
+                                }}>
+                                    <User user={Players[0]} size={370}/>
+                                </View>
+
                         </View>
                         <View style={styles.detailGray}>
                             <Text style={styles.placeMan}>
@@ -189,6 +203,7 @@ const styles = StyleSheet.create({
         marginBottom: RH(24.33)
     },
     detailGray: {
+
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center"

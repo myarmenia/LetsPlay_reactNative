@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, ScrollView, Image, ImageBackground} from 'react-
 import LinearGradient from 'react-native-linear-gradient'
 import ScreenMask from '@/components/wrappers/screen'
 import {font, RH, RW} from '@/theme/utils'
-import {BLACK, LIGHT_LABEL, MAFIA_BACKGROUND, WHITE} from '@/theme/colors'
+import {BACKGROUND, BLACK, LIGHT_LABEL, MAFIA_BACKGROUND, WHITE} from '@/theme/colors'
 import MafiaData from '@/screens/Mafia/screen/AboutGame/data'
 import LightButton from '@/assets/imgs/Button'
 import {useNavigation} from '@react-navigation/native'
@@ -16,33 +16,45 @@ const AboutGame = () => {
 
     return (
         <ScreenMask>
-            <ScrollView>
                 <View style={styles.common}>
                     <View>
                         <Text style={styles.aboutMe}>Словарь игроков</Text>
                     </View>
-                    <ScrollView>
+                    <ScrollView style={{
+                        backgroundColor:BACKGROUND,
+                        paddingHorizontal:RW(20),
+                        marginVertical:RH(20),
+                        borderRadius:RH(20)
+                    }}>
                         {
                             MafiaData.map((item, i) => (
-                                <View key={i} style={{borderRadius:20}}>
+
                                     <ImageBackground
                                         source={require("@/assets/imgs/Grandient.png")}
                                         resizeMode="stretch"
-                                        borderRadius={RW(20)}
+                                        borderRadius={RW(15)}
                                         style={styles.rules}>
-                                        <View style={{margin: RW(15)}}>
+                                        <View style={{
+                                            width:'30%',
+                                            alignItems:'center',
+                                            justifyContent:'center',
+                                            margin: RW(15)}}>
                                             <Image source={item.img}/>
                                         </View>
-                                        <View style={{width: RW(200)}}>
+                                        <View style={{
+                                            width:'60%',
+                                            justifyContent:'center',
+                                            padding:10,
+                                        }}>
                                             <Text style={styles.text}>{item.title}</Text>
                                             <Text style={styles.textDecretion}>{item.text}</Text>
                                         </View>
                                     </ImageBackground>
-                                </View>
+
                             ))
                         }
                     </ScrollView>
-                    <View style={{paddingVertical: 38, marginHorizontal: 'auto'}}>
+                    <View style={{paddingBottom: 38}}>
                         <LightButton
                             size={{width: 281, height: 48}}
                             labelStyle={styles.countinue}
@@ -76,7 +88,6 @@ const AboutGame = () => {
                         </View>
                     }
                 />
-            </ScrollView>
         </ScreenMask>
     )
 }
@@ -86,20 +97,21 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 40,
+        paddingVertical: RH(40),
+        paddingHorizontal:RW(10)
     },
     aboutMe: {
         ...font('inter', 24, WHITE, 24),
+        // marginBottom:RH(10),
         fontWeight: '700',
         letterSpacing: RW(0.01),
     },
     rules: {
-        width: RW(350),
+        // width: RW(340),
         flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginVertical: 24,
-        marginHorizontal: 24,
+        // justifyContent: 'flex-start',
+        // alignItems: 'center',
+        marginVertical: 15,
     },
     text: {
         ...font('inter', 18, BLACK, 24),
@@ -108,10 +120,11 @@ const styles = StyleSheet.create({
         marginVertical: RH(15)
     },
     textDecretion: {
+        // textAlign:'center',
         ...font('inter', 16, BLACK, 20),
         fontWeight: '400',
         letterSpacing: RW(0.01),
-        marginBottom: RH(10),
+        // marginBottom: RH(10),
     },
     countinue: {
         flexDirection: 'row',

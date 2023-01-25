@@ -3,7 +3,7 @@ import {View, Text, StyleSheet, ScrollView, Image, TouchableOpacity} from 'react
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import {font, RH, RW} from '@/theme/utils'
-import {GRAY, ICON, WHITE} from '@/theme/colors'
+import {BACKGROUND, GRAY, ICON, WHITE} from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import Index from "@/components/modal";
 import {useNavigation} from "@react-navigation/native";
@@ -42,9 +42,14 @@ const Vote = () => {
                     </View>
                     <View style={styles.morning}>
                         <Text style={styles.morningText}>Утро</Text>
-                        <Text style={styles.morningText}>{/*<Timer/>*/}</Text>
+                        {/*<Text style={styles.morningText}>/!*<Timer/>*!/</Text>*/}
                     </View>
-                    <ScrollView>
+                    <ScrollView style={{
+                        backgroundColor:BACKGROUND,
+                        borderRadius:10,
+                        width: RW(330),
+                        height: RH(600),
+                    }}>
                     <View style={styles.peopleInfo}>
                         {
                             Players.map((item, index) => (
@@ -56,7 +61,7 @@ const Vote = () => {
                         }
                     </View>
                     </ScrollView>
-                    <View style={{paddingBottom: 38}}>
+                    <View style={{marginVertical: 20}}>
                         <LightButton
                             size={{width: 281, height: 48}}
                             labelStyle={styles.invitePlayers}
