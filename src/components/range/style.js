@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '90%',
-    height: 1,
     marginLeft: 'auto',
     marginRight: 'auto',
     height: '100%',
@@ -28,7 +27,7 @@ export const styles = StyleSheet.create({
   },
   stepText: {
     color: 'white',
-    marginTop: RH(5),
+    marginTop: RH(15),
     zIndex: 10,
     // left:'50%',
     position: 'absolute',

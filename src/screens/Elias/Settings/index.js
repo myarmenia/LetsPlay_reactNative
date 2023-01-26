@@ -21,7 +21,7 @@ function Index({navigation}) {
                         <Text style={styles.time}>{valWord}</Text>
                     </View>
                     <Text style={styles.timeTitle}>для достижения победы</Text>
-                    <Slider step={9} maxValue={90} val={valWord} setVal={setValWord}/>
+                    <Slider step={9} minVal={10} maxValue={90} val={valWord} setVal={setValWord}/>
                 </View>
                 <View>
                     <View style={{flexDirection:'row', justifyContent:'space-between'}}>
@@ -29,7 +29,7 @@ function Index({navigation}) {
                         <Text style={styles.time}>{valTime}</Text>
                     </View>
                     <Text style={styles.timeTitle}>продолжительность в секундах</Text>
-                    <Slider step={3} maxValue={180} val={valTime} setVal={setTimeVal}/>
+                    <Slider step={3} minVal={30} maxValue={180} val={valTime} setVal={setTimeVal}/>
                 </View>
             </View>
             <View  style={{

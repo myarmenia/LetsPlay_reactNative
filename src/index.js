@@ -16,7 +16,7 @@ const MyApp = () => {
   const dispatch=useDispatch();
 
 
-  // const store=useSelector((state)=>console.log(state));
+  const store=useSelector((state)=>console.log(state.signUpFirst.res.data));
 
 
 

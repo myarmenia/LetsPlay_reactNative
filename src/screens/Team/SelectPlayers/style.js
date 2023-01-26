@@ -31,8 +31,8 @@ export  const styles = StyleSheet.create({
         marginVertical:RH(30)
     },
     scroll: {
-        backgroundColor:BACKGROUND,
-        borderRadius:15,
+        // backgroundColor:BACKGROUND,
+        // borderRadius:15,
         marginRight: 'auto',
         marginLeft: 'auto',
         width: RW(310),
