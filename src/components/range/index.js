@@ -5,7 +5,7 @@ import Slider from '@react-native-community/slider'
 import { RH } from '@/theme/utils'
 import CircleSlide from '@/assets/imgs/CircleSlide.png'
 
-function Index({ step, maxValue, val, setVal }) {
+function Index({ step,minVal, maxValue, val, setVal }) {
   const [steps, setSteps] = useState([])
   const p = maxValue / 100
 
@@ -14,7 +14,10 @@ function Index({ step, maxValue, val, setVal }) {
     const stetCount = maxValue / step
     let res = 0
     for (let i = 0; i < step; i++) {
-      res = res + stetCount
+      res = res + stetCount;
+      if(i===0 && minVal>=res){
+          continue
+      }
       temp.push(res)
     }
     setSteps(temp)
@@ -29,7 +32,7 @@ function Index({ step, maxValue, val, setVal }) {
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
-        onValueChange={(ev) => setVal(Math.round(ev * 100 * p))}
+        onValueChange={(ev) => setVal(Math.round(ev * 100 * p)<=steps[0]?Math.round(ev * 100 * p)/(steps[0]/minVal)+minVal: Math.round(ev * 100 * p))}
         // value={(val/maxValue)}
         minimumTrackTintColor="#4D7CFE"
         maximumTrackTintColor="rgba(255, 0, 0, 0.01)"
@@ -48,7 +51,7 @@ function Index({ step, maxValue, val, setVal }) {
                 justifyContent: i === 0 ? 'space-between' : 'flex-end',
               }}
             >
-              {i === 0 ? <Text style={{ ...styles.stepText, left: 0 }}>0</Text> : null}
+              {i === 0 ? <Text style={{ ...styles.stepText, left: 0 }}>{minVal}</Text> : null}
               <Text
                 style={{
                   ...styles.stepText,
