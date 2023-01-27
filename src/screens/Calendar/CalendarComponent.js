@@ -131,7 +131,7 @@ const CalendarComponent = () => {
   return (
     <View>
       <View style={{ marginTop: 25 }}>
-        {/* <FlatList
+        <FlatList
           showsVerticalScrollIndicator={false}
           data={GamesData}
           key={'#'}
@@ -165,37 +165,7 @@ const CalendarComponent = () => {
               </TouchableOpacity>
             </View>
           )}
-        /> */}
-        <ScrollView>
-          {header}
-          {GamesData.map((item) => (
-            <View>
-              <Text style={{ color: '#657AC5', marginBottom: -15, fontSize: 18 }}>{item.date}</Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('TournamentScreen')
-                }}
-              >
-                <LinearGradient
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}
-                  colors={['#7DCE8A', '#4D7CFE']}
-                  style={styles.main}
-                >
-                  <View style={{ flex: 2 }}>
-                    <Image style={{ width: 27, height: 27 }} source={item.img} resizeMode="cover" />
-                  </View>
-                  <View style={{ flex: 9 }}>
-                    <Text style={styles.text}>{item.title}</Text>
-                  </View>
-                  <View style={{ flex: 2 }}>
-                    <Text style={styles.hour}>{item.hour}</Text>
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
-            </View>
-          ))}
-        </ScrollView>
+        />
       </View>
     </View>
   )
