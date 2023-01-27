@@ -1,8 +1,8 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, TextInput } from 'react-native'
 import { useState } from 'react'
-import {RW} from "@/theme/utils";
-import {BACKGROUND, ICON} from "@/theme/colors";
+import { RH, RW } from '@/theme/utils'
+import { BACKGROUND, ICON } from '@/theme/colors'
 
 const UselessTextInput = () => {
   const [number, onChangeNumber] = useState(null)
@@ -28,8 +28,9 @@ const styles = StyleSheet.create({
     borderRadius: RW(20),
     backgroundColor: BACKGROUND,
     width: RW(375),
+    height: RH(256),
     paddingHorizontal: RW(20),
-    color: ICON
+    color: ICON,
   },
 })
 
