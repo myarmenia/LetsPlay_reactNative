@@ -1,39 +1,35 @@
 import React, {useEffect, useState} from 'react'
-import { StatusBar, Text, View } from 'react-native'
+import {StatusBar, Text, TouchableOpacity, View} from 'react-native'
 import AuthNavigator from '@/navigation/AuthNavigator'
 import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
 import { AppProvider } from '@/context'
 import { useAuth } from '@/hooks'
 import {useDispatch, useSelector} from "react-redux";
-import {signUpFirstStep} from "@/store/action/SignUpAction";
-
-
-
+import axios from "axios";
 
 const MyApp = () => {
   const { authenticated } = useAuth()
-  const dispatch=useDispatch();
-
-
-  const store=useSelector((state)=>console.log(state.signUpFirst.res.data));
-
-
 
     useEffect(()=>{
-        dispatch(signUpFirstStep({
-            "email": "test@mail.ru",
-            "name": "Kamo",
-            "surname": "Hovhannisyan"
-        }))
-    })
+
+
+
+        axios.post('http://to-play.ru/api/auth/signup/first_step', {
+
+                "email": "asd4asdnjd@gmail.com",
+                "name": "sadfas",
+                "surname": "sdfdsf"
+
+            },
+        ).then((DA)=>console.log(DA)).catch((e)=>console.log(e))
+    },[])
 
   return (
     <AppProvider>
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
       {/*<AppNavigator />*/}
       {authenticated ? <AppNavigator /> : <AuthNavigator />}
-        <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
     </AppProvider>
   )
 }

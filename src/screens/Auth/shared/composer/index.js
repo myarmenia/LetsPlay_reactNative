@@ -7,10 +7,10 @@ import SendIcon from '@/assets/imgs/send'
 
 const Composer = React.forwardRef(
   (
-    { onSend, disabled, textStyle, containerStyle, secure = false, placeholder = 'Написать' },
+    { onSend, text, setText, disabled, textStyle, containerStyle, secure = false, placeholder = 'Написать' },
     ref,
   ) => {
-    const [text, setText] = React.useState('')
+
 
     React.useImperativeHandle(
       ref,
