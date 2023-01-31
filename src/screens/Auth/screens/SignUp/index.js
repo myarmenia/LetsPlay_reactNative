@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {
     KeyboardAvoidingView,
     Platform,
@@ -22,33 +22,69 @@ import {useDispatch, useSelector} from "react-redux";
 import {signUpFirst} from '@/store/Slices/SignUpSlice/action'
 
 const regName = /^[a-zA-Z]{3,30}$/;
-const regEmail=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
 const SignUp = () => {
     const ref = useRef();
-    const dispatch =useDispatch();
-    // const store=useSelector()
+    const dispatch = useDispatch();
+    const {token, load, error} = useSelector(store => store.signUpFirstStep)
     const [text, setText] = useState('');
     const [step, setStep] = useState('NAME');
     const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.name]);
     const [dataFirstStep, setDataFirstStep] = useState({
-        surname: '',
-        name: '',
-        email: '',
+        "surname": "",
+        "name": "",
+        "email": "",
     })
+    const [dataSecondStep, setDataSecondStep] = useState({
+        "verify_code": '',
+        "expired_token": '',
+        "password": '',
 
-    useEffect(()=>{
+    })
+    const handlerMessage = useCallback((message) => {
+            return setMessagesList((messagesList) => [
+                ...messagesList,
+                message,
+            ])
+        }
+        , [])
 
+    const handlerUserMessage = useCallback((message) => {
+        return {
+            id: new Date().getTime(),
+            text: message,
+            type: 'TEXT',
+            position: 'right',
+        }
+    }, [])
 
-        // if(dataFirstStep.email){
-            dispatch(signUpFirst({
-                'email': 'tesdat@mail.ru',
-                'name': 'Kamo',
-                'surname': 'OBrien'
-            }))
-        // }
-    },)
+    useEffect(() => {
+        if (token && step === 'EMAIL') {
+            setDataSecondStep((dataSecondStep)=>{
+                return {
+                    ...dataSecondStep,
+                    "expired_token":token,
+                }
+            })
+            setMessagesList([
+                ...messagesList,
+                messageDefault.consent,
+                {
+                    id: '16',
+                    text: 'Я согласен',
+                    type: 'BTN',
+                    position: 'right',
+                    ev: () => {
+                        setStep('EMAIL_PASSWORD')
+                        handlerMessage(messageDefault.consentBtn)
+                    },
+                }
+
+            ])
+        }
+    }, [token])
 
     const onPress = () => {
         switch (step) {
@@ -56,112 +92,56 @@ const SignUp = () => {
                 if (regName.test(text)) {
                     setDataFirstStep({
                         ...dataFirstStep,
-                        name: text
+                        "name": text
                     });
                     setStep('SURNAME');
-                    setMessagesList([
-                        ...messagesList,
-                        {
-                                id:new Date().getTime(),
-                                text:text,
-                                type:'TEXT',
-                                position:'right',
-                        },
-                        messageDefault.surname
-                    ])
+                    handlerMessage(messageDefault.surname)
                 } else {
                     setStep('NAME');
-                    setMessagesList([
-                        ...messagesList,
-                        {
-                            id:new Date().getTime(),
-                            text:text,
-                            type:'TEXT',
-                            position:'right',
-                        },
-                        {
-                            ...messageDefault.nameValid,
-                            id:messageDefault.nameValid.id+new Date().getTime(),
-                        },
-                    ])
+                    handlerMessage({
+                        ...messageDefault.nameValid,
+                        id: messageDefault.nameValid.id + new Date().getTime(),
+                    },)
                 }
-                setText('')
                 break;
             case 'SURNAME':
                 if (regName.test(text)) {
                     setDataFirstStep({
                         ...dataFirstStep,
-                        surname: text
+                        "surname": text
                     });
                     setStep('EMAIL');
-                    setMessagesList([
-                        ...messagesList,
-                        {
-                            id:new Date().getTime(),
-                            text:text,
-                            type:'TEXT',
-                            position:'right',
-                        },
-                        messageDefault.email
-                    ])
+                    handlerMessage(messageDefault.email)
                 } else {
                     setStep('SURNAME');
-                    setMessagesList([
-                        ...messagesList,
-                        {
-                            id:new Date().getTime(),
-                            text:text,
-                            type:'TEXT',
-                            position:'right',
-                        },
-                        {
-                            ...messageDefault.surnameValid,
-                            id:new Date().getTime()+messageDefault.surnameValid.id,
-                        },
-                    ])
+                    handlerMessage({
+                        ...messageDefault.surnameValid,
+                        id: new Date().getTime() + messageDefault.surnameValid.id,
+                    },)
                 }
-                setText('')
                 break;
             case 'EMAIL':
-                if (regEmail.test(text)){
+                if (regEmail.test(text)) {
                     setDataFirstStep({
                         ...dataFirstStep,
-                        email: text
+                        "email": text
                     });
-
+                    dispatch(signUpFirst({...dataFirstStep, "email": text}));
                     // setStep('EMAIL');???????????????????????????????
-                    // setMessagesList([
-                    //     ...messagesList,
-                    //     {
-                    //         id:new Date().getTime(),
-                    //         text:text,
-                    //         type:'TEXT',
-                    //         position:'right',
-                    //     },
-                    //     messageDefault.email
-                    // ])
-                }else {
+                } else {
                     setStep('EMAIL');
-                    setMessagesList([
-                        ...messagesList,
-                            {
-                                id:new Date().getTime(),
-                                text:text,
-                                type:'TEXT',
-                                position:'right',
-                            },
-                        {
-                            ...messageDefault.validEmail,
-                            id:new Date().getTime()+messageDefault.validEmail.id,
-                        },
-                    ])
+                    handlerMessage({
+                        ...messageDefault.validEmail,
+                        id: new Date().getTime() + messageDefault.validEmail.id,
+                    },)
                 }
-                setText('');
+                ;
                 break;
+            case 'EMAIL_PASSWORD':
             default:
                 return;
         }
-
+        setText('')
     }
 
     // React.useEffect(() => {
@@ -216,9 +196,13 @@ const SignUp = () => {
                     <Composer
                         text={text}
                         setText={setText}
-                        onSend={() => onPress()}
+                        onSend={() => {
+                            handlerMessage(handlerUserMessage(text));
+                            setTimeout(onPress, 200)
+                        }
+                        }
                         ref={ref}
-                        // disabled={false}
+                        disabled={load}
                         // secure={messages[messages.length - 1]?.secure}
                     />
                 </View>
