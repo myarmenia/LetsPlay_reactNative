@@ -55,8 +55,43 @@ const messageDefault = {
         text: 'Подтвердите электронную почту. Вам на электронную почту поступило письмо от  приложения «Играем» с кодом подтверждения. Укажите его здесь',
         type: 'TEXT',
         position: 'left',
-    }
-
+    },
+    validConsent:{
+        id: 12,
+        text: 'Вы должны дать согласие на обработку данных госуслуги. Нажатие кнопку на верху',
+        type: 'TEXT',
+        position: 'left',
+    },
+    validEmailPassword:{
+        id: 13,
+        text: 'Некорректный код',
+        type: 'TEXT',
+        position: 'left',
+    },
+    createPassword:{
+        id: 14,
+        text: 'Создайте пароль. Пароль должен содержать не менее 8 символов!',
+        type: 'TEXT',
+        position: 'left',
+    },
+    validPassword:{
+        id: 15,
+        text: 'Некорректный пароль!',
+        type: 'TEXT',
+        position: 'left',
+    },
+    verifyPassword:{
+        id: '16a',
+        text: 'Подтвердите пароль',
+        type: 'TEXT',
+        position: 'left',
+    },
+    validVerifyPassword:{
+        id: '1a',
+        text: 'Пароль не совпадает',
+        type: 'TEXT',
+        position: 'left',
+    },
 }
 
 export default messageDefault;

@@ -6,11 +6,11 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  data: {
-    email: 'arsenrustamyan@mail.ru',
-    name: 'Arsen',
-    surname: 'Rustamyan',
-  },
+  // data: {
+  //   email: 'arsenrustamyan@mail.ru',
+  //   name: 'Arsen',
+  //   surname: 'Rustamyan',
+  // },
 })
 
 export default axiosInstance
