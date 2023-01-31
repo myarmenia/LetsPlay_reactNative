@@ -10,15 +10,13 @@ export const styles = StyleSheet.create({
     padding: 25,
   },
   title: {
-    color: WHITE,
     textAlign: 'center',
-    fontSize: 20,
+    ...font('bold', 24, WHITE, 24),
     marginBottom: RH(10),
   },
   text: {
-    color: WHITE,
     textAlign: 'center',
-    fontSize: 13,
     marginBottom: RH(6),
+    ...font('regular', 16, WHITE, 19),
   },
 })
