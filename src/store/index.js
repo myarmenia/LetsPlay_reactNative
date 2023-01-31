@@ -3,7 +3,7 @@ import { combineReducers } from "redux";
 import signUpFirstStep from './Slices/SignUpSlice';
 
 const rootReducer=combineReducers({
-    toolkit:signUpFirstStep
+    signUpFirstStep:signUpFirstStep,
 })
 
 const store = configureStore({

@@ -8,8 +8,10 @@ import { useAuth } from '@/hooks'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 
+
 const MyApp = () => {
   const { authenticated } = useAuth()
+
 
   useEffect(() => {
     axios
@@ -21,6 +23,7 @@ const MyApp = () => {
       .then((DA) => console.log(DA))
       .catch((e) => console.log(e))
   }, [])
+
 
   return (
     <AppProvider>
