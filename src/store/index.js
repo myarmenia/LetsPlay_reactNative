@@ -1,15 +1,12 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { combineReducers } from "redux";
-import signUpFirstStep from './Slices/SignUpSlice';
-
-const rootReducer=combineReducers({
-    signUpFirstStep:signUpFirstStep,
-})
+import { configureStore } from '@reduxjs/toolkit'
+import AuthSlice from './Slices/AuthSlice'
+import signUpFirstStep from './Slices/SignUpSlice'
 
 const store = configureStore({
-    reducer:rootReducer,
-});
+  reducer: {
+    auth: AuthSlice,
+    // app: app
+  },
+})
 
-
-export default store;
-
+export default store
