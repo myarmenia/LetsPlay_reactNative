@@ -77,6 +77,7 @@ const Preferences = () => {
         />
       </View>
       <View style={styles.next}>
+
          {/*<Button label={'Далее>>'} size={{width: 171 , height: 36}} onPress={() => setAuthenticated(true)} /> */}
          <Button label={'Далее>>'} size={{width: 171 , height: 36}} onPress={() => navigation.navigate('HOME')} />
       </View>
