@@ -15,7 +15,6 @@ import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
 import { font, RH } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
-import { useAuth } from '@/hooks'
 
 const STEPS = [
   {
@@ -61,7 +60,6 @@ const STEPS = [
 const SignIn = () => {
   const ref = React.useRef()
   const navigation = useNavigation()
-  const { setAuthenticated } = useAuth()
   const [index, setIndex] = React.useState(0)
   const [messages, setMessages] = React.useState([])
   const [loading, setLoading] = React.useState(false)
@@ -82,7 +80,7 @@ const SignIn = () => {
       ref.current.setText('')
       let timer = setTimeout(() => {
         setLoading(false)
-        setAuthenticated(true)
+        // setAuthenticated(true)
         clearTimeout(timer)
       }, 1500)
       // TODO api call setLoading(false)

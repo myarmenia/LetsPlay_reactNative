@@ -1,13 +1,12 @@
-import React from 'react';
-import {Text, View} from "react-native";
-import style from './style';
-import Button from "@/assets/imgs/Button";
-import DarkButton from "@/assets/imgs/DarkButton";
-import {BLACK, WHITE} from "@/theme/colors";
-import {font, RH, RW} from "@/theme/utils";
-import {useNavigation} from "@react-navigation/native";
-import ScreenMask from "@/components/wrappers/screen";
-
+import React from 'react'
+import { Text, View } from 'react-native'
+import style from './style'
+import Button from '@/assets/imgs/Button'
+import DarkButton from '@/assets/imgs/DarkButton'
+import { BLACK, WHITE } from '@/theme/colors'
+import { font, RH, RW } from '@/theme/utils'
+import { useNavigation } from '@react-navigation/native'
+import ScreenMask from '@/components/wrappers/screen'
 
 function Index({route}) {
     const navigation = useNavigation();
@@ -33,5 +32,4 @@ function Index({route}) {
     );
 }
 
-export default Index;
-
+export default Index

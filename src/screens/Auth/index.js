@@ -16,10 +16,10 @@ const AuthHome = () => {
   return (
     <ScreenMask>
       <View style={styles.bottom}>
-        <Message
+        {/* <Message
           containerStyle={styles.message}
           message={'Добро пожаловать в “Играем” пожалуйста пройдите регистрацию'}
-        />
+        /> */}
         <Row justifyContent={'space-between'}>
           <LightButton
             label={'Вход'}

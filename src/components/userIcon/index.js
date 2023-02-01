@@ -1,5 +1,5 @@
 import React from 'react'
-import {Image, Platform, Text, TouchableOpacity, View} from 'react-native'
+import {Image, Platform, Pressable, Text, TouchableOpacity, View} from 'react-native'
 import style from './styles'
 import UserDefault from '@/assets/imgs/user/userDefault'
 import UserLine from '@/assets/imgs/user/userLine'
@@ -24,7 +24,7 @@ function Index({user, size, onPressImg}) {
                 alignItems: 'center',
             }}
         >
-            <TouchableOpacity
+            <Pressable
                 onPress={() => onPressImg ? navigation.navigate('ProfileNavigator', { screen: 'Gallery',}):null}
                 style={{
                     width: size / RW(3),
@@ -48,7 +48,7 @@ function Index({user, size, onPressImg}) {
                 ) : (
                     <UserDefault size={size}/>
                 )}
-            </TouchableOpacity>
+            </Pressable>
             <View style={style.nameBlock}>
                 <Text style={font('bold', size / RW(22), WHITE)}>{user.lName ? user.lName : 'Имя'}</Text>
                 <Text style={font('bold', size / RW(22), WHITE)}>
