@@ -268,7 +268,6 @@ const SignUp = () => {
             >
                 <FlatList
                     style={{
-                        backgroundColor:'red',
                         marginBottom:30,
                     }}
                     ref={scrollRef}
