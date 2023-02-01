@@ -39,6 +39,9 @@ const Preferences = () => {
     { id: 12, text: 'Мафия', checked: false },
     { id: 13, text: 'Своя игра', checked: false },
   ]
+
+  const navigation = useNavigation()
+
   const [game, setGame] = useState([])
   const navigation = useNavigation()
   const PreferenceItem = ({ item }) => {
