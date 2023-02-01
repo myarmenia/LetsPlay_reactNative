@@ -16,7 +16,6 @@ const data = ActiveGames.map((item, i) => (
 
 function Index({navigation, route}) {
     const game = route.params;
-
     return (
         <ScreenMask>
             <View style={styles.btnBlock}>

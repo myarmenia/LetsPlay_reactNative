@@ -27,13 +27,13 @@ const team = [
         navigationTo: ""
     },
     {
-        id: '1284778',
+        id: '1284798',
         name: 'ФК ЦСКА',
         address: 'Пресненская наб. 25',
         image: 'https://upload.wikimedia.org/wikipedia/ru/thumb/f/f4/FC_CSKA_Moscow_Logo.svg/1200px-FC_CSKA_Moscow_Logo.svg.png'
     },
     {
-        id: '1284778',
+        id: '12847698',
         name: 'ФК ЦСКА',
         address: 'Пресненская наб. 25',
         image: 'https://upload.wikimedia.org/wikipedia/ru/thumb/f/f4/FC_CSKA_Moscow_Logo.svg/1200px-FC_CSKA_Moscow_Logo.svg.png'
@@ -41,9 +41,10 @@ const team = [
 ]
 
 
-function Index({navigation}) {
+function Index({navigation , route}) {
+    const {data} = route.params
     const item = (arr) => arr.map((item, i) =>
-        <TouchableOpacity key={i} onPress={()=>(navigation.navigate("SearchTeamRes", item))}>
+        <TouchableOpacity key={i} onPress={()=>(navigation.navigate("SearchTeamRes", {item , data}))}>
             <View  style={style.homeBlock}>
                 <View style={{zIndex: 1, flexDirection: 'row', alignItems: 'center'}}>
                     <View style={style.imageBlock}>

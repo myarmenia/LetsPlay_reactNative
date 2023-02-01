@@ -29,18 +29,7 @@ export default StyleSheet.create({
     marginBottom: RH(30),
     marginTop: RH(15),
   },
-  imageBlock: {
-    width: RW(87),
-    height: RW(87),
-    borderRadius: RW(43),
-    marginRight: RW(20),
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: RW(43),
-    resizeMode: 'contain'
-  },
+
   userEdit: {
     marginLeft: RW(80),
   },

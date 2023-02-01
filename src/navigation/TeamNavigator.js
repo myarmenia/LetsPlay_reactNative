@@ -14,6 +14,7 @@ import SearchRes from '@/screens/Team/SearchRes';
 import SearchTeamRes from '@/screens/Team/SearchTeamRes';
 import SelectPlayersRival from '@/screens/Team/SelectPlayersRival';
 import TeamModalSearch from '@/screens/Team/GameCategory/ModalItem'
+import Scheme from "@/screens/Team/Scheme";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ function Index(props) {
         SearchTeamResComponent:props => (<GoBack item={<SearchTeamRes   {...props} />}/>),
         SelectPlayersRivalComponent:props => (<GoBack item={<SelectPlayersRival   {...props} />}/>),
         TeamModalSearchComponent:props => (<GoBack item={<TeamModalSearch   {...props} />}/>),
+        SchemeComponent:props => (<GoBack item={<Scheme   {...props} />}/>),
     })
 
     return (
@@ -49,6 +51,7 @@ function Index(props) {
             <Stack.Screen name="SearchTeamRes" component={route.SearchTeamResComponent}/>
             <Stack.Screen name="SelectPlayersRival" component={route.SelectPlayersRivalComponent}/>
             <Stack.Screen name="TeamModalSearch" component={route.TeamModalSearchComponent}/>
+            <Stack.Screen name="Scheme" component={Scheme}/>
         </Stack.Navigator>
     );
 }
