@@ -11,9 +11,9 @@ import {Players} from "@/assets/TestData";
 import Modal from "@/components/modal";
 
 function Index({navigation, route}) {
-    const team = route.params;
+    const {item , data} = route.params;
     const [modal, setModal]=useState(false)
-
+    const team = item
     return (
         <ScreenMask>
             <Text style={style.team}>{team.name}</Text>
@@ -48,7 +48,7 @@ function Index({navigation, route}) {
             </View>}/>
 
                 <View style={style.btn}>
-                    <Button onPress={()=>navigation.navigate('SelectPlayersRival')} size={{width: 265, height: 48}} label={'Подтвердить'} labelStyle={font('bold', 18, BLACK)}/>
+                    <Button onPress={()=>navigation.navigate('SelectPlayersRival' , {data , team: item})} size={{width: 265, height: 48}} label={'Подтвердить'} labelStyle={font('bold', 18, BLACK)}/>
                 </View>
 
         </ScreenMask>

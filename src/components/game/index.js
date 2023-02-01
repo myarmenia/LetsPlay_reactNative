@@ -12,7 +12,6 @@ function Index(props) {
   const [longPress, setLongPress] = useState(false)
   const { data, setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
   const navigation = useNavigation()
-
   return (
     // <Pressable
     //   onPress={() => {
@@ -51,7 +50,7 @@ function Index(props) {
           setActive(true)
           setTimeout(() => {
             data.navigateTo
-              ? navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: game, data })
+              ? navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: {game, data} })
               : null
             setActive(false)
           }, 100)

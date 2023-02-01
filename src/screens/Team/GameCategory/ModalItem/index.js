@@ -11,8 +11,7 @@ import ScreenMask from "@/components/wrappers/screen";
 
 function Index({route}) {
     const navigation = useNavigation();
-    const game=route.params;
-
+    const {game , data}=route.params;
     return (
         <ScreenMask>
             <View style={style.bg}>
@@ -23,10 +22,10 @@ function Index({route}) {
                 </View>
                 <View style={style.btnBlock}>
                     <Button size={{width: RW(100), height: RH(36)}} onPress={() => {
-                        navigation.navigate('SelectTeam', game)
+                        navigation.navigate('SelectTeam', {game, data})
                     }} label={'Да'} labelStyle={font('bold', 18, BLACK)}/>
                     <DarkButton size={{width: RW(100), height: RH(36)}} onPress={() => {
-                        navigation.navigate('SearchTeam', game)
+                        navigation.navigate('SearchTeam', {game, data})
                     }} label={'Нет'} labelStyle={font('bold', 18, WHITE)}/>
                 </View>
             </View>
