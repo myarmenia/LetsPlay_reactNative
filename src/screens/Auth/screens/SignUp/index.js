@@ -100,6 +100,7 @@ const SignUp = () => {
         if(error.setStep){
             setStep(error.setStep)
         }
+        scrollRef.current?.scrollToEnd()
     }, [error])
 
 
