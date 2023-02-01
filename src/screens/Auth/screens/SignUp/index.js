@@ -23,6 +23,7 @@ const SignUp = () => {
     const navigation=useNavigation()
     const {token, load, error, endRegistration} = useSelector(store => store.signUpFirstStep)
     const [text, setText] = useState('');
+    const [focus, setFocus]=useState(false)
     const [step, setStep] = useState('NAME');
     const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.name]);
     const [dataFirstStep, setDataFirstStep] = useState({
@@ -62,6 +63,7 @@ const SignUp = () => {
         }
     }, []);
 
+
     useEffect(() => {
         if (token && step === 'EMAIL') {
             setDataSecondStep((dataSecondStep) => {
@@ -82,11 +84,14 @@ const SignUp = () => {
                     ev: () => {
                         setStep('EMAIL_PASSWORD')
                         handlerMessage(messageDefault.consentBtn)
+                        scrollRef.current?.scrollToEnd()
                     },
                 }
 
             ])
+            scrollRef.current?.scrollToEnd()
         }
+        scrollRef.current?.scrollToEnd()
     }, [token]);
 
     useEffect(() => {
@@ -101,10 +106,15 @@ const SignUp = () => {
             setStep(error.setStep)
         }
         scrollRef.current?.scrollToEnd()
-    }, [error])
+    }, [error]);
+
+    useEffect(()=>{
+        scrollRef.current?.scrollToEnd()
+    },[focus])
 
 
     const onPress = () => {
+        setFocus(false)
         switch (step) {
             case 'NAME':
                 if (regName.test(text)) {
@@ -224,37 +234,6 @@ const SignUp = () => {
         scrollRef.current?.scrollToEnd()
     }
 
-    // React.useEffect(() => {
-    //   setLoading(false)
-    //   setMessages([STEPS[0]])
-    //   updateMessages(STEPS[1])
-    // }, [])
-    //
-    // const onSend = React.useCallback(
-    //   (message) => {
-    //     setLoading(true)
-    //     updateMessages({
-    //       message,
-    //       secure: messages[messages.length - 1]?.secure,
-    //       isLeft: false,
-    //     })
-    //     ref.current.setText('')
-    //     let t = setTimeout(() => {
-    //       setLoading(false)
-    //       navigation.navigate('Onboard')
-    //       clearTimeout(t)
-    //     }, 1500)
-    //     // TODO api call setLoading(false)
-    //     // updateMessages(STEPS[index])
-    //     // setIndex(idx => ++idx);
-    //   },
-    //   [index, messages, navigation],
-    // )
-    //
-    // const updateMessages = (data) => {
-    //   setMessages((prevData) => [...prevData, data])
-    // }
-
     return (
         <ScreenMask>
             <KeyboardAvoidingView
@@ -294,36 +273,9 @@ const SignUp = () => {
                             }
                             ref={ref}
                             disabled={load}
-                            // secure={messages[messages.length - 1]?.secure}
+                            setFocus={setFocus}
                         />}
                 </View>
-                {/*<View style={{ flex: 1 }}>*/}
-                {/*  <ScrollView*/}
-                {/*    style={{ flexDirection: 'column-reverse', flex: 1, paddingBottom: RH(94) }}*/}
-                {/*    showsVerticalScrollIndicator={false}*/}
-                {/*  >*/}
-                {/*    {messages.map((message, idx, arr) => {*/}
-                {/*      return (*/}
-                {/*        <Message*/}
-                {/*          key={idx.toString()}*/}
-                {/*          secure={message.secure}*/}
-                {/*          isLeft={message.isLeft}*/}
-                {/*          isWrong={message.isWrong}*/}
-                {/*          message={message.message}*/}
-                {/*          previus={idx > 0 ? arr[idx - 1].isLeft : false}*/}
-                {/*        />*/}
-                {/*      )*/}
-                {/*    })}*/}
-                {/*  </ScrollView>*/}
-                {/*  <View style={styles.bottom}>*/}
-                {/*    <Composer*/}
-                {/*      onSend={onSend}*/}
-                {/*      ref={ref}*/}
-                {/*      disabled={loading}*/}
-                {/*      secure={messages[messages.length - 1]?.secure}*/}
-                {/*    />*/}
-                {/*  </View>*/}
-                {/*</View>*/}
             </KeyboardAvoidingView>
         </ScreenMask>
     )

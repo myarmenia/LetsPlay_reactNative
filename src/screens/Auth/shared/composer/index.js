@@ -7,7 +7,7 @@ import SendIcon from '@/assets/imgs/send'
 
 const Composer = React.forwardRef(
   (
-    { onSend, text, setText, disabled, textStyle, containerStyle, secure = false, placeholder = 'Написать' },
+    { onSend, text, setText, disabled, textStyle, containerStyle, secure = false, placeholder = 'Написать', setFocus },
     ref,
   ) => {
 
@@ -30,6 +30,8 @@ const Composer = React.forwardRef(
     return (
       <View style={[styles.container, containerStyle]}>
         <TextInput
+          onFocus={()=>setFocus(true)}
+          onBlur={()=>setFocus(false)}
           value={text}
           editable={!disabled}
           onChangeText={setText}

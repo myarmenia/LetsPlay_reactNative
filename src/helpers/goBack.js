@@ -17,7 +17,7 @@ function GoBack({item}) {
     return (
 
         <GestureRecognizer
-            onSwipeLeft={(state) => back()}
+            onSwipeRight={(state) => back()}
             style={{
                 flex: 1,
             }}>
