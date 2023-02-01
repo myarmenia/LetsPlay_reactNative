@@ -40,8 +40,6 @@ const Preferences = () => {
     { id: 13, text: 'Своя игра', checked: false },
   ]
 
-  const navigation = useNavigation()
-
   const [game, setGame] = useState([])
   const navigation = useNavigation()
   const PreferenceItem = ({ item }) => {
@@ -74,7 +72,7 @@ const Preferences = () => {
           numColumns={3}
           data={list}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
       </View>
       <View style={styles.next}>

@@ -3,13 +3,13 @@ import { StatusBar } from 'react-native'
 import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
 import AuthNavigator from './navigation/AuthNavigator'
-import { initialStateFirstStep } from './store/Slices/SignUpSlice'
+import { useSelector } from 'react-redux'
 const MyApp = () => {
+  const { token } = useSelector(({ auth }) => auth)
   return (
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
-      {/* <AppNavigator /> */}
-      {!initialStateFirstStep.endRegistration ? <AppNavigator /> : <AuthNavigator />}
+      {token ? <AppNavigator /> : <AuthNavigator />}
     </>
   )
   {
