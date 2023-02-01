@@ -7,6 +7,7 @@ import { font, RH, RW } from '@/theme/utils'
 import style from '@/screens/Profile/Preference/style'
 import pStyles from '@/screens/Profile/style'
 import Button from '@/assets/imgs/Button'
+import {useNavigation} from "@react-navigation/native";
 
 const GAMES = [
   'Футбол',
@@ -38,6 +39,9 @@ const Preferences = () => {
     { id: 12, text: 'Мафия', checked: false },
     { id: 13, text: 'Своя игра', checked: false },
   ]
+
+  const navigation=useNavigation()
+
   const [game, setGame] = useState([])
   const PreferenceItem = ({ item }) => {
     const handlerActiveUser = () => {
@@ -73,7 +77,8 @@ const Preferences = () => {
         />
       </View>
       <View style={styles.next}>
-        {/* <Button label={'Далее>>'} size={{width: 171 , height: 36}} onPress={() => setAuthenticated(true)} /> */}
+         {/*<Button label={'Далее>>'} size={{width: 171 , height: 36}} onPress={() => setAuthenticated(true)} /> */}
+         <Button label={'Далее>>'} size={{width: 171 , height: 36}} onPress={() => navigation.navigate('HOME')} />
       </View>
     </ScreenMask>
   )

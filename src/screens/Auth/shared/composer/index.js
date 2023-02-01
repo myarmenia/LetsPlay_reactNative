@@ -30,8 +30,8 @@ const Composer = React.forwardRef(
     return (
       <View style={[styles.container, containerStyle]}>
         <TextInput
-          onFocus={()=>setFocus(true)}
-          onBlur={()=>setFocus(false)}
+          onFocus={()=>setFocus?setFocus(true):null}
+          onBlur={()=>setFocus?setFocus(false):null}
           value={text}
           editable={!disabled}
           onChangeText={setText}
