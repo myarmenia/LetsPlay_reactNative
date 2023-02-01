@@ -5,7 +5,7 @@ import signUpFirstStep from './Slices/SignUpSlice'
 const store = configureStore({
   reducer: {
     auth: AuthSlice,
-    // app: app
+    signUpFirstStep:signUpFirstStep,
   },
 })
 
