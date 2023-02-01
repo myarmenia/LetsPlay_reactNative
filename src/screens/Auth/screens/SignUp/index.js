@@ -18,6 +18,7 @@ const regEmailPassword = /[0-9]{4,4}$/
 
 const SignUp = () => {
     const ref = useRef();
+    const scrollRef = useRef();
     const dispatch = useDispatch();
     const navigation=useNavigation()
     const {token, load, error, endRegistration} = useSelector(store => store.signUpFirstStep)
@@ -219,6 +220,7 @@ const SignUp = () => {
                 return;
         }
         setText('')
+        scrollRef.current?.scrollToEnd()
     }
 
     // React.useEffect(() => {
@@ -265,6 +267,11 @@ const SignUp = () => {
                     : {})}
             >
                 <FlatList
+                    style={{
+                        backgroundColor:'red',
+                        marginBottom:30,
+                    }}
+                    ref={scrollRef}
                     data={messagesList}
                     renderItem={({item}) => <Message message={item}/>}
                     keyExtractor={item => item.id}
@@ -328,8 +335,8 @@ const styles = StyleSheet.create({
     bottom: {
         left: 0,
         right: 0,
-        bottom: RH(30),
-        position: 'absolute',
+        bottom: RH(10),
+        // position: 'absolute',
     },
     vk: {
         alignItems: 'center',
