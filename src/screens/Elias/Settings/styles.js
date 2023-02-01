@@ -7,8 +7,9 @@ const styles = StyleSheet.create({
     marginVertical: RH(23),
     ...font('bold', 22, WHITE),
   },
-  timeTitle:{
+  timeTitle: {
     marginVertical: RH(15),
+    paddingHorizontal: RW(15),
     ...font('bold', 16, WHITE),
   },
   container: {

@@ -7,11 +7,18 @@ import SendIcon from '@/assets/imgs/send'
 
 const Composer = React.forwardRef(
   (
-    { onSend, text, setText, disabled, textStyle, containerStyle, secure = false, placeholder = 'Написать' },
+    {
+      onSend,
+      text,
+      setText,
+      disabled,
+      textStyle,
+      containerStyle,
+      secure = false,
+      placeholder = 'Написать',
+    },
     ref,
   ) => {
-
-
     React.useImperativeHandle(
       ref,
       () => ({
@@ -36,7 +43,7 @@ const Composer = React.forwardRef(
           secureTextEntry={secure}
           placeholderTextColor={ICON}
           placeholder={placeholder || ''}
-          style={[styles.textStyle, textStyle , {color: ICON}]}
+          style={[styles.textStyle, textStyle, { color: ICON }]}
         />
         <SendIcon onPress={send} />
       </View>

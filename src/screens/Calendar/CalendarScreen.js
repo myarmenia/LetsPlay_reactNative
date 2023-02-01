@@ -22,9 +22,7 @@ const CalendarScreen = ({ navigation }) => {
           flex: 1,
         }}
       >
-        <View>
           <CalendarComponent />
-        </View>
       </Component>
     </ScreenMask>
   )

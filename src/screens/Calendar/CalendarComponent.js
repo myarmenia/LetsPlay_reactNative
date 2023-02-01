@@ -108,6 +108,7 @@ const CalendarComponent = () => {
         <LineSvg />
       </View>
       <Calendar
+        style={{ borderBottomLeftRadius: RW(20), borderBottomRightRadius: RW(20), padding: RW(6) }}
         theme={{
           calendarBackground: '#142A5C',
           dayTextColor: '#fff',
@@ -135,7 +136,7 @@ const CalendarComponent = () => {
           showsVerticalScrollIndicator={false}
           data={GamesData}
           key={'#'}
-          keyExtractor={(item) => '#' + item.key}
+          keyExtractor={item => '#' + item.key}
           ListHeaderComponent={() => header}
           // contentContainerStyle={styles.list}
           renderItem={({ item }) => (
@@ -187,7 +188,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#142A5C',
   },
   list: {
-    backgroundColor: '#142A5C',
+    // backgroundColor: '#142A5C',
   },
   main: {
     flexDirection: 'row',
