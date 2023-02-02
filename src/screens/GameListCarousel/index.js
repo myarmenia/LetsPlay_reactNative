@@ -5,7 +5,7 @@ import Game from '@/components/game'
 import ScreenMask from '@/components/wrappers/screen'
 
 function Index({ navigation, route }) {
-  const { list, game } = route.params
+  const { list} = route.params
   const [pressable, setPressable] = useState(true)
   const width = Dimensions.get('window').width
   const height = Dimensions.get('window').height
@@ -32,7 +32,7 @@ function Index({ navigation, route }) {
               // justifyContent: 'center',
             }}
           >
-            <Game data={list[index]} game={game} pressable={pressable} />
+            <Game game={list[index]}  pressable={pressable} />
           </View>
         )}
       />
