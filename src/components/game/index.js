@@ -10,7 +10,7 @@ import { RH, RW } from '@/theme/utils'
 function Index(props) {
   const [active, setActive] = useState(false)
   const [longPress, setLongPress] = useState(false)
-  const { data, setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
+  const {  setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
   const navigation = useNavigation()
   return (
     // <Pressable
@@ -49,8 +49,8 @@ function Index(props) {
         if (pressable) {
           setActive(true)
           setTimeout(() => {
-            data.navigateTo
-              ? navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: {game, data} })
+              game.navigateTo
+              ? navigation.navigate(game.navigateTo, { screen: game.screenTwo, params: {game} })
               : null
             setActive(false)
           }, 100)
@@ -86,7 +86,7 @@ function Index(props) {
         <BgGamesLiner />
       </View>
       <View style={styles.title}>
-        <Image source={data.image} style={styles.image} />
+        <Image source={game.image} style={styles.image} />
       </View>
       <View style={styles.btn}>
         <LinearGradient
@@ -105,7 +105,7 @@ function Index(props) {
             opacity: 0.9,
           }}
         >
-          <Text style={styles.btnText}>{data.title}</Text>
+          <Text style={styles.btnText}>{game.title}</Text>
         </LinearGradient>
       </View>
     </Pressable>

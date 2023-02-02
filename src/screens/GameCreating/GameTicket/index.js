@@ -30,7 +30,7 @@ function Index(props) {
                     <Ticket data={data} game={game}/>
                 </View>
                 <View style={style.gameTicketButtonsBlock}>
-                    <TouchableOpacity onPress={() => {navigation.navigate('GameCreating', {data: game})}}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('GameCreating', { screen: "GameCreating", params: {game} })}}>
                     <EditSvg/>
                     </TouchableOpacity>
                     <TouchableOpacity style={style.shareButton}>
