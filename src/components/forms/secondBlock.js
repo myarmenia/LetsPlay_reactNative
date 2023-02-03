@@ -4,14 +4,14 @@ import style from './style'
 import Count from '@/components/inputs/count'
 
 const SecondBlock = props => {
-  const { title, data, setData, type } = props
+  const { title, type } = props
   return (
     <View>
       <Text style={style.titles}>{title}</Text>
       <View style={style.countBlock}>
-        <Count type={type} countType={'from'} data={data} setData={setData} placeholder={'От'} />
+        <Count type={type} countType={'from'} placeholder={'От'} />
         <View style={style.dash}></View>
-        <Count type={type} countType={'to'} data={data} setData={setData} placeholder={'До'} />
+        <Count type={type} countType={'to'} placeholder={'До'} />
       </View>
     </View>
   )

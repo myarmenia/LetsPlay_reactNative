@@ -66,14 +66,14 @@ export const AuthSlice = createSlice({
   },
 })
 
-export const signIn = (user) => (dispatch) => {
+export const signIn = user => dispatch => {
   axiosInstance
     .post('api/auth/sign_in', user)
-    .then((response) => {
+    .then(response => {
       console.log(response.data)
       dispatch(setToken(response.data.access_token))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request', err.request._response)
       dispatch(
         setSignInError(
@@ -85,6 +85,12 @@ export const signIn = (user) => (dispatch) => {
     })
 }
 
-export const { setPending, setName, setSurName, setEmail, setSignInError, setToken } =
-  AuthSlice.actions
+export const {
+  setPending,
+  setName,
+  setSurName,
+  setEmail,
+  setSignInError,
+  setToken,
+} = AuthSlice.actions
 export default AuthSlice.reducer

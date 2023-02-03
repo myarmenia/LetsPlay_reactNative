@@ -11,55 +11,68 @@ import SecondBlock from '@/components/forms/secondBlock'
 import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
+import { useDispatch, useSelector } from 'react-redux'
+import { createGame } from '@/store/Slices/GameCreatingSlice'
+import axiosInstance from '@/store/Api'
 
-const GameCreating = (props) => {
+const GameCreating = props => {
   const { navigation } = props
-  const game = props.route.params.data
-  const initialState = {
-    gameDayDate: undefined,
-    gameDayTime: new Date(),
-    playerCountFrom: '',
-    playerCountTo: '',
-    ageFrom: '',
-    ageTo: '',
-    gender: 'М/Ж',
-    addressValue: 'qwert',
-    lastDayDate: undefined,
-    lastDayTime: new Date(),
-    statusOrganizer: 'Участвует',
-    price: 'Бесплатно',
-    priceValue: '',
-  }
-  const [data, setData] = useState(initialState)
+  // const game = props.route.params.initialState
+  // const initialState = {
+  //   gameDayDate: undefined,
+  //   gameDayTime: new Date(),
+  //   number_of_players_from: '',
+  //   number_of_players_to: '',
+  //   age_restrictions_from: '',
+  //   number_of_players_to: '',
+  //   gender: 'М/Ж',
+  //   addressValue: 'qwert',
+  //   end_date: undefined,
+  //   lastDayTime: new Date(),
+  //   statusOrganizer: 'Участвует',
+  //   price: 'Бесплатно',
+  //   ticket_price: '',
+  // }
+  // const initialState = useSelector(state => state.game)
+  const initialState = useSelector(state => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
+  const dispatch = useDispatch()
   const handleClick = () => {
-    if (
-      !data.gameDayDate ||
-      +data.playerCountFrom < 1 ||
-      +data.playerCountFrom > +data.playerCountTo ||
-      !data.playerCountFrom ||
-      !data.playerCountTo ||
-      +data.ageFrom < 1 ||
-      +data.ageFrom > +data.ageTo ||
-      !data.ageFrom ||
-      !data.ageTo ||
-      !data.lastDayDate ||
-      data.lastDayDate >= data.gameDayDate ||
-      (!data.priceValue && flag)
-      // false
-    ) {
-      setIsVisible(false)
-    } else {
-      setIsVisible(true)
-    }
-    setErrorText(true)
-    setModalOpen(false)
+    // if (
+    //   !initialState?.start_date ||
+    //   +initialState?.number_of_players_from < 1 ||
+    //   +initialState?.number_of_players_from > +initialState?.number_of_players_to ||
+    //   !initialState?.number_of_players_from ||
+    //   !initialState?.number_of_players_to ||
+    //   +initialState?.age_restrictions_from < 1 ||
+    //   +initialState?.age_restrictions_from > +initialState?.age_restrictions_to ||
+    //   !initialState?.age_restrictions_from ||
+    //   !initialState?.age_restrictions_to ||
+    //   !initialState?.end_date ||
+    //   initialState?.end_date >= initialState?.start_date ||
+    //   (!initialState?.ticket_price && flag)
+    //   // false
+    // ) {
+    // console.log(initialState)
+    console.log('game', initialState)
+    axiosInstance
+      .post('/create/game', initialState)
+      .then(res => {
+        console.log(res.data, 'res')
+      })
+      .catch(err => alert(err))
+    //   setIsVisible(false)
+    // } else {
+    //   setIsVisible(true)
+    // }
+    // setErrorText(true)
+    // setModalOpen(false)
   }
   const handleSubmit = () => {
-    navigation.navigate('GameTicket', { flag, data, game })
+    navigation.navigate('GameTicket', { flag, initialState, game })
     setModalOpen(true)
     setIsVisible(false)
   }
@@ -68,7 +81,7 @@ const GameCreating = (props) => {
   }, [])
   useEffect(() => {
     setErrorText(false)
-  }, [data])
+  }, [initialState])
   return (
     <ScreenMask>
       <KeyboardAvoidingView
@@ -84,40 +97,35 @@ const GameCreating = (props) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           <FirstBlock
             errorText={errorText}
-            data={data}
-            setData={setData}
             day={'gameDay'}
             margin={RH(29)}
             title={'Дата и время начала игры'}
           />
-          {errorText && !data.gameDayDate ? (
+          {errorText && !initialState?.start_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
-          <SecondBlock type={'player'} data={data} setData={setData} title={'Количество игроков'} />
+          <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
           {errorText &&
-          (+data.playerCountFrom < 1 || +data.playerCountFrom > +data.playerCountTo) ? (
-            !data.playerCountFrom || !data.playerCountTo ? (
+          (+initialState?.number_of_players_from < 1 ||
+            +initialState?.number_of_players_from > +initialState?.number_of_players_to) ? (
+            !initialState?.number_of_players_from || !initialState?.number_of_players_to ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
               <Text style={style.errorText}>Введите корректную число</Text>
             )
           ) : null}
-          <SecondBlock
-            type={'age'}
-            data={data}
-            setData={setData}
-            title={'Возрастные ограничения'}
-          />
-          {errorText && (+data.ageFrom < 1 || +data.ageFrom > +data.ageTo) ? (
-            !data.ageFrom || !data.ageTo ? (
+          <SecondBlock type={'age'} initialState={initialState} title={'Возрастные ограничения'} />
+          {errorText &&
+          (+initialState?.age_restrictions_from < 1 ||
+            +initialState?.age_restrictions_from > +initialState?.number_of_players_to) ? (
+            !initialState?.age_restrictions_from || !initialState?.number_of_players_to ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
               <Text style={style.errorText}>Введите корректную возраст</Text>
             )
           ) : null}
           <ThirdBlock
-            data={data}
-            setData={setData}
+            initialState={initialState}
             type={'gender'}
             list={[
               { id: 1, text: 'М', checked: false },
@@ -127,26 +135,23 @@ const GameCreating = (props) => {
             title={'Половой признак игрока'}
           />
           <Map
-            data={data}
-            setData={setData}
+            initialState={initialState}
             placeholder={'Адрес проведения игры'}
             availablePress={false}
           />
           <FirstBlock
-            data={data}
-            setData={setData}
-            gameDayDate={data.gameDayDate}
+            initialState={initialState}
+            gameDayDate={initialState?.start_date}
             day={'lastDay'}
             title={'Дата и время окончания поиска игроков'}
           />
-          {errorText && !data.lastDayDate ? (
+          {errorText && !initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
-          ) : errorText && data.lastDayDate >= data.gameDayDate ? (
+          ) : errorText && initialState?.end_date >= initialState?.start_date ? (
             <Text style={style.errorText}>Введите корректную дату</Text>
           ) : null}
           <ThirdBlock
-            data={data}
-            setData={setData}
+            initialState={initialState}
             type={'statusOrganizer'}
             list={[
               { id: 1, text: 'Участвует', checked: true },
@@ -155,8 +160,7 @@ const GameCreating = (props) => {
             title={'Статус организатора в игре'}
           />
           <ThirdBlock
-            data={data}
-            setData={setData}
+            initialState={initialState}
             type={'priceView'}
             setFlag={setFlag}
             list={[
@@ -168,8 +172,7 @@ const GameCreating = (props) => {
           {flag ? (
             <View style={style.price}>
               <Price
-                data={data}
-                setData={setData}
+                initialState={initialState}
                 sliceNumber={13}
                 text={'Сумма оплаты '}
                 margin={RW(18)}
@@ -178,7 +181,7 @@ const GameCreating = (props) => {
               />
             </View>
           ) : null}
-          {errorText && !data.priceValue && flag ? (
+          {errorText && !initialState?.ticket_price && flag ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
           <View style={{ position: 'absolute' }}>
@@ -191,7 +194,7 @@ const GameCreating = (props) => {
                   <View style={style.regulationBlock}>
                     <Text style={style.title}>Правила</Text>
 
-                    <Text style={style.textTwo}>{game.info}</Text>
+                    <Text style={style.textTwo}>{initialState?.game}</Text>
                   </View>
                 ) : (
                   <View style={style.topBlock}>

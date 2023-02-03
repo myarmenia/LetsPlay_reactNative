@@ -67,7 +67,7 @@ export const signUpSecondStep = data => dispatch => {
             setStep: 'EMAIL_PASSWORD',
           }),
         )
-      } else if (+response.data.statusCode === 202) {
+      } else if (+response.data.statusCode === 201) {
         dispatch(secondStepFulfilled())
       }
     })

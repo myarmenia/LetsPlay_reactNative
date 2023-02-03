@@ -6,34 +6,51 @@ import DateSvg from '@/assets/svgs/dateSvg'
 import moment from 'moment'
 import TimeSvg from '@/assets/svgs/timeSvg'
 import { RW } from '@/theme/utils'
+import { useDispatch } from 'react-redux'
+import { setEndDate, setStart_date } from '@/store/Slices/GameCreatingSlice'
 
-const DateTime = (props) => {
-  const { type, day, data, setData, gameDayDate, errorText, width } = props
-  const currentDate = new Date()
-  const minimumDate = currentDate.setDate(currentDate.getDate() + 1)
+const DateTime = props => {
+  const { type, day, gameDayDate, errorText, width } = props
   const [date, setDate] = useState('ДД/ММ/ГГГГ')
   const [open, setOpen] = useState(false)
-  const lastDate =
-    new Date(gameDayDate).setDate(new Date(gameDayDate).getDate() - 1) || new Date('2099-12-31')
-  const handleConfirm = (date) => {
+
+  // {
+  //   start_date: new Date().toLocaleDateString(),
+  //   number_of_players_from: 0,
+  //   number_of_players_to: 0,
+  //   age_restrictions_from: 0,
+  //   age_restrictions_to: 0,
+  //   players_gender: '',
+  //   latitude: 0,
+  //   longitude: 0,
+  //   end_date: new Date().toLocaleDateString(),
+  //   organizer_in_the_game: true,
+  //   ticket_price: 0,
+  //   game: '',
+  // },
+  const currentDate = new Date()
+  const minimumDate = currentDate.setDate(currentDate.getDate() + 1)
+  const dispatch = useDispatch()
+  const lastDate = '2099-12-31'
+  const handleConfirm = date => {
     setOpen(false)
     setDate(date)
     if (day === 'gameDay' && type === 'date') {
-      setData({ ...data, gameDayDate: date })
+      dispatch(setStart_date(date))
     } else if (day === 'gameDay' && type === 'time') {
-      setData({ ...data, gameDayTime: date })
+      dispatch(setStart_date(date))
     }
     if (day === 'lastDay' && type === 'date') {
-      setData({ ...data, lastDayDate: date })
+      dispatch(setStart_date(date))
     } else if (day === 'lastDay' && type === 'time') {
-      setData({ ...data, lastDayTime: date })
+      dispatch(setEndDate(date))
     }
   }
   useEffect(() => {
     if (type === 'time' && day === 'gameDay') {
-      setData({ ...data, gameDayTime: new Date() })
+      dispatch(setStart_date(new Date()))
     } else if (type === 'time' && day === 'lastDay') {
-      setData({ ...data, lastDayTime: new Date() })
+      dispatch(setStart_date(new Date()))
     }
   }, [])
   return (
@@ -53,8 +70,12 @@ const DateTime = (props) => {
           setOpen(true)
         }}
       >
-        {type === 'date' ? <DateSvg style={width?{...style.dateSvg , marginLeft: RW(10)} : style.dateSvg} /> : <TimeSvg style={style.dateSvg} />}
-        <Text style={width ? {...style.dateButtonText , marginLeft: RW(6)} : style.dateButtonText}>
+        {type === 'date' ? (
+          <DateSvg style={width ? { ...style.dateSvg, marginLeft: RW(10) } : style.dateSvg} />
+        ) : (
+          <TimeSvg style={style.dateSvg} />
+        )}
+        <Text style={width ? { ...style.dateButtonText, marginLeft: RW(6) } : style.dateButtonText}>
           {type === 'date'
             ? date === 'ДД/ММ/ГГГГ'
               ? date
@@ -87,7 +108,7 @@ const DateTime = (props) => {
             ? date
             : new Date(minimumDate)
         }
-        onConfirm={(date) => {
+        onConfirm={date => {
           handleConfirm(date)
         }}
         onCancel={() => {

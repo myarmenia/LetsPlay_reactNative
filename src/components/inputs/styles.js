@@ -5,10 +5,12 @@ import { font, RH, RW } from '@/theme/utils'
 
 export default StyleSheet.create({
   countInput: {
-    height: RH(48),
+    height: RH(50),
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     paddingLeft: RW(24),
+    flexDirection: 'row',
+    alignItems: 'center',
     color: ICON,
   },
   priceInput: {

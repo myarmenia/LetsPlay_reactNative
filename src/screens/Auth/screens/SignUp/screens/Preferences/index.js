@@ -72,14 +72,14 @@ const Preferences = () => {
           numColumns={3}
           data={list}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
         />
       </View>
       <View style={styles.next}>
         <Button
           label={'Далее>>'}
           size={{ width: 171, height: 36 }}
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => navigation.navigate('Home')}
         />
       </View>
     </ScreenMask>

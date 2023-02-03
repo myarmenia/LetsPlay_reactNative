@@ -4,7 +4,7 @@ import style from './style'
 import DateTime from '@/services/DateTime'
 
 const FirstBlock = props => {
-  const { title, errorText, margin, day, data, setData, gameDayDate } = props
+  const { title, errorText, margin, day, gameDayDate = new Date() } = props
   return (
     <View style={{ marginTop: margin }}>
       <Text style={style.titles}>{title}</Text>
@@ -12,12 +12,12 @@ const FirstBlock = props => {
         <DateTime
           errorText={errorText}
           gameDayDate={gameDayDate}
-          data={data}
-          setData={setData}
+          // data={data}
+          // setData={setData}
           day={day}
           type={'date'}
         />
-        <DateTime data={data} setData={setData} day={day} type={'time'} />
+        <DateTime day={day} type={'time'} />
       </View>
     </View>
   )
