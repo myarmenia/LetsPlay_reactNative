@@ -43,8 +43,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
   },
   nameBlock: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    alignItems: 'center',
   },
   soc: {
     backgroundColor: 'rgba(52, 52, 52, 0)',

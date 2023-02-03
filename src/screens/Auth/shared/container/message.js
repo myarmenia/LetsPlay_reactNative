@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef, useState, useId } from 'react'
 import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
 import { ICON, MESSAGE_CONTAINER, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
@@ -19,6 +19,7 @@ const Message = ({ message, id }) => {
   if (message.type === 'BTN') {
     return (
       <View
+        key={id}
         style={{ alignSelf: 'flex-end', width: RW(170), height: RH(36), marginVertical: RH(19) }}
       >
         <Button
@@ -39,7 +40,7 @@ const Message = ({ message, id }) => {
   }, [change])
   if (message.position != 'left') {
     return (
-      <View style={[styles.right, { marginTop: RH(25) }]}>
+      <View style={[styles.right, { marginTop: RH(25) }]} key={id}>
         <Pressable
           onPress={() => {
             // setChange(true)
@@ -48,16 +49,20 @@ const Message = ({ message, id }) => {
           <Row>
             {/* <PencelSvg /> */}
             <View
-              key={id}
-              style={[styles.container, { backgroundColor: ICON, marginLeft: RW(10) }]}
+              style={[
+                styles.container,
+                { backgroundColor: ICON, marginLeft: RW(10), width: RW(178) },
+              ]}
             >
-              <TextInput
+              {/* <TextInput
                 ref={inputRef}
                 style={styles.label}
                 editable={change}
                 value={text}
                 onChangeText={setText}
-              ></TextInput>
+  
+              ></TextInput> */}
+              <Text style={styles.label}>{text}</Text>
             </View>
           </Row>
         </Pressable>
@@ -92,10 +97,11 @@ export default memo(Message)
 
 const styles = StyleSheet.create({
   container: {
-    maxWidth: RW(230),
+    width: RW(270),
+    minHeight: RH(42),
     borderRadius: RW(10),
-    paddingVertical: RH(19),
-    paddingHorizontal: RW(12),
+    paddingVertical: RH(10),
+    paddingHorizontal: RW(14),
   },
   left: {
     alignSelf: 'flex-start',
@@ -103,10 +109,10 @@ const styles = StyleSheet.create({
   },
   right: {
     alignSelf: 'flex-end',
-
     borderBottomRightRadius: 0,
   },
   label: {
     ...font('regular', 16, WHITE, 20),
+    flexWrap: 'wrap',
   },
 })

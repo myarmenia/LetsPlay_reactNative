@@ -5,13 +5,14 @@ import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
 import LightButton from '@/assets/imgs/Button'
 import Row from '@/components/wrappers/row'
-import { font, RH } from '@/theme/utils'
+import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import VKIcon from '@/assets/imgs/vk'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
 import { setToken } from '@/store/Slices/AuthSlice'
+import LogoSvg from '@/assets/LogoSvg'
 const socket = io.connect('https://to-play.ru/vk/authorize', {
   transports: ['websocket'],
 })
@@ -70,6 +71,14 @@ const AuthHome = () => {
 
   return (
     <ScreenMask>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>
+          Здравствуйте и добро пожаловать! Вас приветствует платформа «Играем»!
+        </Text>
+      </View>
+      <View style={styles.logoContainer}>
+        <LogoSvg />
+      </View>
       <View style={styles.bottom}>
         <Row justifyContent={'space-between'}>
           <LightButton
@@ -88,6 +97,7 @@ const AuthHome = () => {
         <View style={styles.vk}>
           <Text style={styles.title}>Вход через</Text>
           <Pressable
+            style={styles.vkButton}
             onPress={() => {
               expiredToken = token()
               console.log(expiredToken)
@@ -113,12 +123,27 @@ const styles = StyleSheet.create({
   },
   vk: {
     alignItems: 'center',
+    marginTop: RH(10),
   },
   title: {
-    marginVertical: RH(12),
     ...font('regular', 18, WHITE, 24),
   },
-  message: {
-    marginBottom: RH(65),
+  vkButton: {
+    marginTop: RH(8),
+  },
+  titleContainer: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: RH(180),
+  },
+  title: {
+    paddingHorizontal: RW(10),
+    ...font('regular', 20, WHITE, 27),
+    textAlign: 'center',
+  },
+  logoContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

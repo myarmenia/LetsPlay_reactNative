@@ -126,6 +126,7 @@ export const signUpSecond = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/second_step', data)
     .then((response) => {
+      console.log(response.data)
       if (response.data?.statusCode == 202) {
         dispatch(setSignUpSuccess(true))
       }

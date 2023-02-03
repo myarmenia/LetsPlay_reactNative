@@ -8,6 +8,8 @@ import style from '@/screens/Profile/Preference/style'
 import pStyles from '@/screens/Profile/style'
 import Button from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import { setToken } from '@/store/Slices/AuthSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const GAMES = [
   'Футбол',
@@ -42,6 +44,8 @@ const Preferences = () => {
 
   const [game, setGame] = useState([])
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const { expired_token } = useSelector(({ auth }) => auth)
   const PreferenceItem = ({ item }) => {
     const handlerActiveUser = () => {
       if (game.includes(item.id)) {
@@ -79,7 +83,7 @@ const Preferences = () => {
         <Button
           label={'Далее>>'}
           size={{ width: 171, height: 36 }}
-          onPress={() => navigation.navigate('Profile')}
+          onPress={() => dispatch(setToken(expired_token))}
         />
       </View>
     </ScreenMask>

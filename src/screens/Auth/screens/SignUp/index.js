@@ -7,8 +7,16 @@ import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
 import messageDefault from './messageData'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSignUpError, setToken, signUpFirst, signUpSecond } from '@/store/Slices/AuthSlice'
+import {
+  setName,
+  setSignUpError,
+  setSurName,
+  setToken,
+  signUpFirst,
+  signUpSecond,
+} from '@/store/Slices/AuthSlice'
 import Button from '@/assets/imgs/Button'
+import { useNavigation } from '@react-navigation/native'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
@@ -27,11 +35,16 @@ const SignUp = () => {
   })
   const [text, setText] = useState('')
   const [step, setStep] = useState('NAME')
-  const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.name])
+  const [messagesList, setMessagesList] = useState([
+    messageDefault.hello,
+    messageDefault.hello2,
+    messageDefault.name,
+  ])
   const { signUpError, expired_token, signUpSuccess } = useSelector(({ auth }) => auth)
+  const navigation = useNavigation()
 
   const handlerMessage = (message) => {
-    setMessagesList((messagesList) => [...messagesList, { ...message }])
+    setMessagesList((messagesList) => [...messagesList, message])
   }
 
   useEffect(() => {
@@ -56,7 +69,6 @@ const SignUp = () => {
         ...messagesList,
         messageDefault.consent,
         {
-          id: '16',
           text: 'Я согласен',
           type: 'BTN',
           position: 'right',
@@ -77,8 +89,11 @@ const SignUp = () => {
           ...dataFirstStep,
           name: text,
         })
+        dispatch(setName(text))
         setStep('SURNAME')
-        handlerMessage(messageDefault.surname)
+        setTimeout(() => {
+          handlerMessage(messageDefault.surname)
+        }, 1000)
 
         break
       case 'SURNAME':
@@ -86,8 +101,12 @@ const SignUp = () => {
           ...dataFirstStep,
           surname: text,
         })
+        dispatch(setSurName(text))
         setStep('EMAIL')
-        handlerMessage(messageDefault.email)
+        setTimeout(() => {
+          handlerMessage(messageDefault.email)
+        }, 1000)
+
         break
       case 'EMAIL':
         if (regEmail.test(text)) {
@@ -98,16 +117,21 @@ const SignUp = () => {
           dispatch(signUpFirst({ ...dataFirstStep, email: text }))
         } else {
           setStep('EMAIL')
-          handlerMessage({
-            ...messageDefault.validEmail,
-          })
+
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validEmail,
+            })
+          }, 1000)
         }
         break
       case 'CONSENT':
         if (text) {
-          handlerMessage({
-            ...messageDefault.validConsent,
-          })
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validConsent,
+            })
+          }, 1000)
         }
         break
       case 'EMAIL_VERIFY_CODE':
@@ -127,15 +151,20 @@ const SignUp = () => {
               }),
             )
           } else {
-            handlerMessage({
-              ...messageDefault.createPassword,
-            })
+            setTimeout(() => {
+              handlerMessage({
+                ...messageDefault.createPassword,
+              })
+            }, 1000)
+
             setStep('PASSWORD')
           }
         } else {
-          handlerMessage({
-            ...messageDefault.validEmailPassword,
-          })
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validEmailPassword,
+            })
+          }, 1000)
         }
         break
       case 'PASSWORD':
@@ -147,20 +176,26 @@ const SignUp = () => {
             }
           })
           setStep('PASSWORD_VERIFY')
-          handlerMessage({
-            ...messageDefault.verifyPassword,
-          })
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.verifyPassword,
+            })
+          }, 1000)
         } else {
-          handlerMessage({
-            ...messageDefault.validPassword,
-          })
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validPassword,
+            })
+          }, 1000)
         }
         break
       case 'PASSWORD_VERIFY':
         if (text === dataSecondStep.password) {
           dispatch(signUpSecond({ ...dataSecondStep, expired_token }))
         } else {
-          handlerMessage(messageDefault.validVerifyPassword)
+          setTimeout(() => {
+            handlerMessage(messageDefault.validVerifyPassword)
+          }, 1000)
         }
         break
       default:
@@ -205,7 +240,8 @@ const SignUp = () => {
             >
               <Button
                 label={'Вход'}
-                onPress={() => dispatch(setToken(expired_token))}
+                // onPress={() => dispatch(setToken(expired_token))}
+                onPress={() => navigation.navigate('Onboard')}
                 size={{ width: 260, height: 50 }}
               />
             </View>
