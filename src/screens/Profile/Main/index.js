@@ -4,27 +4,25 @@ import style from '../style'
 import ScreenMask from '@/components/wrappers/screen'
 import image from '@/assets/imgs/userImage.png'
 import { useNavigation } from '@react-navigation/native'
-import {Players} from "@/assets/TestData";
+import { Players } from '@/assets/TestData'
 
-
-const index = props => {
-    const navigation  = useNavigation()
-    const list = [
-        { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
-        { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
-        { id: 3, text: 'Мои предпочтения', navigateTo: 'Preference' },
-        { id: 4, text: 'Мой кошелек', navigateTo: 'Wallet' },
-        {id: 5, text: 'Условия использования'},
-        { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
-    ]
-    const forNavigate = item => {
-        if (item.id !== 5){
-        navigation.navigate('ProfileNavigator' , {screen: item.navigateTo})
-        }else{
-            console.log(111)
-        }
+const index = (props) => {
+  const navigation = useNavigation()
+  const list = [
+    { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
+    { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
+    { id: 3, text: 'Мои предпочтения', navigateTo: 'Preference' },
+    { id: 4, text: 'Мой кошелек', navigateTo: 'Wallet' },
+    { id: 5, text: 'Условия использования' },
+    { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
+  ]
+  const forNavigate = (item) => {
+    if (item.id !== 5) {
+      navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
+    } else {
+      console.log(111)
     }
-
+  }
 
   const LinkItem = ({ item }) => (
     <TouchableOpacity
@@ -41,7 +39,7 @@ const index = props => {
         <Text style={style.title}>Мой кабинет</Text>
         <View style={style.infoBlock}>
           <View style={style.imageBlock}>
-            <Image style={style.image} source={{uri: Players[0].image}} />
+            <Image style={style.image} source={{ uri: Players[0].image }} />
           </View>
           <View>
             <Text style={style.name}>Имя Фамилия</Text>

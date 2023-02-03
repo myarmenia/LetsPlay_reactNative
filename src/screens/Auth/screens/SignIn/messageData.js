@@ -1,19 +1,16 @@
 const messageDefault = {
   email: {
-    id: 1 + Math.random(),
     position: 'left',
     isWrong: false,
     text: 'Укажите адрес электронной почты',
   },
   password: {
-    id: 2 + Math.random(),
     position: 'left',
     secure: true,
     isWrong: false,
     text: 'Введите  пароль',
   },
   error: {
-    id: 3 + Math.random(),
     clear: true,
     position: 'left',
     isWrong: true,

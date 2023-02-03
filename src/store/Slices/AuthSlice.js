@@ -1,7 +1,4 @@
-import { getAsyncStorage } from '@/helpers/asyncStore'
-import { useNavigation } from '@react-navigation/native'
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 import axiosInstance from '../Api'
 
 const initialState = {
@@ -12,12 +9,27 @@ const initialState = {
   },
   authPending: true,
   token: '',
+  expired_token: '',
+  signUpSuccess: false,
 }
 
 export const AuthSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    setToken: (store, action) => {
+      return {
+        ...store,
+        token: action.payload,
+      }
+    },
+    setExpiredToken: (store, action) => {
+      return {
+        ...store,
+        expired_token: action.payload,
+      }
+    },
+
     setPending: (store, action) => {
       return {
         ...store,
@@ -57,18 +69,24 @@ export const AuthSlice = createSlice({
         signInError: action.payload,
       }
     },
-    setToken: (store, action) => {
+    setSignUpError: (store, action) => {
       return {
         ...store,
-        token: action.payload,
+        signUpError: action.payload,
+      }
+    },
+    setSignUpSuccess: (store, action) => {
+      return {
+        ...store,
+        signUpSuccess: action.payload,
       }
     },
   },
 })
 
-export const signIn = user => dispatch => {
+export const signIn = data => dispatch => {
   axiosInstance
-    .post('api/auth/sign_in', user)
+    .post('api/auth/sign_in', data)
     .then(response => {
       console.log(response.data)
       dispatch(setToken(response.data.access_token))
@@ -84,13 +102,55 @@ export const signIn = user => dispatch => {
       )
     })
 }
+export const signUpFirst = data => dispatch => {
+  axiosInstance
+    .post('api/auth/signup/first_step', data)
+    .then(response => {
+      if (response.data?.statusCode == 201) {
+        dispatch(setExpiredToken(response.data?.expired_token))
+      }
+    })
+    .catch(err => {
+      console.log('err request response', err.request._response)
+      dispatch(
+        setSignUpError(
+          typeof err.request._response == 'string'
+            ? JSON.parse(err.request._response).message[0]
+            : err.request._response.message[0],
+        ),
+      )
+    })
+}
+export const signUpSecond = data => dispatch => {
+  console.log(data)
+  axiosInstance
+    .post('api/auth/signup/second_step', data)
+    .then(response => {
+      if (response.data?.statusCode == 202) {
+        dispatch(setSignUpSuccess(true))
+      }
+    })
+    .catch(err => {
+      console.log('err request response', err.request._response)
+      dispatch(
+        setSignUpError(
+          typeof err.request._response == 'string'
+            ? JSON.parse(err.request._response).message[0]
+            : err.request._response.message[0],
+        ),
+      )
+    })
+}
 
 export const {
+  setToken,
+  setExpiredToken,
   setPending,
   setName,
   setSurName,
   setEmail,
   setSignInError,
-  setToken,
+  setSignUpError,
+  setSignUpSuccess,
 } = AuthSlice.actions
 export default AuthSlice.reducer
