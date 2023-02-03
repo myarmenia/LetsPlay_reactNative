@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH } from '@/theme/utils'
@@ -7,30 +7,21 @@ import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
 import messageDefault from './messageData'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
 import { setSignInError, signIn } from '@/store/Slices/AuthSlice'
-
-// const regName = /^[a-zA-Z]{3,30}$/
-// const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-// const regEmailPassword = /[0-9]{4,4}$/
 
 const SignUp = () => {
   const ref = useRef()
   const scrollRef = useRef()
   const dispatch = useDispatch()
-  const navigation = useNavigation()
   const [email, setEmail] = useState('')
   const [text, setText] = useState('')
   const [step, setStep] = useState('EMAIL')
   const [messagesList, setMessagesList] = useState([messageDefault.email])
   const { signInError } = useSelector(({ auth }) => auth)
 
-  const handlerMessage = useCallback((message) => {
-    return setMessagesList((messagesList) => [
-      ...messagesList,
-      { ...message, id: message.id + messagesList.length },
-    ])
-  }, [])
+  const handlerMessage = (message) => {
+    setMessagesList((messagesList) => [...messagesList, { ...message }])
+  }
 
   useEffect(() => {
     if (signInError?.length) {
@@ -39,7 +30,6 @@ const SignUp = () => {
       setStep('EMAIL')
       handlerMessage(messageDefault.email)
     }
-    scrollRef.current?.scrollToEnd()
   }, [signInError])
 
   const onPress = () => {
@@ -58,9 +48,13 @@ const SignUp = () => {
         return
     }
     setText('')
-    scrollRef.current?.scrollToEnd()
   }
 
+  useEffect(() => {
+    setTimeout(() => {
+      scrollRef.current?.scrollToEnd({ animated: true })
+    }, 100)
+  }, [messagesList])
   return (
     <ScreenMask>
       <KeyboardAvoidingView
@@ -78,9 +72,10 @@ const SignUp = () => {
             marginBottom: 30,
           }}
           ref={scrollRef}
+          scrollsToTop={true}
           data={messagesList}
-          renderItem={({ item }) => <Message message={item} />}
-          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => <Message message={item} id={messagesList.length} />}
         />
         <View style={styles.bottom}>
           <Composer
@@ -105,7 +100,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: RH(10),
-    // position: 'absolute',
   },
   vk: {
     alignItems: 'center',

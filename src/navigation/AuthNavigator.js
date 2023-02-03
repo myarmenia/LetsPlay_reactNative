@@ -7,6 +7,7 @@ import SignIn from '@/screens/Auth/screens/SignIn'
 import SignUp from '@/screens/Auth/screens/SignUp'
 import { NAV_HEADER_OPTION } from '@/constants'
 import AuthHome from '@/screens/Auth'
+import Socket from '@/utils/Socket'
 
 const Stack = createNativeStackNavigator()
 
@@ -15,8 +16,8 @@ const AuthNavigator = () => {
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION} initialRouteName={'Home'}>
       <Stack.Screen name={'Home'} component={AuthHome} />
       <Stack.Screen name={'SignUp'} component={SignUpStack} />
-      <Stack.Screen name={'SignInStack'} component={SignInStack} options={{ gestureEnabled: false }}
-      />
+      <Stack.Screen name={'SignInStack'} component={SignInStack} />
+      <Stack.Screen name={'Socket'} component={Socket} />
     </Stack.Navigator>
   )
 }
@@ -35,7 +36,10 @@ const SignUpStack = () => {
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION} initialRouteName={'Home'}>
       <Stack.Screen name={'Home'} component={SignUp} />
       <Stack.Screen name={'Onboard'} component={Onboard} options={{ gestureEnabled: false }} />
-      <Stack.Screen name={'Preferences'} component={Preferences} options={{ gestureEnabled: false }}
+      <Stack.Screen
+        name={'Preferences'}
+        component={Preferences}
+        options={{ gestureEnabled: false }}
       />
     </Stack.Navigator>
   )

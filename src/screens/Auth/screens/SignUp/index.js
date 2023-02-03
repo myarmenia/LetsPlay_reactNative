@@ -5,26 +5,17 @@ import { font, RH } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
-import messageDefault from '@/screens/Auth/screens/SignUp/messageData'
+import messageDefault from './messageData'
 import { useDispatch, useSelector } from 'react-redux'
-import { signUpFirstStep, signUpSecondStep } from '@/store/Slices/SignUpSlice'
+import { setSignUpError, setToken, signUpFirst, signUpSecond } from '@/store/Slices/AuthSlice'
 import Button from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
 
-const regName = /^[a-zA-Z]{3,30}$/
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-const regEmailPassword = /[0-9]{4,4}$/
 
 const SignUp = () => {
   const ref = useRef()
   const scrollRef = useRef()
   const dispatch = useDispatch()
-  const navigation = useNavigation()
-  const { token, load, error, endRegistration } = useSelector(store => store.signUpFirstStep)
-  const [text, setText] = useState('')
-  const [focus, setFocus] = useState(false)
-  const [step, setStep] = useState('NAME')
-  const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.name])
   const [dataFirstStep, setDataFirstStep] = useState({
     surname: '',
     name: '',
@@ -32,39 +23,34 @@ const SignUp = () => {
   })
   const [dataSecondStep, setDataSecondStep] = useState({
     verify_code: '',
-    expired_token: '',
     password: '',
   })
+  const [text, setText] = useState('')
+  const [step, setStep] = useState('NAME')
+  const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.name])
+  const { signUpError, expired_token, signUpSuccess } = useSelector(({ auth }) => auth)
 
-  const handlerMessage = useCallback(message => {
-    return setMessagesList(messagesList => [...messagesList, message])
-  }, [])
-
-  const handlerUserMessage = useCallback((message, step) => {
-    if (step === 'PASSWORD_VERIFY' || step === 'PASSWORD') {
-      let temp = ''
-      const count = message.length
-      for (let i = 0; i <= count; i++) {
-        temp = temp + '* '
-      }
-      message = temp
-    }
-    return {
-      id: new Date().getTime() + 'dc4',
-      text: message,
-      type: 'TEXT',
-      position: 'right',
-    }
-  }, [])
+  const handlerMessage = (message) => {
+    setMessagesList((messagesList) => [...messagesList, { ...message }])
+  }
 
   useEffect(() => {
-    if (token && step === 'EMAIL') {
-      setDataSecondStep(dataSecondStep => {
-        return {
-          ...dataSecondStep,
-          expired_token: token,
-        }
-      })
+    if (signUpError?.length) {
+      console.log(signUpError)
+      if ('Email used' == signUpError) {
+        handlerMessage(messageDefault.usedEmail)
+        setStep('EMAIL')
+      } else {
+        handlerMessage({ ...messageDefault.validEmailPassword })
+        setStep('EMAIL_VERIFY_CODE')
+      }
+
+      dispatch(setSignUpError(''))
+    }
+  }, [signUpError])
+
+  useEffect(() => {
+    if (expired_token && step === 'EMAIL') {
       setStep('CONSENT')
       setMessagesList([
         ...messagesList,
@@ -75,69 +61,33 @@ const SignUp = () => {
           type: 'BTN',
           position: 'right',
           ev: () => {
-            setStep('EMAIL_PASSWORD')
+            setStep('EMAIL_VERIFY_CODE')
             handlerMessage(messageDefault.consentBtn)
-            scrollRef.current?.scrollToEnd()
           },
         },
       ])
-      scrollRef.current?.scrollToEnd()
     }
-    scrollRef.current?.scrollToEnd()
-  }, [token])
-
-  useEffect(() => {
-    if (error && !messagesList.filter((item, i) => item.id === error.id).length) {
-      handlerMessage({
-        ...error,
-        type: 'TEXT',
-        position: 'left',
-      })
-    }
-    if (error.setStep) {
-      setStep(error.setStep)
-    }
-    scrollRef.current?.scrollToEnd()
-  }, [error])
-
-  useEffect(() => {
-    scrollRef.current?.scrollToEnd()
-  }, [focus])
+  }, [expired_token])
 
   const onPress = () => {
-    setFocus(false)
+    // setFocus(false)
     switch (step) {
       case 'NAME':
-        if (regName.test(text)) {
-          setDataFirstStep({
-            ...dataFirstStep,
-            name: text,
-          })
-          setStep('SURNAME')
-          handlerMessage(messageDefault.surname)
-        } else {
-          setStep('NAME')
-          handlerMessage({
-            ...messageDefault.nameValid,
-            id: messageDefault.nameValid.id + new Date().getTime(),
-          })
-        }
+        setDataFirstStep({
+          ...dataFirstStep,
+          name: text,
+        })
+        setStep('SURNAME')
+        handlerMessage(messageDefault.surname)
+
         break
       case 'SURNAME':
-        if (regName.test(text)) {
-          setDataFirstStep({
-            ...dataFirstStep,
-            surname: text,
-          })
-          setStep('EMAIL')
-          handlerMessage(messageDefault.email)
-        } else {
-          setStep('SURNAME')
-          handlerMessage({
-            ...messageDefault.surnameValid,
-            id: new Date().getTime() + messageDefault.surnameValid.id,
-          })
-        }
+        setDataFirstStep({
+          ...dataFirstStep,
+          surname: text,
+        })
+        setStep('EMAIL')
+        handlerMessage(messageDefault.email)
         break
       case 'EMAIL':
         if (regEmail.test(text)) {
@@ -145,12 +95,11 @@ const SignUp = () => {
             ...dataFirstStep,
             email: text,
           })
-          dispatch(signUpFirstStep({ ...dataFirstStep, email: text }))
+          dispatch(signUpFirst({ ...dataFirstStep, email: text }))
         } else {
           setStep('EMAIL')
           handlerMessage({
             ...messageDefault.validEmail,
-            id: new Date().getTime() + messageDefault.validEmail.id,
           })
         }
         break
@@ -158,13 +107,12 @@ const SignUp = () => {
         if (text) {
           handlerMessage({
             ...messageDefault.validConsent,
-            id: new Date().getTime(),
           })
         }
         break
-      case 'EMAIL_PASSWORD':
-        if (text && regEmailPassword.test(text) && text.length >= 4) {
-          setDataSecondStep(dataSecondStep => {
+      case 'EMAIL_VERIFY_CODE':
+        if (text && text.length == 4) {
+          setDataSecondStep((dataSecondStep) => {
             return {
               ...dataSecondStep,
               verify_code: text,
@@ -172,9 +120,10 @@ const SignUp = () => {
           })
           if (dataSecondStep.password) {
             dispatch(
-              signUpSecondStep({
+              signUpSecond({
                 ...dataSecondStep,
                 verify_code: text,
+                expired_token,
               }),
             )
           } else {
@@ -186,13 +135,12 @@ const SignUp = () => {
         } else {
           handlerMessage({
             ...messageDefault.validEmailPassword,
-            id: new Date().getTime(),
           })
         }
         break
       case 'PASSWORD':
-        if (text && text.length >= 8) {
-          setDataSecondStep(dataSecondStep => {
+        if (text && text.length >= 6) {
+          setDataSecondStep((dataSecondStep) => {
             return {
               ...dataSecondStep,
               password: text,
@@ -205,26 +153,26 @@ const SignUp = () => {
         } else {
           handlerMessage({
             ...messageDefault.validPassword,
-            id: messageDefault.validPassword.id + new Date().getTime(),
           })
         }
         break
       case 'PASSWORD_VERIFY':
         if (text === dataSecondStep.password) {
-          dispatch(signUpSecondStep(dataSecondStep))
+          dispatch(signUpSecond({ ...dataSecondStep, expired_token }))
         } else {
-          handlerMessage({
-            ...messageDefault.validVerifyPassword,
-            id: messageDefault.validPassword.id + new Date().getTime(),
-          })
+          handlerMessage(messageDefault.validVerifyPassword)
         }
         break
       default:
         return
     }
     setText('')
-    scrollRef.current?.scrollToEnd()
   }
+  useEffect(() => {
+    setTimeout(() => {
+      scrollRef.current?.scrollToEnd({ animated: true })
+    }, 100)
+  }, [messagesList])
 
   return (
     <ScreenMask>
@@ -244,11 +192,11 @@ const SignUp = () => {
           }}
           ref={scrollRef}
           data={messagesList}
-          renderItem={({ item }) => <Message message={item} />}
-          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => <Message message={item} id={messagesList.length} />}
         />
         <View style={styles.bottom}>
-          {endRegistration ? (
+          {signUpSuccess ? (
             <View
               style={{
                 marginLeft: 'auto',
@@ -257,7 +205,7 @@ const SignUp = () => {
             >
               <Button
                 label={'Вход'}
-                onPress={() => navigation.navigate('Onboard')}
+                onPress={() => dispatch(setToken(expired_token))}
                 size={{ width: 260, height: 50 }}
               />
             </View>
@@ -265,13 +213,11 @@ const SignUp = () => {
             <Composer
               text={text}
               setText={setText}
-              onSend={() => {
-                handlerMessage(handlerUserMessage(text, step))
-                setTimeout(onPress, 200)
+              onSend={(message) => {
+                handlerMessage({ id: Math.random(), text: message })
+                setTimeout(onPress, 100)
               }}
               ref={ref}
-              disabled={load}
-              setFocus={setFocus}
             />
           )}
         </View>
