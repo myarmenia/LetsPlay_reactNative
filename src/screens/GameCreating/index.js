@@ -57,13 +57,13 @@ const GameCreating = props => {
     //   // false
     // ) {
     // console.log(initialState)
-    console.log('game', initialState)
+    console.log('game data', initialState)
     axiosInstance
       .post('/create/game', initialState)
       .then(res => {
         console.log(res.data, 'res')
       })
-      .catch(err => alert(err))
+      .catch(err => console.log(err.message))
     //   setIsVisible(false)
     // } else {
     //   setIsVisible(true)

@@ -48,9 +48,9 @@ const DateTime = props => {
   }
   useEffect(() => {
     if (type === 'time' && day === 'gameDay') {
-      dispatch(setStart_date(new Date()))
+      dispatch(setStart_date(new Date().toLocaleDateString()))
     } else if (type === 'time' && day === 'lastDay') {
-      dispatch(setStart_date(new Date()))
+      dispatch(setStart_date(new Date().toLocaleDateString()))
     }
   }, [])
   return (
