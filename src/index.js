@@ -8,9 +8,8 @@ const MyApp = () => {
   const { token } = useSelector(({ auth }) => auth)
   return (
     <>
-      {/*<StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />*/}
-      {/*{token ? <AppNavigator /> : <AuthNavigator />}*/}
-      <AppNavigator/>
+      <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
+      {token ? <AppNavigator /> : <AuthNavigator />}
     </>
   )
   {
