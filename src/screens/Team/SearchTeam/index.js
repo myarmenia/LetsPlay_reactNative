@@ -16,7 +16,7 @@ LogBox.ignoreLogs([
 
 const GameCreating = (props) => {
     const {navigation, route} = props
-    const {data} = route.params
+    const data = route.params
     const [gameParams, setGameParams] = useState({
         game:route.params.game,
         gameDayTime:  undefined,

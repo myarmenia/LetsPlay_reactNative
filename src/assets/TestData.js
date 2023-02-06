@@ -18,6 +18,7 @@ import BasketballField from '@/assets/imgs/BasketballField.png'
 import VolleyballField from '@/assets/imgs/VolleyballField.png'
 import PionerballField from '@/assets/imgs/PionerballField.png'
 import HockeyField from '@/assets/imgs/HockeyField.png'
+import {RH, RW} from "@/theme/utils";
 
 
 export const BoardGames = [
@@ -256,8 +257,8 @@ export const Players = [
     acceptedGames: 0,
     canceledGames: 0,
     disabledGames: 0,
-    y: 620,
-    x: 20
+    y: RH(724),
+    x: RW(20)
   },
   {
     id: 2,
@@ -272,8 +273,8 @@ export const Players = [
     acceptedGames: 0,
     canceledGames: 0,
     disabledGames: 0,
-    y: 620,
-    x: 50*(2 - 0.6),
+    y: RH(724),
+    x: RW(50*(2 - 0.6)),
   },
   {
     id: 3,
@@ -288,8 +289,8 @@ export const Players = [
     acceptedGames: 0,
     canceledGames: 0,
     disabledGames: 0,
-    y: 620,
-    x: 50*(3 - 0.6),
+    y: RH(724),
+    x: RW(50*(3 - 0.6)),
 
   },
   {
@@ -305,8 +306,8 @@ export const Players = [
     acceptedGames: 0,
     canceledGames: 0,
     disabledGames: 0,
-    y: 620,
-    x: 50*(4 - 0.6),
+    y: RH(724),
+    x: RW(50*(4 - 0.6)),
 
   },
   {
@@ -321,8 +322,8 @@ export const Players = [
     acceptedGames: 0,
     canceledGames: 0,
     disabledGames: 0,
-    y: 620,
-    x: 50*(5 - 0.6),
+    y: RH(724),
+    x: RW(50*(5 - 0.6)),
   },
   {
     id: 6,
@@ -336,8 +337,8 @@ export const Players = [
     acceptedGames: 0,
     canceledGames: 0,
     disabledGames: 0,
-    y: 620,
-    x: 50*(6 - 0.6),
+    y: RH(724),
+    x: RW(50*(6 - 0.6)),
   },
   {
     id: 7,
