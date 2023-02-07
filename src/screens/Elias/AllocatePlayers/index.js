@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import { DraxProvider, DraxView } from 'react-native-drax'
+// import { DraxProvider, DraxView } from 'react-native-drax'
 import { styles } from './styles'
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
@@ -19,7 +19,7 @@ const Elias = ({ navigation }) => {
 
   return (
     <ScreenMask>
-      <DraxProvider>
+      {/* <DraxProvider>
         <View style={styles.container}>
           <Text style={styles.title}>Распределите игроков</Text>
           <Text style={styles.com}>Название команды 1</Text>
@@ -269,7 +269,7 @@ const Elias = ({ navigation }) => {
             //   }}
           />
         </View>
-      </DraxProvider>
+      </DraxProvider> */}
       <View
         style={{
           marginLeft: 'auto',

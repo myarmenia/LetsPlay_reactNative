@@ -82,125 +82,124 @@ const SignUp = () => {
   }, [expired_token])
 
   const onPress = () => {
-    dispatch(setToken(12345))
-    // switch (step) {
-    //   case 'NAME':
-    //     setDataFirstStep({
-    //       ...dataFirstStep,
-    //       name: text,
-    //     })
-    //     dispatch(setName(text))
-    //     setStep('SURNAME')
-    //     setTimeout(() => {
-    //       handlerMessage(messageDefault.surname)
-    //     }, 1000)
+    switch (step) {
+      case 'NAME':
+        setDataFirstStep({
+          ...dataFirstStep,
+          name: text,
+        })
+        dispatch(setName(text))
+        setStep('SURNAME')
+        setTimeout(() => {
+          handlerMessage(messageDefault.surname)
+        }, 1000)
 
-    //     break
-    //   case 'SURNAME':
-    //     setDataFirstStep({
-    //       ...dataFirstStep,
-    //       surname: text,
-    //     })
-    //     dispatch(setSurName(text))
-    //     setStep('EMAIL')
-    //     setTimeout(() => {
-    //       handlerMessage(messageDefault.email)
-    //     }, 1000)
+        break
+      case 'SURNAME':
+        setDataFirstStep({
+          ...dataFirstStep,
+          surname: text,
+        })
+        dispatch(setSurName(text))
+        setStep('EMAIL')
+        setTimeout(() => {
+          handlerMessage(messageDefault.email)
+        }, 1000)
 
-    //     break
-    //   case 'EMAIL':
-    //     if (regEmail.test(text)) {
-    //       setDataFirstStep({
-    //         ...dataFirstStep,
-    //         email: text,
-    //       })
-    //       dispatch(signUpFirst({ ...dataFirstStep, email: text }))
-    //     } else {
-    //       setStep('EMAIL')
+        break
+      case 'EMAIL':
+        if (regEmail.test(text)) {
+          setDataFirstStep({
+            ...dataFirstStep,
+            email: text,
+          })
+          dispatch(signUpFirst({ ...dataFirstStep, email: text }))
+        } else {
+          setStep('EMAIL')
 
-    //       setTimeout(() => {
-    //         handlerMessage({
-    //           ...messageDefault.validEmail,
-    //         })
-    //       }, 1000)
-    //     }
-    //     break
-    //   case 'CONSENT':
-    //     if (text) {
-    //       setTimeout(() => {
-    //         handlerMessage({
-    //           ...messageDefault.validConsent,
-    //         })
-    //       }, 1000)
-    //     }
-    //     break
-    //   case 'EMAIL_VERIFY_CODE':
-    //     if (text && text.length == 4) {
-    //       setDataSecondStep((dataSecondStep) => {
-    //         return {
-    //           ...dataSecondStep,
-    //           verify_code: text,
-    //         }
-    //       })
-    //       if (dataSecondStep.password) {
-    //         dispatch(
-    //           signUpSecond({
-    //             ...dataSecondStep,
-    //             verify_code: text,
-    //             expired_token,
-    //           }),
-    //         )
-    //       } else {
-    //         setTimeout(() => {
-    //           handlerMessage({
-    //             ...messageDefault.createPassword,
-    //           })
-    //         }, 1000)
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validEmail,
+            })
+          }, 1000)
+        }
+        break
+      case 'CONSENT':
+        if (text) {
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validConsent,
+            })
+          }, 1000)
+        }
+        break
+      case 'EMAIL_VERIFY_CODE':
+        if (text && text.length == 4) {
+          setDataSecondStep((dataSecondStep) => {
+            return {
+              ...dataSecondStep,
+              verify_code: text,
+            }
+          })
+          if (dataSecondStep.password) {
+            dispatch(
+              signUpSecond({
+                ...dataSecondStep,
+                verify_code: text,
+                expired_token,
+              }),
+            )
+          } else {
+            setTimeout(() => {
+              handlerMessage({
+                ...messageDefault.createPassword,
+              })
+            }, 1000)
 
-    //         setStep('PASSWORD')
-    //       }
-    //     } else {
-    //       setTimeout(() => {
-    //         handlerMessage({
-    //           ...messageDefault.validEmailPassword,
-    //         })
-    //       }, 1000)
-    //     }
-    //     break
-    //   case 'PASSWORD':
-    //     if (text && text.length >= 6) {
-    //       setDataSecondStep((dataSecondStep) => {
-    //         return {
-    //           ...dataSecondStep,
-    //           password: text,
-    //         }
-    //       })
-    //       setStep('PASSWORD_VERIFY')
-    //       setTimeout(() => {
-    //         handlerMessage({
-    //           ...messageDefault.verifyPassword,
-    //         })
-    //       }, 1000)
-    //     } else {
-    //       setTimeout(() => {
-    //         handlerMessage({
-    //           ...messageDefault.validPassword,
-    //         })
-    //       }, 1000)
-    //     }
-    //     break
-    //   case 'PASSWORD_VERIFY':
-    //     if (text === dataSecondStep.password) {
-    //       dispatch(signUpSecond({ ...dataSecondStep, expired_token }))
-    //     } else {
-    //       setTimeout(() => {
-    //         handlerMessage(messageDefault.validVerifyPassword)
-    //       }, 1000)
-    //     }
-    //     break
-    //   default:
-    //     return
-    // }
+            setStep('PASSWORD')
+          }
+        } else {
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validEmailPassword,
+            })
+          }, 1000)
+        }
+        break
+      case 'PASSWORD':
+        if (text && text.length >= 6) {
+          setDataSecondStep((dataSecondStep) => {
+            return {
+              ...dataSecondStep,
+              password: text,
+            }
+          })
+          setStep('PASSWORD_VERIFY')
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.verifyPassword,
+            })
+          }, 1000)
+        } else {
+          setTimeout(() => {
+            handlerMessage({
+              ...messageDefault.validPassword,
+            })
+          }, 1000)
+        }
+        break
+      case 'PASSWORD_VERIFY':
+        if (text === dataSecondStep.password) {
+          dispatch(signUpSecond({ ...dataSecondStep, expired_token }))
+        } else {
+          setTimeout(() => {
+            handlerMessage(messageDefault.validVerifyPassword)
+          }, 1000)
+        }
+        break
+      default:
+        return
+    }
     setText('')
   }
   useEffect(() => {
