@@ -93,7 +93,7 @@ export const signIn = (data) => (dispatch) => {
       dispatch(setToken(response.data.access_token))
     })
     .catch((err) => {
-      alert('error', JSON.stringify(response))
+      alert('error', JSON.stringify(err))
       console.log('err request', err.request._response)
       dispatch(
         setSignInError(

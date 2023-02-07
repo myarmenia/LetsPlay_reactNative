@@ -33,22 +33,22 @@ const SignUp = () => {
   }, [signInError])
 
   const onPress = () => {
-    dispatch(setToken(12345))
+    // dispatch(setToken(12345))
 
-    // switch (step) {
-    //   case 'EMAIL':
-    //     setEmail(text.toLocaleLowerCase())
-    //     setStep('PASSWORD')
-    //     handlerMessage(messageDefault.password)
+    switch (step) {
+      case 'EMAIL':
+        setEmail(text.toLocaleLowerCase())
+        setStep('PASSWORD')
+        handlerMessage(messageDefault.password)
 
-    //     break
-    //   case 'PASSWORD':
-    //     dispatch(signIn({ email: email, password: text }))
+        break
+      case 'PASSWORD':
+        dispatch(signIn({ email: email, password: text }))
 
-    //     break
-    //   default:
-    //     return
-    // }
+        break
+      default:
+        return
+    }
     setText('')
   }
 
