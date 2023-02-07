@@ -13,9 +13,17 @@ export default StyleSheet.create({
     alignItems: 'center',
     // justifyContent: 'center',
   },
+  dateText: {
+    ...font('regular', 18, ICON, 19),
+    letterSpacing: 1.5,
+    color: '#657AC5',
+  },
   dateButtonText: {
-    ...font('regular', 16, ICON, 19),
-    marginLeft: RW(16),
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '85%',
+    alignSelf: 'center',
+    alignItems: 'flex-start',
   },
   dateSvg: {
     marginLeft: RW(24),

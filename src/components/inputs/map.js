@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
-import { Platform, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Platform, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from '@/components/inputs/styles'
-import {ICON, RED, WHITE} from '@/theme/colors'
+import { ICON, RED, WHITE } from '@/theme/colors'
 import { font, RW } from '@/theme/utils'
 import MapSvg from '@/assets/svgs/mapSvg'
+import { useNavigation } from '@react-navigation/native'
 
 function Map(props) {
   const { placeholder, data, setData, errorText, width, availablePress } = props
   const [value, setValue] = useState('')
+  const navigation = useNavigation()
   return (
     <>
-      <View
+      <Pressable
+        onPress={() => navigation.navigate('Map')}
         style={[
           styles.mapInputBlock,
           width
@@ -27,7 +30,7 @@ function Map(props) {
           <Text style={styles.mapInput}>{placeholder}</Text>
         ) : (
           <TextInput
-            style={{...styles.mapInput, color: WHITE}}
+            style={{ ...styles.mapInput, color: WHITE }}
             value={value}
             onChangeText={ev => {
               setValue(ev)
@@ -40,7 +43,7 @@ function Map(props) {
         <TouchableOpacity>
           <MapSvg />
         </TouchableOpacity>
-      </View>
+      </Pressable>
       {errorText && !value ? (
         <Text style={{ ...font('regular', 16, RED, 24), marginLeft: RW(12) }}>{errorText}</Text>
       ) : null}

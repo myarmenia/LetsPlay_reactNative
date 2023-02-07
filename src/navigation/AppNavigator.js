@@ -30,6 +30,7 @@ import CalendarNavigator from '@/navigation/CalendarNavigator'
 import TourParticipantNavigator from '@/navigation/TourParticipantNavigator'
 import NavigationSearchTeams from '@/navigation/NavigationSearchTeams'
 import CrocodileNavigator from '@/navigation/CrocodileNavigator'
+import Map from '@/screens/Map/Map'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -41,7 +42,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -53,6 +54,7 @@ const TabNavigator = () => {
       >
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Chat'} component={ChatScreen} />
+        <Tab.Screen name={'Map'} component={Map} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
         <Tab.Screen name={'Notification'} component={NotificationScreen} />
         <Tab.Screen name={'GameListCarousel'} component={GamesListCarousel} />
