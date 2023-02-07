@@ -35,11 +35,11 @@ const SignUpStack = () => {
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION} initialRouteName={'Home'}>
       <Stack.Screen name={'Home'} component={SignUp} />
-      <Stack.Screen name={'Onboard'} component={Onboard} options={{ gestureEnabled: false }} />
+      <Stack.Screen name={'Onboard'} component={Onboard} options={{ gestureEnabled: true }} />
       <Stack.Screen
         name={'Preferences'}
         component={Preferences}
-        options={{ gestureEnabled: false }}
+        options={{ gestureEnabled: true }}
       />
     </Stack.Navigator>
   )

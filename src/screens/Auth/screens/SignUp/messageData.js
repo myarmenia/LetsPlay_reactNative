@@ -2,28 +2,33 @@ import Consent from '@/assets/imgs/Consent'
 
 const messageDefault = {
   hello: {
-    text: 'Добро пожаловать в “Играем” пожалуйста пройдите регистрацию',
+    text: 'Здравствуйте и добро пожаловать! Вас приветствует платформа «Играем»!',
+    type: 'TEXT',
+    position: 'left',
+  },
+  hello2: {
+    text: 'Пожалуйста пройдите регистрацию!',
     type: 'TEXT',
     position: 'left',
   },
   name: {
-    text: 'Напишите имя',
+    text: 'Напишите Ваше имя',
     type: 'TEXT',
     position: 'left',
   },
   nameValid: {
-    text: 'Некорректный имя',
+    text: 'Некорректная имя',
     type: 'TEXT',
     position: 'left',
     error: true,
   },
   surname: {
-    text: 'Напишите фаминию',
+    text: 'Напишите Вашу фамилию',
     type: 'TEXT',
     position: 'left',
   },
   surnameValid: {
-    text: 'Некорректный фаминию',
+    text: 'Некорректная фамилия',
     type: 'TEXT',
     position: 'left',
     error: true,
@@ -34,7 +39,7 @@ const messageDefault = {
     position: 'left',
   },
   validEmail: {
-    text: 'Некорректный электронный адрес',
+    text: 'Неверный адрес',
     type: 'TEXT',
     position: 'left',
     error: true,
@@ -52,7 +57,7 @@ const messageDefault = {
     position: 'left',
   },
   consentBtn: {
-    text: 'Подтвердите электронную почту. Вам на электронную почту поступило письмо от  приложения «Играем» с кодом подтверждения. Укажите его здесь',
+    text: 'Вам на электронную почту поступило письмо от платформы «Играем» с кодом подтверждения, укажите его',
     type: 'TEXT',
     position: 'left',
   },
@@ -68,7 +73,7 @@ const messageDefault = {
     error: true,
   },
   createPassword: {
-    text: 'Создайте пароль. Пароль должен содержать не менее 6 символов!',
+    text: 'Создайте пароль',
     type: 'TEXT',
     position: 'left',
   },
@@ -88,6 +93,11 @@ const messageDefault = {
     type: 'TEXT',
     position: 'left',
     error: true,
+  },
+  finished: {
+    text: 'Поздравляем! Вы успешно зарегистрировались',
+    type: 'TEXT',
+    position: 'left',
   },
 }
 

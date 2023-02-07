@@ -9,7 +9,8 @@
     "test": "jest",
     "lint": "eslint --quiet --ext .js --fix src",
     "pod": "cd ios && pod install && cd ..",
-    "ios14": "react-native run-ios --simulator='iPhone 14'"
+    "ios14": "react-native run-ios --simulator='iPhone 14'",
+    "android-bundler": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle"
   },
   "pre-commit": [
     "lint"
@@ -23,7 +24,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "@reduxjs/toolkit": "^1.9.1",
-    "axios": "^1.2.1",
+    "axios": "^1.3.2",
     "deprecated-react-native-prop-types": "^4.0.0",
     "eslint-config-americansoftware": "^9.0.8",
     "eslint-plugin-prettier": "^4.2.1",

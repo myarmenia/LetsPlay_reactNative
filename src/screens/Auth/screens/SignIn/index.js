@@ -7,7 +7,7 @@ import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
 import messageDefault from './messageData'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSignInError, signIn } from '@/store/Slices/AuthSlice'
+import { setSignInError, setToken, signIn } from '@/store/Slices/AuthSlice'
 
 const SignUp = () => {
   const ref = useRef()
@@ -33,20 +33,22 @@ const SignUp = () => {
   }, [signInError])
 
   const onPress = () => {
-    switch (step) {
-      case 'EMAIL':
-        setEmail(text.toLocaleLowerCase())
-        setStep('PASSWORD')
-        handlerMessage(messageDefault.password)
+    dispatch(setToken(12345))
 
-        break
-      case 'PASSWORD':
-        dispatch(signIn({ email: email, password: text }))
+    // switch (step) {
+    //   case 'EMAIL':
+    //     setEmail(text.toLocaleLowerCase())
+    //     setStep('PASSWORD')
+    //     handlerMessage(messageDefault.password)
 
-        break
-      default:
-        return
-    }
+    //     break
+    //   case 'PASSWORD':
+    //     dispatch(signIn({ email: email, password: text }))
+
+    //     break
+    //   default:
+    //     return
+    // }
     setText('')
   }
 

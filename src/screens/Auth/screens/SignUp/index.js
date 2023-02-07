@@ -7,8 +7,16 @@ import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
 import messageDefault from './messageData'
 import { useDispatch, useSelector } from 'react-redux'
-import { setSignUpError, setToken, signUpFirst, signUpSecond } from '@/store/Slices/AuthSlice'
+import {
+  setName,
+  setSignUpError,
+  setSurName,
+  setToken,
+  signUpFirst,
+  signUpSecond,
+} from '@/store/Slices/AuthSlice'
 import Button from '@/assets/imgs/Button'
+import { useNavigation } from '@react-navigation/native'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
@@ -27,11 +35,16 @@ const SignUp = () => {
   })
   const [text, setText] = useState('')
   const [step, setStep] = useState('NAME')
-  const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.name])
+  const [messagesList, setMessagesList] = useState([
+    messageDefault.hello,
+    messageDefault.hello2,
+    messageDefault.name,
+  ])
   const { signUpError, expired_token, signUpSuccess } = useSelector(({ auth }) => auth)
+  const navigation = useNavigation()
 
   const handlerMessage = (message) => {
-    setMessagesList((messagesList) => [...messagesList, { ...message }])
+    setMessagesList((messagesList) => [...messagesList, message])
   }
 
   useEffect(() => {
@@ -56,7 +69,6 @@ const SignUp = () => {
         ...messagesList,
         messageDefault.consent,
         {
-          id: '16',
           text: 'Я согласен',
           type: 'BTN',
           position: 'right',
@@ -70,102 +82,125 @@ const SignUp = () => {
   }, [expired_token])
 
   const onPress = () => {
-    // setFocus(false)
-    switch (step) {
-      case 'NAME':
-        setDataFirstStep({
-          ...dataFirstStep,
-          name: text,
-        })
-        setStep('SURNAME')
-        handlerMessage(messageDefault.surname)
+    dispatch(setToken(12345))
+    // switch (step) {
+    //   case 'NAME':
+    //     setDataFirstStep({
+    //       ...dataFirstStep,
+    //       name: text,
+    //     })
+    //     dispatch(setName(text))
+    //     setStep('SURNAME')
+    //     setTimeout(() => {
+    //       handlerMessage(messageDefault.surname)
+    //     }, 1000)
 
-        break
-      case 'SURNAME':
-        setDataFirstStep({
-          ...dataFirstStep,
-          surname: text,
-        })
-        setStep('EMAIL')
-        handlerMessage(messageDefault.email)
-        break
-      case 'EMAIL':
-        if (regEmail.test(text)) {
-          setDataFirstStep({
-            ...dataFirstStep,
-            email: text,
-          })
-          dispatch(signUpFirst({ ...dataFirstStep, email: text }))
-        } else {
-          setStep('EMAIL')
-          handlerMessage({
-            ...messageDefault.validEmail,
-          })
-        }
-        break
-      case 'CONSENT':
-        if (text) {
-          handlerMessage({
-            ...messageDefault.validConsent,
-          })
-        }
-        break
-      case 'EMAIL_VERIFY_CODE':
-        if (text && text.length == 4) {
-          setDataSecondStep((dataSecondStep) => {
-            return {
-              ...dataSecondStep,
-              verify_code: text,
-            }
-          })
-          if (dataSecondStep.password) {
-            dispatch(
-              signUpSecond({
-                ...dataSecondStep,
-                verify_code: text,
-                expired_token,
-              }),
-            )
-          } else {
-            handlerMessage({
-              ...messageDefault.createPassword,
-            })
-            setStep('PASSWORD')
-          }
-        } else {
-          handlerMessage({
-            ...messageDefault.validEmailPassword,
-          })
-        }
-        break
-      case 'PASSWORD':
-        if (text && text.length >= 6) {
-          setDataSecondStep((dataSecondStep) => {
-            return {
-              ...dataSecondStep,
-              password: text,
-            }
-          })
-          setStep('PASSWORD_VERIFY')
-          handlerMessage({
-            ...messageDefault.verifyPassword,
-          })
-        } else {
-          handlerMessage({
-            ...messageDefault.validPassword,
-          })
-        }
-        break
-      case 'PASSWORD_VERIFY':
-        if (text === dataSecondStep.password) {
-          dispatch(signUpSecond({ ...dataSecondStep, expired_token }))
-        } else {
-          handlerMessage(messageDefault.validVerifyPassword)
-        }
-        break
-      default:
-        return
-    }
+    //     break
+    //   case 'SURNAME':
+    //     setDataFirstStep({
+    //       ...dataFirstStep,
+    //       surname: text,
+    //     })
+    //     dispatch(setSurName(text))
+    //     setStep('EMAIL')
+    //     setTimeout(() => {
+    //       handlerMessage(messageDefault.email)
+    //     }, 1000)
+
+    //     break
+    //   case 'EMAIL':
+    //     if (regEmail.test(text)) {
+    //       setDataFirstStep({
+    //         ...dataFirstStep,
+    //         email: text,
+    //       })
+    //       dispatch(signUpFirst({ ...dataFirstStep, email: text }))
+    //     } else {
+    //       setStep('EMAIL')
+
+    //       setTimeout(() => {
+    //         handlerMessage({
+    //           ...messageDefault.validEmail,
+    //         })
+    //       }, 1000)
+    //     }
+    //     break
+    //   case 'CONSENT':
+    //     if (text) {
+    //       setTimeout(() => {
+    //         handlerMessage({
+    //           ...messageDefault.validConsent,
+    //         })
+    //       }, 1000)
+    //     }
+    //     break
+    //   case 'EMAIL_VERIFY_CODE':
+    //     if (text && text.length == 4) {
+    //       setDataSecondStep((dataSecondStep) => {
+    //         return {
+    //           ...dataSecondStep,
+    //           verify_code: text,
+    //         }
+    //       })
+    //       if (dataSecondStep.password) {
+    //         dispatch(
+    //           signUpSecond({
+    //             ...dataSecondStep,
+    //             verify_code: text,
+    //             expired_token,
+    //           }),
+    //         )
+    //       } else {
+    //         setTimeout(() => {
+    //           handlerMessage({
+    //             ...messageDefault.createPassword,
+    //           })
+    //         }, 1000)
+
+    //         setStep('PASSWORD')
+    //       }
+    //     } else {
+    //       setTimeout(() => {
+    //         handlerMessage({
+    //           ...messageDefault.validEmailPassword,
+    //         })
+    //       }, 1000)
+    //     }
+    //     break
+    //   case 'PASSWORD':
+    //     if (text && text.length >= 6) {
+    //       setDataSecondStep((dataSecondStep) => {
+    //         return {
+    //           ...dataSecondStep,
+    //           password: text,
+    //         }
+    //       })
+    //       setStep('PASSWORD_VERIFY')
+    //       setTimeout(() => {
+    //         handlerMessage({
+    //           ...messageDefault.verifyPassword,
+    //         })
+    //       }, 1000)
+    //     } else {
+    //       setTimeout(() => {
+    //         handlerMessage({
+    //           ...messageDefault.validPassword,
+    //         })
+    //       }, 1000)
+    //     }
+    //     break
+    //   case 'PASSWORD_VERIFY':
+    //     if (text === dataSecondStep.password) {
+    //       dispatch(signUpSecond({ ...dataSecondStep, expired_token }))
+    //     } else {
+    //       setTimeout(() => {
+    //         handlerMessage(messageDefault.validVerifyPassword)
+    //       }, 1000)
+    //     }
+    //     break
+    //   default:
+    //     return
+    // }
     setText('')
   }
   useEffect(() => {
@@ -205,7 +240,8 @@ const SignUp = () => {
             >
               <Button
                 label={'Вход'}
-                onPress={() => dispatch(setToken(expired_token))}
+                // onPress={() => dispatch(setToken(expired_token))}
+                onPress={() => navigation.navigate('Onboard')}
                 size={{ width: 260, height: 50 }}
               />
             </View>

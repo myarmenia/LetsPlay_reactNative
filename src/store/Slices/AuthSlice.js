@@ -87,11 +87,21 @@ export const AuthSlice = createSlice({
 export const signIn = data => dispatch => {
   axiosInstance
     .post('api/auth/sign_in', data)
+<<<<<<< HEAD
     .then(response => {
       console.log(response.data)
       dispatch(setToken(response.data.access_token))
     })
     .catch(err => {
+=======
+    .then((response) => {
+      alert('response', JSON.stringify(response))
+      console.log(response.data)
+      dispatch(setToken(response.data.access_token))
+    })
+    .catch((err) => {
+      alert('error', JSON.stringify(response))
+>>>>>>> e9eabc4fdf9788b893df6505abe62f758db2762d
       console.log('err request', err.request._response)
       dispatch(
         setSignInError(
@@ -105,12 +115,22 @@ export const signIn = data => dispatch => {
 export const signUpFirst = data => dispatch => {
   axiosInstance
     .post('api/auth/signup/first_step', data)
+<<<<<<< HEAD
     .then(response => {
+=======
+    .then((response) => {
+      alert('response' + '\n' + JSON.stringify(response))
+>>>>>>> e9eabc4fdf9788b893df6505abe62f758db2762d
       if (response.data?.statusCode == 201) {
         dispatch(setExpiredToken(response.data?.expired_token))
       }
     })
+<<<<<<< HEAD
     .catch(err => {
+=======
+    .catch((err) => {
+      alert('err' + '\n' + JSON.stringify(err, null, 4))
+>>>>>>> e9eabc4fdf9788b893df6505abe62f758db2762d
       console.log('err request response', err.request._response)
       dispatch(
         setSignUpError(
@@ -125,7 +145,12 @@ export const signUpSecond = data => dispatch => {
   console.log(data)
   axiosInstance
     .post('api/auth/signup/second_step', data)
+<<<<<<< HEAD
     .then(response => {
+=======
+    .then((response) => {
+      console.log(response.data)
+>>>>>>> e9eabc4fdf9788b893df6505abe62f758db2762d
       if (response.data?.statusCode == 202) {
         dispatch(setSignUpSuccess(true))
       }
