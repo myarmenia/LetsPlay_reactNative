@@ -6,6 +6,7 @@ const baseURL = 'https://to-play.ru/'
 const axiosInstance = axios.create({
   baseURL,
   headers: {
+    Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 })
