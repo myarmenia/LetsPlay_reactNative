@@ -88,12 +88,10 @@ export const signIn = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/sign_in', data)
     .then((response) => {
-      alert('response', JSON.stringify(response))
       console.log(response.data)
       dispatch(setToken(response.data.access_token))
     })
     .catch((err) => {
-      alert('error', JSON.stringify(err))
       console.log('err request', err.request._response)
       dispatch(
         setSignInError(
@@ -108,13 +106,13 @@ export const signUpFirst = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/first_step', data)
     .then((response) => {
-      alert('response' + '\n' + JSON.stringify(response))
       if (response.data?.statusCode == 201) {
         dispatch(setExpiredToken(response.data?.expired_token))
+      } else {
+        console.log(response.data)
       }
     })
     .catch((err) => {
-      alert('err' + '\n' + JSON.stringify(err, null, 4))
       console.log('err request response', err.request._response)
       dispatch(
         setSignUpError(
@@ -126,13 +124,15 @@ export const signUpFirst = (data) => (dispatch) => {
     })
 }
 export const signUpSecond = (data) => (dispatch) => {
-  console.log(data)
   axiosInstance
     .post('api/auth/signup/second_step', data)
     .then((response) => {
       console.log(response.data)
       if (response.data?.statusCode == 202) {
+        dispatch(setExpiredToken(response.data.token.access_token))
         dispatch(setSignUpSuccess(true))
+      } else {
+        console.log(response.data)
       }
     })
     .catch((err) => {

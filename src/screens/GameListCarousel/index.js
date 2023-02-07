@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { Dimensions, View } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+// import Carousel from 'react-native-reanimated-carousel'
 import Game from '@/components/game'
 import ScreenMask from '@/components/wrappers/screen'
 
 function Index({ navigation, route }) {
-  const { list} = route.params
+  const { list } = route.params
   const [pressable, setPressable] = useState(true)
   const width = Dimensions.get('window').width
   const height = Dimensions.get('window').height
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
-      <Carousel
+      {/* <Carousel
         loop
         width={width}
         height={height}
@@ -35,7 +35,7 @@ function Index({ navigation, route }) {
             <Game game={list[index]}  pressable={pressable} />
           </View>
         )}
-      />
+      /> */}
     </ScreenMask>
   )
 }

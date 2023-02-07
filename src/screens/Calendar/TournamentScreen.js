@@ -1,8 +1,7 @@
 import React from 'react'
-import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Image, Text, View, StyleSheet, ScrollView, TouchableOpacity } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
-import { ScrollView } from 'react-native-gesture-handler'
 import User from '@/assets/imgs/user/user'
 import { ICON, WHITE } from '@/theme/colors'
 

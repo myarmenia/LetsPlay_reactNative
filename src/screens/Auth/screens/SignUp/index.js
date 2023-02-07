@@ -82,7 +82,6 @@ const SignUp = () => {
   }, [expired_token])
 
   const onPress = () => {
-    // dispatch(setToken(12345))
     switch (step) {
       case 'NAME':
         setDataFirstStep({
