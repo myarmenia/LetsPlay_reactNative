@@ -46,8 +46,8 @@ function Index({route, navigation}) {
                     size={{width: 281, height: 48}}
                     label={'Подтвердить'}/>
                 <View style={{marginTop: RH(21)}}>
-                    {data.scheme? <Button
-                        onPress={() => navigation.navigate('Scheme' , {team , data})}
+                    {data.game.scheme? <Button
+                        onPress={() => navigation.navigate('Scheme' , {team , data: data.game})}
                         size={{width: 281, height: 48}}
                         label={'Схема игры'}/> : null}
                 </View>
