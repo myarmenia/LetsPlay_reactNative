@@ -31,11 +31,7 @@ function Index({ route, navigation }) {
   //     }
   // }, [modal])
 
-  return (
-    <ScreenMask>
-      <View>
-        <Text style={styles.title}>ФК “Динамо”</Text>
-      </View>
+
     return (
         <ScreenMask>
             <View>

@@ -17,7 +17,7 @@ import style from '@/screens/Team/Scheme/style'
 import FootballField from '@/assets/imgs/FootballField.png'
 import Draggable from 'react-native-draggable';
 import {RH, RW} from "@/theme/utils";
-import { DraxProvider, DraxView } from 'react-native-drax';
+// import { DraxProvider, DraxView } from 'react-native-drax';
 
 const Scheme = (props) => {
     const {team , data} = props.route.params
