@@ -15,19 +15,19 @@ import { Players } from '@/assets/TestData'
 import ScreenMask from '@/components/wrappers/screen'
 import style from '@/screens/Team/Scheme/style'
 import FootballField from '@/assets/imgs/FootballField.png'
-import Draggable from 'react-native-draggable'
-import { RW } from '@/theme/utils'
-// import { DraxProvider, DraxView } from 'react-native-drax';
+import Draggable from 'react-native-draggable';
+import {RH, RW} from "@/theme/utils";
+import { DraxProvider, DraxView } from 'react-native-drax';
 
 const Scheme = (props) => {
-  const { team, data } = props.route.params
-  const matchPLayers = Players.filter((player) => {
-    return player.id <= 6
-  })
-  console.log(matchPLayers)
-  return (
-    <ScreenMask>
-      {/* <DraxProvider>
+    const {team , data} = props.route.params
+    const  matchPLayers = Players.filter((player) => {
+        return player.id <= 6
+    })
+    return (
+        <ScreenMask>
+            <DraxProvider>
+
             <View style={style.teamBlock}>
                 <Image style={style.image} source={{uri: team.image}}/>
                 <Text style={style.title}>
@@ -45,7 +45,7 @@ const Scheme = (props) => {
             </View>
 
             {matchPLayers.map((ev) =>
-                <Draggable key={ev.id} minX={20} minY={120} maxX={343} maxY={560} x={ev.x} y={ev.y}>
+                <Draggable key={ev.id} minX={RW(20)} minY={RH(140)} maxX={RW(375)} maxY={RH(655)} x={ev.x} y={ev.y}>
                     <User  size={50} user={Players[ev.id - 1]} onPressItem={{
                         item: <User user={Players[ev.id - 1]} size={390}/>,
                         modalClose: false,
@@ -58,22 +58,23 @@ const Scheme = (props) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    height: 600,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  titleText: {
-    fontSize: 14,
-    lineHeight: 24,
-    fontWeight: 'bold',
-  },
-  box: {
-    height: 150,
-    width: 150,
-    backgroundColor: 'blue',
-    borderRadius: 5,
-  },
-})
+    container: {
+        height: RH(600),
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    titleText: {
+        fontSize: RW(14),
+        lineHeight: RW(24),
+        fontWeight: 'bold',
+    },
+    box: {
+        height: RH(150),
+        width: RW(150),
+        backgroundColor: 'blue',
+        borderRadius: 5,
+    },
+});
+
 
 export default Scheme

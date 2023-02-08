@@ -36,38 +36,30 @@ function Index({ route, navigation }) {
       <View>
         <Text style={styles.title}>ФК “Динамо”</Text>
       </View>
+    return (
+        <ScreenMask>
+            <View>
+                <Text style={styles.title}>ФК “Динамо”</Text>
+            </View>
 
-      <PlayerList
-        players={Players}
-        isSelected={true}
-        setActivePlayers={setActiveUser}
-        activePlayers={activeUser}
-      />
-      <View style={styles.btn}>
-        <Button
-          onPress={() => navigation.navigate('Home')}
-          size={{ width: 281, height: 48 }}
-          label={'Подтвердить'}
-        />
-        <View style={{ marginTop: RH(21) }}>
-          {data?.scheme ? (
-            <Button
-              onPress={() => navigation.navigate('Scheme', { team, data })}
-              size={{ width: 281, height: 48 }}
-              label={'Схема игры'}
-            />
-          ) : null}
-        </View>
-      </View>
-      {/*<Modal modalClose={setModal} modalVisible={modal} setIsVisible={setModal} item={<ModalItem/>}/>*/}
-      <Modal
-        setIsVisible={setModalStart}
-        modalVisible={modalStart}
-        modalClose={false}
-        item={<ModalStartItem />}
-      />
-    </ScreenMask>
-  )
+            <PlayerList players={Players} isSelected={true} setActivePlayers={setActiveUser}
+                        activePlayers={activeUser}/>
+            <View style={styles.btn}>
+                <Button
+                    onPress={() => navigation.navigate('Home')}
+                    size={{width: 281, height: 48}}
+                    label={'Подтвердить'}/>
+                <View style={{marginTop: RH(21)}}>
+                    {data.game.scheme? <Button
+                        onPress={() => navigation.navigate('Scheme' , {team , data: data.game})}
+                        size={{width: 281, height: 48}}
+                        label={'Схема игры'}/> : null}
+                </View>
+            </View>
+            {/*<Modal modalClose={setModal} modalVisible={modal} setIsVisible={setModal} item={<ModalItem/>}/>*/}
+            <Modal setIsVisible={setModalStart} modalVisible={modalStart} modalClose={false} item={<ModalStartItem/>}/>
+        </ScreenMask>
+    );
 }
 
 export default Index
