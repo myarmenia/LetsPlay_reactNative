@@ -7,13 +7,11 @@ import store from '@/store'
 
 const App = () => {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <Provider store={store}>
-          <MyApp />
-        </Provider>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <NavigationContainer>
+      <Provider store={store}>
+        <MyApp />
+      </Provider>
+    </NavigationContainer>
   )
 }
 

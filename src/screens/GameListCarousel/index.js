@@ -1,43 +1,50 @@
-import React, { useState } from 'react'
-import { Dimensions, View } from 'react-native'
-import Carousel from 'react-native-reanimated-carousel'
+import React, { memo, useEffect, useMemo, useRef, useState } from 'react'
+import { Dimensions, FlatList, ScrollView, View, Animated } from 'react-native'
 import Game from '@/components/game'
 import ScreenMask from '@/components/wrappers/screen'
+import { RW } from '@/theme/utils'
 
-function Index({ navigation, route }) {
-  const { list} = route.params
-  const [pressable, setPressable] = useState(true)
-  const width = Dimensions.get('window').width
-  const height = Dimensions.get('window').height
+const Index = ({ route }) => {
+  const { list } = route.params
+
+  const scrollViewRef = useRef()
+  const isCloseToRight = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    return layoutMeasurement.width + contentOffset.x >= contentSize.width
+  }
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
-      <Carousel
-        loop
-        width={width}
-        height={height}
-        data={[...list.keys()]}
-        scrollAnimationDuration={1000}
-        onProgressChange={(a, e) => {
-          if (Number.isInteger(e)) {
-            setPressable(true)
-          } else {
-            setPressable(false)
+      <ScrollView
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToRight(nativeEvent)) {
+            scrollViewRef.current.scrollTo({ animated: true, offset: 0 })
           }
         }}
-        renderItem={({ index }) => (
-          <View
-            key={index}
-            style={{
-              flex: 1,
-              // justifyContent: 'center',
-            }}
-          >
-            <Game game={list[index]}  pressable={pressable} />
-          </View>
-        )}
-      />
+        ref={scrollViewRef}
+        showsHorizontalScrollIndicator={false}
+        scrollEventThrottle={16}
+        bounces={true}
+        pagingEnabled
+        scrollEnabled
+        snapToAlignment="center"
+        alwaysBounceHorizontal={false}
+        horizontal
+      >
+        {list.map((elem, index) => {
+          return (
+            <View
+              key={Math.random().toString()}
+              style={{
+                marginHorizontal: RW(50),
+                alignSelf: 'center',
+              }}
+            >
+              <Game game={list[index]} pressable={true} />
+            </View>
+          )
+        })}
+      </ScrollView>
     </ScreenMask>
   )
 }
 
-export default Index
+export default memo(Index)
