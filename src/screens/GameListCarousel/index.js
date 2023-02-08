@@ -1,48 +1,48 @@
-import React, { memo, useState } from 'react'
-import { Animated, View } from 'react-native'
+import React, { memo, useRef } from 'react'
+import { ScrollView, View } from 'react-native'
 import Game from '@/components/game'
 import ScreenMask from '@/components/wrappers/screen'
 import { RW } from '@/theme/utils'
 
-const Index = ({ navigation, route }) => {
+const Index = ({ route }) => {
   const { list } = route.params
-  const [data, setData] = useState([...list])
-  const [offset, setOffset] = useState(3557)
-  const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
-    if (offset <= contentOffset.x + layoutMeasurement.width * 4) {
-      setOffset(offset + 3557)
-      return true
-    }
+
+  const scrollViewRef = useRef()
+  const isCloseToRight = ({ layoutMeasurement, contentOffset, contentSize }) => {
+    return layoutMeasurement.width + contentOffset.x >= contentSize.width
   }
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
-      <Animated.ScrollView
+      <ScrollView
         onScroll={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent)) {
-            console.log('true')
-            setData([...data, ...list])
+          if (isCloseToRight(nativeEvent)) {
+            scrollViewRef.current.scrollTo({ animated: true, offset: 0 })
           }
         }}
+        ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
+        bounces={true}
+        pagingEnabled
+        scrollEnabled
+        snapToAlignment="center"
+        alwaysBounceHorizontal={false}
         horizontal
       >
-        {data.map((elem, index) => {
+        {list.map((elem, index) => {
           return (
             <View
               key={Math.random().toString()}
               style={{
-                // flex: 1,
                 marginHorizontal: RW(50),
                 alignSelf: 'center',
-                // justifyContent: 'center',
               }}
             >
-              <Game game={data[index]} pressable={true} />
+              <Game game={list[index]} pressable={true} />
             </View>
           )
         })}
-      </Animated.ScrollView>
+      </ScrollView>
     </ScreenMask>
   )
 }
