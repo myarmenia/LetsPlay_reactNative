@@ -1,29 +1,13 @@
 import React, { useState } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import DarkButton from '@/assets/imgs/DarkButton'
 import { ICON, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import style from '@/screens/Profile/Preference/style'
 import pStyles from '@/screens/Profile/style'
 import Button from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
 import { setToken } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
-
-const GAMES = [
-  'Футбол',
-  'Соккер',
-  'Триста',
-  'Крокодил',
-  'Баскетбол',
-  'Волейбол',
-  'Квест',
-  'Навес',
-  'Пионербол',
-  'Алиас',
-  'Своя игра',
-]
 
 const Preferences = () => {
   const list = [
@@ -43,7 +27,6 @@ const Preferences = () => {
   ]
 
   const [game, setGame] = useState([])
-  const navigation = useNavigation()
   const dispatch = useDispatch()
   const { expired_token } = useSelector(({ auth }) => auth)
   const PreferenceItem = ({ item }) => {

@@ -8,9 +8,10 @@ import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW } from '@/theme/utils'
 
 function Index(props) {
+  console.log(props)
   const [active, setActive] = useState(false)
   const [longPress, setLongPress] = useState(false)
-  const {  setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
+  const { setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
   const navigation = useNavigation()
   return (
     // <Pressable
@@ -49,8 +50,8 @@ function Index(props) {
         if (pressable) {
           setActive(true)
           setTimeout(() => {
-              game.navigateTo
-              ? navigation.navigate(game.navigateTo, { screen: game.screenTwo, params: {game} })
+            game.navigateTo
+              ? navigation.navigate(game.navigateTo, { screen: game.screenTwo, params: { game } })
               : null
             setActive(false)
           }, 100)
