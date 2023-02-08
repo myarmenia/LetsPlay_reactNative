@@ -1,5 +1,5 @@
-import React, { memo, useEffect, useMemo, useRef, useState } from 'react'
-import { Dimensions, FlatList, ScrollView, View, Animated } from 'react-native'
+import React, { memo, useRef } from 'react'
+import { ScrollView, View } from 'react-native'
 import Game from '@/components/game'
 import ScreenMask from '@/components/wrappers/screen'
 import { RW } from '@/theme/utils'

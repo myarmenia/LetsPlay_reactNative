@@ -12,49 +12,45 @@ function Index(props) {
   const [longPress, setLongPress] = useState(false)
   const { setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
   const navigation = useNavigation()
+  // <Pressable
+  //   onPress={() => {
+  //     setActive(true)
+  //     setTimeout(() => {
+  //       data.navigateTo &&
+  //         navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: game, data })
+
+  //       setActive(false)
+  //     }, 100)
+  //   }}
+  //   style={styles.bgFon}
+  // >
+  //   {active ? (
+  //     <LinearGradient
+  //       colors={['#7DCE8A', '#4D7CFE']}
+  //       start={{ x: 0, y: 0 }}
+  //       end={{ x: 1, y: 1 }}
+  //       useAngle={true}
+  //       angle={105}
+  //       angleCenter={{ x: 0.5, y: 0.5 }}
+  //       style={{
+  //         width: RW(335),
+  //         height: RH(707),
+  //         zIndex: -1,
+  //         position: 'absolute',
+  //         opacity: 0.5,
+  //       }}
+  //     ></LinearGradient>
+  //   ) : null}
+
   return (
-    // <Pressable
-    //   onPress={() => {
-    //     setActive(true)
-    //     setTimeout(() => {
-    //       data.navigateTo &&
-    //         navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: game, data })
-
-    //       setActive(false)
-    //     }, 100)
-    //   }}
-    //   style={styles.bgFon}
-    // >
-    //   {active ? (
-    //     <LinearGradient
-    //       colors={['#7DCE8A', '#4D7CFE']}
-    //       start={{ x: 0, y: 0 }}
-    //       end={{ x: 1, y: 1 }}
-    //       useAngle={true}
-    //       angle={105}
-    //       angleCenter={{ x: 0.5, y: 0.5 }}
-    //       style={{
-    //         width: RW(335),
-    //         height: RH(707),
-    //         zIndex: -1,
-    //         position: 'absolute',
-    //         opacity: 0.5,
-    //       }}
-    //     ></LinearGradient>
-    //   ) : null}
-
-    // return (
     <Animated.View>
       <Pressable
         onPress={() => {
           if (pressable) {
             setActive(true)
             setTimeout(() => {
-              game?.navigateTo
-                ? navigation.navigate(game?.navigateTo, {
-                    screen: game?.screenTwo,
-                    params: { game },
-                  })
+              game.navigateTo
+                ? navigation.navigate(game.navigateTo, { screen: game.screenTwo, params: { game } })
                 : null
               setActive(false)
             }, 100)

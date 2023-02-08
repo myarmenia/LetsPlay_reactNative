@@ -1,22 +1,22 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react'
 import {
-    View,
-    Animated,
-    StyleSheet,
-    PanResponder,
-    Text,
-    Image,
-    SafeAreaView,
-    ImageBackground,
-    ScrollView
-} from 'react-native';
-import User from "@/assets/imgs/user/user";
-import {Players} from "@/assets/TestData";
-import ScreenMask from "@/components/wrappers/screen";
-import style from "@/screens/Team/Scheme/style";
+  View,
+  Animated,
+  StyleSheet,
+  PanResponder,
+  Text,
+  Image,
+  SafeAreaView,
+  ImageBackground,
+  ScrollView,
+} from 'react-native'
+import User from '@/assets/imgs/user/user'
+import { Players } from '@/assets/TestData'
+import ScreenMask from '@/components/wrappers/screen'
+import style from '@/screens/Team/Scheme/style'
 import FootballField from '@/assets/imgs/FootballField.png'
 import Draggable from 'react-native-draggable';
-import {RW} from "@/theme/utils";
+import {RH, RW} from "@/theme/utils";
 import { DraxProvider, DraxView } from 'react-native-drax';
 
 const Scheme = (props) => {
@@ -24,10 +24,10 @@ const Scheme = (props) => {
     const  matchPLayers = Players.filter((player) => {
         return player.id <= 6
     })
-    console.log(matchPLayers)
     return (
         <ScreenMask>
             <DraxProvider>
+
             <View style={style.teamBlock}>
                 <Image style={style.image} source={{uri: team.image}}/>
                 <Text style={style.title}>
@@ -45,36 +45,36 @@ const Scheme = (props) => {
             </View>
 
             {matchPLayers.map((ev) =>
-                <Draggable key={ev.id} minX={20} minY={120} maxX={343} maxY={560} x={ev.x} y={ev.y}>
+                <Draggable key={ev.id} minX={RW(20)} minY={RH(140)} maxX={RW(375)} maxY={RH(655)} x={ev.x} y={ev.y}>
                     <User  size={50} user={Players[ev.id - 1]} onPressItem={{
                         item: <User user={Players[ev.id - 1]} size={390}/>,
                         modalClose: false,
                     }}/>
                 </Draggable>
               )}
-            </DraxProvider>
-        </ScreenMask>
-
-    );
-};
+            </DraxProvider> */}
+    </ScreenMask>
+  )
+}
 
 const styles = StyleSheet.create({
     container: {
-        height: 600,
+        height: RH(600),
         alignItems: 'center',
         justifyContent: 'center',
     },
     titleText: {
-        fontSize: 14,
-        lineHeight: 24,
+        fontSize: RW(14),
+        lineHeight: RW(24),
         fontWeight: 'bold',
     },
     box: {
-        height: 150,
-        width: 150,
+        height: RH(150),
+        width: RW(150),
         backgroundColor: 'blue',
         borderRadius: 5,
     },
 });
 
-export default Scheme;
+
+export default Scheme

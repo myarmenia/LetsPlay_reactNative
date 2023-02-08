@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import QrCode from '@/screens/Elias/QrCode'
 import Players from '@/screens/Elias/Players'
 import AllocatePlayers from '@/screens/Elias/AllocatePlayers'
 import { NAV_HEADER_OPTION } from '@/constants'
-import GoBack from '@/helpers/goBack'
 import Settings from '@/screens/Elias/Settings'
 import DifficultyLevel from '@/screens/Elias/DifficultyLevel'
 import Start from '@/screens/Elias/Start'
@@ -14,29 +13,16 @@ import ResTeams from '@/screens/Elias/ResTeams'
 const Stack = createNativeStackNavigator()
 
 function Index(props) {
-  const [goBack, setGoBack] = useState(true)
-
-  const [route, setRoute] = useState({
-    QrCodeComponent: props => <GoBack item={<QrCode setGoBack={setGoBack} {...props} />} />,
-    PlayersComponent: props => <GoBack item={<Players setGoBack={setGoBack} {...props} />} />,
-    AllocatePlayersComponent: props => <GoBack item={<AllocatePlayers {...props} />} />,
-    SettingsComponent: props => <GoBack item={<Settings {...props} />} />,
-    DifficultyLevelComponent: props => <GoBack item={<DifficultyLevel {...props} />} />,
-    StartComponent: props => <GoBack item={<Start {...props} />} />,
-    ResTeamComponent: props => <GoBack item={<ResTeam {...props} />} />,
-    ResTeamsComponent: props => <GoBack item={<ResTeams {...props} />} />,
-  })
-
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
-      <Stack.Screen name="Qr" component={route.QrCodeComponent} />
-      <Stack.Screen name="EliasPlayers" component={route.PlayersComponent} />
-      <Stack.Screen name="EliasAllocatePlayers" component={route.AllocatePlayersComponent} />
-      <Stack.Screen name="SettingsElias" component={route.SettingsComponent} />
-      <Stack.Screen name="DifficultyLevel" component={route.DifficultyLevelComponent} />
-      <Stack.Screen name="EliasStart" component={route.StartComponent} />
-      <Stack.Screen name="ResTeamElias" component={route.ResTeamComponent} />
-      <Stack.Screen name="ResTeamsElias" component={route.ResTeamsComponent} />
+      <Stack.Screen name="Qr" component={QrCode} />
+      <Stack.Screen name="EliasPlayers" component={Players} />
+      <Stack.Screen name="EliasAllocatePlayers" component={AllocatePlayers} />
+      <Stack.Screen name="SettingsElias" component={Settings} />
+      <Stack.Screen name="DifficultyLevel" component={DifficultyLevel} />
+      <Stack.Screen name="EliasStart" component={Start} />
+      <Stack.Screen name="ResTeamElias" component={ResTeam} />
+      <Stack.Screen name="ResTeamsElias" component={ResTeams} />
     </Stack.Navigator>
   )
 }

@@ -15,7 +15,6 @@ function Index({route, navigation}) {
     const [user, setUser] = useState([]);
     const [activePlayers, setActivePlayers]=useState([])
     const data = route.params;
-
     useEffect(() => {
         if (data.statusOrganizer === 'Весь состав команды') {
             setModal(true)
