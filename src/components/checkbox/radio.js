@@ -5,12 +5,15 @@ import { useState } from 'react'
 import style from './style'
 import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW } from '@/theme/utils'
+import { useDispatch } from 'react-redux'
+import { setOrganizer_in_the_game, setPlayers_gender } from '@/store/Slices/GameCreatingSlice'
 
-const Radio = (props) => {
+const Radio = props => {
   const { list, margin, setFlag, type, data, setData } = props
   const [value, setValue] = useState('')
   const [checked, setChecked] = useState(true)
-  const handleChange = (ev) => {
+  const dispatch = useDispatch()
+  const handleChange = ev => {
     setChecked(false)
     setValue(ev.id)
     if (data) {
@@ -20,9 +23,9 @@ const Radio = (props) => {
         setFlag(false)
       }
       if (type === 'gender') {
-        setData({ ...data, gender: ev.text })
+        dispatch(setPlayers_gender(ev.text))
       } else if (type === 'statusOrganizer') {
-        setData({ ...data, statusOrganizer: ev.text })
+        dispatch(setOrganizer_in_the_game(ev.text))
       } else if (type === 'priceView') {
         setData({ ...data, price: ev.text })
       } else if (type === 'gameType') {
@@ -33,7 +36,7 @@ const Radio = (props) => {
     }
   }
 
-  return list.map((ev) => (
+  return list.map(ev => (
     <TouchableOpacity
       style={{ ...style.radioBlock, marginLeft: margin }}
       onPress={() => {
