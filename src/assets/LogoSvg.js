@@ -2,11 +2,11 @@ import { RH, RW } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg'
 
-function LogoSvg({ width = 277 }) {
+function LogoSvg({ width = 277, height = 184 }) {
   return (
     <Svg
       width={RW(width)}
-      height={RH(184)}
+      height={RH(height)}
       viewBox="0 0 277 184"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

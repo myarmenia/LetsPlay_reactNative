@@ -32,7 +32,7 @@ const HomeScreen = (props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.logoContainer}>
-        <LogoSvg width={196} />
+        <LogoSvg width={196} height={130} />
       </View>
       <View style={styles.detailContainer}>
         <User user={Players[0]} size={370} onPressImg={true} />

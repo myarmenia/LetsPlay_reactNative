@@ -33,8 +33,7 @@ const SignUp = () => {
   }, [signInError])
 
   const onPress = () => {
-    dispatch(setToken(12345))
-
+    dispatch(setToken(12456))
     // switch (step) {
     //   case 'EMAIL':
     //     setEmail(text.toLocaleLowerCase())
@@ -49,7 +48,7 @@ const SignUp = () => {
     //   default:
     //     return
     // }
-    setText('')
+    // setText('')
   }
 
   useEffect(() => {

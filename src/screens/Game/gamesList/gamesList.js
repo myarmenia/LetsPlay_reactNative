@@ -1,8 +1,7 @@
 import ScreenMask from '@/components/wrappers/screen'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { styles } from '../gamesList/style'
-import {ScrollView, View, Text, TouchableOpacity, Image} from 'react-native'
-import GestureRecognizer from 'react-native-swipe-gestures'
+import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native'
 import { _gamesData } from '../gamesDatas.js/gamesData'
 import { RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
@@ -29,47 +28,41 @@ function GamesList() {
   return (
     <ScreenMask>
       <ScrollView>
-        <GestureRecognizer
-          onSwipeLeft={(state) => navigation.goBack()}
-          style={{
-            flex: 1,
-          }}
-        >
-          {gameData.map((elm) => {
-            return (
-              <View style={styles.gameListContainer} key={Math.random().toString()}>
-                <Text style={styles.gameTitle}>{elm.title}</Text>
-                <>
-                  {elm.data.map((elem) => {
-                    return (
-                      <TouchableOpacity
-                        key={Math.random().toString()}
-                        style={styles.gameBox}
-                        onPress={() => passIdGameItem(elem.id)}
-                      >
-                        <View style={{flexDirection: 'row'}}>
-                        <Image style={{width: RW(40) , height: RW(40) ,resizeMode: 'contain' ,  marginTop: RH(10)}} source={elem?.image}/>
+        {gameData.map((elm) => {
+          return (
+            <View style={styles.gameListContainer} key={Math.random().toString()}>
+              <Text style={styles.gameTitle}>{elm.title}</Text>
+              <>
+                {elm.data.map((elem) => {
+                  return (
+                    <TouchableOpacity
+                      key={Math.random().toString()}
+                      style={styles.gameBox}
+                      onPress={() => passIdGameItem(elem.id)}
+                    >
+                      <View style={{ flexDirection: 'row' }}>
+                        <Image
+                          style={{
+                            width: RW(40),
+                            height: RW(40),
+                            resizeMode: 'contain',
+                            marginTop: RH(10),
+                          }}
+                          source={elem?.image}
+                        />
                         <View style={styles.gameMiddleContainer}>
                           <View style={styles.gameItemTop}>
-                            <Text style={styles.gameItemTopText}>
-                              {elem.date + ', '}
-                            </Text>
-                            <Text style={styles.gameItemTopText}>
-                              {elem.time + ', '}
-                            </Text>
-                            <Text style={styles.gameItemTopText}>
-                              {elem.location}
-                            </Text>
+                            <Text style={styles.gameItemTopText}>{elem.date + ', '}</Text>
+                            <Text style={styles.gameItemTopText}>{elem.time + ', '}</Text>
+                            <Text style={styles.gameItemTopText}>{elem.location}</Text>
                           </View>
                           <View style={styles.gameItemBottom}>
                             <Text style={styles.gameItemBottomText}>{elem.addres}</Text>
-                            <View style={{...styles.distanceBox , marginLeft: 'auto'}}>
+                            <View style={{ ...styles.distanceBox, marginLeft: 'auto' }}>
                               {elem.wave}
-                              <Text style={styles.gameItemBottomText}>
-                                {elem.distantion}
-                              </Text>
+                              <Text style={styles.gameItemBottomText}>{elem.distantion}</Text>
                             </View>
-                        </View>
+                          </View>
                         </View>
                         <View style={styles.line} />
                         <View style={styles.gameItemRight}>
@@ -83,16 +76,18 @@ function GamesList() {
                             <Text style={styles.playersIn}>{elem.playersIn}</Text>
                           )}
                         </View>
-                        </View>
-                        <View style={styles.priceTextBlock}><View style={styles.horizontalLine}/><Text style={styles.gameItemPriceText}>Сумма участия-100 руб. </Text></View>
-                      </TouchableOpacity>
-                    )
-                  })}
-                </>
-              </View>
-            )
-          })}
-        </GestureRecognizer>
+                      </View>
+                      <View style={styles.priceTextBlock}>
+                        <View style={styles.horizontalLine} />
+                        <Text style={styles.gameItemPriceText}>Сумма участия-100 руб. </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )
+                })}
+              </>
+            </View>
+          )
+        })}
         <View style={{ alignSelf: 'center', paddingTop: RH(99), paddingBottom: RH(48) }}>
           <Button label={'Обновить'} size={{ width: 375, height: 48 }} />
         </View>

@@ -3,8 +3,6 @@ import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
 import { ICON, MESSAGE_CONTAINER, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
-import { TextInput } from 'react-native-gesture-handler'
-import PencelSvg from './assets/PencelSvg'
 import Row from '@/components/wrappers/row'
 
 const Message = ({ message, id }) => {
