@@ -84,9 +84,10 @@ export const AuthSlice = createSlice({
   },
 })
 
-export const signIn = (data) => (dispatch) => {
+export const signIn = data => dispatch => {
   axiosInstance
     .post('api/auth/sign_in', data)
+
     .then((response) => {
       console.log(response.data)
       dispatch(setToken(response.data.access_token))
@@ -102,7 +103,7 @@ export const signIn = (data) => (dispatch) => {
       )
     })
 }
-export const signUpFirst = (data) => (dispatch) => {
+export const signUpFirst = data => dispatch => {
   axiosInstance
     .post('api/auth/signup/first_step', data)
     .then((response) => {
@@ -112,6 +113,7 @@ export const signUpFirst = (data) => (dispatch) => {
         console.log(response.data)
       }
     })
+
     .catch((err) => {
       console.log('err request response', err.request._response)
       dispatch(
@@ -123,11 +125,11 @@ export const signUpFirst = (data) => (dispatch) => {
       )
     })
 }
+
 export const signUpSecond = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/second_step', data)
-    .then((response) => {
-      console.log(response.data)
+    .then(response => {
       if (response.data?.statusCode == 202) {
         dispatch(setExpiredToken(response.data.token.access_token))
         dispatch(setSignUpSuccess(true))
@@ -135,7 +137,7 @@ export const signUpSecond = (data) => (dispatch) => {
         console.log(response.data)
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request response', err.request._response)
       dispatch(
         setSignUpError(
