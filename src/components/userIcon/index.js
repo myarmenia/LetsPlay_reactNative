@@ -19,9 +19,6 @@ function Index({ user, size, onPressImg }) {
   return (
     <View
       style={{
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        height: '100%',
         overflow: Platform.OS == 'ios' ? 'visible' : 'hidden',
         alignItems: 'center',
       }}
@@ -31,14 +28,13 @@ function Index({ user, size, onPressImg }) {
           onPressImg ? navigation.navigate('ProfileNavigator', { screen: 'Gallery' }) : null
         }
         style={{
-          width: size / RW(3),
-          height: size / RW(3),
-          marginLeft: 'auto',
-          marginRight: 'auto',
+          width: size / 2.6,
+          height: size / 2.6,
           resizeMode: 'cover',
           flexDirection: 'row',
           justifyContent: 'center',
-          alignItems: 'flex-end',
+          alignItems: 'center',
+          top: 2.55,
         }}
       >
         {user.image ? (
