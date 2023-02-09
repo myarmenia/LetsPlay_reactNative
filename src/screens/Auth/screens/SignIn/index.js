@@ -19,8 +19,8 @@ const SignUp = () => {
   const [messagesList, setMessagesList] = useState([messageDefault.email])
   const { signInError } = useSelector(({ auth }) => auth)
 
-  const handlerMessage = (message) => {
-    setMessagesList((messagesList) => [...messagesList, { ...message }])
+  const handlerMessage = message => {
+    setMessagesList(messagesList => [...messagesList, { ...message }])
   }
 
   useEffect(() => {
@@ -33,22 +33,22 @@ const SignUp = () => {
   }, [signInError])
 
   const onPress = () => {
-    dispatch(setToken(12456))
-    // switch (step) {
-    //   case 'EMAIL':
-    //     setEmail(text.toLocaleLowerCase())
-    //     setStep('PASSWORD')
-    //     handlerMessage(messageDefault.password)
+    // dispatch(setToken(12456))
+    switch (step) {
+      case 'EMAIL':
+        setEmail(text.toLocaleLowerCase())
+        setStep('PASSWORD')
+        handlerMessage(messageDefault.password)
 
-    //     break
-    //   case 'PASSWORD':
-    //     dispatch(signIn({ email: email, password: text }))
+        break
+      case 'PASSWORD':
+        dispatch(signIn({ email: email, password: text }))
 
-    //     break
-    //   default:
-    //     return
-    // }
-    // setText('')
+        break
+      default:
+        return
+    }
+    setText('')
   }
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const SignUp = () => {
           <Composer
             text={text}
             setText={setText}
-            onSend={(message) => {
+            onSend={message => {
               handlerMessage({ id: Math.random(), text: message })
               setTimeout(onPress, 200)
             }}

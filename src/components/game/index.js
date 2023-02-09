@@ -47,13 +47,12 @@ function Index(props) {
       <Pressable
         onPress={() => {
           if (pressable) {
+            // console.log(game.navigateTo, game.info)
             setActive(true)
-            setTimeout(() => {
-              game.navigateTo
-                ? navigation.navigate(game.navigateTo, { screen: game.screenTwo, params: { game } })
-                : null
-              setActive(false)
-            }, 100)
+            game.navigateTo
+              ? navigation.navigate(game.navigateTo, { screen: game.screenTwo, params: { game } })
+              : null
+            setActive(false)
           }
         }}
         style={styles.bgFon}
