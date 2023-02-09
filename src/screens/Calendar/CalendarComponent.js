@@ -1,13 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  FlatList,
-  Image,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  ScrollView,
-} from 'react-native'
+import { StyleSheet, Text, FlatList, Image, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { LocaleConfig, Calendar } from 'react-native-calendars'
 import { GamesData } from '@/components/gamesData/GamesData'
@@ -136,7 +127,7 @@ const CalendarComponent = () => {
           showsVerticalScrollIndicator={false}
           data={GamesData}
           key={'#'}
-          keyExtractor={item => '#' + item.key}
+          keyExtractor={(item) => '#' + item.key}
           ListHeaderComponent={() => header}
           // contentContainerStyle={styles.list}
           renderItem={({ item }) => (
