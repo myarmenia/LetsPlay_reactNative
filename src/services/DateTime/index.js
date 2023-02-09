@@ -6,14 +6,17 @@ import DateSvg from '@/assets/svgs/dateSvg'
 import TimeSvg from '@/assets/svgs/timeSvg'
 import { RW } from '@/theme/utils'
 import { useDispatch } from 'react-redux'
+import { setEndDate, setStart_date } from '@/store/Slices/GameCreatingSlice'
 
-const DateTime = ({ type, errorText, width }) => {
+const DateTime = ({ type, errorText, width, place }) => {
   //states
   const [date, setDate] = useState(new Date().toLocaleDateString())
   const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, -3))
   //show date pickers
   const [showDate, setShowDate] = useState(false)
   const [showTime, setShowTime] = useState(false)
+  //redux
+  const dispatch = useDispatch()
 
   return (
     <View style={type === 'date' ? style.dateButton : [style.dateButton, { width: RW(140) }]}>
@@ -30,6 +33,11 @@ const DateTime = ({ type, errorText, width }) => {
                     mode: 'date',
                     value: new Date(),
                     onChange: (e, changedDate) => {
+                      dispatch(
+                        place == 'onTop'
+                          ? setStart_date(changedDate.toLocaleDateString())
+                          : setEndDate(changedDate.toLocaleDateString()),
+                      )
                       setDate(changedDate.toLocaleDateString())
                     },
                   })
@@ -45,6 +53,12 @@ const DateTime = ({ type, errorText, width }) => {
               mode="date"
               display="compact"
               onChange={(_, val) => {
+                Platform.OS == 'ios' ? null : setShowDate(false)
+                dispatch(
+                  place == 'onTop'
+                    ? setStart_date(Platform.OS === 'ios' ? val : val?.toLocaleDateString())
+                    : setEndDate(Platform.OS === 'ios' ? val : val?.toLocaleDateString()),
+                )
                 setDate(Platform.OS === 'ios' ? val : val?.toLocaleDateString())
                 Platform.OS == 'ios' ? null : setShowDate(false)
               }}

@@ -2,7 +2,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import React, { useMemo, useState } from 'react'
 import { styles } from '../gamesList/style'
 import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native'
-import { _gamesData } from '../gamesDatas.js/gamesData'
+import { _gamesData } from '../gamesDatas/gamesData'
 import { RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
@@ -14,9 +14,9 @@ function GamesList() {
     return _gamesData
   }, [])
 
-  const passIdGameItem = (id) => {
-    gameData.map((elem) => {
-      elem.data.forEach((elm) => {
+  const passIdGameItem = id => {
+    gameData.map(elem => {
+      elem.data.forEach(elm => {
         if (elm.id === id) {
           navigation.navigate('GameItem', { item: { ...elm, clicked: true } })
         } else {
@@ -28,12 +28,12 @@ function GamesList() {
   return (
     <ScreenMask>
       <ScrollView>
-        {gameData.map((elm) => {
+        {gameData.map(elm => {
           return (
             <View style={styles.gameListContainer} key={Math.random().toString()}>
               <Text style={styles.gameTitle}>{elm.title}</Text>
               <>
-                {elm.data.map((elem) => {
+                {elm.data.map(elem => {
                   return (
                     <TouchableOpacity
                       key={Math.random().toString()}

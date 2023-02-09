@@ -15,9 +15,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createGame } from '@/store/Slices/GameCreatingSlice'
 import axiosInstance from '@/store/Api'
 import { token } from '@/store/Slices/AuthSlice'
+import { useNavigation } from '@react-navigation/native'
 
-const GameCreating = (props) => {
-  const { navigation } = props
+const GameCreating = props => {
+  const { game } = props.route.params.params
   // const game = props.route.params.initialState
   // const initialState = {
   //   gameDayDate: undefined,
@@ -41,46 +42,29 @@ const GameCreating = (props) => {
   const [isVisible, setIsVisible] = useState(false)
   const { token } = useSelector(({ auth }) => auth)
   const dispatch = useDispatch()
+  const navigation = useNavigation()
   const handleClick = () => {
-    // if (
-    //   !initialState?.start_date ||
-    //   +initialState?.number_of_players_from < 1 ||
-    //   +initialState?.number_of_players_from > +initialState?.number_of_players_to ||
-    //   !initialState?.number_of_players_from ||
-    //   !initialState?.number_of_players_to ||
-    //   +initialState?.age_restrictions_from < 1 ||
-    //   +initialState?.age_restrictions_from > +initialState?.age_restrictions_to ||
-    //   !initialState?.age_restrictions_from ||
-    //   !initialState?.age_restrictions_to ||
-    //   !initialState?.end_date ||
-    //   initialState?.end_date >= initialState?.start_date ||
-    //   (!initialState?.ticket_price && flag)
-    //   // false
-    // ) {
     // console.log(initialState)
-    //////////////////////////////////////////////////////////////////
-    // console.log('game', initialState)
     // axiosInstance
     //   .post('/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
     //   .then(res => {
     //     console.log(res.data, 'res')
     //   })
-    //   .catch(err => alert(err))
+
+    //   .catch(err => console.log(err.request))
     //   setIsVisible(false)
     // } else {
     //   setIsVisible(true)
     // }
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // setErrorText(true)
-    setModalOpen(false)
-    setIsVisible(true)
-  }
-  const handleSubmit = () => {
+    // setModalOpen(false)
     navigation.navigate('GameTicket', { flag, initialState, game })
     setModalOpen(true)
     setIsVisible(false)
   }
-  useMemo(() => {
+  const handleSubmit = () => {}
+  useEffect(() => {
     setIsVisible(true)
   }, [])
   useEffect(() => {
@@ -99,7 +83,12 @@ const GameCreating = (props) => {
           : {})}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <FirstBlock errorText={errorText} margin={RH(29)} title={'Дата и время начала игры'} />
+          <FirstBlock
+            errorText={errorText}
+            margin={RH(29)}
+            title={'Дата и время начала игры'}
+            place={'onTop'}
+          />
           {errorText && !initialState?.start_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
@@ -138,7 +127,11 @@ const GameCreating = (props) => {
             placeholder={'Адрес проведения игры'}
             availablePress={false}
           />
-          <FirstBlock initialState={initialState} title={'Дата и время окончания поиска игроков'} />
+          <FirstBlock
+            initialState={initialState}
+            title={'Дата и время окончания поиска игроков'}
+            place={'onBottom'}
+          />
           {errorText && !initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : errorText && initialState?.end_date >= initialState?.start_date ? (
@@ -188,7 +181,7 @@ const GameCreating = (props) => {
                   <View style={style.regulationBlock}>
                     <Text style={style.title}>Правила</Text>
 
-                    <Text style={style.textTwo}>{initialState?.game}</Text>
+                    <Text style={style.textTwo}>{game?.info}</Text>
                   </View>
                 ) : (
                   <View style={style.topBlock}>

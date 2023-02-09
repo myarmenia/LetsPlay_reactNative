@@ -19,8 +19,8 @@ const SignUp = () => {
   const [messagesList, setMessagesList] = useState([messageDefault.email])
   const { signInError } = useSelector(({ auth }) => auth)
 
-  const handlerMessage = (message) => {
-    setMessagesList((messagesList) => [...messagesList, { ...message }])
+  const handlerMessage = message => {
+    setMessagesList(messagesList => [...messagesList, { ...message }])
   }
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const SignUp = () => {
           <Composer
             text={text}
             setText={setText}
-            onSend={(message) => {
+            onSend={message => {
               handlerMessage({ id: Math.random(), text: message })
               setTimeout(onPress, 200)
             }}

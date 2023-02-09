@@ -10,7 +10,7 @@ const ThirdBlock = props => {
     <View>
       <Text style={{ ...style.titles, marginBottom: RW(23) }}>{title}</Text>
       <Radio
-        data={data}
+        data={list}
         setData={setData}
         setFlag={setFlag}
         type={type}
