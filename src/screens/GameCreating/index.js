@@ -16,7 +16,7 @@ import { createGame } from '@/store/Slices/GameCreatingSlice'
 import axiosInstance from '@/store/Api'
 import { token } from '@/store/Slices/AuthSlice'
 
-const GameCreating = props => {
+const GameCreating = (props) => {
   const { navigation } = props
   // const game = props.route.params.initialState
   // const initialState = {
@@ -34,7 +34,7 @@ const GameCreating = props => {
   //   price: 'Бесплатно',
   //   ticket_price: '',
   // }
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -58,19 +58,22 @@ const GameCreating = props => {
     //   // false
     // ) {
     // console.log(initialState)
-    console.log('game', initialState)
-    axiosInstance
-      .post('/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then(res => {
-        console.log(res.data, 'res')
-      })
-      .catch(err => alert(err))
+    //////////////////////////////////////////////////////////////////
+    // console.log('game', initialState)
+    // axiosInstance
+    //   .post('/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
+    //   .then(res => {
+    //     console.log(res.data, 'res')
+    //   })
+    //   .catch(err => alert(err))
     //   setIsVisible(false)
     // } else {
     //   setIsVisible(true)
     // }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
     // setErrorText(true)
-    // setModalOpen(false)
+    setModalOpen(false)
+    setIsVisible(true)
   }
   const handleSubmit = () => {
     navigation.navigate('GameTicket', { flag, initialState, game })
