@@ -16,22 +16,10 @@ const messageDefault = {
     type: 'TEXT',
     position: 'left',
   },
-  nameValid: {
-    text: 'Некорректная имя',
-    type: 'TEXT',
-    position: 'left',
-    error: true,
-  },
   surname: {
     text: 'Напишите Вашу фамилию',
     type: 'TEXT',
     position: 'left',
-  },
-  surnameValid: {
-    text: 'Некорректная фамилия',
-    type: 'TEXT',
-    position: 'left',
-    error: true,
   },
   email: {
     text: 'Укажите Вашу электронную почту',
@@ -39,7 +27,7 @@ const messageDefault = {
     position: 'left',
   },
   validEmail: {
-    text: 'Неверный адрес',
+    text: 'Некорректный адрес',
     type: 'TEXT',
     position: 'left',
     error: true,
@@ -51,12 +39,23 @@ const messageDefault = {
     error: true,
   },
   consent: {
-    text: 'Согласие на обработку данных',
+    text: 'Согласие на\n обработку данных',
     type: 'FILE',
     svg: <Consent />,
     position: 'left',
   },
-  consentBtn: {
+  consent2: {
+    text: 'Лицензионное\n соглашение',
+    type: 'FILE',
+    svg: <Consent />,
+    position: 'left',
+  },
+  iAgree: {
+    text: 'Я согласен',
+    type: 'TEXT',
+    position: 'right',
+  },
+  emailCode: {
     text: 'Вам на электронную почту поступило письмо от платформы «Играем» с кодом подтверждения, укажите его',
     type: 'TEXT',
     position: 'left',

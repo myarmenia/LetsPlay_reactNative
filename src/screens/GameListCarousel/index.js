@@ -1,11 +1,13 @@
-import React, { memo, useRef } from 'react'
-import { ScrollView, View } from 'react-native'
+import React, { memo, useRef, useState } from 'react'
+import { Dimensions, ScrollView, View } from 'react-native'
 import Game from '@/components/game'
 import ScreenMask from '@/components/wrappers/screen'
 import { RW } from '@/theme/utils'
 
 const Index = ({ route }) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
   const { list } = route.params
+  const { width } = Dimensions.get('window')
 
   const scrollViewRef = useRef()
   const isCloseToRight = ({ layoutMeasurement, contentOffset, contentSize }) => {
@@ -15,6 +17,8 @@ const Index = ({ route }) => {
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <ScrollView
         onScroll={({ nativeEvent }) => {
+          // const { offset } = scrollViewRef.current._listRef._getScrollMetrics()
+          // setCurrentIndex(Math.round(offset / RW(382)))
           if (isCloseToRight(nativeEvent)) {
             scrollViewRef.current.scrollTo({ animated: true, offset: 0 })
           }
@@ -34,8 +38,10 @@ const Index = ({ route }) => {
             <View
               key={Math.random().toString()}
               style={{
-                marginHorizontal: RW(50),
-                alignSelf: 'center',
+                // paddingHorizontal: RW(50),
+                // justifyContent: 'center',
+                width: width,
+                // alignSelf: 'center',
               }}
             >
               <Game game={list[index]} pressable={true} />

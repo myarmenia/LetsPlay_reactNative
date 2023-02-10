@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import { font, RH } from '@/theme/utils'
+import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   setName,
   setSignUpError,
+  setSignUpSuccess,
   setSurName,
-  setToken,
   signUpFirst,
   signUpSecond,
 } from '@/store/Slices/AuthSlice'
@@ -22,7 +22,7 @@ const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
 const SignUp = () => {
   const ref = useRef()
-  const scrollRef = useRef()
+  // const scrollRef = useRef()
   const dispatch = useDispatch()
   const [dataFirstStep, setDataFirstStep] = useState({
     surname: '',
@@ -40,6 +40,8 @@ const SignUp = () => {
     messageDefault.hello2,
     messageDefault.name,
   ])
+  const [agreeBtn, setAgreeBtn] = useState(false)
+
   const { signUpError, expired_token, signUpSuccess } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
@@ -54,7 +56,7 @@ const SignUp = () => {
         handlerMessage(messageDefault.usedEmail)
         setStep('EMAIL')
       } else {
-        handlerMessage({ ...messageDefault.validEmailPassword })
+        handlerMessage(messageDefault.validEmailPassword)
         setStep('EMAIL_VERIFY_CODE')
       }
 
@@ -65,21 +67,19 @@ const SignUp = () => {
   useEffect(() => {
     if (expired_token && step === 'EMAIL') {
       setStep('CONSENT')
-      setMessagesList([
-        ...messagesList,
-        messageDefault.consent,
-        {
-          text: 'Я согласен',
-          type: 'BTN',
-          position: 'right',
-          ev: () => {
-            setStep('EMAIL_VERIFY_CODE')
-            handlerMessage(messageDefault.consentBtn)
-          },
-        },
-      ])
+      setMessagesList([...messagesList, messageDefault.consent, messageDefault.consent2])
+      setAgreeBtn(true)
     }
   }, [expired_token])
+  useEffect(() => {
+    if (signUpSuccess) {
+      handlerMessage(messageDefault.finished)
+      setTimeout(() => {
+        dispatch(setSignUpSuccess(false))
+        navigation.navigate('Onboard')
+      }, 1000)
+    }
+  }, [signUpSuccess])
 
   const onPress = () => {
     switch (step) {
@@ -118,18 +118,15 @@ const SignUp = () => {
           setStep('EMAIL')
 
           setTimeout(() => {
-            handlerMessage({
-              ...messageDefault.validEmail,
-            })
+            handlerMessage(messageDefault.validEmail)
+            handlerMessage(messageDefault.email)
           }, 1000)
         }
         break
       case 'CONSENT':
         if (text) {
           setTimeout(() => {
-            handlerMessage({
-              ...messageDefault.validConsent,
-            })
+            handlerMessage(messageDefault.validConsent)
           }, 1000)
         }
         break
@@ -151,18 +148,14 @@ const SignUp = () => {
             )
           } else {
             setTimeout(() => {
-              handlerMessage({
-                ...messageDefault.createPassword,
-              })
+              handlerMessage(messageDefault.createPassword)
             }, 1000)
 
             setStep('PASSWORD')
           }
         } else {
           setTimeout(() => {
-            handlerMessage({
-              ...messageDefault.validEmailPassword,
-            })
+            handlerMessage(messageDefault.validEmailPassword)
           }, 1000)
         }
         break
@@ -176,15 +169,11 @@ const SignUp = () => {
           })
           setStep('PASSWORD_VERIFY')
           setTimeout(() => {
-            handlerMessage({
-              ...messageDefault.verifyPassword,
-            })
+            handlerMessage(messageDefault.verifyPassword)
           }, 1000)
         } else {
           setTimeout(() => {
-            handlerMessage({
-              ...messageDefault.validPassword,
-            })
+            handlerMessage(messageDefault.validPassword)
           }, 1000)
         }
         break
@@ -202,11 +191,6 @@ const SignUp = () => {
     }
     setText('')
   }
-  useEffect(() => {
-    setTimeout(() => {
-      scrollRef.current?.scrollToEnd({ animated: true })
-    }, 100)
-  }, [messagesList])
 
   return (
     <ScreenMask>
@@ -223,25 +207,31 @@ const SignUp = () => {
         <FlatList
           style={{
             marginBottom: 30,
+            flexDirection: 'column-reverse',
           }}
-          ref={scrollRef}
           data={messagesList}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => <Message message={item} id={messagesList.length} />}
         />
         <View style={styles.bottom}>
-          {signUpSuccess ? (
+          {agreeBtn ? (
             <View
               style={{
-                marginLeft: 'auto',
-                marginRight: 'auto',
+                alignSelf: 'flex-end',
+                width: RW(170),
+                height: RH(36),
+                marginVertical: RH(19),
               }}
             >
               <Button
-                label={'Вход'}
-                // onPress={() => dispatch(setToken(expired_token))}
-                onPress={() => navigation.navigate('Onboard')}
-                size={{ width: 260, height: 50 }}
+                size={{ width: 170, height: 36 }}
+                label="Я согласен"
+                onPress={() => {
+                  setStep('EMAIL_VERIFY_CODE')
+                  handlerMessage(messageDefault.iAgree)
+                  handlerMessage(messageDefault.emailCode)
+                  setAgreeBtn(false)
+                }}
               />
             </View>
           ) : (
@@ -268,7 +258,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: RH(10),
-    // position: 'absolute',
   },
   vk: {
     alignItems: 'center',

@@ -72,9 +72,7 @@ const AuthHome = () => {
   return (
     <ScreenMask>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          Здравствуйте и добро пожаловать! Вас приветствует платформа «Играем»!
-        </Text>
+        <Text style={styles.title}>Добро пожаловать!</Text>
       </View>
       <View style={styles.logoContainer}>
         <LogoSvg />
@@ -95,7 +93,7 @@ const AuthHome = () => {
           />
         </Row>
         <View style={styles.vk}>
-          <Text style={styles.title}>Вход через</Text>
+          <Text style={styles.vkTitle}>Вход через</Text>
           <Pressable
             style={styles.vkButton}
             onPress={() => {
@@ -126,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: RH(10),
   },
   title: {
-    ...font('regular', 18, WHITE, 24),
+    ...font('regular', 32, WHITE),
   },
   vkButton: {
     marginTop: RH(8),
@@ -136,7 +134,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: RH(180),
   },
-  title: {
+  vkTitle: {
     paddingHorizontal: RW(10),
     ...font('regular', 20, WHITE, 27),
     textAlign: 'center',

@@ -17,7 +17,7 @@ import axiosInstance from '@/store/Api'
 import { token } from '@/store/Slices/AuthSlice'
 import { useNavigation } from '@react-navigation/native'
 
-const GameCreating = props => {
+const GameCreating = (props) => {
   const { game } = props.route.params.params
   // const game = props.route.params.initialState
   // const initialState = {

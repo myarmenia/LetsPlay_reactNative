@@ -1,69 +1,23 @@
-import React, { memo, useEffect, useRef, useState, useId } from 'react'
-import { Keyboard, Pressable, StyleSheet, Text, View } from 'react-native'
+import React, { memo } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { ICON, MESSAGE_CONTAINER, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import Button from '@/assets/imgs/Button'
 import Row from '@/components/wrappers/row'
 
 const Message = ({ message, id }) => {
-  const [change, setChange] = useState(true)
-  const [btnDisabled, setBtnDisabled] = useState(true)
-  const [text, setText] = useState(message.text)
-  const inputRef = useRef(null)
-  Keyboard.addListener('keyboardDidHide', () => {
-    setChange(false)
-  })
-
-  if (message.type === 'BTN') {
-    return (
-      <View
-        key={id}
-        style={{ alignSelf: 'flex-end', width: RW(170), height: RH(36), marginVertical: RH(19) }}
-      >
-        <Button
-          size={{ width: 170, height: 36 }}
-          label={message.text}
-          onPress={() => {
-            btnDisabled ? message.ev() : null
-            setBtnDisabled(false)
-          }}
-        />
-      </View>
-    )
-  }
-  useEffect(() => {
-    if (change) {
-      inputRef.current?.focus()
-    }
-  }, [change])
   if (message.position != 'left') {
     return (
       <View style={[styles.right, { marginTop: RH(25) }]} key={id}>
-        <Pressable
-          onPress={() => {
-            // setChange(true)
-          }}
-        >
-          <Row>
-            {/* <PencelSvg /> */}
-            <View
-              style={[
-                styles.container,
-                { backgroundColor: ICON, marginLeft: RW(10), width: RW(178) },
-              ]}
-            >
-              {/* <TextInput
-                ref={inputRef}
-                style={styles.label}
-                editable={change}
-                value={text}
-                onChangeText={setText}
-  
-              ></TextInput> */}
-              <Text style={styles.label}>{text}</Text>
-            </View>
-          </Row>
-        </Pressable>
+        <Row>
+          <View
+            style={[
+              styles.container,
+              { backgroundColor: ICON, marginLeft: RW(10), width: RW(178) },
+            ]}
+          >
+            <Text style={styles.label}>{message.text}</Text>
+          </View>
+        </Row>
       </View>
     )
   }

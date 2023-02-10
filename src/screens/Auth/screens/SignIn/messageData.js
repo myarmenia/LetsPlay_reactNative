@@ -1,20 +1,44 @@
 const messageDefault = {
+  hello: {
+    position: 'left',
+    text: 'С возвращением в платформу «Играем»!', //Здравствуйте и добро пожаловать! Вас приветствует платформа «Играем»!
+  },
   email: {
     position: 'left',
-    isWrong: false,
     text: 'Укажите адрес электронной почты',
+  },
+  emailError: {
+    position: 'left',
+    text: 'Некорректный адрес',
+    error: true,
   },
   password: {
     position: 'left',
     secure: true,
-    isWrong: false,
-    text: 'Введите  пароль',
+    text: 'Введите пароль',
   },
   error: {
     clear: true,
     position: 'left',
-    isWrong: true,
-    text: 'Введенный логин или пароль не верен', //.\nВосстановить пароль
+    error: true,
+    text: 'Введенный логин или пароль не верен',
+  },
+  forgotPassword: {
+    clear: true,
+    position: 'left',
+    error: true,
+    text: 'Хотите сбросить пароль?',
+  },
+  emailCode: {
+    text: 'Вам на электронную почту поступило письмо от платформы «Играем» с кодом подтверждения, укажите его',
+    type: 'TEXT',
+    position: 'left',
+  },
+  validEmailCode: {
+    text: 'Некорректный код',
+    type: 'TEXT',
+    position: 'left',
+    error: true,
   },
 }
 export default messageDefault
