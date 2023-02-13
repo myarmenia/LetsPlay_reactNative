@@ -8,33 +8,32 @@ import Composer from '../../shared/composer'
 import messageDefault from './messageData'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  getDocumentRules,
+  setEmail,
   setName,
   setSignUpError,
-  setSignUpSuccess,
+  setSignUpStep,
   setSurName,
-  signUpFirst,
-  signUpSecond,
+  signUp,
+  signUp2,
+  signUp3,
+  signUp4,
 } from '@/store/Slices/AuthSlice'
-import Button from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import Button from '@/assets/imgs/Button'
+import Row from '@/components/wrappers/row'
+import DarkButton from '@/assets/imgs/DarkButton'
+import Consent from '@/assets/imgs/Consent'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
 const SignUp = () => {
   const ref = useRef()
-  // const scrollRef = useRef()
   const dispatch = useDispatch()
-  const [dataFirstStep, setDataFirstStep] = useState({
-    surname: '',
-    name: '',
-    email: '',
-  })
-  const [dataSecondStep, setDataSecondStep] = useState({
-    verify_code: '',
-    password: '',
-  })
+  const [emailUsedBtns, setEmailUsedBtns] = useState(false)
+  const [password, setPassword] = useState('')
   const [text, setText] = useState('')
-  const [step, setStep] = useState('NAME')
+
   const [messagesList, setMessagesList] = useState([
     messageDefault.hello,
     messageDefault.hello2,
@@ -42,7 +41,8 @@ const SignUp = () => {
   ])
   const [agreeBtn, setAgreeBtn] = useState(false)
 
-  const { signUpError, expired_token, signUpSuccess } = useSelector(({ auth }) => auth)
+  const { signUpError, expired_token, signUpSuccess, signUpStep, user, documentRules } =
+    useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
   const handlerMessage = (message) => {
@@ -51,138 +51,85 @@ const SignUp = () => {
 
   useEffect(() => {
     if (signUpError?.length) {
-      console.log(signUpError)
-      if ('Email used' == signUpError) {
+      console.log(signUpError, 'signUpError')
+      if (signUpError == 'Электронная почта, уже используемая') {
         handlerMessage(messageDefault.usedEmail)
-        setStep('EMAIL')
-      } else {
-        handlerMessage(messageDefault.validEmailPassword)
-        setStep('EMAIL_VERIFY_CODE')
+        handlerMessage({
+          text: `Хотите войти по емейл '${user.email}'`,
+          type: 'TEXT',
+          position: 'left',
+        })
+        setEmailUsedBtns(true)
       }
 
       dispatch(setSignUpError(''))
     }
   }, [signUpError])
 
-  useEffect(() => {
-    if (expired_token && step === 'EMAIL') {
-      setStep('CONSENT')
-      setMessagesList([...messagesList, messageDefault.consent, messageDefault.consent2])
-      setAgreeBtn(true)
-    }
-  }, [expired_token])
-  useEffect(() => {
-    if (signUpSuccess) {
-      handlerMessage(messageDefault.finished)
-      setTimeout(() => {
-        dispatch(setSignUpSuccess(false))
-        navigation.navigate('Onboard')
-      }, 1000)
-    }
-  }, [signUpSuccess])
-
   const onPress = () => {
-    switch (step) {
+    switch (signUpStep) {
       case 'NAME':
-        setDataFirstStep({
-          ...dataFirstStep,
-          name: text,
-        })
         dispatch(setName(text))
-        setStep('SURNAME')
-        setTimeout(() => {
-          handlerMessage(messageDefault.surname)
-        }, 1000)
-
+        dispatch(setSignUpStep('SURNAME'))
+        handlerMessage(messageDefault.surname)
         break
       case 'SURNAME':
-        setDataFirstStep({
-          ...dataFirstStep,
-          surname: text,
-        })
         dispatch(setSurName(text))
-        setStep('EMAIL')
-        setTimeout(() => {
-          handlerMessage(messageDefault.email)
-        }, 1000)
-
+        dispatch(setSignUpStep('EMAIL'))
+        handlerMessage(messageDefault.email)
         break
       case 'EMAIL':
         if (regEmail.test(text)) {
-          setDataFirstStep({
-            ...dataFirstStep,
-            email: text,
-          })
-          dispatch(signUpFirst({ ...dataFirstStep, email: text }))
+          dispatch(setEmail(text.toLocaleLowerCase()))
+          dispatch(
+            signUp({
+              name: user.name,
+              surname: user.surname,
+              email: text.toLocaleLowerCase(),
+            }),
+          )
         } else {
-          setStep('EMAIL')
+          handlerMessage(messageDefault.validEmail)
+          handlerMessage(messageDefault.email)
+        }
+        break
 
-          setTimeout(() => {
-            handlerMessage(messageDefault.validEmail)
-            handlerMessage(messageDefault.email)
-          }, 1000)
-        }
-        break
-      case 'CONSENT':
-        if (text) {
-          setTimeout(() => {
-            handlerMessage(messageDefault.validConsent)
-          }, 1000)
-        }
-        break
       case 'EMAIL_VERIFY_CODE':
         if (text && text.length == 4) {
-          setDataSecondStep((dataSecondStep) => {
-            return {
-              ...dataSecondStep,
+          dispatch(
+            signUp2({
               verify_code: text,
-            }
-          })
-          if (dataSecondStep.password) {
-            dispatch(
-              signUpSecond({
-                ...dataSecondStep,
-                verify_code: text,
-                expired_token,
-              }),
-            )
-          } else {
-            setTimeout(() => {
-              handlerMessage(messageDefault.createPassword)
-            }, 1000)
-
-            setStep('PASSWORD')
-          }
+              expired_token,
+            }),
+          )
         } else {
           setTimeout(() => {
             handlerMessage(messageDefault.validEmailPassword)
           }, 1000)
         }
         break
+
       case 'PASSWORD':
         if (text && text.length >= 6) {
-          setDataSecondStep((dataSecondStep) => {
-            return {
-              ...dataSecondStep,
-              password: text,
-            }
-          })
-          setStep('PASSWORD_VERIFY')
-          setTimeout(() => {
-            handlerMessage(messageDefault.verifyPassword)
-          }, 1000)
+          dispatch(setSignUpStep('PASSWORD_VERIFY'))
+          setPassword(text)
+          handlerMessage(messageDefault.verifyPassword)
         } else {
-          setTimeout(() => {
-            handlerMessage(messageDefault.validPassword)
-          }, 1000)
+          handlerMessage(messageDefault.validPassword)
         }
         break
       case 'PASSWORD_VERIFY':
-        if (text === dataSecondStep.password) {
-          dispatch(signUpSecond({ ...dataSecondStep, expired_token }))
+        if (text === password) {
+          dispatch(signUp3({ password, expired_token }))
         } else {
+          handlerMessage(messageDefault.validVerifyPassword)
+        }
+        break
+
+      case 'CONSENT':
+        if (text) {
           setTimeout(() => {
-            handlerMessage(messageDefault.validVerifyPassword)
+            handlerMessage(messageDefault.validConsent)
           }, 1000)
         }
         break
@@ -191,6 +138,30 @@ const SignUp = () => {
     }
     setText('')
   }
+
+  useEffect(() => {
+    if (signUpStep == 'EMAIL_CODE') {
+      handlerMessage(messageDefault.emailCode)
+      dispatch(setSignUpStep('EMAIL_VERIFY_CODE'))
+    } else if (signUpStep == 'EMAIL_CODE_SUCCESS') {
+      handlerMessage(messageDefault.createPassword)
+      dispatch(setSignUpStep('PASSWORD'))
+    } else if (signUpStep == 'PASSWORD_CREATED_SUCCESS') {
+    }
+  }, [signUpStep])
+  useEffect(() => {
+    if (documentRules?.length) {
+      documentRules.forEach((item) => {
+        handlerMessage({
+          text: item.name,
+          type: 'FILE',
+          svg: <Consent path={item.path} name={item.name} />,
+          position: 'left',
+        })
+      })
+      setAgreeBtn(true)
+    }
+  }, [documentRules])
 
   return (
     <ScreenMask>
@@ -227,20 +198,44 @@ const SignUp = () => {
                 size={{ width: 170, height: 36 }}
                 label="Я согласен"
                 onPress={() => {
-                  setStep('EMAIL_VERIFY_CODE')
+                  const documents = documentRules.map((item) => item._id)
+                  console.log('Documents', documents)
                   handlerMessage(messageDefault.iAgree)
-                  handlerMessage(messageDefault.emailCode)
-                  setAgreeBtn(false)
+                  dispatch(signUp4({ expired_token, documents }))
                 }}
               />
             </View>
+          ) : emailUsedBtns ? (
+            <Row wrapper={styles.btnsContainer}>
+              <Button
+                size={{ width: 100, height: 36 }}
+                label="Да"
+                onPress={() => {
+                  setEmailUsedBtns(false)
+                  handlerMessage({ id: Math.random(), text: 'Да' })
+                  setTimeout(() => {
+                    navigation.navigate('SignIn', { email: user.email })
+                  }, 500)
+                }}
+              />
+              <DarkButton
+                size={{ width: 100, height: 36 }}
+                containerStyle={{ marginLeft: RW(20) }}
+                label="Нет"
+                onPress={() => {
+                  setEmailUsedBtns(false)
+                  handlerMessage({ id: Math.random(), text: 'Нет' })
+                  handlerMessage(messageDefault.email)
+                }}
+              />
+            </Row>
           ) : (
             <Composer
               text={text}
               setText={setText}
               onSend={(message) => {
                 handlerMessage({ id: Math.random(), text: message })
-                setTimeout(onPress, 100)
+                setTimeout(onPress, 200)
               }}
               ref={ref}
             />
@@ -265,5 +260,10 @@ const styles = StyleSheet.create({
   title: {
     marginVertical: RH(12),
     ...font('regular', 18, WHITE, 24),
+  },
+  btnsContainer: {
+    justifyContent: 'flex-end',
+    height: RH(36),
+    marginVertical: RH(19),
   },
 })

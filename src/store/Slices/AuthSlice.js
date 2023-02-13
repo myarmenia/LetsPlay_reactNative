@@ -11,6 +11,10 @@ const initialState = {
   token: '',
   expired_token: '',
   signUpSuccess: false,
+  signInFirstStepSuccess: false,
+  signInStep: 'EMAIL',
+  signUpStep: 'NAME',
+  documentRules: null,
 }
 
 export const AuthSlice = createSlice({
@@ -34,6 +38,12 @@ export const AuthSlice = createSlice({
       return {
         ...store,
         authPending: action.payload,
+      }
+    },
+    setUser: (store, action) => {
+      return {
+        ...store,
+        user: action.payload,
       }
     },
     setName: (store, action) => {
@@ -81,19 +91,40 @@ export const AuthSlice = createSlice({
         signUpSuccess: action.payload,
       }
     },
+    setSignInStep: (store, action) => {
+      return {
+        ...store,
+        signInStep: action.payload,
+      }
+    },
+    setSignUpStep: (store, action) => {
+      return {
+        ...store,
+        signUpStep: action.payload,
+      }
+    },
+    setDocumentRules: (store, action) => {
+      return {
+        ...store,
+        documentRules: action.payload,
+      }
+    },
   },
 })
 
 export const signIn = (data) => (dispatch) => {
+  console.log('signIn', data)
   axiosInstance
     .post('api/auth/sign_in', data)
 
     .then((response) => {
-      console.log(response.data)
-      dispatch(setToken(response.data.access_token))
+      console.log('signIn response', response.data)
+      dispatch(setExpiredToken(response.data.expired_token))
+      dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
     .catch((err) => {
       console.log('err request', err.request._response)
+
       dispatch(
         setSignInError(
           typeof err.request._response == 'string'
@@ -103,15 +134,65 @@ export const signIn = (data) => (dispatch) => {
       )
     })
 }
-export const signUpFirst = (data) => (dispatch) => {
+export const signIn2 = (data) => (dispatch) => {
+  axiosInstance
+    .post('api/auth/sign_in/second_step', data)
+    .then((response) => {
+      dispatch(setUser(response.data.user))
+      dispatch(setToken(response.data.token.access_token))
+    })
+    .catch((err) => {
+      console.log('err request', err.request?._response)
+      dispatch(
+        setSignInError(
+          typeof err.request._response == 'string'
+            ? JSON.parse(err.request._response).message
+            : err.request._response.message,
+        ),
+      )
+    })
+}
+export const forgitPassword = (data) => (dispatch) => {
+  axiosInstance
+    .post('api/auth/password_reset', data)
+    .then((response) => {
+      console.log(response.data, 'forgitPassword response')
+    })
+    .catch((err) => {
+      console.log('err request forgitPassword', err.request?._response)
+    })
+}
+export const forgitPassword2 = (data) => (dispatch) => {
+  axiosInstance
+    .post('api/auth/password_reset_second_step', data)
+    .then((response) => {
+      console.log(response.data, 'forgitPassword2 response')
+      dispatch(setSignInStep('FORGOT_PASSWORD_SUCCESS'))
+    })
+    .catch((err) => {
+      console.log('err request forgitPassword2', err.request?._response)
+    })
+}
+
+export const forgitPassword3 = (data) => (dispatch) => {
+  axiosInstance
+    .post('api/auth/password_reset_third_step', data)
+    .then((response) => {
+      console.log(response.data, 'forgitPassword3 response')
+      setTimeout(() => {
+        dispatch(setToken(response.data.expired_token.access_token))
+      }, 1500)
+    })
+    .catch((err) => {
+      console.log('err request forgitPassword3', err.request?._response)
+    })
+}
+export const signUp = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/first_step', data)
     .then((response) => {
-      if (response.data?.statusCode == 201) {
-        dispatch(setExpiredToken(response.data?.expired_token))
-      } else {
-        console.log(response.data)
-      }
+      dispatch(setExpiredToken(response.data?.expired_token))
+      dispatch(setSignUpStep('EMAIL_CODE'))
     })
 
     .catch((err) => {
@@ -126,16 +207,13 @@ export const signUpFirst = (data) => (dispatch) => {
     })
 }
 
-export const signUpSecond = (data) => (dispatch) => {
+export const signUp2 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/second_step', data)
     .then((response) => {
-      if (response.data?.statusCode == 202) {
-        dispatch(setExpiredToken(response.data.token.access_token))
-        dispatch(setSignUpSuccess(true))
-      } else {
-        console.log(response.data)
-      }
+      console.log(response.data)
+      dispatch(setExpiredToken(response.data?.expired_token))
+      dispatch(setSignUpStep('EMAIL_CODE_SUCCESS'))
     })
     .catch((err) => {
       console.log('err request response', err.request._response)
@@ -148,7 +226,58 @@ export const signUpSecond = (data) => (dispatch) => {
       )
     })
 }
-
+export const signUp3 = (data) => (dispatch) => {
+  console.log(data)
+  axiosInstance
+    .post('api/auth/signup/third_step', data)
+    .then((response) => {
+      // dispatch(setSignUpStep('PASSWORD_CREATED_SUCCESS'))
+      dispatch(getDocumentRules())
+    })
+    .catch((err) => {
+      console.log('err request response', err.request._response)
+      dispatch(
+        setSignUpError(
+          typeof err.request._response == 'string'
+            ? JSON.parse(err.request._response).message[0]
+            : err.request._response.message[0],
+        ),
+      )
+    })
+}
+export const signUp4 = (data) => (dispatch) => {
+  console.log(data)
+  axiosInstance
+    .post('api/auth/signup/fourth_step', data)
+    .then((response) => {
+      setUser(response.data.user)
+      setTimeout(() => {
+        dispatch(setToken(response.data.token.access_token))
+      }, 1500)
+    })
+    .catch((err) => {
+      console.log('err request response', err.request._response)
+      dispatch(
+        setSignUpError(
+          typeof err.request._response == 'string'
+            ? JSON.parse(err.request._response).message[0]
+            : err.request._response.message[0],
+        ),
+      )
+    })
+}
+export const getDocumentRules = () => (dispatch) => {
+  console.log('getDocuments')
+  axiosInstance
+    .get('api/document-rules')
+    .then((response) => {
+      console.log('document-rules response', response.data.datas)
+      dispatch(setDocumentRules(response.data?.datas))
+    })
+    .catch((err) => {
+      console.log('err request response', err.request._response)
+    })
+}
 export const {
   setToken,
   setExpiredToken,
@@ -156,8 +285,13 @@ export const {
   setName,
   setSurName,
   setEmail,
+  setUser,
+  setSignInFirstStepSuccess,
   setSignInError,
   setSignUpError,
   setSignUpSuccess,
+  setSignInStep,
+  setSignUpStep,
+  setDocumentRules,
 } = AuthSlice.actions
 export default AuthSlice.reducer

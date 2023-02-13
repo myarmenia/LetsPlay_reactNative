@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import ScreenMask from '@/components/wrappers/screen'
@@ -6,55 +6,41 @@ import { RH, RW } from '@/theme/utils'
 import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
 import messageDefault from './messageData'
-import { setSignInError, signIn } from '@/store/Slices/AuthSlice'
+import {
+  forgitPassword,
+  forgitPassword3,
+  setSignInStep,
+  signIn,
+  signIn2,
+} from '@/store/Slices/AuthSlice'
 import Button from '@/assets/imgs/Button'
 import Row from '@/components/wrappers/row'
 import DarkButton from '@/assets/imgs/DarkButton'
+import { forgitPassword2 } from '../../../../store/Slices/AuthSlice'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
-let signInErrorCount = 0
+let passwordForgotErrorCount = 1
 
-const SignIn = () => {
+const SignIn = (props) => {
+  const emailWithSignUp = props.route.params.email
   const dispatch = useDispatch()
-  const [email, setEmail] = useState('')
   const [text, setText] = useState('')
-  const [step, setStep] = useState('EMAIL')
+  const [password, setPassword] = useState('')
+
   const [forgetPassword, setForgetPassword] = useState(false)
 
   const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.email])
-  const { signInError } = useSelector(({ auth }) => auth)
+  const { signInError, signInStep, expired_token } = useSelector(({ auth }) => auth)
 
   const handlerMessage = (message) => {
-    console.log('render')
     setMessagesList((messagesList) => [...messagesList, message])
   }
 
-  useEffect(() => {
-    if (signInError?.length) {
-      if (signInErrorCount >= 2) {
-        console.log(signInErrorCount)
-        signInErrorCount++
-        handlerMessage(messageDefault.error)
-        dispatch(setSignInError(''))
-        setStep('EMAIL')
-        handlerMessage(messageDefault.email)
-      } else {
-        signInErrorCount = 0
-        handlerMessage(messageDefault.error)
-        handlerMessage(messageDefault.forgotPassword)
-        dispatch(setSignInError(''))
-        setForgetPassword(true)
-      }
-    }
-  }, [signInError])
-
-  const onPress = () => {
-    switch (step) {
+  const nextStape = async () => {
+    switch (signInStep) {
       case 'EMAIL':
         if (regEmail.test(text)) {
-          setEmail(text.toLocaleLowerCase())
-          setStep('PASSWORD')
-          handlerMessage(messageDefault.password)
+          dispatch(signIn({ email: text.toLocaleLowerCase() }))
         } else {
           handlerMessage(messageDefault.emailError)
           handlerMessage(messageDefault.email)
@@ -62,29 +48,36 @@ const SignIn = () => {
 
         break
       case 'PASSWORD':
-        dispatch(signIn({ email: email, password: text }))
-
+        dispatch(signIn2({ expired_token: expired_token, password: text.toLocaleLowerCase() }))
         break
       case 'EMAIL_VERIFY_CODE':
         if (text && text.length == 4) {
-          // if (dataSecondStep.password) {
-          //   dispatch(
-          //     signUpSecond({
-          //       ...dataSecondStep,
-          //       verify_code: text,
-          //       expired_token,
-          //     }),
-          //   )
-          // } else {
-          //   setTimeout(() => {
-          //     handlerMessage(messageDefault.createPassword)
-          //   }, 1000)
-          //   setStep('PASSWORD')
-          // }
+          dispatch(forgitPassword2({ expired_token: expired_token, verify_code: text }))
         } else {
           setTimeout(() => {
             handlerMessage(messageDefault.validEmailCode)
           }, 1000)
+        }
+        break
+      case 'CREATE_PASSWORD':
+        if (text && text.length >= 6) {
+          setPassword(text)
+          handlerMessage(messageDefault.ConfirmCreatetPassword)
+          dispatch(setSignInStep('CONFIRM_CREATET_PASSWORD'))
+        } else {
+          handlerMessage(messageDefault.validPassword)
+        }
+        break
+      case 'CONFIRM_CREATET_PASSWORD':
+        if (text && text.length >= 6) {
+          if (text == password) {
+            dispatch(forgitPassword3({ expired_token: expired_token, password: text }))
+            handlerMessage(messageDefault.forgotPasswordSuccess)
+          } else {
+            handlerMessage(messageDefault.validVerifyPassword)
+          }
+        } else {
+          handlerMessage(messageDefault.validPassword)
         }
         break
       default:
@@ -92,7 +85,49 @@ const SignIn = () => {
     }
     setText('')
   }
+  useEffect(() => {
+    if (signInStep == 'EMAIL_SUCCESS') {
+      handlerMessage(messageDefault.password)
+      dispatch(setSignInStep('PASSWORD'))
+    } else if (signInStep == 'FORGOT_PASSWORD_SUCCESS') {
+      handlerMessage(messageDefault.createPassword)
+      dispatch(setSignInStep('CREATE_PASSWORD'))
+    }
+  }, [signInStep])
 
+  useEffect(() => {
+    if (signInError?.length) {
+      if (signInError == 'Нет такой электронной почты') {
+        handlerMessage({ position: 'left', text: signInError, error: true })
+        handlerMessage(messageDefault.email)
+      } else if (signInError == 'Неправильный адрес электронной почты или пароль') {
+        if (passwordForgotErrorCount == 2) {
+          passwordForgotErrorCount = 0
+          handlerMessage(messageDefault.forgotPassword)
+          setForgetPassword(true)
+        } else {
+          handlerMessage(messageDefault.passwordError)
+          handlerMessage(messageDefault.password)
+          passwordForgotErrorCount++
+        }
+      } else if (signInError == 'Неверный код верификации') {
+        handlerMessage({ position: 'left', text: signInError, error: true })
+      } else {
+        handlerMessage(messageDefault.emailError)
+        handlerMessage(messageDefault.email)
+      }
+    }
+  }, [signInError])
+
+  useEffect(() => {
+    handlerMessage({ id: Math.random(), text: emailWithSignUp })
+    if (regEmail.test(emailWithSignUp)) {
+      dispatch(signIn({ email: emailWithSignUp.toLocaleLowerCase() }))
+    } else {
+      handlerMessage(messageDefault.emailError)
+      handlerMessage(messageDefault.email)
+    }
+  }, [emailWithSignUp])
   return (
     <ScreenMask>
       <KeyboardAvoidingView
@@ -123,8 +158,10 @@ const SignIn = () => {
                 label="Да"
                 onPress={() => {
                   setForgetPassword(false)
+                  handlerMessage({ id: Math.random(), text: 'Да' })
                   handlerMessage(messageDefault.emailCode)
-                  setStep('EMAIL_VERIFY_CODE')
+                  dispatch(forgitPassword({ expired_token: expired_token }))
+                  dispatch(setSignInStep('EMAIL_VERIFY_CODE'))
                 }}
               />
               <DarkButton
@@ -132,6 +169,8 @@ const SignIn = () => {
                 containerStyle={{ marginLeft: RW(20) }}
                 label="Нет"
                 onPress={() => {
+                  setForgetPassword(false)
+                  handlerMessage({ id: Math.random(), text: 'Нет' })
                   handlerMessage(messageDefault.password)
                 }}
               />
@@ -142,7 +181,7 @@ const SignIn = () => {
               setText={setText}
               onSend={(message) => {
                 handlerMessage({ id: Math.random(), text: message })
-                setTimeout(onPress, 200)
+                setTimeout(nextStape, 200)
               }}
             />
           )}

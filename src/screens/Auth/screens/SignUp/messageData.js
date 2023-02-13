@@ -38,30 +38,8 @@ const messageDefault = {
     position: 'left',
     error: true,
   },
-  consent: {
-    text: 'Согласие на\n обработку данных',
-    type: 'FILE',
-    svg: <Consent />,
-    position: 'left',
-  },
-  consent2: {
-    text: 'Лицензионное\n соглашение',
-    type: 'FILE',
-    svg: <Consent />,
-    position: 'left',
-  },
-  iAgree: {
-    text: 'Я согласен',
-    type: 'TEXT',
-    position: 'right',
-  },
   emailCode: {
     text: 'Вам на электронную почту поступило письмо от платформы «Играем» с кодом подтверждения, укажите его',
-    type: 'TEXT',
-    position: 'left',
-  },
-  validConsent: {
-    text: 'Вы должны дать согласие на обработку данных госуслуги. Нажатие кнопку на верху',
     type: 'TEXT',
     position: 'left',
   },
@@ -93,6 +71,30 @@ const messageDefault = {
     position: 'left',
     error: true,
   },
+  consent: {
+    text: 'Согласие на\n обработку данных',
+    type: 'FILE',
+    svg: <Consent />,
+    position: 'left',
+  },
+  consent2: {
+    text: 'Лицензионное\n соглашение',
+    type: 'FILE',
+    svg: <Consent />,
+    position: 'left',
+  },
+  iAgree: {
+    text: 'Я согласен',
+    type: 'TEXT',
+    position: 'right',
+  },
+
+  validConsent: {
+    text: 'Вы должны дать согласие на обработку данных госуслуги. Нажатие кнопку на верху',
+    type: 'TEXT',
+    position: 'left',
+  },
+
   finished: {
     text: 'Поздравляем! Вы успешно зарегистрировались',
     type: 'TEXT',

@@ -17,11 +17,10 @@ const messageDefault = {
     secure: true,
     text: 'Введите пароль',
   },
-  error: {
-    clear: true,
+  passwordError: {
     position: 'left',
+    text: 'Неправильный пароль',
     error: true,
-    text: 'Введенный логин или пароль не верен',
   },
   forgotPassword: {
     clear: true,
@@ -39,6 +38,33 @@ const messageDefault = {
     type: 'TEXT',
     position: 'left',
     error: true,
+  },
+  createPassword: {
+    position: 'left',
+    type: 'TEXT',
+    text: 'Создайте пароль',
+  },
+  ConfirmCreatetPassword: {
+    position: 'left',
+    type: 'TEXT',
+    text: 'Подтвердите пароль',
+  },
+  validPassword: {
+    text: 'Некорректный пароль!',
+    type: 'TEXT',
+    position: 'left',
+    error: true,
+  },
+  validVerifyPassword: {
+    text: 'Пароль не совпадает',
+    type: 'TEXT',
+    position: 'left',
+    error: true,
+  },
+  forgotPasswordSuccess: {
+    text: 'Новый пароль успешно создан',
+    type: 'TEXT',
+    position: 'left',
   },
 }
 export default messageDefault
