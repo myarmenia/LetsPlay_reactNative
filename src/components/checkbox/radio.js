@@ -25,7 +25,7 @@ const Radio = props => {
       if (type === 'gender') {
         dispatch(setPlayers_gender(ev.text))
       } else if (type === 'statusOrganizer') {
-        dispatch(setOrganizer_in_the_game(ev.text))
+        dispatch(setOrganizer_in_the_game(ev.text == 'Участвует' ? true : false))
       } else if (type === 'priceView') {
         setData({ ...data, price: ev.text })
       } else if (type === 'gameType') {

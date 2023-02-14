@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native'
 import style from './style'
 import { RH, RW } from '@/theme/utils'
-import Map from '@/components/inputs/map'
 import Button from '@/assets/imgs/Button'
 import Price from '@/components/inputs/price'
 import Modal from '@/components/modal'
@@ -12,13 +11,20 @@ import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { createGame } from '@/store/Slices/GameCreatingSlice'
+import {
+  createGame,
+  setEndDate,
+  setPlayers_gender,
+  setStart_date,
+} from '@/store/Slices/GameCreatingSlice'
 import axiosInstance from '@/store/Api'
 import { token } from '@/store/Slices/AuthSlice'
 import { useNavigation } from '@react-navigation/native'
+import Map from '../Map/Map'
+import SearchAddresses from '../Map/SearchAddresses'
 
 const GameCreating = props => {
-  const { game } = props.route.params.params
+  const { game, response } = props.route?.params?.params
   // const game = props.route.params.initialState
   // const initialState = {
   //   gameDayDate: undefined,
@@ -44,20 +50,22 @@ const GameCreating = props => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const handleClick = () => {
-    // console.log(initialState)
-    // axiosInstance
-    //   .post('/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-    //   .then(res => {
-    //     console.log(res.data, 'res')
-    //   })
-    //   .catch(err => console.log(err.request))
+    dispatch(setStart_date(`2022-02-10T08:22:32.113Z`)),
+      dispatch(setEndDate(`2023-04-13T08:33:47.613Z`)),
+      dispatch(setPlayers_gender('male')),
+      axiosInstance
+        .post('/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
+        .then(res => {
+          navigation.navigate('GameTicket', { flag, initialState, game })
+        })
+        .catch(err => console.log(err.request))
     //   setIsVisible(false)
     // } else {
     //   setIsVisible(true)
     // }
     // setErrorText(true)
     // setModalOpen(false)
-    navigation.navigate('GameTicket', { flag, initialState, game })
+
     setModalOpen(true)
     setIsVisible(false)
   }
@@ -120,11 +128,7 @@ const GameCreating = props => {
             ]}
             title={'Половой признак игрока'}
           />
-          <Map
-            initialState={initialState}
-            placeholder={'Адрес проведения игры'}
-            availablePress={false}
-          />
+          <SearchAddresses game={game} />
           <FirstBlock
             initialState={initialState}
             title={'Дата и время окончания поиска игроков'}
@@ -170,44 +174,45 @@ const GameCreating = props => {
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
           <View style={{ position: 'absolute' }}>
-            <Modal
-              modalVisible={isVisible}
-              setIsVisible={setIsVisible}
-              btnClose={false}
-              item={
-                modalOpen ? (
-                  <View style={style.regulationBlock}>
-                    <Text style={style.title}>Правила</Text>
-
-                    <Text style={style.textTwo}>{game?.info}</Text>
-                  </View>
-                ) : (
-                  <View style={style.topBlock}>
-                    <Text style={style.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        width: RW(220),
-                      }}
-                    >
-                      <Button
-                        light={true}
-                        onPress={handleSubmit}
-                        size={{ width: 100, height: 36 }}
-                        label={'Да'}
-                      />
-                      <DarkButton
-                        light={false}
-                        onPress={handleSubmit}
-                        size={{ width: 100, height: 36 }}
-                        label={'Нет'}
-                      />
+            {!response && (
+              <Modal
+                modalVisible={isVisible}
+                setIsVisible={setIsVisible}
+                btnClose={false}
+                item={
+                  modalOpen ? (
+                    <View style={style.regulationBlock}>
+                      <Text style={style.title}>Правила</Text>
+                      <Text style={style.textTwo}>{game?.info}</Text>
                     </View>
-                  </View>
-                )
-              }
-            />
+                  ) : (
+                    <View style={style.topBlock}>
+                      <Text style={style.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          width: RW(220),
+                        }}
+                      >
+                        <Button
+                          light={true}
+                          onPress={handleSubmit}
+                          size={{ width: 100, height: 36 }}
+                          label={'Да'}
+                        />
+                        <DarkButton
+                          light={false}
+                          onPress={handleSubmit}
+                          size={{ width: 100, height: 36 }}
+                          label={'Нет'}
+                        />
+                      </View>
+                    </View>
+                  )
+                }
+              />
+            )}
           </View>
           <View style={flag ? { ...style.submitBlock } : { ...style.submitBlock, marginTop: 20 }}>
             <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />

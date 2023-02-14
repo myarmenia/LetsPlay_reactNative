@@ -21,9 +21,10 @@ export default StyleSheet.create({
   dateButtonText: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+
     width: '85%',
     alignSelf: 'center',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
   dateSvg: {
     marginLeft: RW(24),
