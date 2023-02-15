@@ -24,18 +24,6 @@ const SearchAddresses = ({ game }) => {
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
   const initialState = useSelector((state) => state.game)
-  // const makeURL = async () => {
-  //   try {
-  //     const res = await fetch(
-  //       `https://maps.googleapis.com/maps/api/geocode/json?${true ? 'latlng' : 'address'}=${
-  //         true ? 40.1772 + ',' + 44.50349 : 'Armenia'
-  //       }&key=${'AIzaSyBPDe31Cr9QeeZjeUW_pvS50vq3vQHvgjw'}&language=${'en'}&region=.${'en'}`,
-  //     )
-  //     return console.log(res)
-  //   } catch (err) {
-  //     return console.log(err)
-  //   }
-  // }
 
   const makeURL = async (state) => {
     try {
