@@ -272,10 +272,12 @@ const Elias = ({ navigation }) => {
       </DraxProvider> */}
       <View
         style={{
-          marginLeft: 'auto',
+          // marginLeft: 'auto',
+          flex: 1,
           alignItems: 'center',
           marginVertical: 20,
-          marginRight: 'auto',
+          justifyContent: 'center',
+          // marginRight: 'auto',
         }}
       >
         <Button

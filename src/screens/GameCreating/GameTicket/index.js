@@ -12,7 +12,7 @@ import ShareSvg from '@/assets/svgs/shareSvg'
 
 function Index(props) {
   const { navigation, route } = props
-  const { flag, game, initialState } = route.params
+  const { flag, game, data } = route.params
   const [isVisible, setIsVisible] = useState(false)
   const [success, setSuccess] = useState(false)
   const [modalClose, setModalClose] = useState(true)
@@ -27,7 +27,7 @@ function Index(props) {
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View style={{ height: '100%' }}>
         <View>
-          <Ticket data={initialState} game={game} />
+          <Ticket data={data} game={game} />
         </View>
         <View style={style.gameTicketButtonsBlock}>
           <TouchableOpacity
@@ -40,9 +40,7 @@ function Index(props) {
           <TouchableOpacity style={style.shareButton}>
             <ShareSvg />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('Home', { flag: true, game, initialState })}
-          >
+          <TouchableOpacity onPress={() => navigation.navigate('Home', { flag: true, game, data })}>
             <CheckedCheckbox />
           </TouchableOpacity>
           {/*<Button*/}

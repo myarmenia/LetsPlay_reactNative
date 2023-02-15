@@ -11,7 +11,7 @@ import VKIcon from '@/assets/imgs/vk'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
-import { setToken } from '@/store/Slices/AuthSlice'
+import { setToken, vkAuth } from '@/store/Slices/AuthSlice'
 import LogoSvg from '@/assets/LogoSvg'
 const socket = io.connect('https://to-play.ru/vk/authorize', {
   transports: ['websocket'],
@@ -26,11 +26,19 @@ const AuthHome = () => {
   const openLink = async (url) => {
     try {
       socket.on('message', (data) => {
-        console.log(data)
         if (data.vkAuthInfo && data.token == expiredToken) {
           InAppBrowser.close()
-          console.log(data.vkAuthInfo)
-          dispatch(setToken(expiredToken))
+          const vkAuthInfo = JSON.parse(data.vkAuthInfo)
+          dispatch(
+            vkAuth({
+              id: vkAuthInfo.id,
+              first_name: vkAuthInfo.first_name,
+              last_name: vkAuthInfo?.last_name,
+              bdate: vkAuthInfo?.bdate,
+              photo_200: vkAuthInfo?.has_mobile ? data.vkAuthInfo?.photo_200 : null,
+              sex: vkAuthInfo?.sex,
+            }),
+          )
         }
       })
       const canOpenURL = await Linking.canOpenURL(url)
@@ -42,17 +50,20 @@ const AuthHome = () => {
           modalEnabled: true,
           enableBarCollapsing: false,
           dismissButtonStyle: 'cancel',
-          // preferredControlTintColor: 'white',
+          preferredControlTintColor: 'rgba(101, 122, 197, 1)',
+          preferredBarTintColor: '#001034',
           modalPresentationStyle: 'formSheet',
           modalTransitionStyle: 'coverVertical',
           //Android Properties
           showTitle: true,
           enableUrlBarHiding: true,
           enableDefaultShare: true,
-          navigationBarColor: 'black',
+          navigationBarColor: '#001034',
           showInRecents: true,
           forceCloseOnRedirection: false,
-          navigationBarDividerColor: 'white',
+          navigationBarDividerColor: '#001034',
+          toolbarColor: '#001034',
+
           animations: {
             startEnter: 'slide_in_top',
             startExit: 'slide_out_left',
@@ -72,9 +83,7 @@ const AuthHome = () => {
   return (
     <ScreenMask>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>
-          Здравствуйте и добро пожаловать! Вас приветствует платформа «Играем»!
-        </Text>
+        <Text style={styles.title}>Добро пожаловать!</Text>
       </View>
       <View style={styles.logoContainer}>
         <LogoSvg />
@@ -84,24 +93,23 @@ const AuthHome = () => {
           <LightButton
             label={'Вход'}
             onPress={() => {
-              navigation.push('SignInStack')
+              navigation.navigate('SignIn')
             }}
           />
           <LightButton
             label={'Регистрация'}
             onPress={() => {
-              navigation.push('SignUp')
+              navigation.navigate('SignUp')
             }}
           />
         </Row>
         <View style={styles.vk}>
-          <Text style={styles.title}>Вход через</Text>
+          <Text style={styles.vkTitle}>Вход через</Text>
           <Pressable
             style={styles.vkButton}
             onPress={() => {
               expiredToken = token()
-              console.log(expiredToken)
-              openLink(`http://to-play.ru/vk/auth.html?${expiredToken}`)
+              openLink(`https://to-play.ru/vk/auth.html?${expiredToken}`)
             }}
           >
             <VKIcon />
@@ -126,7 +134,7 @@ const styles = StyleSheet.create({
     marginTop: RH(10),
   },
   title: {
-    ...font('regular', 18, WHITE, 24),
+    ...font('regular', 32, WHITE),
   },
   vkButton: {
     marginTop: RH(8),
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     top: RH(180),
   },
-  title: {
+  vkTitle: {
     paddingHorizontal: RW(10),
     ...font('regular', 20, WHITE, 27),
     textAlign: 'center',

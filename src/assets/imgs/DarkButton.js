@@ -4,12 +4,12 @@ import { Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 
-const DarkButton = ({ onPress, label, labelStyle, wrapper, size }) => {
+const DarkButton = ({ onPress, label, labelStyle, wrapper, size, containerStyle = {} }) => {
   const width = RW(size?.width) || RW(172)
   const height = RH(size?.height) || RH(36)
 
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={onPress && onPress}>
+    <TouchableOpacity activeOpacity={0.7} style={containerStyle} onPress={onPress && onPress}>
       <Svg
         width={width}
         height={height}

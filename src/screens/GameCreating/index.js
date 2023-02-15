@@ -23,7 +23,7 @@ import { useNavigation } from '@react-navigation/native'
 import Map from '../Map/Map'
 import SearchAddresses from '../Map/SearchAddresses'
 
-const GameCreating = props => {
+const GameCreating = (props) => {
   const { game, response } = props.route?.params?.params
   // const game = props.route.params.initialState
   // const initialState = {
@@ -53,11 +53,11 @@ const GameCreating = props => {
     console.log(initialState)
     axiosInstance
       .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then(res => {
+      .then((res) => {
         console.log(res.config.message)
         // navigation.navigate('GameTicket', { flag, initialState, game })
       })
-      .catch(err => console.log(err.request))
+      .catch((err) => console.log(err.request))
     //   setIsVisible(false)
     // } else {
     //   setIsVisible(true)
