@@ -1,5 +1,4 @@
-import React from 'react'
-import { Image, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Platform, Pressable, Text, View } from 'react-native'
 import style from './styles'
 import UserDefault from '@/assets/imgs/user/userDefault'
 import UserLine from '@/assets/imgs/user/userLine'
@@ -11,7 +10,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 
 function Index({ user, size, onPressImg }) {
-  const { name, surname } = useSelector(({ auth }) => auth.user)
+  const { name, surname, avatar } = useSelector(({ auth }) => auth.user)
   const fontSizeTitle = size / RW(55)
   const fontSizeCount = size / RW(35)
   const navigation = useNavigation()
@@ -43,7 +42,7 @@ function Index({ user, size, onPressImg }) {
               { ...style.image, borderRadius: size / RW(3) },
               Platform.OS == 'ios' && { resizeMode: 'cover' },
             ]}
-            source={{ uri: user.image }}
+            source={{ uri: avatar || user.image }}
           />
         ) : (
           <UserDefault size={size} />

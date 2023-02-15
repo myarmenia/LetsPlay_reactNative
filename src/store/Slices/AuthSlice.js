@@ -251,9 +251,8 @@ export const signUp4 = (data) => (dispatch) => {
     .post('api/auth/signup/fourth_step', data)
     .then((response) => {
       setUser(response.data.user)
-      setTimeout(() => {
-        dispatch(setToken(response.data.token.access_token))
-      }, 1500)
+      dispatch(setSignUpStep('SIGN_UP_SUCCESSFULED'))
+      dispatch(setExpiredToken(response.data.token.access_token))
     })
     .catch((err) => {
       console.log('err request response', err.request._response)
@@ -267,12 +266,23 @@ export const signUp4 = (data) => (dispatch) => {
     })
 }
 export const getDocumentRules = () => (dispatch) => {
-  console.log('getDocuments')
   axiosInstance
     .get('api/document-rules')
     .then((response) => {
-      console.log('document-rules response', response.data.datas)
       dispatch(setDocumentRules(response.data?.datas))
+    })
+    .catch((err) => {
+      console.log('err request response', err.request._response)
+    })
+}
+export const vkAuth = (data) => (dispatch) => {
+  console.log('vkAuth data', data)
+  axiosInstance
+    .post('api/auth/vk', data)
+    .then((response) => {
+      console.log(response.data, 'vkAuth')
+      dispatch(setUser(response.data?.user))
+      dispatch(setToken(response.data?.token))
     })
     .catch((err) => {
       console.log('err request response', err.request._response)

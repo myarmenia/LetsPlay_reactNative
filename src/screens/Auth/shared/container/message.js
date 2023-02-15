@@ -35,7 +35,11 @@ const Message = ({ message, id }) => {
     >
       {message.type === 'FILE' ? message.svg : null}
       <Text
-        style={[styles.label, message.error && { color: 'rgba(214, 0, 0, 1)' }]}
+        style={[
+          styles.label,
+          message.error && { color: 'rgba(214, 0, 0, 1)' },
+          message.type === 'FILE' && { paddingRight: RW(35) },
+        ]}
         secureTextEntry={true}
       >
         {message.error && 'Ошибка: '}

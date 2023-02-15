@@ -8,7 +8,6 @@ import Composer from '../../shared/composer'
 import messageDefault from './messageData'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  getDocumentRules,
   setEmail,
   setName,
   setSignUpError,
@@ -41,8 +40,9 @@ const SignUp = () => {
   ])
   const [agreeBtn, setAgreeBtn] = useState(false)
 
-  const { signUpError, expired_token, signUpSuccess, signUpStep, user, documentRules } =
-    useSelector(({ auth }) => auth)
+  const { signUpError, expired_token, signUpStep, user, documentRules } = useSelector(
+    ({ auth }) => auth,
+  )
   const navigation = useNavigation()
 
   const handlerMessage = (message) => {
@@ -146,7 +146,8 @@ const SignUp = () => {
     } else if (signUpStep == 'EMAIL_CODE_SUCCESS') {
       handlerMessage(messageDefault.createPassword)
       dispatch(setSignUpStep('PASSWORD'))
-    } else if (signUpStep == 'PASSWORD_CREATED_SUCCESS') {
+    } else if (signUpStep == 'SIGN_UP_SUCCESSFULED') {
+      navigation.navigate('Onboard')
     }
   }, [signUpStep])
   useEffect(() => {
@@ -162,6 +163,11 @@ const SignUp = () => {
       setAgreeBtn(true)
     }
   }, [documentRules])
+  useEffect(() => {
+    return () => {
+      dispatch(setSignUpStep('NAME'))
+    }
+  }, [])
 
   return (
     <ScreenMask>
@@ -198,8 +204,7 @@ const SignUp = () => {
                 size={{ width: 170, height: 36 }}
                 label="Я согласен"
                 onPress={() => {
-                  const documents = documentRules.map((item) => item._id)
-                  console.log('Documents', documents)
+                  const documents = documentRules?.map((item) => item._id)
                   handlerMessage(messageDefault.iAgree)
                   dispatch(signUp4({ expired_token, documents }))
                 }}
