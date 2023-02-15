@@ -38,53 +38,53 @@ const SignIn = (props) => {
   }
 
   const nextStape = async () => {
-    dispatch(setToken(1234567))
-    // switch (signInStep) {
-    //   case 'EMAIL':
-    //     if (regEmail.test(text)) {
-    //       dispatch(signIn({ email: text.toLocaleLowerCase() }))
-    //     } else {
-    //       handlerMessage(messageDefault.emailError)
-    //       handlerMessage(messageDefault.email)
-    //     }
+    // dispatch(setToken(1234567))
+    switch (signInStep) {
+      case 'EMAIL':
+        if (regEmail.test(text)) {
+          dispatch(signIn({ email: text.toLocaleLowerCase() }))
+        } else {
+          handlerMessage(messageDefault.emailError)
+          handlerMessage(messageDefault.email)
+        }
 
-    //     break
-    //   case 'PASSWORD':
-    //     dispatch(signIn2({ expired_token: expired_token, password: text.toLocaleLowerCase() }))
-    //     break
-    //   case 'EMAIL_VERIFY_CODE':
-    //     if (text && text.length == 4) {
-    //       dispatch(forgitPassword2({ expired_token: expired_token, verify_code: text }))
-    //     } else {
-    //       setTimeout(() => {
-    //         handlerMessage(messageDefault.validEmailCode)
-    //       }, 1000)
-    //     }
-    //     break
-    //   case 'CREATE_PASSWORD':
-    //     if (text && text.length >= 6) {
-    //       setPassword(text)
-    //       handlerMessage(messageDefault.ConfirmCreatetPassword)
-    //       dispatch(setSignInStep('CONFIRM_CREATET_PASSWORD'))
-    //     } else {
-    //       handlerMessage(messageDefault.validPassword)
-    //     }
-    //     break
-    //   case 'CONFIRM_CREATET_PASSWORD':
-    //     if (text && text.length >= 6) {
-    //       if (text == password) {
-    //         dispatch(forgitPassword3({ expired_token: expired_token, password: text }))
-    //         handlerMessage(messageDefault.forgotPasswordSuccess)
-    //       } else {
-    //         handlerMessage(messageDefault.validVerifyPassword)
-    //       }
-    //     } else {
-    //       handlerMessage(messageDefault.validPassword)
-    //     }
-    //     break
-    //   default:
-    //     return
-    // }
+        break
+      case 'PASSWORD':
+        dispatch(signIn2({ expired_token: expired_token, password: text.toLocaleLowerCase() }))
+        break
+      case 'EMAIL_VERIFY_CODE':
+        if (text && text.length == 4) {
+          dispatch(forgitPassword2({ expired_token: expired_token, verify_code: text }))
+        } else {
+          setTimeout(() => {
+            handlerMessage(messageDefault.validEmailCode)
+          }, 1000)
+        }
+        break
+      case 'CREATE_PASSWORD':
+        if (text && text.length >= 6) {
+          setPassword(text)
+          handlerMessage(messageDefault.ConfirmCreatetPassword)
+          dispatch(setSignInStep('CONFIRM_CREATET_PASSWORD'))
+        } else {
+          handlerMessage(messageDefault.validPassword)
+        }
+        break
+      case 'CONFIRM_CREATET_PASSWORD':
+        if (text && text.length >= 6) {
+          if (text == password) {
+            dispatch(forgitPassword3({ expired_token: expired_token, password: text }))
+            handlerMessage(messageDefault.forgotPasswordSuccess)
+          } else {
+            handlerMessage(messageDefault.validVerifyPassword)
+          }
+        } else {
+          handlerMessage(messageDefault.validPassword)
+        }
+        break
+      default:
+        return
+    }
     setText('')
   }
   useEffect(() => {
