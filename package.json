@@ -11,7 +11,8 @@
     "pod": "cd ios && pod install && cd ..",
     "ios14": "react-native run-ios --simulator='iPhone 14'",
     "android-bundler": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
-    "android-release": "cd android && ./gradlew assembleRelease && cd ./"
+    "android-release": "cd android && ./gradlew assembleRelease && cd ./",
+    "android-clean": "cd android && ./gradlew clean && cd ./"
   },
   "pre-commit": [
     "lint"

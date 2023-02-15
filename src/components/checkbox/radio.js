@@ -6,7 +6,11 @@ import style from './style'
 import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW } from '@/theme/utils'
 import { useDispatch } from 'react-redux'
-import { setOrganizer_in_the_game, setPlayers_gender } from '@/store/Slices/GameCreatingSlice'
+import {
+  setOrganizer_in_the_game,
+  setPlayers_gender,
+  setTicket_price,
+} from '@/store/Slices/GameCreatingSlice'
 
 const Radio = props => {
   const { list, margin, setFlag, type, data, setData } = props
@@ -36,7 +40,7 @@ const Radio = props => {
       } else if (type === 'statusOrganizer') {
         dispatch(setOrganizer_in_the_game(ev.text == 'Участвует' ? true : false))
       } else if (type === 'priceView') {
-        setData({ ...data, price: ev.text })
+        dispatch(setTicket_price({ ...data, price: ev.text }))
       } else if (type === 'gameType') {
         setData({ ...data, gameValue: ev.text })
       } else if (type === 'prizeFund') {

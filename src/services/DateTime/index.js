@@ -10,14 +10,12 @@ import { setEndDate, setStart_date } from '@/store/Slices/GameCreatingSlice'
 
 const DateTime = ({ type, errorText, width, place }) => {
   //states
-  const [date, setDate] = useState(new Date().toLocaleDateString())
+  const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, -3))
-  //show date pickers
-  const [showDate, setShowDate] = useState(false)
-  const [showTime, setShowTime] = useState(false)
   //redux
   const dispatch = useDispatch()
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
+
   return (
     <View style={type === 'date' ? style.dateButton : [style.dateButton, { width: RW(140) }]}>
       {type === 'date' ? (
@@ -32,45 +30,21 @@ const DateTime = ({ type, errorText, width, place }) => {
                     display: 'default',
                     mode: 'date',
                     value: new Date(),
-                    onChange: (e, changedDate) => {
-                      // console.log(
-                      //   changedDate.toJSON().substring(0, changedDate.toJSON().indexOf('T')),
-                      // )
-                      dispatch(
-                        place == 'onTop'
-                          ? setStart_date(changedDate.toJSON().substring(0, 10))
-                          : setEndDate(changedDate.toJSON().substring(0, 10)),
-                      )
-                      setDate(changedDate.toJSON().substring(0, 10))
+                    onChange: (_, changedDate) => {
+                      let change = changedDate.toISOString().substring(0, 10)
+                      dispatch(place == 'onTop' ? setStart_date(change) : setEndDate(change))
                     },
                   })
                 : null
             }}
           >
             <DateSvg style={width ? { ...style.dateSvg, marginLeft: RW(10) } : style.dateSvg} />
-            <Text style={style.dateText}>{date}</Text>
+            <Text style={style.dateText}>
+              {place == 'onTop'
+                ? initialState.start_date.toString().substring(0, 10)
+                : initialState.end_date.toString().substring(0, 10)}
+            </Text>
           </Pressable>
-          {showDate && (
-            <RNDateTimePicker
-              value={Platform.OS === 'ios' ? date : new Date()}
-              mode="date"
-              display="compact"
-              onChange={(_, val) => {
-                Platform.OS == 'ios' ? null : setShowDate(false)
-                dispatch(
-                  place == 'onTop'
-                    ? setStart_date(Platform.OS === 'ios' ? val : val?.toLocaleDateString())
-                    : setEndDate(Platform.OS === 'ios' ? val : val?.toLocaleDateString()),
-                )
-                setDate(Platform.OS === 'ios' ? val : val?.toLocaleDateString())
-                Platform.OS == 'ios' ? null : setShowDate(false)
-              }}
-              minimumDate={minimumDate !== undefined ? '2021, 01, 01' : null}
-              maximumDate={maximumDate !== undefined ? '2099, 01, 01' : null}
-              locale="en"
-              accentColor={Colors.orange}
-            />
-          )}
         </>
       ) : (
         <Pressable
@@ -83,13 +57,23 @@ const DateTime = ({ type, errorText, width, place }) => {
                   display: 'default',
                   mode: 'time',
                   value: new Date(),
-                  onChange: (e, val) => {
-                    setTime(val.toLocaleTimeString().slice(0, -3)), setShowTime(false)
-                    dispatch(
-                      place === 'onTop'
-                        ? setStart_date(initialState.start_date.concat(` ${time}`))
-                        : setEndDate(initialState.end_date.concat(` ${time}`)),
-                    )
+                  minimumDate: initialState?.start_date,
+                  onChange: (_, val) => {
+                    let change = val.toLocaleTimeString().slice(0, -3)
+                    setTime(change)
+                    place == 'onTop'
+                      ? initialState.start_date.length >= 16
+                        ? dispatch(
+                            setStart_date(
+                              initialState.start_date.substring(0, 10).concat(` ${change}`),
+                            ),
+                          )
+                        : dispatch(setStart_date(initialState.start_date.concat(` ${change}`)))
+                      : initialState.start_date.length >= 16
+                      ? dispatch(
+                          setEndDate(initialState.start_date.substring(0, 10).concat(` ${change}`)),
+                        )
+                      : dispatch(setEndDate(initialState.end_date.concat(` ${change}`)))
                   },
                 })
               : null

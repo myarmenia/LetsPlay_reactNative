@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   createGame,
   setEndDate,
+  setGame,
+  setInitialState,
   setPlayers_gender,
   setStart_date,
 } from '@/store/Slices/GameCreatingSlice'
@@ -50,21 +52,28 @@ const GameCreating = (props) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const handleClick = () => {
-    console.log(initialState)
-    axiosInstance
-      .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => {
-        console.log(res.config.message)
-        // navigation.navigate('GameTicket', { flag, initialState, game })
-      })
-      .catch((err) => console.log(err.request))
-    //   setIsVisible(false)
-    // } else {
-    //   setIsVisible(true)
-    // }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    // setErrorText(true)
-    // setModalOpen(false)
+    navigation.navigate('GameTicket', { flag, initialState, game })
+    // console.log({
+    //   ...initialState,
+    //   game: game.title,
+    //   end_date: new Date(initialState.end_date).toISOString(),
+    //   start_date: new Date(initialState.start_date).toISOString(),
+    // })
+    // dispatch(
+    //   setInitialState({
+    //     ...initialState,
+    //     // game: game.title,
+    //     end_date: new Date(initialState.end_date).toISOString(),
+    //     start_date: new Date(initialState.start_date).toISOString(),
+    //   }),
+    // )
+    // axiosInstance
+    //   .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
+    //   .then((res) => {
+    //     console.log(res.config.message)
+    //     // navigation.navigate('GameTicket', { flag, initialState, game })
+    //   })
+    //   .catch((err) => console.log(err.request))
 
     setModalOpen(true)
     setIsVisible(false)
@@ -129,11 +138,7 @@ const GameCreating = (props) => {
             title={'Половой признак игрока'}
           />
           <SearchAddresses game={game} />
-          <FirstBlock
-            initialState={initialState}
-            title={'Дата и время окончания поиска игроков'}
-            place={'onBottom'}
-          />
+          <FirstBlock title={'Дата и время окончания поиска игроков'} place={'onBottom'} />
           {errorText && !initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : errorText && initialState?.end_date >= initialState?.start_date ? (
@@ -170,7 +175,7 @@ const GameCreating = (props) => {
               />
             </View>
           ) : null}
-          {errorText && !initialState?.ticket_price && flag ? (
+          {!initialState?.ticket_price && flag ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
           <View style={{ position: 'absolute' }}>
