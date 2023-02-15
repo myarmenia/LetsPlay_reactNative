@@ -12,12 +12,9 @@ const DateTime = ({ type, errorText, width, place }) => {
   //states
   const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, -3))
-  //show date pickers
-  const [showDate, setShowDate] = useState(false)
-  const [showTime, setShowTime] = useState(false)
   //redux
   const dispatch = useDispatch()
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
 
   return (
     <View style={type === 'date' ? style.dateButton : [style.dateButton, { width: RW(140) }]}>
@@ -44,34 +41,10 @@ const DateTime = ({ type, errorText, width, place }) => {
             <DateSvg style={width ? { ...style.dateSvg, marginLeft: RW(10) } : style.dateSvg} />
             <Text style={style.dateText}>
               {place == 'onTop'
-                ? initialState.start_date.substring(0, 10)
-                : // ? initialState.start_date
-                  // : new Date().toISOString()
-                  // : initialState.end_date
-                  initialState.end_date.substring(0, 10)}
-              {/* // : new Date().toISOString()} */}
+                ? initialState.start_date.toString().substring(0, 10)
+                : initialState.end_date.toString().substring(0, 10)}
             </Text>
           </Pressable>
-          {/* {showDate && (
-            <RNDateTimePicker
-              value={Platform.OS === 'ios' ? date : new Date()}
-              mode="date"
-              display="compact"
-              onChange={(_, val) => {
-                Platform.OS == 'ios' ? null : setShowDate(false)
-                console.log(val)
-                // dispatch(
-                //   place == 'onTop'
-                //     ? setStart_date(Platform.OS === 'ios' ? val : val?.toLocaleDateString())
-                //     : setEndDate(Platform.OS === 'ios' ? val : val?.toLocaleDateString()),
-                // )
-                setDate(Platform.OS === 'ios' ? val : val?.toLocaleDateString())
-                Platform.OS == 'ios' ? null : setShowDate(false)
-              }}
-              locale="en"
-              accentColor={Colors.orange}
-            />
-          )} */}
         </>
       ) : (
         <Pressable
@@ -87,7 +60,7 @@ const DateTime = ({ type, errorText, width, place }) => {
                   minimumDate: initialState?.start_date,
                   onChange: (_, val) => {
                     let change = val.toLocaleTimeString().slice(0, -3)
-                    setTime(change), setShowTime(false)
+                    setTime(change)
                     place == 'onTop'
                       ? initialState.start_date.length >= 16
                         ? dispatch(
@@ -101,12 +74,6 @@ const DateTime = ({ type, errorText, width, place }) => {
                           setEndDate(initialState.start_date.substring(0, 10).concat(` ${change}`)),
                         )
                       : dispatch(setEndDate(initialState.end_date.concat(` ${change}`)))
-                    console.log(
-                      'startDate',
-                      initialState.start_date,
-                      'endDate',
-                      initialState.end_date,
-                    )
                   },
                 })
               : null

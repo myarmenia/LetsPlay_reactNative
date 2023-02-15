@@ -13,6 +13,7 @@ import {
   setSignUpError,
   setSignUpStep,
   setSurName,
+  setToken,
   signUp,
   signUp2,
   signUp3,
@@ -67,6 +68,7 @@ const SignUp = () => {
   }, [signUpError])
 
   const onPress = () => {
+    dispatch(setToken(1234567))
     switch (signUpStep) {
       case 'NAME':
         dispatch(setName(text))

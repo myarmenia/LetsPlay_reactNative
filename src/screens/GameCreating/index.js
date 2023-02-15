@@ -25,7 +25,7 @@ import { useNavigation } from '@react-navigation/native'
 import Map from '../Map/Map'
 import SearchAddresses from '../Map/SearchAddresses'
 
-const GameCreating = props => {
+const GameCreating = (props) => {
   const { game, response } = props.route?.params?.params
   // const game = props.route.params.initialState
   // const initialState = {
@@ -43,7 +43,7 @@ const GameCreating = props => {
   //   price: 'Бесплатно',
   //   ticket_price: '',
   // }
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -52,28 +52,34 @@ const GameCreating = props => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const handleClick = () => {
-    console.log(initialState)
+    navigation.navigate('GameTicket', { flag, initialState, game })
+    // console.log({
+    //   ...initialState,
+    //   game: game.title,
+    //   end_date: new Date(initialState.end_date).toISOString(),
+    //   start_date: new Date(initialState.start_date).toISOString(),
+    // })
     // dispatch(
     //   setInitialState({
     //     ...initialState,
-    //     start_date: initialState.start_date.toISOString().substring(0, 10),
-    //     end_date: initialState.end_date.toISOString().substring(0, 10),
+    //     // game: game.title,
+    //     end_date: new Date(initialState.end_date).toISOString(),
+    //     start_date: new Date(initialState.start_date).toISOString(),
     //   }),
     // )
-    axiosInstance
-      .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then(res => {
-        console.log(res.config.message)
-        // navigation.navigate('GameTicket', { flag, initialState, game })
-      })
-      .catch(err => console.log(err.request))
+    // axiosInstance
+    //   .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
+    //   .then((res) => {
+    //     console.log(res.config.message)
+    //     // navigation.navigate('GameTicket', { flag, initialState, game })
+    //   })
+    //   .catch((err) => console.log(err.request))
 
     setModalOpen(true)
     setIsVisible(false)
   }
   const handleSubmit = () => {}
   useEffect(() => {
-    dispatch(setGame(game.info))
     setIsVisible(true)
   }, [])
   useEffect(() => {
