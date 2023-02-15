@@ -37,12 +37,12 @@ const Count = props => {
           setValue(number)
           if (type === 'player') {
             countType === 'from'
-              ? dispatch(setNumber_of_players_from(number))
-              : dispatch(setNumber_of_players_to(number))
+              ? dispatch(setNumber_of_players_from(+number))
+              : dispatch(setNumber_of_players_to(+number))
           } else if (type === 'age') {
             countType === 'from'
-              ? dispatch(setAge_restrictions_from(number))
-              : dispatch(setAge_restrictions_to(number))
+              ? dispatch(setAge_restrictions_from(+number))
+              : dispatch(setAge_restrictions_to(+number))
           }
         }}
         keyboardType={'numeric'}

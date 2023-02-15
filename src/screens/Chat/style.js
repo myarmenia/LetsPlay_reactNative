@@ -10,6 +10,7 @@ import {
   WHITE,
 } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
+import { FONT_INTER_REGULAR } from '@/theme/fonts'
 
 export default StyleSheet.create({
   container: {
@@ -33,6 +34,16 @@ export default StyleSheet.create({
     paddingBottom: RH(17),
     paddingRight: RW(6),
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  regulationBlock: {
+    backgroundColor: LIGHT_LABEL,
+    marginRight: 'auto',
+    borderRadius: RW(20),
+    marginLeft: 'auto',
+    width: RW(357),
+    padding: RW(35),
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -123,4 +134,23 @@ export default StyleSheet.create({
     marginRight: RW(9),
     marginLeft: RW(9),
   },
+  rowBox: {
+    flexDirection: 'row',
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  titleColumnBox: {
+    flexDirection: 'column',
+    justifyContent: 'space-evenly',
+    width: '100%',
+    alignItems: 'flex-start',
+  },
+  titlee: {
+    color: WHITE,
+    fontSize: RW(14),
+    fontFamily: FONT_INTER_REGULAR,
+    paddingTop: '5%',
+  },
+  description: {},
 })

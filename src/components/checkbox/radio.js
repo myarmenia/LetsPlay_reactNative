@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { LIGHT_LABEL, RADIO } from '@/theme/colors'
 import { useState } from 'react'
@@ -13,6 +13,9 @@ const Radio = props => {
   const [value, setValue] = useState('')
   const [checked, setChecked] = useState(true)
   const dispatch = useDispatch()
+  useEffect(() => {
+    type === 'gender' ? dispatch(setPlayers_gender('m/f')) : null
+  }, [])
   const handleChange = ev => {
     setChecked(false)
     setValue(ev.id)
@@ -23,9 +26,15 @@ const Radio = props => {
         setFlag(false)
       }
       if (type === 'gender') {
-        dispatch(setPlayers_gender(ev.text))
+        if (ev.text === 'М') {
+          dispatch(setPlayers_gender('m'))
+        } else if (ev.text === 'Ж') {
+          dispatch(setPlayers_gender('f'))
+        } else {
+          dispatch(setPlayers_gender('m/f'))
+        }
       } else if (type === 'statusOrganizer') {
-        dispatch(setOrganizer_in_the_game(ev.text))
+        dispatch(setOrganizer_in_the_game(ev.text == 'Участвует' ? true : false))
       } else if (type === 'priceView') {
         setData({ ...data, price: ev.text })
       } else if (type === 'gameType') {

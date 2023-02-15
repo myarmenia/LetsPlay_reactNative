@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, Text, Image, ImageBackground } from 'react-native'
+import { View, StyleSheet, Text, Image } from 'react-native'
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
 import ScreenMask from '@/components/wrappers/screen'

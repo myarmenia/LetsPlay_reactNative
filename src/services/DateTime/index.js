@@ -5,7 +5,7 @@ import style from './style'
 import DateSvg from '@/assets/svgs/dateSvg'
 import TimeSvg from '@/assets/svgs/timeSvg'
 import { RW } from '@/theme/utils'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setEndDate, setStart_date } from '@/store/Slices/GameCreatingSlice'
 
 const DateTime = ({ type, errorText, width, place }) => {
@@ -17,7 +17,7 @@ const DateTime = ({ type, errorText, width, place }) => {
   const [showTime, setShowTime] = useState(false)
   //redux
   const dispatch = useDispatch()
-
+  const initialState = useSelector(state => state.game)
   return (
     <View style={type === 'date' ? style.dateButton : [style.dateButton, { width: RW(140) }]}>
       {type === 'date' ? (
@@ -33,12 +33,15 @@ const DateTime = ({ type, errorText, width, place }) => {
                     mode: 'date',
                     value: new Date(),
                     onChange: (e, changedDate) => {
+                      // console.log(
+                      //   changedDate.toJSON().substring(0, changedDate.toJSON().indexOf('T')),
+                      // )
                       dispatch(
                         place == 'onTop'
-                          ? setStart_date(changedDate.toLocaleDateString())
-                          : setEndDate(changedDate.toLocaleDateString()),
+                          ? setStart_date(changedDate.toJSON().substring(0, 10))
+                          : setEndDate(changedDate.toJSON().substring(0, 10)),
                       )
-                      setDate(changedDate.toLocaleDateString())
+                      setDate(changedDate.toJSON().substring(0, 10))
                     },
                   })
                 : null
@@ -82,6 +85,11 @@ const DateTime = ({ type, errorText, width, place }) => {
                   value: new Date(),
                   onChange: (e, val) => {
                     setTime(val.toLocaleTimeString().slice(0, -3)), setShowTime(false)
+                    dispatch(
+                      place === 'onTop'
+                        ? setStart_date(initialState.start_date.concat(` ${time}`))
+                        : setEndDate(initialState.end_date.concat(` ${time}`)),
+                    )
                   },
                 })
               : null

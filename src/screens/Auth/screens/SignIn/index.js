@@ -42,7 +42,7 @@ const SignIn = (props) => {
     switch (signInStep) {
       case 'EMAIL':
         if (regEmail.test(text)) {
-          dispatch(signIn({ email: text.toLocaleLowerCase() }))
+          dispatch(signIn({ email: text.toLocaleLowerCase().trim() }))
         } else {
           handlerMessage(messageDefault.emailError)
           handlerMessage(messageDefault.email)
