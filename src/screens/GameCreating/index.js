@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   createGame,
   setEndDate,
+  setGame,
+  setInitialState,
   setPlayers_gender,
   setStart_date,
 } from '@/store/Slices/GameCreatingSlice'
@@ -23,7 +25,7 @@ import { useNavigation } from '@react-navigation/native'
 import Map from '../Map/Map'
 import SearchAddresses from '../Map/SearchAddresses'
 
-const GameCreating = (props) => {
+const GameCreating = props => {
   const { game, response } = props.route?.params?.params
   // const game = props.route.params.initialState
   // const initialState = {
@@ -41,7 +43,7 @@ const GameCreating = (props) => {
   //   price: 'Бесплатно',
   //   ticket_price: '',
   // }
-  const initialState = useSelector((state) => state.game)
+  const initialState = useSelector(state => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -51,26 +53,27 @@ const GameCreating = (props) => {
   const navigation = useNavigation()
   const handleClick = () => {
     console.log(initialState)
+    // dispatch(
+    //   setInitialState({
+    //     ...initialState,
+    //     start_date: initialState.start_date.toISOString().substring(0, 10),
+    //     end_date: initialState.end_date.toISOString().substring(0, 10),
+    //   }),
+    // )
     axiosInstance
       .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => {
+      .then(res => {
         console.log(res.config.message)
         // navigation.navigate('GameTicket', { flag, initialState, game })
       })
-      .catch((err) => console.log(err.request))
-    //   setIsVisible(false)
-    // } else {
-    //   setIsVisible(true)
-    // }
-    ///////////////////////////////////////////////////////////////////////////////////////////////////
-    // setErrorText(true)
-    // setModalOpen(false)
+      .catch(err => console.log(err.request))
 
     setModalOpen(true)
     setIsVisible(false)
   }
   const handleSubmit = () => {}
   useEffect(() => {
+    dispatch(setGame(game.info))
     setIsVisible(true)
   }, [])
   useEffect(() => {
@@ -129,11 +132,7 @@ const GameCreating = (props) => {
             title={'Половой признак игрока'}
           />
           <SearchAddresses game={game} />
-          <FirstBlock
-            initialState={initialState}
-            title={'Дата и время окончания поиска игроков'}
-            place={'onBottom'}
-          />
+          <FirstBlock title={'Дата и время окончания поиска игроков'} place={'onBottom'} />
           {errorText && !initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : errorText && initialState?.end_date >= initialState?.start_date ? (
@@ -170,7 +169,7 @@ const GameCreating = (props) => {
               />
             </View>
           ) : null}
-          {errorText && !initialState?.ticket_price && flag ? (
+          {!initialState?.ticket_price && flag ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
           <View style={{ position: 'absolute' }}>

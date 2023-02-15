@@ -23,16 +23,18 @@ const SearchAddresses = ({ game }) => {
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
-  const initialState = useSelector((state) => state.game)
-
-  const makeURL = async (state) => {
+  const initialState = useSelector(state => state.game)
+  useEffect(() => {
+    inp.current.value = ''
+  }, [])
+  const makeURL = async state => {
     try {
-      const res = fetchAddress(false, null, null, state).then(async (e) => {
+      const res = fetchAddress(false, null, null, state).then(async e => {
         await fetch(e.url)
-          .then((r) => {
+          .then(r => {
             return r?.json()
           })
-          .then((s) => {
+          .then(s => {
             if (s.results?.length) {
               let response = s.results[0]?.formatted_address
               setAddresses(response)
@@ -47,7 +49,13 @@ const SearchAddresses = ({ game }) => {
   const chooseAddress = () => {
     setState(addresses)
     if (state.length >= 35) {
-      setState(state.split().reverse().join().substring(0, 32) + '...')
+      setState(
+        state
+          .split()
+          .reverse()
+          .join()
+          .substring(0, 32) + '...',
+      )
     }
     setAddresses(null)
   }
@@ -74,10 +82,14 @@ const SearchAddresses = ({ game }) => {
             state
               ? state
               : initialState.placeName.length
-              ? initialState.placeName.split().reverse().join().substring(0, 36) + '...'
+              ? initialState.placeName
+                  .split()
+                  .reverse()
+                  .join()
+                  .substring(0, 36) + '...'
               : state
           }
-          onChangeText={(e) => {
+          onChangeText={e => {
             setState(e)
             if (state.length >= 4) {
               makeURL(state)
