@@ -50,15 +50,14 @@ const GameCreating = props => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const handleClick = () => {
-    dispatch(setStart_date(`2022-02-10T08:22:32.113Z`)),
-      dispatch(setEndDate(`2023-04-13T08:33:47.613Z`)),
-      dispatch(setPlayers_gender('male')),
-      axiosInstance
-        .post('/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-        .then(res => {
-          navigation.navigate('GameTicket', { flag, initialState, game })
-        })
-        .catch(err => console.log(err.request))
+    console.log(initialState)
+    axiosInstance
+      .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => {
+        console.log(res.config.message)
+        // navigation.navigate('GameTicket', { flag, initialState, game })
+      })
+      .catch(err => console.log(err.request))
     //   setIsVisible(false)
     // } else {
     //   setIsVisible(true)
