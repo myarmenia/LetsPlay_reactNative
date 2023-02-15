@@ -4,14 +4,14 @@ import { DARK_BLUE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import Geolocation from '@react-native-community/geolocation'
 import GeolocationIcon from '@/assets/svgs/GeoloactionIcon'
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps'
+import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from 'react-native-maps'
 import SearchAddresses from './SearchAddresses'
 import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
 import { useDispatch } from 'react-redux'
 import { fetchAddress } from './fetchAddress'
 import { useNavigation } from '@react-navigation/native'
 
-const Map = props => {
+const Map = (props) => {
   const mapRef = useRef()
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -24,7 +24,7 @@ const Map = props => {
   })
   const [markers, setMarkers] = useState([])
   const getPosition = () => {
-    Geolocation.getCurrentPosition(position => {
+    Geolocation.getCurrentPosition((position) => {
       const currentLatitude = position.coords.latitude
       const currentLongitude = position.coords.longitude
       setUserPosition({
@@ -42,7 +42,7 @@ const Map = props => {
           },
           1000,
         )
-      error => alert(error.message),
+      ;(error) => alert(error.message),
         {
           enableHighAccuracy: true,
           timeout: 20000,
@@ -62,9 +62,10 @@ const Map = props => {
         initialRegion={userPosition}
         showsBuildings={true}
         customMapStyle={styles.mapTheme}
-        provider={PROVIDER_GOOGLE}
+        // provider={PROVIDER_GOOGLE}
+        provider={PROVIDER_DEFAULT}
         showsUserLocation={false}
-        onPress={e => {
+        onPress={(e) => {
           dispatch(setLatitude(e.nativeEvent.coordinate.latitude)),
             dispatch(setLongitude(e.nativeEvent.coordinate.longitude))
           setMarkers([
@@ -80,13 +81,12 @@ const Map = props => {
             e.nativeEvent.coordinate.latitude,
             e.nativeEvent.coordinate.longitude,
             null,
-          ).then(async e => {
-            // console.log(e.url)
+          ).then(async (e) => {
             await fetch(e.url)
-              .then(r => {
+              .then((r) => {
                 return r.json()
               })
-              .then(s => {
+              .then((s) => {
                 let response = s.results[0]?.formatted_address
                 dispatch(setPlaceName(response))
                 navigation.navigate('GameCreating', { params: { game: game, response: response } })
@@ -100,7 +100,7 @@ const Map = props => {
           pinColor={'#00b7ff'}
           // description={'description'}
         />
-        {markers?.map(marker => {
+        {markers?.map((marker) => {
           return (
             <Marker
               tooltip={true}

@@ -1,61 +1,143 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
 import ScreenMask from '@/components/wrappers/screen'
-import { font, RH } from '@/theme/utils'
-import { WHITE } from '@/theme/colors'
+import { RH, RW } from '@/theme/utils'
 import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
 import messageDefault from './messageData'
-import { useDispatch, useSelector } from 'react-redux'
-import { setSignInError, setToken, signIn } from '@/store/Slices/AuthSlice'
+import {
+  forgitPassword,
+  forgitPassword3,
+  setSignInStep,
+  setToken,
+  signIn,
+  signIn2,
+} from '@/store/Slices/AuthSlice'
+import Button from '@/assets/imgs/Button'
+import Row from '@/components/wrappers/row'
+import DarkButton from '@/assets/imgs/DarkButton'
+import { forgitPassword2 } from '../../../../store/Slices/AuthSlice'
 
-const SignUp = () => {
-  const ref = useRef()
-  const scrollRef = useRef()
+const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+let passwordForgotErrorCount = 1
+
+const SignIn = (props) => {
+  const emailWithSignUp = props.route.params?.email
   const dispatch = useDispatch()
-  const [email, setEmail] = useState('')
   const [text, setText] = useState('')
-  const [step, setStep] = useState('EMAIL')
-  const [messagesList, setMessagesList] = useState([messageDefault.email])
-  const { signInError } = useSelector(({ auth }) => auth)
+  const [password, setPassword] = useState('')
 
-  const handlerMessage = message => {
-    setMessagesList(messagesList => [...messagesList, { ...message }])
+  const [forgetPassword, setForgetPassword] = useState(false)
+
+  const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.email])
+  const { signInError, signInStep, expired_token } = useSelector(({ auth }) => auth)
+
+  const handlerMessage = (message) => {
+    setMessagesList((messagesList) => [...messagesList, message])
   }
 
-  useEffect(() => {
-    if (signInError?.length) {
-      handlerMessage(messageDefault.error)
-      dispatch(setSignInError(''))
-      setStep('EMAIL')
-      handlerMessage(messageDefault.email)
-    }
-  }, [signInError])
-
-  const onPress = () => {
-    // dispatch(setToken(12456))
-    switch (step) {
+  const nextStape = async () => {
+    // dispatch(setToken(1234567))
+    switch (signInStep) {
       case 'EMAIL':
-        setEmail(text.toLocaleLowerCase().trim())
-        setStep('PASSWORD')
-        handlerMessage(messageDefault.password)
+        if (regEmail.test(text)) {
+          dispatch(signIn({ email: text.toLocaleLowerCase().trim() }))
+        } else {
+          handlerMessage(messageDefault.emailError)
+          handlerMessage(messageDefault.email)
+        }
 
         break
       case 'PASSWORD':
-        dispatch(signIn({ email: email, password: text.trim() }))
-
+        dispatch(signIn2({ expired_token: expired_token, password: text.toLocaleLowerCase() }))
+        break
+      case 'EMAIL_VERIFY_CODE':
+        if (text && text.length == 4) {
+          dispatch(forgitPassword2({ expired_token: expired_token, verify_code: text }))
+        } else {
+          setTimeout(() => {
+            handlerMessage(messageDefault.validEmailCode)
+          }, 1000)
+        }
+        break
+      case 'CREATE_PASSWORD':
+        if (text && text.length >= 6) {
+          setPassword(text)
+          handlerMessage(messageDefault.ConfirmCreatetPassword)
+          dispatch(setSignInStep('CONFIRM_CREATET_PASSWORD'))
+        } else {
+          handlerMessage(messageDefault.validPassword)
+        }
+        break
+      case 'CONFIRM_CREATET_PASSWORD':
+        if (text && text.length >= 6) {
+          if (text == password) {
+            dispatch(forgitPassword3({ expired_token: expired_token, password: text }))
+            handlerMessage(messageDefault.forgotPasswordSuccess)
+          } else {
+            handlerMessage(messageDefault.validVerifyPassword)
+          }
+        } else {
+          handlerMessage(messageDefault.validPassword)
+        }
         break
       default:
         return
     }
     setText('')
   }
+  useEffect(() => {
+    if (signInStep == 'EMAIL_SUCCESS') {
+      handlerMessage(messageDefault.password)
+      dispatch(setSignInStep('PASSWORD'))
+    } else if (signInStep == 'FORGOT_PASSWORD_SUCCESS') {
+      handlerMessage(messageDefault.createPassword)
+      dispatch(setSignInStep('CREATE_PASSWORD'))
+    }
+  }, [signInStep])
 
   useEffect(() => {
-    setTimeout(() => {
-      scrollRef.current?.scrollToEnd({ animated: true })
-    }, 100)
-  }, [messagesList])
+    if (signInError?.length) {
+      if (signInError == 'Нет такой электронной почты') {
+        handlerMessage({ position: 'left', text: signInError, error: true })
+        handlerMessage(messageDefault.email)
+      } else if (signInError == 'Неправильный адрес электронной почты или пароль') {
+        if (passwordForgotErrorCount == 2) {
+          passwordForgotErrorCount = 0
+          handlerMessage(messageDefault.forgotPassword)
+          setForgetPassword(true)
+        } else {
+          handlerMessage(messageDefault.passwordError)
+          handlerMessage(messageDefault.password)
+          passwordForgotErrorCount++
+        }
+      } else if (signInError == 'Неверный код верификации') {
+        handlerMessage({ position: 'left', text: signInError, error: true })
+      } else {
+        handlerMessage(messageDefault.emailError)
+        handlerMessage(messageDefault.email)
+      }
+    }
+  }, [signInError])
+
+  useEffect(() => {
+    if (emailWithSignUp) {
+      handlerMessage({ id: Math.random(), text: emailWithSignUp })
+      if (regEmail.test(emailWithSignUp)) {
+        dispatch(signIn({ email: emailWithSignUp.toLocaleLowerCase() }))
+      } else {
+        handlerMessage(messageDefault.emailError)
+        handlerMessage(messageDefault.email)
+      }
+    }
+  }, [emailWithSignUp])
+
+  useEffect(() => {
+    return () => {
+      dispatch(setSignInStep('EMAIL'))
+    }
+  }, [])
   return (
     <ScreenMask>
       <KeyboardAvoidingView
@@ -71,30 +153,55 @@ const SignUp = () => {
         <FlatList
           style={{
             marginBottom: 30,
+            flexDirection: 'column-reverse',
           }}
-          ref={scrollRef}
           scrollsToTop={true}
           data={messagesList}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => <Message message={item} id={messagesList.length} />}
         />
         <View style={styles.bottom}>
-          <Composer
-            text={text}
-            setText={setText}
-            onSend={message => {
-              handlerMessage({ id: Math.random(), text: message })
-              setTimeout(onPress, 200)
-            }}
-            ref={ref}
-          />
+          {forgetPassword ? (
+            <Row wrapper={styles.btnsContainer}>
+              <Button
+                size={{ width: 100, height: 36 }}
+                label="Да"
+                onPress={() => {
+                  setForgetPassword(false)
+                  handlerMessage({ id: Math.random(), text: 'Да' })
+                  handlerMessage(messageDefault.emailCode)
+                  dispatch(forgitPassword({ expired_token: expired_token }))
+                  dispatch(setSignInStep('EMAIL_VERIFY_CODE'))
+                }}
+              />
+              <DarkButton
+                size={{ width: 100, height: 36 }}
+                containerStyle={{ marginLeft: RW(20) }}
+                label="Нет"
+                onPress={() => {
+                  setForgetPassword(false)
+                  handlerMessage({ id: Math.random(), text: 'Нет' })
+                  handlerMessage(messageDefault.password)
+                }}
+              />
+            </Row>
+          ) : (
+            <Composer
+              text={text}
+              setText={setText}
+              onSend={(message) => {
+                handlerMessage({ id: Math.random(), text: message })
+                setTimeout(nextStape, 200)
+              }}
+            />
+          )}
         </View>
       </KeyboardAvoidingView>
     </ScreenMask>
   )
 }
 
-export default SignUp
+export default SignIn
 
 const styles = StyleSheet.create({
   bottom: {
@@ -102,11 +209,9 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: RH(10),
   },
-  vk: {
-    alignItems: 'center',
-  },
-  title: {
-    marginVertical: RH(12),
-    ...font('regular', 18, WHITE, 24),
+  btnsContainer: {
+    justifyContent: 'flex-end',
+    height: RH(36),
+    marginVertical: RH(19),
   },
 })

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { LinearGradient, Stop, Path, Defs, Mask, Circle, G } from 'react-native-svg'
 import { RH, RW } from '@/theme/utils'
 import User from '@/components/userIcon'
-import { Text, TouchableOpacity, View } from 'react-native'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import Modal from '@/components/modal'
 import { useState } from 'react'
 

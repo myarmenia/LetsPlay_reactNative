@@ -5,6 +5,7 @@ import style from '@/screens/GameCreating/style'
 import moment from 'moment'
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
+import Row from '@/components/wrappers/row'
 
 function Ticket(props) {
   const { image, game, data } = props
@@ -25,7 +26,6 @@ function Ticket(props) {
           <Text style={style.ticketTextTwo}>
             {/* {moment(data.gameDayDate).format('DD.MM.YY')} ,{' '}
             {moment(data.gameDayTime).format('HH:mm')} */}
-
           </Text>
         </View>
         <View style={style.ticketTextBlock}>
@@ -59,19 +59,20 @@ function Ticket(props) {
           <Text style={style.ticketText}>Стоимость входного билета на игру:</Text>
           <Text style={style.ticketTextTwo}>{game.ticket_price ? game.ticket_price : 0} руб.</Text>
         </View>
-        <View style={{ ...style.ticketTextBlock, marginBottom: RH(150) }}>
+        <Row wrapper={{ ...style.ticketTextBlock, marginBottom: RH(150) }}>
           <Text style={style.ticketText}>Организатор игры:</Text>
           <View style={{ width: RW(60), marginLeft: RW(20) }}>
-            <User
+            {/* <User
               size={40}
               user={Players[6]}
               onPressItem={{
                 item: <User user={Players[6]} size={390} />,
                 modalClose: false,
               }}
-            />
+            /> */}
+            <Image source={require('./assets/user.png')} />
           </View>
-        </View>
+        </Row>
       </View>
     </ScrollView>
   )

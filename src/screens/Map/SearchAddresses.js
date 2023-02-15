@@ -23,32 +23,20 @@ const SearchAddresses = ({ game }) => {
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
-  const initialState = useSelector(state => state.game)
-  // const makeURL = async () => {
-  //   try {
-  //     const res = await fetch(
-  //       `https://maps.googleapis.com/maps/api/geocode/json?${true ? 'latlng' : 'address'}=${
-  //         true ? 40.1772 + ',' + 44.50349 : 'Armenia'
-  //       }&key=${'AIzaSyBPDe31Cr9QeeZjeUW_pvS50vq3vQHvgjw'}&language=${'en'}&region=.${'en'}`,
-  //     )
-  //     return console.log(res)
-  //   } catch (err) {
-  //     return console.log(err)
-  //   }
-  // }
+  const initialState = useSelector((state) => state.game)
 
-  const makeURL = async state => {
+  const makeURL = async (state) => {
     try {
-      const res = fetchAddress(false, null, null, state).then(async e => {
+      const res = fetchAddress(false, null, null, state).then(async (e) => {
         await fetch(e.url)
-          .then(r => {
-            return r.json()
+          .then((r) => {
+            return r?.json()
           })
-          .then(s => {
+          .then((s) => {
             if (s.results?.length) {
               let response = s.results[0]?.formatted_address
               setAddresses(response)
-            } else throw new Error()
+            }
           })
       })
       return res
@@ -59,13 +47,7 @@ const SearchAddresses = ({ game }) => {
   const chooseAddress = () => {
     setState(addresses)
     if (state.length >= 35) {
-      setState(
-        state
-          .split()
-          .reverse()
-          .join()
-          .substring(0, 32) + '...',
-      )
+      setState(state.split().reverse().join().substring(0, 32) + '...')
     }
     setAddresses(null)
   }
@@ -92,14 +74,10 @@ const SearchAddresses = ({ game }) => {
             state
               ? state
               : initialState.placeName.length
-              ? initialState.placeName
-                  .split()
-                  .reverse()
-                  .join()
-                  .substring(0, 36) + '...'
+              ? initialState.placeName.split().reverse().join().substring(0, 36) + '...'
               : state
           }
-          onChangeText={e => {
+          onChangeText={(e) => {
             setState(e)
             if (state.length >= 4) {
               makeURL(state)
