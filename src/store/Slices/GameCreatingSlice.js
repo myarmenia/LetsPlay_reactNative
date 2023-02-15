@@ -18,6 +18,7 @@ const initialState = {
   organizer_in_the_game: true,
   ticket_price: 0,
   game: 'Футбол',
+  placeName: '',
 }
 
 export const GameCreatingSlice = createSlice({
@@ -70,6 +71,12 @@ export const GameCreatingSlice = createSlice({
       return {
         ...store,
         longitude: action.payload,
+      }
+    },
+    setPlaceName: (store, action) => {
+      return {
+        ...store,
+        placeName: action.payload,
       }
     },
     setEndDate: (store, action) => {
@@ -128,8 +135,9 @@ export const {
   setAge_restrictions_from,
   setAge_restrictions_to,
   setPlayers_gender,
-  setLatitud,
+  setLatitude,
   setLongitude,
+  setPlaceName,
   setEndDate,
   setOrganizer_in_the_game,
   setTicket_price,

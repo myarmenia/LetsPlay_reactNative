@@ -21,7 +21,6 @@ function SvgComponent({size}) {
         height={size/RW(5)}
         viewBox="0 0 139 160"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
       >
         <Circle cx={69.8834} cy={39.3978} r={38.9093} fill="#DBDDE6" />
         <Path

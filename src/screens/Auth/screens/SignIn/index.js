@@ -36,13 +36,13 @@ const SignUp = () => {
     // dispatch(setToken(12456))
     switch (step) {
       case 'EMAIL':
-        setEmail(text.toLocaleLowerCase())
+        setEmail(text.toLocaleLowerCase().trim())
         setStep('PASSWORD')
         handlerMessage(messageDefault.password)
 
         break
       case 'PASSWORD':
-        dispatch(signIn({ email: email, password: text }))
+        dispatch(signIn({ email: email, password: text.trim() }))
 
         break
       default:

@@ -4,6 +4,7 @@ import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
 import AuthNavigator from './navigation/AuthNavigator'
 import { useSelector } from 'react-redux'
+import SearchAddresses from './screens/Map/SearchAddresses'
 const MyApp = () => {
   const { token } = useSelector(({ auth }) => auth)
   return (
