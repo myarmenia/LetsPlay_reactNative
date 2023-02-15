@@ -1,10 +1,7 @@
 import React from 'react'
 import { Image, ScrollView, Text, View } from 'react-native'
-import Soccer from '@/assets/imgs/games/soccer.png'
 import { RH, RW } from '@/theme/utils'
 import style from '@/screens/GameCreating/style'
-import ShareSvg from '@/assets/svgs/shareSvg'
-import Detail from '@/assets/imgs/detail.png'
 import moment from 'moment'
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
@@ -26,8 +23,9 @@ function Ticket(props) {
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Дата и время игры:</Text>
           <Text style={style.ticketTextTwo}>
-            {/* {moment(data.gameDayDate).format('DD.MM.YY')} ,{' '} */}
-            {/* {moment(data.gameDayTime).format('HH:mm')} */}
+            {/* {moment(data.gameDayDate).format('DD.MM.YY')} ,{' '}
+            {moment(data.gameDayTime).format('HH:mm')} */}
+
           </Text>
         </View>
         <View style={style.ticketTextBlock}>

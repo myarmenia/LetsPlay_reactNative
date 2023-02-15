@@ -41,7 +41,7 @@ const GameCreating = props => {
   //   price: 'Бесплатно',
   //   ticket_price: '',
   // }
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -62,6 +62,7 @@ const GameCreating = props => {
     // } else {
     //   setIsVisible(true)
     // }
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
     // setErrorText(true)
     // setModalOpen(false)
 
