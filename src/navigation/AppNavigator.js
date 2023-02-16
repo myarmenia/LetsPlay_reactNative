@@ -42,7 +42,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -75,11 +75,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'Elias'} component={Elias} />
         <Stack.Screen name={'Team'} component={TeamNavigator} />
-        <Stack.Screen
-          name={'GameCreating'}
-          component={GameCreating}
-          options={{ gestureEnabled: false }}
-        />
+        <Stack.Screen name={'GameCreating'} component={GameCreating} />
         <Stack.Screen name={'GameTicket'} component={GameTicket} />
         <Stack.Screen name={'PrivateChat'} component={PrivateChat} />
         <Stack.Screen name={'Crocodile'} component={CrocodileNavigator} />
