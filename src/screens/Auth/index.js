@@ -17,7 +17,7 @@ const socket = io.connect('https://to-play.ru/vk/authorize', {
   transports: ['websocket'],
 })
 const token = () => {
-  return Math.random().toString(36).substr(2) + Math.random().toString(36).substr(2)
+  return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
 }
 let expiredToken
 const AuthHome = () => {
@@ -26,6 +26,10 @@ const AuthHome = () => {
   const openLink = async (url) => {
     try {
       socket.on('message', (data) => {
+        console.log('socket data', data)
+        if (!data.token) {
+          InAppBrowser.close()
+        }
         if (data.vkAuthInfo && data.token == expiredToken) {
           InAppBrowser.close()
           const vkAuthInfo = JSON.parse(data.vkAuthInfo)
@@ -109,6 +113,7 @@ const AuthHome = () => {
             style={styles.vkButton}
             onPress={() => {
               expiredToken = token()
+              console.log('token()', expiredToken)
               openLink(`https://to-play.ru/vk/auth.html?${expiredToken}`)
             }}
           >

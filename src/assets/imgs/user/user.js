@@ -1,8 +1,8 @@
 import * as React from 'react'
-import Svg, { LinearGradient, Stop, Path, Defs, Mask, Circle, G } from 'react-native-svg'
+import Svg, { LinearGradient, Stop, Path, Defs } from 'react-native-svg'
 import { RH, RW } from '@/theme/utils'
 import User from '@/components/userIcon'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import Modal from '@/components/modal'
 import { useState } from 'react'
 
@@ -10,7 +10,6 @@ function SvgComponent({ size = RW(100), user, onPressItem, onPressImg }) {
   const width = RW(size < 40 ? 40 : size)
 
   const [modalVisible, setModalVisible] = useState(false)
-
   const item = (
     <View
       style={{
@@ -21,89 +20,82 @@ function SvgComponent({ size = RW(100), user, onPressItem, onPressImg }) {
       <Svg
         width={width}
         height={width + RH(size < 200 ? 15 : 25)}
-        xmlns="http://www.w3.org/2000/svg"
-        x={0}
-        y={0}
         viewBox="0 0 271 414"
-        style={{
-          enableBackground: 'new 0 0 271 414',
-        }}
-        xmlSpace="preserve"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        <LinearGradient
-          id="SVGID_1_"
-          x1={4}
-          y1={190}
-          x2={258}
-          y2={187.5}
-          gradientUnits="userSpaceOnUse"
-        >
-          <Stop stopColor="#157185" />
-          <Stop offset={0.249292} stopColor="#87C4CC" />
-          <Stop offset={0.517997} stopColor="#1568A7" />
-          <Stop offset={0.829809} stopColor="#7BADE6" />
-          <Stop offset={1} stopColor="#024ABA" />
-        </LinearGradient>
         <Path
-          d="M258.9 182.5c0 19.2-.3 38.4 0 57.6.8 46.9-18.2 84.9-51.5 116.6-19.4 18.4-41.9 33.3-66.4 43.9-1.8.8-4.2 1.3-6.3 1.3-1.2 0-2.4-.2-3.4-.7-40.5-18.1-75.1-43.5-98.7-82.2-13.7-22.1-20.8-47.6-20.9-73.6-.3-45.9 0-91.9-.2-137.8 0-5.5 1.7-7.2 7.2-7.9 39.4-5.3 78-13.4 113.4-32.8 1-.5 2.2-.7 3.3-.7s2.3.2 3.3.7c35.4 19.4 73.9 27.5 113.3 32.9 1.9.3 3.5.6 4.5 1.2 2 1.2 2.5 3.3 2.5 6.8-.2 24.9-.1 49.8-.1 74.7z"
-          style={{
-            fill: 'url(#SVGID_1_)',
-          }}
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M212.754 78.853c0 .9-.015 1.797-.045 2.69 16.157 3.634 32.595 6.303 49.156 8.541 6.17.823 7.686 2.866 7.627 8.613-.197 19.548-.169 39.183-.14 58.836.011 7.019.021 14.039.021 21.059 0 6.858-.037 13.717-.073 20.576v.004c-.073 13.716-.145 27.432.073 41.148.922 50.309-19.862 90.991-56.062 124.927-21.136 19.687-45.6 35.556-72.282 46.885-3.078 1.322-7.612 2.043-10.407.793-44.11-19.43-81.767-46.664-107.501-88.066C8.254 301.212.341 273.939.271 246.096c-.159-26.251-.148-52.511-.138-78.761.01-22.969.019-45.931-.085-68.873 0-5.88 1.858-7.672 7.805-8.466 16.499-2.201 32.876-4.852 48.978-8.462-.03-.89-.044-1.784-.044-2.681C56.787 35.598 91.7.533 134.77.533s77.984 35.065 77.984 78.32Zm45.545 123.443c.033-6.401.066-12.801.066-19.202 0-6.551-.009-13.103-.018-19.653-.027-18.34-.053-36.664.128-54.907.054-5.363-1.338-7.269-7.003-8.038-39.356-5.404-77.947-13.51-113.303-32.918a8.062 8.062 0 0 0-6.634 0c-35.37 19.34-73.961 27.5-113.303 32.836-5.46.741-7.167 2.415-7.167 7.901.096 21.41.087 42.838.079 64.273-.01 24.498-.02 49.004.126 73.503a140.394 140.394 0 0 0 20.981 73.503c23.63 38.637 58.208 64.053 98.71 82.185 2.566 1.166 6.73.494 9.556-.74a227.898 227.898 0 0 0 66.371-43.754c33.24-31.67 52.324-69.635 51.477-116.585-.2-12.801-.133-25.603-.066-38.404Z"
+          fill="url(#bronze)"
         />
-        <LinearGradient
-          id="SVGID_00000043452231884390264870000014223854186316459158_"
-          gradientUnits="userSpaceOnUse"
-          x1={-8.897}
-          y1={634.459}
-          x2={278.468}
-          y2={634.459}
-          gradientTransform="translate(0 -428)"
-        >
-          <Stop
-            offset={0}
-            style={{
-              stopColor: '#873b23',
-            }}
-          />
-          <Stop
-            offset={0.058}
-            style={{
-              stopColor: '#a66842',
-            }}
-          />
-          <Stop
-            offset={0.276}
-            style={{
-              stopColor: '#e5ba8c',
-            }}
-          />
-          <Stop
-            offset={0.485}
-            style={{
-              stopColor: '#e8d2ae',
-            }}
-          />
-          <Stop
-            offset={0.708}
-            style={{
-              stopColor: '#c09067',
-            }}
-          />
-          <Stop
-            offset={1}
-            style={{
-              stopColor: '#a05e2e',
-            }}
-          />
-        </LinearGradient>
         <Path
-          style={{
-            fillRule: 'evenodd',
-            clipRule: 'evenodd',
-            fill: 'url(#SVGID_00000043452231884390264870000014223854186316459158_)',
-          }}
-          d="M213.2 78.3V81c16.2 3.6 32.6 6.3 49.2 8.5 6.2.8 7.7 2.9 7.6 8.6-.2 19.5-.2 39.2-.1 58.8V178c0 6.9 0 13.7-.1 20.6-.1 13.7-.1 27.4.1 41.1.9 50.3-19.9 91-56.1 124.9-21.1 19.7-45.6 35.6-72.3 46.9-3.1 1.3-7.6 2-10.4.8-44.1-19.4-81.8-46.7-107.5-88.1C8.7 300.6.8 273.4.7 245.5.5 219.2.6 193 .6 166.7c0-23 0-45.9-.1-68.9 0-5.9 1.9-7.7 7.8-8.5 16.5-2.2 33-5 49.1-8.6 0-.9-.1-1.7-.1-2.6-.6-27.1 13.4-51.2 34.6-65.2C104.4 4.7 119.3 0 135.2 0c14.7 0 28.6 4 40.5 11.1 7.3 4.3 13.8 9.8 19.3 16.2 7.1 8.3 12.5 18.2 15.5 29.1 1 3.7 1.8 7.6 2.2 11.5.4 3.4.5 6.9.5 10.4zm45.5 123.4c0-6.4.1-12.8.1-19.2v-19.7c0-18.3-.1-36.7.1-54.9.1-5.4-1.3-7.3-7-8C212.5 94.5 174 86.4 138.6 67c-1-.5-2.2-.7-3.3-.7s-2.3.2-3.3.7C96.6 86.4 58 94.5 18.7 99.9c-5.5.7-7.2 2.4-7.2 7.9.1 21.4.1 42.8.1 64.3 0 24.5 0 49 .1 73.5.1 26 7.3 51.4 21 73.5 23.6 38.6 58.2 64.1 98.7 82.2 2.6 1.2 6.7.5 9.6-.7 24.5-10.6 47-25.4 66.4-43.8 33.2-31.7 52.3-69.6 51.5-116.6-.3-12.9-.2-25.7-.2-38.5z"
+          d="M258.348 183.014c0 19.202-.3 38.404 0 57.606.847 46.95-18.237 84.915-51.477 116.585a227.898 227.898 0 0 1-66.371 43.754c-2.826 1.234-6.99 1.906-9.556.74-40.502-18.132-75.08-43.548-98.71-82.185a140.395 140.395 0 0 1-20.982-73.503c-.273-45.935 0-91.897-.204-137.776 0-5.486 1.706-7.16 7.167-7.901 39.342-5.335 77.933-13.496 113.303-32.836a8.06 8.06 0 0 1 6.634 0c35.356 19.408 73.947 27.514 113.303 32.918 5.665.769 7.057 2.675 7.003 8.038-.246 24.757-.11 49.665-.11 74.56Z"
+          fill="url(#blue)"
         />
+        <Defs>
+          <LinearGradient
+            id="gold"
+            x1={0.048}
+            y1={70.048}
+            x2={269.494}
+            y2={70.048}
+            gradientUnits="userSpaceOnUse"
+          >
+            <Stop stopColor="#A37A1E" />
+            <Stop offset={0.12} stopColor="#D3A84C" />
+            <Stop offset={0.276} stopColor="#FFEC95" />
+            <Stop offset={0.485} stopColor="#E6BE69" />
+            <Stop offset={0.708} stopColor="#FFD67A" />
+            <Stop offset={0.859} stopColor="#B58F3E" />
+            <Stop offset={1} stopColor="#956E13" />
+          </LinearGradient>
+          <LinearGradient
+            id="silver"
+            x1={0.215}
+            y1={241.473}
+            x2={269.662}
+            y2={241.541}
+            gradientUnits="userSpaceOnUse"
+          >
+            <Stop stopColor="#A0A0A0" />
+            <Stop offset={0.13} stopColor="#E6E6E6" />
+            <Stop offset={0.276} stopColor="#BABABA" />
+            <Stop offset={0.51} stopColor="#AAA" />
+            <Stop offset={0.792} stopColor="#CECECE" />
+            <Stop offset={1} stopColor="#797979" />
+          </LinearGradient>
+          <LinearGradient
+            id="bronze"
+            x1={-8.993}
+            y1={70.048}
+            x2={278.372}
+            y2={70.048}
+            gradientUnits="userSpaceOnUse"
+          >
+            <Stop stopColor="#873B23" />
+            <Stop offset={0.058} stopColor="#A66842" />
+            <Stop offset={0.276} stopColor="#E5BA8C" />
+            <Stop offset={0.485} stopColor="#E8D2AE" />
+            <Stop offset={0.708} stopColor="#C09067" />
+            <Stop offset={1} stopColor="#A05E2E" />
+          </LinearGradient>
+          <LinearGradient
+            id="blue"
+            x1={4.048}
+            y1={190.533}
+            x2={258.048}
+            y2={188.033}
+            gradientUnits="userSpaceOnUse"
+          >
+            <Stop stopColor="#157185" />
+            <Stop offset={0.249} stopColor="#87C4CC" />
+            <Stop offset={0.518} stopColor="#1568A7" />
+            <Stop offset={0.83} stopColor="#7BADE6" />
+            <Stop offset={1} stopColor="#024ABA" />
+          </LinearGradient>
+        </Defs>
       </Svg>
       <View
         style={{

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Svg, Circle, Path } from 'react-native-svg'
-import { TouchableOpacity } from 'react-native'
 import { RW } from '@/theme/utils'
 
 const VKIcon = ({ size = 54 }) => {
