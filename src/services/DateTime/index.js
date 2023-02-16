@@ -10,11 +10,10 @@ import { setEndDate, setStart_date } from '@/store/Slices/GameCreatingSlice'
 
 const DateTime = ({ type, errorText, width, place }) => {
   //states
-  const [date, setDate] = useState(new Date())
   const [time, setTime] = useState(new Date().toLocaleTimeString().slice(0, -3))
   //redux
   const dispatch = useDispatch()
-  const initialState = useSelector((state) => state.game)
+  const initialState = useSelector(state => state.game)
 
   return (
     <View style={type === 'date' ? style.dateButton : [style.dateButton, { width: RW(140) }]}>
@@ -28,8 +27,9 @@ const DateTime = ({ type, errorText, width, place }) => {
                     textColor: 'black',
                     dataFormat: 'YYYY-MM-DD',
                     display: 'default',
+                    minimumDate: place == 'onTop' ? new Date() : new Date(initialState?.start_date),
                     mode: 'date',
-                    value: new Date(),
+                    value: place == 'onBottom' ? new Date(initialState.end_date) : new Date(),
                     onChange: (_, changedDate) => {
                       let change = changedDate.toISOString().substring(0, 10)
                       dispatch(place == 'onTop' ? setStart_date(change) : setEndDate(change))

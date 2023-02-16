@@ -27,6 +27,7 @@ const Index = ({ route }) => {
         bounces={true}
         pagingEnabled
         scrollEnabled
+        decelerationRate={0.2}
         snapToAlignment="center"
         alwaysBounceHorizontal={false}
         horizontal

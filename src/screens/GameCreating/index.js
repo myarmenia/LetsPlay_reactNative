@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native'
-import style from './style'
 import { RH, RW } from '@/theme/utils'
+//components
 import Button from '@/assets/imgs/Button'
 import Price from '@/components/inputs/price'
 import Modal from '@/components/modal'
@@ -10,22 +11,15 @@ import SecondBlock from '@/components/forms/secondBlock'
 import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
-import { useDispatch, useSelector } from 'react-redux'
-import {
-  createGame,
-  setEndDate,
-  setGame,
-  setInitialState,
-  setPlayers_gender,
-  setStart_date,
-} from '@/store/Slices/GameCreatingSlice'
-import axiosInstance from '@/store/Api'
-import { token } from '@/store/Slices/AuthSlice'
-import { useNavigation } from '@react-navigation/native'
-import Map from '../Map/Map'
 import SearchAddresses from '../Map/SearchAddresses'
+import style from './style'
+// redux
+import axiosInstance from '@/store/Api'
+import { useDispatch, useSelector } from 'react-redux'
+import { createGame, setGame } from '@/store/Slices/GameCreatingSlice'
+import { token } from '@/store/Slices/AuthSlice'
 
-const GameCreating = (props) => {
+const GameCreating = props => {
   const { game, response } = props.route?.params?.params
   // const game = props.route.params.initialState
   // const initialState = {
@@ -43,48 +37,58 @@ const GameCreating = (props) => {
   //   price: 'Бесплатно',
   //   ticket_price: '',
   // }
-  const initialState = useSelector((state) => state.game)
+  const navigation = useNavigation()
+  //states
+  const initialState = useSelector(state => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
+  //redux
   const { token } = useSelector(({ auth }) => auth)
   const dispatch = useDispatch()
-  const navigation = useNavigation()
+
+  //data for radio buttons
+  const genderList = [
+    { id: 1, text: 'М', checked: false },
+    { id: 2, text: 'Ж', checled: false },
+    { id: 3, text: 'Без ограничений', checked: true },
+  ]
+
+  const participateList = [
+    { id: 1, text: 'Участвует', checked: true },
+    { id: 2, text: 'Не участвует', checked: false },
+  ]
+
+  const freeList = [
+    { id: 1, text: 'Бесплатно', checked: true },
+    { id: 2, text: 'Платно', checked: false },
+  ]
+
   const handleClick = () => {
-    navigation.navigate('GameTicket', { flag, initialState, game })
-    // console.log({
-    //   ...initialState,
-    //   game: game.title,
-    //   end_date: new Date(initialState.end_date).toISOString(),
-    //   start_date: new Date(initialState.start_date).toISOString(),
-    // })
-    // dispatch(
-    //   setInitialState({
-    //     ...initialState,
-    //     // game: game.title,
-    //     end_date: new Date(initialState.end_date).toISOString(),
-    //     start_date: new Date(initialState.start_date).toISOString(),
-    //   }),
-    // )
-    // axiosInstance
-    //   .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-    //   .then((res) => {
-    //     console.log(res.config.message)
-    //     // navigation.navigate('GameTicket', { flag, initialState, game })
-    //   })
-    //   .catch((err) => console.log(err.request))
+    console.log(initialState)
+    axiosInstance
+      .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
+      .then(res => {
+        console.log(res.config.message)
+        //if response success navigate GameTicket
+        // navigation.navigate('GameTicket', {  initialState,  })
+      })
+      .catch(err => console.log(err.request))
 
     setModalOpen(true)
     setIsVisible(false)
   }
   const handleSubmit = () => {}
   useEffect(() => {
+    dispatch(setGame({ game: game.title }))
     setIsVisible(true)
   }, [])
+
   useEffect(() => {
     setErrorText(false)
   }, [initialState])
+
   return (
     <ScreenMask>
       <KeyboardAvoidingView
@@ -104,13 +108,12 @@ const GameCreating = (props) => {
             title={'Дата и время начала игры'}
             place={'onTop'}
           />
-          {errorText && !initialState?.start_date ? (
+          {!initialState?.start_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
           <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
-          {errorText &&
-          (+initialState?.number_of_players_from < 1 ||
-            +initialState?.number_of_players_from > +initialState?.number_of_players_to) ? (
+          {+initialState?.number_of_players_from < 0 ||
+          +initialState?.number_of_players_from > +initialState?.number_of_players_to ? (
             !initialState?.number_of_players_from || !initialState?.number_of_players_to ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
@@ -118,10 +121,9 @@ const GameCreating = (props) => {
             )
           ) : null}
           <SecondBlock type={'age'} initialState={initialState} title={'Возрастные ограничения'} />
-          {errorText &&
-          (+initialState?.age_restrictions_from < 1 ||
-            +initialState?.age_restrictions_from > +initialState?.number_of_players_to) ? (
-            !initialState?.age_restrictions_from || !initialState?.number_of_players_to ? (
+          {+initialState?.age_restrictions_from < 0 ||
+          +initialState?.age_restrictions_from > +initialState?.age_restrictions_to ? (
+            !initialState?.age_restrictions_from || !initialState?.age_restrictions_to ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
               <Text style={style.errorText}>Введите корректную возраст</Text>
@@ -130,37 +132,27 @@ const GameCreating = (props) => {
           <ThirdBlock
             initialState={initialState}
             type={'gender'}
-            list={[
-              { id: 1, text: 'М', checked: false },
-              { id: 2, text: 'Ж', checled: false },
-              { id: 3, text: 'Без ограничений', checked: true },
-            ]}
+            list={genderList}
             title={'Половой признак игрока'}
           />
           <SearchAddresses game={game} />
           <FirstBlock title={'Дата и время окончания поиска игроков'} place={'onBottom'} />
-          {errorText && !initialState?.end_date ? (
+          {!initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
-          ) : errorText && initialState?.end_date >= initialState?.start_date ? (
+          ) : initialState?.end_date <= initialState?.start_date ? (
             <Text style={style.errorText}>Введите корректную дату</Text>
           ) : null}
           <ThirdBlock
             initialState={initialState}
             type={'statusOrganizer'}
-            list={[
-              { id: 1, text: 'Участвует', checked: true },
-              { id: 2, text: 'Не участвует', checked: false },
-            ]}
+            list={participateList}
             title={'Статус организатора в игре'}
           />
           <ThirdBlock
             initialState={initialState}
             type={'priceView'}
             setFlag={setFlag}
-            list={[
-              { id: 1, text: 'Бесплатно', checked: true },
-              { id: 2, text: 'Платно', checked: false },
-            ]}
+            list={freeList}
             title={'Стоимость входного билета на игру'}
           />
           {flag ? (

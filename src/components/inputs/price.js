@@ -1,22 +1,23 @@
 import React, { useState } from 'react'
 import { Text, TextInput, View } from 'react-native'
 import styles from './styles'
-import { ICON, RED } from '@/theme/colors'
+import { BACKGROUND, ICON, RED } from '@/theme/colors'
 import { font, RW } from '@/theme/utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { setTicket_price } from '@/store/Slices/GameCreatingSlice'
 
 const Price = props => {
-  const { width, data, setData, errorText } = props
-  const [value, setValue] = useState('')
-
+  const { width } = props
+  const initialState = useSelector(state => state.game)
+  const dispatch = useDispatch()
   return (
     <View style={{ ...styles.priceBlock, width: width || RW(124) }}>
-      <Text style={styles.priceText}>Сумма оплаты до</Text>
       <TextInput
         style={styles.priceInput}
-        value={value}
+        placeholder={'Сумма оплаты до'}
+        placeholderTextColor={ICON}
         onChangeText={ev => {
-          setValue(ev)
-          setData({ ...data, priceValue: ev })
+          dispatch(setTicket_price(+ev))
         }}
         keyboardType={'numeric'}
       />
