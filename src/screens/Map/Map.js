@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { StyleSheet, View, Pressable, Image, Text } from 'react-native'
+import { StyleSheet, View, Pressable, Image, Text, Platform } from 'react-native'
 import { DARK_BLUE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import Geolocation from '@react-native-community/geolocation'
@@ -11,38 +11,30 @@ import { useDispatch } from 'react-redux'
 import { fetchAddress } from './fetchAddress'
 import { useNavigation } from '@react-navigation/native'
 
-const Map = (props) => {
+const Map = props => {
   const mapRef = useRef()
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const game = props.route.params.game
   const [userPosition, setUserPosition] = useState({
-    latitude: null,
-    longitude: null,
-    latitudeDelta: null,
-    longitudeDelta: null,
+    latitude: 55.751244,
+    longitude: 37.618423,
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.1,
   })
   const [markers, setMarkers] = useState([])
   const getPosition = () => {
-    Geolocation.getCurrentPosition((position) => {
+    Geolocation.getCurrentPosition(position => {
       const currentLatitude = position.coords.latitude
       const currentLongitude = position.coords.longitude
       setUserPosition({
         latitude: currentLatitude,
         longitude: currentLongitude,
-        latitudeDelta: 0.0043,
-        longitudeDelta: 0.0045,
+        latitudeDelta: 0.1,
+        longitudeDelta: 0.1,
       }),
-        mapRef.current.animateToRegion(
-          {
-            latitude: currentLatitude,
-            longitude: currentLongitude,
-            latitudeDelta: 0.0043,
-            longitudeDelta: 0.0045,
-          },
-          1000,
-        )
-      ;(error) => alert(error.message),
+        mapRef.current.animateToRegion(userPosition, 1000)
+      error => alert(error.message),
         {
           enableHighAccuracy: true,
           timeout: 20000,
@@ -63,9 +55,9 @@ const Map = (props) => {
         showsBuildings={true}
         customMapStyle={styles.mapTheme}
         // provider={PROVIDER_GOOGLE}
-        provider={PROVIDER_DEFAULT}
+        provider={Platform.OS == 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
         showsUserLocation={false}
-        onPress={(e) => {
+        onPress={e => {
           dispatch(setLatitude(e.nativeEvent.coordinate.latitude)),
             dispatch(setLongitude(e.nativeEvent.coordinate.longitude))
           setMarkers([
@@ -81,12 +73,12 @@ const Map = (props) => {
             e.nativeEvent.coordinate.latitude,
             e.nativeEvent.coordinate.longitude,
             null,
-          ).then(async (e) => {
+          ).then(async e => {
             await fetch(e.url)
-              .then((r) => {
+              .then(r => {
                 return r.json()
               })
-              .then((s) => {
+              .then(s => {
                 let response = s.results[0]?.formatted_address
                 dispatch(setPlaceName(response))
                 navigation.navigate('GameCreating', { params: { game: game, response: response } })
@@ -100,7 +92,7 @@ const Map = (props) => {
           pinColor={'#00b7ff'}
           // description={'description'}
         />
-        {markers?.map((marker) => {
+        {markers?.map(marker => {
           return (
             <Marker
               tooltip={true}

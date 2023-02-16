@@ -12,14 +12,13 @@ import {
   Alert,
   Platform,
 } from 'react-native'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { RH, RW } from '@/theme/utils'
 import { BACKGROUND, DARK_BLUE, ICON, WHITE } from '@/theme/colors'
 import MapSvg from '@/assets/svgs/mapSvg'
 import { useNavigation } from '@react-navigation/native'
 import { fetchAddress } from './fetchAddress'
 import { useSelector } from 'react-redux'
-
+import Geolocation from 'react-native-geolocation-service'
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
 const SearchAddresses = ({ game }) => {
   const inp = useRef()
@@ -42,7 +41,12 @@ const SearchAddresses = ({ game }) => {
         console.warn(err)
       }
     } else {
-      Geolocation.requestAuthorization().then(res => console.log(res))
+      let geo = Geolocation.requestAuthorization('whenInUse')
+      if (geo === 'granted') {
+        navigation.navigate('Map', { game: game })
+      } else {
+        alert('Доступ к местоположению запрещен')
+      }
     }
   }
   useEffect(() => {
