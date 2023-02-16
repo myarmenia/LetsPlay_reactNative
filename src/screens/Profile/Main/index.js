@@ -1,12 +1,15 @@
 import React from 'react'
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import style from '../style'
 import ScreenMask from '@/components/wrappers/screen'
 import image from '@/assets/imgs/userImage.png'
 import { useNavigation } from '@react-navigation/native'
 import { Players } from '@/assets/TestData'
+import { useSelector } from 'react-redux'
+import { RW } from '@/theme/utils'
 
-const index = (props) => {
+const index = () => {
+  const user = useSelector(({ auth }) => auth.user)
   const navigation = useNavigation()
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
@@ -38,12 +41,20 @@ const index = (props) => {
       <View style={style.container}>
         <Text style={style.title}>Мой кабинет</Text>
         <View style={style.infoBlock}>
-          <View style={style.imageBlock}>
-            <Image style={style.image} source={{ uri: Players[0].image }} />
+          <View style={styles.imageBlock}>
+            <Image
+              style={styles.image}
+              source={
+                user.avatar
+                  ? { uri: user.avatar }
+                  : require('../../../assets/imgs/user/defualtUser.png')
+              }
+            />
           </View>
           <View>
-            <Text style={style.name}>Имя Фамилия</Text>
-            <Text style={style.id}>Номер ID: </Text>
+            <Text style={style.name}>{`${user.name} ${user.surname}`}</Text>
+            <Text style={style.id}>Номер ID:</Text>
+            <Text style={style.id}>{user._id}</Text>
           </View>
         </View>
       </View>
@@ -51,4 +62,13 @@ const index = (props) => {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  imageBlock: {},
+  image: {
+    width: RW(87),
+    height: RW(87),
+    borderRadius: RW(45),
+    marginRight: RW(17),
+  },
+})
 export default index

@@ -11,7 +11,7 @@ import VKIcon from '@/assets/imgs/vk'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
-import { setToken, vkAuth } from '@/store/Slices/AuthSlice'
+import { vkAuth } from '@/store/Slices/AuthSlice'
 import LogoSvg from '@/assets/LogoSvg'
 const socket = io.connect(
   Platform.OS == 'ios' ? 'https://to-play.ru/vk/authorize' : 'http://to-play.ru/vk/authorize',
