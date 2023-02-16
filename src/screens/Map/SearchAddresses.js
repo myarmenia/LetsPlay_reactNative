@@ -8,6 +8,9 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  PermissionsAndroid,
+  Alert,
+  Platform,
 } from 'react-native'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { RH, RW } from '@/theme/utils'
@@ -24,6 +27,24 @@ const SearchAddresses = ({ game }) => {
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
   const initialState = useSelector(state => state.game)
+  const checkPermissionAndNavigate = async function requestLocationPermission() {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          navigation.navigate('Map', { game: game })
+        } else {
+          Alert.alert('Доступ к местоположению запрещен')
+        }
+      } catch (err) {
+        console.warn(err)
+      }
+    } else {
+      Geolocation.requestAuthorization().then(res => console.log(res))
+    }
+  }
   useEffect(() => {
     inp.current.value = ''
   }, [])
@@ -96,10 +117,7 @@ const SearchAddresses = ({ game }) => {
             }
           }}
         ></TextInput>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Map', { game: game })}
-          style={styles.mapIcon}
-        >
+        <TouchableOpacity onPress={checkPermissionAndNavigate} style={styles.mapIcon}>
           <MapSvg />
         </TouchableOpacity>
       </View>
