@@ -14,10 +14,12 @@ export default StyleSheet.create({
     color: ICON,
   },
   priceInput: {
-    height: RH(48),
+    height: '100%',
+    // width: '30%',
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     color: ICON,
+    zIndex: 22,
   },
   priceText: {
     ...font('regular', 16, ICON, 19),

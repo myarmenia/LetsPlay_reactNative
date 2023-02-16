@@ -14,10 +14,11 @@ const initialState = {
   players_gender: '',
   latitude: 0,
   longitude: 0,
-  end_date: new Date().toISOString().substring(0, 10),
+  //end date is one day plus from start date
+  end_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
   organizer_in_the_game: true,
   ticket_price: 0,
-  game: 'Футбол',
+  game: '',
   placeName: '',
 }
 
