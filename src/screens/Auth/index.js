@@ -1,5 +1,5 @@
 import React, { useDebugValue, useState } from 'react'
-import { Linking, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import ScreenMask from '@/components/wrappers/screen'
@@ -13,9 +13,12 @@ import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
 import { setToken, vkAuth } from '@/store/Slices/AuthSlice'
 import LogoSvg from '@/assets/LogoSvg'
-const socket = io.connect('https://to-play.ru/vk/authorize', {
-  transports: ['websocket'],
-})
+const socket = io.connect(
+  Platform.OS == 'ios' ? 'https://to-play.ru/vk/authorize' : 'http://to-play.ru/vk/authorize',
+  {
+    transports: ['websocket'],
+  },
+)
 const token = () => {
   return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
 }
