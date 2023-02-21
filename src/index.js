@@ -4,17 +4,17 @@ import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
 import AuthNavigator from './navigation/AuthNavigator'
 import { useSelector } from 'react-redux'
-import SearchAddresses from './screens/Map/SearchAddresses'
+import { getAsyncStorage } from './helpers/asyncStore'
+
 const MyApp = () => {
   const { token } = useSelector(({ auth }) => auth)
+
   return (
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
       {token ? <AppNavigator /> : <AuthNavigator />}
     </>
   )
-  {
-  }
 }
 
 export default MyApp

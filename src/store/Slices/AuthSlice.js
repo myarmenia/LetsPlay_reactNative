@@ -1,3 +1,4 @@
+import { addAsyncStorage } from '@/helpers/asyncStore'
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 
@@ -140,6 +141,7 @@ export const signIn2 = (data) => (dispatch) => {
     .then((response) => {
       dispatch(setUser(response.data.user))
       dispatch(setToken(response.data.token.access_token))
+      addAsyncStorage('token', response.data.token.access_token)
     })
     .catch((err) => {
       console.log('err request', err.request?._response)
@@ -180,7 +182,8 @@ export const forgitPassword3 = (data) => (dispatch) => {
     .then((response) => {
       console.log(response.data, 'forgitPassword3 response')
       setTimeout(() => {
-        dispatch(setToken(response.data.expired_token.access_token))
+        dispatch(setToken(response.data?.expired_token?.access_token))
+        addAsyncStorage('token', response.data?.expired_token?.access_token)
       }, 1500)
     })
     .catch((err) => {
@@ -211,7 +214,7 @@ export const signUp2 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/second_step', data)
     .then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
       dispatch(setExpiredToken(response.data?.expired_token))
       dispatch(setSignUpStep('EMAIL_CODE_SUCCESS'))
     })
@@ -227,7 +230,7 @@ export const signUp2 = (data) => (dispatch) => {
     })
 }
 export const signUp3 = (data) => (dispatch) => {
-  console.log(data)
+  // console.log(data)
   axiosInstance
     .post('api/auth/signup/third_step', data)
     .then((response) => {
@@ -246,7 +249,7 @@ export const signUp3 = (data) => (dispatch) => {
     })
 }
 export const signUp4 = (data) => (dispatch) => {
-  console.log(data)
+  // console.log(data)
   axiosInstance
     .post('api/auth/signup/fourth_step', data)
     .then((response) => {
@@ -283,6 +286,7 @@ export const vkAuth = (data) => (dispatch) => {
       console.log(response.data, 'vkAuth')
       dispatch(setUser(response.data?.user))
       dispatch(setToken(response.data?.token))
+      addAsyncStorage('token', response.data?.token)
     })
     .catch((err) => {
       console.log('err request response', err.request._response)
