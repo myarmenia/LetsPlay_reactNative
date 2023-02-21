@@ -5,12 +5,16 @@ import ScreenMask from '@/components/wrappers/screen'
 import image from '@/assets/imgs/userImage.png'
 import { useNavigation } from '@react-navigation/native'
 import { Players } from '@/assets/TestData'
+
+import { _storageUrl } from '@/constants'
+
 import { useSelector } from 'react-redux'
 import { RW } from '@/theme/utils'
 
 const index = () => {
   const user = useSelector(({ auth }) => auth.user)
   const navigation = useNavigation()
+  const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
     { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
@@ -19,7 +23,7 @@ const index = () => {
     { id: 5, text: 'Условия использования' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
-  const forNavigate = (item) => {
+  const forNavigate = item => {
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
     } else {
@@ -41,24 +45,16 @@ const index = () => {
       <View style={style.container}>
         <Text style={style.title}>Мой кабинет</Text>
         <View style={style.infoBlock}>
-          <View style={styles.imageBlock}>
-            <Image
-              style={styles.image}
-              source={
-                user.avatar
-                  ? { uri: user.avatar }
-                  : require('../../../assets/imgs/user/defualtUser.png')
-              }
-            />
+          <View style={style.imageBlock}>
+            <Image style={[style.image]} source={{ uri: _storageUrl + avatar }} />
           </View>
           <View>
-            <Text style={style.name}>{`${user.name} ${user.surname}`}</Text>
-            <Text style={style.id}>Номер ID:</Text>
-            <Text style={style.id}>{user._id}</Text>
+            <Text style={style.name}>{name + ' ' + surname}</Text>
+            <Text style={style.id}>{`Номер ID: ${_id}`}</Text>
           </View>
         </View>
       </View>
-      <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <FlatList data={list} renderItem={renderItem} keyExtractor={item => item.id} />
     </ScreenMask>
   )
 }

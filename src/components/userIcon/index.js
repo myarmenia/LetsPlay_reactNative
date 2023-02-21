@@ -6,14 +6,18 @@ import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { setUser } from '@/store/Slices/AuthSlice'
+import { _storageUrl } from '@/constants'
 function Index({ user, size, onPressImg }) {
   const { name, surname, avatar, vk_id } = useSelector(({ auth }) => auth.user)
+  const { token } = useSelector(({ auth }) => auth)
+  const dispatch = useDispatch()
   const fontSizeTitle = size / RW(55)
   const fontSizeCount = size / RW(35)
+  const [image, setImage] = useState(null)
   const navigation = useNavigation()
-  // console.log(avatar)
   return (
     <View
       style={{
@@ -35,13 +39,23 @@ function Index({ user, size, onPressImg }) {
           top: 8,
         }}
       >
-        <Image
-          style={[
-            { ...style.image, borderRadius: size / RW(3) },
-            Platform.OS == 'ios' && { resizeMode: 'cover' },
-          ]}
-          source={avatar ? { uri: avatar } : require('../../assets/imgs/user/defualtUser.png')}
-        />
+        {user.image ? (
+          <Image
+            style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
+            source={{
+              uri: `${_storageUrl + avatar}`,
+            }}
+          />
+        ) : (
+          <UserDefault size={size} />
+        )}
+//         <Image
+//           style={[
+//             { ...style.image, borderRadius: size / RW(3) },
+//             Platform.OS == 'ios' && { resizeMode: 'cover' },
+//           ]}
+//           source={avatar ? { uri: avatar } : require('../../assets/imgs/user/defualtUser.png')}
+//         />
       </Pressable>
       <View style={style.nameBlock}>
         <Text style={font('bold', size / RW(22), WHITE)}>{name ? name : 'Имя'}</Text>

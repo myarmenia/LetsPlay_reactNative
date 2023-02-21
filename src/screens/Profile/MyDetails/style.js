@@ -25,22 +25,28 @@ export default StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     paddingLeft: RW(120),
-    // marginBottom: RH(30)
   },
-  imageBlock: {
-    width: RW(168),
-    height: RW(168),
+  uploadBtn: {
+    alignSelf: 'center',
+    zIndex: 93,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000',
     borderRadius: RW(84),
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: RW(168),
+    height: RW(168),
     borderRadius: RW(84),
-    resizeMode: 'contain'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   tickSvg: {
     marginLeft: RW(60),
   },
+
   // formBlock: {
   //   width: '100%',
   //   marginLeft: RW(22),
