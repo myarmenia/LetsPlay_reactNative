@@ -43,19 +43,12 @@ function Index({ user, size, onPressImg }) {
           <Image
             style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
             source={{
-              uri: `${_storageUrl + avatar}`,
+              uri: `${_storageUrl + avatar}`, // avatar && Linking.canOpenURL(avatar) ? avatar :
             }}
           />
         ) : (
           <UserDefault size={size} />
         )}
-//         <Image
-//           style={[
-//             { ...style.image, borderRadius: size / RW(3) },
-//             Platform.OS == 'ios' && { resizeMode: 'cover' },
-//           ]}
-//           source={avatar ? { uri: avatar } : require('../../assets/imgs/user/defualtUser.png')}
-//         />
       </Pressable>
       <View style={style.nameBlock}>
         <Text style={font('bold', size / RW(22), WHITE)}>{name ? name : 'Имя'}</Text>

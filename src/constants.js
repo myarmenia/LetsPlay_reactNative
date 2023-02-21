@@ -22,7 +22,7 @@ export const IS_IOS = Platform.OS === 'ios'
 export const NAV_HEADER_OPTION = {
   headerShown: false,
   gestureEnabled: true,
-  gestureDirection: 'horizontal',
+  // gestureDirection: 'horizontal',
   headerStatusBarHeight: IS_IOS ? undefined : 0,
 }
 
