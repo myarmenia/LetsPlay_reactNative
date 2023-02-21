@@ -1,15 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import {
-  ACTIVE,
-  BACKGROUND,
-  DARK_BLUE,
-  ICON,
-  LIGHT_GRAY,
-  LIGHT_LABEL,
-  RED,
-  WHITE,
-} from '@/theme/colors'
+import { DARK_BLUE, ICON, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 
 export default StyleSheet.create({
@@ -22,6 +13,14 @@ export default StyleSheet.create({
     ...font('bold', 24, WHITE, 24),
     marginBottom: RW(15),
   },
+  image: {
+    width: 87,
+    height: 87,
+    borderRadius: 43.5,
+    resizeMode: 'cover',
+    marginRight: RW(18),
+  },
+
   infoBlock: {
     flexDirection: 'row',
     width: '100%',
@@ -42,6 +41,8 @@ export default StyleSheet.create({
   },
   linkText: {
     ...font('regular', 16, WHITE, 19),
+    paddingHorizontal: RW(12),
+    paddingVertical: RH(10),
   },
   linkBlock: {
     // height: RH(56),
@@ -57,19 +58,19 @@ export default StyleSheet.create({
   galleryText: {
     ...font('regular', 20, WHITE, 25),
     textAlign: 'center',
-    marginTop: RH(40)
+    marginTop: RH(40),
   },
-  GalleryTitle:{
+  GalleryTitle: {
     ...font('regular', 24, WHITE, 26),
   },
-  galleryTextBlock:{
+  galleryTextBlock: {
     marginTop: RH(208),
     paddingTop: RH(23),
     paddingBottom: RH(40),
     borderRadius: RW(20),
     backgroundColor: LIGHT_LABEL,
     width: RW(325),
-    alignItems: "center",
-    justifyContent: "center"
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 })

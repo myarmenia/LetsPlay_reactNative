@@ -7,13 +7,35 @@ import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { setUser } from '@/store/Slices/AuthSlice'
+import { _storageUrl } from '@/constants'
 function Index({ user, size, onPressImg }) {
   const { name, surname, avatar } = useSelector(({ auth }) => auth.user)
+  const { token } = useSelector(({ auth }) => auth)
+  const dispatch = useDispatch()
   const fontSizeTitle = size / RW(55)
   const fontSizeCount = size / RW(35)
+  const [image, setImage] = useState(null)
   const navigation = useNavigation()
+  // useEffect(() => {
+  //   console.log('avatar : ', `https://to-play.ru/storage/${avatar}`)
+  //   fetch(`http://to-play.ru/api/profile`, {
+  //     method: 'get',
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then(res => {
+  //       console.log('res : ', res)
+  //       return res.json()
+  //     })
+  //     .then(result => {
+  //       dispatch(setUser(result?.user))
+  //     })
+  //     .catch(err => console.log('error : ', err))
+  // }, [])
 
   return (
     <View
@@ -38,11 +60,10 @@ function Index({ user, size, onPressImg }) {
       >
         {user.image ? (
           <Image
-            style={[
-              { ...style.image, borderRadius: size / RW(3) },
-              Platform.OS == 'ios' && { resizeMode: 'cover' },
-            ]}
-            source={{ uri: avatar || user.image }}
+            style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
+            source={{
+              uri: `${_storageUrl + avatar}`,
+            }}
           />
         ) : (
           <UserDefault size={size} />

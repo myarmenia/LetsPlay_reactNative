@@ -4,11 +4,16 @@ import style from './style'
 import { ICON } from '@/theme/colors'
 
 function InputBlock(props) {
-  const { text, placeholder } = props
+  const { text, placeholder, disable = true } = props
   return (
     <View style={style.inputBlock}>
       <Text style={style.inputTitle}>{text}</Text>
-      <TextInput style={style.input} placeholder={placeholder} placeholderTextColor={ICON} />
+      <TextInput
+        style={style.input}
+        editable={disable}
+        placeholder={placeholder}
+        placeholderTextColor={ICON}
+      />
     </View>
   )
 }

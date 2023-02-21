@@ -8,10 +8,13 @@ import { font, RH, RW } from '@/theme/utils'
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
 import LogoSvg from '@/assets/LogoSvg'
+import axiosInstance from '@/store/Api'
+import { useSelector } from 'react-redux'
 
-const HomeScreen = (props) => {
+const HomeScreen = props => {
   const { navigation, route } = props
   const [isVisible, setIsVisible] = useState(false)
+  const { token } = useSelector(({ auth }) => auth)
 
   useEffect(() => {
     if ((route.params && route.params.flag) || (route.params && route.params.type)) {
@@ -20,6 +23,19 @@ const HomeScreen = (props) => {
       setIsVisible(false)
     }
   }, [route])
+
+  // const getInfo = () => {
+  //   axiosInstance
+  //     .get('', { headers: { Authorization: `Bearer ${token}` } })
+  //     .then(res => {
+  //       console.log('res : ', res)
+  //     })
+  //     .catch(err => console.log('error : ', err))
+  // }
+
+  // useEffect(() => {
+  //   getInfo()
+  // }, [])
 
   return (
     <ScreenMask>
