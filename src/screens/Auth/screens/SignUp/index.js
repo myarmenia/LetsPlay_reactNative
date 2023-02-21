@@ -68,7 +68,7 @@ const SignUp = () => {
   }, [signUpError])
 
   const onPress = () => {
-    dispatch(setToken(1234567))
+    // dispatch(setToken(1234567))
     switch (signUpStep) {
       case 'NAME':
         dispatch(setName(text))

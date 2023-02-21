@@ -19,27 +19,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createGame, setGame } from '@/store/Slices/GameCreatingSlice'
 import { token } from '@/store/Slices/AuthSlice'
 
-const GameCreating = props => {
+const GameCreating = (props) => {
   const { game, response } = props.route?.params?.params
-  // const game = props.route.params.initialState
-  // const initialState = {
-  //   gameDayDate: undefined,
-  //   gameDayTime: new Date(),
-  //   number_of_players_from: '',
-  //   number_of_players_to: '',
-  //   age_restrictions_from: '',
-  //   number_of_players_to: '',
-  //   gender: 'М/Ж',
-  //   addressValue: 'qwert',
-  //   end_date: undefined,
-  //   lastDayTime: new Date(),
-  //   statusOrganizer: 'Участвует',
-  //   price: 'Бесплатно',
-  //   ticket_price: '',
-  // }
   const navigation = useNavigation()
   //states
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -66,15 +50,15 @@ const GameCreating = props => {
   ]
 
   const handleClick = () => {
-    console.log(initialState)
+    // console.log(initialState)
     axiosInstance
       .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then(res => {
-        console.log(res.config.message)
+      .then((res) => {
+        // console.log(res.config.message)
         //if response success navigate GameTicket
         // navigation.navigate('GameTicket', {  initialState,  })
       })
-      .catch(err => console.log(err.request))
+      .catch((err) => console.log(err.request))
 
     setModalOpen(true)
     setIsVisible(false)

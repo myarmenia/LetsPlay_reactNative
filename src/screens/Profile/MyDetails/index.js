@@ -12,8 +12,6 @@ import {
 } from 'react-native'
 import style from './style'
 import styles from '@/screens/GameCreating/style'
-import image from '@/assets/imgs/userImage.png'
-import TickSvg from '@/assets/svgs/tickSvg'
 import InputBlock from '@/screens/Profile/MyDetails/inputBlock'
 import RadioBlock from '@/screens/Profile/MyDetails/radioBlock'
 import DateBlock from '@/screens/Profile/MyDetails/DateBlock'
@@ -80,6 +78,24 @@ function Index(props) {
       .catch(error => console.log('error', error))
       .finally(() => setLoader(false), setEditable(false))
   }
+import Modal from '@/components/modal'
+import { RW } from '@/theme/utils'
+import Button from '@/assets/imgs/Button'
+import DarkButton from '@/assets/imgs/DarkButton'
+import { useDispatch, useSelector } from 'react-redux'
+import CheckedSvg from './assets/CheckedSvg'
+import { setName, setSurName } from '@/store/Slices/AuthSlice'
+
+function Index(props) {
+  const { navigation } = props
+  const user = useSelector(({ auth }) => auth.user)
+  const [isVisible, setIsVisible] = useState(false)
+  const dispatch = useDispatch()
+  const [editable, setEditable] = useState(false)
+  const [name, setNameState] = useState(user.name)
+  const [surName, setSurNameState] = useState(user.surName)
+  const [gender, setGenderState] = useState(user.gender)
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={style.container}>
@@ -106,10 +122,11 @@ function Index(props) {
         <View style={style.formBlock}>
           <InputBlock text={'Имя:'} placeholder={name} disable={editable} />
           <InputBlock text={'Фамилия:'} placeholder={surname} disable={editable} />
+
           <RadioBlock
             list={[
-              { id: 1, text: 'М', checked: true },
-              { id: 2, text: 'Ж', checked: false },
+              { id: 1, text: 'М', checked: gender == 'male' },
+              { id: 2, text: 'Ж', checked: gender == 'famale' },
             ]}
             title={'Пол:'}
           />

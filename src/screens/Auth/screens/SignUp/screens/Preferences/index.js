@@ -8,6 +8,7 @@ import pStyles from '@/screens/Profile/style'
 import Button from '@/assets/imgs/Button'
 import { setToken } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { addAsyncStorage } from '@/helpers/asyncStore'
 
 const Preferences = () => {
   const list = [
@@ -66,7 +67,10 @@ const Preferences = () => {
         <Button
           label={'Далее>>'}
           size={{ width: 171, height: 36 }}
-          onPress={() => dispatch(setToken(expired_token))}
+          onPress={() => {
+            dispatch(setToken(expired_token))
+            addAsyncStorage('token', expired_token)
+          }}
         />
       </View>
     </ScreenMask>

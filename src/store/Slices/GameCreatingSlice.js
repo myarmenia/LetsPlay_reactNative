@@ -110,10 +110,10 @@ export const GameCreatingSlice = createSlice({
   },
 })
 
-export const createGame = data => {
+export const createGame = (data) => {
   axiosInstance
     .post('/create/game', data)
-    .then(response => {
+    .then((response) => {
       console.log(response.data)
       // dispatch(setStart_date(data?.start_date)),
       //   dispatch(setNumber_of_players_from(data?.number_of_players_from)),
@@ -127,7 +127,7 @@ export const createGame = data => {
       //   dispatch(setTicket_price(data?.ticket_price)),
       //   dispatch(setGame(data?.game))
     })
-    .catch(err => {
+    .catch((err) => {
       Alert(err)
     })
 }

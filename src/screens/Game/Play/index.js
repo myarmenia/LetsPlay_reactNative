@@ -125,7 +125,7 @@ function Index({ navigation }) {
             <Button
               onPress={() => {
                 setChooseType(false)
-                navigation.navigate('GameListCarousel', { list: ActiveGames })
+                navigation.navigate('GameListCarousel', { list: 'active' })
               }}
               label={'Активные игры'}
               size={{ width: 281, height: 50 }}
@@ -163,7 +163,8 @@ function Index({ navigation }) {
                     onPress={() => {
                       setModalVisible(false),
                         navigation.navigate('GameListCarousel', {
-                          list: BoardGames.filter((item, i) => item.gadget),
+                          // list: BoardGames.filter((item, i) => item.gadget),
+                          list: 'desktop',
                         })
                     }}
                     label={'Да'}
@@ -172,7 +173,10 @@ function Index({ navigation }) {
                     size={{ width: 100, height: 36 }}
                     onPress={() => {
                       setModalVisible(false)
-                      navigation.navigate('GameListCarousel', { list: modalResNo })
+                      navigation.navigate('GameListCarousel', {
+                        // list: modalResNo
+                        list: 'desktop',
+                      })
                     }}
                     label={'Нет'}
                     labelStyle={font('bold', 16)}
@@ -186,7 +190,7 @@ function Index({ navigation }) {
     )
   }
   if (chooseType === PARTICIPATION_GAME) {
-    console.log(data.price)
+    // console.log(data.price)
     return (
       <ScreenMask>
         <ScrollView>
