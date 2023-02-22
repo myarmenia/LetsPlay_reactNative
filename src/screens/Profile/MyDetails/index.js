@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import {
-  Image,
   ImageBackground,
   Platform,
   Pressable,
@@ -12,24 +11,20 @@ import {
 } from 'react-native'
 import style from './style'
 import styles from '@/screens/GameCreating/style'
-import image from '@/assets/imgs/userImage.png'
 import TickSvg from '@/assets/svgs/tickSvg'
 import InputBlock from '@/screens/Profile/MyDetails/inputBlock'
 import RadioBlock from '@/screens/Profile/MyDetails/radioBlock'
 import DateBlock from '@/screens/Profile/MyDetails/DateBlock'
 import UserEditSvg from '@/assets/svgs/userEdit'
-import { Players } from '@/assets/TestData'
 import Modal from '@/components/modal'
-import { RH, RW } from '@/theme/utils'
+import { RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
-import EditSvg from '@/assets/svgs/editSvg'
 import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { useDispatch, useSelector } from 'react-redux'
 import { setImage, setPending, setUser } from '@/store/Slices/AuthSlice'
 import { _storageUrl } from '@/constants'
-import { DARK_BLUE, LIGHTGREEN } from '@/theme/colors'
 import Loader from '@/components/loader/Loader'
 
 function Index(props) {
@@ -73,12 +68,12 @@ function Index(props) {
         : 'http://to-play.ru/api/profile/avatar',
       requestOptions,
     )
-      .then((response) => response.text())
-      .then((result) => {
+      .then(response => response.text())
+      .then(result => {
         dispatch(setImage(JSON.parse(result).avatar))
       })
       .catch((error) => console.log('error', error))
-      .finally(() => dispatch(setPending()), setEditable(false))
+      .finally(() => dispatch(setPending(false)), setEditable(false))
   }
   return (
     <ScreenMask>
@@ -88,9 +83,13 @@ function Index(props) {
           <ImageBackground
             style={[style.image, editable ? { opacity: 0.6 } : null]}
             imageStyle={style.image}
-            source={{
-              uri: _storageUrl + avatar,
-            }}
+            source={
+              avatar
+                ? {
+                    uri: _storageUrl + avatar,
+                  }
+                : require('../../../assets/imgs/user/defualtUser.png')
+            }
           >
             {editable && (
               <Pressable style={style.uploadBtn} onPress={uploadPhoto}>

@@ -3,21 +3,31 @@ import style from './styles'
 import UserLine from '@/assets/imgs/user/userLine'
 import UserCircle from '@/assets/imgs/user/userCircle'
 import { font, RH, RW } from '@/theme/utils'
-import { WHITE } from '@/theme/colors'
+import { DARK_BLUE, LIGHTGREEN, LIGHT_GRAY, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { setUser } from '@/store/Slices/AuthSlice'
 import { _storageUrl } from '@/constants'
+import Loader from '../loader/Loader'
 function Index({ user, size, onPressImg }) {
-  const { name, surname, avatar, vk_id } = useSelector(({ auth }) => auth.user)
+  const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
   const { token } = useSelector(({ auth }) => auth)
   const dispatch = useDispatch()
   const fontSizeTitle = size / RW(55)
   const fontSizeCount = size / RW(35)
-  const [image, setImage] = useState(null)
+  const [loader, setLoader] = useState(true)
   const navigation = useNavigation()
+  useEffect(() => {
+    console.log(avatar)
+    avatar ? setLoader(false) : setLoader(true)
+    setTimeout(() => {
+      if (!avatar) {
+        setLoader(false)
+      }
+    }, 3000)
+  }, [])
   return (
     <View
       style={{
@@ -39,7 +49,7 @@ function Index({ user, size, onPressImg }) {
           top: 8,
         }}
       >
-        {user.image ? (
+        {avatar ? (
           <Image
             style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
             source={{
@@ -47,7 +57,12 @@ function Index({ user, size, onPressImg }) {
             }}
           />
         ) : (
-          <UserDefault size={size} />
+          <Image
+            style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
+            source={
+              require('../../assets/imgs/user/defualtUser.png') // avatar && Linking.canOpenURL(avatar) ? avatar :
+            }
+          ></Image>
         )}
       </Pressable>
       <View style={style.nameBlock}>
@@ -129,7 +144,7 @@ function Index({ user, size, onPressImg }) {
       <Pressable
         onPress={() => {
           if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
               // console.log(e)
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
