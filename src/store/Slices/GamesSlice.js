@@ -7,7 +7,7 @@ const initialState = {
   games: [],
 }
 
-export const AuthSlice = createSlice({
+export const GameSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -20,17 +20,17 @@ export const AuthSlice = createSlice({
   },
 })
 
-export const getGames = (data) => async (dispatch) => {
+export const getGames = data => async dispatch => {
   const defualtHeaders = await getDefualtHeaders()
   axiosInstance
     .get(`api/game/${data}`, defualtHeaders)
 
-    .then((response) => {
+    .then(response => {
       console.log('signIn response', response.data.datas)
       dispatch(setGames(response.data.datas))
       //   dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request', err.request._response)
 
       //   dispatch(
@@ -43,5 +43,5 @@ export const getGames = (data) => async (dispatch) => {
     })
 }
 
-export const { setGames } = AuthSlice.actions
-export default AuthSlice.reducer
+export const { setGames } = GameSlice.actions
+export default GameSlice.reducer

@@ -46,7 +46,16 @@ const index = () => {
         <Text style={style.title}>Мой кабинет</Text>
         <View style={style.infoBlock}>
           <View style={style.imageBlock}>
-            <Image style={[style.image]} source={{ uri: _storageUrl + avatar }} />
+            <Image
+              style={[style.image]}
+              source={
+                avatar
+                  ? {
+                      uri: _storageUrl + avatar,
+                    }
+                  : require('../../../assets/imgs/user/defualtUser.png')
+              }
+            />
           </View>
           <View>
             <Text style={style.name}>{name + ' ' + surname}</Text>
