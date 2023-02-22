@@ -1,15 +1,30 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import React from 'react'
-import { RH, RW } from '@/theme/utils'
-import { LIGHT_GRAY } from '@/theme/colors'
+import { WHITE } from '@/theme/colors'
+import { useSelector } from 'react-redux'
 
-const Loader = ({ color = LIGHT_GRAY }) => {
+const Loader = ({ children }) => {
+  const pending = useSelector(({ auth }) => auth.pending)
   return (
-    <ActivityIndicator
-      size="large"
-      style={{ height: RH(60), width: RW(60), borderRadius: RW(20) }}
-      color={color}
-    />
+    <View style={{ flex: 1 }}>
+      {pending && (
+        <ActivityIndicator
+          size="large"
+          style={{
+            position: 'absolute',
+            zIndex: 9999,
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+          }}
+          color={WHITE}
+        />
+      )}
+
+      {children}
+    </View>
   )
 }
 
