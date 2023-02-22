@@ -42,7 +42,8 @@ const AuthHome = () => {
               first_name: vkAuthInfo.first_name,
               last_name: vkAuthInfo?.last_name,
               bdate: vkAuthInfo?.bdate,
-              photo_200: vkAuthInfo?.has_photo ? data.vkAuthInfo?.photo_200 : null,
+              has_photo: vkAuthInfo?.has_photo,
+              photo_200: vkAuthInfo?.photo_200,
               sex: vkAuthInfo?.sex,
             }),
           )

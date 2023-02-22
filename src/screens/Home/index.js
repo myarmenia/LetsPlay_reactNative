@@ -1,42 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
-import { font, RH, RW } from '@/theme/utils'
+import { RH } from '@/theme/utils'
 
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
 import LogoSvg from '@/assets/LogoSvg'
-import axiosInstance from '@/store/Api'
-import { useSelector } from 'react-redux'
 
-const HomeScreen = props => {
-  const { navigation, route } = props
-  const [isVisible, setIsVisible] = useState(false)
-  const { token } = useSelector(({ auth }) => auth)
-
-  useEffect(() => {
-    if ((route.params && route.params.flag) || (route.params && route.params.type)) {
-      setIsVisible(true)
-    } else {
-      setIsVisible(false)
-    }
-  }, [route])
-
-  // const getInfo = () => {
-  //   axiosInstance
-  //     .get('', { headers: { Authorization: `Bearer ${token}` } })
-  //     .then(res => {
-  //       console.log('res : ', res)
-  //     })
-  //     .catch(err => console.log('error : ', err))
-  // }
-
-  // useEffect(() => {
-  //   getInfo()
-  // }, [])
-
+const HomeScreen = (props) => {
+  const { navigation } = props
   return (
     <ScreenMask>
       <View style={styles.header}>
@@ -64,12 +38,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     marginRight: 10,
-    // alignItems: 'stretch',
-    // justifyContent: 'center',
   },
   detailContainer: {
     flex: 1,
-    // alignItems: 'center',
     justifyContent: 'center',
   },
   header: {
