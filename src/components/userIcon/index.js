@@ -1,33 +1,20 @@
 import { Image, Linking, Platform, Pressable, Text, View } from 'react-native'
-import { Image, Linking, Platform, Pressable, Text, View } from 'react-native'
 import style from './styles'
 import UserLine from '@/assets/imgs/user/userLine'
 import UserCircle from '@/assets/imgs/user/userCircle'
 import { font, RH, RW } from '@/theme/utils'
-import { DARK_BLUE, LIGHTGREEN, LIGHT_GRAY, LIGHT_LABEL, WHITE } from '@/theme/colors'
-import { DARK_BLUE, LIGHTGREEN, LIGHT_GRAY, LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { setUser } from '@/store/Slices/AuthSlice'
 import { _storageUrl } from '@/constants'
-import Loader from '../loader/Loader'
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
-import { setUser } from '@/store/Slices/AuthSlice'
-import { _storageUrl } from '@/constants'
 import Loader from '../loader/Loader'
+
 function Index({ user, size, onPressImg }) {
   const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
-  const { token } = useSelector(({ auth }) => auth)
-  const dispatch = useDispatch()
-  const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
-  const { token } = useSelector(({ auth }) => auth)
-  const dispatch = useDispatch()
   const fontSizeTitle = size / RW(55)
   const fontSizeCount = size / RW(35)
-  const [loader, setLoader] = useState(true)
   const [loader, setLoader] = useState(true)
   const navigation = useNavigation()
   useEffect(() => {
@@ -166,7 +153,6 @@ function Index({ user, size, onPressImg }) {
         style={{ ...style.soc, marginTop: size / RH(110) }}
       >
         <Vk size={size / RH(12)} />
-      </Pressable>
       </Pressable>
     </View>
   )

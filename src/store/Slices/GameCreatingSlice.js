@@ -1,7 +1,4 @@
-import { getAsyncStorage } from '@/helpers/asyncStore'
-import { useNavigation } from '@react-navigation/native'
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 import { Alert } from 'react-native'
 import axiosInstance from '../Api'
 
@@ -106,13 +103,9 @@ export const GameCreatingSlice = createSlice({
     setInitialState: (store, action) => {
       return { game: action.payload }
     },
-    setInitialState: (store, action) => {
-      return { game: action.payload }
-    },
   },
 })
 
-export const createGame = (data) => {
 export const createGame = (data) => {
   axiosInstance
     .post('/create/game', data)
@@ -132,7 +125,6 @@ export const createGame = (data) => {
       //   dispatch(setGame(data?.game))
     })
     .catch((err) => {
-    .catch((err) => {
       Alert(err)
     })
 }
@@ -151,7 +143,6 @@ export const {
   setOrganizer_in_the_game,
   setTicket_price,
   setGame,
-  setInitialState,
   setInitialState,
 } = GameCreatingSlice.actions
 export default GameCreatingSlice.reducer

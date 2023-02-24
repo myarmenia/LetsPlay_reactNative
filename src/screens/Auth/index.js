@@ -1,5 +1,4 @@
-import React, { useDebugValue, useState } from 'react'
-import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -13,7 +12,6 @@ import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
 import { vkAuth } from '@/store/Slices/AuthSlice'
-import { vkAuth } from '@/store/Slices/AuthSlice'
 import LogoSvg from '@/assets/LogoSvg'
 const socket = io.connect(
   Platform.OS == 'ios' ? 'https://to-play.ru/vk/authorize' : 'http://to-play.ru/vk/authorize',
@@ -21,14 +19,7 @@ const socket = io.connect(
     transports: ['websocket'],
   },
 )
-const socket = io.connect(
-  Platform.OS == 'ios' ? 'https://to-play.ru/vk/authorize' : 'http://to-play.ru/vk/authorize',
-  {
-    transports: ['websocket'],
-  },
-)
 const token = () => {
-  return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
   return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
 }
 let expiredToken
@@ -38,9 +29,6 @@ const AuthHome = () => {
   const openLink = async (url) => {
     try {
       socket.on('message', (data) => {
-        if (!data.token) {
-          InAppBrowser.close()
-        }
         if (data.vkAuthInfo && data.token == expiredToken) {
           InAppBrowser.close()
           const vkAuthInfo = JSON.parse(data.vkAuthInfo)
