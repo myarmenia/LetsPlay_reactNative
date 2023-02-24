@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native'
+import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 //components
 import Button from '@/assets/imgs/Button'
 import Price from '@/components/inputs/price'
 import Modal from '@/components/modal'
-import FirstBlock from '@/components/forms/firstBlock'
 import SecondBlock from '@/components/forms/secondBlock'
-import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
 import SearchAddresses from '../Map/SearchAddresses'
 import style from './style'
 // redux
-import axiosInstance from '@/store/Api'
 import { useDispatch, useSelector } from 'react-redux'
-import { createGame, setGame } from '@/store/Slices/GameCreatingSlice'
-import { token } from '@/store/Slices/AuthSlice'
+import {
+  createGame,
+  setGame,
+  setGameCreatedSuccessful,
+  setOrganizer_in_the_game,
+  setPlayers_gender,
+} from '@/store/Slices/GameCreatingSlice'
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 
@@ -26,6 +28,7 @@ const GameCreating = (props) => {
   const navigation = useNavigation()
   //states
   const initialState = useSelector((state) => state.game)
+
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -38,39 +41,83 @@ const GameCreating = (props) => {
     date: new Date(),
     time: new Date(),
   })
-
-  //data for radio buttons
-  const genderList = [
-    { id: 1, text: 'М', checked: false },
-    { id: 2, text: 'Ж', checled: false },
-    { id: 3, text: 'Без ограничений', checked: true },
-  ]
-
-  const participateList = [
+  const [endDate, setEndDate] = useState({
+    date: new Date(new Date().setDate(startDate.date.getDate() - 1)),
+    time: new Date(),
+  })
+  const [organizer_in_the_game, setOrganizer_in_the_gameState] = useState([
     { id: 1, text: 'Участвует', checked: true },
     { id: 2, text: 'Не участвует', checked: false },
-  ]
-
-  const freeList = [
+  ])
+  const [priceList, setPriceList] = useState([
     { id: 1, text: 'Бесплатно', checked: true },
     { id: 2, text: 'Платно', checked: false },
-  ]
-
+  ])
+  const [genderList, setGenderList] = useState([
+    { id: 1, text: 'М', checked: false, label: 'm' },
+    { id: 2, text: 'Ж', checled: false, label: 'mf' },
+    { id: 3, text: 'Без ограничений', checked: true, label: 'm/f' },
+  ])
   const handleClick = () => {
-    // console.log(game)
-    axiosInstance
-      .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => {
-        console.log(res.data.message)
-        if (res.data.message == 'Created successfully') {
-          navigation.navigate('GameTicket', { params: { initialState, game, name: game.name } })
-        }
-      })
-      .catch((err) => console.log(err.request))
+    console.log({
+      ...initialState,
+      start_date: startDate.date
+        .toISOString()
+        .substring(0, 10)
+        .concat(
+          ` ${
+            startDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
+              ? +startDate.time.toLocaleTimeString().slice(0, 1) +
+                12 +
+                startDate.time.toLocaleTimeString().slice(1, 4)
+              : startDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
+          }`,
+        ),
+      end_date: endDate.date
+        .toISOString()
+        .substring(0, 10)
+        .concat(
+          ` ${
+            endDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
+              ? +endDate.time.toLocaleTimeString().slice(0, 1) +
+                12 +
+                endDate.time.toLocaleTimeString().slice(1, 4)
+              : endDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
+          }`,
+        ),
+    })
+    dispatch(
+      createGame({
+        ...initialState,
+        start_date: startDate.date
+          .toISOString()
+          .substring(0, 10)
+          .concat(
+            ` ${
+              startDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
+                ? +startDate.time.toLocaleTimeString().slice(0, 1) +
+                  12 +
+                  startDate.time.toLocaleTimeString().slice(1, 4)
+                : startDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
+            }`,
+          ),
+        end_date: endDate.date
+          .toISOString()
+          .substring(0, 10)
+          .concat(
+            ` ${
+              endDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
+                ? +endDate.time.toLocaleTimeString().slice(0, 1) +
+                  12 +
+                  endDate.time.toLocaleTimeString().slice(1, 4)
+                : endDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
+            }`,
+          ),
+      }),
+    )
     setModalOpen(true)
     setIsVisible(false)
   }
-  const handleSubmit = () => {}
   useEffect(() => {
     dispatch(setGame(game._id))
     setIsVisible(true)
@@ -79,6 +126,12 @@ const GameCreating = (props) => {
   useEffect(() => {
     setErrorText(false)
   }, [initialState])
+  useEffect(() => {
+    if (initialState.gameCreatedSuccessful) {
+      navigation.navigate('GameTicket', { params: { initialState, game, name: game.name } })
+      dispatch(setGameCreatedSuccessful(null))
+    }
+  }, [initialState.gameCreatedSuccessful])
 
   return (
     <ScreenMask>
@@ -93,12 +146,6 @@ const GameCreating = (props) => {
           : {})}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          {/* <FirstBlock
-            errorText={errorText}
-            margin={RH(29)}
-            title={'Дата и время начала игры'}
-            place={'onTop'}
-          /> */}
           <DateComponent
             title="Дата и время начала игры"
             containerStyle={{
@@ -114,18 +161,18 @@ const GameCreating = (props) => {
             setDate={(date) => setStartDate({ ...startDate, date })}
             setTime={(time) => setStartDate({ ...startDate, time })}
           />
-          {!initialState?.start_date ? (
+          {/* {!initialState?.start_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
-          ) : null}
+          ) : null} */}
           <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
-          {+initialState?.number_of_players_from < 0 ||
+          {/* {+initialState?.number_of_players_from < 0 ||
           +initialState?.number_of_players_from > +initialState?.number_of_players_to ? (
             !initialState?.number_of_players_from || !initialState?.number_of_players_to ? (
               <Text style={style.errorText}>Обязательное поле для заполнения</Text>
             ) : (
               <Text style={style.errorText}>Введите корректную число</Text>
             )
-          ) : null}
+          ) : null} */}
           <SecondBlock type={'age'} initialState={initialState} title={'Возрастные ограничения'} />
           {+initialState?.age_restrictions_from < 0 ||
           +initialState?.age_restrictions_from > +initialState?.age_restrictions_to ? (
@@ -137,13 +184,15 @@ const GameCreating = (props) => {
           ) : null}
 
           <RadioBlock
-            onChange={() => {}}
+            onChange={(list) => {
+              setGenderList(list)
+              dispatch(setPlayers_gender(list.find((e) => e.checked).label))
+            }}
             title="Половой признак игрока"
             list={genderList}
             titleStyle={{ ...style.titles, marginBottom: RW(23) }}
           />
           <SearchAddresses game={game} />
-          {/* <FirstBlock title={'Дата и время окончания поиска игроков'} place={'onBottom'} /> */}
 
           <DateComponent
             title="Дата и время окончания поиска игроков"
@@ -155,29 +204,35 @@ const GameCreating = (props) => {
             rowStyle={{
               justifyContent: 'space-around',
             }}
-            dateValue={startDate.date}
-            timeValue={startDate.time}
-            setDate={(date) => setStartDate({ ...startDate, date })}
-            setTime={(time) => setStartDate({ ...startDate, time })}
+            dateValue={endDate.date}
+            timeValue={endDate.time}
+            setDate={(date) => setEndDate({ ...endDate, date })}
+            setTime={(time) => setEndDate({ ...endDate, time })}
           />
           {/* {!initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : initialState?.end_date <= initialState?.start_date ? (
             <Text style={style.errorText}>Введите корректную дату</Text>
           ) : null} */}
-          <ThirdBlock
-            initialState={initialState}
-            type={'statusOrganizer'}
-            list={participateList}
-            title={'Статус организатора в игре'}
+          <RadioBlock
+            onChange={(list) => {
+              setOrganizer_in_the_gameState(list)
+              dispatch(setOrganizer_in_the_game(list.find((e) => e.text == 'Участвует').checked))
+            }}
+            title="Статус организатора в игре"
+            list={organizer_in_the_game}
+            titleStyle={{ ...style.titles, marginBottom: RW(23) }}
           />
-          <ThirdBlock
-            initialState={initialState}
-            type={'priceView'}
-            setFlag={setFlag}
-            list={freeList}
-            title={'Стоимость входного билета на игру'}
+
+          <RadioBlock
+            onChange={(list) => {
+              setPriceList(list)
+            }}
+            title="Стоимость входного билета на игру"
+            list={priceList}
+            titleStyle={{ ...style.titles, marginBottom: RW(23) }}
           />
+
           {flag ? (
             <View style={style.price}>
               <Price

@@ -18,6 +18,8 @@ function DateComponent({
   showTime = true,
   editable = true,
   rowStyle,
+  minDate,
+  maxDate,
 }) {
   return (
     <View style={containerStyle}>
@@ -40,6 +42,8 @@ function DateComponent({
               style={{ marginRight: RW(20) }}
               accentColor={ICON}
               themeVariant="dark"
+              minimumDate={minDate}
+              maximumDate={maxDate}
               onChange={(_, changedDate) => {
                 setDate(changedDate)
               }}
@@ -94,6 +98,7 @@ function DateComponent({
                   textColor={ICON}
                   accentColor={ICON}
                   themeVariant="dark"
+                  is24Hour={true}
                   onChange={(_, changedTime) => {
                     setTime(changedTime)
                   }}

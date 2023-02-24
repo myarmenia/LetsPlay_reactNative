@@ -9,9 +9,11 @@ import Modal from '@/components/modal'
 import EditSvg from '@/assets/svgs/editSvg'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 import ShareSvg from '@/assets/svgs/shareSvg'
+import { useNavigation } from '@react-navigation/native'
 
 function Index(props) {
-  const { navigation, route } = props
+  const { route } = props
+  const navigation = useNavigation()
   const { flag, game, data, initialState, name } = route.params.params
   const [isVisible, setIsVisible] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -36,7 +38,7 @@ function Index(props) {
           }}
         >
           <EditSvg
-            onPress={navigation.navigate('GameCreating', { params: { game: initialState } })}
+            onPress={() => navigation.navigate('GameCreating', { params: { game: initialState } })}
           />
         </TouchableOpacity>
         <TouchableOpacity style={style.shareButton}>
