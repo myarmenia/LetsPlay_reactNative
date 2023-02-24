@@ -23,7 +23,7 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { useDispatch, useSelector } from 'react-redux'
-import { setImage } from '@/store/Slices/AuthSlice'
+import { setImage, setPending, setUser } from '@/store/Slices/AuthSlice'
 import { _storageUrl } from '@/constants'
 import Loader from '@/components/loader/Loader'
 
@@ -42,7 +42,7 @@ function Index(props) {
       includeBase64: true,
     })
     console.log('result', result.assets[0].uri)
-    setLoader(true)
+    dispatch(setPending(true))
     setEditable(false)
     let myHeaders = new Headers()
     myHeaders.append('Content-Type', 'multipart/form-data')
@@ -72,8 +72,8 @@ function Index(props) {
       .then(result => {
         dispatch(setImage(JSON.parse(result).avatar))
       })
-      .catch(error => console.log('error', error))
-      .finally(() => setLoader(false), setEditable(false))
+      .catch((error) => console.log('error', error))
+      .finally(() => dispatch(setPending(false)), setEditable(false))
   }
   return (
     <ScreenMask>
@@ -81,7 +81,7 @@ function Index(props) {
         <Text style={style.title}>Мои данные</Text>
         <View style={style.imgBlock}>
           <ImageBackground
-            style={[style.image, editable || loader ? { opacity: 0.6 } : null]}
+            style={[style.image, editable ? { opacity: 0.6 } : null]}
             imageStyle={style.image}
             source={
               avatar
@@ -91,12 +91,12 @@ function Index(props) {
                 : require('../../../assets/imgs/user/defualtUser.png')
             }
           >
-            {editable && !loader && (
+            {editable && (
               <Pressable style={style.uploadBtn} onPress={uploadPhoto}>
                 <UploadIcon />
               </Pressable>
             )}
-            {loader && <Loader />}
+            {/* {loader && <Loader />} */}
           </ImageBackground>
           <Pressable onPress={() => setEditable(!editable)}>
             {editable ? <TickSvg style={style.tickSvg} /> : <UserEditSvg style={style.tickSvg} />}

@@ -10,7 +10,7 @@ const initialState = {
     avatar: null,
     preferences: [],
   },
-  authPending: true,
+  pending: false,
   token: '',
   expired_token: '',
   signUpSuccess: false,
@@ -40,7 +40,7 @@ export const AuthSlice = createSlice({
     setPending: (store, action) => {
       return {
         ...store,
-        authPending: action.payload,
+        pending: action.payload,
       }
     },
     setUser: (store, action) => {
