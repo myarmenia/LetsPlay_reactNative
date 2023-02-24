@@ -125,12 +125,12 @@ export const AuthSlice = createSlice({
 })
 
 export const signIn = (data) => (dispatch) => {
-  console.log('signIn', data)
+  // console.log('signIn', data)
   axiosInstance
     .post('api/auth/sign_in', data)
 
     .then((response) => {
-      console.log('signIn response', response.data)
+      // console.log('signIn response', response.data)
       dispatch(setExpiredToken(response.data.expired_token))
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
@@ -191,7 +191,7 @@ export const forgitPassword3 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/password_reset_third_step', data)
     .then((response) => {
-      console.log(response.data, 'forgitPassword3 response')
+      // console.log(response.data, 'forgitPassword3 response')
       setTimeout(() => {
         dispatch(setToken(response.data?.expired_token?.access_token))
         addAsyncStorage('token', response.data?.expired_token?.access_token)
@@ -286,7 +286,7 @@ export const getDocumentRules = () => (dispatch) => {
     })
 }
 export const vkAuth = (data) => (dispatch) => {
-  console.log(data)
+  // console.log(data)
   axiosInstance
     .post('api/auth/vk', data)
     .then((response) => {
@@ -299,7 +299,7 @@ export const vkAuth = (data) => (dispatch) => {
     })
 }
 export const editProfile = (data) => (dispatch) => {
-  console.log('edit profile data', data)
+  // console.log('edit profile data', data)
   axiosInstance
     .put('api/profile', data)
     .then((response) => {
@@ -313,7 +313,7 @@ export const getProfileInfo = (data) => (dispatch) => {
   axiosInstance
     .get('api/profile')
     .then((response) => {
-      console.log('editProfile response', response.data)
+      // console.log('getProfileInfo ', response.data)
       dispatch(setUser(response.data?.user))
     })
     .catch((err) => {

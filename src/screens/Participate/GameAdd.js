@@ -62,7 +62,7 @@ function Index({ navigation }) {
   const showHideError = () => {
     if (!checkChecks && list[2].checked === true) {
       setErrorMessage(true)
-      console.log('Выберите один из игр')
+      // console.log('Выберите один из игр')
     } else {
       setErrorMessage(false)
       if (list[2].id !== true) {

@@ -115,7 +115,7 @@ const AuthHome = () => {
             style={styles.vkButton}
             onPress={() => {
               expiredToken = token()
-              console.log('token()', expiredToken)
+              // console.log('token()', expiredToken)
               openLink(`https://to-play.ru/vk/auth.html?${expiredToken}`)
             }}
           >
