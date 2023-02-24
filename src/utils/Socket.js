@@ -6,7 +6,7 @@ const socket = io.connect('http://to-play.ru/vk/authorize', {
   transports: ['websocket'],
 })
 socket.on('message', (m) => {
-  console.log('vkAuthInfo', JSON.parse(m.vkAuthInfo))
+  // console.log('vkAuthInfo', JSON.parse(m.vkAuthInfo))
 })
 
 const Socket = () => {

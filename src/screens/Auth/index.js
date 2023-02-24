@@ -1,4 +1,4 @@
-import React, { useDebugValue, useState } from 'react'
+import React from 'react'
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
@@ -29,10 +29,6 @@ const AuthHome = () => {
   const openLink = async (url) => {
     try {
       socket.on('message', (data) => {
-        console.log('socket data', data)
-        if (!data.token) {
-          InAppBrowser.close()
-        }
         if (data.vkAuthInfo && data.token == expiredToken) {
           InAppBrowser.close()
           const vkAuthInfo = JSON.parse(data.vkAuthInfo)
@@ -42,6 +38,8 @@ const AuthHome = () => {
               first_name: vkAuthInfo.first_name,
               last_name: vkAuthInfo?.last_name,
               bdate: vkAuthInfo?.bdate,
+              has_photo: vkAuthInfo?.has_photo,
+              photo_200: vkAuthInfo?.photo_200,
               has_photo: vkAuthInfo?.has_photo,
               photo_200: vkAuthInfo?.photo_200,
               sex: vkAuthInfo?.sex,
@@ -117,7 +115,7 @@ const AuthHome = () => {
             style={styles.vkButton}
             onPress={() => {
               expiredToken = token()
-              console.log('token()', expiredToken)
+              // console.log('token()', expiredToken)
               openLink(`https://to-play.ru/vk/auth.html?${expiredToken}`)
             }}
           >

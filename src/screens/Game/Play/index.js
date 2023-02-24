@@ -3,8 +3,8 @@ import { View, Text, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { styles } from '@/screens/Game/Play/style'
 import Button from '@/assets/imgs/Button'
-import Radio from '@/components/checkbox/radio'
-import DateTime from '@/services/DateTime'
+// import Radio from '@/components/checkbox/radio'
+// import DateTime from '@/services/DateTime'
 import Map from '@/components/inputs/map'
 import { font, RH, RW } from '@/theme/utils'
 import GameType from '../gameType'
@@ -81,7 +81,6 @@ function Index({ navigation }) {
   const showHideError = () => {
     if (!checkChecks && list[2].checked == true) {
       setErrorMessage(true)
-      console.log('Выберите один из игр')
     } else {
       setErrorMessage(false)
       if (list[2].id !== true) {
@@ -196,7 +195,7 @@ function Index({ navigation }) {
         <ScrollView>
           <Text style={styles.someTitle}>Игра</Text>
           <View style={styles.gameTypesContainer}>
-            <Radio
+            {/* <Radio
               list={list}
               setShowGameTypes={setShowGameTypes}
               showDropDown={showDropDown}
@@ -208,7 +207,7 @@ function Index({ navigation }) {
               data={data}
               type={'gameType'}
               setData={setData}
-            />
+            /> */}
           </View>
 
           {data.gameValue === 'Выбрать игру' ? (
@@ -243,9 +242,9 @@ function Index({ navigation }) {
             >
               <View style={styles.dateMap}>
                 <View style={styles.datesContainer}>
-                  <DateTime type={'date'} width={166} />
+                  {/* <DateTime type={'date'} width={166} /> */}
                   <View style={styles.dash}></View>
-                  <DateTime type={'date'} width={166} />
+                  {/* <DateTime type={'date'} width={166} /> */}
                 </View>
                 <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
               </View>
@@ -253,7 +252,7 @@ function Index({ navigation }) {
             <View>
               <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
               <View style={styles.gameTypesContainer}>
-                <Radio
+                {/* <Radio
                   flag={flag}
                   setFlag={setFlag}
                   data={data}
@@ -263,7 +262,7 @@ function Index({ navigation }) {
                   setFree={setFree}
                   type={'priceView'}
                   typeFunc={'paid'}
-                />
+                /> */}
               </View>
               {flag ? (
                 <View style={style.price}>

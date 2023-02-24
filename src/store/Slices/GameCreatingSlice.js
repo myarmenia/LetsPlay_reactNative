@@ -1,7 +1,4 @@
-import { getAsyncStorage } from '@/helpers/asyncStore'
-import { useNavigation } from '@react-navigation/native'
 import { createSlice } from '@reduxjs/toolkit'
-import axios from 'axios'
 import { Alert } from 'react-native'
 import axiosInstance from '../Api'
 
@@ -14,8 +11,7 @@ const initialState = {
   players_gender: '',
   latitude: 0,
   longitude: 0,
-  //end date is one day plus from start date
-  end_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+  end_date: '',
   organizer_in_the_game: true,
   ticket_price: 0,
   game: '',
@@ -114,12 +110,13 @@ export const createGame = (data) => {
   axiosInstance
     .post('/create/game', data)
     .then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
       // dispatch(setStart_date(data?.start_date)),
       //   dispatch(setNumber_of_players_from(data?.number_of_players_from)),
       //   dispatch(setNumber_of_players_to(data?.number_of_players_to)),
       //   dispatch(setAge_restrictions_from(data?.age_restrictions_from)),
       //   dispatch(setNumber_of_players_to(data?.age_restrictions_to)),
+      //   dispatch(setLatitute(data?.latitud)),
       //   dispatch(setLatitute(data?.latitud)),
       //   dispatch(setLongitude(data?.longitude)),
       //   dispatch(setEndDate(data?.endDate)),

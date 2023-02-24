@@ -140,6 +140,7 @@ export const signIn = data => dispatch => {
 
     .then(response => {
       console.log('signIn response', response.data)
+
       dispatch(setExpiredToken(response.data.expired_token))
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
@@ -199,8 +200,8 @@ export const forgitPassword2 = data => dispatch => {
 export const forgitPassword3 = data => dispatch => {
   axiosInstance
     .post('api/auth/password_reset_third_step', data)
-    .then(response => {
-      console.log(response.data, 'forgitPassword3 response')
+    .then((response) => {
+      // console.log(response.data, 'forgitPassword3 response')
       setTimeout(() => {
         dispatch(setToken(response.data?.expired_token?.access_token))
         addAsyncStorage('token', response.data?.expired_token?.access_token)
@@ -251,8 +252,8 @@ export const signUp2 = data => dispatch => {
 export const signUp3 = data => dispatch => {
   axiosInstance
     .post('api/auth/signup/third_step', data)
-    .then(response => {
-      // dispatch(setSignUpStep('PASSWORD_CREATED_SUCCESS'))
+
+    .then(() => {
       dispatch(getDocumentRules())
     })
     .catch(err => {
@@ -326,18 +327,40 @@ export const getDocumentRules = () => dispatch => {
       console.log('err request response', err.request._response)
     })
 }
-export const vkAuth = data => dispatch => {
-  console.log('vkAuth data', data)
+
+export const vkAuth = (data) => (dispatch) => {
+  // console.log(data)
   axiosInstance
     .post('api/auth/vk', data)
-    .then(response => {
-      console.log(response.data, 'vkAuth')
+    .then((response) => {
       dispatch(setUser(response.data?.user))
       dispatch(setToken(response.data?.token))
       addAsyncStorage('token', response.data?.token)
     })
-    .catch(err => {
-      console.log('err request response', err.request._response)
+    .catch((err) => {
+      console.log('Vk auth err request response - ', err.request?._response)
+    })
+}
+export const editProfile = (data) => (dispatch) => {
+  // console.log('edit profile data', data)
+  axiosInstance
+    .put('api/profile', data)
+    .then((response) => {
+      // console.log('editProfile response', response.data)
+    })
+    .catch((err) => {
+      console.log('err request _response', err.request._response)
+    })
+}
+export const getProfileInfo = (data) => (dispatch) => {
+  axiosInstance
+    .get('api/profile')
+    .then((response) => {
+      // console.log('getProfileInfo ', response.data)
+      dispatch(setUser(response.data?.user))
+    })
+    .catch((err) => {
+      console.log('err request _response', err.request._response)
     })
 }
 export const {

@@ -5,7 +5,7 @@ import Button from '@/assets/imgs/Button'
 import styles from '@/screens/Elias/Settings/styles'
 import { RH, RW } from '@/theme/utils'
 import Slider from '@/components/range'
-import ToggleSwitch from '@/components/toggleSwitch/Toggle'
+import ToggleSwitch from '@/components/ToggleSwitch'
 
 function Index({ navigation }) {
   const [valWord, setValWord] = useState(0)

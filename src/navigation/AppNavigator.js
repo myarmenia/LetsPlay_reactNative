@@ -83,6 +83,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'CalendarNavigator'} component={CalendarNavigator} />
         <Stack.Screen name={'TourParticipantNavigator'} component={TourParticipantNavigator} />
         <Stack.Screen name={'NavigationSearchTeams'} component={NavigationSearchTeams} />
+        <Stack.Screen name={'Notification'} component={NotificationScreen} />
       </Stack.Navigator>
     </>
   )

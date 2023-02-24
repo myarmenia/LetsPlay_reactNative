@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { RW } from '@/theme/utils'
-import Toggle from '@/components/toggleSwitch/Toggle'
+import ToggleSwitch from '@/components/ToggleSwitch'
 
 const SettingsScreen = ({ navigation }) => {
   return (
@@ -30,7 +30,7 @@ const SettingsScreen = ({ navigation }) => {
         }}
       >
         <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Индивидуальные игры</Text>
-        <Toggle />
+        <ToggleSwitch />
       </View>
       <View
         style={{
@@ -41,7 +41,7 @@ const SettingsScreen = ({ navigation }) => {
         }}
       >
         <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Командные игры</Text>
-        <Toggle />
+        <ToggleSwitch />
       </View>
       <View
         style={{
@@ -52,7 +52,7 @@ const SettingsScreen = ({ navigation }) => {
         }}
       >
         <Text style={{ color: '#FFFFFF', fontSize: 16 }}>Турниры</Text>
-        <Toggle />
+        <ToggleSwitch />
       </View>
     </ScreenMask>
   )

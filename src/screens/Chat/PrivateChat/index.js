@@ -126,7 +126,6 @@ function Index(props) {
             <View style={style.chatInput}>
               <Pressable
                 onPress={() => {
-                  console.log(inputRef.current)
                   inputRef.current.focus()
                 }}
               >

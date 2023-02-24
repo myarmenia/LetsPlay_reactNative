@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
@@ -8,18 +8,20 @@ import { RH } from '@/theme/utils'
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
 import LogoSvg from '@/assets/LogoSvg'
+import { useNavigation } from '@react-navigation/native'
 
-const HomeScreen = (props) => {
-  const { navigation } = props
+const HomeScreen = () => {
+  const navigation = useNavigation()
+
   return (
     <ScreenMask>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.navigate('CalendarNavigator')}>
           <CalendarIcon />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+        <Pressable onPress={() => navigation.navigate('Notification')}>
           <NotificationIcon />
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View style={styles.logoContainer}>
         <LogoSvg width={196} height={130} />
@@ -52,8 +54,7 @@ const styles = StyleSheet.create({
   logoContainer: {
     position: 'absolute',
     top: RH(67),
-    left: 0,
-    right: 0,
+    alignSelf: 'center',
     alignItems: 'center',
   },
 })

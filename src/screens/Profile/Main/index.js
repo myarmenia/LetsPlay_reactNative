@@ -1,18 +1,12 @@
 import React from 'react'
-import { FlatList, Image, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View, Linking } from 'react-native'
 import style from '../style'
 import ScreenMask from '@/components/wrappers/screen'
-import image from '@/assets/imgs/userImage.png'
 import { useNavigation } from '@react-navigation/native'
-import { Players } from '@/assets/TestData'
-
 import { _storageUrl } from '@/constants'
-
 import { useSelector } from 'react-redux'
-import { RW } from '@/theme/utils'
 
 const index = () => {
-  const user = useSelector(({ auth }) => auth.user)
   const navigation = useNavigation()
   const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
   const list = [
@@ -23,11 +17,11 @@ const index = () => {
     { id: 5, text: 'Условия использования' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
-  const forNavigate = item => {
+  const forNavigate = (item) => {
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
     } else {
-      console.log(111)
+      // console.log(111)
     }
   }
 
@@ -49,11 +43,13 @@ const index = () => {
             <Image
               style={[style.image]}
               source={
-                avatar
-                  ? {
+                !avatar
+                  ? require('../../../assets/imgs/user/defualtUser.png')
+                  : Linking.canOpenURL(avatar)
+                  ? { uri: avatar }
+                  : {
                       uri: _storageUrl + avatar,
                     }
-                  : require('../../../assets/imgs/user/defualtUser.png')
               }
             />
           </View>
@@ -63,17 +59,9 @@ const index = () => {
           </View>
         </View>
       </View>
-      <FlatList data={list} renderItem={renderItem} keyExtractor={item => item.id} />
+      <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} />
     </ScreenMask>
   )
 }
-const styles = StyleSheet.create({
-  imageBlock: {},
-  image: {
-    width: RW(87),
-    height: RW(87),
-    borderRadius: RW(45),
-    marginRight: RW(17),
-  },
-})
+
 export default index
