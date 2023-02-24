@@ -4,7 +4,6 @@ import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
 import { RH } from '@/theme/utils'
-import { RH } from '@/theme/utils'
 
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
