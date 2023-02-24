@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import {
-  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  ScrollView,
   Text,
   TextInput,
   TouchableNativeFeedback,
@@ -14,49 +14,45 @@ import {
 } from 'react-native'
 import style from '@/screens/Chat/style'
 import SmilesSvg from '@/assets/svgs/SmilesSvg'
-import { ICON, WHITE } from '@/theme/colors'
+import { ICON } from '@/theme/colors'
 import VoiceSvg from '@/assets/svgs/voiceSvg'
 import { RH, RW } from '@/theme/utils'
 import LeftArrow from '@/assets/svgs/leftArrow'
 import InfoSvg from '@/assets/svgs/infoSvg'
 import Modal from '@/components/modal'
-import VectorIcon from '@/assets/svgs/vectorSvg'
-import ArrowRight from '@/assets/svgs/ArrowRight'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { getChats, setChats } from '@/store/Slices/ChatsSlice'
+import SendSvg from '../assets/SendSvg'
+import ModalItem from './ModalItem'
+import { sendMessage } from '../../../store/Slices/ChatsSlice'
 
 function Index(props) {
-  const { navigation } = props
-  const inputRef = useRef()
   const [isVisible, setIsVisible] = useState(false)
-  const ModalItem = () => {
-    return (
-      <View style={style.regulationBlock}>
-        <View style={style.rowBox}>
-          <ArrowRight />
-          <View style={{ paddingLeft: 10 }}>
-            <VectorIcon />
-          </View>
-        </View>
-        <View style={style.titleColumnBox}>
-          <Text style={style.titlee}>Тип игры: Триста</Text>
-          <Text style={style.titlee}>Дата и время игры: 07.07.2022, 18:30</Text>
-          <Text style={style.titlee}>Количество игроков: от 10 до 12</Text>
-          <Text style={style.titlee}>Возраст игроков: 25-35</Text>
-          <Text style={style.titlee}>Половой признак игроков: М</Text>
-          <Text style={style.titlee}>Адрес проведения игры:</Text>
-          <Text style={style.titlee}>Дата и время окончания поиска игроков: 07.07.2022, 18:30</Text>
-          {/* <Text style={style.title}>Стоимость входного билета на игру: 500 руб.</Text> */}
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Text style={style.titlee}>Организатор игры:</Text>
-            <Image
-              source={require('../../../assets/imgs/detail.png')}
-              resizeMode={'contain'}
-              style={{ height: RH(30), width: RW(20), paddingLeft: RW(50) }}
-            />
-          </View>
-        </View>
-      </View>
+  const [inputValue, setInputValue] = useState('')
+  const chats = useSelector(({ chats }) => chats.chats)
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const gameID = props.route.params.id
+  const inputRef = useRef()
+
+  const sendFunc = () => {
+    dispatch(
+      sendMessage({
+        message: inputValue,
+        create_game: gameID,
+      }),
     )
+    dispatch(
+      setChats([...chats, { message: inputValue, create_game: gameID, updatedAt: new Date() }]),
+    )
+    setInputValue('')
   }
+  useEffect(() => {
+    dispatch(getChats(gameID))
+  }, [])
+
+  console.log(chats, 'chats')
   return (
     <ScreenMask>
       <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
@@ -72,11 +68,11 @@ function Index(props) {
         >
           <View style={{ flex: 1 }}>
             <View style={style.chatHeadBlock}>
-              <TouchableOpacity onPress={() => navigation.navigate('Chat')}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <LeftArrow />
               </TouchableOpacity>
               <View style={style.countBlock}>
-                <Text style={style.countText}>12</Text>
+                <Text style={style.countText}>0</Text>
               </View>
               <TouchableOpacity
                 style={style.infoSvgButton}
@@ -95,8 +91,20 @@ function Index(props) {
                 item={<ModalItem />}
               />
             )}
-            <View style={{ height: '80%', marginTop: 'auto' }}>
-              <View style={style.chatBlock}>
+            <View style={{ flex: 1 }}>
+              <ScrollView style={style.chatBlock}>
+                {chats?.map((chat) => {
+                  return (
+                    <View style={style.myItemBlock}>
+                      <Text style={style.timeText}>
+                        {new Date(chat.updatedAt).toLocaleTimeString().slice(0, 4)}
+                      </Text>
+                      <View style={style.myItem}>
+                        <Text style={{ color: '#fff' }}>{chat.message}</Text>
+                      </View>
+                    </View>
+                  )
+                })}
                 <View style={style.userItemBlock}>
                   <View style={style.userItem}></View>
                   <Text style={style.timeText}>1:01</Text>
@@ -105,23 +113,7 @@ function Index(props) {
                   <Text style={style.timeText}>1:01</Text>
                   <View style={style.myItem}></View>
                 </View>
-                <View style={style.userItemBlock}>
-                  <View style={style.userItem}></View>
-                  <Text style={style.timeText}>1:01</Text>
-                </View>
-                <View style={style.myItemBlock}>
-                  <Text style={style.timeText}>1:01</Text>
-                  <View style={style.myItem}></View>
-                </View>
-                <View style={style.userItemBlock}>
-                  <View style={style.userItem}></View>
-                  <Text style={style.timeText}>1:01</Text>
-                </View>
-                <View style={{ ...style.myItemBlock, marginBottom: 0 }}>
-                  <Text style={style.timeText}>1:01</Text>
-                  <View style={style.myItem}></View>
-                </View>
-              </View>
+              </ScrollView>
             </View>
             <View style={style.chatInput}>
               <Pressable
@@ -136,10 +128,18 @@ function Index(props) {
                 style={{ width: RW(276), color: ICON }}
                 placeholder={'Сообщение...'}
                 placeholderTextColor={ICON}
+                value={inputValue}
+                onChangeText={setInputValue}
               />
-              <Pressable>
-                <VoiceSvg />
-              </Pressable>
+              {inputValue.length ? (
+                <Pressable onPress={sendFunc}>
+                  <SendSvg />
+                </Pressable>
+              ) : (
+                <Pressable>
+                  <VoiceSvg />
+                </Pressable>
+              )}
             </View>
           </View>
         </KeyboardAvoidingView>

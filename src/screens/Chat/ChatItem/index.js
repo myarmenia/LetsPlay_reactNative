@@ -4,11 +4,11 @@ import Soccer from '@/assets/imgs/games/soccer.png'
 import style from '../style'
 import { useNavigation } from '@react-navigation/native'
 
-function Index(props) {
+function Index({ id }) {
   const navigation = useNavigation()
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate('PrivateChat')}
+      onPress={() => navigation.navigate('PrivateChat', { id })}
       style={style.chatItemBlock}
     >
       <Image style={style.chatItemImg} source={Soccer} />

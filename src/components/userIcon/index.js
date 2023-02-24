@@ -18,7 +18,6 @@ function Index({ user, size, onPressImg }) {
   const [loader, setLoader] = useState(true)
   const navigation = useNavigation()
   useEffect(() => {
-    // console.log(avatar)
     avatar ? setLoader(false) : setLoader(true)
     setTimeout(() => {
       if (!avatar) {
@@ -55,7 +54,7 @@ function Index({ user, size, onPressImg }) {
           source={
             !avatar
               ? require('../../assets/imgs/user/defualtUser.png')
-              : Linking.canOpenURL(avatar)
+              : avatar.startsWith('https://')
               ? { uri: avatar }
               : {
                   uri: _storageUrl + avatar,

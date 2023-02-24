@@ -34,6 +34,11 @@ const GameCreating = (props) => {
   const { token } = useSelector(({ auth }) => auth)
   const dispatch = useDispatch()
 
+  const [startDate, setStartDate] = useState({
+    date: new Date(),
+    time: new Date(),
+  })
+
   //data for radio buttons
   const genderList = [
     { id: 1, text: 'М', checked: false },
@@ -88,11 +93,26 @@ const GameCreating = (props) => {
           : {})}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <FirstBlock
+          {/* <FirstBlock
             errorText={errorText}
             margin={RH(29)}
             title={'Дата и время начала игры'}
             place={'onTop'}
+          /> */}
+          <DateComponent
+            title="Дата и время начала игры"
+            containerStyle={{
+              width: RW(380),
+              marginTop: RH(24),
+              alignSelf: 'center',
+            }}
+            rowStyle={{
+              justifyContent: 'space-around',
+            }}
+            dateValue={startDate.date}
+            timeValue={startDate.time}
+            setDate={(date) => setStartDate({ ...startDate, date })}
+            setTime={(time) => setStartDate({ ...startDate, time })}
           />
           {!initialState?.start_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
@@ -124,6 +144,7 @@ const GameCreating = (props) => {
           />
           <SearchAddresses game={game} />
           {/* <FirstBlock title={'Дата и время окончания поиска игроков'} place={'onBottom'} /> */}
+
           <DateComponent
             title="Дата и время окончания поиска игроков"
             containerStyle={{
@@ -134,7 +155,10 @@ const GameCreating = (props) => {
             rowStyle={{
               justifyContent: 'space-around',
             }}
-            onChange={() => {}}
+            dateValue={startDate.date}
+            timeValue={startDate.time}
+            setDate={(date) => setStartDate({ ...startDate, date })}
+            setTime={(time) => setStartDate({ ...startDate, time })}
           />
           {/* {!initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>

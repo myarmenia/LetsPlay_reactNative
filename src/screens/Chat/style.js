@@ -101,8 +101,10 @@ export default StyleSheet.create({
     marginRight: 'auto',
   },
   chatBlock: {
-    width: RW(396),
-    marginTop: 'auto',
+    flex: 1,
+    // height: '100%',
+    // width: RW(396),
+    // marginTop: 'auto',
   },
   myItemBlock: {
     flexDirection: 'row',
@@ -120,6 +122,8 @@ export default StyleSheet.create({
     backgroundColor: ICON,
     borderRadius: RW(10),
     borderBottomRightRadius: 0,
+    justifyContent: 'center',
+    paddingHorizontal: RW(10),
   },
   userItem: {
     width: RW(230),
