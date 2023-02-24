@@ -6,7 +6,7 @@ import { Alert } from 'react-native'
 import axiosInstance from '../Api'
 
 const initialState = {
-  start_date: '',
+  start_date: new Date().toISOString().substring(0, 10),
   number_of_players_from: 0,
   number_of_players_to: 0,
   age_restrictions_from: 0,
@@ -14,10 +14,11 @@ const initialState = {
   players_gender: '',
   latitude: 0,
   longitude: 0,
-  end_date: '',
+  //end date is one day plus from start date
+  end_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
   organizer_in_the_game: true,
   ticket_price: 0,
-  game: 'Футбол',
+  game: '',
   placeName: '',
 }
 
@@ -103,27 +104,30 @@ export const GameCreatingSlice = createSlice({
         game: action.payload,
       }
     },
+    setInitialState: (store, action) => {
+      return { game: action.payload }
+    },
   },
 })
 
-export const createGame = data => {
+export const createGame = (data) => {
   axiosInstance
     .post('/create/game', data)
-    .then(response => {
-      console.log(response.data)
+    .then((response) => {
+      // console.log(response.data)
       // dispatch(setStart_date(data?.start_date)),
       //   dispatch(setNumber_of_players_from(data?.number_of_players_from)),
       //   dispatch(setNumber_of_players_to(data?.number_of_players_to)),
       //   dispatch(setAge_restrictions_from(data?.age_restrictions_from)),
       //   dispatch(setNumber_of_players_to(data?.age_restrictions_to)),
-      //   dispatch(setLatitud(data?.latitud)),
+      //   dispatch(setLatitute(data?.latitud)),
       //   dispatch(setLongitude(data?.longitude)),
       //   dispatch(setEndDate(data?.endDate)),
       //   dispatch(setOrganizer_in_the_game(data)),
       //   dispatch(setTicket_price(data?.ticket_price)),
       //   dispatch(setGame(data?.game))
     })
-    .catch(err => {
+    .catch((err) => {
       Alert(err)
     })
 }
@@ -142,5 +146,6 @@ export const {
   setOrganizer_in_the_game,
   setTicket_price,
   setGame,
+  setInitialState,
 } = GameCreatingSlice.actions
 export default GameCreatingSlice.reducer

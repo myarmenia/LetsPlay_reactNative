@@ -6,41 +6,12 @@ import Border from '@/assets/imgs/games/Border'
 import { useNavigation } from '@react-navigation/native'
 import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW } from '@/theme/utils'
+import { _storageUrl } from '@/constants'
 
 function Index(props) {
   const [active, setActive] = useState(false)
-  const [longPress, setLongPress] = useState(false)
-  const { setModalVisible, setGame, setFlag, navigationTo, onPress, game, pressable } = props
+  const { game, pressable } = props
   const navigation = useNavigation()
-  // <Pressable
-  //   onPress={() => {
-  //     setActive(true)
-  //     setTimeout(() => {
-  //       data.navigateTo &&
-  //         navigation.navigate(data.navigateTo, { screen: data.screenTwo, params: game, data })
-
-  //       setActive(false)
-  //     }, 100)
-  //   }}
-  //   style={styles.bgFon}
-  // >
-  //   {active ? (
-  //     <LinearGradient
-  //       colors={['#7DCE8A', '#4D7CFE']}
-  //       start={{ x: 0, y: 0 }}
-  //       end={{ x: 1, y: 1 }}
-  //       useAngle={true}
-  //       angle={105}
-  //       angleCenter={{ x: 0.5, y: 0.5 }}
-  //       style={{
-  //         width: RW(335),
-  //         height: RH(707),
-  //         zIndex: -1,
-  //         position: 'absolute',
-  //         opacity: 0.5,
-  //       }}
-  //     ></LinearGradient>
-  //   ) : null}
 
   return (
     <Animated.View>
@@ -85,7 +56,7 @@ function Index(props) {
           <BgGamesLiner />
         </View>
         <View style={styles.title}>
-          <Image source={game?.image} style={styles.image} />
+          <Image source={{ uri: _storageUrl + game?.img }} style={styles.image} />
         </View>
         <View style={styles.btn}>
           <LinearGradient
@@ -104,7 +75,7 @@ function Index(props) {
               opacity: 0.9,
             }}
           >
-            <Text style={styles.btnText}>{game?.title}</Text>
+            <Text style={styles.btnText}>{game?.name}</Text>
           </LinearGradient>
         </View>
       </Pressable>

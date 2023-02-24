@@ -20,13 +20,8 @@ import { RH, RW } from '@/theme/utils'
 import LeftArrow from '@/assets/svgs/leftArrow'
 import InfoSvg from '@/assets/svgs/infoSvg'
 import Modal from '@/components/modal'
-import Ticket from '@/screens/GameCreating/GameTicket/ticket'
-import CloseSvg from '@/assets/svgs/closeSvg'
-import AddFollowerSvg from '@/assets/svgs/AddFolloerSvg'
-import ShareSvg from '@/assets/svgs/shareSvg'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import ArrowRight from '@/assets/svgs/ArrowRight'
-import SvgComponent from '@/assets/imgs/user/userDefault'
 
 function Index(props) {
   const { navigation } = props
@@ -50,12 +45,12 @@ function Index(props) {
           <Text style={style.titlee}>Адрес проведения игры:</Text>
           <Text style={style.titlee}>Дата и время окончания поиска игроков: 07.07.2022, 18:30</Text>
           {/* <Text style={style.title}>Стоимость входного билета на игру: 500 руб.</Text> */}
-          <View style={{flexDirection:"row", alignItems:"center"}}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={style.titlee}>Организатор игры:</Text>
             <Image
               source={require('../../../assets/imgs/detail.png')}
-              resizeMode={"contain"}
-              style={{ height: RH(30), width: RW(20), paddingLeft:RW(50) }}
+              resizeMode={'contain'}
+              style={{ height: RH(30), width: RW(20), paddingLeft: RW(50) }}
             />
           </View>
         </View>
@@ -131,7 +126,6 @@ function Index(props) {
             <View style={style.chatInput}>
               <Pressable
                 onPress={() => {
-                  console.log(inputRef.current)
                   inputRef.current.focus()
                 }}
               >

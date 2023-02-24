@@ -1,25 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
-import { font, RH, RW } from '@/theme/utils'
+import { RH } from '@/theme/utils'
 
 import User from '@/assets/imgs/user/user'
 import { Players } from '@/assets/TestData'
 import LogoSvg from '@/assets/LogoSvg'
+import { useNavigation } from '@react-navigation/native'
 
-const HomeScreen = (props) => {
-  const { navigation, route } = props
-  const [isVisible, setIsVisible] = useState(false)
-
-  useEffect(() => {
-    if ((route.params && route.params.flag) || (route.params && route.params.type)) {
-      setIsVisible(true)
-    } else {
-      setIsVisible(false)
-    }
-  }, [route])
+const HomeScreen = () => {
+  const navigation = useNavigation()
 
   return (
     <ScreenMask>
@@ -27,9 +19,9 @@ const HomeScreen = (props) => {
         <TouchableOpacity onPress={() => navigation.navigate('CalendarNavigator')}>
           <CalendarIcon />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Notification')}>
+        <Pressable onPress={() => navigation.navigate('Notification')}>
           <NotificationIcon />
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <View style={styles.logoContainer}>
         <LogoSvg width={196} height={130} />
@@ -48,12 +40,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 10,
     marginRight: 10,
-    // alignItems: 'stretch',
-    // justifyContent: 'center',
   },
   detailContainer: {
     flex: 1,
-    // alignItems: 'center',
     justifyContent: 'center',
   },
   header: {
@@ -65,8 +54,7 @@ const styles = StyleSheet.create({
   logoContainer: {
     position: 'absolute',
     top: RH(67),
-    left: 0,
-    right: 0,
+    alignSelf: 'center',
     alignItems: 'center',
   },
 })

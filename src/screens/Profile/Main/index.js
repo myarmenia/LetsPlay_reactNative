@@ -1,13 +1,20 @@
 import React from 'react'
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, Text, TouchableOpacity, View, StyleSheet, Linking } from 'react-native'
 import style from '../style'
 import ScreenMask from '@/components/wrappers/screen'
 import image from '@/assets/imgs/userImage.png'
 import { useNavigation } from '@react-navigation/native'
 import { Players } from '@/assets/TestData'
 
-const index = (props) => {
+import { _storageUrl } from '@/constants'
+
+import { useSelector } from 'react-redux'
+import { RW } from '@/theme/utils'
+
+const index = () => {
+  const user = useSelector(({ auth }) => auth.user)
   const navigation = useNavigation()
+  const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
     { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
@@ -20,7 +27,7 @@ const index = (props) => {
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
     } else {
-      console.log(111)
+      // console.log(111)
     }
   }
 
@@ -39,11 +46,22 @@ const index = (props) => {
         <Text style={style.title}>Мой кабинет</Text>
         <View style={style.infoBlock}>
           <View style={style.imageBlock}>
-            <Image style={style.image} source={{ uri: Players[0].image }} />
+            <Image
+              style={[style.image]}
+              source={
+                !avatar
+                  ? require('../../../assets/imgs/user/defualtUser.png')
+                  : Linking.canOpenURL(avatar)
+                  ? { uri: avatar }
+                  : {
+                      uri: _storageUrl + avatar,
+                    }
+              }
+            />
           </View>
           <View>
-            <Text style={style.name}>Имя Фамилия</Text>
-            <Text style={style.id}>Номер ID: </Text>
+            <Text style={style.name}>{name + ' ' + surname}</Text>
+            <Text style={style.id}>{`Номер ID: ${_id}`}</Text>
           </View>
         </View>
       </View>
@@ -51,4 +69,13 @@ const index = (props) => {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  imageBlock: {},
+  image: {
+    width: RW(87),
+    height: RW(87),
+    borderRadius: RW(45),
+    marginRight: RW(17),
+  },
+})
 export default index

@@ -1,48 +1,42 @@
-import React, { memo, useRef, useState } from 'react'
+import React, { memo, useEffect } from 'react'
 import { Dimensions, ScrollView, View } from 'react-native'
 import Game from '@/components/game'
 import ScreenMask from '@/components/wrappers/screen'
+import { getGames } from '@/store/Slices/GamesSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Index = ({ route }) => {
   const { list } = route.params
   const { width } = Dimensions.get('window')
+  const games = useSelector(({ games }) => games.games)
+  const dispatch = useDispatch()
 
-  const scrollViewRef = useRef()
-  const isCloseToRight = ({ layoutMeasurement, contentOffset, contentSize }) => {
-    return layoutMeasurement.width + contentOffset.x >= contentSize.width
-  }
+  useEffect(() => {
+    dispatch(getGames(list))
+  }, [list])
+
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <ScrollView
-        onScroll={({ nativeEvent }) => {
-          // const { offset } = scrollViewRef.current._listRef._getScrollMetrics()
-          // setCurrentIndex(Math.round(offset / RW(382)))
-          // if (isCloseToRight(nativeEvent)) {
-          //   scrollViewRef.current.scrollTo({ animated: true, offset: 0 })
-          // }
-        }}
-        ref={scrollViewRef}
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
         bounces={true}
         pagingEnabled
         scrollEnabled
+        decelerationRate={0.2}
         snapToAlignment="center"
         alwaysBounceHorizontal={false}
         horizontal
       >
-        {list.map((elem, index) => {
+        {games?.map((elem, index) => {
           return (
             <View
-              key={Math.random().toString()}
+              key={elem._id}
               style={{
-                // paddingHorizontal: RW(50),
-                // justifyContent: 'center',
                 width: width,
-                // alignSelf: 'center',
               }}
             >
-              <Game game={list[index]} pressable={true} />
+              <Game game={elem} pressable={true} />
             </View>
           )
         })}

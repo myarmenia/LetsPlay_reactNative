@@ -21,9 +21,6 @@ import GamesList from '@/screens/Game/gamesList/gamesList'
 import GameItem from '@/screens/Game/gamesList/gameItem'
 import Tournament from './TournamentNavigator'
 import ProfileNavigator from '@/navigation/ProfileNavigator'
-import GameAdd from '@/screens/Participate/GameAdd'
-import TournamentList from '@/screens/Participate/TournamentList'
-import TournamentTicket from '@/screens/Participate/TournamentTicket'
 import Calendar from '@/screens/Calendar'
 import GamesListCarousel from '@/screens/GameListCarousel'
 import CalendarNavigator from '@/navigation/CalendarNavigator'
@@ -42,7 +39,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -86,6 +83,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'CalendarNavigator'} component={CalendarNavigator} />
         <Stack.Screen name={'TourParticipantNavigator'} component={TourParticipantNavigator} />
         <Stack.Screen name={'NavigationSearchTeams'} component={NavigationSearchTeams} />
+        <Stack.Screen name={'Notification'} component={NotificationScreen} />
       </Stack.Navigator>
     </>
   )

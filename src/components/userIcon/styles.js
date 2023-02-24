@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 import { WHITE } from '@/theme/colors'
-import { font, RW } from '@/theme/utils'
+import { font, RH, RW } from '@/theme/utils'
 
 export default StyleSheet.create({
   titleBigBloc: {
@@ -27,12 +27,16 @@ export default StyleSheet.create({
     height: '100%',
   },
   image: {
-    width: '93%',
-    height: '93%',
+    width: '100%',
+    height: '100%',
     resizeMode: 'contain',
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: -0.7,
   },
   nameBlock: {
     alignItems: 'center',
+    marginTop: RH(16),
   },
   soc: {
     backgroundColor: 'rgba(52, 52, 52, 0)',

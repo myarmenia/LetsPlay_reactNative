@@ -3,8 +3,8 @@ import { View, Text, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { styles } from '@/screens/Game/Play/style'
 import Button from '@/assets/imgs/Button'
-import Radio from '@/components/checkbox/radio'
-import DateTime from '@/services/DateTime'
+// import Radio from '@/components/checkbox/radio'
+// import DateTime from '@/services/DateTime'
 import Map from '@/components/inputs/map'
 import { font, RH, RW } from '@/theme/utils'
 import GameType from '../gameType'
@@ -81,7 +81,6 @@ function Index({ navigation }) {
   const showHideError = () => {
     if (!checkChecks && list[2].checked == true) {
       setErrorMessage(true)
-      console.log('Выберите один из игр')
     } else {
       setErrorMessage(false)
       if (list[2].id !== true) {
@@ -125,7 +124,7 @@ function Index({ navigation }) {
             <Button
               onPress={() => {
                 setChooseType(false)
-                navigation.navigate('GameListCarousel', { list: ActiveGames })
+                navigation.navigate('GameListCarousel', { list: 'active' })
               }}
               label={'Активные игры'}
               size={{ width: 281, height: 50 }}
@@ -163,7 +162,8 @@ function Index({ navigation }) {
                     onPress={() => {
                       setModalVisible(false),
                         navigation.navigate('GameListCarousel', {
-                          list: BoardGames.filter((item, i) => item.gadget),
+                          // list: BoardGames.filter((item, i) => item.gadget),
+                          list: 'desktop',
                         })
                     }}
                     label={'Да'}
@@ -172,7 +172,10 @@ function Index({ navigation }) {
                     size={{ width: 100, height: 36 }}
                     onPress={() => {
                       setModalVisible(false)
-                      navigation.navigate('GameListCarousel', { list: modalResNo })
+                      navigation.navigate('GameListCarousel', {
+                        // list: modalResNo
+                        list: 'desktop',
+                      })
                     }}
                     label={'Нет'}
                     labelStyle={font('bold', 16)}
@@ -186,13 +189,13 @@ function Index({ navigation }) {
     )
   }
   if (chooseType === PARTICIPATION_GAME) {
-    console.log(data.price)
+    // console.log(data.price)
     return (
       <ScreenMask>
         <ScrollView>
           <Text style={styles.someTitle}>Игра</Text>
           <View style={styles.gameTypesContainer}>
-            <Radio
+            {/* <Radio
               list={list}
               setShowGameTypes={setShowGameTypes}
               showDropDown={showDropDown}
@@ -204,7 +207,7 @@ function Index({ navigation }) {
               data={data}
               type={'gameType'}
               setData={setData}
-            />
+            /> */}
           </View>
 
           {data.gameValue === 'Выбрать игру' ? (
@@ -239,9 +242,9 @@ function Index({ navigation }) {
             >
               <View style={styles.dateMap}>
                 <View style={styles.datesContainer}>
-                  <DateTime type={'date'} width={166} />
+                  {/* <DateTime type={'date'} width={166} /> */}
                   <View style={styles.dash}></View>
-                  <DateTime type={'date'} width={166} />
+                  {/* <DateTime type={'date'} width={166} /> */}
                 </View>
                 <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
               </View>
@@ -249,7 +252,7 @@ function Index({ navigation }) {
             <View>
               <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
               <View style={styles.gameTypesContainer}>
-                <Radio
+                {/* <Radio
                   flag={flag}
                   setFlag={setFlag}
                   data={data}
@@ -259,7 +262,7 @@ function Index({ navigation }) {
                   setFree={setFree}
                   type={'priceView'}
                   typeFunc={'paid'}
-                />
+                /> */}
               </View>
               {flag ? (
                 <View style={style.price}>

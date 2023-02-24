@@ -8,15 +8,18 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  PermissionsAndroid,
+  Alert,
+  Platform,
+  Linking,
 } from 'react-native'
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import { RH, RW } from '@/theme/utils'
 import { BACKGROUND, DARK_BLUE, ICON, WHITE } from '@/theme/colors'
 import MapSvg from '@/assets/svgs/mapSvg'
 import { useNavigation } from '@react-navigation/native'
 import { fetchAddress } from './fetchAddress'
 import { useSelector } from 'react-redux'
-
+import Geolocation from 'react-native-geolocation-service'
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
 const SearchAddresses = ({ game }) => {
   const inp = useRef()
@@ -24,7 +27,32 @@ const SearchAddresses = ({ game }) => {
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
   const initialState = useSelector((state) => state.game)
-
+  const checkPermissionAndNavigate = async function requestLocationPermission() {
+    if (Platform.OS === 'android') {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        )
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          navigation.navigate('Map', { game: game })
+        } else {
+          Alert.alert('Доступ к местоположению запрещен')
+        }
+      } catch (err) {
+        console.warn(err)
+      }
+    } else {
+      let geo = Geolocation.requestAuthorization('whenInUse')
+      if (geo === 'granted') {
+        navigation.navigate('Map', { game: game })
+      } else {
+        alert('Доступ к местоположению запрещен')
+      }
+    }
+  }
+  useEffect(() => {
+    inp.current.value = ''
+  }, [])
   const makeURL = async (state) => {
     try {
       const res = fetchAddress(false, null, null, state).then(async (e) => {
@@ -84,10 +112,7 @@ const SearchAddresses = ({ game }) => {
             }
           }}
         ></TextInput>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('Map', { game: game })}
-          style={styles.mapIcon}
-        >
+        <TouchableOpacity onPress={checkPermissionAndNavigate} style={styles.mapIcon}>
           <MapSvg />
         </TouchableOpacity>
       </View>
