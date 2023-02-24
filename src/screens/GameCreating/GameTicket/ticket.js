@@ -3,56 +3,59 @@ import { Image, ScrollView, Text, View } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import style from '@/screens/GameCreating/style'
 import Row from '@/components/wrappers/row'
+import { _storageUrl } from '@/constants'
 
-function Ticket(props) {
-  const { image, game, data } = props
+function Ticket({ game, data, initialState, name }) {
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={style.ticketBlock}>
-      {!image ? (
-        <View style={style.ticketImgBlock}>
-          <Image style={style.ticketImg} source={game.image} />
-        </View>
-      ) : null}
+    <View style={{}}>
+      <View style={style.ticketImgBlock}>
+        <Image style={style.ticketImg} source={{ uri: _storageUrl + game?.img }} />
+      </View>
       <View>
         <View style={style.firstTextBlock}>
           <Text style={style.ticketText}>Тип игры:</Text>
-          <Text style={style.ticketTextTwo}>{game.title}</Text>
+          <Text style={style.ticketTextTwo}>{name}</Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Дата и время игры:</Text>
-          <Text style={style.ticketTextTwo}>
-            {/* {moment(data.gameDayDate).format('DD.MM.YY')} ,{' '}
-            {moment(data.gameDayTime).format('HH:mm')} */}
-          </Text>
+          <Text style={style.ticketTextTwo}>{initialState?.start_date}</Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Количество игроков:</Text>
           <Text style={style.ticketTextTwo}>
-            от {game.number_of_players_from} до {game.number_of_players_to}
+            от {initialState?.number_of_players_from} до {initialState?.number_of_players_to}
           </Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Возраст игроков:</Text>
           <Text style={style.ticketTextTwo}>
-            {game.age_restrictions_from}-{game.age_restrictions_to}
+            {initialState?.age_restrictions_from}-{initialState?.age_restrictions_to}
           </Text>
         </View>
         <View style={style.ticketTextBlock}>
-          <Text style={style.ticketText}>Половой признак игроков: {game.gender}</Text>
-          <Text style={style.ticketTextTwo}>{game.gender}</Text>
+          <Text style={style.ticketText}>Половой признак игроков:</Text>
+          <Text style={style.ticketTextTwo}>
+            {initialState?.players_gender == 'm'
+              ? 'М'
+              : initialState?.players_gender == 'Ж'
+              ? 'Ж'
+              : 'М/Ж'}
+          </Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Адрес проведения игры:</Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Дата и время окончания поиска игроков:</Text>
-          <Text style={style.ticketTextTwo}>{game.end_date}</Text>
+          <Text style={style.ticketTextTwo}>{initialState?.end_date}</Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Стоимость входного билета на игру:</Text>
-          <Text style={style.ticketTextTwo}>{game.ticket_price ? game.ticket_price : 0} руб.</Text>
+          <Text style={style.ticketTextTwo}>
+            {initialState?.ticket_price ? initialState?.ticket_price : 0} руб.
+          </Text>
         </View>
-        <Row wrapper={{ ...style.ticketTextBlock, marginBottom: RH(150) }}>
+        <Row wrapper={{ ...style.ticketTextBlock }}>
           <Text style={style.ticketText}>Организатор игры:</Text>
           <View style={{ width: RW(60), marginLeft: RW(20) }}>
             {/* <User
@@ -67,7 +70,7 @@ function Ticket(props) {
           </View>
         </Row>
       </View>
-    </ScrollView>
+    </View>
   )
 }
 

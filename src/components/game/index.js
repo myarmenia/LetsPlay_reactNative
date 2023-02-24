@@ -8,21 +8,18 @@ import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 
-function Index(props) {
+function Index({ game, pressable }) {
   const [active, setActive] = useState(false)
-  const { game, pressable } = props
   const navigation = useNavigation()
-
+  console.log('game', game)
   return (
     <Animated.View>
       <Pressable
         onPress={() => {
           if (pressable) {
-            // console.log(game.navigateTo, game.info)
+            console.log(game)
             setActive(true)
-            game.navigateTo
-              ? navigation.navigate(game.navigateTo, { screen: game.screenTwo, params: { game } })
-              : null
+            game.name ? navigation.navigate('GameCreating', { params: { game } }) : null
             setActive(false)
           }
         }}

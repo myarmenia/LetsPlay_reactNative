@@ -19,11 +19,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createGame, setGame } from '@/store/Slices/GameCreatingSlice'
 import { token } from '@/store/Slices/AuthSlice'
 
-const GameCreating = (props) => {
+const GameCreating = props => {
   const { game, response } = props.route?.params?.params
   const navigation = useNavigation()
   //states
-  const initialState = useSelector((state) => state.game)
+  const initialState = useSelector(state => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -50,22 +50,22 @@ const GameCreating = (props) => {
   ]
 
   const handleClick = () => {
-    // console.log(initialState)
+    // console.log(game)
     axiosInstance
       .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then((res) => {
-        // console.log(res.config.message)
-        //if response success navigate GameTicket
-        // navigation.navigate('GameTicket', {  initialState,  })
+      .then(res => {
+        console.log(res.data.message)
+        if (res.data.message == 'Created successfully') {
+          navigation.navigate('GameTicket', { params: { initialState, game, name: game.name } })
+        }
       })
-      .catch((err) => console.log(err.request))
-
+      .catch(err => console.log(err.request))
     setModalOpen(true)
     setIsVisible(false)
   }
   const handleSubmit = () => {}
   useEffect(() => {
-    dispatch(setGame({ game: game.title }))
+    dispatch(setGame(game._id))
     setIsVisible(true)
   }, [])
 
@@ -164,7 +164,7 @@ const GameCreating = (props) => {
                   modalOpen ? (
                     <View style={style.regulationBlock}>
                       <Text style={style.title}>Правила</Text>
-                      <Text style={style.textTwo}>{game?.info}</Text>
+                      <Text style={style.textTwo}>{game?.rules}</Text>
                     </View>
                   ) : (
                     <View style={style.topBlock}>

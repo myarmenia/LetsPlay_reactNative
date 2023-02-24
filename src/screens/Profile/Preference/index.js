@@ -1,45 +1,65 @@
-import React, { useEffect, useState } from 'react'
+import React, { memo, useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { Text, TouchableOpacity, View } from 'react-native'
 import style from './style'
 import styles from '../style'
 import { RH, RW } from '@/theme/utils'
 import { ACTIVE, INACTIVE } from '@/theme/colors'
-import { getGames } from '@/store/Slices/GamesSlice'
-import { useDispatch } from 'react-redux'
-
+import { getGames, getGamesOnlyNames, setNames } from '@/store/Slices/GamesSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { changeUserPreferences } from '@/store/Slices/AuthSlice'
+import Select from '@/components/buttons/select'
+import LightButton from '@/assets/imgs/Button'
+import User from '@/assets/imgs/user/user'
 function Index(props) {
   const dispatch = useDispatch()
-  const [activeGames, setActiveGames] = useState([
-    { id: 1, text: 'Футбол', checked: false },
-    { id: 2, text: 'Навес', checked: false },
-    { id: 3, text: 'Триста', checked: false },
-    { id: 4, text: 'Баскетбол', checked: false },
-    { id: 5, text: 'Волейбол', checked: false },
-    { id: 6, text: 'Пионербол', checked: false },
-    { id: 7, text: 'Хоккей', checked: false },
-  ])
-  const [boardGames, setBoardGames] = useState([
-    { id: 8, text: 'Элиас', checked: false },
-    { id: 9, text: 'Покер', checked: false },
-    { id: 10, text: 'Монополия', checked: false },
-    { id: 11, text: 'Крокодил', checked: false },
-    { id: 12, text: 'Мафия', checked: false },
-    // { id: 13, text: 'Своя игра', checked: false },
-  ])
-  // useEffect(() => {
-  //   dispatch(getGames('active'), getGames('desktop'))
-  // }, [])
-  const checkItem = (id, type) => {
-    type == 'active'
-      ? setActiveGames([
-          ...activeGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
-        ])
-      : setBoardGames([
-          ...boardGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
-        ])
-  }
+  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  const { preferences } = useSelector(({ auth }) => auth.user)
+  const { token, user } = useSelector(({ auth }) => auth)
 
+  useLayoutEffect(() => {
+    console.log('preferences', preferences)
+    !nameOfGames.length && dispatch(getGamesOnlyNames())
+  }, [])
+  useEffect(() => {
+    dispatch(
+      setNames(
+        nameOfGames.map(elm => {
+          let changed = elm
+          preferences.forEach(id => {
+            if (id === elm.id) {
+              changed = { ...elm, checked: !elm.checked }
+            }
+          })
+          return changed
+        }),
+      ),
+    )
+  }, [nameOfGames.length])
+  const checkItem = useCallback(
+    id => {
+      dispatch(
+        setNames([
+          ...nameOfGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
+        ]),
+        console.log(
+          'ffff',
+          [...nameOfGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm))]
+            .filter(elm => elm.checked)
+            .map(elm => elm.id),
+        ),
+      )
+    },
+    [nameOfGames],
+  )
+  const savePreferences = () => {
+    dispatch(
+      changeUserPreferences(
+        nameOfGames.filter(elm => elm.checked).map(el => el.id),
+        token,
+      ),
+    )
+  }
   return (
     <ScreenMask>
       <View style={style.container}>
@@ -48,26 +68,38 @@ function Index(props) {
           <Text style={style.gameNamesTitle}>Предпочтения в играх</Text>
           <Text style={style.gameNamesTitle}>Настольные игры</Text>
           <View style={style.gamesBox}>
-            {boardGames.map(elm => {
+            {nameOfGames?.slice(7, nameOfGames.length).map(elm => {
               return (
                 <TouchableOpacity
-                  onPress={() => checkItem(elm.id, 'board')}
-                  style={[style.gameBtn, { backgroundColor: elm.checked ? ACTIVE : INACTIVE }]}
+                  key={elm?.id}
+                  onPress={() => checkItem(elm?.id, 'board')}
+                  style={[
+                    style.gameBtn,
+                    {
+                      backgroundColor: elm.checked ? ACTIVE : INACTIVE,
+                    },
+                  ]}
                 >
-                  <Text style={styles.linkText}>{elm.text}</Text>
+                  <Text style={styles.linkText}>{elm?.name}</Text>
                 </TouchableOpacity>
               )
             })}
           </View>
           <Text style={style.gameNamesTitle}>Активные игры</Text>
           <View style={style.gamesBox}>
-            {activeGames.map(elm => {
+            {nameOfGames?.slice(0, 7).map(elm => {
               return (
                 <TouchableOpacity
+                  key={elm.id}
                   onPress={() => checkItem(elm.id, 'active')}
-                  style={[style.gameBtn, { backgroundColor: elm.checked ? ACTIVE : INACTIVE }]}
+                  style={[
+                    style.gameBtn,
+                    {
+                      backgroundColor: elm.checked ? ACTIVE : INACTIVE,
+                    },
+                  ]}
                 >
-                  <Text style={styles.linkText}>{elm.text}</Text>
+                  <Text style={styles.linkText}>{elm?.name}</Text>
                 </TouchableOpacity>
               )
             })}
@@ -79,8 +111,12 @@ function Index(props) {
           {/* здесь будут подписки пользавательей */}
         </View>
       </View>
+      <View style={style.submitBtn}>
+        <LightButton label={token ? 'Сохранить' : 'Продолжить'} onPress={savePreferences} />
+      </View>
+      <View>{/* <User user={user} size={80} onPressImg={false} /> */}</View>
     </ScreenMask>
   )
 }
 
-export default Index
+export default memo(Index)

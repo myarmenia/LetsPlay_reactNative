@@ -34,7 +34,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     backgroundColor: LIGHT_LABEL,
     position: 'absolute',
-    bottom: -RH(38),
+    // bottom: -RH(38),
+    bottom: 0,
   },
   detailImg: {
     width: RW(20),
@@ -69,7 +70,8 @@ export default StyleSheet.create({
   },
   ticketImgBlock: {
     alignItems: 'center',
-    marginBottom: RW(30),
+    top: '4%',
+    // marginBottom: RW(30),
   },
   errorText: {
     ...font('regular', 16, RED, 24),
