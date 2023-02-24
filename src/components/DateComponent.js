@@ -16,12 +16,13 @@ function DateComponent({
   containerStyle = {},
   titleStyle,
   showTime = true,
-  editable,
+  editable = true,
+  rowStyle,
 }) {
   return (
     <View style={containerStyle}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
-      <Row wrapper={styles.row}>
+      <Row wrapper={[styles.row, rowStyle]}>
         {Platform.OS == 'ios' ? (
           <View
             style={[
@@ -70,7 +71,7 @@ function DateComponent({
           </View>
         )}
 
-        {!showTime && (
+        {showTime && (
           <>
             {Platform.OS == 'ios' ? (
               <View

@@ -18,12 +18,14 @@ import axiosInstance from '@/store/Api'
 import { useDispatch, useSelector } from 'react-redux'
 import { createGame, setGame } from '@/store/Slices/GameCreatingSlice'
 import { token } from '@/store/Slices/AuthSlice'
+import RadioBlock from '@/components/RadioBlock'
+import DateComponent from '@/components/DateComponent'
 
-const GameCreating = props => {
+const GameCreating = (props) => {
   const { game, response } = props.route?.params?.params
   const navigation = useNavigation()
   //states
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
@@ -53,13 +55,13 @@ const GameCreating = props => {
     // console.log(game)
     axiosInstance
       .post('api/create/game', initialState, { headers: { Authorization: `Bearer ${token}` } })
-      .then(res => {
+      .then((res) => {
         console.log(res.data.message)
         if (res.data.message == 'Created successfully') {
           navigation.navigate('GameTicket', { params: { initialState, game, name: game.name } })
         }
       })
-      .catch(err => console.log(err.request))
+      .catch((err) => console.log(err.request))
     setModalOpen(true)
     setIsVisible(false)
   }
@@ -113,19 +115,32 @@ const GameCreating = props => {
               <Text style={style.errorText}>Введите корректную возраст</Text>
             )
           ) : null}
-          <ThirdBlock
-            initialState={initialState}
-            type={'gender'}
+
+          <RadioBlock
+            onChange={() => {}}
+            title="Половой признак игрока"
             list={genderList}
-            title={'Половой признак игрока'}
+            titleStyle={{ ...style.titles, marginBottom: RW(23) }}
           />
           <SearchAddresses game={game} />
-          <FirstBlock title={'Дата и время окончания поиска игроков'} place={'onBottom'} />
-          {!initialState?.end_date ? (
+          {/* <FirstBlock title={'Дата и время окончания поиска игроков'} place={'onBottom'} /> */}
+          <DateComponent
+            title="Дата и время окончания поиска игроков"
+            containerStyle={{
+              width: RW(380),
+              marginTop: RH(24),
+              alignSelf: 'center',
+            }}
+            rowStyle={{
+              justifyContent: 'space-around',
+            }}
+            onChange={() => {}}
+          />
+          {/* {!initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
           ) : initialState?.end_date <= initialState?.start_date ? (
             <Text style={style.errorText}>Введите корректную дату</Text>
-          ) : null}
+          ) : null} */}
           <ThirdBlock
             initialState={initialState}
             type={'statusOrganizer'}
