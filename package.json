@@ -11,7 +11,8 @@
     "pod": "cd ios && pod install && cd ..",
     "ios14": "react-native run-ios --simulator='iPhone 14'",
     "android-bundler": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle",
-    "android-release": "cd android && ./gradlew assembleRelease && cd ./"
+    "android-release": "cd android && ./gradlew assembleRelease && cd ../",
+    "android-clean": "cd android && ./gradlew clean && cd ../"
   },
   "pre-commit": [
     "lint"
@@ -29,11 +30,11 @@
     "path": "^0.12.7",
     "react": "18.2.0",
     "react-native": "^0.70.6",
-    "react-native-calendars": "^1.1292.0",
+    "react-native-calendars": "^1.1293.0",
     "react-native-draggable": "^3.3.0",
     "react-native-fs": "^2.20.0",
     "react-native-geolocation-service": "^5.3.1",
-    "react-native-image-picker": "^4.10.2",
+    "react-native-image-picker": "^4.10.3",
     "react-native-inappbrowser-reborn": "^3.7.0",
     "react-native-linear-gradient": "^2.6.2",
     "react-native-maps": "^1.4.0",

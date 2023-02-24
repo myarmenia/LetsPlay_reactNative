@@ -13,7 +13,15 @@ import { RW } from '@/theme/utils'
 
 const index = () => {
   const user = useSelector(({ auth }) => auth.user)
+import { _storageUrl } from '@/constants'
+
+import { useSelector } from 'react-redux'
+import { RW } from '@/theme/utils'
+
+const index = () => {
+  const user = useSelector(({ auth }) => auth.user)
   const navigation = useNavigation()
+  const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
   const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
@@ -23,7 +31,7 @@ const index = () => {
     { id: 5, text: 'Условия использования' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
-  const forNavigate = (item) => {
+  const forNavigate = item => {
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
     } else {
@@ -62,13 +70,24 @@ const index = () => {
           <View>
             <Text style={style.name}>{name + ' ' + surname}</Text>
             <Text style={style.id}>{`Номер ID: ${_id}`}</Text>
+            <Text style={style.name}>{name + ' ' + surname}</Text>
+            <Text style={style.id}>{`Номер ID: ${_id}`}</Text>
           </View>
         </View>
       </View>
-      <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <FlatList data={list} renderItem={renderItem} keyExtractor={item => item.id} />
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  imageBlock: {},
+  image: {
+    width: RW(87),
+    height: RW(87),
+    borderRadius: RW(45),
+    marginRight: RW(17),
+  },
+})
 const styles = StyleSheet.create({
   imageBlock: {},
   image: {

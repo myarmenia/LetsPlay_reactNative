@@ -14,8 +14,7 @@ const initialState = {
   players_gender: '',
   latitude: 0,
   longitude: 0,
-  //end date is one day plus from start date
-  end_date: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString(),
+  end_date: '',
   organizer_in_the_game: true,
   ticket_price: 0,
   game: '',
@@ -107,9 +106,13 @@ export const GameCreatingSlice = createSlice({
     setInitialState: (store, action) => {
       return { game: action.payload }
     },
+    setInitialState: (store, action) => {
+      return { game: action.payload }
+    },
   },
 })
 
+export const createGame = (data) => {
 export const createGame = (data) => {
   axiosInstance
     .post('/create/game', data)
@@ -121,12 +124,14 @@ export const createGame = (data) => {
       //   dispatch(setAge_restrictions_from(data?.age_restrictions_from)),
       //   dispatch(setNumber_of_players_to(data?.age_restrictions_to)),
       //   dispatch(setLatitute(data?.latitud)),
+      //   dispatch(setLatitute(data?.latitud)),
       //   dispatch(setLongitude(data?.longitude)),
       //   dispatch(setEndDate(data?.endDate)),
       //   dispatch(setOrganizer_in_the_game(data)),
       //   dispatch(setTicket_price(data?.ticket_price)),
       //   dispatch(setGame(data?.game))
     })
+    .catch((err) => {
     .catch((err) => {
       Alert(err)
     })
@@ -146,6 +151,7 @@ export const {
   setOrganizer_in_the_game,
   setTicket_price,
   setGame,
+  setInitialState,
   setInitialState,
 } = GameCreatingSlice.actions
 export default GameCreatingSlice.reducer

@@ -5,6 +5,8 @@ import style from './style'
 
 const FirstBlock = (props) => {
   const { title, errorText, margin, place } = props
+const FirstBlock = (props) => {
+  const { title, errorText, margin, place } = props
   return (
     <View style={{ marginTop: margin }}>
       <Text style={style.titles}>{title}</Text>

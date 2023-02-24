@@ -1,5 +1,6 @@
 import React, { useDebugValue, useState } from 'react'
 import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Linking, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import ScreenMask from '@/components/wrappers/screen'
@@ -12,6 +13,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
 import { vkAuth } from '@/store/Slices/AuthSlice'
+import { vkAuth } from '@/store/Slices/AuthSlice'
 import LogoSvg from '@/assets/LogoSvg'
 const socket = io.connect(
   Platform.OS == 'ios' ? 'https://to-play.ru/vk/authorize' : 'http://to-play.ru/vk/authorize',
@@ -19,7 +21,14 @@ const socket = io.connect(
     transports: ['websocket'],
   },
 )
+const socket = io.connect(
+  Platform.OS == 'ios' ? 'https://to-play.ru/vk/authorize' : 'http://to-play.ru/vk/authorize',
+  {
+    transports: ['websocket'],
+  },
+)
 const token = () => {
+  return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
   return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
 }
 let expiredToken
@@ -41,6 +50,8 @@ const AuthHome = () => {
               first_name: vkAuthInfo.first_name,
               last_name: vkAuthInfo?.last_name,
               bdate: vkAuthInfo?.bdate,
+              has_photo: vkAuthInfo?.has_photo,
+              photo_200: vkAuthInfo?.photo_200,
               has_photo: vkAuthInfo?.has_photo,
               photo_200: vkAuthInfo?.photo_200,
               sex: vkAuthInfo?.sex,
@@ -116,6 +127,7 @@ const AuthHome = () => {
             style={styles.vkButton}
             onPress={() => {
               expiredToken = token()
+              console.log('token()', expiredToken)
               openLink(`https://to-play.ru/vk/auth.html?${expiredToken}`)
             }}
           >

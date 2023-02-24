@@ -23,4 +23,12 @@ axiosInstance.interceptors.request.use(
   },
 )
 
+export const getDefualtHeaders = async () => {
+  const token = await getAsyncStorage('token')
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+}
 export default axiosInstance
