@@ -26,7 +26,7 @@ export const getGames = (data) => async (dispatch) => {
     .get(`api/game/${data}`, defualtHeaders)
 
     .then((response) => {
-      console.log('signIn response', response.data.datas)
+      // console.log('signIn response', response.data.datas)
       dispatch(setGames(response.data.datas))
       //   dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
