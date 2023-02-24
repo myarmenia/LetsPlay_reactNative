@@ -5,16 +5,23 @@ import axiosInstance, { getDefualtHeaders } from '../Api'
 
 const initialState = {
   games: [],
+  nameOfGames: [],
 }
 
 export const GameSlice = createSlice({
-  name: 'auth',
+  name: 'gameSlice',
   initialState,
   reducers: {
     setGames: (store, action) => {
       return {
         ...store,
         games: action.payload,
+      }
+    },
+    setNames: (store, action) => {
+      return {
+        ...store,
+        nameOfGames: action.payload,
       }
     },
   },
@@ -42,6 +49,28 @@ export const getGames = data => async dispatch => {
       //   )
     })
 }
+export const getGamesOnlyNames = () => async dispatch => {
+  const defualtHeaders = await getDefualtHeaders()
+  axiosInstance
+    .get('api/game', defualtHeaders)
 
-export const { setGames } = GameSlice.actions
+    .then(response => {
+      dispatch(
+        setNames(
+          response.data.games.map(elm => {
+            return {
+              name: elm.name,
+              checked: false,
+              id: elm._id,
+            }
+          }),
+        ),
+      )
+    })
+    .catch(err => {
+      console.log('error getting games : ', err)
+    })
+}
+
+export const { setGames, setNames } = GameSlice.actions
 export default GameSlice.reducer

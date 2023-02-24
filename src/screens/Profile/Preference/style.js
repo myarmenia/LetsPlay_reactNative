@@ -74,4 +74,9 @@ export default StyleSheet.create({
   modalSvg: {
     marginLeft: 'auto',
   },
+  submitBtn: {
+    position: 'absolute',
+    bottom: RH(25),
+    right: RW(5),
+  },
 })

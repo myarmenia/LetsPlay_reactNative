@@ -8,6 +8,7 @@ const initialState = {
     surname: '',
     email: '',
     avatar: null,
+    preferences: [],
   },
   authPending: true,
   token: '',
@@ -49,7 +50,6 @@ export const AuthSlice = createSlice({
       }
     },
     setImage: (store, action) => {
-      console.log('payload : ', action.payload)
       return {
         ...store,
         user: {
@@ -82,6 +82,15 @@ export const AuthSlice = createSlice({
         user: {
           ...store.user,
           email: action.payload,
+        },
+      }
+    },
+    setUserPreferences: (store, action) => {
+      return {
+        ...store,
+        user: {
+          ...store.user,
+          preferences: action.payload,
         },
       }
     },
@@ -224,7 +233,7 @@ export const signUp = data => dispatch => {
 export const signUp2 = data => dispatch => {
   axiosInstance
     .post('api/auth/signup/second_step', data)
-    .then((response) => {
+    .then(response => {
       dispatch(setExpiredToken(response.data?.expired_token))
       dispatch(setSignUpStep('EMAIL_CODE_SUCCESS'))
     })
@@ -239,7 +248,7 @@ export const signUp2 = data => dispatch => {
       )
     })
 }
-export const signUp3 = (data) => (dispatch) => {
+export const signUp3 = data => dispatch => {
   axiosInstance
     .post('api/auth/signup/third_step', data)
     .then(response => {
@@ -257,7 +266,7 @@ export const signUp3 = (data) => (dispatch) => {
       )
     })
 }
-export const signUp4 = (data) => (dispatch) => {
+export const signUp4 = data => dispatch => {
   axiosInstance
     .post('api/auth/signup/fourth_step', data)
     .then(response => {
@@ -274,6 +283,37 @@ export const signUp4 = (data) => (dispatch) => {
             : err.request._response.message[0],
         ),
       )
+    })
+}
+export const changeUserPreferences = (data, token) => async dispatch => {
+  console.log('data', data)
+  const myHeaders = new Headers()
+  myHeaders.append('Authorization', `Bearer ${token}`)
+  myHeaders.append('Accept', 'application/json')
+  const formData = new FormData()
+  formData.append('preferences', { preferences: data })
+  // console.log('preferences : ', formData.getAll('preferences'))
+  let requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: JSON.stringify({ preferences: data }),
+    redirect: 'follow',
+  }
+  fetch(
+    Platform.OS == 'ios'
+      ? 'https://to-play.ru/api/user/preferences'
+      : 'http://to-play.ru/api/user/preferences',
+    requestOptions,
+  )
+    .then(response => {
+      dispatch(setUserPreferences(data))
+      return response.json()
+    })
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log('error changing preferences : ', err)
     })
 }
 export const getDocumentRules = () => dispatch => {
@@ -307,6 +347,7 @@ export const {
   setName,
   setSurName,
   setEmail,
+  setUserPreferences,
   setUser,
   setImage,
   setSignInFirstStepSuccess,
