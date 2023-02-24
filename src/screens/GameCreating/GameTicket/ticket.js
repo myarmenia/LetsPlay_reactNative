@@ -2,9 +2,6 @@ import React from 'react'
 import { Image, ScrollView, Text, View } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import style from '@/screens/GameCreating/style'
-import moment from 'moment'
-import User from '@/assets/imgs/user/user'
-import { Players } from '@/assets/TestData'
 import Row from '@/components/wrappers/row'
 
 function Ticket(props) {
@@ -49,11 +46,7 @@ function Ticket(props) {
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Дата и время окончания поиска игроков:</Text>
-          <Text style={style.ticketTextTwo}>
-            {game.end_date}
-            {/* {moment(data.lastDayDate).format('DD.MM.YY')} ,{' '} */}
-            {/* {moment(data.lastDayTime).format('HH:mm')} */}
-          </Text>
+          <Text style={style.ticketTextTwo}>{game.end_date}</Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Стоимость входного билета на игру:</Text>

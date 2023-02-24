@@ -4,7 +4,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import LightButton from '@/assets/imgs/Button'
 import TextArea from '@/components/textArea/TextArea'
 import { RH, RW } from '@/theme/utils'
-import Radio from '@/components/checkbox/radio'
+// import Radio from '@/components/checkbox/radio'
 import { BACKGROUND, ICON } from '@/theme/colors'
 
 const CreateActiveGame = ({ navigation }) => {
@@ -50,7 +50,7 @@ const CreateActiveGame = ({ navigation }) => {
         Формат турнира
       </Text>
       <View style={{ marginLeft: RW(20) }}>
-        <Radio
+        {/* <Radio
           type={'statusOrganizer'}
           data={data}
           setData={setData}
@@ -58,7 +58,7 @@ const CreateActiveGame = ({ navigation }) => {
             { id: 1, text: 'Индивидуальный', checked: true },
             { id: 2, text: 'Командный', checked: false },
           ]}
-        />
+        /> */}
       </View>
       <View style={{ alignItems: 'flex-end', marginTop: RH(200), marginRight: RW(20) }}>
         <LightButton

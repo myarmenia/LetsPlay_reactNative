@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import {
   ImageBackground,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -13,8 +15,7 @@ import style from './style'
 import styles from '@/screens/GameCreating/style'
 import TickSvg from '@/assets/svgs/tickSvg'
 import InputBlock from '@/screens/Profile/MyDetails/inputBlock'
-import RadioBlock from '@/screens/Profile/MyDetails/radioBlock'
-import DateBlock from '@/screens/Profile/MyDetails/DateBlock'
+import RadioBlock from '@/components/RadioBlock'
 import UserEditSvg from '@/assets/svgs/userEdit'
 import Modal from '@/components/modal'
 import { RW } from '@/theme/utils'
@@ -23,16 +24,36 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { useDispatch, useSelector } from 'react-redux'
-import { setImage, setPending, setUser } from '@/store/Slices/AuthSlice'
+import {
+  editProfile,
+  setExpiredToken,
+  setImage,
+  setPending,
+  setToken,
+  setUser,
+} from '@/store/Slices/AuthSlice'
 import { _storageUrl } from '@/constants'
-import Loader from '@/components/loader/Loader'
+import DateComponent from '@/components/DateComponent'
+import { clearAsyncStorage } from '../../../helpers/asyncStore'
 
-function Index(props) {
-  const { navigation } = props
+function Index() {
   const [isVisible, setIsVisible] = useState(false)
-  const { avatar, name, surname, email } = useSelector(({ auth }) => auth.user)
+  const { avatar, name, surname, email, gender, phone_number, vk_uri, dob } = useSelector(
+    ({ auth }) => auth.user,
+  )
+  const user = useSelector(({ auth }) => auth.user)
   const [editable, setEditable] = useState(false)
-  const [loader, setLoader] = useState(false)
+  const [nameState, setNameState] = useState(name)
+  const [surNameState, setSurNameState] = useState(surname)
+  const [emailState, setEmailState] = useState(email)
+  const [phoneState, setPhoneState] = useState(phone_number)
+  const [vkUriState, setVkUriState] = useState(vk_uri)
+  const [dateState, setDateState] = useState(dob ? new Date(dob) : new Date())
+
+  const [genderState, setGenderState] = useState([
+    { text: 'М', checked: gender == 'male', label: 'male' },
+    { text: 'Ж', checked: gender == 'female', label: 'female' },
+  ])
   const { token } = useSelector(({ auth }) => auth)
   const dispatch = useDispatch()
   const uploadPhoto = async () => {
@@ -41,7 +62,6 @@ function Index(props) {
       quality: 1,
       includeBase64: true,
     })
-    console.log('result', result.assets[0].uri)
     dispatch(setPending(true))
     setEditable(false)
     let myHeaders = new Headers()
@@ -68,12 +88,41 @@ function Index(props) {
         : 'http://to-play.ru/api/profile/avatar',
       requestOptions,
     )
-      .then(response => response.text())
-      .then(result => {
+      .then((response) => response.text())
+      .then((result) => {
         dispatch(setImage(JSON.parse(result).avatar))
       })
       .catch((error) => console.log('error', error))
       .finally(() => dispatch(setPending(false)), setEditable(false))
+  }
+
+  const postEditUserFunc = () => {
+    // console.log(getAsyncStorage('token'))
+    dispatch(
+      setUser({
+        ...user,
+        ...{
+          name: nameState,
+          surname: surNameState,
+          gender: genderState?.find((elem) => elem?.checked).label,
+          dob: JSON.stringify(dateState),
+          phone_number: phoneState,
+          email: emailState,
+          vk_uri: vkUriState,
+        },
+      }),
+    )
+    dispatch(
+      editProfile({
+        name: nameState,
+        surname: surNameState,
+        gender: genderState?.find((elem) => elem?.checked).label,
+        dob: dateState,
+        phone_number: phoneState.toString(),
+        email: emailState,
+        vk_uri: vkUriState,
+      }),
+    )
   }
   return (
     <ScreenMask>
@@ -84,11 +133,13 @@ function Index(props) {
             style={[style.image, editable ? { opacity: 0.6 } : null]}
             imageStyle={style.image}
             source={
-              avatar
-                ? {
+              !avatar
+                ? require('../../../assets/imgs/user/defualtUser.png')
+                : Linking.canOpenURL(avatar)
+                ? { uri: avatar }
+                : {
                     uri: _storageUrl + avatar,
                   }
-                : require('../../../assets/imgs/user/defualtUser.png')
             }
           >
             {editable && (
@@ -96,26 +147,61 @@ function Index(props) {
                 <UploadIcon />
               </Pressable>
             )}
-            {/* {loader && <Loader />} */}
           </ImageBackground>
-          <Pressable onPress={() => setEditable(!editable)}>
+          <Pressable
+            onPress={() => {
+              if (editable) {
+                postEditUserFunc()
+              }
+              setEditable(!editable)
+            }}
+          >
             {editable ? <TickSvg style={style.tickSvg} /> : <UserEditSvg style={style.tickSvg} />}
           </Pressable>
         </View>
         <View style={style.formBlock}>
-          <InputBlock text={'Имя:'} placeholder={name} disable={editable} />
-          <InputBlock text={'Фамилия:'} placeholder={surname} disable={editable} />
-          <RadioBlock
-            list={[
-              { id: 1, text: 'М', checked: true },
-              { id: 2, text: 'Ж', checked: false },
-            ]}
-            title={'Пол:'}
+          <InputBlock text={'Имя:'} value={nameState} setValue={setNameState} editable={editable} />
+          <InputBlock
+            text={'Фамилия:'}
+            value={surNameState}
+            setValue={setSurNameState}
+            editable={editable}
           />
-          <DateBlock />
-          <InputBlock text={'Контактный тел.:'} placeholder={'Tел.'} />
-          <InputBlock text={'E-mail:'} placeholder={email} disable={editable} />
-          <InputBlock text={'Vk:'} placeholder={'Ссылка на профиль'} />
+          <RadioBlock
+            list={genderState}
+            title={'Пол:'}
+            onChange={setGenderState}
+            editable={editable}
+          />
+          <DateComponent
+            title="Дата рождения:"
+            titleStyle={{ color: '#fff' }}
+            containerStyle={{ marginBottom: 14 }}
+            editable={editable}
+            dateValue={dateState}
+            setDate={setDateState}
+          />
+          <InputBlock
+            text={'Контактный тел.:'}
+            placeholder={'Tел.'}
+            value={phoneState}
+            setValue={setPhoneState}
+            editable={editable}
+          />
+          <InputBlock
+            text={'E-mail:'}
+            placeholder={'E-mail'}
+            setValue={setEmailState}
+            value={emailState}
+            editable={editable}
+          />
+          <InputBlock
+            text={'Vk:'}
+            placeholder={'Ссылка на профиль'}
+            value={vkUriState}
+            setValue={setVkUriState}
+            editable={editable}
+          />
           <TouchableOpacity onPress={() => setIsVisible(true)} style={style.logOut}>
             <Text style={style.logOutText}>Выход из аккаунта</Text>
           </TouchableOpacity>
@@ -135,7 +221,11 @@ function Index(props) {
                     }}
                   >
                     <Button
-                      onPress={() => navigation.navigate('Home')}
+                      onPress={() => {
+                        dispatch(setToken(null))
+                        dispatch(setExpiredToken(null))
+                        clearAsyncStorage()
+                      }}
                       light={true}
                       size={{ width: 100, height: 36 }}
                       label={'Да'}

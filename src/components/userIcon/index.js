@@ -1,11 +1,18 @@
 import { Image, Linking, Platform, Pressable, Text, View } from 'react-native'
+import { Image, Linking, Platform, Pressable, Text, View } from 'react-native'
 import style from './styles'
 import UserLine from '@/assets/imgs/user/userLine'
 import UserCircle from '@/assets/imgs/user/userCircle'
 import { font, RH, RW } from '@/theme/utils'
 import { DARK_BLUE, LIGHTGREEN, LIGHT_GRAY, LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { DARK_BLUE, LIGHTGREEN, LIGHT_GRAY, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { setUser } from '@/store/Slices/AuthSlice'
+import { _storageUrl } from '@/constants'
+import Loader from '../loader/Loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { setUser } from '@/store/Slices/AuthSlice'
@@ -15,12 +22,16 @@ function Index({ user, size, onPressImg }) {
   const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
   const { token } = useSelector(({ auth }) => auth)
   const dispatch = useDispatch()
+  const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
+  const { token } = useSelector(({ auth }) => auth)
+  const dispatch = useDispatch()
   const fontSizeTitle = size / RW(55)
   const fontSizeCount = size / RW(35)
   const [loader, setLoader] = useState(true)
+  const [loader, setLoader] = useState(true)
   const navigation = useNavigation()
   useEffect(() => {
-    console.log(avatar)
+    // console.log(avatar)
     avatar ? setLoader(false) : setLoader(true)
     setTimeout(() => {
       if (!avatar) {
@@ -42,28 +53,28 @@ function Index({ user, size, onPressImg }) {
         style={{
           width: size / 2.8,
           height: size / 2.8,
+          width: size / 2.8,
+          height: size / 2.8,
           resizeMode: 'cover',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
           top: 8,
+          top: 8,
         }}
       >
-        {avatar ? (
-          <Image
-            style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
-            source={{
-              uri: `${_storageUrl + avatar}`, // avatar && Linking.canOpenURL(avatar) ? avatar :
-            }}
-          />
-        ) : (
-          <Image
-            style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
-            source={
-              require('../../assets/imgs/user/defualtUser.png') // avatar && Linking.canOpenURL(avatar) ? avatar :
-            }
-          ></Image>
-        )}
+        <Image
+          style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
+          source={
+            !avatar
+              ? require('../../assets/imgs/user/defualtUser.png')
+              : Linking.canOpenURL(avatar)
+              ? { uri: avatar }
+              : {
+                  uri: _storageUrl + avatar,
+                }
+          }
+        />
       </Pressable>
       <View style={style.nameBlock}>
         <Text style={font('bold', size / RW(22), WHITE)}>{name ? name : 'Имя'}</Text>
@@ -144,7 +155,7 @@ function Index({ user, size, onPressImg }) {
       <Pressable
         onPress={() => {
           if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
               // console.log(e)
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
@@ -155,6 +166,7 @@ function Index({ user, size, onPressImg }) {
         style={{ ...style.soc, marginTop: size / RH(110) }}
       >
         <Vk size={size / RH(12)} />
+      </Pressable>
       </Pressable>
     </View>
   )

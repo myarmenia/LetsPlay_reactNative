@@ -242,8 +242,7 @@ export const signUp2 = (data) => (dispatch) => {
 export const signUp3 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/third_step', data)
-    .then((response) => {
-      // dispatch(setSignUpStep('PASSWORD_CREATED_SUCCESS'))
+    .then(() => {
       dispatch(getDocumentRules())
     })
     .catch((err) => {
@@ -287,17 +286,38 @@ export const getDocumentRules = () => (dispatch) => {
     })
 }
 export const vkAuth = (data) => (dispatch) => {
-  console.log('vkAuth data', data)
+  console.log(data)
   axiosInstance
     .post('api/auth/vk', data)
     .then((response) => {
-      console.log(response.data, 'vkAuth')
       dispatch(setUser(response.data?.user))
       dispatch(setToken(response.data?.token))
       addAsyncStorage('token', response.data?.token)
     })
     .catch((err) => {
-      console.log('err request response', err.request._response)
+      console.log('Vk auth err request response - ', err.request?._response)
+    })
+}
+export const editProfile = (data) => (dispatch) => {
+  console.log('edit profile data', data)
+  axiosInstance
+    .put('api/profile', data)
+    .then((response) => {
+      // console.log('editProfile response', response.data)
+    })
+    .catch((err) => {
+      console.log('err request _response', err.request._response)
+    })
+}
+export const getProfileInfo = (data) => (dispatch) => {
+  axiosInstance
+    .get('api/profile')
+    .then((response) => {
+      console.log('editProfile response', response.data)
+      dispatch(setUser(response.data?.user))
+    })
+    .catch((err) => {
+      console.log('err request _response', err.request._response)
     })
 }
 export const {
