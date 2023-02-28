@@ -1,5 +1,12 @@
-import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+  FlatList,
+  ScrollView,
+} from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW } from '@/theme/utils'
@@ -23,8 +30,6 @@ const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 let passwordForgotErrorCount = 1
 
 const SignIn = (props) => {
-  const emailWithSignUp = props.route.params?.email
-  const dispatch = useDispatch()
   const [text, setText] = useState('')
   const [password, setPassword] = useState('')
 
@@ -32,9 +37,13 @@ const SignIn = (props) => {
 
   const [messagesList, setMessagesList] = useState([messageDefault.hello, messageDefault.email])
   const { signInError, signInStep, expired_token } = useSelector(({ auth }) => auth)
+  const emailWithSignUp = props.route.params?.email
+  const dispatch = useDispatch()
+  const scrollViewRef = useRef(null)
 
   const handlerMessage = (message) => {
     setMessagesList((messagesList) => [...messagesList, message])
+    // FlatListRef.current.scrollToEnd()
   }
 
   const nextStape = async () => {
@@ -150,16 +159,18 @@ const SignIn = (props) => {
             }
           : {})}
       >
-        <FlatList
+        <ScrollView
           style={{
-            marginBottom: 30,
-            flexDirection: 'column-reverse',
+            marginBottom: 20,
           }}
-          scrollsToTop={true}
-          data={messagesList}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <Message message={item} id={messagesList.length} />}
-        />
+          ref={scrollViewRef}
+          onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+        >
+          {messagesList?.map((item) => (
+            <Message message={item} id={messagesList.length} />
+          ))}
+        </ScrollView>
         <View style={styles.bottom}>
           {forgetPassword ? (
             <Row wrapper={styles.btnsContainer}>

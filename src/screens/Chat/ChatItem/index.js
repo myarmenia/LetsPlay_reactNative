@@ -1,18 +1,20 @@
 import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
-import Soccer from '@/assets/imgs/games/soccer.png'
+import { Image, Text, TouchableOpacity } from 'react-native'
 import style from '../style'
 import { useNavigation } from '@react-navigation/native'
+import { _storageUrl } from '@/constants'
 
-function Index({ id }) {
+function Index({ id, img, name, updatedAt }) {
   const navigation = useNavigation()
+  console.log(name)
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('PrivateChat', { id })}
       style={style.chatItemBlock}
     >
-      <Image style={style.chatItemImg} source={Soccer} />
-      <Text style={style.itemData}>07.07.22 , 18:30, Пресненская наб. 25</Text>
+      <Image style={style.chatItemImg} source={{ uri: _storageUrl + img }} />
+      <Text style={style.itemData}>{name}</Text>
+      <Text style={style.itemData}>{updatedAt}</Text>
       <Text style={style.time}>1:01</Text>
     </TouchableOpacity>
   )

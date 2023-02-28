@@ -22,10 +22,10 @@ export const getChats = (data) => (dispatch) => {
   axiosInstance
     .get(`/api/create/game/chat/${data}`)
     .then((response) => {
-      dispatch(setChats(response.data.datas))
+      dispatch(setChats(response.data.datas.reverse()))
     })
     .catch((err) => {
-      console.log('err request', err.request._response)
+      console.log('err request chats', err.request._response)
     })
 }
 export const sendMessage = (data) => (dispatch) => {

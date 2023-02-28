@@ -23,6 +23,7 @@ const MyApp = () => {
   }, [])
 
   if (token && !userId) {
+    console.log('getProfileInfo')
     dispatch(getProfileInfo())
   }
   console.log('Token - ', token)

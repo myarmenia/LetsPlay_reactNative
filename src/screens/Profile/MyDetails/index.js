@@ -179,6 +179,7 @@ function Index() {
             editable={editable}
             dateValue={dateState}
             setDate={setDateState}
+            showTime={false}
           />
           <InputBlock
             text={'Контактный тел.:'}
