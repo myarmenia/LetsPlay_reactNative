@@ -1,4 +1,3 @@
-import { getAsyncStorage } from '@/helpers/asyncStore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
@@ -22,13 +21,4 @@ axiosInstance.interceptors.request.use(
     return Promise.reject(error)
   },
 )
-
-export const getDefualtHeaders = async () => {
-  const token = await getAsyncStorage('token')
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  }
-}
 export default axiosInstance

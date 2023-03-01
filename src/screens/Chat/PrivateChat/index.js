@@ -1,23 +1,24 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import { KeyboardAvoidingView, Platform, ScrollView, View } from 'react-native'
+import { FlatList, KeyboardAvoidingView, Platform, Text, View } from 'react-native'
 import { RH } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { getChats, setChats } from '@/store/Slices/ChatsSlice'
 import { sendMessage } from '../../../store/Slices/ChatsSlice'
 import { io } from 'socket.io-client'
-import Composer from './components/composer'
+import CustomInput from './components/Input'
 import Message from './components/container/message'
 
 function Index(props) {
-  const [inputValue, setInputValue] = useState('')
   const chats = useSelector(({ chats }) => chats.chats) || []
+
+  const [messageState, setMessageState] = useState([])
 
   const { user, token } = useSelector(({ auth }) => auth)
   const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
-
+  console.log(gameID)
   const socket = io.connect(`wss://to-play.ru/chat?room=${gameID}`, {
     transportOptions: {
       polling: {
@@ -28,42 +29,51 @@ function Index(props) {
     },
   })
 
-  const memoSocketFunc = useCallback((message) => {
-    console.log('socket message', message)
-
-    dispatch(
-      setChats([
-        ...chats,
-        {
-          message: message.message,
-          create_game: gameID,
-          updatedAt: new Date().toJSON(),
-          user: { _id: message.user },
-        },
-      ]),
-    )
-  }, [])
-  socket.on('message', (message) => {
-    if (message.type == 'text') memoSocketFunc({ message: message.message, user: message.user })
-  })
-
   const scrollViewRef = useRef(null)
 
-  const sendFunc = () => {
+  const sendFunc = (text) => {
     dispatch(
       sendMessage({
-        message: inputValue,
+        message: text,
         create_game: gameID,
       }),
     )
-    setInputValue('')
   }
   const memoGetChats = useCallback(() => {
     dispatch(getChats(gameID))
   }, [gameID])
+  const memoSocketFunc = (message) => {
+    setMessageState((lastState) => {
+      if (!lastState.find((item) => item.message == message.message)) {
+        return lastState.concat(message)
+      } else {
+        return lastState
+      }
+    })
+
+    console.log('socket message', message)
+  }
+
+  socket.on('message', memoSocketFunc)
   useEffect(() => {
     memoGetChats()
   }, [])
+  useEffect(() => {
+    setMessageState(chats)
+  }, [chats])
+  console.log('chats.length', messageState?.length)
+  const memoRenderItem = ({ item, index }) => {
+    return (
+      <Message
+        // ref={messageRef}
+        message={item?.message}
+        key={index}
+        id={index}
+        updatedAt={item?.updatedAt}
+        myMessage={item?.user?._id == userId || item?.user == userId}
+      />
+    )
+  }
   return (
     <ScreenMask>
       <KeyboardAvoidingView
@@ -76,24 +86,22 @@ function Index(props) {
             }
           : {})}
       >
-        <ScrollView
+        <FlatList
+          data={messageState}
           style={{
             marginBottom: 20,
           }}
+          maxToRenderPerBatch={10}
+          initialNumToRender={15}
           showsVerticalScrollIndicator={false}
           ref={scrollViewRef}
+          // inverted={true}
           onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-        >
-          {chats?.map((item, index) => (
-            <Message
-              // ref={messageRef}
-              message={item?.message}
-              key={index}
-              updatedAt={item?.updatedAt}
-              myMessage={item?.user?._id == userId}
-            />
-          ))}
-        </ScrollView>
+          renderItem={memoRenderItem}
+          keyExtractor={(_, index) => `post-${index}`}
+          refreshing={true}
+          getItemLayout={(data, index) => ({ length: 70, offset: 70 * index, index })}
+        />
         <View
           style={{
             left: 0,
@@ -101,11 +109,11 @@ function Index(props) {
             bottom: RH(10),
           }}
         >
-          <Composer text={inputValue} setText={setInputValue} onSend={sendFunc} />
+          <CustomInput onSend={sendFunc} />
         </View>
       </KeyboardAvoidingView>
     </ScreenMask>
   )
 }
 
-export default Index
+export default memo(Index)

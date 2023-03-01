@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux'
 
 const ChatScreen = () => {
   const user = useSelector(({ auth }) => auth.user)
-  // console.log(user.took_part_games[0])
+  console.log(user.took_part_games[0])
   const testchat = {
     __v: 1,
-    _id: '63f88bdae6ba04e316662a74',
+    _id: '63f8c4b1aa1784e50084c899',
     age_restrictions_from: 15,
     age_restrictions_to: 20,
     clicked_end_players: [],

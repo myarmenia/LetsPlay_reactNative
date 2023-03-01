@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 
 const initialState = {
-  chats: null,
+  chats: [],
 }
 
 export const ChatsSlice = createSlice({
