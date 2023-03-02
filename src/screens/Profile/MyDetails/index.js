@@ -96,7 +96,6 @@ function Index() {
   }
 
   const postEditUserFunc = () => {
-    // console.log(getAsyncStorage('token'))
     dispatch(
       setUser({
         ...user,

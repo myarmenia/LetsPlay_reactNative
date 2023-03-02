@@ -11,14 +11,12 @@ import Message from './components/container/message'
 
 function Index(props) {
   const chats = useSelector(({ chats }) => chats.chats) || []
-
   const [messageState, setMessageState] = useState([])
 
   const { user, token } = useSelector(({ auth }) => auth)
   const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
-  console.log(gameID)
   const socket = io.connect(`wss://to-play.ru/chat?room=${gameID}`, {
     transportOptions: {
       polling: {
@@ -44,14 +42,12 @@ function Index(props) {
   }, [gameID])
   const memoSocketFunc = (message) => {
     setMessageState((lastState) => {
-      if (!lastState.find((item) => item.message == message.message)) {
+      if (!lastState.find((item) => item?.id == message.id)) {
         return lastState.concat(message)
       } else {
         return lastState
       }
     })
-
-    console.log('socket message', message)
   }
 
   socket.on('message', memoSocketFunc)
@@ -61,11 +57,12 @@ function Index(props) {
   useEffect(() => {
     setMessageState(chats)
   }, [chats])
-  console.log('chats.length', messageState?.length)
+  useEffect(() => {
+    scrollViewRef.current.scrollToOffset({ animated: true, offset: 0 })
+  }, [messageState.length])
   const memoRenderItem = ({ item, index }) => {
     return (
       <Message
-        // ref={messageRef}
         message={item?.message}
         key={index}
         id={index}
@@ -87,20 +84,18 @@ function Index(props) {
           : {})}
       >
         <FlatList
-          data={messageState}
+          data={[...messageState].reverse()}
           style={{
-            marginBottom: 20,
+            marginBottom: RH(20),
           }}
-          maxToRenderPerBatch={10}
-          initialNumToRender={15}
+          inverted
+          refreshing
+          initialNumToRender={4}
+          removeClippedSubviews
           showsVerticalScrollIndicator={false}
           ref={scrollViewRef}
-          // inverted={true}
-          onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
           renderItem={memoRenderItem}
           keyExtractor={(_, index) => `post-${index}`}
-          refreshing={true}
-          getItemLayout={(data, index) => ({ length: 70, offset: 70 * index, index })}
         />
         <View
           style={{

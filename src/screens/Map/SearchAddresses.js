@@ -79,12 +79,6 @@ const SearchAddresses = ({ game }) => {
     }
     setAddresses(null)
   }
-  // useEffect(() => {
-  //   console.log(addresses)
-  //   if (state.length >= 4) {
-  //     makeURL()
-  //   }
-  // }, [state.length])
   return (
     <View>
       <View

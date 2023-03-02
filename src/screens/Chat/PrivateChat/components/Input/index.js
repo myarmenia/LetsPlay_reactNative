@@ -1,9 +1,10 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Pressable, StyleSheet, TextInput, View } from 'react-native'
 import React, { memo } from 'react'
 import { font, RH, RW, shadow } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON, WHITE } from '@/theme/colors'
 import SendSvg from '@/screens/Chat/assets/SendSvg'
-import VoiceSvg from '@/assets/svgs/voiceSvg'
+import Voice from '../Voice'
+import WaveForm from 'react-native-audiowaveform'
 
 const index = ({
   onSend,
@@ -13,7 +14,7 @@ const index = ({
   secure = false,
   placeholder = 'Написать',
 }) => {
-  // const [voiceMessage, setVoiceMessage] = React.useState(null)
+  const [voiceMessage, setVoiceMessage] = React.useState(null)
   const [text, setText] = React.useState('')
 
   const send = () => {
@@ -24,26 +25,34 @@ const index = ({
   }
   return (
     <View style={[styles.container, containerStyle]}>
-      <TextInput
-        value={text}
-        editable={!disabled}
-        onChangeText={setText}
-        secureTextEntry={secure}
-        placeholderTextColor={ICON}
-        placeholder={placeholder || ''}
-        style={[styles.textStyle, textStyle, { color: ICON }]}
-      />
+      {voiceMessage ? (
+        <WaveForm
+          source={{ uri: voiceMessage }}
+          waveFormStyle={{ waveColor: 'red', scrubColor: 'white' }}
+        ></WaveForm>
+      ) : (
+        <TextInput
+          value={text}
+          editable={!disabled}
+          onChangeText={setText}
+          secureTextEntry={secure}
+          placeholderTextColor={ICON}
+          placeholder={placeholder || ''}
+          style={[styles.textStyle, textStyle, { color: ICON }]}
+        />
+      )}
 
       {text.length ? (
         <Pressable onPress={send}>
-          {/* <SendIcon /> */}
           <SendSvg />
         </Pressable>
       ) : (
-        <Pressable>
-          <VoiceSvg />
-          {/* <Voice /> */}
-        </Pressable>
+        <Voice
+          voicePath={(path) => {
+            console.log('VoicePath', path)
+            setVoiceMessage(path)
+          }}
+        />
       )}
     </View>
   )

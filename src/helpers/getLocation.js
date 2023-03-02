@@ -88,14 +88,12 @@ export const GetLocationClojure = (
     }
 
     Geolocation.getCurrentPosition(
-      position => {
+      (position) => {
         setLocation(position)
-        //console.log(position);
       },
-      error => {
+      (error) => {
         Alert.alert(`Code ${error.code}`, error.message)
         setLocation(null)
-        // console.log(error);
       },
       {
         accuracy: {
@@ -114,7 +112,7 @@ export const GetLocationClojure = (
   }
 
   const stopForegroundService = useCallback(() => {
-    VIForegroundService.stopService().catch(err => err)
+    VIForegroundService.stopService().catch((err) => err)
   }, [])
 
   const startForegroundService = async () => {
@@ -157,11 +155,10 @@ export const GetLocationClojure = (
     setObserving(true)
 
     watchId.current = Geolocation.watchPosition(
-      position => {
+      (position) => {
         setLocation(position)
-        //console.log(position);
       },
-      error => {
+      (error) => {
         setLocation(null)
         console.log(error)
       },

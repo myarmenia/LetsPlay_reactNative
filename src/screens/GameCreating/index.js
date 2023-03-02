@@ -59,33 +59,6 @@ const GameCreating = (props) => {
     { id: 3, text: 'Без ограничений', checked: true, label: 'm/f' },
   ])
   const handleClick = () => {
-    console.log({
-      ...initialState,
-      start_date: startDate.date
-        .toISOString()
-        .substring(0, 10)
-        .concat(
-          ` ${
-            startDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
-              ? +startDate.time.toLocaleTimeString().slice(0, 1) +
-                12 +
-                startDate.time.toLocaleTimeString().slice(1, 4)
-              : startDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
-          }`,
-        ),
-      end_date: endDate.date
-        .toISOString()
-        .substring(0, 10)
-        .concat(
-          ` ${
-            endDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
-              ? +endDate.time.toLocaleTimeString().slice(0, 1) +
-                12 +
-                endDate.time.toLocaleTimeString().slice(1, 4)
-              : endDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
-          }`,
-        ),
-    })
     dispatch(
       createGame({
         ...initialState,

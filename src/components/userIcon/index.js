@@ -142,7 +142,6 @@ function Index({ user, size, onPressImg }) {
         onPress={() => {
           if (vk_id) {
             Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
-              // console.log(e)
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }

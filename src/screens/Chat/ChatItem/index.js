@@ -6,7 +6,6 @@ import { _storageUrl } from '@/constants'
 
 function Index({ id, img, name, updatedAt }) {
   const navigation = useNavigation()
-  console.log(name)
   return (
     <TouchableOpacity
       onPress={() => navigation.navigate('PrivateChat', { id })}

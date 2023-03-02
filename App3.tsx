@@ -165,12 +165,17 @@ class Page extends Component<any, State> {
             <Pressable
               style={styles.btn}
               onPressIn={this.onStartRecord}
-              onPressOut={this.onStopRecord}
-              >
+              onPressOut={this.onStopRecord}>
               <Text style={styles.txt}>Record</Text>
             </Pressable>
 
-      
+            <Pressable
+              style={[styles.btn, {marginLeft: 12}]}
+              onPress={this.onStopRecord}
+              >
+                <Text style={styles.txt}>Stop</Text>
+              
+            </Pressable>
           </View>
         </View>
         <View style={styles.viewPlayer}>
@@ -274,16 +279,16 @@ class Page extends Component<any, State> {
 
     console.log('audioSet', audioSet);
 
-    const uri = await this.audioRecorderPlayer?.startRecorder(
+    const uri = await this.audioRecorderPlayer.startRecorder(
       this.path,
       audioSet,
     );
 
-    this.audioRecorderPlayer?.addRecordBackListener((e: RecordBackType) => {
+    this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
       // console.log('record-back', e);
       this.setState({
         recordSecs: e.currentPosition,
-        recordTime: this.audioRecorderPlayer?.mmssss(
+        recordTime: this.audioRecorderPlayer.mmssss(
           Math.floor(e.currentPosition),
         ),
       });
@@ -292,8 +297,8 @@ class Page extends Component<any, State> {
   };
 
   private onStopRecord = async (): Promise<void> => {
-    const result = await this.audioRecorderPlayer?.stopRecorder();
-    this.audioRecorderPlayer?.removeRecordBackListener();
+    const result = await this.audioRecorderPlayer.stopRecorder();
+    this.audioRecorderPlayer.removeRecordBackListener();
     this.setState({
       recordSecs: 0,
     });
@@ -304,22 +309,22 @@ class Page extends Component<any, State> {
     console.log('onStartPlay', this.path);
 
     try {
-      const msg = await this.audioRecorderPlayer?.startPlayer(this.path);
+      const msg = await this.audioRecorderPlayer.startPlayer(this.path);
 
       //? Default path
       // const msg = await this.audioRecorderPlayer.startPlayer();
-      const volume = await this.audioRecorderPlayer?.setVolume(1.0);
+      const volume = await this.audioRecorderPlayer.setVolume(1.0);
       console.log(`path: ${msg}`, `volume: ${volume}`);
 
-      this.audioRecorderPlayer?.addPlayBackListener((e: PlayBackType) => {
+      this.audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
         console.log('playBackListener', e);
         this.setState({
           currentPositionSec: e.currentPosition,
           currentDurationSec: e.duration,
-          playTime: this.audioRecorderPlayer?.mmssss(
+          playTime: this.audioRecorderPlayer.mmssss(
             Math.floor(e.currentPosition),
           ),
-          duration: this.audioRecorderPlayer?.mmssss(Math.floor(e.duration)),
+          duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
         });
       });
     } catch (err) {
@@ -329,8 +334,8 @@ class Page extends Component<any, State> {
 
   private onStopPlay = async (): Promise<void> => {
     console.log('onStopPlay');
-    this.audioRecorderPlayer?.stopPlayer();
-    this.audioRecorderPlayer?.removePlayBackListener();
+    this.audioRecorderPlayer.stopPlayer();
+    this.audioRecorderPlayer.removePlayBackListener();
   };
 }
 

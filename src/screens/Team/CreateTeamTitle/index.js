@@ -23,8 +23,6 @@ const CreateTeamTitle = () => {
   const [teamName, setTeamName] = useState('')
   const [teamAddress, setTeamAddress] = useState('')
   const [errorText, setErrorText] = useState(false)
-
-  console.log(teamName, teamAddress)
   const setToastMsg = (msg) => {
     ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
   }

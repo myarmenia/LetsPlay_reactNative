@@ -114,7 +114,6 @@ export const createGame = (data) => (dispatch) => {
   axiosInstance
     .post('api/create/game', JSON.stringify(data))
     .then((res) => {
-      console.log(res.data)
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))
       }
