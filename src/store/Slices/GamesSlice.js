@@ -1,5 +1,4 @@
 import { getAsyncStorage } from '@/helpers/asyncStore'
-import AsyncStorage, { useAsyncStorage } from '@react-native-async-storage/async-storage'
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance, { getDefualtHeaders } from '../Api'
 
@@ -27,17 +26,17 @@ export const GameSlice = createSlice({
   },
 })
 
-export const getGames = (data) => async (dispatch) => {
+export const getGames = data => async dispatch => {
   let defualtHeaders // =  await getDefualtHeaders()
   axiosInstance
     .get(`api/game/${data}`, defualtHeaders)
 
-    .then((response) => {
+    .then(response => {
       // console.log('signIn response', response.data.datas)
       dispatch(setGames(response.data.datas))
       //   dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request', err.request._response)
 
       //   dispatch(

@@ -14,7 +14,7 @@ function RadioBlock({ title, list, onChange = () => {}, editable = true, titleSt
           onPress={() => {
             if (editable)
               onChange(
-                list.map((item) => {
+                list.map(item => {
                   if (item.text == ev.text) {
                     return { ...item, checked: true }
                   } else {

@@ -75,7 +75,7 @@ export default StyleSheet.create({
   },
   errorText: {
     ...font('regular', 16, RED, 24),
-    marginLeft: RW(20),
+    marginLeft: RW(14),
   },
   text: {
     ...font('regular', 16, WHITE, 25),

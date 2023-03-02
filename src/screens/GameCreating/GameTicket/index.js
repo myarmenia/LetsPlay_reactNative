@@ -19,7 +19,6 @@ function Index(props) {
   const [success, setSuccess] = useState(false)
   const [modalClose, setModalClose] = useState(true)
   useEffect(() => {
-    console.log('route', game)
     if (flag) {
       setIsVisible(true)
     } else {

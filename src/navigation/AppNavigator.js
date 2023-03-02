@@ -28,6 +28,7 @@ import TourParticipantNavigator from '@/navigation/TourParticipantNavigator'
 import NavigationSearchTeams from '@/navigation/NavigationSearchTeams'
 import CrocodileNavigator from '@/navigation/CrocodileNavigator'
 import Map from '@/screens/Map/Map'
+import CreateTeamTitle from '@/screens/Team/CreateTeamTitle'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -39,7 +40,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -76,6 +77,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'GameTicket'} component={GameTicket} />
         <Stack.Screen name={'PrivateChat'} component={PrivateChat} />
         <Stack.Screen name={'Crocodile'} component={CrocodileNavigator} />
+        <Stack.Screen name="CreateTeamTitle" component={CreateTeamTitle} />
         <Stack.Screen name={'Mafia'} component={MafiaGame} />
         <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator} />
         <Stack.Screen name={'Calendar'} component={Calendar} />
