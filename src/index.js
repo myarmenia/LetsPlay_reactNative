@@ -23,9 +23,11 @@ const MyApp = () => {
   }, [])
 
   if (token && !userId) {
+    console.log('getProfileInfo')
     dispatch(getProfileInfo())
   }
   console.log('Token - ', token)
+
   return (
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />

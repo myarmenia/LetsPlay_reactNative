@@ -17,6 +17,7 @@ import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
 
 function Index({ id, item }) {
+
   const navigation = useNavigation()
   const [animation] = useState(new Animated.Value(85))
   const [swipeDirection, setSwipeDirection] = useState(null)

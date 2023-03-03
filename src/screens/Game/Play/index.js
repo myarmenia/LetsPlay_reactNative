@@ -189,7 +189,6 @@ function Index({ navigation }) {
     )
   }
   if (chooseType === PARTICIPATION_GAME) {
-    // console.log(data.price)
     return (
       <ScreenMask>
         <ScrollView>

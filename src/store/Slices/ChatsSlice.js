@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 
 const initialState = {
-  chats: null,
+  chats: [],
+  playMessageId: null,
+  pausedMessageId: null,
 }
 
 export const ChatsSlice = createSlice({
@@ -15,6 +17,18 @@ export const ChatsSlice = createSlice({
         chats: action.payload,
       }
     },
+    setPlayMessageId: (store, action) => {
+      return {
+        ...store,
+        playMessageId: action.payload,
+      }
+    },
+    setPausedMessageId: (store, action) => {
+      return {
+        ...store,
+        pausedMessageId: action.payload,
+      }
+    },
   },
 })
 
@@ -22,10 +36,10 @@ export const getChats = (data) => (dispatch) => {
   axiosInstance
     .get(`/api/create/game/chat/${data}`)
     .then((response) => {
-      dispatch(setChats(response.data.datas))
+      dispatch(setChats(response.data.datas.reverse()))
     })
     .catch((err) => {
-      console.log('err request', err.request._response)
+      console.log('err request chats', err.request._response)
     })
 }
 export const sendMessage = (data) => (dispatch) => {
@@ -39,5 +53,5 @@ export const sendMessage = (data) => (dispatch) => {
     })
 }
 
-export const { setChats } = ChatsSlice.actions
+export const { setChats, setPlayMessageId, setPausedMessageId } = ChatsSlice.actions
 export default ChatsSlice.reducer

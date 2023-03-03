@@ -20,8 +20,6 @@ const index = () => {
   const forNavigate = item => {
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
-    } else {
-      // console.log(111)
     }
   }
 

@@ -11,13 +11,11 @@ import { _storageUrl } from '@/constants'
 function Index({ game, pressable }) {
   const [active, setActive] = useState(false)
   const navigation = useNavigation()
-  console.log('game', game)
   return (
     <Animated.View>
       <Pressable
         onPress={() => {
           if (pressable) {
-            console.log(game)
             setActive(true)
             game.name ? navigation.navigate('GameCreating', { params: { game } }) : null
             setActive(false)

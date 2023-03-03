@@ -5,8 +5,8 @@ import { memo } from 'react'
 const SendSvg = () => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width={25}
-    height={25}
+    width={23}
+    height={23}
     viewBox="0 0 280 280"
     xmlSpace="preserve"
   >

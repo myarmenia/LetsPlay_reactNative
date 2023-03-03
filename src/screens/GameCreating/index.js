@@ -87,13 +87,6 @@ const GameCreating = props => {
     )
 
   const handleClick = () => {
-    console.log({
-      ...initialState,
-      start_date: changedStartDate,
-      end_date: changedEndDate,
-    }),
-      dispatch(setStart_date(changedStartDate))
-    dispatch(setEnd_Date(changedEndDate))
     dispatch(
       createGame({
         ...initialState,

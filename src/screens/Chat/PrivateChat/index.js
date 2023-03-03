@@ -1,151 +1,157 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableNativeFeedback,
-  TouchableOpacity,
-  View,
-} from 'react-native'
-import style from '@/screens/Chat/style'
-import SmilesSvg from '@/assets/svgs/SmilesSvg'
-import { ICON } from '@/theme/colors'
-import VoiceSvg from '@/assets/svgs/voiceSvg'
-import { RH, RW } from '@/theme/utils'
-import LeftArrow from '@/assets/svgs/leftArrow'
-import InfoSvg from '@/assets/svgs/infoSvg'
-import Modal from '@/components/modal'
-import { useNavigation } from '@react-navigation/native'
+import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native'
+import { RH } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats, setChats } from '@/store/Slices/ChatsSlice'
-import SendSvg from '../assets/SendSvg'
-import ModalItem from './ModalItem'
+import { getChats } from '@/store/Slices/ChatsSlice'
 import { sendMessage } from '../../../store/Slices/ChatsSlice'
-
+import { io } from 'socket.io-client'
+import CustomInput from './components/Input'
+import Message from './components/container/message'
 function Index(props) {
-  const [isVisible, setIsVisible] = useState(false)
-  const [inputValue, setInputValue] = useState('')
-  const chats = useSelector(({ chats }) => chats.chats)
-  const navigation = useNavigation()
+  const chats = useSelector(({ chats }) => chats.chats) || []
+  const [messageState, setMessageState] = useState([])
+  const [voiceMessage, setVoiceMessage] = React.useState('')
+
+  const { user, token } = useSelector(({ auth }) => auth)
+  const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
-  const inputRef = useRef()
+  const socket = io.connect(`wss://to-play.ru/chat?room=${gameID}`, {
+    transportOptions: {
+      polling: {
+        extraHeaders: {
+          Authorization: token,
+        },
+      },
+    },
+  })
 
-  const sendFunc = () => {
-    dispatch(
-      sendMessage({
-        message: inputValue,
-        create_game: gameID,
-      }),
-    )
-    dispatch(
-      setChats([...chats, { message: inputValue, create_game: gameID, updatedAt: new Date() }]),
-    )
-    setInputValue('')
+  const scrollViewRef = useRef(null)
+
+  const sendFunc = (text) => {
+    if (voiceMessage) {
+      var formdata = new FormData()
+      formdata.append('file', {
+        uri: voiceMessage,
+        type: 'audio/m4a',
+        name: 'audio.m4a',
+      })
+      formdata.append('create_game', gameID)
+
+      let myHeaders = new Headers()
+      myHeaders.append('Content-Type', 'audio/m4a')
+      myHeaders.append('Authorization', `Bearer ${token}`)
+      myHeaders.append('Accept', 'application/json')
+
+      let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow',
+      }
+
+      fetch('https://to-play.ru/api/create/game/chat/', requestOptions)
+        .then((result) => {
+          return result.json()
+        })
+        .then((result) => {
+          // console.log('result', result)
+          setVoiceMessage(null)
+        })
+        .catch((error) => console.log('error', error))
+    } else {
+      dispatch(
+        sendMessage({
+          message: text,
+          create_game: gameID,
+        }),
+      )
+    }
   }
-  useEffect(() => {
+  const memoGetChats = useCallback(() => {
     dispatch(getChats(gameID))
-  }, [])
+  }, [gameID])
+  const memoSocketFunc = (message) => {
+    console.log('SOCKET - ', message)
+    console.log(
+      'find',
+      messageState.find((item) => item?.id == message?.id),
+    )
+    if (message.file || message.message) {
+      setMessageState((lastState) => {
+        if (!lastState.find((item) => item?.id == message?.id)) {
+          return lastState.concat(message)
+        } else {
+          return lastState
+        }
+      })
+    }
+  }
 
-  console.log(chats, 'chats')
+  socket.on('message', memoSocketFunc)
+  useEffect(() => {
+    memoGetChats()
+  }, [])
+  useEffect(() => {
+    setMessageState(chats)
+  }, [chats])
+  useEffect(() => {
+    scrollViewRef.current.scrollToOffset({ animated: true, offset: 0 })
+  }, [messageState?.length])
+  const memoRenderItem = ({ item, index }) => {
+    return (
+      <Message
+        item={item}
+        key={index}
+        id={item._id}
+        myMessage={item?.user?._id == userId || item?.user == userId}
+      />
+    )
+  }
   return (
     <ScreenMask>
-      <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          {...(Platform.OS === 'ios'
-            ? {
-                behavior: 'padding',
-                keyboardVerticalOffset: RH(10),
-                enabled: true,
-              }
-            : {})}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        {...(Platform.OS === 'ios'
+          ? {
+              behavior: 'padding',
+              keyboardVerticalOffset: RH(10),
+              enabled: true,
+            }
+          : {})}
+      >
+        <FlatList
+          data={[...messageState].reverse()}
+          style={{
+            marginBottom: RH(25),
+          }}
+          inverted
+          refreshing
+          initialNumToRender={4}
+          removeClippedSubviews
+          showsVerticalScrollIndicator={false}
+          ref={scrollViewRef}
+          renderItem={memoRenderItem}
+          keyExtractor={(_, index) => `post-${index}`}
+        />
+
+        <View
+          style={{
+            left: 0,
+            right: 0,
+            bottom: RH(10),
+          }}
         >
-          <View style={{ flex: 1 }}>
-            <View style={style.chatHeadBlock}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <LeftArrow />
-              </TouchableOpacity>
-              <View style={style.countBlock}>
-                <Text style={style.countText}>0</Text>
-              </View>
-              <TouchableOpacity
-                style={style.infoSvgButton}
-                onPress={() => {
-                  setIsVisible(true)
-                }}
-              >
-                <InfoSvg />
-              </TouchableOpacity>
-            </View>
-            {isVisible && (
-              <Modal
-                modalVisible={isVisible}
-                setIsVisible={setIsVisible}
-                btnClose={false}
-                item={<ModalItem />}
-              />
-            )}
-            <View style={{ flex: 1 }}>
-              <ScrollView style={style.chatBlock}>
-                {chats?.map((chat) => {
-                  return (
-                    <View style={style.myItemBlock}>
-                      <Text style={style.timeText}>
-                        {new Date(chat.updatedAt).toLocaleTimeString().slice(0, 4)}
-                      </Text>
-                      <View style={style.myItem}>
-                        <Text style={{ color: '#fff' }}>{chat.message}</Text>
-                      </View>
-                    </View>
-                  )
-                })}
-                <View style={style.userItemBlock}>
-                  <View style={style.userItem}></View>
-                  <Text style={style.timeText}>1:01</Text>
-                </View>
-                <View style={style.myItemBlock}>
-                  <Text style={style.timeText}>1:01</Text>
-                  <View style={style.myItem}></View>
-                </View>
-              </ScrollView>
-            </View>
-            <View style={style.chatInput}>
-              <Pressable
-                onPress={() => {
-                  inputRef.current.focus()
-                }}
-              >
-                <SmilesSvg />
-              </Pressable>
-              <TextInput
-                ref={inputRef}
-                style={{ width: RW(276), color: ICON }}
-                placeholder={'Сообщение...'}
-                placeholderTextColor={ICON}
-                value={inputValue}
-                onChangeText={setInputValue}
-              />
-              {inputValue.length ? (
-                <Pressable onPress={sendFunc}>
-                  <SendSvg />
-                </Pressable>
-              ) : (
-                <Pressable>
-                  <VoiceSvg />
-                </Pressable>
-              )}
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </TouchableNativeFeedback>
+          <CustomInput
+            onSend={sendFunc}
+            voiceMessage={voiceMessage}
+            setVoiceMessage={setVoiceMessage}
+          />
+        </View>
+      </KeyboardAvoidingView>
     </ScreenMask>
   )
 }
 
-export default Index
+export default memo(Index)

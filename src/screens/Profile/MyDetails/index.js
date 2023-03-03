@@ -96,7 +96,6 @@ function Index() {
   }
 
   const postEditUserFunc = () => {
-    // console.log(getAsyncStorage('token'))
     dispatch(
       setUser({
         ...user,
@@ -179,6 +178,7 @@ function Index() {
             editable={editable}
             dateValue={dateState}
             setDate={setDateState}
+            showTime={false}
           />
           <InputBlock
             text={'Контактный тел.:'}

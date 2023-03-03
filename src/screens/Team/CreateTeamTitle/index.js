@@ -25,6 +25,7 @@ const CreateTeamTitle = props => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
+
   const [addressName, setAddressName] = useState('')
   const response = props?.route?.params?.response
   const { token } = useSelector(({ auth }) => auth)

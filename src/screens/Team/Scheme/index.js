@@ -22,7 +22,6 @@ const Scheme = (props) => {
       </View>
       <Image
         onLayout={(event) => {
-          console.log(event.nativeEvent.layout)
           setLayoutCordinates(event.nativeEvent.layout)
         }}
         source={data.playField}

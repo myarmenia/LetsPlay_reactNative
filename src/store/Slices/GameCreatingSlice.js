@@ -113,8 +113,7 @@ export const GameCreatingSlice = createSlice({
 export const createGame = data => dispatch => {
   axiosInstance
     .post('api/create/game', JSON.stringify(data))
-    .then(res => {
-      console.log(res.data)
+    .then((res) => {
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))
       }
