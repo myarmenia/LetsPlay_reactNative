@@ -22,17 +22,23 @@ import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 
 const CreateTeamTitle = props => {
+  //states
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
-
   const [addressName, setAddressName] = useState('')
+  //errors
+  const [teamNameError, setTeamNameError] = useState(false)
+  const [addressNameError, setAddressNameError] = useState(false)
+
   const response = props?.route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
+
   useEffect(() => {
     setAddressName(response)
   }, [response])
+
   const handleCreate = () => {
     if (addressName && teamName) {
       formdata.append('name', teamName)
@@ -45,8 +51,18 @@ const CreateTeamTitle = props => {
         uri: avatar?.assets?.[0].uri,
       })
 
-      createTeam(formdata, token)
-      // setModalVisible(true),
+      createTeam(formdata, token, setModalVisible)
+    } else {
+      if (!addressName) {
+        setAddressNameError(true)
+      } else {
+        setAddressNameError(false)
+      }
+      if (!teamName) {
+        setTeamNameError(true)
+      } else {
+        setTeamNameError(false)
+      }
     }
   }
 
@@ -77,13 +93,15 @@ const CreateTeamTitle = props => {
                 onChangeText={value => setTeamName(value)}
               />
             </View>
-            {!teamName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
+            {teamNameError && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
           </View>
           <View style={styles.colBox}>
             <View style={styles.inputBlock}>
               <SearchAddresses setAddressName={setAddressName} />
             </View>
-            {!addressName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
+            {addressNameError && (
+              <Text style={style.errorText}>Обязательное поле для заполнения</Text>
+            )}
           </View>
         </View>
         <View style={styles.uploadBox}>

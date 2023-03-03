@@ -4,7 +4,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
 import style from './styles'
 import { font, RW } from '@/theme/utils'
-import { BLACK, DARK_BLUE, ICON } from '@/theme/colors'
+import { BLACK, DARK_BLUE, ICON, RED } from '@/theme/colors'
 import { RH } from '@/theme/utils'
 import { useEffect, useState } from 'react'
 import { searchTeam } from '@/store/Slices/TeamSlice'
@@ -14,13 +14,15 @@ import { useNavigation } from '@react-navigation/native'
 function Index() {
   const dispatch = useDispatch()
   const { findedTeam } = useSelector(({ teams }) => teams)
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState('63ff4a064b08cb7d912ffff')
+  const [findedTeamEmpty, setFindedTeamEmpty] = useState(false)
   const navigation = useNavigation()
 
   //test team id ---> 63ff4a064b08cb7d912ffff
   const handleSeach = () => {
-    dispatch(searchTeam(value))
+    dispatch(searchTeam(value, setFindedTeamEmpty))
   }
+
   useEffect(() => {
     if (findedTeam.length) {
       navigation.navigate('TeamSearchRes')
@@ -42,6 +44,13 @@ function Index() {
       <View style={{ alignItems: 'center', paddingRight: RW(10), width: '100%' }}>
         <Button size={style.btn} label={'Поиск'} onPress={handleSeach} />
       </View>
+      {findedTeamEmpty && (
+        <Text
+          style={{ ...font('regular', 20, RED, 24), marginVertical: RH(20), alignSelf: 'center' }}
+        >
+          Не найдено
+        </Text>
+      )}
     </ScreenMask>
   )
 }

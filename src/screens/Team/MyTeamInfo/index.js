@@ -16,7 +16,11 @@ function Index({ route }) {
     <ScreenMask>
       <Text style={style.team}>{command?.name}</Text>
       <View style={style.imageBlock}>
-        <Image style={style.image} source={{ uri: _storageUrl + command?.img }} />
+        <Image
+          style={style.image}
+          source={{ uri: _storageUrl + command?.img }}
+          resizeMode="cover"
+        />
       </View>
       <Text style={style.text}>Адрес нахождения команды</Text>
       <Text style={style.textLined}>{command?.address_name}</Text>

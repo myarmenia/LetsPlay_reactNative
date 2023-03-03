@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
@@ -54,47 +54,55 @@ function Index() {
   //==========================//
   return (
     <ScreenMask>
-      <Text style={style.title}>Мои команды</Text>
-      {teamChatsList.length ? (
-        teamChatsList.map((command, i) => (
-          <TouchableOpacity key={i} onPress={() => navigation.navigate('MyTeamInfo', command)}>
-            <View style={style.homeBlock}>
-              <View
-                style={{
-                  zIndex: 1,
-                  marginLeft: RW(10),
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}
-              >
-                <View style={style.imageBlock}>
-                  <Image style={style.image} source={{ uri: _storageUrl + command.img }} />
+      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+        <Text style={style.title}>Мои команды</Text>
+        {teamChatsList.length ? (
+          teamChatsList.map((command, i) => (
+            <TouchableOpacity key={i} onPress={() => navigation.navigate('MyTeamInfo', command)}>
+              <View style={style.homeBlock}>
+                <View
+                  style={{
+                    zIndex: 1,
+                    marginLeft: RW(10),
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                  }}
+                >
+                  <View style={style.imageBlock}>
+                    <Image
+                      style={style.image}
+                      source={{ uri: _storageUrl + command.img }}
+                      resizeMode="cover"
+                    />
+                  </View>
+                  <View style={style.textBlock}>
+                    <Text style={style.text}>{command.name}</Text>
+                    <Text style={style.text}>{command.address_name}</Text>
+                    <Text style={style.text}>
+                      {command._id.substring(0, command._id.length - 1)}
+                    </Text>
+                  </View>
                 </View>
-                <View style={style.textBlock}>
-                  <Text style={style.text}>{command.name}</Text>
-                  <Text style={style.text}>{command.address_name}</Text>
-                  <Text style={style.text}>{command._id.substring(0, command._id.length - 1)}</Text>
+                <View style={{ position: 'absolute' }}>
+                  <BgMyTem />
                 </View>
               </View>
-              <View style={{ position: 'absolute' }}>
-                <BgMyTem />
-              </View>
-            </View>
-            <Modal
-              modalVisible={modalVisible}
-              setIsVisible={setModalVisible}
-              item={<ModalItem />}
-              btnClose={false}
-              navigationText={'teamStart'}
-            />
-          </TouchableOpacity>
-        ))
-      ) : (
-        <View style={{ alignSelf: 'center' }}>
-          <Text style={style.text}>Загрузка...</Text>
-        </View>
-      )}
-      <Text style={style.title}>Участник команды</Text>
+              <Modal
+                modalVisible={modalVisible}
+                setIsVisible={setModalVisible}
+                item={<ModalItem />}
+                btnClose={false}
+                navigationText={'teamStart'}
+              />
+            </TouchableOpacity>
+          ))
+        ) : (
+          <View style={{ alignSelf: 'center' }}>
+            <Text style={style.text}>Загрузка...</Text>
+          </View>
+        )}
+        <Text style={style.title}>Участник команды</Text>
+      </ScrollView>
     </ScreenMask>
   )
 }
