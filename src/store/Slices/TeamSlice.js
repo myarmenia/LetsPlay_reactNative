@@ -23,24 +23,23 @@ export const TeamSlice = createSlice({
     },
   },
 })
-export const getTeams = () => async dispatch => {
+export const getTeams = () => async (dispatch) => {
   axiosInstance
     .get('api/team/')
-    .then(response => {
+    .then((response) => {
       dispatch(setTeamChats(response.data.datas))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('error getting team chats', err)
     })
 }
-export const searchTeam = teamId => async dispatch => {
+export const searchTeam = (teamId) => async (dispatch) => {
   axiosInstance
     .get(`api/team/${teamId}`)
-    .then(response => {
-      console.log(JSON.stringify(response.data?.data, null, 4))
-      dispatch(setFindedTeam([response.data?.data]))
+    .then((response) => {
+      if (response.data?.data) dispatch(setFindedTeam([response.data?.data]))
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(setFindedTeam([]))
       console.log('error searching team', err)
     })
@@ -58,10 +57,10 @@ export const createTeam = (data, token) => {
     body: data,
   }
   fetch(`${IS_IOS ? 'https' : 'http'}://to-play.ru/api/team`, requestOptions)
-    .then(response => {
+    .then((response) => {
       console.log(response)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err creating team', err)
     })
 }

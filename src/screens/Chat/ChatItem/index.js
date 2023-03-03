@@ -17,7 +17,6 @@ import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
 
 function Index({ id, item }) {
-
   const navigation = useNavigation()
   const [animation] = useState(new Animated.Value(85))
   const [swipeDirection, setSwipeDirection] = useState(null)
@@ -80,17 +79,17 @@ function Index({ id, item }) {
           onPress={() => navigation.navigate('PrivateChat', { id: item._id })}
           style={style.chatItemBlock}
         >
-          <Image style={style.chatItemImg} source={{ uri: _storageUrl + item?.img }} />
+          <Image
+            style={style.chatItemImg}
+            source={{ uri: _storageUrl + (item?.img || item?.game?.img) }}
+          />
           <Text style={style.itemData}>
             {`${item?.createdAt?.substring(0, 10)} ${new Date(item?.createdAt)
               .toTimeString()
-              .substring(0, 5)} ${item?.address_name}`}
+              .substring(0, 5)} ${item?.address_name || item?.game?.name}`}
           </Text>
           <Text style={style.time}>1:01</Text>
         </Pressable>
-        {/* <TouchableOpacity style={style.deleteBtn}>
-          <Text style={style.deleteText}>Delete</Text>
-        </TouchableOpacity> */}
       </Animated.View>
     </View>
   )

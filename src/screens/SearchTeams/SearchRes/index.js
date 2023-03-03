@@ -15,28 +15,31 @@ function Index() {
     <ScreenMask>
       <Text style={style.title}>Результат поиска</Text>
       <ScrollView>
-        {findedTeam?.map((item, i) => (
-          <TouchableOpacity
-            key={item._id}
-            onPress={() => navigation.navigate('TeamSearchInfo', item)}
-          >
-            <View style={style.homeBlock}>
-              <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                <View style={style.imageBlock}>
-                  <Image style={style.image} source={{ uri: _storageUrl + item?.img }} />
+        {findedTeam?.map((item, i) => {
+          console.log('findedTeam', item)
+          return (
+            <TouchableOpacity
+              key={item?._id || Math.random()}
+              onPress={() => navigation.navigate('TeamSearchInfo', item)}
+            >
+              <View style={style.homeBlock}>
+                <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                  <View style={style.imageBlock}>
+                    <Image style={style.image} source={{ uri: _storageUrl + item?.img }} />
+                  </View>
+                  <View style={style.textBlock}>
+                    <Text style={style.text}>{item?.name}</Text>
+                    <Text style={style.text}>{item?.address_name}</Text>
+                    <Text style={style.text}>{item?._id?.substring(0, item?._id.length - 1)}</Text>
+                  </View>
                 </View>
-                <View style={style.textBlock}>
-                  <Text style={style.text}>{item?.name}</Text>
-                  <Text style={style.text}>{item?.address_name}</Text>
-                  <Text style={style.text}>{item?._id?.substring(0, item?._id.length - 1)}</Text>
+                <View style={{ position: 'absolute' }}>
+                  <BgMyTem gradient={i % 2 == 0} />
                 </View>
               </View>
-              <View style={{ position: 'absolute' }}>
-                <BgMyTem gradient={i % 2 == 0} />
-              </View>
-            </View>
-          </TouchableOpacity>
-        ))}
+            </TouchableOpacity>
+          )
+        })}
       </ScrollView>
     </ScreenMask>
   )

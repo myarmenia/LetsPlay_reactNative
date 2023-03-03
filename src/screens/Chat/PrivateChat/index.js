@@ -56,7 +56,6 @@ function Index(props) {
           return result.json()
         })
         .then((result) => {
-          // console.log('result', result)
           setVoiceMessage(null)
         })
         .catch((error) => console.log('error', error))
@@ -73,11 +72,11 @@ function Index(props) {
     dispatch(getChats(gameID))
   }, [gameID])
   const memoSocketFunc = (message) => {
-    console.log('SOCKET - ', message)
-    console.log(
-      'find',
-      messageState.find((item) => item?.id == message?.id),
-    )
+    // console.log('SOCKET - ', message)
+    // console.log(
+    //   'find',
+    //   messageState.find((item) => item?.id == message?.id),
+    // )
     if (message.file || message.message) {
       setMessageState((lastState) => {
         if (!lastState.find((item) => item?.id == message?.id)) {

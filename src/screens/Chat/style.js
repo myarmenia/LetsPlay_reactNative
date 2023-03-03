@@ -64,14 +64,15 @@ export default StyleSheet.create({
     width: RW(42),
     height: RH(43),
     borderRadius: RH(22),
-
   },
   chatItemBlock: {
-    backgroundColor: 'rgba(101,122,197,0.6)',
-    marginVertical: RH(10),
+    backgroundColor: ICON,
     width: '100%',
     borderRadius: RW(10),
-    padding: RH(18),
+    paddingLeft: RW(13),
+    paddingTop: RH(17),
+    paddingBottom: RH(17),
+    paddingRight: RW(6),
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -88,6 +89,7 @@ export default StyleSheet.create({
   },
   itemData: {
     ...font('bold', 18, WHITE, 20),
+    width: RW(245),
   },
   time: {
     ...font('regular', 14, WHITE, 20),
@@ -140,11 +142,9 @@ export default StyleSheet.create({
   },
   chatBlock: {
     flex: 1,
-    position: 'absolute',
-    height: '100%',
-    width: RW(396),
+    // height: '100%',
+    // width: RW(396),
     // marginTop: 'auto',
-    // zIndex: 999
   },
   myItemBlock: {
     flexDirection: 'row',
@@ -170,9 +170,7 @@ export default StyleSheet.create({
     height: RH(68),
     backgroundColor: MESSAGE_CONTAINER,
     borderRadius: RW(10),
-    borderBottomRightRadius: 0,
-    justifyContent: 'center',
-    paddingHorizontal: RW(10),
+    borderBottomLeftRadius: 0,
   },
   timeText: {
     color: ICON,
