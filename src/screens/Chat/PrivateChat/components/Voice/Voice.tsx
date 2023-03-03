@@ -6,9 +6,7 @@ import AudioRecorderPlayer, {
   OutputFormatAndroidType,
 } from 'react-native-audio-recorder-player';
 import type {
-  AudioSet,
-  PlayBackType,
-  RecordBackType,
+  AudioSet
 } from 'react-native-audio-recorder-player';
 import {
   Dimensions,
@@ -20,6 +18,7 @@ import React, {Component} from 'react';
 
 import type {ReactElement} from 'react';
 import VoiceSvg from '@/assets/svgs/voiceSvg';
+import RNFetchBlob from 'rn-fetch-blob';
 
 
 interface State {
@@ -30,11 +29,13 @@ interface State {
   currentDurationSec: number;
   playTime: string;
   duration: string;
+  played: boolean;
 }
 
 const screenWidth = Dimensions.get('screen').width;
 
 class Page extends Component<any, State> {
+  private dirs = RNFetchBlob.fs.dirs;
   // private dirs = RNFetchBlob.fs.dirs;
   private path = Platform.select({
     ios: undefined,
@@ -59,6 +60,7 @@ class Page extends Component<any, State> {
       currentDurationSec: 0,
       playTime: '00:00:00',
       duration: '00:00:00',
+      played: false,
     };
 
     this.audioRecorderPlayer = new AudioRecorderPlayer();
@@ -76,7 +78,11 @@ class Page extends Component<any, State> {
 
     return (
             <Pressable
-              onPressIn={this.onStartRecord}
+              style={[{ width: 35, height: 35, justifyContent: "center", alignItems: "center", borderRadius: 18},this.state.played ? {backgroundColor: "rgba(255, 255, 255, 0.2)"} : {}]}
+              onPressIn={() => {
+                this.props.onStartSpeak()
+                this.onStartRecord()
+              }}
               onPressOut={this.onStopRecord}>
               <VoiceSvg/>
             </Pressable>
@@ -84,27 +90,6 @@ class Page extends Component<any, State> {
     );
   }
 
-  private onStatusPress = (e: any): void => {
-    const touchX = e.nativeEvent.locationX;
-    console.log(`touchX: ${touchX}`);
-
-    const playWidth =
-      (this.state.currentPositionSec / this.state.currentDurationSec) *
-      (screenWidth - 56);
-    console.log(`currentPlayWidth: ${playWidth}`);
-
-    const currentPosition = Math.round(this.state.currentPositionSec);
-
-    if (playWidth && playWidth < touchX) {
-      const addSecs = Math.round(currentPosition + 1000);
-      this.audioRecorderPlayer.seekToPlayer(addSecs);
-      console.log(`addSecs: ${addSecs}`);
-    } else {
-      const subSecs = Math.round(currentPosition - 1000);
-      this.audioRecorderPlayer.seekToPlayer(subSecs);
-      console.log(`subSecs: ${subSecs}`);
-    }
-  };
 
   private onStartRecord = async (): Promise<void> => {
     if (Platform.OS === 'android') {
@@ -153,59 +138,30 @@ class Page extends Component<any, State> {
       audioSet,
     );
 
-    this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
-      // console.log('record-back', e);
-      this.setState({
-        recordSecs: e.currentPosition,
-        recordTime: this.audioRecorderPlayer.mmssss(
-          Math.floor(e.currentPosition),
-        ),
-      });
-    });
+
+    // this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
+    //   // console.log('record-back', e);
+    //   this.setState({
+    //     recordSecs: e.currentPosition,
+    //     recordTime: this.audioRecorderPlayer.mmssss(
+    //       Math.floor(e.currentPosition),
+    //     ),
+    //     played: true,
+    //   });
+    // });
     // console.log(`uri: ${uri}`);
   };
 
   private onStopRecord = async (): Promise<void> => {
     const result = await this.audioRecorderPlayer.stopRecorder();
-    this.audioRecorderPlayer.removeRecordBackListener();
-    this.setState({
-      recordSecs: 0,
-    });
+    // this.audioRecorderPlayer.removeRecordBackListener();
+    // this.setState({
+    //   recordSecs: 0,
+    //   played: false
+    // });
     this.props.voicePath(result)
   };
 
-  private onStartPlay = async (): Promise<void> => {
-    console.log('onStartPlay', this.path);
-
-    try {
-      const msg = await this.audioRecorderPlayer.startPlayer(this.path);
-
-      //? Default path
-      // const msg = await this.audioRecorderPlayer.startPlayer();
-      const volume = await this.audioRecorderPlayer.setVolume(1.0);
-      // console.log(`path: ${msg}`, `volume: ${volume}`);
-
-      this.audioRecorderPlayer.addPlayBackListener((e: PlayBackType) => {
-        console.log('playBackListener', e);
-        this.setState({
-          currentPositionSec: e.currentPosition,
-          currentDurationSec: e.duration,
-          playTime: this.audioRecorderPlayer.mmssss(
-            Math.floor(e.currentPosition),
-          ),
-          duration: this.audioRecorderPlayer.mmssss(Math.floor(e.duration)),
-        });
-      });
-    } catch (err) {
-      console.log('startPlayer error', err);
-    }
-  };
-
-  private onStopPlay = async (): Promise<void> => {
-    console.log('onStopPlay');
-    this.audioRecorderPlayer.stopPlayer();
-    this.audioRecorderPlayer.removePlayBackListener();
-  };
 }
 
 export default Page;

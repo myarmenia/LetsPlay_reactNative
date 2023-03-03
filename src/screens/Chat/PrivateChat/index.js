@@ -1,17 +1,17 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import { FlatList, KeyboardAvoidingView, Platform, Text, View } from 'react-native'
+import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native'
 import { RH } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats, setChats } from '@/store/Slices/ChatsSlice'
+import { getChats } from '@/store/Slices/ChatsSlice'
 import { sendMessage } from '../../../store/Slices/ChatsSlice'
 import { io } from 'socket.io-client'
 import CustomInput from './components/Input'
 import Message from './components/container/message'
-
 function Index(props) {
   const chats = useSelector(({ chats }) => chats.chats) || []
   const [messageState, setMessageState] = useState([])
+  const [voiceMessage, setVoiceMessage] = React.useState('')
 
   const { user, token } = useSelector(({ auth }) => auth)
   const userId = user._id
@@ -30,24 +30,63 @@ function Index(props) {
   const scrollViewRef = useRef(null)
 
   const sendFunc = (text) => {
-    dispatch(
-      sendMessage({
-        message: text,
-        create_game: gameID,
-      }),
-    )
+    if (voiceMessage) {
+      var formdata = new FormData()
+      formdata.append('file', {
+        uri: voiceMessage,
+        type: 'audio/m4a',
+        name: 'audio.m4a',
+      })
+      formdata.append('create_game', gameID)
+
+      let myHeaders = new Headers()
+      myHeaders.append('Content-Type', 'audio/m4a')
+      myHeaders.append('Authorization', `Bearer ${token}`)
+      myHeaders.append('Accept', 'application/json')
+
+      let requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow',
+      }
+
+      fetch('https://to-play.ru/api/create/game/chat/', requestOptions)
+        .then((result) => {
+          return result.json()
+        })
+        .then((result) => {
+          // console.log('result', result)
+          setVoiceMessage(null)
+        })
+        .catch((error) => console.log('error', error))
+    } else {
+      dispatch(
+        sendMessage({
+          message: text,
+          create_game: gameID,
+        }),
+      )
+    }
   }
   const memoGetChats = useCallback(() => {
     dispatch(getChats(gameID))
   }, [gameID])
   const memoSocketFunc = (message) => {
-    setMessageState((lastState) => {
-      if (!lastState.find((item) => item?.id == message.id)) {
-        return lastState.concat(message)
-      } else {
-        return lastState
-      }
-    })
+    console.log('SOCKET - ', message)
+    console.log(
+      'find',
+      messageState.find((item) => item?.id == message?.id),
+    )
+    if (message.file || message.message) {
+      setMessageState((lastState) => {
+        if (!lastState.find((item) => item?.id == message?.id)) {
+          return lastState.concat(message)
+        } else {
+          return lastState
+        }
+      })
+    }
   }
 
   socket.on('message', memoSocketFunc)
@@ -59,14 +98,13 @@ function Index(props) {
   }, [chats])
   useEffect(() => {
     scrollViewRef.current.scrollToOffset({ animated: true, offset: 0 })
-  }, [messageState.length])
+  }, [messageState?.length])
   const memoRenderItem = ({ item, index }) => {
     return (
       <Message
-        message={item?.message}
+        item={item}
         key={index}
-        id={index}
-        updatedAt={item?.updatedAt}
+        id={item._id}
         myMessage={item?.user?._id == userId || item?.user == userId}
       />
     )
@@ -86,7 +124,7 @@ function Index(props) {
         <FlatList
           data={[...messageState].reverse()}
           style={{
-            marginBottom: RH(20),
+            marginBottom: RH(25),
           }}
           inverted
           refreshing
@@ -97,6 +135,7 @@ function Index(props) {
           renderItem={memoRenderItem}
           keyExtractor={(_, index) => `post-${index}`}
         />
+
         <View
           style={{
             left: 0,
@@ -104,7 +143,11 @@ function Index(props) {
             bottom: RH(10),
           }}
         >
-          <CustomInput onSend={sendFunc} />
+          <CustomInput
+            onSend={sendFunc}
+            voiceMessage={voiceMessage}
+            setVoiceMessage={setVoiceMessage}
+          />
         </View>
       </KeyboardAvoidingView>
     </ScreenMask>

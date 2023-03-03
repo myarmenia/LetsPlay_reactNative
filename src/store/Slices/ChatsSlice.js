@@ -3,6 +3,8 @@ import axiosInstance from '../Api'
 
 const initialState = {
   chats: [],
+  playMessageId: null,
+  pausedMessageId: null,
 }
 
 export const ChatsSlice = createSlice({
@@ -13,6 +15,18 @@ export const ChatsSlice = createSlice({
       return {
         ...store,
         chats: action.payload,
+      }
+    },
+    setPlayMessageId: (store, action) => {
+      return {
+        ...store,
+        playMessageId: action.payload,
+      }
+    },
+    setPausedMessageId: (store, action) => {
+      return {
+        ...store,
+        pausedMessageId: action.payload,
       }
     },
   },
@@ -39,5 +53,5 @@ export const sendMessage = (data) => (dispatch) => {
     })
 }
 
-export const { setChats } = ChatsSlice.actions
+export const { setChats, setPlayMessageId, setPausedMessageId } = ChatsSlice.actions
 export default ChatsSlice.reducer

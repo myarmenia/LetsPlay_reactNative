@@ -40,6 +40,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNInAppBrowser;
 		};
+		3AF0344929B07D94004C86FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AF0344529B07D94004C86FE /* OGReactNativeWaveform.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = OGReactNativeWaveform;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +67,7 @@
 		1F6C6258B5FF4C8288C7F7FE /* Inter-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Light.ttf"; path = "../src/assets/fonts/Inter-Light.ttf"; sourceTree = "<group>"; };
 		1FE463CDA8CB4350968212A2 /* Inter-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Thin.ttf"; path = "../src/assets/fonts/Inter-Thin.ttf"; sourceTree = "<group>"; };
 		3A22469D298C0B7B008D41DB /* RNInAppBrowser.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNInAppBrowser.xcodeproj; path = "../node_modules/react-native-inappbrowser-reborn/ios/RNInAppBrowser.xcodeproj"; sourceTree = "<group>"; };
+		3AF0344529B07D94004C86FE /* OGReactNativeWaveform.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OGReactNativeWaveform.xcodeproj; path = "../node_modules/react-native-audiowaveform/ios/OGReactNativeWaveform.xcodeproj"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-gameOrganizing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOrganizing.debug.xcconfig"; path = "Target Support Files/Pods-gameOrganizing/Pods-gameOrganizing.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-gameOrganizing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOrganizing.release.xcconfig"; path = "Target Support Files/Pods-gameOrganizing/Pods-gameOrganizing.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-gameOrganizing-gameOrganizingTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOrganizing-gameOrganizingTests.debug.xcconfig"; path = "Target Support Files/Pods-gameOrganizing-gameOrganizingTests/Pods-gameOrganizing-gameOrganizingTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -140,9 +148,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3AF0344629B07D94004C86FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3AF0344A29B07D94004C86FE /* libOGReactNativeWaveform.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3AF0344529B07D94004C86FE /* OGReactNativeWaveform.xcodeproj */,
 				3A22469D298C0B7B008D41DB /* RNInAppBrowser.xcodeproj */,
 			);
 			name = Libraries;
@@ -276,6 +293,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 3AF0344629B07D94004C86FE /* Products */;
+					ProjectRef = 3AF0344529B07D94004C86FE /* OGReactNativeWaveform.xcodeproj */;
+				},
+				{
 					ProductGroup = 3A22469E298C0B7B008D41DB /* Products */;
 					ProjectRef = 3A22469D298C0B7B008D41DB /* RNInAppBrowser.xcodeproj */;
 				},
@@ -294,6 +315,13 @@
 			fileType = archive.ar;
 			path = libRNInAppBrowser.a;
 			remoteRef = 3A2246A1298C0B7B008D41DB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3AF0344A29B07D94004C86FE /* libOGReactNativeWaveform.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOGReactNativeWaveform.a;
+			remoteRef = 3AF0344929B07D94004C86FE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
