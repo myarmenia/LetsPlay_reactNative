@@ -21,12 +21,12 @@ import { fetchAddress } from './fetchAddress'
 import { useSelector } from 'react-redux'
 import Geolocation from 'react-native-geolocation-service'
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
-const SearchAddresses = ({ game }) => {
+const SearchAddresses = ({ game, setAddressName = () => {} }) => {
   const inp = useRef()
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
-  const initialState = useSelector((state) => state.game)
+  const initialState = useSelector(state => state.game)
   const checkPermissionAndNavigate = async function requestLocationPermission() {
     if (Platform.OS === 'android') {
       try {
@@ -52,18 +52,27 @@ const SearchAddresses = ({ game }) => {
   }
   useEffect(() => {
     inp.current.value = ''
+    setAddresses('')
   }, [])
-  const makeURL = async (state) => {
+  useEffect(() => {
+    setState(initialState?.placeName)
+  }, [initialState.placeName])
+  const makeURL = async state => {
     try {
-      const res = fetchAddress(false, null, null, state).then(async (e) => {
+      const res = fetchAddress(false, null, null, state).then(async e => {
         await fetch(e.url)
-          .then((r) => {
+          .then(r => {
             return r?.json()
           })
-          .then((s) => {
+          .then(s => {
             if (s.results?.length) {
               let response = s.results[0]?.formatted_address
               setAddresses(response)
+              setAddressName({
+                address_name: response,
+                lat: s.results[0]?.geometry.bounds?.northeast.lat,
+                lng: s.results[0]?.geometry.bounds?.northeast?.lng,
+              })
             }
           })
       })
@@ -75,12 +84,26 @@ const SearchAddresses = ({ game }) => {
   const chooseAddress = () => {
     setState(addresses)
     if (state.length >= 35) {
-      setState(state.split().reverse().join().substring(0, 32) + '...')
+      setState(
+        state
+          .split()
+          .reverse()
+          .join()
+          .substring(0, 32) + '...',
+      )
     }
     setAddresses(null)
   }
+  useEffect(() => {
+    if (state.length >= 5) {
+      makeURL()
+    } else {
+      setAddresses(null)
+      setAddressName('')
+    }
+  }, [state.length])
   return (
-    <View>
+    <View style={{ flexDirection: 'column' }}>
       <View
         style={[
           styles.container,
@@ -92,14 +115,8 @@ const SearchAddresses = ({ game }) => {
           ref={inp}
           placeholder={'Адрес проведения игры'}
           placeholderTextColor={ICON}
-          value={
-            state
-              ? state
-              : initialState.placeName.length
-              ? initialState.placeName.split().reverse().join().substring(0, 36) + '...'
-              : state
-          }
-          onChangeText={(e) => {
+          value={state}
+          onChangeText={e => {
             setState(e)
             if (state.length >= 4) {
               makeURL(state)
@@ -116,6 +133,7 @@ const SearchAddresses = ({ game }) => {
         </Pressable>
       )}
     </View>
+
     // <GooglePlacesAutocomplete
     //   suppressDefaultStyles={true}
     //   enablePoweredByContainer={false}

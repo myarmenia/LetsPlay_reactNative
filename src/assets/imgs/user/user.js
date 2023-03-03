@@ -8,7 +8,6 @@ import { useState } from 'react'
 
 function SvgComponent({ size = RW(100), user, onPressItem, onPressImg }) {
   const width = RW(size < 40 ? 40 : size)
-
   const [modalVisible, setModalVisible] = useState(false)
   const item = (
     <View

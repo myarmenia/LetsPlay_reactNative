@@ -50,19 +50,16 @@ function Index({ user, size, onPressImg }) {
         }}
       >
         <Image
-          style={[{ ...style.image, borderRadius: size / RW(3) }, { resizeMode: 'cover' }]}
-          source={
-            !avatar
-              ? require('../../assets/imgs/user/defualtUser.png')
-              : avatar.startsWith('https://')
-              ? { uri: avatar }
-              : {
-                  uri: _storageUrl + avatar,
-                }
-          }
+          style={[
+            { ...style.image, borderRadius: size / RW(3), top: size < 40 ? '-50%' : 0 },
+            { resizeMode: 'cover' },
+          ]}
+          source={{
+            uri: _storageUrl + avatar,
+          }}
         />
       </Pressable>
-      <View style={style.nameBlock}>
+      <View style={[style.nameBlock, { marginTop: size < 40 ? RH(6) : RH(16) }]}>
         <Text style={font('bold', size / RW(22), WHITE)}>{name ? name : 'Имя'}</Text>
         <Text style={font('bold', size / RW(22), WHITE)}>{surname ? surname : 'Фамилия'}</Text>
       </View>
@@ -142,6 +139,7 @@ function Index({ user, size, onPressImg }) {
         onPress={() => {
           if (vk_id) {
             Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
+
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }

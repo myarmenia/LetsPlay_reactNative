@@ -3,9 +3,11 @@ import { ScrollView, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import style from '@/screens/Chat/style'
 import ChatItem from '@/screens/Chat/ChatItem'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTeams } from '@/store/Slices/TeamSlice'
 
 const ChatScreen = () => {
+
   const user = useSelector(({ auth }) => auth.user)
   const testchat = {
     __v: 1,

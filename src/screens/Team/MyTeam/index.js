@@ -1,72 +1,100 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { getTeams } from '@/store/Slices/TeamSlice'
+import { _storageUrl } from '@/constants'
+import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
-import style from './style'
-import { RW } from '@/theme/utils'
 import BgMyTem from '@/assets/bgMyTem'
+import Modal from '@/components/modal'
+import style from './style'
+import LightButton from '@/assets/imgs/Button'
+import DarkButton from '@/assets/imgs/DarkButton'
 
-const myTeam = [
-  {
-    id: '12345678',
-    name: 'ФК Динамо',
-    address: 'Пресненская наб. 25',
-    image: 'https://kassir-ru.ru/d/screenshot_26.jpg',
-    navigationTo: '',
-  },
-  {
-    id: '1284778',
-    name: 'ФК ЦСКА',
-    address: 'Пресненская наб. 25',
-    image:
-      'https://upload.wikimedia.org/wikipedia/ru/thumb/f/f4/FC_CSKA_Moscow_Logo.svg/1200px-FC_CSKA_Moscow_Logo.svg.png',
-  },
-]
-const myPlayers = [
-  {
-    id: '85678',
-    name: 'ФК Динамо',
-    address: 'Пресненская наб. 25',
-    image: 'https://kassir-ru.ru/d/screenshot_26.jpg',
-  },
-  {
-    id: '12984778',
-    name: 'ФК ЦСКА',
-    address: 'Пресненская наб. 25',
-    image:
-      'https://upload.wikimedia.org/wikipedia/ru/thumb/f/f4/FC_CSKA_Moscow_Logo.svg/1200px-FC_CSKA_Moscow_Logo.svg.png',
-  },
-]
-
-function Index({ navigation }) {
-  const item = (arr) =>
-    arr.map((item, i) => (
-      <TouchableOpacity key={i} onPress={() => navigation.navigate('MyTeamInfo', item)}>
-        <View style={style.homeBlock}>
-          <View
-            style={{ zIndex: 1, marginLeft: RW(10), flexDirection: 'row', alignItems: 'center' }}
-          >
-            <View style={style.imageBlock}>
-              <Image style={style.image} source={{ uri: item.image }} />
-            </View>
-            <View style={style.textBlock}>
-              <Text style={style.text}>{item.name}</Text>
-              <Text style={style.text}>{item.address}</Text>
-              <Text style={style.text}>({item.id})</Text>
-            </View>
-          </View>
-          <View style={{ position: 'absolute' }}>
-            <BgMyTem />
-          </View>
+function Index() {
+  const navigation = useNavigation()
+  const [modalVisible, setModalVisible] = useState(false)
+  const { teamChatsList } = useSelector(({ teams }) => teams)
+  const ModalItem = () => {
+    return (
+      <View style={style.modalContainer}>
+        <Text style={style.modalText}>У Вас еще нет своей команды. Создать команду?</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            width: '100%',
+            paddingVertical: RH(20),
+          }}
+        >
+          <LightButton
+            label={'Да'}
+            size={{ width: 100 }}
+            onPress={() => navigation.navigate('CreateTeamTitle')}
+          ></LightButton>
+          <DarkButton
+            label={'Нет'}
+            size={{ width: 100 }}
+            onPress={() => navigation.navigate('teamStart')}
+          ></DarkButton>
         </View>
-      </TouchableOpacity>
-    ))
-
+      </View>
+    )
+  }
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getTeams())
+  }, [])
+  useEffect(() => {
+    !teamChatsList.length ? setModalVisible(true) : setModalVisible(false)
+  }, [teamChatsList])
+  //==========================//
+  // need detect in map user is member other command or cammand is his
+  //==========================//
   return (
     <ScreenMask>
       <Text style={style.title}>Мои команды</Text>
-      <View>{item(myTeam)}</View>
+      {teamChatsList.length ? (
+        teamChatsList.map((command, i) => (
+          <TouchableOpacity key={i} onPress={() => navigation.navigate('MyTeamInfo', command)}>
+            <View style={style.homeBlock}>
+              <View
+                style={{
+                  zIndex: 1,
+                  marginLeft: RW(10),
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <View style={style.imageBlock}>
+                  <Image style={style.image} source={{ uri: _storageUrl + command.img }} />
+                </View>
+                <View style={style.textBlock}>
+                  <Text style={style.text}>{command.name}</Text>
+                  <Text style={style.text}>{command.address_name}</Text>
+                  <Text style={style.text}>{command._id.substring(0, command._id.length - 1)}</Text>
+                </View>
+              </View>
+              <View style={{ position: 'absolute' }}>
+                <BgMyTem />
+              </View>
+            </View>
+            <Modal
+              modalVisible={modalVisible}
+              setIsVisible={setModalVisible}
+              item={<ModalItem />}
+              btnClose={false}
+              navigationText={'teamStart'}
+            />
+          </TouchableOpacity>
+        ))
+      ) : (
+        <View style={{ alignSelf: 'center' }}>
+          <Text style={style.text}>Загрузка...</Text>
+        </View>
+      )}
       <Text style={style.title}>Участник команды</Text>
-      <View>{item(myTeam)}</View>
     </ScreenMask>
   )
 }

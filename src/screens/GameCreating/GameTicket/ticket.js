@@ -5,7 +5,8 @@ import style from '@/screens/GameCreating/style'
 import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 
-function Ticket({ game, data, initialState, name }) {
+function Ticket({ game, initialState, name }) {
+  console.log('initialState', initialState)
   return (
     <View style={{}}>
       <View style={style.ticketImgBlock}>
@@ -44,6 +45,7 @@ function Ticket({ game, data, initialState, name }) {
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Адрес проведения игры:</Text>
+          <Text style={style.ticketTextTwo}>{initialState?.placeName}</Text>
         </View>
         <View style={style.ticketTextBlock}>
           <Text style={style.ticketText}>Дата и время окончания поиска игроков:</Text>

@@ -74,7 +74,7 @@ export const GameCreatingSlice = createSlice({
         placeName: action.payload,
       }
     },
-    setEndDate: (store, action) => {
+    setEnd_Date: (store, action) => {
       return {
         ...store,
         end_date: action.payload,
@@ -110,7 +110,7 @@ export const GameCreatingSlice = createSlice({
   },
 })
 
-export const createGame = (data) => (dispatch) => {
+export const createGame = data => dispatch => {
   axiosInstance
     .post('api/create/game', JSON.stringify(data))
     .then((res) => {
@@ -118,7 +118,7 @@ export const createGame = (data) => (dispatch) => {
         dispatch(setGameCreatedSuccessful(true))
       }
     })
-    .catch((err) => console.log(err.request))
+    .catch(err => console.log(err.request))
 }
 
 export const {
@@ -131,7 +131,7 @@ export const {
   setLatitude,
   setLongitude,
   setPlaceName,
-  setEndDate,
+  setEnd_Date,
   setOrganizer_in_the_game,
   setTicket_price,
   setGame,

@@ -44,6 +44,7 @@ const Map = props => {
   }
   useLayoutEffect(() => {
     getPosition()
+    setMarkers([])
   }, [])
 
   return (
@@ -81,7 +82,17 @@ const Map = props => {
               .then(s => {
                 let response = s.results[0]?.formatted_address
                 dispatch(setPlaceName(response))
-                navigation.navigate('GameCreating', { params: { game: game, response: response } })
+                game
+                  ? navigation.navigate('GameCreating', {
+                      params: { game: game, response: response },
+                    })
+                  : navigation.navigate('CreateTeamTitle', {
+                      response: {
+                        address_name: response,
+                        latitude: s.results[0].geometry.location.lat,
+                        longitude: s.results[0].geometry.location.lng,
+                      },
+                    })
               })
           })
         }}

@@ -18,7 +18,7 @@ function DateComponent({
   showTime = true,
   editable = true,
   rowStyle,
-  minDate,
+  minDate = dateValue,
   maxDate,
 }) {
   return (
@@ -62,6 +62,8 @@ function DateComponent({
                     mode: 'date',
                     locale: 'ru-RU',
                     placeholderText: 'ДД/ММ/ГГГГ',
+                    minimumDate: minDate,
+                    maximumDate: maxDate,
                     value: dateValue,
                     onChange: (_, changedDate) => {
                       setDate(changedDate)
@@ -70,7 +72,7 @@ function DateComponent({
               }}
             >
               <DateSvg style={styles.dateSvg} />
-              <Text style={styles.dateText}>{dateValue.toString().substring(0, 10)}</Text>
+              <Text style={styles.dateText}>{dateValue.toLocaleDateString().substring(0, 10)}</Text>
             </Pressable>
           </View>
         )}
@@ -106,7 +108,7 @@ function DateComponent({
                 />
               </View>
             ) : (
-              <View style={[styles.dateButton, { width: RW(140) }]}>
+              <View style={[styles.dateButton, { width: RW(125) }]}>
                 <Pressable
                   style={styles.dateButtonText}
                   onPress={() => {
@@ -124,7 +126,7 @@ function DateComponent({
                   }}
                 >
                   <TimeSvg style={styles.dateSvg} />
-                  <Text style={styles.dateText}>{timeValue.toString().substring(0, 10)}</Text>
+                  <Text style={styles.dateText}>{timeValue.toLocaleTimeString().slice(0, -3)}</Text>
                 </Pressable>
               </View>
             )}
@@ -136,18 +138,17 @@ function DateComponent({
 }
 
 const styles = StyleSheet.create({
-  row: {},
+  row: {
+    justifyContent: 'space-between',
+  },
+  containerStyle: {
+    width: RW(354),
+  },
   title: {
     ...font('regular', 16, ICON, 24),
     marginBottom: RH(9),
   },
-  dateButtonText: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '85%',
-    alignSelf: 'center',
-    alignItems: 'center',
-  },
+
   dateText: {
     ...font('regular', 18, ICON, 19),
     letterSpacing: 1.5,
@@ -164,7 +165,7 @@ const styles = StyleSheet.create({
     // marginLeft: RW(24),
   },
   dateButton: {
-    width: RW(201),
+    width: RW(185),
     height: RH(48),
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),

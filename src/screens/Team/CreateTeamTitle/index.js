@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import {
   View,
   TextInput,
@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ToastAndroid,
   Alert,
+  Image,
 } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
@@ -16,88 +17,100 @@ import LightButton from '@/assets/imgs/Button'
 import { launchImageLibrary } from 'react-native-image-picker'
 import Index from '@/components/modal'
 import style from '@/screens/GameCreating/style'
+import SearchAddresses from '@/screens/Map/SearchAddresses'
+import { createTeam } from '@/store/Slices/TeamSlice'
+import { useSelector } from 'react-redux'
 
-const CreateTeamTitle = () => {
+const CreateTeamTitle = props => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
-  const [teamAddress, setTeamAddress] = useState('')
-  const [errorText, setErrorText] = useState(false)
-  const setToastMsg = (msg) => {
-    ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+
+  const [addressName, setAddressName] = useState('')
+  const response = props?.route?.params?.response
+  const { token } = useSelector(({ auth }) => auth)
+  const formdata = new FormData()
+  useEffect(() => {
+    setAddressName(response)
+  }, [response])
+  const handleCreate = () => {
+    if (addressName && teamName) {
+      formdata.append('name', teamName)
+      formdata.append('address_name', addressName?.address_name)
+      formdata.append('latitude', addressName.lat)
+      formdata.append('longitude', addressName.lng)
+      formdata.append('image', {
+        name: avatar?.assets?.[0].fileName,
+        type: avatar?.assets?.[0].type,
+        uri: avatar?.assets?.[0].uri,
+      })
+
+      createTeam(formdata, token)
+      // setModalVisible(true),
+    }
   }
 
-  const uploadImageHandle = () => {
-    let options = {
+  // const setToastMsg = msg => {
+  //   ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
+  // }
+
+  const uploadImageHandle = async () => {
+    const result = await launchImageLibrary({
       mediaType: 'photo',
       quality: 1,
-      includeBase64: false,
-    }
-    launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        setToastMsg('Cancelled image selection')
-      } else if (response.errorCode === 'permission') {
-        setToastMsg('permission not satsified')
-      } else if (response.errorCode === 'others') {
-        setToastMsg(response.errorMessage)
-      } else if (response.assets[0].fileSize > 2097152) {
-        Alert.alert('Maximum image size exceeded', 'Please choose image under 1 MB', [
-          { text: 'Ok' },
-        ])
-      } else {
-        setAvatar(response.assets[0])
-      }
+      includeBase64: true,
     })
+    setAvatar(result)
   }
 
   return (
     <ScreenMask>
       <View style={{ height: '100%' }}>
         <View style={styles.inputsView}>
-          <View style={styles.inputBlock}>
-            <TextInput
-              placeholder={'Название команды'}
-              placeholderTextColor={ICON}
-              style={styles.inputs}
-              onChangeText={(value) => setTeamName(value)}
-            />
-            {!teamName && errorText ? (
-              <Text style={style.errorText}>Обязательное поле для заполнения</Text>
-            ) : null}
+          <View style={styles.colBox}>
+            <View style={styles.inputBlock}>
+              <TextInput
+                placeholder={'Название команды'}
+                placeholderTextColor={ICON}
+                maxLength={30}
+                style={styles.inputs}
+                onChangeText={value => setTeamName(value)}
+              />
+            </View>
+            {!teamName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
           </View>
-          <View style={styles.inputBlock}>
-            <TextInput
-              placeholder={'Адрес нахождения команды'}
-              style={styles.inputs}
-              placeholderTextColor={ICON}
-              onChangeText={(value) => setTeamAddress(value)}
-            />
-            {!teamAddress && errorText ? (
-              <Text style={style.errorText}>Обязательное поле для заполнения</Text>
-            ) : null}
+          <View style={styles.colBox}>
+            <View style={styles.inputBlock}>
+              <SearchAddresses setAddressName={setAddressName} />
+            </View>
+            {!addressName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
           </View>
         </View>
-        <TouchableOpacity style={styles.downloadingImg} onPress={uploadImageHandle}>
-          <DownloadingIcon />
+        <View style={styles.uploadBox}>
+          <TouchableOpacity style={styles.downloadingImg} onPress={uploadImageHandle}>
+            {!avatar?.assets?.[0].uri ? (
+              <View style={{ transform: [{ rotate: '180deg' }] }}>
+                <DownloadingIcon />
+              </View>
+            ) : (
+              <View style={styles.imgBox}>
+                <Image
+                  source={{ uri: avatar?.assets?.[0].uri }}
+                  resizeMode={'cover'}
+                  style={styles.img}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
           <View>
             <Text style={styles.downloadingIcon}>Загрузите логотип команды</Text>
             <Text style={styles.noMore}>Не более 1МБ, 240x240px</Text>
           </View>
-        </TouchableOpacity>
-        <Text style={styles.fileName}>{avatar.fileName}</Text>
+        </View>
+        <Text style={styles.fileName}>{avatar?.assets?.[0].fileName}</Text>
       </View>
       <View style={styles.nextBtn}>
-        <LightButton
-          label={'Готово'}
-          size={{ width: 144, height: 36 }}
-          onPress={() => {
-            if (teamName && teamAddress) {
-              setModalVisible(true)
-            } else {
-              setErrorText(true)
-            }
-          }}
-        />
+        <LightButton label={'Готово'} size={{ width: 144, height: 36 }} onPress={handleCreate} />
       </View>
       <Index
         item={
@@ -123,27 +136,45 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: RH(60),
   },
+  colBox: {
+    flexDirection: 'column',
+  },
+  uploadBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '90%',
+    alignItems: 'center',
+  },
+  imgBox: { width: RW(85), height: RH(85) },
+  img: {
+    width: '100%',
+    height: '100%',
+    borderRadius: RW(44),
+    marginHorizontal: RW(20),
+  },
   inputs: {
-    borderWidth: RW(0),
-    backgroundColor: BACKGROUND,
-    borderRadius: RW(10),
-    padding: RW(12),
     color: ICON,
-    width: RW(375),
-    height: RH(48),
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    ...font('regular', 16, 'rgba(101, 122, 197, 1)', 19),
+    width: '80%',
+    marginLeft: RW(20),
+    fontSize: RW(16),
   },
   inputBlock: {
-    width: '100%',
-    marginBottom: RH(20),
+    backgroundColor: BACKGROUND,
+    width: RW(380),
+    height: RH(50),
+    alignSelf: 'center',
+    flexDirection: 'row',
+    // top: RH(32),
+    zIndex: 89,
+    borderRadius: RW(10),
+    margin: RH(10),
+    alignItems: 'center',
   },
   downloadingImg: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingTop: RH(31),
+    paddingTop: RH(15),
   },
   downloadingIcon: {
     ...font('inter', 16, RADIO_TEXT, 19),
@@ -176,4 +207,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 })
-export default CreateTeamTitle
+export default memo(CreateTeamTitle)

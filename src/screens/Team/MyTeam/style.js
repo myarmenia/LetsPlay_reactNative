@@ -18,6 +18,20 @@ export default StyleSheet.create({
     ...font('bold', 20, WHITE),
     marginVertical: RH(15),
   },
+  modalContainer: {
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    alignSelf: 'center',
+    width: RW(306),
+    height: RH(191),
+    padding: RW(35),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  modalText: {
+    ...font('bold', 17, WHITE),
+    textAlign: 'center',
+  },
   homeBlock: {
     width: RW(395),
     height: RH(111),
@@ -52,8 +66,13 @@ export default StyleSheet.create({
   text: {
     marginVertical: RH(3),
     ...font('bold', 14, WHITE),
+    flexGrow: 1,
+    flexWrap: 'nowrap',
+    // margin: RH(25),
+    width: '74%',
   },
   textBlock: {
+    width: '100%',
     marginLeft: RW(15),
   },
 })
