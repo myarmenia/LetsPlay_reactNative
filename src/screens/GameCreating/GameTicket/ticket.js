@@ -6,7 +6,6 @@ import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 
 function Ticket({ game, initialState, name }) {
-  console.log('initialState', initialState)
   return (
     <View style={{}}>
       <View style={style.ticketImgBlock}>

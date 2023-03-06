@@ -1,6 +1,6 @@
 import AudioRecorderPlayer from 'react-native-audio-recorder-player'
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Row from '@/components/wrappers/row'
 import { font, RH, RW, shadow } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON } from '@/theme/colors'
@@ -60,6 +60,12 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
     dispatch(setPausedMessageId(null))
   }
 
+  useEffect(() => {
+    if (playMessageId == 'stop') {
+      console.log('useEffect stop')
+      onStopPlay()
+    }
+  }, [playMessageId])
   return (
     <Row wrapper={styles.container}>
       {playMessageId == 'input' && pausedMessageId != 'input' ? (

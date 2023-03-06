@@ -16,7 +16,6 @@ function Index() {
       <Text style={style.title}>Результат поиска</Text>
       <ScrollView>
         {findedTeam?.map((item, i) => {
-          console.log('findedTeam', item)
           return (
             <TouchableOpacity
               key={item?._id || Math.random()}

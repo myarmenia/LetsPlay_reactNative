@@ -32,7 +32,11 @@ const Message = ({ item, id, myMessage }) => {
 
   return (
     <>
-      {item.type == 'text' ? (
+      {item?.link || item?.file ? (
+        <View style={[styles.left, { marginTop: RH(25) }]} key={id}>
+          <MessagePlayer path={item?.link} messageId={id} />
+        </View>
+      ) : (
         <View
           key={id}
           style={[
@@ -45,11 +49,7 @@ const Message = ({ item, id, myMessage }) => {
             {item.message}
           </Text>
         </View>
-      ) : item?.link ? (
-        <View style={[styles.left, { marginTop: RH(25) }]} key={id}>
-          <MessagePlayer path={item?.link} />
-        </View>
-      ) : null}
+      )}
     </>
   )
 }

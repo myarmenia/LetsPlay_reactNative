@@ -10,11 +10,13 @@ import type {
 } from 'react-native-audio-recorder-player';
 import {
   Dimensions,
+  Linking,
   PermissionsAndroid,
   Platform,
   Pressable,
 } from 'react-native';
 import React, {Component} from 'react';
+import {PERMISSIONS, check, request} from 'react-native-permissions';
 
 import type {ReactElement} from 'react';
 import VoiceSvg from '@/assets/svgs/voiceSvg';
@@ -37,6 +39,7 @@ const screenWidth = Dimensions.get('screen').width;
 class Page extends Component<any, State> {
   private dirs = RNFetchBlob.fs.dirs;
   // private dirs = RNFetchBlob.fs.dirs;
+
   private path = Platform.select({
     ios: undefined,
     android: undefined,
@@ -75,54 +78,69 @@ class Page extends Component<any, State> {
     if (!playWidth) {
       playWidth = 0;
     }
-
     return (
             <Pressable
-              style={[{ width: 35, height: 35, justifyContent: "center", alignItems: "center", borderRadius: 18},this.state.played ? {backgroundColor: "rgba(255, 255, 255, 0.2)"} : {}]}
-              onPressIn={() => {
-                this.props.onStartSpeak()
-                this.onStartRecord()
-              }}
-              onPressOut={this.onStopRecord}>
-              <VoiceSvg/>
-            </Pressable>
 
+              style={[{ width: 35, height: 35, justifyContent: "center", alignItems: "center", borderRadius: 18},this.state.played ? {backgroundColor: "rgba(255, 255, 255, 0.2)"} : {}]}
+              onPressIn={() => { 
+                  this.onStartRecord()
+                }}
+              onPressOut={this.onStopRecord}>
+                <VoiceSvg/>
+            </Pressable>
     );
   }
 
 
   private onStartRecord = async (): Promise<void> => {
+
     if (Platform.OS === 'android') {
-      try {
-        const grants = await PermissionsAndroid.requestMultiple([
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-        ]);
 
-        console.log('write external stroage', grants);
 
-        if (
-          grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
-            PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.READ_EXTERNAL_STORAGE'] ===
-            PermissionsAndroid.RESULTS.GRANTED &&
-          grants['android.permission.RECORD_AUDIO'] ===
-            PermissionsAndroid.RESULTS.GRANTED
-        ) {
-          console.log('permissions granted');
+      const WRITE_EXTERNAL_STORAGE_PERMISSION = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+      const READ_EXTERNAL_STORAGE_PERMISSION = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
+      const RECORD_AUDIO_PERMISSION = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO);
+
+      if(!WRITE_EXTERNAL_STORAGE_PERMISSION || !READ_EXTERNAL_STORAGE_PERMISSION || !RECORD_AUDIO_PERMISSION) {
+            const grants = await PermissionsAndroid.requestMultiple([
+              PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+              PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+              PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+            ]);
+            try {    
+              if (
+                grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+                  PermissionsAndroid.RESULTS.GRANTED &&
+                grants['android.permission.READ_EXTERNAL_STORAGE'] ===
+                  PermissionsAndroid.RESULTS.GRANTED &&
+                grants['android.permission.RECORD_AUDIO'] ===
+                  PermissionsAndroid.RESULTS.GRANTED
+              ) {
+                console.log('permissions granted');
+              } else {
+                console.log('All required permissions not granted');
+              }
+            } catch (err) {
+              console.warn("err", err);
+            }
+            return;
+      }
+    } else {
+      const IOS_GRANTED = await check(PERMISSIONS.IOS.MICROPHONE)
+      console.log(IOS_GRANTED)
+      if(IOS_GRANTED !== "granted") {
+        if(IOS_GRANTED == "blocked") {
+          Linking.openURL('app-settings:')
         } else {
-          console.log('All required permissions not granted');
-
-          return;
+          await request(PERMISSIONS.IOS.MICROPHONE)
         }
-      } catch (err) {
-        console.warn(err);
-
         return;
       }
     }
 
+    
+
+  
     const audioSet: AudioSet = {
       AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
       AudioSourceAndroid: AudioSourceAndroidType.MIC,
@@ -131,35 +149,26 @@ class Page extends Component<any, State> {
       AVFormatIDKeyIOS: AVEncodingOption.aac,
       OutputFormatAndroid: OutputFormatAndroidType.AAC_ADTS,
     };
+  
+    this.setState({played: true})
+    this.props.onStartSpeak()
 
-
+    
     const uri = await this.audioRecorderPlayer.startRecorder(
       this.path,
       audioSet,
     );
 
-
-    // this.audioRecorderPlayer.addRecordBackListener((e: RecordBackType) => {
-    //   // console.log('record-back', e);
-    //   this.setState({
-    //     recordSecs: e.currentPosition,
-    //     recordTime: this.audioRecorderPlayer.mmssss(
-    //       Math.floor(e.currentPosition),
-    //     ),
-    //     played: true,
-    //   });
-    // });
-    // console.log(`uri: ${uri}`);
   };
 
   private onStopRecord = async (): Promise<void> => {
-    const result = await this.audioRecorderPlayer.stopRecorder();
-    // this.audioRecorderPlayer.removeRecordBackListener();
-    // this.setState({
-    //   recordSecs: 0,
-    //   played: false
-    // });
-    this.props.voicePath(result)
+    console.log("this.state.played", this.state.played)
+    if(this.state.played) {
+      this.setState({played: false})
+      const result = await this.audioRecorderPlayer.stopRecorder();
+      this.props.voicePath(result)
+    }
+
   };
 
 }

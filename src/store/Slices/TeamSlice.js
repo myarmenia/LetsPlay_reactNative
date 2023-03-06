@@ -58,7 +58,7 @@ export const createTeam = (data, token) => {
   }
   fetch(`${IS_IOS ? 'https' : 'http'}://to-play.ru/api/team`, requestOptions)
     .then((response) => {
-      console.log(response)
+      // console.log(response)
     })
     .catch((err) => {
       console.log('err creating team', err)

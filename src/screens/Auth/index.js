@@ -13,12 +13,9 @@ import { io } from 'socket.io-client'
 import { useDispatch } from 'react-redux'
 import { vkAuth } from '@/store/Slices/AuthSlice'
 import LogoSvg from '@/assets/LogoSvg'
-const socket = io.connect(
-  Platform.OS == 'ios' ? 'https://to-play.ru/vk/authorize' : 'http://to-play.ru/vk/authorize',
-  {
-    transports: ['websocket'],
-  },
-)
+const socket = io.connect('http://to-play.ru/vk/authorize', {
+  transports: ['websocket'],
+})
 const token = () => {
   return Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2)
 }

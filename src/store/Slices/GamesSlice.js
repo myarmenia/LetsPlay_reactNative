@@ -26,37 +26,26 @@ export const GameSlice = createSlice({
   },
 })
 
-export const getGames = data => async dispatch => {
-  let defualtHeaders // =  await getDefualtHeaders()
+export const getGames = (data) => async (dispatch) => {
   axiosInstance
-    .get(`api/game/${data}`, defualtHeaders)
+    .get(`api/game/${data}`)
 
-    .then(response => {
-      // console.log('signIn response', response.data.datas)
+    .then((response) => {
       dispatch(setGames(response.data.datas))
-      //   dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request', err.request._response)
-
-      //   dispatch(
-      //     setSignInError(
-      //       typeof err.request._response == 'string'
-      //         ? JSON.parse(err.request._response).message
-      //         : err.request._response.message,
-      //     ),
-      //   )
     })
 }
-export const getGamesOnlyNames = () => async dispatch => {
+export const getGamesOnlyNames = () => async (dispatch) => {
   const defualtHeaders = await getDefualtHeaders()
   axiosInstance
     .get('api/game', defualtHeaders)
 
-    .then(response => {
+    .then((response) => {
       dispatch(
         setNames(
-          response.data.games.map(elm => {
+          response.data.games.map((elm) => {
             return {
               name: elm.name,
               checked: false,
@@ -66,7 +55,7 @@ export const getGamesOnlyNames = () => async dispatch => {
         ),
       )
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('error getting games : ', err)
     })
 }

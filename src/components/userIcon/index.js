@@ -49,7 +49,6 @@ function Index({ user, size, onPressImg }) {
           top: 8,
         }}
       >
-        {console.log(avatar)}
         <Image
           style={[
             { ...style.image, borderRadius: size / RW(3), top: size < 40 ? '-50%' : 0 },
