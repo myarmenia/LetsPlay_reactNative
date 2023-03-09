@@ -1,6 +1,6 @@
 import AudioRecorderPlayer from 'react-native-audio-recorder-player'
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Row from '@/components/wrappers/row'
 import { font, RH, RW, shadow } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON } from '@/theme/colors'
@@ -21,6 +21,7 @@ const MessagePlayer = (props) => {
   const [playWidth, setPlayWidth] = useState(0)
 
   const dispatch = useDispatch()
+  const VideoRef = useRef()
   const { playMessageId, pausedMessageId } = useSelector(({ chats }) => chats)
 
   const onStartPlay = async () => {
@@ -31,12 +32,11 @@ const MessagePlayer = (props) => {
       await audioRecorderPlayer.stopPlayer()
       dispatch(setPlayMessageId(messageId))
       await audioRecorderPlayer.startPlayer(_storageUrl + path)
-
       try {
         audioRecorderPlayer.addPlayBackListener(async (e) => {
           setPlayTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)))
           setDuration(audioRecorderPlayer.mmssss(Math.floor(e.duration)))
-          setPlayWidth((e.currentPosition / e.duration) * (screenWidth - 176))
+          setPlayWidth((e.currentPosition / e.duration) * (screenWidth - 180))
           if (e.currentPosition == e.duration) {
             audioRecorderPlayer.removePlayBackListener()
             dispatch(setPlayMessageId(null))
@@ -83,7 +83,8 @@ const MessagePlayer = (props) => {
           </View>
         </Pressable>
         <Text style={styles.txtCounter}>
-          {playMessageId == messageId ? `${playTime} / ${duration}` : '00:00:00 / 00:00:00'}
+          {/* {playMessageId == messageId ? `${playTime} / ${duration}` : '00:00:00 / 00:00:00'} */}
+          {`${playMessageId == messageId ? playTime : '00:00:00'} / ${duration}`}
         </Text>
       </View>
     </Row>

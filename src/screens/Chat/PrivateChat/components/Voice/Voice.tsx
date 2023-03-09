@@ -78,6 +78,9 @@ class Page extends Component<any, State> {
     if (!playWidth) {
       playWidth = 0;
     }
+
+
+
     return (
             <Pressable
 
@@ -95,8 +98,6 @@ class Page extends Component<any, State> {
   private onStartRecord = async (): Promise<void> => {
 
     if (Platform.OS === 'android') {
-
-
       const WRITE_EXTERNAL_STORAGE_PERMISSION = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
       const READ_EXTERNAL_STORAGE_PERMISSION = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
       const RECORD_AUDIO_PERMISSION = await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO);
@@ -127,7 +128,7 @@ class Page extends Component<any, State> {
       }
     } else {
       const IOS_GRANTED = await check(PERMISSIONS.IOS.MICROPHONE)
-      console.log(IOS_GRANTED)
+
       if(IOS_GRANTED !== "granted") {
         if(IOS_GRANTED == "blocked") {
           Linking.openURL('app-settings:')
@@ -158,15 +159,22 @@ class Page extends Component<any, State> {
       this.path,
       audioSet,
     );
-
+    
   };
 
   private onStopRecord = async (): Promise<void> => {
-    console.log("this.state.played", this.state.played)
     if(this.state.played) {
+
       this.setState({played: false})
       const result = await this.audioRecorderPlayer.stopRecorder();
       this.props.voicePath(result)
+
+
+      // console.log(result)
+      // this.props.setVoiceDurection(result)
+      // this.audioRecorderPlayer.removeRecordBackListener()
+
+
     }
 
   };

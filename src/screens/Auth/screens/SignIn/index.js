@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import {
   KeyboardAvoidingView,
   Platform,
@@ -17,7 +17,6 @@ import {
   forgitPassword,
   forgitPassword3,
   setSignInStep,
-  setToken,
   signIn,
   signIn2,
 } from '@/store/Slices/AuthSlice'
@@ -43,11 +42,9 @@ const SignIn = (props) => {
 
   const handlerMessage = (message) => {
     setMessagesList((messagesList) => [...messagesList, message])
-    // FlatListRef.current.scrollToEnd()
   }
 
   const nextStape = async () => {
-    // dispatch(setToken(1234567))
     switch (signInStep) {
       case 'EMAIL':
         if (regEmail.test(text)) {
@@ -106,6 +103,8 @@ const SignIn = (props) => {
     }
   }, [signInStep])
 
+  const memoRenderItem = ({ item, index }) => <Message message={item} id={index} />
+
   useEffect(() => {
     if (signInError?.length) {
       if (signInError == 'Нет такой электронной почты') {
@@ -145,8 +144,13 @@ const SignIn = (props) => {
   useEffect(() => {
     return () => {
       dispatch(setSignInStep('EMAIL'))
+      setMessagesList([messageDefault.hello, messageDefault.email])
     }
   }, [])
+  useEffect(() => {
+    scrollViewRef.current.scrollToOffset({ animated: true, offset: 0 })
+  }, [messagesList?.length])
+
   return (
     <ScreenMask>
       <KeyboardAvoidingView
@@ -159,18 +163,20 @@ const SignIn = (props) => {
             }
           : {})}
       >
-        <ScrollView
+        <FlatList
+          data={[...messagesList].reverse()}
           style={{
-            marginBottom: 20,
+            marginBottom: RH(25),
           }}
+          inverted
+          refreshing
+          initialNumToRender={4}
+          removeClippedSubviews
           showsVerticalScrollIndicator={false}
           ref={scrollViewRef}
-          onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
-        >
-          {messagesList?.map((item) => (
-            <Message message={item} id={messagesList.length} />
-          ))}
-        </ScrollView>
+          renderItem={memoRenderItem}
+          keyExtractor={(_, index) => `post-${index}`}
+        />
         <View style={styles.bottom}>
           {forgetPassword ? (
             <Row wrapper={styles.btnsContainer}>

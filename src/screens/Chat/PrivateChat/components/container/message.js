@@ -34,7 +34,7 @@ const Message = ({ item, id, myMessage }) => {
     <>
       {item?.link || item?.file ? (
         <View style={[styles.left, { marginTop: RH(25) }]} key={id}>
-          <MessagePlayer path={item?.link} messageId={id} />
+          <MessagePlayer path={item?.file?.path} messageId={id} />
         </View>
       ) : (
         <View
@@ -45,7 +45,7 @@ const Message = ({ item, id, myMessage }) => {
             { backgroundColor: MESSAGE_CONTAINER, marginTop: RH(25) },
           ]}
         >
-          <Text style={[styles.label]} secureTextEntry={true}>
+          <Text style={styles.label} secureTextEntry={true}>
             {item.message}
           </Text>
         </View>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0,
   },
   label: {
-    ...font('regular', 16, WHITE, 20),
+    ...font('regular', 16, WHITE),
     flexWrap: 'wrap',
   },
 })

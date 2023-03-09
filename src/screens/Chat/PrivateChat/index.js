@@ -12,11 +12,11 @@ import { IS_IOS } from '@/constants'
 import { setPausedMessageId, setPlayMessageId } from '../../../store/Slices/ChatsSlice'
 
 function Index(props) {
-  const chats = useSelector(({ chats }) => chats.chats) || []
   const [messageState, setMessageState] = useState([])
   const [voiceMessage, setVoiceMessage] = React.useState('')
 
   const { user, token } = useSelector(({ auth }) => auth)
+  const { duration, chats } = useSelector(({ chats }) => chats)
   const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
@@ -57,12 +57,10 @@ function Index(props) {
         method: 'POST',
         headers: myHeaders,
         body: formdata,
-        // redirect: 'follow',
       }
 
       fetch(`${IS_IOS ? 'https' : 'http'}://to-play.ru/api/create/game/chat/`, requestOptions)
         .then((result) => {
-          // console.log('fetch result', result)
           setVoiceMessage(null)
         })
         .catch((error) => console.log('error', error))
@@ -75,13 +73,12 @@ function Index(props) {
       )
     }
   }
-  const memoGetChats = useCallback(() => {}, [gameID])
   const memoSocketFunc = (message) => {
     console.log('message', message)
     if (message.file || message.message) {
       setMessageState((lastState) => {
-        if (!lastState.find((item) => item?.id == message?.id)) {
-          return lastState.concat(message)
+        if (!lastState?.find((item) => item?.id == message?.id)) {
+          return lastState?.concat(message)
         } else {
           return lastState
         }
