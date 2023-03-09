@@ -15,8 +15,6 @@ import style from './style'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   createGame,
-  setEnd_Date,
-  setStart_date,
   setGame,
   setGameCreatedSuccessful,
   setOrganizer_in_the_game,
@@ -25,12 +23,12 @@ import {
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 
-const GameCreating = props => {
+const GameCreating = (props) => {
   const { game, response } = props.route?.params?.params
   const navigation = useNavigation()
 
   //states
-  const initialState = useSelector(state => state.game)
+  const initialState = useSelector((state) => state.game)
 
   const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
@@ -137,8 +135,8 @@ const GameCreating = props => {
             }}
             dateValue={startDate.date}
             timeValue={startDate.time}
-            setDate={date => setStartDate({ ...startDate, date })}
-            setTime={time => setStartDate({ ...startDate, time })}
+            setDate={(date) => setStartDate({ ...startDate, date })}
+            setTime={(time) => setStartDate({ ...startDate, time })}
           />
           {/* {!initialState?.start_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
@@ -163,9 +161,9 @@ const GameCreating = props => {
           ) : null}
 
           <RadioBlock
-            onChange={list => {
+            onChange={(list) => {
               setGenderList(list)
-              dispatch(setPlayers_gender(list.find(e => e.checked).label))
+              dispatch(setPlayers_gender(list.find((e) => e.checked).label))
             }}
             title="Половой признак игрока"
             list={genderList}
@@ -185,8 +183,8 @@ const GameCreating = props => {
             }}
             dateValue={endDate.date}
             timeValue={endDate.time}
-            setDate={date => setEndDate({ ...endDate, date })}
-            setTime={time => setEndDate({ ...endDate, time })}
+            setDate={(date) => setEndDate({ ...endDate, date })}
+            setTime={(time) => setEndDate({ ...endDate, time })}
           />
           {/* {!initialState?.end_date ? (
             <Text style={style.errorText}>Обязательное поле для заполнения</Text>
@@ -194,9 +192,9 @@ const GameCreating = props => {
             <Text style={style.errorText}>Введите корректную дату</Text>
           ) : null} */}
           <RadioBlock
-            onChange={list => {
+            onChange={(list) => {
               setOrganizer_in_the_gameState(list)
-              dispatch(setOrganizer_in_the_game(list.find(e => e.text == 'Участвует').checked))
+              dispatch(setOrganizer_in_the_game(list.find((e) => e.text == 'Участвует').checked))
             }}
             title="Статус организатора в игре"
             list={organizer_in_the_game}
@@ -204,9 +202,9 @@ const GameCreating = props => {
           />
 
           <RadioBlock
-            onChange={list => {
+            onChange={(list) => {
               setPriceList(list)
-              list.find(e => e.checked).text == 'Платно' ? setFlag(true) : setFlag(false)
+              list.find((e) => e.checked).text == 'Платно' ? setFlag(true) : setFlag(false)
             }}
             title="Стоимость входного билета на игру"
             list={priceList}

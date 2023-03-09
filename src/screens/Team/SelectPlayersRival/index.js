@@ -8,7 +8,7 @@ import { Players } from '@/assets/TestData'
 import User from '@/assets/imgs/user/user'
 import Button from '@/assets/imgs/Button'
 import ModalStartItem from '@/screens/Team/SelectPlayersRival/ModalStartItem'
-import PlayerList from '@/components/playerList'
+import PlayerList from '@/screens/Mafia/PlayNow/componnets/PlayerList'
 import { RH } from '@/theme/utils'
 
 function Index({ route, navigation }) {
@@ -31,31 +31,43 @@ function Index({ route, navigation }) {
   //     }
   // }, [modal])
 
+  return (
+    <ScreenMask>
+      <View>
+        <Text style={styles.title}>ФК “Динамо”</Text>
+      </View>
 
-    return (
-        <ScreenMask>
-            <View>
-                <Text style={styles.title}>ФК “Динамо”</Text>
-            </View>
-
-            <PlayerList players={Players} isSelected={true} setActivePlayers={setActiveUser}
-                        activePlayers={activeUser}/>
-            <View style={styles.btn}>
-                <Button
-                    onPress={() => navigation.navigate('Home')}
-                    size={{width: 281, height: 48}}
-                    label={'Подтвердить'}/>
-                <View style={{marginTop: RH(21)}}>
-                    {data.game.scheme? <Button
-                        onPress={() => navigation.navigate('Scheme' , {team , data: data.game})}
-                        size={{width: 281, height: 48}}
-                        label={'Схема игры'}/> : null}
-                </View>
-            </View>
-            {/*<Modal modalClose={setModal} modalVisible={modal} setIsVisible={setModal} item={<ModalItem/>}/>*/}
-            <Modal setIsVisible={setModalStart} modalVisible={modalStart} modalClose={false} item={<ModalStartItem/>}/>
-        </ScreenMask>
-    );
+      <PlayerList
+        players={Players}
+        isSelected={true}
+        setActivePlayers={setActiveUser}
+        activePlayers={activeUser}
+      />
+      <View style={styles.btn}>
+        <Button
+          onPress={() => navigation.navigate('Home')}
+          size={{ width: 281, height: 48 }}
+          label={'Подтвердить'}
+        />
+        <View style={{ marginTop: RH(21) }}>
+          {data.game.scheme ? (
+            <Button
+              onPress={() => navigation.navigate('Scheme', { team, data: data.game })}
+              size={{ width: 281, height: 48 }}
+              label={'Схема игры'}
+            />
+          ) : null}
+        </View>
+      </View>
+      {/*<Modal modalClose={setModal} modalVisible={modal} setIsVisible={setModal} item={<ModalItem/>}/>*/}
+      <Modal
+        setIsVisible={setModalStart}
+        modalVisible={modalStart}
+        modalClose={false}
+        item={<ModalStartItem />}
+      />
+    </ScreenMask>
+  )
 }
 
 export default Index

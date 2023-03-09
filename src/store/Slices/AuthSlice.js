@@ -325,7 +325,6 @@ export const vkAuth = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/vk', data)
     .then((response) => {
-      // console.log('response.data.user', response.data.user)
       dispatch(setUser(response.data?.user))
       dispatch(setToken(response.data?.token))
       addAsyncStorage('token', response.data?.token)

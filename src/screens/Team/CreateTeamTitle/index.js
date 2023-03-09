@@ -45,7 +45,7 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 
-const CreateTeamTitle = props => {
+const CreateTeamTitle = (props) => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
@@ -110,7 +110,7 @@ const CreateTeamTitle = props => {
                 placeholderTextColor={ICON}
                 maxLength={30}
                 style={styles.inputs}
-                onChangeText={value => setTeamName(value)}
+                onChangeText={(value) => setTeamName(value)}
               />
             </View>
             {!teamName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}

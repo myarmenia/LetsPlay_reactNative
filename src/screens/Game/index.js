@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Type from '@/assets/imgs/type'
+import TypeButton from './components/TypeButton'
 
 const TYPES = [
   {
@@ -10,7 +10,7 @@ const TYPES = [
   },
   {
     title: 'Команда',
-    navigateTo: 'Team',
+    navigateTo: 'TeamNavigator',
   },
   {
     title: 'Турнир',
@@ -24,10 +24,12 @@ const GameSelectScreen = ({ navigation }) => {
       <View style={styles.container}>
         {TYPES.map((type) => {
           return (
-            <Type
+            <TypeButton
               title={type.title}
               key={type.title}
-              onPress={() => navigation.navigate(type.navigateTo)}
+              onPress={() =>
+                type.navigateTo != 'Tournament' ? navigation.navigate(type.navigateTo) : {}
+              }
             />
           )
         })}

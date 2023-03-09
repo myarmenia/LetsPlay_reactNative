@@ -1,15 +1,14 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
-function CloseSvg(props) {
+function CloseSvg({ width = 17, height = 16 }) {
   return (
     <Svg
-      width={17}
-      height={16}
+      width={width}
+      height={height}
       viewBox="0 0 17 16"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
     >
       <Path
         d="M1.42 1.006l14 14M15.42 1.006l-14 14"

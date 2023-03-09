@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
-import Modal from '@/components/modal'
-import ScreenMask from '@/components/wrappers/screen'
-import QrTest from '@/assets/imgs/qrTest.jpg'
-import Button from '@/assets/imgs/Button'
-import styles from '@/screens/Elias/DifficultyLevel/styles'
+// import styles from '@/screens/Elias/DifficultyLevel/styles'
 import LinearGradient from 'react-native-linear-gradient'
 
 function Index({ navigation, levels, selectLevel, setSelectLevel }) {

@@ -1,39 +1,28 @@
 import { ICON } from '@/theme/colors'
-import Play from '@/screens/Game/Play'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CircleButton from '@/components/buttons/circle'
 import TabBarButton from '@/components/buttons/tabs'
 import { NAV_HEADER_OPTION } from '@/constants'
+
+// TAB SCREENS
 import ProfileScreen from '@/screens/Profile'
-import GameSelectScreen from '@/screens/Game'
-import ChatScreen from '@/screens/Chat'
+import ChatScreen from '@/screens/ChatScreens/Chats'
 import HomeScreen from '@/screens/Home'
-import Elias from './EliasNavigator'
-import GameCreating from '@/screens/GameCreating'
-import GameTicket from '@/screens/GameCreating/GameTicket'
 import NotificationScreen from '@/screens/Notification'
-import PrivateChat from '@/screens/Chat/PrivateChat'
-import TeamNavigator from '@/navigation/TeamNavigator'
-import MafiaGame from '@/navigation/MafiaNavigation'
-import GamesList from '@/screens/Game/gamesList/gamesList'
-import GameItem from '@/screens/Game/gamesList/gameItem'
-import Tournament from './TournamentNavigator'
-import ProfileNavigator from '@/navigation/ProfileNavigator'
-import Calendar from '@/screens/Calendar'
-import GamesListCarousel from '@/screens/GameListCarousel'
-import CalendarNavigator from '@/navigation/CalendarNavigator'
-import TourParticipantNavigator from '@/navigation/TourParticipantNavigator'
-import NavigationSearchTeams from '@/navigation/NavigationSearchTeams'
-import CrocodileNavigator from '@/navigation/CrocodileNavigator'
-import Map from '@/screens/Map/Map'
-import CreateTeamTitle from '@/screens/Team/CreateTeamTitle'
-import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
-import Index from '@/screens/Team/MyTeamInfo'
-import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
+import GameSelectScreen from '@/screens/Game'
+//TAB SCREENS END
+// SCREENS
+import Play from '@/screens/Game/Play'
+import CreateGameNavigator from './CreateGameNavigator'
+import MafiaNavigation from './MafiaNavigation'
 import JoinGame from '@/screens/Game/JoinGame/JoinGame'
-import ChooseGameType from '@/screens/GameCreating/ChooseGameType/ChooseGameType'
+import TeamNavigator from '@/navigation/TeamNavigator'
+import PrivateChat from '@/screens/ChatScreens/PrivateChat'
+import ProfileNavigator from '@/navigation/ProfileNavigator'
+import GameList from '@/screens/Game/GameList'
+// SCREENS END
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -45,7 +34,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -57,10 +46,9 @@ const TabNavigator = () => {
       >
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Chat'} component={ChatScreen} />
-        <Tab.Screen name={'Map'} component={Map} />
+        <Tab.Screen name={'Game'} component={GameSelectScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
         <Tab.Screen name={'Notification'} component={NotificationScreen} />
-        <Tab.Screen name={'GameListCarousel'} component={GamesListCarousel} />
       </Tab.Navigator>
       <CircleButton isHome={isHome} setIsHome={setIsHome} />
     </>
@@ -72,30 +60,15 @@ const AppNavigator = () => {
     <>
       <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
         <Stack.Screen name={'TabNavigator'} component={TabNavigator} />
-        <Stack.Screen name={'Game'} component={GameSelectScreen} />
-        <Stack.Screen name={'GameList'} component={GamesList} />
-        <Stack.Screen name={'GameItem'} component={GameItem} />
+        <Stack.Screen name={'HomeScreen'} component={HomeScreen} />
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'JoinGame'} component={JoinGame} />
-        <Stack.Screen name={'Elias'} component={Elias} />
-        <Stack.Screen name={'Team'} component={TeamNavigator} />
-        <Stack.Screen name={'GameCreating'} component={GameCreating} />
-        <Stack.Screen name={'ChooseGameType'} component={ChooseGameType} />
-        <Stack.Screen name={'GameTicket'} component={GameTicket} />
-        <Stack.Screen name={'PrivateChat'} component={PrivateChat} />
-        <Stack.Screen name={'Crocodile'} component={CrocodileNavigator} />
-        <Stack.Screen name={'CreateTeamTitle'} component={CreateTeamTitle} />
-        <Stack.Screen name={'EditTeamInfo'} component={EditTeamInfo} />
-        <Stack.Screen name={'MyTeamInfo'} component={Index} />
-        <Stack.Screen name={'TeamMembers'} component={TeamMembers} />
-        <Stack.Screen name={'Mafia'} component={MafiaGame} />
+        <Stack.Screen name={'CreateGameNavigator'} component={CreateGameNavigator} />
+        <Stack.Screen name={'MafiaNavigation'} component={MafiaNavigation} />
+        <Stack.Screen name={'TeamNavigator'} component={TeamNavigator} />
         <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator} />
-        <Stack.Screen name={'Calendar'} component={Calendar} />
-        <Stack.Screen name={'Tournament'} component={Tournament} />
-        <Stack.Screen name={'CalendarNavigator'} component={CalendarNavigator} />
-        <Stack.Screen name={'TourParticipantNavigator'} component={TourParticipantNavigator} />
-        <Stack.Screen name={'NavigationSearchTeams'} component={NavigationSearchTeams} />
-        <Stack.Screen name={'Notification'} component={NotificationScreen} />
+        <Stack.Screen name={'PrivateChat'} component={PrivateChat} />
+        <Stack.Screen name={'GameList'} component={GameList} />
       </Stack.Navigator>
     </>
   )

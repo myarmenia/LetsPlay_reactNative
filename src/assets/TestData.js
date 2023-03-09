@@ -7,7 +7,7 @@ import Pioneerball from '@/assets/imgs/games/Pioneerball.png'
 import Hokey from '@/assets/imgs/games/Hokey.png'
 import Quest from '@/assets/imgs/games/Quest.png'
 import MyownGame from '@/assets/imgs/games/MyownGame.png'
-import Elias from '@/assets/imgs/games/Elias.png'
+// import Elias from '@/assets/imgs/games/Elias.png'
 import Poker from '@/assets/imgs/games/poker.png'
 import Monopoly from '@/assets/imgs/games/monopolia.png'
 import Crocodile from '@/assets/imgs/games/krokodil.png'
@@ -26,7 +26,7 @@ export const BoardGames = [
     // id:'',
     gadget: true,
     title: 'Элиас',
-    image: Elias,
+    // image: Elias,
     navigateTo: 'Elias',
     scheme: false,
     info:

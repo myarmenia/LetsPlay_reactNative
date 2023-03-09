@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
-import Input from '@/screens/Chat/PrivateChat/components/Input'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/assets/imgs/Button'
 
@@ -14,12 +13,13 @@ const EditTeamInfo = ({ route }) => {
   const [addresName, setAddressName] = useState('')
   const [name, setName] = useState('')
   const navigation = useNavigation()
+
   //command is initial coming state from navigation and from map after changing location
   return (
     <ScreenMask>
       <View style={styles.row}>
         <Image source={{ uri: _storageUrl + command?.img }} resizeMode="cover" style={styles.img} />
-        <TextInput style={styles.input} value={command?.name} onChangeText={e => setName(e)} />
+        <TextInput style={styles.input} value={command?.name} onChangeText={(e) => setName(e)} />
       </View>
       <View style={styles.colBox}>
         <Text style={styles.text}>Адрес нахождения команды:</Text>
@@ -29,7 +29,6 @@ const EditTeamInfo = ({ route }) => {
           command={command}
           show={true}
         />
-        <Text style={styles.text}>{addresName}</Text>
       </View>
       <View style={styles.bottomBox}>
         <LightButton

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { BLACK } from '@/theme/colors'
 import { font } from '@/theme/utils'
@@ -12,6 +12,7 @@ import style from './style'
 function Index({ route }) {
   const command = route.params
   const navigation = useNavigation()
+
   return (
     <ScreenMask>
       <View style={style.rowBox}>
@@ -42,7 +43,7 @@ function Index({ route }) {
           />
         </View>
         <Button
-          onPress={() => navigation.navigate('commandSelectGameCategory', command)}
+          onPress={() => navigation.navigate('CreateGameNavigator', command)}
           size={{ width: 265, height: 48 }}
           label={'Создать игру'}
           labelStyle={font('bold', 18, BLACK)}

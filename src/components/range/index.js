@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
 import { styles } from './style'
 import Slider from '@react-native-community/slider'
-import { RH } from '@/theme/utils'
 import CircleSlide from '@/assets/imgs/CircleSlide.png'
 
 function Index({ step, minVal, maxValue, val, setVal }) {
@@ -32,14 +31,15 @@ function Index({ step, minVal, maxValue, val, setVal }) {
           marginLeft: 'auto',
           marginRight: 'auto',
         }}
-        onValueChange={ev =>
+        onValueChange={(ev) => {
           setVal(
-            Math.round(ev * 100 * p) <= steps[0]
-              ? Math.round(ev * 100 * p) / (steps[0] / minVal) + minVal
-              : Math.round(ev * 100 * p),
+            Math.floor(
+              Math.round(ev * 100 * p) <= steps[0]
+                ? Math.round(ev * 100 * p) / (steps[0] / minVal) + minVal
+                : Math.round(ev * 100 * p),
+            ),
           )
-        }
-        // value={(val/maxValue)}
+        }}
         minimumTrackTintColor="#4D7CFE"
         maximumTrackTintColor="rgba(255, 0, 0, 0.01)"
         thumbImage={CircleSlide}

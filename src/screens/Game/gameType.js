@@ -1,25 +1,21 @@
-import React, { memo, useMemo, useState } from 'react'
+import React, { memo, useEffect, useMemo, useState } from 'react'
 import { View, Text, Pressable, TouchableOpacity } from 'react-native'
 import { styles } from '@/screens/Game/Play/style'
 import ArrowDown from '@/assets/svgs/arrowDown'
 import CheckboxNotChecked from '@/assets/svgs/checkboxNotChecked'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 import CircleAdd from '@/components/buttons/circleAdd'
+import { useSelector } from 'react-redux'
 
-function GameType({ setShowGameTypes, gameTypes, setGameTypes, types, errorMessage, typesActive }) {
+function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
   const [showDropDown, setShowDropDown] = useState(false)
+  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   const [selected, setSelected] = useState('Выбрать игру')
-  const [gameKindOf, setGameKindOf] = useState('')
-  useMemo(() => {
-    if (gameKindOf === 'Активные игры') {
-      setGameTypes(typesActive)
-    }
-  }, [selected])
-  const checkElem = id => {
+  const checkElem = (elm) => {
     setGameTypes([
-      ...gameTypes.map(elem => {
-        if (elem.id === id) {
-          return { ...elem, checked: !elem.checked }
+      ...gameTypes.map((elem) => {
+        if (elem.id === elm.id) {
+          return { ...elm, checked: !elm.checked }
         } else {
           return elem
         }
@@ -30,6 +26,9 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, types, errorMessa
     { id: 1, name: 'Активные игры' },
     { id: 2, name: 'Настольные игры' },
   ]
+  useEffect(() => {
+    console.log('gameTypes', gameTypes)
+  }, [])
   return (
     <View style={styles.gameTypeContainer}>
       <Pressable
@@ -37,7 +36,7 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, types, errorMessa
         onPress={() => {
           setShowDropDown(!showDropDown)
           if (selected === 'Активные игры') {
-            setGameTypes(typesActive)
+            setSelected('Активные игры')
           }
         }}
       >
@@ -53,17 +52,17 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, types, errorMessa
         </View>
       </Pressable>
       {showDropDown
-        ? gameTypeBtns.map(elm => {
+        ? gameTypeBtns.map((elm) => {
             return (
               <Pressable
                 key={elm.id}
                 style={styles.gameTypeLastBtn}
                 onPress={() => {
-                  setGameTypes(types)
+                  // setGameTypes(types)
+                  setSelected(elm.name)
                   setShowGameTypes(showDropDown)
                   setShowDropDown(!showDropDown)
-                  setSelected(elm.name)
-                  setGameKindOf(elm.name)
+                  // setGameKindOf(elm.name)
                 }}
               >
                 <Text style={styles.gameTypeBtnText}>{elm.name}</Text>
@@ -74,18 +73,31 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, types, errorMessa
       <View>
         {selected !== 'Выбрать игру' ? (
           <>
-            {gameTypes?.map(elm => {
-              return (
-                <TouchableOpacity
-                  onPress={() => checkElem(elm.id)}
-                  style={styles.checkCheckbox}
-                  key={elm.id}
-                >
-                  {!elm.checked ? <CheckboxNotChecked /> : <CheckedCheckbox />}
-                  <Text style={styles.typeText}>{elm.name}</Text>
-                </TouchableOpacity>
-              )
-            })}
+            {selected == 'Активные игры'
+              ? gameTypes.slice(0, 7)?.map((elm) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => checkElem(elm)}
+                      style={styles.checkCheckbox}
+                      key={elm.id}
+                    >
+                      {!elm.checked ? <CheckboxNotChecked /> : <CheckedCheckbox />}
+                      <Text style={styles.typeText}>{elm.name}</Text>
+                    </TouchableOpacity>
+                  )
+                })
+              : gameTypes?.slice(7, gameTypes?.length)?.map((elm) => {
+                  return (
+                    <TouchableOpacity
+                      onPress={() => checkElem(elm)}
+                      style={styles.checkCheckbox}
+                      key={elm.id}
+                    >
+                      {!elm.checked ? <CheckboxNotChecked /> : <CheckedCheckbox />}
+                      <Text style={styles.typeText}>{elm.name}</Text>
+                    </TouchableOpacity>
+                  )
+                })}
             <View style={styles.circleAddBox}>
               <CircleAdd />
               <Text style={styles.addGameText}>Добавить игру</Text>
@@ -98,4 +110,4 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, types, errorMessa
   )
 }
 
-export default memo(GameType)
+export default GameType

@@ -14,10 +14,9 @@ import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
 import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/assets/imgs/Button'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { getMembersList } from '@/store/Slices/TeamSlice'
 import BgMyTem from '@/assets/bgMyTem'
-import User from '@/assets/imgs/user/user'
 import EachMember from './EachMember'
 const TeamMembers = ({ route }) => {
   const command = route.params
@@ -83,18 +82,18 @@ const TeamMembers = ({ route }) => {
           onChange={setList}
         />
         <TextInput
-          placeholder={list.find(e => e?.checked)?.text}
+          placeholder={list.find((e) => e?.checked)?.text}
           placeholderTextColor={ICON}
           style={styles.input}
           value
-          onChangeText={e => setValue(e)}
+          onChangeText={(e) => setValue(e)}
         />
         <View style={{ alignSelf: 'center', paddingVertical: RH(10) }}>
           <LightButton label={'Поиск'} size={{ width: RW(400), height: RH(48) }} />
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-        {members?.map(member => {
+        {members?.map((member) => {
           return (
             <TouchableOpacity style={{ width: '100%', marginVertical: RH(10) }} key={member.id}>
               <BgMyTem children={<EachMember member={member} />} />

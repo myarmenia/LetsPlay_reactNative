@@ -4,12 +4,11 @@ import style from './style'
 import ScreenMask from '@/components/wrappers/screen'
 import FirstBlock from '@/components/forms/gameCreating/firstBlock'
 import SecondBlock from '@/components/forms/gameCreating/secondBlock'
-import { font, RH, RW } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 import ThirdBlock from '@/components/forms/gameCreating/thirdBlock'
 import Map from '@/components/inputs/map'
 import Count from '@/components/inputs/count'
 import Button from '@/assets/imgs/Button'
-import { LIGHT_LABEL } from '@/theme/colors'
 
 const GameCreating = () => {
   const [flag, setFlag] = useState(true)

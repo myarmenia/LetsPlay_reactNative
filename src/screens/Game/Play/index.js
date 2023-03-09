@@ -13,7 +13,7 @@ function Index() {
         <View style={styles.btnActiveGames}>
           <LightButton
             onPress={() => {
-              navigation.navigate('ChooseGameType')
+              navigation.navigate('CreateGameNavigator')
             }}
             label={'Создать игру'}
             size={{ width: 281, height: 50 }}
