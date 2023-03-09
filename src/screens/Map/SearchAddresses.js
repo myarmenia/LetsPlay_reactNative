@@ -21,12 +21,12 @@ import { fetchAddress } from './fetchAddress'
 import { useSelector } from 'react-redux'
 import Geolocation from 'react-native-geolocation-service'
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
-const SearchAddresses = ({ game, setAddressName = () => {} }) => {
+const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '' }) => {
   const inp = useRef()
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
-  const initialState = useSelector((state) => state.game)
+  const initialState = useSelector(state => state.game)
   const checkPermissionAndNavigate = async function requestLocationPermission() {
     if (Platform.OS === 'android') {
       try {
@@ -34,7 +34,7 @@ const SearchAddresses = ({ game, setAddressName = () => {} }) => {
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         )
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          navigation.navigate('Map', { game: game })
+          navigation.navigate('Map', { game: game, navigateTo: navigateTo })
         } else {
           Alert.alert('Доступ к местоположению запрещен')
         }
@@ -44,7 +44,7 @@ const SearchAddresses = ({ game, setAddressName = () => {} }) => {
     } else {
       let geo = await Geolocation.requestAuthorization('always')
       if (geo === 'granted') {
-        navigation.navigate('Map', { game: game })
+        navigation.navigate('Map', { game: game, navigateTo: navigateTo })
       } else {
         alert('Доступ к местоположению запрещен')
       }
@@ -57,14 +57,14 @@ const SearchAddresses = ({ game, setAddressName = () => {} }) => {
   useEffect(() => {
     setState(initialState?.placeName)
   }, [initialState.placeName])
-  const makeURL = async (state) => {
+  const makeURL = async state => {
     try {
-      const res = fetchAddress(false, null, null, state).then(async (e) => {
+      const res = fetchAddress(false, null, null, state).then(async e => {
         await fetch(e.url)
-          .then((r) => {
+          .then(r => {
             return r?.json()
           })
-          .then((s) => {
+          .then(s => {
             if (s.results?.length) {
               let response = s.results[0]?.formatted_address
               setAddresses(response)
@@ -84,7 +84,13 @@ const SearchAddresses = ({ game, setAddressName = () => {} }) => {
   const chooseAddress = () => {
     setState(addresses)
     if (state.length >= 35) {
-      setState(state.split().reverse().join().substring(0, 32) + '...')
+      setState(
+        state
+          .split()
+          .reverse()
+          .join()
+          .substring(0, 32) + '...',
+      )
     }
     setAddresses(null)
   }
@@ -110,7 +116,7 @@ const SearchAddresses = ({ game, setAddressName = () => {} }) => {
           placeholder={'Адрес проведения игры'}
           placeholderTextColor={ICON}
           value={state}
-          onChangeText={(e) => {
+          onChangeText={e => {
             setState(e)
             if (state.length >= 4) {
               makeURL(state)

@@ -1,3 +1,27 @@
+// if (addressName && teamName) {
+//   formdata.append('name', teamName)
+//   formdata.append('address_name', addressName?.address_name)
+//   formdata.append('latitude', addressName.lat)
+//   formdata.append('longitude', addressName.lng)
+//   formdata.append('image', {
+//     name: avatar?.assets?.[0].fileName,
+//     type: avatar?.assets?.[0].type,
+//     uri: avatar?.assets?.[0].uri,
+//   })
+
+//   createTeam(formdata, token, setModalVisible)
+// } else {
+//   if (!addressName) {
+//     setAddressNameError(true)
+//   } else {
+//     setAddressNameError(false)
+//   }
+//   if (!teamName) {
+//     setTeamNameError(true)
+//   } else {
+//     setTeamNameError(false)
+//   }
+// }
 import React, { useState, useEffect, memo } from 'react'
 import {
   View,
@@ -25,7 +49,8 @@ const CreateTeamTitle = props => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
-
+  const [teamNameError, setTeamNameError] = useState(false)
+  const [addressNameError, setAddressNameError] = useState(false)
   const [addressName, setAddressName] = useState('')
   const response = props?.route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
@@ -47,6 +72,17 @@ const CreateTeamTitle = props => {
 
       createTeam(formdata, token)
       // setModalVisible(true),
+    } else {
+      if (!addressName) {
+        setAddressNameError(true)
+      } else {
+        setAddressNameError(false)
+      }
+      if (!teamName) {
+        setTeamNameError(true)
+      } else {
+        setTeamNameError(false)
+      }
     }
   }
 
@@ -81,7 +117,7 @@ const CreateTeamTitle = props => {
           </View>
           <View style={styles.colBox}>
             <View style={styles.inputBlock}>
-              <SearchAddresses setAddressName={setAddressName} />
+              <SearchAddresses setAddressName={setAddressName} navigateTo="CreateTeamTitle" />
             </View>
             {!addressName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
           </View>

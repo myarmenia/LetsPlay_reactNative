@@ -13,8 +13,8 @@ import Loader from '../loader/Loader'
 
 function Index({ user, size, onPressImg }) {
   const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
-  const fontSizeTitle = size / RW(55)
-  const fontSizeCount = size / RW(35)
+  const fontSizeTitle = size / RW(35)
+  const fontSizeCount = size / RW(50)
   const [loader, setLoader] = useState(true)
   const navigation = useNavigation()
   useEffect(() => {
@@ -85,15 +85,13 @@ function Index({ user, size, onPressImg }) {
         style={{
           ...style.titleBigBloc,
           marginTop: size / RH(55),
-          width: size / RH(2.75),
+          width: size / RW(2.1),
+          justifyContent: 'space-evenly',
         }}
       >
         <View
           style={{
             ...style.titleBloc,
-            width: size / RW(6),
-            height: size / RH(14),
-            marginTop: size / RH(60),
           }}
         >
           <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
@@ -104,9 +102,6 @@ function Index({ user, size, onPressImg }) {
         <View
           style={{
             ...style.titleBloc,
-            width: size / RW(6),
-            height: size / RH(14),
-            marginTop: size / RH(60),
           }}
         >
           <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
@@ -117,9 +112,6 @@ function Index({ user, size, onPressImg }) {
         <View
           style={{
             ...style.titleBloc,
-            width: size / RW(6),
-            height: size / RH(14),
-            marginTop: size / RH(60),
           }}
         >
           <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
@@ -130,9 +122,6 @@ function Index({ user, size, onPressImg }) {
         <View
           style={{
             ...style.titleBloc,
-            width: size / RW(6),
-            height: size / RH(14),
-            marginTop: size / RH(60),
           }}
         >
           <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
@@ -141,17 +130,18 @@ function Index({ user, size, onPressImg }) {
           <Text style={font('bold', fontSizeCount, WHITE)}>{user.disabledGames}</Text>
         </View>
       </View>
+      {/* need detect user have a vk account and show it overwise show some text */}
       <Pressable
         onPress={() => {
           if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }
             })
           }
         }}
-        style={{ ...style.soc, marginTop: size / RH(110) }}
+        style={{ ...style.soc, marginTop: size / RH(20) }}
       >
         <Vk size={size / RH(12)} />
       </Pressable>

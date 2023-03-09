@@ -10,7 +10,12 @@ const LightButton = ({ onPress, label, labelStyle, wrapper, size, selectAvailabl
   const height = RH(size?.height) || RH(36)
   const radius = '10'
   return (
-    <TouchableOpacity disabled={false} activeOpacity={0.5} onPress={onPress && onPress}>
+    <TouchableOpacity
+      disabled={false}
+      activeOpacity={0.5}
+      onPress={onPress && onPress}
+      style={{ backgroundColor: 'transparent' }}
+    >
       {/* <Shadow
         style={{ width: width - RW(10), height: height - RH(6), borderRadius: RW(20) }}
         distance={8}

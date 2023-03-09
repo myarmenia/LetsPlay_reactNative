@@ -4,13 +4,20 @@ import { font, RH, RW } from '@/theme/utils'
 import LinearGradient from 'react-native-linear-gradient'
 import { LIGHT_LABEL, RADIO, RADIO_TEXT, WHITE } from '@/theme/colors'
 
-function RadioBlock({ title, list, onChange = () => {}, editable = true, titleStyle }) {
+function RadioBlock({
+  title,
+  list,
+  onChange = () => {},
+  editable = true,
+  titleStyle,
+  left = RW(20),
+}) {
   return (
     <View>
       <Text style={[styles.inputTitle, titleStyle]}>{title}</Text>
       {list.map((ev, index) => (
         <Pressable
-          style={{ ...styles.radioBlock, marginLeft: RW(20) }}
+          style={{ ...styles.radioBlock, marginLeft: left }}
           onPress={() => {
             if (editable)
               onChange(

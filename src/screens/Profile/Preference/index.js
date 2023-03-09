@@ -13,7 +13,7 @@ import LightButton from '@/assets/imgs/Button'
 import User from '@/assets/imgs/user/user'
 function Index(props) {
   const dispatch = useDispatch()
-  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
+  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
   const { preferences } = useSelector(({ auth }) => auth.user)
   const { token, user } = useSelector(({ auth }) => auth)
 
@@ -23,9 +23,9 @@ function Index(props) {
   useEffect(() => {
     dispatch(
       setNames(
-        nameOfGames.map((elm) => {
+        nameOfGames.map(elm => {
           let changed = elm
-          preferences.forEach((id) => {
+          preferences.forEach(id => {
             if (id === elm.id) {
               changed = { ...elm, checked: !elm.checked }
             }
@@ -36,17 +36,11 @@ function Index(props) {
     )
   }, [nameOfGames.length])
   const checkItem = useCallback(
-    (id) => {
+    id => {
       dispatch(
         setNames([
-          ...nameOfGames.map((elm) => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
+          ...nameOfGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
         ]),
-        // console.log(
-        //   'ffff',
-        //   [...nameOfGames.map((elm) => (elm.id == id ? { ...elm, checked: !elm.checked } : elm))]
-        //     .filter((elm) => elm.checked)
-        //     .map((elm) => elm.id),
-        // ),
       )
     },
     [nameOfGames],
@@ -54,7 +48,7 @@ function Index(props) {
   const savePreferences = () => {
     dispatch(
       changeUserPreferences(
-        nameOfGames.filter((elm) => elm.checked).map((el) => el.id),
+        nameOfGames.filter(elm => elm.checked).map(el => el.id),
         token,
       ),
     )
@@ -67,7 +61,7 @@ function Index(props) {
           <Text style={style.gameNamesTitle}>Предпочтения в играх</Text>
           <Text style={style.gameNamesTitle}>Настольные игры</Text>
           <View style={style.gamesBox}>
-            {nameOfGames?.slice(7, nameOfGames.length).map((elm) => {
+            {nameOfGames?.slice(7, nameOfGames.length).map(elm => {
               return (
                 <TouchableOpacity
                   key={elm?.id}
@@ -86,7 +80,7 @@ function Index(props) {
           </View>
           <Text style={style.gameNamesTitle}>Активные игры</Text>
           <View style={style.gamesBox}>
-            {nameOfGames?.slice(0, 7).map((elm) => {
+            {nameOfGames?.slice(0, 7).map(elm => {
               return (
                 <TouchableOpacity
                   key={elm.id}

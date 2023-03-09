@@ -37,10 +37,9 @@ export const getGames = (data) => async (dispatch) => {
       console.log('err request', err.request._response)
     })
 }
-export const getGamesOnlyNames = () => async (dispatch) => {
-  const defualtHeaders = await getDefualtHeaders()
+export const getGamesOnlyNames = () => async dispatch => {
   axiosInstance
-    .get('api/game', defualtHeaders)
+    .get('api/game')
 
     .then((response) => {
       dispatch(

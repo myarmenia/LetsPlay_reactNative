@@ -11,11 +11,11 @@ import { useDispatch } from 'react-redux'
 import { fetchAddress } from './fetchAddress'
 import { useNavigation } from '@react-navigation/native'
 
-const Map = props => {
+const Map = ({ route }) => {
   const mapRef = useRef()
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const game = props.route.params.game
+  const { game, command, navigateTo } = route.params
   const [userPosition, setUserPosition] = useState({
     latitude: 55.751244,
     longitude: 37.618423,
@@ -44,6 +44,7 @@ const Map = props => {
   }
   useLayoutEffect(() => {
     getPosition()
+    console.log(route.params)
     setMarkers([])
   }, [])
 
@@ -86,13 +87,27 @@ const Map = props => {
                   ? navigation.navigate('GameCreating', {
                       params: { game: game, response: response },
                     })
-                  : navigation.navigate('CreateTeamTitle', {
+                  : null
+                navigateTo == 'CreateTeamTitle'
+                  ? navigation.navigate('CreateTeamTitle', {
                       response: {
                         address_name: response,
                         latitude: s.results[0].geometry.location.lat,
                         longitude: s.results[0].geometry.location.lng,
                       },
                     })
+                  : null
+                navigateTo == 'EditTeam'
+                  ? navigation.navigate('EditTeamInfo', {
+                      ...command,
+                      address_name: response,
+                    })
+                  : null
+                navigateTo == 'Join'
+                  ? navigation.navigate('JoinGame', {
+                      address_name: response,
+                    })
+                  : null
               })
           })
         }}
