@@ -32,8 +32,8 @@ const ChatScreen = () => {
           ) : (
             <Text style={style.emptyText}>Пусто</Text>
           )}
-          {user?.took_part_games.map(eachChat => {
-            console.log(eachChat)
+
+          {user?.took_part_games.map((eachChat) => {
             return <ChatItem item={eachChat} key={eachChat?._id} />
           })}
         </View>

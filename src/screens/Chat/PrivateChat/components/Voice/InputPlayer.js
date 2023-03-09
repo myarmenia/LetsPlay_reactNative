@@ -1,6 +1,6 @@
 import AudioRecorderPlayer from 'react-native-audio-recorder-player'
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Row from '@/components/wrappers/row'
 import { font, RH, RW, shadow } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON } from '@/theme/colors'
@@ -8,8 +8,9 @@ import PouseSvg from './Assets/PouseSvg'
 import PlaySvg from './Assets/PlaySvg'
 import { _storageUrl } from '@/constants'
 import { useDispatch, useSelector } from 'react-redux'
-import { setPausedMessageId, setPlayMessageId } from '@/store/Slices/ChatsSlice'
+import { setPausedMessageId, setPlayMessageId, setVoiceDuration } from '@/store/Slices/ChatsSlice'
 import DeleteSvg from './Assets/DeleteSvg'
+import Video from 'react-native-video'
 
 const screenWidth = Dimensions.get('screen').width
 
@@ -17,11 +18,23 @@ const audioRecorderPlayer = new AudioRecorderPlayer()
 audioRecorderPlayer.setSubscriptionDuration(0.05)
 const InputPlayer = ({ voicePath, onPressDelete }) => {
   const [playTime, setPlayTime] = useState('00:00:00')
-  const [duration, setDuration] = useState('00:00:00')
+
   const [playWidth, setPlayWidth] = useState(0)
 
   const dispatch = useDispatch()
-  const { playMessageId, pausedMessageId } = useSelector(({ chats }) => chats)
+  const { playMessageId, pausedMessageId, voiceDuration } = useSelector(({ chats }) => chats)
+
+  useEffect(() => {
+    audioRecorderPlayer.addPlayBackListener(async (e) => {
+      setPlayTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)))
+      setPlayWidth((e.currentPosition / e.duration) * (screenWidth - 180))
+      if (e.currentPosition == e.duration) {
+        audioRecorderPlayer.removePlayBackListener()
+        dispatch(setPlayMessageId(null))
+        await audioRecorderPlayer.stopPlayer()
+      }
+    })
+  }, [voicePath])
 
   const onStartPlay = async () => {
     if (pausedMessageId == 'input') {
@@ -35,8 +48,7 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
       try {
         audioRecorderPlayer.addPlayBackListener(async (e) => {
           setPlayTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)))
-          setDuration(audioRecorderPlayer.mmssss(Math.floor(e.duration)))
-          setPlayWidth((e.currentPosition / e.duration) * (screenWidth - 176))
+          setPlayWidth((e.currentPosition / e.duration) * (screenWidth - 180))
           if (e.currentPosition == e.duration) {
             audioRecorderPlayer.removePlayBackListener()
             dispatch(setPlayMessageId(null))
@@ -58,6 +70,32 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
     onPressDelete()
     dispatch(setPlayMessageId(null))
     dispatch(setPausedMessageId(null))
+  }
+
+  useEffect(() => {
+    if (playMessageId == 'stop') {
+      console.log('useEffect stop')
+      onStopPlay()
+    }
+  }, [playMessageId])
+
+  async function formatSeconds(seconds) {
+    const roundedNum = Math.floor(seconds * 100) / 100
+    const splitNums = roundedNum.toString().split('.')
+    if (+splitNums[0] < 60) {
+      const seconds = splitNums[0].length == 2 ? splitNums[0] : '0' + splitNums[0]
+      return '00:' + seconds + ':' + splitNums[1]
+    } else {
+      const minutes =
+        Math.floor(+splitNums[0] / 60).toString().length == 2
+          ? Math.floor(+splitNums[0] / 60)
+          : '0' + Math.floor(+splitNums[0] / 60)
+      const seconds =
+        (+splitNums[0] % 60).toString().length == 2
+          ? +splitNums[0] % 60
+          : '0' + (+splitNums[0] % 60)
+      return minutes + ':' + seconds + ':' + splitNums[1]
+    }
   }
 
   return (
@@ -89,12 +127,18 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
           </View>
         </Pressable>
         <Text style={styles.txtCounter}>
-          {playMessageId == 'input' ? `${playTime} / ${duration}` : '00:00:00 / 00:00:00'}
+          {(playMessageId == 'input' ? `${playTime} / ` : '00:00:00 / ') + voiceDuration}
         </Text>
       </View>
       <Pressable onPress={onPressDeleteFunc}>
         <DeleteSvg fill={ICON} />
       </Pressable>
+      <Video
+        source={{ uri: voicePath }}
+        onLoad={async (data) => {
+          dispatch(setVoiceDuration(await formatSeconds(data.duration)))
+        }}
+      />
     </Row>
   )
 }

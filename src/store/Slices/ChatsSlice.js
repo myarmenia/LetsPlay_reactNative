@@ -5,6 +5,7 @@ const initialState = {
   chats: [],
   playMessageId: null,
   pausedMessageId: null,
+  voiceDuration: '00:00:00',
 }
 
 export const ChatsSlice = createSlice({
@@ -27,6 +28,12 @@ export const ChatsSlice = createSlice({
       return {
         ...store,
         pausedMessageId: action.payload,
+      }
+    },
+    setVoiceDuration: (store, action) => {
+      return {
+        ...store,
+        voiceDuration: action.payload,
       }
     },
   },
@@ -53,5 +60,6 @@ export const sendMessage = (data) => (dispatch) => {
     })
 }
 
-export const { setChats, setPlayMessageId, setPausedMessageId } = ChatsSlice.actions
+export const { setChats, setPlayMessageId, setPausedMessageId, setVoiceDuration } =
+  ChatsSlice.actions
 export default ChatsSlice.reducer

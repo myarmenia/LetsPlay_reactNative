@@ -160,7 +160,7 @@ export const GetLocationClojure = (
       },
       (error) => {
         setLocation(null)
-        console.log(error)
+        // console.log(error)
       },
       {
         accuracy: {

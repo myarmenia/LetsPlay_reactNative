@@ -2,16 +2,16 @@ import * as React from 'react'
 import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg'
 import { RW, RH } from '@/theme/utils'
 import { Pressable, Share } from 'react-native'
-import RNRF from 'react-native-fs'
+import RNFS from 'react-native-fs'
 
 function SvgComponent({ path, name }) {
   const downloadFunc = async () => {
-    RNRF.downloadFile({
+    RNFS.downloadFile({
       fromUrl: `https://to-play.ru/storage/${path}`,
-      toFile: `${RNRF.DocumentDirectoryPath}/${name.split(' ').join('-')}.pdf`,
+      toFile: `${RNFS.DocumentDirectoryPath}/${name.split(' ').join('-')}.pdf`,
     }).promise.then((link, a) => {
       Share.share({
-        url: `${RNRF.DocumentDirectoryPath}/${name.split(' ').join('-')}.pdf`,
+        url: `${RNFS.DocumentDirectoryPath}/${name.split(' ').join('-')}.pdf`,
       })
     })
   }

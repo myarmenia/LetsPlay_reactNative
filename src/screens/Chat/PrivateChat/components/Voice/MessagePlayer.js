@@ -1,6 +1,6 @@
 import AudioRecorderPlayer from 'react-native-audio-recorder-player'
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Row from '@/components/wrappers/row'
 import { font, RH, RW, shadow } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON } from '@/theme/colors'
@@ -15,27 +15,28 @@ const screenWidth = Dimensions.get('screen').width
 const audioRecorderPlayer = new AudioRecorderPlayer()
 audioRecorderPlayer.setSubscriptionDuration(0.05)
 const MessagePlayer = (props) => {
+  const { messageId, path } = props
   const [playTime, setPlayTime] = useState('00:00:00')
   const [duration, setDuration] = useState('00:00:00')
   const [playWidth, setPlayWidth] = useState(0)
 
   const dispatch = useDispatch()
+  const VideoRef = useRef()
   const { playMessageId, pausedMessageId } = useSelector(({ chats }) => chats)
 
   const onStartPlay = async () => {
-    if (pausedMessageId == props.messageId) {
+    if (pausedMessageId == messageId) {
       await audioRecorderPlayer.resumePlayer()
       dispatch(setPausedMessageId(null))
     } else {
       await audioRecorderPlayer.stopPlayer()
-      dispatch(setPlayMessageId(props.messageId))
-      await audioRecorderPlayer.startPlayer(_storageUrl + props.path)
-
+      dispatch(setPlayMessageId(messageId))
+      await audioRecorderPlayer.startPlayer(_storageUrl + path)
       try {
         audioRecorderPlayer.addPlayBackListener(async (e) => {
           setPlayTime(audioRecorderPlayer.mmssss(Math.floor(e.currentPosition)))
           setDuration(audioRecorderPlayer.mmssss(Math.floor(e.duration)))
-          setPlayWidth((e.currentPosition / e.duration) * (screenWidth - 176))
+          setPlayWidth((e.currentPosition / e.duration) * (screenWidth - 180))
           if (e.currentPosition == e.duration) {
             audioRecorderPlayer.removePlayBackListener()
             dispatch(setPlayMessageId(null))
@@ -49,13 +50,13 @@ const MessagePlayer = (props) => {
   }
   const onStopPlay = async () => {
     await audioRecorderPlayer.pausePlayer()
-    dispatch(setPausedMessageId(props.messageId))
-    dispatch(setPlayMessageId(props.messageId))
+    dispatch(setPausedMessageId(messageId))
+    dispatch(setPlayMessageId(messageId))
   }
 
   return (
     <Row wrapper={styles.container}>
-      {playMessageId == props.messageId && pausedMessageId != props.messageId ? (
+      {playMessageId == messageId && pausedMessageId != messageId ? (
         <Pressable
           onPress={() => {
             onStopPlay()
@@ -77,16 +78,13 @@ const MessagePlayer = (props) => {
         <Pressable style={styles.viewBarWrapper}>
           <View style={styles.viewBar}>
             <View
-              style={[
-                styles.viewBarPlay,
-
-                { width: playMessageId == props.messageId ? playWidth : 0 },
-              ]}
+              style={[styles.viewBarPlay, { width: playMessageId == messageId ? playWidth : 0 }]}
             />
           </View>
         </Pressable>
         <Text style={styles.txtCounter}>
-          {playMessageId == props.messageId ? `${playTime} / ${duration}` : '00:00:00 / 00:00:00'}
+          {/* {playMessageId == messageId ? `${playTime} / ${duration}` : '00:00:00 / 00:00:00'} */}
+          {`${playMessageId == messageId ? playTime : '00:00:00'} / ${duration}`}
         </Text>
       </View>
     </Row>

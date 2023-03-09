@@ -5,7 +5,7 @@ import { BACKGROUND, BLACK, ICON, WHITE } from '@/theme/colors'
 import SendSvg from '@/screens/Chat/assets/SendSvg'
 import Voice from '../Voice/Voice'
 import InputPlayer from '../Voice/InputPlayer'
-import { setPlayMessageId } from '@/store/Slices/ChatsSlice'
+import { setPausedMessageId, setPlayMessageId } from '@/store/Slices/ChatsSlice'
 import { useDispatch } from 'react-redux'
 
 const index = ({
@@ -25,6 +25,8 @@ const index = ({
 
   const send = () => {
     if (voiceMessage) {
+      dispatch(setPlayMessageId(null))
+      dispatch(setPausedMessageId(null))
       onSend()
     } else if (text.trim()) {
       onSend?.(text)
@@ -69,7 +71,6 @@ const index = ({
           }}
           voicePath={(path) => {
             setSpeak(false)
-            console.log('VoicePath', path)
             setVoiceMessage(path)
           }}
         />

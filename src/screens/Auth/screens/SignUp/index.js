@@ -13,7 +13,6 @@ import {
   setSignUpError,
   setSignUpStep,
   setSurName,
-  setToken,
   signUp,
   signUp2,
   signUp3,
@@ -44,6 +43,7 @@ const SignUp = () => {
   const { signUpError, expired_token, signUpStep, user, documentRules } = useSelector(
     ({ auth }) => auth,
   )
+  const scrollViewRef = useRef(null)
   const navigation = useNavigation()
 
   const handlerMessage = message => {
@@ -141,6 +141,8 @@ const SignUp = () => {
     setText('')
   }
 
+  const memoRenderItem = ({ item, index }) => <Message message={item} id={index} />
+
   useEffect(() => {
     if (signUpStep == 'EMAIL_CODE') {
       handlerMessage(messageDefault.emailCode)
@@ -168,8 +170,12 @@ const SignUp = () => {
   useEffect(() => {
     return () => {
       dispatch(setSignUpStep('NAME'))
+      setMessagesList([messageDefault.hello, messageDefault.hello2, messageDefault.name])
     }
   }, [])
+  useEffect(() => {
+    scrollViewRef.current.scrollToOffset({ animated: true, offset: 0 })
+  }, [messagesList?.length])
 
   return (
     <ScreenMask>
@@ -184,13 +190,18 @@ const SignUp = () => {
           : {})}
       >
         <FlatList
+          data={[...messagesList].reverse()}
           style={{
-            marginBottom: 30,
-            flexDirection: 'column-reverse',
+            marginBottom: RH(25),
           }}
-          data={messagesList}
+          inverted
+          refreshing
+          initialNumToRender={4}
+          removeClippedSubviews
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <Message message={item} id={messagesList.length} />}
+          ref={scrollViewRef}
+          renderItem={memoRenderItem}
+          keyExtractor={(_, index) => `post-${index}`}
         />
         <View style={styles.bottom}>
           {agreeBtn ? (

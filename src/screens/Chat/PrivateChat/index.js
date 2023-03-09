@@ -8,39 +8,48 @@ import { sendMessage } from '../../../store/Slices/ChatsSlice'
 import { io } from 'socket.io-client'
 import CustomInput from './components/Input'
 import Message from './components/container/message'
+import { IS_IOS } from '@/constants'
+import { setPausedMessageId, setPlayMessageId } from '../../../store/Slices/ChatsSlice'
+
 function Index(props) {
-  const chats = useSelector(({ chats }) => chats.chats) || []
   const [messageState, setMessageState] = useState([])
   const [voiceMessage, setVoiceMessage] = React.useState('')
 
   const { user, token } = useSelector(({ auth }) => auth)
+  const { duration, chats } = useSelector(({ chats }) => chats)
   const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
-  const socket = io.connect(`wss://to-play.ru/chat?room=${gameID}`, {
-    transportOptions: {
-      polling: {
-        extraHeaders: {
-          Authorization: token,
+  // const gameID = '6401e307216c08e6662114d4'
+  const socket = io.connect(
+    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/chat?room=${gameID}`,
+    {
+      transportOptions: {
+        polling: {
+          extraHeaders: {
+            Authorization: token,
+          },
         },
       },
     },
-  })
+  )
 
   const scrollViewRef = useRef(null)
 
   const sendFunc = (text) => {
+    dispatch(setPlayMessageId('stop'))
+    dispatch(setPausedMessageId(null))
+
     if (voiceMessage) {
       var formdata = new FormData()
       formdata.append('file', {
         uri: voiceMessage,
-        type: 'audio/m4a',
-        name: 'audio.m4a',
+        type: IS_IOS ? 'audio/m4a' : 'video/mp4',
+        name: IS_IOS ? 'audio.m4a' : 'audio.mp4',
       })
       formdata.append('create_game', gameID)
 
       let myHeaders = new Headers()
-      myHeaders.append('Content-Type', 'audio/m4a')
       myHeaders.append('Authorization', `Bearer ${token}`)
       myHeaders.append('Accept', 'application/json')
 
@@ -48,13 +57,9 @@ function Index(props) {
         method: 'POST',
         headers: myHeaders,
         body: formdata,
-        redirect: 'follow',
       }
 
-      fetch('https://to-play.ru/api/create/game/chat/', requestOptions)
-        .then((result) => {
-          return result.json()
-        })
+      fetch(`${IS_IOS ? 'https' : 'http'}://to-play.ru/api/create/game/chat/`, requestOptions)
         .then((result) => {
           setVoiceMessage(null)
         })
@@ -68,19 +73,12 @@ function Index(props) {
       )
     }
   }
-  const memoGetChats = useCallback(() => {
-    dispatch(getChats(gameID))
-  }, [gameID])
   const memoSocketFunc = (message) => {
-    // console.log('SOCKET - ', message)
-    // console.log(
-    //   'find',
-    //   messageState.find((item) => item?.id == message?.id),
-    // )
+    console.log('message', message)
     if (message.file || message.message) {
       setMessageState((lastState) => {
-        if (!lastState.find((item) => item?.id == message?.id)) {
-          return lastState.concat(message)
+        if (!lastState?.find((item) => item?.id == message?.id)) {
+          return lastState?.concat(message)
         } else {
           return lastState
         }
@@ -89,8 +87,9 @@ function Index(props) {
   }
 
   socket.on('message', memoSocketFunc)
+
   useEffect(() => {
-    memoGetChats()
+    dispatch(getChats(gameID))
   }, [])
   useEffect(() => {
     setMessageState(chats)
@@ -103,7 +102,7 @@ function Index(props) {
       <Message
         item={item}
         key={index}
-        id={item._id}
+        id={item._id || item.id}
         myMessage={item?.user?._id == userId || item?.user == userId}
       />
     )

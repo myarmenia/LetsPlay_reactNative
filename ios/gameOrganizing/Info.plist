@@ -66,5 +66,33 @@
 	<false/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Give $(PRODUCT_NAME) permission to use your microphone. Your record wont be shared without your permission.</string>
+	<key>NSAppleMusicUsageDescription</key>
+  <string>NSAppleMusicUsageDescription</string>
+  <key>NSBluetoothAlwaysUsageDescription</key>
+  <string>NSBluetoothAlwaysUsageDescription</string>
+  <key>NSBluetoothPeripheralUsageDescription</key>
+  <string>NSBluetoothPeripheralUsageDescription</string>
+  <key>NSCalendarsUsageDescription</key>
+  <string>NSCalendarsUsageDescription</string>
+  <key>NSCameraUsageDescription</key>
+  <string>NSCameraUsageDescription</string>
+  <key>NSContactsUsageDescription</key>
+  <string>NSContactsUsageDescription</string>
+  <key>NSFaceIDUsageDescription</key>
+  <string>NSFaceIDUsageDescription</string>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>NSLocationAlwaysAndWhenInUseUsageDescription</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>NSLocationAlwaysUsageDescription</string>
+  <key>NSMotionUsageDescription</key>
+  <string>NSMotionUsageDescription</string>
+  <key>NSRemindersUsageDescription</key>
+  <string>NSRemindersUsageDescription</string>
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>NSSpeechRecognitionUsageDescription</string>
+  <key>NSSiriUsageDescription</key>
+  <string>NSSiriUsageDescription</string>
+  <key>NSUserTrackingUsageDescription</key>
+  <string>NSUserTrackingUsageDescription</string>
 </dict>
 </plist>
