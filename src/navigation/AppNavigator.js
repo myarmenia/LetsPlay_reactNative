@@ -29,6 +29,11 @@ import NavigationSearchTeams from '@/navigation/NavigationSearchTeams'
 import CrocodileNavigator from '@/navigation/CrocodileNavigator'
 import Map from '@/screens/Map/Map'
 import CreateTeamTitle from '@/screens/Team/CreateTeamTitle'
+import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
+import Index from '@/screens/Team/MyTeamInfo'
+import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
+import JoinGame from '@/screens/Game/JoinGame/JoinGame'
+import ChooseGameType from '@/screens/GameCreating/ChooseGameType/ChooseGameType'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -71,13 +76,18 @@ const AppNavigator = () => {
         <Stack.Screen name={'GameList'} component={GamesList} />
         <Stack.Screen name={'GameItem'} component={GameItem} />
         <Stack.Screen name={'Play'} component={Play} />
+        <Stack.Screen name={'JoinGame'} component={JoinGame} />
         <Stack.Screen name={'Elias'} component={Elias} />
         <Stack.Screen name={'Team'} component={TeamNavigator} />
         <Stack.Screen name={'GameCreating'} component={GameCreating} />
+        <Stack.Screen name={'ChooseGameType'} component={ChooseGameType} />
         <Stack.Screen name={'GameTicket'} component={GameTicket} />
         <Stack.Screen name={'PrivateChat'} component={PrivateChat} />
         <Stack.Screen name={'Crocodile'} component={CrocodileNavigator} />
-        <Stack.Screen name="CreateTeamTitle" component={CreateTeamTitle} />
+        <Stack.Screen name={'CreateTeamTitle'} component={CreateTeamTitle} />
+        <Stack.Screen name={'EditTeamInfo'} component={EditTeamInfo} />
+        <Stack.Screen name={'MyTeamInfo'} component={Index} />
+        <Stack.Screen name={'TeamMembers'} component={TeamMembers} />
         <Stack.Screen name={'Mafia'} component={MafiaGame} />
         <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator} />
         <Stack.Screen name={'Calendar'} component={Calendar} />

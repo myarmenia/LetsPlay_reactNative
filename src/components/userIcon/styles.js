@@ -7,10 +7,13 @@ export default StyleSheet.create({
   titleBigBloc: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
   },
   titleBloc: {
     alignItems: 'center',
+    padding: RH(5),
+    marginTop: RH(4),
+    flexDirection: 'column',
     justifyContent: 'center',
   },
   title: {

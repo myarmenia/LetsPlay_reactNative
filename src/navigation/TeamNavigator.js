@@ -14,6 +14,7 @@ import SearchTeamRes from '@/screens/Team/SearchTeamRes'
 import SelectPlayersRival from '@/screens/Team/SelectPlayersRival'
 import TeamModalSearch from '@/screens/Team/GameCategory/ModalItem'
 import Scheme from '@/screens/Team/Scheme'
+import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
 
 const Stack = createNativeStackNavigator()
 
@@ -23,6 +24,7 @@ function Index(props) {
       <Stack.Screen name="teamStart" component={CreatingTeams} />
       <Stack.Screen name="MyTeam" component={MyTeam} />
       <Stack.Screen name="MyTeamInfo" component={MyTeamInfo} />
+      <Stack.Screen name="EditTeamInfo" component={EditTeamInfo} />
       <Stack.Screen name="TeamSelectGameCategory" component={TeamSelectCategoryComponent} />
       <Stack.Screen name="SelectTeam" component={SelectTeam} />
       <Stack.Screen name="SearchTeam" component={SearchTeam} />

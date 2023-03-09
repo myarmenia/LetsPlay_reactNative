@@ -1,3 +1,27 @@
+// if (addressName && teamName) {
+//   formdata.append('name', teamName)
+//   formdata.append('address_name', addressName?.address_name)
+//   formdata.append('latitude', addressName.lat)
+//   formdata.append('longitude', addressName.lng)
+//   formdata.append('image', {
+//     name: avatar?.assets?.[0].fileName,
+//     type: avatar?.assets?.[0].type,
+//     uri: avatar?.assets?.[0].uri,
+//   })
+
+//   createTeam(formdata, token, setModalVisible)
+// } else {
+//   if (!addressName) {
+//     setAddressNameError(true)
+//   } else {
+//     setAddressNameError(false)
+//   }
+//   if (!teamName) {
+//     setTeamNameError(true)
+//   } else {
+//     setTeamNameError(false)
+//   }
+// }
 import React, { useState, useEffect, memo } from 'react'
 import {
   View,
@@ -22,23 +46,18 @@ import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 
 const CreateTeamTitle = props => {
-  //states
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
-  const [addressName, setAddressName] = useState('')
-  //errors
   const [teamNameError, setTeamNameError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
-
+  const [addressName, setAddressName] = useState('')
   const response = props?.route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
-
   useEffect(() => {
     setAddressName(response)
   }, [response])
-
   const handleCreate = () => {
     if (addressName && teamName) {
       formdata.append('name', teamName)
@@ -51,7 +70,8 @@ const CreateTeamTitle = props => {
         uri: avatar?.assets?.[0].uri,
       })
 
-      createTeam(formdata, token, setModalVisible)
+      createTeam(formdata, token)
+      // setModalVisible(true),
     } else {
       if (!addressName) {
         setAddressNameError(true)
@@ -93,15 +113,13 @@ const CreateTeamTitle = props => {
                 onChangeText={value => setTeamName(value)}
               />
             </View>
-            {teamNameError && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
+            {!teamName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
           </View>
           <View style={styles.colBox}>
             <View style={styles.inputBlock}>
-              <SearchAddresses setAddressName={setAddressName} />
+              <SearchAddresses setAddressName={setAddressName} navigateTo="CreateTeamTitle" />
             </View>
-            {addressNameError && (
-              <Text style={style.errorText}>Обязательное поле для заполнения</Text>
-            )}
+            {!addressName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
           </View>
         </View>
         <View style={styles.uploadBox}>

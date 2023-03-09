@@ -28,12 +28,21 @@ export default StyleSheet.create({
     borderRadius: RW(150),
     borderColor: WHITE,
   },
+  rowBox: {
+    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
   image: {
     borderWidth: 1,
     borderRadius: RW(150),
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
+  },
+  editBtn: {
+    left: '40%',
   },
   text: {
     textAlign: 'center',

@@ -14,6 +14,7 @@ function DateComponent({
   setDate = () => {},
   setTime = () => {},
   containerStyle = {},
+  dateAndroidStyle = {},
   titleStyle,
   showTime = true,
   editable = true,
@@ -51,7 +52,7 @@ function DateComponent({
             />
           </View>
         ) : (
-          <View style={styles.dateButton}>
+          <View style={[styles.dateButton, dateAndroidStyle]}>
             <Pressable
               style={styles.dateButtonText}
               onPress={() => {

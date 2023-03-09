@@ -14,20 +14,15 @@ import { useNavigation } from '@react-navigation/native'
 function Index() {
   const dispatch = useDispatch()
   const { findedTeam } = useSelector(({ teams }) => teams)
-  const [value, setValue] = useState('63ff4a064b08cb7d912ffff')
+  const [value, setValue] = useState('63ff3e284b08cb7d912fc595')
   const [findedTeamEmpty, setFindedTeamEmpty] = useState(false)
   const navigation = useNavigation()
 
-  //test team id ---> 63ff4a064b08cb7d912ffff
+  //test team id ---> 63ff3e284b08cb7d912fc595
   const handleSeach = () => {
-    dispatch(searchTeam(value, setFindedTeamEmpty))
+    dispatch(searchTeam(value, setFindedTeamEmpty, navigation))
   }
 
-  useEffect(() => {
-    if (findedTeam.length) {
-      navigation.navigate('TeamSearchRes')
-    }
-  }, [findedTeam])
   return (
     <ScreenMask style={{ paddingHorizontal: RW(32) }}>
       <Text style={style.title}> Создать команду</Text>

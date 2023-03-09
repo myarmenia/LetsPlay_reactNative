@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, Pressable, Text, View, Animated } from 'react-native'
+import { Image, Pressable, Text, View, Animated, TouchableOpacity } from 'react-native'
 import { styles } from '@/components/game/style'
 import BgGamesLiner from '@/assets/imgs/games/BgGamesLiner'
 import Border from '@/assets/imgs/games/Border'
@@ -13,7 +13,7 @@ function Index({ game, pressable }) {
   const navigation = useNavigation()
   return (
     <Animated.View>
-      <Pressable
+      <TouchableOpacity
         onPress={() => {
           if (pressable) {
             setActive(true)
@@ -73,7 +73,7 @@ function Index({ game, pressable }) {
             <Text style={styles.btnText}>{game?.name}</Text>
           </LinearGradient>
         </View>
-      </Pressable>
+      </TouchableOpacity>
     </Animated.View>
   )
 }

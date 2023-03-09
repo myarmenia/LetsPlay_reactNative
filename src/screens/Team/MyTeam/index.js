@@ -44,11 +44,11 @@ function Index() {
   }
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(getTeams())
+    dispatch(getTeams(setModalVisible))
   }, [])
-  useEffect(() => {
-    !teamChatsList.length ? setModalVisible(true) : setModalVisible(false)
-  }, [teamChatsList])
+  // useEffect(() => {
+  //   !teamChatsList.length ? setModalVisible(true) : setModalVisible(false)
+  // }, [teamChatsList])
   //==========================//
   // need detect in map user is member other command or cammand is his
   //==========================//
@@ -56,6 +56,15 @@ function Index() {
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <Text style={style.title}>Мои команды</Text>
+        {modalVisible && (
+          <Modal
+            modalVisible={modalVisible}
+            setIsVisible={setModalVisible}
+            item={<ModalItem />}
+            btnClose={false}
+            navigationText={'teamStart'}
+          />
+        )}
         {teamChatsList.length ? (
           teamChatsList.map((command, i) => (
             <TouchableOpacity key={i} onPress={() => navigation.navigate('MyTeamInfo', command)}>
@@ -87,13 +96,6 @@ function Index() {
                   <BgMyTem />
                 </View>
               </View>
-              <Modal
-                modalVisible={modalVisible}
-                setIsVisible={setModalVisible}
-                item={<ModalItem />}
-                btnClose={false}
-                navigationText={'teamStart'}
-              />
             </TouchableOpacity>
           ))
         ) : (

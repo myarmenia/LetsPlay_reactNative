@@ -46,8 +46,8 @@ const SignUp = () => {
   )
   const navigation = useNavigation()
 
-  const handlerMessage = (message) => {
-    setMessagesList((messagesList) => [...messagesList, message])
+  const handlerMessage = message => {
+    setMessagesList(messagesList => [...messagesList, message])
   }
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const SignUp = () => {
       if (signUpError == 'Электронная почта, уже используемая') {
         handlerMessage(messageDefault.usedEmail)
         handlerMessage({
-          text: `Хотите войти по емейл '${user.email}'`,
+          text: `Хотите войти под електронной почте '${user.email}'`,
           type: 'TEXT',
           position: 'left',
         })
@@ -154,7 +154,7 @@ const SignUp = () => {
   }, [signUpStep])
   useEffect(() => {
     if (documentRules?.length) {
-      documentRules.forEach((item) => {
+      documentRules.forEach(item => {
         handlerMessage({
           text: item.name,
           type: 'FILE',
@@ -206,7 +206,7 @@ const SignUp = () => {
                 size={{ width: 170, height: 36 }}
                 label="Я согласен"
                 onPress={() => {
-                  const documents = documentRules?.map((item) => item._id)
+                  const documents = documentRules?.map(item => item._id)
                   handlerMessage(messageDefault.iAgree)
                   dispatch(signUp4({ expired_token, documents }))
                 }}
@@ -240,7 +240,7 @@ const SignUp = () => {
             <Composer
               text={text}
               setText={setText}
-              onSend={(message) => {
+              onSend={message => {
                 handlerMessage({ id: Math.random(), text: message })
                 setTimeout(onPress, 200)
               }}

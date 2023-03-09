@@ -49,9 +49,8 @@ export const getGames = data => async dispatch => {
     })
 }
 export const getGamesOnlyNames = () => async dispatch => {
-  const defualtHeaders = await getDefualtHeaders()
   axiosInstance
-    .get('api/game', defualtHeaders)
+    .get('api/game')
 
     .then(response => {
       dispatch(
