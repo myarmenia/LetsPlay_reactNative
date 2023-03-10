@@ -36,11 +36,7 @@ const Index = ({ route }) => {
                 width: width,
               }}
             >
-              <ListItem
-                game={elem}
-                pressable={elem.name == 'Мафия' && list == 'qr'}
-                qrGame={list == 'qr'}
-              />
+              <ListItem game={elem} pressable={true} qrGame={list == 'qr'} />
             </View>
           )
         })}

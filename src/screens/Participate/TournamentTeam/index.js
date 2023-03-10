@@ -3,10 +3,6 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import style from './style'
 import BgMyTem from '@/assets/bgMyTem'
-import { RH, RW } from '@/theme/utils'
-import Button from '@/assets/imgs/Button'
-import Modal from '@/components/modal'
-import modalStyle from '@/screens/GameCreating/style'
 
 const myTeam = [
   {

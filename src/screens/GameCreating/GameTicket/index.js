@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Ticket from '@/screens/GameCreating/GameTicket/ticket'
-import style from '@/screens/GameCreating/style'
+import Ticket from './ticket'
 import Button from '@/assets/imgs/Button'
-import { RH, RW } from '@/theme/utils'
+import { font, RH, RW } from '@/theme/utils'
 import Modal from '@/components/modal'
 import EditSvg from '@/assets/svgs/editSvg'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 import ShareSvg from '@/assets/svgs/shareSvg'
 import { useNavigation } from '@react-navigation/native'
+import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 
 function Index(props) {
   const { route } = props
@@ -30,7 +30,7 @@ function Index(props) {
       <View>
         <Ticket data={data} game={game} initialState={initialState} name={name} />
       </View>
-      <View style={style.gameTicketButtonsBlock}>
+      <View style={styles.gameTicketButtonsBlock}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('GameCreating', { screen: 'GameCreating', params: { game } })
@@ -40,7 +40,7 @@ function Index(props) {
             onPress={() => navigation.navigate('GameCreating', { params: { game: initialState } })}
           />
         </TouchableOpacity>
-        <TouchableOpacity style={style.shareButton}>
+        <TouchableOpacity style={styles.shareButton}>
           <ShareSvg />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('Home', { flag: true, game, data })}>
@@ -64,11 +64,11 @@ function Index(props) {
           btnClose={false}
           item={
             !success ? (
-              <View style={style.firstTicketModalBlock}>
-                <Text style={{ ...style.text, width: RW(209), marginBottom: 0 }}>
+              <View style={styles.firstTicketModalBlock}>
+                <Text style={{ ...styles.text, width: RW(209), marginBottom: 0 }}>
                   Для завершения необходимо оплатить стоимость комиссий за организацию платной игры.
                 </Text>
-                <Text style={{ ...style.text, marginTop: 0, marginBottom: RH(42) }}>
+                <Text style={{ ...styles.text, marginTop: 0, marginBottom: RH(42) }}>
                   {' '}
                   Стоимость: 100 р
                 </Text>
@@ -82,8 +82,8 @@ function Index(props) {
                 />
               </View>
             ) : (
-              <View style={style.secondTicketModalBlock}>
-                <Text style={style.text}>Оплата прошла успешна. Вы успешно создали игру!</Text>
+              <View style={styles.secondTicketModalBlock}>
+                <Text style={styles.text}>Оплата прошла успешна. Вы успешно создали игру!</Text>
               </View>
             )
           }
@@ -92,5 +92,50 @@ function Index(props) {
     </ScreenMask>
   )
 }
+
+const styles = StyleSheet.create({
+  gameTicketButtonsBlock: {
+    width: '100%',
+    height: RH(65),
+    paddingHorizontal: RW(84),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: LIGHT_LABEL,
+    position: 'absolute',
+    bottom: 0,
+  },
+  shareButton: {
+    position: 'absolute',
+    bottom: '50%',
+    left: '68%',
+  },
+  firstTicketModalBlock: {
+    width: RW(306),
+    height: RH(300),
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: RW(20),
+    alignItems: 'center',
+  },
+  text: {
+    ...font('regular', 16, WHITE, 25),
+    width: RW(200),
+    textAlign: 'center',
+    marginTop: RH(49),
+    marginBottom: RH(31),
+  },
+  secondTicketModalBlock: {
+    width: RW(306),
+    height: RH(191),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: RW(20),
+  },
+})
 
 export default Index

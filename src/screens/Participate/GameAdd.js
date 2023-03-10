@@ -4,11 +4,8 @@ import React, { useState } from 'react'
 import { View, Text, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
-// import Radio from '@/components/checkbox/radio'
-// import DateTime from '@/services/DateTime'
 import Map from '@/components/inputs/map'
 import { RH, RW } from '@/theme/utils'
-import style from '@/screens/GameCreating/style'
 import Price from '@/components/inputs/price'
 
 function Index({ navigation }) {
@@ -168,7 +165,7 @@ function Index({ navigation }) {
               /> */}
             </View>
             {flag ? (
-              <View style={style.price}>
+              <View style={{ marginLeft: RW(18) }}>
                 <Price
                   data={data}
                   setData={setData}

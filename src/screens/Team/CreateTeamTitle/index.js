@@ -35,12 +35,11 @@ import {
 } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
-import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
+import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, RED, WHITE } from '@/theme/colors'
 import DownloadingIcon from '@/assets/svgs/downloadingSvg'
 import LightButton from '@/assets/imgs/Button'
 import { launchImageLibrary } from 'react-native-image-picker'
 import Index from '@/components/modal'
-import style from '@/screens/GameCreating/style'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
@@ -113,13 +112,13 @@ const CreateTeamTitle = (props) => {
                 onChangeText={(value) => setTeamName(value)}
               />
             </View>
-            {!teamName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
+            {!teamName && <Text style={styles.errorText}>Обязательное поле для заполнения</Text>}
           </View>
           <View style={styles.colBox}>
             <View style={styles.inputBlock}>
               <SearchAddresses setAddressName={setAddressName} navigateTo="CreateTeamTitle" />
             </View>
-            {!addressName && <Text style={style.errorText}>Обязательное поле для заполнения</Text>}
+            {!addressName && <Text style={styles.errorText}>Обязательное поле для заполнения</Text>}
           </View>
         </View>
         <View style={styles.uploadBox}>
@@ -241,6 +240,10 @@ const styles = StyleSheet.create({
   successTeam: {
     ...font('inter', 16, WHITE, 20),
     textAlign: 'center',
+  },
+  errorText: {
+    ...font('regular', 16, RED, 24),
+    marginLeft: RW(14),
   },
 })
 export default memo(CreateTeamTitle)

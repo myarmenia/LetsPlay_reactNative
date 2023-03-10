@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
@@ -8,7 +8,6 @@ import User from '@/assets/imgs/user/user'
 import Button from '@/assets/imgs/Button'
 import { RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
-import modalStyle from '@/screens/GameCreating/style'
 
 function Index({ route, navigation }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -70,8 +69,8 @@ function Index({ route, navigation }) {
           modalVisible={isVisible}
           setIsVisible={setIsVisible}
           item={
-            <View style={modalStyle.secondTicketModalBlock}>
-              <Text style={modalStyle.text}>
+            <View style={styles.secondTicketModalBlock}>
+              <Text style={styles.text}>
                 Необходимо утвердить состав игроков команды {'\n'} на игру!
               </Text>
             </View>
@@ -81,5 +80,24 @@ function Index({ route, navigation }) {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  secondTicketModalBlock: {
+    width: RW(306),
+    height: RH(191),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: RW(20),
+  },
+  text: {
+    ...font('regular', 16, WHITE, 25),
+    width: RW(200),
+    textAlign: 'center',
+    marginTop: RH(49),
+    marginBottom: RH(31),
+  },
+})
 
 export default Index

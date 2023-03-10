@@ -4,8 +4,8 @@ import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
 import OrganizerSvg from '@/assets/svgs/OrganizerSvg'
 import LightButton from '@/assets/imgs/Button'
-import style from '@/screens/GameCreating/style'
 import Modal from '@/components/modal'
+import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 
 function TournamentTicket(props) {
   const { navigation, route } = props
@@ -95,8 +95,8 @@ function TournamentTicket(props) {
             modalVisible={isVisible}
             setIsVisible={setIsVisible}
             item={
-              <View style={style.secondTicketModalBlock}>
-                <Text style={style.text}>Вы успешно присоединились к турниру!</Text>
+              <View style={styles.secondTicketModalBlock}>
+                <Text style={styles.text}>Вы успешно присоединились к турниру!</Text>
               </View>
             }
           />
@@ -137,6 +137,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 'auto',
     marginBottom: RH(23),
+  },
+  secondTicketModalBlock: {
+    width: RW(306),
+    height: RH(191),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: RW(20),
+  },
+  text: {
+    ...font('regular', 16, WHITE, 25),
+    width: RW(200),
+    textAlign: 'center',
+    marginTop: RH(49),
+    marginBottom: RH(31),
   },
 })
 

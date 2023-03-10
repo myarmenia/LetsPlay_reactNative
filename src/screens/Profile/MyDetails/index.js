@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import {
   ImageBackground,
-  Linking,
+  StyleSheet,
   Platform,
   Pressable,
   ScrollView,
@@ -11,13 +11,12 @@ import {
   View,
 } from 'react-native'
 import style from './style'
-import styles from '@/screens/GameCreating/style'
 import TickSvg from '@/assets/svgs/tickSvg'
 import InputBlock from '@/screens/Profile/MyDetails/inputBlock'
 import RadioBlock from '@/components/RadioBlock'
 import UserEditSvg from '@/assets/svgs/userEdit'
 import Modal from '@/components/modal'
-import { RW } from '@/theme/utils'
+import { RW, RH, font } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
@@ -34,6 +33,7 @@ import {
 import { _storageUrl } from '@/constants'
 import DateComponent from '@/components/DateComponent'
 import { clearAsyncStorage } from '../../../helpers/asyncStore'
+import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 
 function Index() {
   const [isVisible, setIsVisible] = useState(false)
@@ -245,5 +245,23 @@ function Index() {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  topBlock: {
+    width: RW(306),
+    paddingBottom: RH(25),
+    alignItems: 'center',
+    backgroundColor: LIGHT_LABEL,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderRadius: 20,
+  },
+  text: {
+    ...font('regular', 16, WHITE, 25),
+    width: RW(200),
+    textAlign: 'center',
+    marginTop: RH(49),
+    marginBottom: RH(31),
+  },
+})
 
 export default Index

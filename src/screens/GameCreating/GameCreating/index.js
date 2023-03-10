@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { KeyboardAvoidingView, Platform, ScrollView, Text, View } from 'react-native'
-import { RH, RW } from '@/theme/utils'
+import { KeyboardAvoidingView, Platform, ScrollView, Text, View, StyleSheet } from 'react-native'
+import { RH, RW, font } from '@/theme/utils'
 //components
 import Button from '@/assets/imgs/Button'
 import Price from '@/components/inputs/price'
@@ -9,8 +9,9 @@ import Modal from '@/components/modal'
 import SecondBlock from '@/components/forms/secondBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
-import SearchAddresses from '../Map/SearchAddresses'
-import style from './style'
+import SearchAddresses from '../../Map/SearchAddresses'
+import { ICON, LIGHT_LABEL, WHITE } from '@/theme/colors'
+
 // redux
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -68,7 +69,7 @@ const GameCreating = (props) => {
           ? +startDate.time.toLocaleTimeString().slice(0, 1) +
             12 +
             startDate.time.toLocaleTimeString().slice(1, 4)
-          : startDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
+          : startDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 5 : 5)
       }`,
     )
   const changedEndDate = endDate.date
@@ -80,7 +81,7 @@ const GameCreating = (props) => {
           ? +endDate.time.toLocaleTimeString().slice(0, 1) +
             12 +
             endDate.time.toLocaleTimeString().slice(1, 4)
-          : endDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 4 : 5)
+          : endDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 5 : 5)
       }`,
     )
 
@@ -139,24 +140,24 @@ const GameCreating = (props) => {
             setTime={(time) => setStartDate({ ...startDate, time })}
           />
           {/* {!initialState?.start_date ? (
-            <Text style={style.errorText}>Обязательное поле для заполнения</Text>
+            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
           ) : null} */}
           <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
           {/* {+initialState?.number_of_players_from < 0 ||
           +initialState?.number_of_players_from > +initialState?.number_of_players_to ? (
             !initialState?.number_of_players_from || !initialState?.number_of_players_to ? (
-              <Text style={style.errorText}>Обязательное поле для заполнения</Text>
+              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
             ) : (
-              <Text style={style.errorText}>Введите корректную число</Text>
+              <Text style={styles.errorText}>Введите корректную число</Text>
             )
           ) : null} */}
           <SecondBlock type={'age'} initialState={initialState} title={'Возрастные ограничения'} />
           {+initialState?.age_restrictions_from < 0 ||
           +initialState?.age_restrictions_from > +initialState?.age_restrictions_to ? (
             !initialState?.age_restrictions_from || !initialState?.age_restrictions_to ? (
-              <Text style={style.errorText}>Обязательное поле для заполнения</Text>
+              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
             ) : (
-              <Text style={style.errorText}>Введите корректную возраст</Text>
+              <Text style={styles.errorText}>Введите корректную возраст</Text>
             )
           ) : null}
 
@@ -167,7 +168,7 @@ const GameCreating = (props) => {
             }}
             title="Половой признак игрока"
             list={genderList}
-            titleStyle={{ ...style.titles, marginBottom: RW(23) }}
+            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
           <SearchAddresses game={game} />
 
@@ -187,9 +188,9 @@ const GameCreating = (props) => {
             setTime={(time) => setEndDate({ ...endDate, time })}
           />
           {/* {!initialState?.end_date ? (
-            <Text style={style.errorText}>Обязательное поле для заполнения</Text>
+            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
           ) : initialState?.end_date <= initialState?.start_date ? (
-            <Text style={style.errorText}>Введите корректную дату</Text>
+            <Text style={styles.errorText}>Введите корректную дату</Text>
           ) : null} */}
           <RadioBlock
             onChange={(list) => {
@@ -198,7 +199,7 @@ const GameCreating = (props) => {
             }}
             title="Статус организатора в игре"
             list={organizer_in_the_game}
-            titleStyle={{ ...style.titles, marginBottom: RW(23) }}
+            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
 
           <RadioBlock
@@ -208,11 +209,11 @@ const GameCreating = (props) => {
             }}
             title="Стоимость входного билета на игру"
             list={priceList}
-            titleStyle={{ ...style.titles, marginBottom: RW(23) }}
+            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
 
           {flag && (
-            <View style={style.price}>
+            <View style={styles.price}>
               <Price
                 initialState={initialState}
                 sliceNumber={13}
@@ -224,7 +225,7 @@ const GameCreating = (props) => {
             </View>
           )}
           {!initialState?.ticket_price && flag ? (
-            <Text style={style.errorText}>Обязательное поле для заполнения</Text>
+            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
           ) : null}
           <View style={{ position: 'absolute' }}>
             {!response && (
@@ -234,13 +235,13 @@ const GameCreating = (props) => {
                 btnClose={false}
                 item={
                   modalOpen ? (
-                    <View style={style.regulationBlock}>
-                      <Text style={style.title}>Правила</Text>
-                      <Text style={style.textTwo}>{game?.rules}</Text>
+                    <View style={styles.regulationBlock}>
+                      <Text style={styles.title}>Правила</Text>
+                      <Text style={styles.textTwo}>{game?.rules}</Text>
                     </View>
                   ) : (
-                    <View style={style.topBlock}>
-                      <Text style={style.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
+                    <View style={styles.topBlock}>
+                      <Text style={styles.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
                       <View
                         style={{
                           flexDirection: 'row',
@@ -267,7 +268,7 @@ const GameCreating = (props) => {
               />
             )}
           </View>
-          <View style={flag ? { ...style.submitBlock } : { ...style.submitBlock, marginTop: 20 }}>
+          <View style={flag ? { ...styles.submitBlock } : { ...styles.submitBlock, marginTop: 20 }}>
             <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
           </View>
         </ScrollView>
@@ -275,4 +276,68 @@ const GameCreating = (props) => {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  detailImg: {
+    width: RW(20),
+    height: RH(31),
+    marginLeft: RW(20),
+  },
+
+  ticketBlock: {
+    paddingTop: RH(42),
+    paddingBottom: 100,
+  },
+
+  titles: {
+    ...font('regular', 16, ICON, 24),
+    marginTop: RH(24),
+    marginLeft: RW(20),
+  },
+  dateBlock: {
+    marginRight: RW(9),
+    marginTop: RH(9),
+    marginLeft: RW(13),
+    marginBottom: RH(2),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  dash: {
+    width: RW(10),
+    height: 0,
+    borderColor: ICON,
+    borderWidth: RW(2),
+    borderRadius: RW(2),
+    marginHorizontal: RW(8),
+  },
+  countBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: RW(11),
+    marginTop: RH(9),
+  },
+  submitBlock: {
+    marginLeft: 'auto',
+    marginRight: RW(9),
+    marginBottom: RW(23),
+    marginTop: RH(70),
+  },
+  regulationBlock: {
+    backgroundColor: LIGHT_LABEL,
+    marginRight: 'auto',
+    borderRadius: RW(20),
+    marginLeft: 'auto',
+    width: RW(357),
+    padding: RW(35),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  title: {
+    ...font('bold', 24, WHITE, 24),
+    marginBottom: RH(15),
+  },
+  textTwo: {
+    ...font('regular', 16, WHITE, 19),
+    textAlign: 'center',
+  },
+})
 export default GameCreating
