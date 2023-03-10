@@ -21,8 +21,9 @@ export default StyleSheet.create({
   imageBlock: {
     width: RW(240),
     height: RW(240),
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
+    alignSelf: 'center',
     marginVertical: RH(25),
     borderWidth: 1,
     borderRadius: RW(150),
@@ -36,11 +37,11 @@ export default StyleSheet.create({
   },
   image: {
     borderWidth: 1,
-    borderRadius: RW(150),
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
+    borderRadius: RW(150),
   },
+
   editBtn: {
     left: '40%',
   },

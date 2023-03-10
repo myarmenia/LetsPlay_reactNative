@@ -17,7 +17,7 @@ export const APP_LANGUAGES = {
 export const SERVER_ENDPOINT = ''
 export const DEEP_LINKING_SCHEMA = `gameOrganizing:/`
 
-export const IS_IOS = Platform.OS === 'ios'
+export const IS_IOS = Platform.OS == 'ios'
 
 export const NAV_HEADER_OPTION = {
   headerShown: false,

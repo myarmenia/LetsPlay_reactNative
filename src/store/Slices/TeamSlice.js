@@ -1,5 +1,5 @@
-import { IS_IOS } from '@/constants'
 import { createSlice } from '@reduxjs/toolkit'
+import { Platform } from 'react-native'
 import axiosInstance from '../Api'
 const initialState = {
   teamChatsList: [],
@@ -37,10 +37,10 @@ export const TeamSlice = createSlice({
     },
   },
 })
-export const getTeams = (setModalVisible) => (dispatch) => {
+export const getTeams = setModalVisible => dispatch => {
   axiosInstance
     .get('api/team/')
-    .then((response) => {
+    .then(response => {
       if (response?.data?.datas?.length) {
         dispatch(setTeamChats(response?.data?.datas))
         setModalVisible(false)
@@ -48,51 +48,52 @@ export const getTeams = (setModalVisible) => (dispatch) => {
         setModalVisible(true)
       }
     })
-    .catch((err) => {
+    .catch(err => {
       setModalVisible(true)
       console.log('error getting team chats', err)
     })
 }
-export const searchTeam = (teamId, isEmpty, nav) => async (dispatch) => {
+export const searchTeam = (teamId, isEmpty, nav) => async dispatch => {
   axiosInstance
     .get(`api/team/${teamId}`)
-    .then(async (response) => {
+    .then(async response => {
       if (response.data?.data) {
         isEmpty(false)
         await dispatch(setFindedTeam([response.data?.data]))
         nav.navigate('TeamSearchRes')
       }
     })
-    .catch((err) => {
+    .catch(err => {
       dispatch(setFindedTeam([]))
       isEmpty(true)
       console.log('error searching team', err)
     })
 }
-export const getMembersList = (teamId) => async (dispatch) => {
+export const getMembersList = teamId => async dispatch => {
   axiosInstance
     .get(`api/team/players/${teamId}`)
-    .then((response) => {
+    .then(response => {
       // dispatch(setMembersInTeam(response.data))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('error searching players in this team :', err)
     })
 }
-export const joinInGames = (data) => async (dispatch) => {
+export const joinInGames = data => async dispatch => {
   console.log(data)
   axiosInstance
     .get('api/create/game', data)
-    .then((response) => {
+    .then(response => {
       // console.log(JSON.stringify(response.data, null, 4))
       dispatch(setFindedGames(response?.data?.datas))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('error searching players in this team :', err)
     })
 }
 
 export const createTeam = (data, token, setModalVisible) => {
+  console.log(data, token)
   let myHeaders = new Headers()
   myHeaders.append('Content-Type', 'multipart/form-data')
   myHeaders.append('Authorization', `Bearer ${token}`)
@@ -103,12 +104,12 @@ export const createTeam = (data, token, setModalVisible) => {
     headers: myHeaders,
     body: data,
   }
-  fetch(`${IS_IOS ? 'https' : 'http'}://to-play.ru/api/team`, requestOptions)
-    .then((response) => {
+  fetch(`${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api/team`, requestOptions)
+    .then(response => {
       setModalVisible(true)
       console.log(response)
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err creating team', err)
     })
 }
