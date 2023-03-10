@@ -19,7 +19,6 @@ const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
   const [playWidth, setPlayWidth] = useState(0)
 
   const dispatch = useDispatch()
-  const VideoRef = useRef()
   const { playMessageId, pausedMessageId } = useSelector(({ chats }) => chats)
 
   const onStartPlay = async () => {

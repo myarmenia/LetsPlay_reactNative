@@ -10,7 +10,7 @@ import SecondBlock from '@/components/forms/secondBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import DarkButton from '@/assets/imgs/DarkButton'
 import SearchAddresses from '../../Map/SearchAddresses'
-import { ICON, LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 
 // redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -18,6 +18,7 @@ import {
   createGame,
   setGame,
   setGameCreatedSuccessful,
+  setInitialState,
   setOrganizer_in_the_game,
   setPlayers_gender,
 } from '@/store/Slices/GameCreatingSlice'
@@ -30,14 +31,19 @@ const GameCreating = (props) => {
 
   //states
   const initialState = useSelector((state) => state.game)
-
-  const [errorText, setErrorText] = useState(false)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
+
+  // error messages
+  const [startDateError, setStartDateError] = useState()
+  const [endDateError, setEndDateError] = useState()
+  const [playersCuntError, setPlayersCuntError] = useState()
+  const [ageError, setAgeError] = useState()
+  const [addressError, setAddressError] = useState()
+
   //redux
   const dispatch = useDispatch()
-
   const [startDate, setStartDate] = useState({
     date: new Date(),
     time: new Date(),
@@ -60,50 +66,119 @@ const GameCreating = (props) => {
     { id: 3, text: 'Без ограничений', checked: true, label: 'm/f' },
   ])
 
+  const timeFormat = (date) => {
+    if (
+      date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
+      +date.time.toLocaleTimeString().slice(0, 2) != 12
+    ) {
+      return (
+        +date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
+        12 +
+        ':' +
+        date.time.toLocaleTimeString().split(':')[1]
+      )
+    } else if (date.time.toLocaleTimeString().split(' ')[0].split(':')[0].length == 1) {
+      return (
+        '0' +
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
+        ':' +
+        date.time.toLocaleTimeString().split(':')[1]
+      )
+    } else {
+      return (
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
+        ':' +
+        date.time.toLocaleTimeString().split(':')[1]
+      )
+    }
+  }
+
   const changedStartDate = startDate.date
     .toISOString()
     .substring(0, 10)
-    .concat(
-      ` ${
-        startDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
-          ? +startDate.time.toLocaleTimeString().slice(0, 1) +
-            12 +
-            startDate.time.toLocaleTimeString().slice(1, 4)
-          : startDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 5 : 5)
-      }`,
-    )
+    .concat(' ' + timeFormat(startDate))
   const changedEndDate = endDate.date
     .toISOString()
     .substring(0, 10)
-    .concat(
-      ` ${
-        endDate.time.toLocaleTimeString().slice(8, 10) == 'PM'
-          ? +endDate.time.toLocaleTimeString().slice(0, 1) +
-            12 +
-            endDate.time.toLocaleTimeString().slice(1, 4)
-          : endDate.time.toLocaleTimeString().slice(0, Platform.OS == 'ios' ? 5 : 5)
-      }`,
-    )
+    .concat(' ' + timeFormat(endDate))
 
   const handleClick = () => {
-    dispatch(
-      createGame({
-        ...initialState,
-        start_date: changedStartDate,
-        end_date: changedEndDate,
-      }),
-    )
-    setModalOpen(true)
-    setIsVisible(false)
+    setStartDateError(null)
+    setEndDateError(null)
+    setAgeError(null)
+    setPlayersCuntError(null)
+    setAddressError(null)
+    if (!startDate) {
+      setStartDateError('Обязательное поле для заполнения')
+    }
+    if (!endDate) {
+      setEndDateError('Обязательное поле для заполнения')
+    } else if (startDate.date <= endDate.date) {
+      setEndDateError('Введите корректную дату')
+    }
+    if (!initialState.age_restrictions_from || !initialState?.age_restrictions_to) {
+      setAgeError('Обязательное поле для заполнения')
+    } else if (
+      +initialState?.age_restrictions_from < 0 ||
+      +initialState?.age_restrictions_from > +initialState?.age_restrictions_to
+    ) {
+      setAgeError('Введите корректную возраст')
+    }
+
+    if (!initialState.number_of_players_from || !initialState?.number_of_players_to) {
+      setPlayersCuntError('Обязательное поле для заполнения')
+    } else if (
+      +initialState?.number_of_players_from < 0 ||
+      +initialState?.number_of_players_from > +initialState?.number_of_players_to
+    ) {
+      setPlayersCuntError('Введите корректную число')
+    }
+    if (!initialState?.latitude || !initialState?.longitude) {
+      setAddressError('Обязательное поле для заполнения')
+    }
+
+    if (
+      startDate &&
+      endDate &&
+      initialState?.latitude &&
+      initialState?.longitude &&
+      +initialState?.age_restrictions_from > 0 &&
+      +initialState?.age_restrictions_from < +initialState?.age_restrictions_to &&
+      +initialState?.number_of_players_from > 0 &&
+      +initialState?.number_of_players_from < +initialState?.number_of_players_to
+    ) {
+      dispatch(
+        createGame({
+          ...initialState,
+          start_date: changedStartDate,
+          end_date: changedEndDate,
+        }),
+      )
+      dispatch(
+        setInitialState({
+          number_of_players_from: 0,
+          number_of_players_to: 0,
+          age_restrictions_from: 0,
+          age_restrictions_to: 0,
+          players_gender: 'm',
+          latitude: 0,
+          longitude: 0,
+          organizer_in_the_game: true,
+          ticket_price: 0,
+          game: '',
+          placeName: '',
+          gameCreatedSuccessful: null,
+        }),
+      )
+      setModalOpen(true)
+      setIsVisible(false)
+    }
   }
   useEffect(() => {
     dispatch(setGame(game._id))
     setIsVisible(true)
   }, [])
 
-  useEffect(() => {
-    setErrorText(false)
-  }, [initialState])
   useEffect(() => {
     if (initialState.gameCreatedSuccessful) {
       navigation.navigate('GameTicket', { params: { initialState, game, name: game.name } })
@@ -139,27 +214,12 @@ const GameCreating = (props) => {
             setDate={(date) => setStartDate({ ...startDate, date })}
             setTime={(time) => setStartDate({ ...startDate, time })}
           />
-          {/* {!initialState?.start_date ? (
-            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-          ) : null} */}
+          {startDateError ? <Text style={styles.errorText}>{startDateError}</Text> : null}
           <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
-          {/* {+initialState?.number_of_players_from < 0 ||
-          +initialState?.number_of_players_from > +initialState?.number_of_players_to ? (
-            !initialState?.number_of_players_from || !initialState?.number_of_players_to ? (
-              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-            ) : (
-              <Text style={styles.errorText}>Введите корректную число</Text>
-            )
-          ) : null} */}
+          {playersCuntError ? <Text style={styles.errorText}>{playersCuntError}</Text> : null}
+
           <SecondBlock type={'age'} initialState={initialState} title={'Возрастные ограничения'} />
-          {+initialState?.age_restrictions_from < 0 ||
-          +initialState?.age_restrictions_from > +initialState?.age_restrictions_to ? (
-            !initialState?.age_restrictions_from || !initialState?.age_restrictions_to ? (
-              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-            ) : (
-              <Text style={styles.errorText}>Введите корректную возраст</Text>
-            )
-          ) : null}
+          {ageError ? <Text style={styles.errorText}>{ageError}</Text> : null}
 
           <RadioBlock
             onChange={(list) => {
@@ -171,6 +231,7 @@ const GameCreating = (props) => {
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
           <SearchAddresses game={game} />
+          {addressError ? <Text style={styles.errorText}>{addressError}</Text> : null}
 
           <DateComponent
             title="Дата и время окончания поиска игроков"
@@ -187,11 +248,7 @@ const GameCreating = (props) => {
             setDate={(date) => setEndDate({ ...endDate, date })}
             setTime={(time) => setEndDate({ ...endDate, time })}
           />
-          {/* {!initialState?.end_date ? (
-            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-          ) : initialState?.end_date <= initialState?.start_date ? (
-            <Text style={styles.errorText}>Введите корректную дату</Text>
-          ) : null} */}
+          {endDateError ? <Text style={styles.errorText}>{endDateError}</Text> : null}
           <RadioBlock
             onChange={(list) => {
               setOrganizer_in_the_gameState(list)
@@ -338,6 +395,12 @@ const styles = StyleSheet.create({
   textTwo: {
     ...font('regular', 16, WHITE, 19),
     textAlign: 'center',
+  },
+  errorText: {
+    color: LIGHT_RED,
+    fontSize: RW(16),
+    marginTop: RH(5),
+    marginLeft: RH(10),
   },
 })
 export default GameCreating

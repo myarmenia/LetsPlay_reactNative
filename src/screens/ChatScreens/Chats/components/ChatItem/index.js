@@ -61,7 +61,7 @@ function Index({ id, item }) {
           alignItems: 'center',
           justifyContent: 'flex-end',
           flexDirection: 'row',
-          width: RW(371),
+          width: RW(372),
           zIndex: -22,
         }}
       >

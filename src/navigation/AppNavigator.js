@@ -22,6 +22,7 @@ import TeamNavigator from '@/navigation/TeamNavigator'
 import PrivateChat from '@/screens/ChatScreens/PrivateChat'
 import ProfileNavigator from '@/navigation/ProfileNavigator'
 import GameList from '@/screens/Game/GameList'
+import Map from '@/screens/Map/Map'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
@@ -69,6 +70,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator} />
         <Stack.Screen name={'PrivateChat'} component={PrivateChat} />
         <Stack.Screen name={'GameList'} component={GameList} />
+        <Stack.Screen name={'Map'} component={Map} />
       </Stack.Navigator>
     </>
   )

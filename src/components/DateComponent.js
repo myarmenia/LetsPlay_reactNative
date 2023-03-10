@@ -19,7 +19,7 @@ function DateComponent({
   showTime = true,
   editable = true,
   rowStyle,
-  minDate = dateValue,
+  minDate,
   maxDate,
 }) {
   return (

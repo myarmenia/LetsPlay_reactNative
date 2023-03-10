@@ -34,7 +34,7 @@ const Message = ({ item, id, myMessage }) => {
     <>
       {item?.link || item?.file ? (
         <View style={[styles.left, { marginTop: RH(25) }]} key={id}>
-          <MessagePlayer path={item?.file?.path} messageId={id} />
+          <MessagePlayer path={item?.file?.path} messageId={id} duration={item?.file?.length} />
         </View>
       ) : (
         <View
