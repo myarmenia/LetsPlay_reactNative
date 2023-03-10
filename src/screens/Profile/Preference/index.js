@@ -11,11 +11,15 @@ import { changeUserPreferences } from '@/store/Slices/AuthSlice'
 import Select from '@/components/buttons/select'
 import LightButton from '@/assets/imgs/Button'
 import User from '@/assets/imgs/user/user'
+import Modal from '@/components/modal'
+
 function Index(props) {
   const dispatch = useDispatch()
   const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
   const { preferences } = useSelector(({ auth }) => auth.user)
   const { token, user } = useSelector(({ auth }) => auth)
+
+  const [modalVisible, setModalVisible] = useState(false)
 
   useLayoutEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
@@ -51,6 +55,7 @@ function Index(props) {
         nameOfGames.filter(elm => elm.checked).map(el => el.id),
         token,
       ),
+      setModalVisible(true),
     )
   }
   return (
@@ -107,6 +112,16 @@ function Index(props) {
       <View style={style.submitBtn}>
         <LightButton label={token ? 'Сохранить' : 'Продолжить'} onPress={savePreferences} />
       </View>
+      <Modal
+        item={
+          <View style={style.modal}>
+            <Text style={style.successTeam}>Успешно сохранено</Text>
+          </View>
+        }
+        modalVisible={modalVisible}
+        setIsVisible={setModalVisible}
+        navigationText={'Profile'}
+      />
       <View>{/* <User user={user} size={80} onPressImg={false} /> */}</View>
     </ScreenMask>
   )

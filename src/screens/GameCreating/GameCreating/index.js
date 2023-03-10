@@ -25,15 +25,16 @@ import {
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 
-const GameCreating = (props) => {
+const GameCreating = props => {
   const { game, response } = props.route?.params?.params
   const navigation = useNavigation()
 
   //states
-  const initialState = useSelector((state) => state.game)
+  const initialState = useSelector(state => state.game)
   const [flag, setFlag] = useState(false)
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
+  const [addressName, setAddressName] = useState()
 
   // error messages
   const [startDateError, setStartDateError] = useState()
@@ -66,27 +67,41 @@ const GameCreating = (props) => {
     { id: 3, text: 'Без ограничений', checked: true, label: 'm/f' },
   ])
 
-  const timeFormat = (date) => {
+  const timeFormat = date => {
     if (
       date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
       +date.time.toLocaleTimeString().slice(0, 2) != 12
     ) {
       return (
-        +date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
+        +date.time
+          .toLocaleTimeString()
+          .split(' ')[0]
+          .split(':')[0] +
         12 +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
-    } else if (date.time.toLocaleTimeString().split(' ')[0].split(':')[0].length == 1) {
+    } else if (
+      date.time
+        .toLocaleTimeString()
+        .split(' ')[0]
+        .split(':')[0].length == 1
+    ) {
       return (
         '0' +
-        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
+        date.time
+          .toLocaleTimeString()
+          .split(' ')[0]
+          .split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
     } else {
       return (
-        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
+        date.time
+          .toLocaleTimeString()
+          .split(' ')[0]
+          .split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
@@ -140,8 +155,9 @@ const GameCreating = (props) => {
     if (
       startDate &&
       endDate &&
-      initialState?.latitude &&
-      initialState?.longitude &&
+      addressName?.latitude &&
+      addressName?.longitude &&
+      addressName?.placeName &&
       +initialState?.age_restrictions_from > 0 &&
       +initialState?.age_restrictions_from < +initialState?.age_restrictions_to &&
       +initialState?.number_of_players_from > 0 &&
@@ -211,8 +227,8 @@ const GameCreating = (props) => {
             }}
             dateValue={startDate.date}
             timeValue={startDate.time}
-            setDate={(date) => setStartDate({ ...startDate, date })}
-            setTime={(time) => setStartDate({ ...startDate, time })}
+            setDate={date => setStartDate({ ...startDate, date })}
+            setTime={time => setStartDate({ ...startDate, time })}
           />
           {startDateError ? <Text style={styles.errorText}>{startDateError}</Text> : null}
           <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
@@ -222,15 +238,15 @@ const GameCreating = (props) => {
           {ageError ? <Text style={styles.errorText}>{ageError}</Text> : null}
 
           <RadioBlock
-            onChange={(list) => {
+            onChange={list => {
               setGenderList(list)
-              dispatch(setPlayers_gender(list.find((e) => e.checked).label))
+              dispatch(setPlayers_gender(list.find(e => e.checked).label))
             }}
             title="Половой признак игрока"
             list={genderList}
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
-          <SearchAddresses game={game} />
+          <SearchAddresses game={game} setAddressName={setAddressName} />
           {addressError ? <Text style={styles.errorText}>{addressError}</Text> : null}
 
           <DateComponent
@@ -245,14 +261,14 @@ const GameCreating = (props) => {
             }}
             dateValue={endDate.date}
             timeValue={endDate.time}
-            setDate={(date) => setEndDate({ ...endDate, date })}
-            setTime={(time) => setEndDate({ ...endDate, time })}
+            setDate={date => setEndDate({ ...endDate, date })}
+            setTime={time => setEndDate({ ...endDate, time })}
           />
           {endDateError ? <Text style={styles.errorText}>{endDateError}</Text> : null}
           <RadioBlock
-            onChange={(list) => {
+            onChange={list => {
               setOrganizer_in_the_gameState(list)
-              dispatch(setOrganizer_in_the_game(list.find((e) => e.text == 'Участвует').checked))
+              dispatch(setOrganizer_in_the_game(list.find(e => e.text == 'Участвует').checked))
             }}
             title="Статус организатора в игре"
             list={organizer_in_the_game}
@@ -260,9 +276,9 @@ const GameCreating = (props) => {
           />
 
           <RadioBlock
-            onChange={(list) => {
+            onChange={list => {
               setPriceList(list)
-              list.find((e) => e.checked).text == 'Платно' ? setFlag(true) : setFlag(false)
+              list.find(e => e.checked).text == 'Платно' ? setFlag(true) : setFlag(false)
             }}
             title="Стоимость входного билета на игру"
             list={priceList}
