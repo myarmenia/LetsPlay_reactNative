@@ -44,7 +44,7 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 
-const CreateTeamTitle = (props) => {
+const CreateTeamTitle = props => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
@@ -58,30 +58,29 @@ const CreateTeamTitle = (props) => {
     setAddressName(response)
   }, [response])
   const handleCreate = () => {
-    if (addressName && teamName) {
+    if (!addressName) {
+      setAddressNameError(true)
+    } else {
+      setAddressNameError(false)
+    }
+    if (!teamName) {
+      setTeamNameError(true)
+    } else {
+      setTeamNameError(false)
+    }
+    if (!addressNameError && !teamNameError) {
       formdata.append('name', teamName)
       formdata.append('address_name', addressName?.address_name)
-      formdata.append('latitude', addressName.lat)
-      formdata.append('longitude', addressName.lng)
+      formdata.append('latitude', addressName?.lat)
+      formdata.append('longitude', addressName?.lng)
       formdata.append('image', {
         name: avatar?.assets?.[0].fileName,
         type: avatar?.assets?.[0].type,
         uri: avatar?.assets?.[0].uri,
       })
 
-      createTeam(formdata, token)
+      createTeam(formdata, token, setModalVisible)
       // setModalVisible(true),
-    } else {
-      if (!addressName) {
-        setAddressNameError(true)
-      } else {
-        setAddressNameError(false)
-      }
-      if (!teamName) {
-        setTeamNameError(true)
-      } else {
-        setTeamNameError(false)
-      }
     }
   }
 
@@ -91,7 +90,7 @@ const CreateTeamTitle = (props) => {
 
   const uploadImageHandle = async () => {
     const result = await launchImageLibrary({
-      mediaType: 'photo',
+      mediaType: 'mixed',
       quality: 1,
       includeBase64: true,
     })
@@ -109,16 +108,20 @@ const CreateTeamTitle = (props) => {
                 placeholderTextColor={ICON}
                 maxLength={30}
                 style={styles.inputs}
-                onChangeText={(value) => setTeamName(value)}
+                onChangeText={value => setTeamName(value)}
               />
             </View>
-            {!teamName && <Text style={styles.errorText}>Обязательное поле для заполнения</Text>}
+            {teamNameError && (
+              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
+            )}
           </View>
           <View style={styles.colBox}>
             <View style={styles.inputBlock}>
               <SearchAddresses setAddressName={setAddressName} navigateTo="CreateTeamTitle" />
             </View>
-            {!addressName && <Text style={styles.errorText}>Обязательное поле для заполнения</Text>}
+            {addressNameError && (
+              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
+            )}
           </View>
         </View>
         <View style={styles.uploadBox}>

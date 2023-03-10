@@ -17,7 +17,7 @@ import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
 import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
 import SearchInput from '@/screens/Team/SearchInput'
 import TeamInfo from '@/screens/Team/TeamInfo'
-
+import Map from '@/screens/Map/Map'
 const Stack = createNativeStackNavigator()
 
 function Index() {
@@ -27,6 +27,7 @@ function Index() {
       <Stack.Screen name="MyTeam" component={MyTeam} />
       <Stack.Screen name="MyTeamInfo" component={MyTeamInfo} />
       <Stack.Screen name="EditTeamInfo" component={EditTeamInfo} />
+      <Stack.Screen name="Map" component={Map} />
       <Stack.Screen name="TeamSelectGameCategory" component={TeamSelectCategoryComponent} />
       <Stack.Screen name="SelectTeam" component={SelectTeam} />
       <Stack.Screen name="SelectPlayers" component={SelectPlayers} />

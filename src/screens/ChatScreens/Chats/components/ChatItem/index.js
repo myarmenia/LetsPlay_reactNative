@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react'
 import {
+  Alert,
   Animated,
   Image,
   PanResponder,
@@ -25,9 +26,18 @@ function Index({ id, item }) {
       onMoveShouldSetPanResponder: (evt, gestureState) => {
         return Math.abs(gestureState.dx) > Math.abs(gestureState.dy * 2)
       },
-      onPanResponderMove: (evt, gestureState) => {
-        if (gestureState.dx > 0) {
+      onPanResponderStart: (evt, gestureState) => {
+        if (gestureState.dx > 86) {
           // petqa te che?
+          console.log('gestureState.dx', gestureState.dx)
+          animation.stopAnimation()
+        }
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        if (gestureState.dx > 86) {
+          // petqa te che?
+          console.log('gestureState.dx', gestureState.dx)
+          animation.stopAnimation()
           setSwipeDirection('right')
         } else {
           setSwipeDirection('left')
@@ -35,13 +45,17 @@ function Index({ id, item }) {
         animation.setValue(gestureState.dx)
       },
       onPanResponderRelease: (evt, gestureState) => {
+        if (swipeDirection == 'right') {
+          animation.stopAnimation()
+        }
         if (gestureState.moveX < 135) {
+          console.log('if ', gestureState.moveX)
           Animated.timing(animation, {
             toValue: 0,
             duration: 200,
             useNativeDriver: true,
           }).start()
-        } else {
+        } else if (gestureState.moveX > 85) {
           Animated.timing(animation, {
             toValue: 85,
             duration: 200,
