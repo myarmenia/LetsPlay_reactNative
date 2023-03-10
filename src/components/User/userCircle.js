@@ -20,17 +20,12 @@ function SvgComponent({ count, status, size }) {
       <View
         style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}
       >
-        <Text style={{ ...font('bold', fontSize, BLACK), textAlign: 'center' }}>{count}</Text>
+        <Text style={{ ...font('exo', 10, BLACK), fontWeight: '600', textAlign: 'center' }}>
+          {count}
+        </Text>
       </View>
       <Defs>
-        <LinearGradient
-          id="gold"
-          x1={0.048}
-          y1={70.048}
-          x2={269.494}
-          y2={70.048}
-          gradientUnits="userSpaceOnUse"
-        >
+        <LinearGradient id="gold" x1={0} y1={0} x2={width} y2={0} gradientUnits="userSpaceOnUse">
           <Stop stopColor="#A37A1E" />
           <Stop offset={0.12} stopColor="#D3A84C" />
           <Stop offset={0.276} stopColor="#FFEC95" />
@@ -39,14 +34,7 @@ function SvgComponent({ count, status, size }) {
           <Stop offset={0.859} stopColor="#B58F3E" />
           <Stop offset={1} stopColor="#956E13" />
         </LinearGradient>
-        <LinearGradient
-          id="silver"
-          x1={0.215}
-          y1={241.473}
-          x2={269.662}
-          y2={241.541}
-          gradientUnits="userSpaceOnUse"
-        >
+        <LinearGradient id="silver" x1={0} y1={0} x2={width} y2={0} gradientUnits="userSpaceOnUse">
           <Stop stopColor="#A0A0A0" />
           <Stop offset={0.13} stopColor="#E6E6E6" />
           <Stop offset={0.276} stopColor="#BABABA" />
@@ -56,10 +44,14 @@ function SvgComponent({ count, status, size }) {
         </LinearGradient>
         <LinearGradient
           id="bronze"
-          x1={-8.993}
-          y1={70.048}
-          x2={278.372}
-          y2={70.048}
+          // x1={-8.993}
+          // y1={70.048}
+          // x2={278.372}
+          // y2={70.048}
+          x1={0}
+          y1={0}
+          x2={width}
+          y2={0}
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#873B23" />
@@ -68,20 +60,6 @@ function SvgComponent({ count, status, size }) {
           <Stop offset={0.485} stopColor="#E8D2AE" />
           <Stop offset={0.708} stopColor="#C09067" />
           <Stop offset={1} stopColor="#A05E2E" />
-        </LinearGradient>
-        <LinearGradient
-          id="blue"
-          x1={4.048}
-          y1={190.533}
-          x2={258.048}
-          y2={188.033}
-          gradientUnits="userSpaceOnUse"
-        >
-          <Stop stopColor="#157185" />
-          <Stop offset={0.249} stopColor="#87C4CC" />
-          <Stop offset={0.518} stopColor="#1568A7" />
-          <Stop offset={0.83} stopColor="#7BADE6" />
-          <Stop offset={1} stopColor="#024ABA" />
         </LinearGradient>
       </Defs>
     </Svg>

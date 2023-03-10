@@ -47,7 +47,6 @@ const TabNavigator = () => {
       >
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Chat'} component={ChatScreen} />
-        <Tab.Screen name={'Game'} component={GameSelectScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
         <Tab.Screen name={'Notification'} component={NotificationScreen} />
       </Tab.Navigator>
@@ -62,6 +61,7 @@ const AppNavigator = () => {
       <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
         <Stack.Screen name={'TabNavigator'} component={TabNavigator} />
         <Stack.Screen name={'HomeScreen'} component={HomeScreen} />
+        <Tab.Screen name={'Game'} component={GameSelectScreen} />
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'JoinGame'} component={JoinGame} />
         <Stack.Screen name={'CreateGameNavigator'} component={CreateGameNavigator} />

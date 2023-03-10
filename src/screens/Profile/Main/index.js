@@ -17,7 +17,7 @@ const index = () => {
     { id: 5, text: 'Условия использования' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
-  const forNavigate = item => {
+  const forNavigate = (item) => {
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
     }
@@ -42,7 +42,7 @@ const index = () => {
               style={[style.image]}
               source={
                 !avatar
-                  ? require('../../../assets/imgs/user/defualtUser.png')
+                  ? require('../../../assets/defualtUser.png')
                   : avatar.startsWith('https://')
                   ? { uri: avatar }
                   : {
@@ -57,7 +57,7 @@ const index = () => {
           </View>
         </View>
       </View>
-      <FlatList data={list} renderItem={renderItem} keyExtractor={item => item.id} />
+      <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} />
     </ScreenMask>
   )
 }

@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
   next: {
     flex: 1,
     width: RW(382),
+    marginBottom: RH(30),
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
   },

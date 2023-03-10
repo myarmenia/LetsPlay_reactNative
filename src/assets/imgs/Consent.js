@@ -16,7 +16,7 @@ function SvgComponent({ path, name }) {
     })
   }
   return (
-    <Pressable onPress={downloadFunc} style={{ marginRight: RW(10) }}>
+    <Pressable onPress={downloadFunc} style={{ paddingLeft: RW(5) }}>
       <Svg
         width={RW(36)}
         height={RH(37)}

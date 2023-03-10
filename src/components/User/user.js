@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Svg, { LinearGradient, Stop, Path, Defs } from 'react-native-svg'
 import { RH, RW } from '@/theme/utils'
-import User from '@/components/userIcon'
+import User from '@/components/User/userIcon'
 import { TouchableOpacity, View } from 'react-native'
 import Modal from '@/components/modal'
 import { useState } from 'react'
 
-function SvgComponent({ size = RW(100), user, onPressItem, onPressImg }) {
+function SvgComponent({ size = RW(100), onPressItem, onPressImg }) {
   const width = RW(size < 40 ? 40 : size)
   const [modalVisible, setModalVisible] = useState(false)
   const item = (
@@ -101,7 +101,7 @@ function SvgComponent({ size = RW(100), user, onPressItem, onPressImg }) {
           position: 'absolute',
         }}
       >
-        <User user={user} size={width} onPressImg={onPressImg} />
+        <User size={width} onPressImg={onPressImg} />
       </View>
     </View>
   )

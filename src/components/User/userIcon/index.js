@@ -1,7 +1,7 @@
 import { Image, Linking, Platform, Pressable, Text, View } from 'react-native'
 import style from './styles'
-import UserLine from '@/assets/imgs/user/userLine'
-import UserCircle from '@/assets/imgs/user/userCircle'
+import UserLine from '@/components/User/userLine'
+import UserCircle from '@/components/User/userCircle'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
@@ -10,8 +10,9 @@ import { useEffect, useState } from 'react'
 import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
 
-function Index({ user, size, onPressImg }) {
-  const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
+function Index({ size, onPressImg }) {
+  const user = useSelector(({ auth }) => auth.user)
+  const { name, surname, vk_id, avatar } = user
   const fontSizeTitle = size / RW(35)
   const fontSizeCount = size / RW(25)
   const [loader, setLoader] = useState(true)
@@ -59,7 +60,7 @@ function Index({ user, size, onPressImg }) {
           ]}
           source={
             !avatar
-              ? require('../../assets/imgs/user/defualtUser.png')
+              ? require('../../../assets/defualtUser.png')
               : avatar.startsWith('https://')
               ? { uri: avatar }
               : {
@@ -80,9 +81,13 @@ function Index({ user, size, onPressImg }) {
           marginTop: size / RH(70),
         }}
       >
-        <UserCircle size={size + RW(15)} count={user.organizer} status={user.status} />
+        <UserCircle size={size + RW(15)} count={user?.create_games?.length} status={user.status} />
         <UserLine size={size} status={user.status} />
-        <UserCircle size={size + RW(15)} count={user.participant} status={user.status} />
+        <UserCircle
+          size={size + RW(15)}
+          count={user?.took_part_games?.length}
+          status={user.status}
+        />
       </View>
       <View
         style={{
@@ -94,31 +99,30 @@ function Index({ user, size, onPressImg }) {
         }}
       >
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Создано игр
           </Text>
-          <Text style={font('bold', fontSizeCount, WHITE)}>{user.gamesCreated}</Text>
+          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
         </View>
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Принято игр
           </Text>
-          <Text style={font('bold', fontSizeCount, WHITE)}>{user.acceptedGames}</Text>
+          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.took_part_games?.length}</Text>
         </View>
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отменено игр
           </Text>
-          <Text style={font('bold', fontSizeCount, WHITE)}>{user.canceledGames}</Text>
+          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
         </View>
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('bold', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отклонено игр
           </Text>
-          <Text style={font('bold', fontSizeCount, WHITE)}>{user.disabledGames}</Text>
+          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.took_part_games?.length}</Text>
         </View>
       </View>
-      {/* need detect user have a vk account and show it overwise show some text */}
       <Pressable
         onPress={() => {
           if (vk_id) {

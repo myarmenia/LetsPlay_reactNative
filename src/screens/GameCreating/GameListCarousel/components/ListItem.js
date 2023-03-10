@@ -8,10 +8,14 @@ import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { BLACK, WHITE } from '@/theme/colors'
+import { useDispatch } from 'react-redux'
+import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 
 function ListItem({ game, pressable, qrGame }) {
   const [active, setActive] = useState(false)
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+
   return (
     <Animated.View>
       <TouchableOpacity
@@ -19,7 +23,9 @@ function ListItem({ game, pressable, qrGame }) {
           if (pressable) {
             setActive(true)
             if (qrGame) {
-              navigation.navigate('MafiaNavigation', { qrGame: qrGame })
+              dispatch(setRules(game.rules))
+              dispatch(setQrGame(qrGame))
+              navigation.navigate('MafiaNavigation')
             } else {
               game.name ? navigation.navigate('GameCreating', { params: { game } }) : null
             }

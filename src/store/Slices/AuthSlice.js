@@ -343,11 +343,11 @@ export const editProfile = (data) => (dispatch) => {
       console.log('err request _response', err.request._response)
     })
 }
-export const getProfileInfo = (data) => (dispatch) => {
+export const getProfileInfo = () => (dispatch) => {
   axiosInstance
     .get('api/profile')
     .then((response) => {
-      // console.log('getProfileInfo ', response.data)
+      console.log('getProfileInfo ', response.data)
       dispatch(setUser(response.data?.user))
     })
     .catch((err) => {
