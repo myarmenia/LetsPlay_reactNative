@@ -18,15 +18,18 @@ import { BACKGROUND, DARK_BLUE, ICON, WHITE } from '@/theme/colors'
 import MapSvg from '@/assets/svgs/mapSvg'
 import { useNavigation } from '@react-navigation/native'
 import { fetchAddress } from './fetchAddress'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Geolocation from 'react-native-geolocation-service'
+import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
 const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '', command }) => {
   const inp = useRef()
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
-  const initialState = useSelector((state) => state.game)
+  const dispatch = useDispatch()
+  const initialState = useSelector(state => state.game)
+
   const checkPermissionAndNavigate = async function requestLocationPermission() {
     if (Platform.OS === 'android') {
       try {
@@ -74,6 +77,10 @@ const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '', com
                 lat: s.results[0]?.geometry.bounds?.northeast.lat,
                 lng: s.results[0]?.geometry.bounds?.northeast?.lng,
               })
+
+              dispatch(setLatitude(s.results[0]?.geometry.bounds?.northeast.lat))
+              dispatch(setLongitude(s.results[0]?.geometry.bounds?.northeast?.lng)),
+                dispatch(setPlaceName(response))
             }
           })
       })

@@ -35,8 +35,11 @@ export default StyleSheet.create({
     marginTop: RW(23),
   },
 
-  flatList: {
-    justifyContent: 'space-around',
+  flatListBlock: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '95%',
+    alignSelf: 'center',
   },
   gamesBox: {
     // marginBottom: RH(30)
@@ -44,6 +47,17 @@ export default StyleSheet.create({
     flexWrap: 'wrap',
     width: '95%',
     alignSelf: 'center',
+  },
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(50),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
   },
   detail: {
     width: RW(60),

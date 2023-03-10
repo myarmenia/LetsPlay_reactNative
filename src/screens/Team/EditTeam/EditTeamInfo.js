@@ -14,6 +14,7 @@ const EditTeamInfo = ({ route }) => {
   const command = route.params
   const [addresName, setAddressName] = useState('')
   const [name, setName] = useState('')
+  const [photo, setPhoto] = useState(_storageUrl + command?.img)
   const navigation = useNavigation()
   const uploadPhoto = async () => {
     const result = await launchImageLibrary({
@@ -21,6 +22,7 @@ const EditTeamInfo = ({ route }) => {
       quality: 1,
       includeBase64: true,
     })
+    setPhoto(result.assets[0].uri)
     // dispatch(setPending(true))
     // setEditable(false)
     // let myHeaders = new Headers()
@@ -59,7 +61,7 @@ const EditTeamInfo = ({ route }) => {
     <ScreenMask>
       <View style={styles.row}>
         <ImageBackground
-          source={{ uri: _storageUrl + command?.img }}
+          source={{ uri: photo }}
           // resizeMode="cover"
           style={styles.img}
           imageStyle={styles.img}

@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import { ICON, WHITE } from '@/theme/colors'
+import { ACTIVE, ICON, INACTIVE, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import style from '@/screens/Profile/Preference/style'
 import pStyles from '@/screens/Profile/style'
 import Button from '@/assets/imgs/Button'
-import { setToken } from '@/store/Slices/AuthSlice'
+import { changeUserPreferences, setToken } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { addAsyncStorage } from '@/helpers/asyncStore'
+import { getGamesOnlyNames, setNames } from '@/store/Slices/GamesSlice'
 
 const Preferences = () => {
   const list = [
@@ -30,45 +31,92 @@ const Preferences = () => {
   const [game, setGame] = useState([])
   const dispatch = useDispatch()
   const { expired_token } = useSelector(({ auth }) => auth)
+  const { preferences } = useSelector(({ auth }) => auth.user)
+  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  useLayoutEffect(() => {
+    !nameOfGames.length && dispatch(getGamesOnlyNames())
+  }, [])
+  useEffect(() => {
+    console.log(nameOfGames)
+    // dispatch(
+    //   setNames(
+    //     nameOfGames.map(elm => {
+    //       let changed = elm
+    //       preferences.forEach(id => {
+    //         if (id === elm.id) {
+    //           changed = { ...elm, checked: !elm.checked }
+    //         }
+    //       })
+    //       return changed
+    //     }),
+    //   ),
+    // )
+  }, [nameOfGames.length])
+  const checkItem = useCallback(
+    id => {
+      dispatch(
+        setNames([
+          ...nameOfGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
+        ]),
+      )
+    },
+    [nameOfGames],
+  )
+
+  const savePreferences = () => {
+    dispatch(
+      changeUserPreferences(
+        nameOfGames.filter(elm => elm.checked).map(el => el.id),
+        expired_token,
+      ),
+    )
+  }
   const PreferenceItem = ({ item }) => {
-    const handlerActiveUser = () => {
-      if (game.includes(item.id)) {
-        const temp = game.filter((ev, i) => ev !== item.id)
-        setGame(temp)
-      } else {
-        setGame([...game, item.id])
-      }
-    }
+    console.log('item', item)
     return (
       <TouchableOpacity
-        onPress={handlerActiveUser}
-        style={game.includes(item.id) ? style.nameButton : style.nameButtonTwo}
+        onPress={() => checkItem(item.id)}
+        style={[
+          style.gameBtn,
+          {
+            backgroundColor: item.checked ? ACTIVE : INACTIVE,
+          },
+        ]}
       >
-        <Text style={pStyles.linkText}>{item.text}</Text>
+        <Text style={styles.linkText}>{item.name}</Text>
       </TouchableOpacity>
     )
   }
-  const renderItem = ({ item }) => <PreferenceItem item={item} />
 
   return (
     <ScreenMask>
       <Text style={[styles.title, styles.mt60]}>Введите ваши предпочтения</Text>
       <Text style={[styles.subTitle, styles.mt40]}>Выбрать предпочтения</Text>
       <View style={style.flatListBlock}>
-        <FlatList
-          columnWrapperStyle={style.flatList}
-          numColumns={3}
-          data={list}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
+        {nameOfGames?.map(elm => {
+          return (
+            <TouchableOpacity
+              key={elm.id}
+              onPress={() => checkItem(elm.id)}
+              style={[
+                style.gameBtn,
+                {
+                  backgroundColor: elm.checked ? ACTIVE : INACTIVE,
+                },
+              ]}
+            >
+              <Text style={styles.linkText}>{elm.name}</Text>
+            </TouchableOpacity>
+          )
+        })}
       </View>
       <View style={styles.next}>
         <Button
           label={'Далее>>'}
           size={{ width: 171, height: 36 }}
-          onPress={() => {
+          onPress={async () => {
             dispatch(setToken(expired_token))
+            savePreferences()
             addAsyncStorage('token', expired_token)
           }}
         />
@@ -94,6 +142,18 @@ const styles = StyleSheet.create({
   subTitle: {
     fontStyle: 'italic',
     ...font('medium', 18, WHITE, 28),
+  },
+  linkText: {
+    ...font('regular', 16, WHITE, 19),
+    paddingHorizontal: RW(12),
+    paddingVertical: RH(10),
+  },
+  gameBtn: {
+    // backgroundColor: INACTIVE,
+    alignSelf: 'center',
+    marginHorizontal: RW(4),
+    borderRadius: RW(10),
+    marginTop: RW(23),
   },
   next: {
     right: RW(8),

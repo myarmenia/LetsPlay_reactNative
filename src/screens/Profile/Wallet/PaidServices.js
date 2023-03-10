@@ -9,9 +9,9 @@ import ToggleSwitch from '@/components/ToggleSwitch'
 
 function Index(props) {
   const list = [
-    { id: 1, text: '”Входной билет”' },
-    { id: 2, text: '“Продвижение игры”' },
-    { id: 3, text: '“Все и сразу”' },
+    { id: 1, text: 'Входной билет' },
+    { id: 2, text: 'Продвижение игры' },
+    { id: 3, text: 'Все и сразу' },
   ]
   const LinkItem = ({ item }) => (
     <View
@@ -44,7 +44,7 @@ function Index(props) {
       <View style={style.bannerTitleBlock}>
         <Text style={style.bannerTitle}>Подписки за месяц:</Text>
       </View>
-      <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <FlatList data={list} renderItem={renderItem} keyExtractor={item => item.id} />
       <View style={style.buttonBlock}>
         <Button size={{ width: 281, height: 48 }} label={'Подтвердить'} />
       </View>

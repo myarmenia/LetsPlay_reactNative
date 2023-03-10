@@ -85,8 +85,8 @@ const SignUp = () => {
           dispatch(setEmail(text.toLocaleLowerCase()))
           dispatch(
             signUp({
-              name: user.name,
-              surname: user.surname,
+              name: user?.name,
+              surname: user?.surname,
               email: text.toLocaleLowerCase(),
             }),
           )

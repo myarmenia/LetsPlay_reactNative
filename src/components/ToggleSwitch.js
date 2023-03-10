@@ -25,7 +25,7 @@ const Toggle = () => {
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
-        colors={['rgba(125, 206, 138, 1)', 'rgba(77, 124, 254, 1)']}
+        colors={isOn ? ['rgba(125, 206, 138, 1)', 'rgba(77, 124, 254, 1)'] : ['#b3b7c2', '#b3b7c2']}
         style={{ width: RW(65), height: RH(24), borderRadius: RH(12) }}
       ></LinearGradient>
       <Animated.View
