@@ -4,7 +4,7 @@ import React from 'react'
 import { View, Text, Image, ScrollView } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
-import User from '@/assets/imgs/user/user'
+import User from '@/components/User/user'
 import { Players } from '@/assets/TestData'
 
 function GameItem({ route, navigation }) {

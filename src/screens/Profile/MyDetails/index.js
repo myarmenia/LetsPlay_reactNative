@@ -132,7 +132,7 @@ function Index() {
             imageStyle={style.image}
             source={
               !avatar
-                ? require('../../../assets/imgs/user/defualtUser.png')
+                ? require('../../../assets/defualtUser.png')
                 : avatar.startsWith('https://')
                 ? { uri: avatar }
                 : {

@@ -61,7 +61,10 @@ function Index(props) {
         body: formdata,
       }
 
-      fetch(`${IS_IOS ? 'https' : 'http'}://to-play.ru/api/create/game/chat/`, requestOptions)
+      fetch(
+        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api/create/game/chat/`,
+        requestOptions,
+      )
         .then((result) => {
           setVoiceMessage(null)
         })

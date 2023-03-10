@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   text: {
     color: WHITE,
     textAlign: 'center',
-    fontSize: 13,
+    fontSize: 16,
     marginBottom: RH(6),
   },
 })

@@ -7,7 +7,7 @@ import { BACKGROUND, GRAY, ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import { Players } from '@/assets/TestData'
-import User from '@/assets/imgs/user/user'
+import User from '@/components/User/user'
 
 const PlaceMan = () => {
   const navigation = useNavigation()

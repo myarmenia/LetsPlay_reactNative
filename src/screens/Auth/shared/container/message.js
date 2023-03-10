@@ -38,7 +38,11 @@ const Message = ({ message, id }) => {
         style={[
           styles.label,
           message.error && { color: 'rgba(214, 0, 0, 1)' },
-          message.type === 'FILE' && { paddingRight: RW(35) },
+          message.type === 'FILE' && {
+            paddingRight: RW(35),
+
+            maxWidth: '90%',
+          },
         ]}
         secureTextEntry={true}
       >
@@ -57,7 +61,6 @@ const styles = StyleSheet.create({
     minHeight: RH(42),
     borderRadius: RW(10),
     paddingVertical: RH(10),
-    paddingHorizontal: RW(14),
   },
   left: {
     alignSelf: 'flex-start',
@@ -69,6 +72,7 @@ const styles = StyleSheet.create({
   },
   label: {
     ...font('regular', 16, WHITE, 20),
-    flexWrap: 'wrap',
+    paddingLeft: RW(10),
+    marginRight: RW(5),
   },
 })

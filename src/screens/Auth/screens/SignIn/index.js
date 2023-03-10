@@ -142,6 +142,8 @@ const SignIn = (props) => {
   }, [emailWithSignUp])
 
   useEffect(() => {
+    dispatch(setSignInStep('EMAIL'))
+    setMessagesList([messageDefault.hello, messageDefault.email])
     return () => {
       dispatch(setSignInStep('EMAIL'))
       setMessagesList([messageDefault.hello, messageDefault.email])

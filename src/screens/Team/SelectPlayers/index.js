@@ -5,7 +5,7 @@ import Modal from '@/components/modal'
 import ModalItem from '@/screens/Team/SelectTeam/ModalItem'
 import { styles } from '@/screens/Team/SelectPlayers/style'
 import { Players } from '@/assets/TestData'
-import User from '@/assets/imgs/user/user'
+import User from '@/components/User/user'
 import Button from '@/assets/imgs/Button'
 import PlayerList from '@/screens/Mafia/PlayNow/componnets/PlayerList'
 

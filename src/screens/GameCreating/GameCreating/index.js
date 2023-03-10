@@ -103,6 +103,7 @@ const GameCreating = (props) => {
     .concat(' ' + timeFormat(endDate))
 
   const handleClick = () => {
+    console.log(initialState)
     setStartDateError(null)
     setEndDateError(null)
     setAgeError(null)
@@ -140,8 +141,8 @@ const GameCreating = (props) => {
     if (
       startDate &&
       endDate &&
-      initialState?.latitude &&
-      initialState?.longitude &&
+      // initialState?.latitude &&
+      // initialState?.longitude &&
       +initialState?.age_restrictions_from > 0 &&
       +initialState?.age_restrictions_from < +initialState?.age_restrictions_to &&
       +initialState?.number_of_players_from > 0 &&
@@ -177,6 +178,22 @@ const GameCreating = (props) => {
   useEffect(() => {
     dispatch(setGame(game._id))
     setIsVisible(true)
+    dispatch(
+      setInitialState({
+        number_of_players_from: 0,
+        number_of_players_to: 0,
+        age_restrictions_from: 0,
+        age_restrictions_to: 0,
+        players_gender: 'm',
+        latitude: 0,
+        longitude: 0,
+        organizer_in_the_game: true,
+        ticket_price: 0,
+        game: '',
+        placeName: '',
+        gameCreatedSuccessful: null,
+      }),
+    )
   }, [])
 
   useEffect(() => {

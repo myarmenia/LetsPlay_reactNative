@@ -1,14 +1,14 @@
 import * as React from 'react'
 import Svg, { Rect, Defs, Stop, LinearGradient } from 'react-native-svg'
 import { Text, View } from 'react-native'
-import { font, RH, RW } from '@/theme/utils'
-import { BLACK } from '@/theme/colors'
+import { font, RW } from '@/theme/utils'
+import { DARK_BLUE } from '@/theme/colors'
+import Row from '../wrappers/row'
 // import LinearGradient from "react-native-linear-gradient";
 
 function SvgComponent({ status, size }) {
-  const width = size * RW(0.6)
+  const width = size * RW(0.5)
   const height = size * RW(0.07)
-  const fontSize = size / RW(37)
 
   return (
     <Svg
@@ -25,7 +25,7 @@ function SvgComponent({ status, size }) {
         height={19}
         rx={4.5}
         fill="url(#bronze)"
-        stroke="url(#gold)"
+        stroke="url(#bronze)"
       />
       <View
         style={{
@@ -35,17 +35,27 @@ function SvgComponent({ status, size }) {
           justifyContent: 'center',
         }}
       >
-        <Text style={{ ...font('bold', fontSize, BLACK), position: 'absolute' }}>
-          ОРГАНИЗАТОР | УЧАСТНИК
-        </Text>
+        <Row>
+          <Text style={{ ...font('exo', 10, DARK_BLUE), fontWeight: '700' }}>ОРГАНИЗАТОР</Text>
+          <Text
+            style={{ ...font('exo', 10, DARK_BLUE), fontWeight: '700', marginHorizontal: RW(5) }}
+          >
+            |
+          </Text>
+          <Text style={{ ...font('exo', 10, DARK_BLUE), fontWeight: '700' }}>УЧАСТНИК</Text>
+        </Row>
       </View>
       <Defs>
         <LinearGradient
           id="gold"
-          x1={0.048}
-          y1={70.048}
-          x2={269.494}
-          y2={70.048}
+          // x1={0.048}
+          // y1={70.048}
+          // x2={269.494}
+          // y2={70.048}
+          x1={0}
+          y1={0}
+          x2={width}
+          y2={height}
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#A37A1E" />
@@ -58,10 +68,10 @@ function SvgComponent({ status, size }) {
         </LinearGradient>
         <LinearGradient
           id="silver"
-          x1={0.215}
-          y1={241.473}
-          x2={269.662}
-          y2={241.541}
+          x1={0}
+          y1={0}
+          x2={width}
+          y2={height}
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#A0A0A0" />
@@ -73,10 +83,10 @@ function SvgComponent({ status, size }) {
         </LinearGradient>
         <LinearGradient
           id="bronze"
-          x1={-8.993}
-          y1={70.048}
-          x2={278.372}
-          y2={70.048}
+          x1={0}
+          y1={0}
+          x2={width}
+          y2={height}
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#873B23" />
@@ -85,20 +95,6 @@ function SvgComponent({ status, size }) {
           <Stop offset={0.485} stopColor="#E8D2AE" />
           <Stop offset={0.708} stopColor="#C09067" />
           <Stop offset={1} stopColor="#A05E2E" />
-        </LinearGradient>
-        <LinearGradient
-          id="blue"
-          x1={4.048}
-          y1={190.533}
-          x2={258.048}
-          y2={188.033}
-          gradientUnits="userSpaceOnUse"
-        >
-          <Stop stopColor="#157185" />
-          <Stop offset={0.249} stopColor="#87C4CC" />
-          <Stop offset={0.518} stopColor="#1568A7" />
-          <Stop offset={0.83} stopColor="#7BADE6" />
-          <Stop offset={1} stopColor="#024ABA" />
         </LinearGradient>
       </Defs>
     </Svg>

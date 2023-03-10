@@ -2,6 +2,10 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/Exo.ttf",
+      "sha1": "b2b6ffef090573d8cae8fcd6caf630907abe88e9"
+    },
+    {
       "path": "src/assets/fonts/Inter-Black.ttf",
       "sha1": "283fa65b96dc1f2d71c6504afb9610447bdcdf1b"
     },
@@ -36,6 +40,10 @@
     {
       "path": "src/assets/fonts/Inter-Thin.ttf",
       "sha1": "297919d59c9ba4fa17251cdb9f06c26ca906e593"
+    },
+    {
+      "path": "src/assets/fonts/OpenSans-Regular.ttf",
+      "sha1": "9a19a459ca7bca15d2de8269b80411f2b4a71ccf"
     }
   ]
 }
