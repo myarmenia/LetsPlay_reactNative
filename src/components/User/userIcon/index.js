@@ -114,7 +114,7 @@ function Index({ size, onPressImg }) {
           <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отменено игр
           </Text>
-          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
+          <Text style={{ ...font('exo', fontSizeCount, WHITE) }}>{user?.create_games?.length}</Text>
         </View>
         <View style={[style.titleBloc, sizing]}>
           <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
