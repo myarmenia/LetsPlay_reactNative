@@ -4,9 +4,9 @@ import Svg, { Path } from 'react-native-svg'
 function LeftArrow(props) {
   return (
     <Svg
-      width={17}
-      height={33}
-      viewBox="0 0 17 33"
+      width={15}
+      height={30}
+      viewBox="0 0 17 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}

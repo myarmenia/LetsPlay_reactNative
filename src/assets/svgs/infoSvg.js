@@ -6,7 +6,7 @@ function InfoSvg(props) {
   return (
     <Svg
       width={RW(40)}
-      height={RH(40)}
+      height={RW(40)}
       viewBox="0 0 41 41"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
