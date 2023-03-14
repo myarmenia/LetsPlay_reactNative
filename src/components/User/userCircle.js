@@ -19,7 +19,7 @@ function SvgComponent({ count, status, size }) {
       <View
         style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}
       >
-        <Text style={{ ...font('exo', 10, BLACK), fontWeight: '600', textAlign: 'center' }}>
+        <Text style={{ ...font('exo_bold', 11, BLACK), fontWeight: '600', textAlign: 'center' }}>
           {count}
         </Text>
       </View>

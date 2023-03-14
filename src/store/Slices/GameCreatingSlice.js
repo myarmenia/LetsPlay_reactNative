@@ -12,7 +12,7 @@ const initialState = {
   organizer_in_the_game: true,
   ticket_price: 0,
   game: '',
-  placeName: '',
+  address_name: '',
   gameCreatedSuccessful: null,
 }
 
@@ -71,7 +71,7 @@ export const GameCreatingSlice = createSlice({
     setPlaceName: (store, action) => {
       return {
         ...store,
-        placeName: action.payload,
+        address_name: action.payload,
       }
     },
     setEnd_Date: (store, action) => {
@@ -110,32 +110,37 @@ export const GameCreatingSlice = createSlice({
   },
 })
 
-export const createGame = (data, errorSetting) => dispatch => {
+export const createGame = (data, nav) => dispatch => {
   axiosInstance
     .post('api/create/game', JSON.stringify(data))
     .then(res => {
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))
-        dispatch(
-          setInitialState({
-            number_of_players_from: 0,
-            number_of_players_to: 0,
-            age_restrictions_from: 0,
-            age_restrictions_to: 0,
-            players_gender: 'm/f',
-            latitude: 0,
-            longitude: 0,
-            organizer_in_the_game: true,
-            ticket_price: 0,
-            game: '',
-            placeName: '',
-            gameCreatedSuccessful: null,
-          }),
-        )
+        nav()
+        console.log(res)
+        // console.log('JSON', JSON.stringify(nav))
+        // nav()
+        // dispatch(
+        //   setInitialState({
+        //     number_of_players_from: 0,
+        //     number_of_players_to: 0,
+        //     age_restrictions_from: 0,
+        //     age_restrictions_to: 0,
+        //     players_gender: 'm/f',
+        //     latitude: 0,
+        //     longitude: 0,
+        //     organizer_in_the_game: true,
+        //     ticket_price: 0,
+        //     game: '',
+        //     address_name: '',
+        //     gameCreatedSuccessful: null,
+        //   }),
+        // )
       }
     })
     .catch(err => {
-      console.log(data), console.log(err?.request), errorSetting(true)
+      console.log('ERROR :', err)
+      // console.log('gameData :', data), console.log(err)
     })
 }
 

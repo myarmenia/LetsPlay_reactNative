@@ -65,8 +65,8 @@ const SearchAddresses = ({
   }, [])
   useEffect(() => {
     console.log(initialState.placeName)
-    setState(command ? command?.address_name : initialState?.placeName)
-  }, [initialState.placeName])
+    setState(command ? command?.address_name : initialState?.address_name)
+  }, [initialState.address_name])
   const makeURL = async state => {
     try {
       const res = fetchAddress(false, null, null, state).then(async e => {

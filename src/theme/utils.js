@@ -9,7 +9,9 @@ import {
   FONT_INTER_MEDIUM,
   FONT_INTER_REGULAR,
   FONT_EXO,
+  FONT_EXO_BOLD,
   FONT_OPEN_SANS,
+  FONT_OPEN_SANS_MEDIUM,
 } from './fonts'
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
@@ -17,7 +19,7 @@ const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
 export const RatioH = SCREEN_HEIGHT / 926
 export const RatioW = SCREEN_WIDTH / 428
 
-export const normalizePixel = (size) => {
+export const normalizePixel = size => {
   const newSize = size * RatioW
 
   if (Platform.OS === 'ios') {
@@ -29,7 +31,7 @@ export const normalizePixel = (size) => {
   return Math.round(PixelRatio.roundToNearestPixel(newSize))
 }
 
-const getFontFamily = (fontFamily) => {
+const getFontFamily = fontFamily => {
   switch (fontFamily) {
     // Roboto fonts
     case 'black':
@@ -46,8 +48,12 @@ const getFontFamily = (fontFamily) => {
       return FONT_INTER_THIN
     case 'exo':
       return FONT_EXO
+    case 'exo_bold':
+      return FONT_EXO_BOLD
     case 'openSans':
       return FONT_OPEN_SANS
+    case 'openSans_medium':
+      return FONT_OPEN_SANS_MEDIUM
   }
 }
 /**
@@ -91,5 +97,5 @@ export const shadow = {
   shadowColor: SHADOW,
 }
 
-export const RW = (value) => RatioW * value
-export const RH = (value) => RatioH * value
+export const RW = value => RatioW * value
+export const RH = value => RatioH * value

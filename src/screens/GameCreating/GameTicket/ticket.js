@@ -48,7 +48,7 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Адрес проведения игры:</Text>
-          <Text style={styles.ticketTextTwo}>{initialState?.placeName}</Text>
+          <Text style={styles.ticketTextTwo}>{initialState?.address_name}</Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>

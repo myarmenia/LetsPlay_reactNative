@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, Platform, ScrollView, Text, View, StyleSheet } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 //components
@@ -152,23 +152,24 @@ const GameCreating = props => {
       (startDate && endDate && addressName?.lat) ||
       (initialState.latitude && addressName?.lng) ||
       (initialState.longitude && addressName?.address_name) ||
-      (initialState.placeName &&
+      (initialState.address_name &&
         +initialState?.age_restrictions_from > 0 &&
         +initialState?.age_restrictions_from < +initialState?.age_restrictions_to &&
         +initialState?.number_of_players_from > 0 &&
         +initialState?.number_of_players_from < +initialState?.number_of_players_to)
     ) {
-      console.log('aaaaaa', initialState)
-      dispatch(
-        createGame(
-          {
-            ...initialState,
-            start_date: changedStartDate,
-            end_date: changedEndDate,
-          },
-          setError,
-        ),
-      )
+      dispatch(setGameCreatedSuccessful(true))
+      // console.log('aaaaaa', initialState)
+      // dispatch(
+      //   createGame(
+      //     {
+      //       ...initialState,
+      //       start_date: changedStartDate,
+      //       end_date: changedEndDate,
+      //     },
+      //     setError,
+      // ),
+      // )
 
       setModalOpen(true)
       setIsVisible(false)
@@ -177,28 +178,17 @@ const GameCreating = props => {
   useEffect(() => {
     dispatch(setGame(game._id))
     setIsVisible(true)
-    dispatch(
-      setInitialState({
-        number_of_players_from: 0,
-        number_of_players_to: 0,
-        age_restrictions_from: 0,
-        age_restrictions_to: 0,
-        players_gender: 'm',
-        latitude: 0,
-        longitude: 0,
-        organizer_in_the_game: true,
-        ticket_price: 0,
-        game: '',
-        placeName: '',
-        gameCreatedSuccessful: null,
-      }),
-    )
   }, [])
 
   useEffect(() => {
     if (initialState.gameCreatedSuccessful) {
       navigation.navigate('GameTicket', {
-        params: { initialState, game, name: game.name, dates: [changedStartDate, changedEndDate] },
+        params: {
+          initialState,
+          game,
+          name: game.name,
+          dates: [changedStartDate, changedEndDate],
+        },
       })
       dispatch(setGameCreatedSuccessful(null))
     }
@@ -349,7 +339,7 @@ const GameCreating = props => {
             )}
           </View>
           <View style={flag ? { ...styles.submitBlock } : { ...styles.submitBlock, marginTop: 20 }}>
-            {error && <Text style={styles.errorBoldText}>Ошибка</Text>}
+            {/* {error && <Text style={styles.errorBoldText}>Ошибка</Text>} */}
             <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
           </View>
         </ScrollView>

@@ -4,14 +4,20 @@ import LinearGradient from 'react-native-linear-gradient'
 import style from './style'
 import { RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
+import { useNavigation } from '@react-navigation/native'
 
 const EachCommand = ({ command, i }) => {
   const [back, setBack] = useState(false)
+  const navigation = useNavigation()
   return (
     <Pressable
       key={Math.random().toString()}
-      onPressIn={() => setBack(true)}
-      onPressOut={() => setBack(false)}
+      onPressIn={() => {
+        setBack(true)
+      }}
+      onPressOut={() => {
+        setBack(false), navigation.navigate('MyTeamInfo', command)
+      }}
     >
       <View style={style.homeBlock}>
         {back ? (

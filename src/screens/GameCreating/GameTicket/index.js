@@ -10,6 +10,8 @@ import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 import ShareSvg from '@/assets/svgs/shareSvg'
 import { useNavigation } from '@react-navigation/native'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { useDispatch } from 'react-redux'
+import { createGame } from '@/store/Slices/GameCreatingSlice'
 
 function Index({ route }) {
   const navigation = useNavigation()
@@ -17,7 +19,7 @@ function Index({ route }) {
   const [isVisible, setIsVisible] = useState(false)
   const [success, setSuccess] = useState(false)
   const [modalClose, setModalClose] = useState(true)
-
+  const dispatch = useDispatch()
   useEffect(() => {
     if (flag) {
       setIsVisible(true)
@@ -41,7 +43,20 @@ function Index({ route }) {
         <TouchableOpacity style={styles.shareButton}>
           <ShareSvg />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Home', { flag: true, game, data })}>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(
+              createGame(
+                {
+                  ...initialState,
+                  start_date: dates[0],
+                  end_date: dates[1],
+                },
+                () => navigation.navigate('Home', { flag: true, game, data }),
+              ),
+            )
+          }}
+        >
           <CheckedCheckbox />
         </TouchableOpacity>
         {/*<Button*/}

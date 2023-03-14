@@ -14,8 +14,8 @@ import Modal from '@/components/modal'
 function Index({ size, onPressImg }) {
   const user = useSelector(({ auth }) => auth.user)
   const { name, surname, vk_id, avatar } = user
-  const fontSizeTitle = size / RW(35)
-  const fontSizeCount = size / RW(25)
+  const fontSizeTitle = size / RW(28)
+  const fontSizeCount = size / RW(22)
   const [loader, setLoader] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
@@ -83,10 +83,13 @@ function Index({ size, onPressImg }) {
           marginTop: size / RH(70),
         }}
       >
-        {console.log(user)}
-        <UserCircle size={size + RW(25)} count={user.create_games.length} status={user.status} />
+        <UserCircle size={size + RW(25)} count={user?.create_games?.length} status={user.status} />
         <UserLine size={size} status={user.status} />
-        <UserCircle size={size + RW(25)} count={user.took_part_games.length} status={user.status} />
+        <UserCircle
+          size={size + RW(25)}
+          count={user?.took_part_games?.length}
+          status={user.status}
+        />
       </View>
       <View
         style={{
@@ -98,35 +101,41 @@ function Index({ size, onPressImg }) {
         }}
       >
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Создано игр
           </Text>
-          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
+          <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
         </View>
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Принято игр
           </Text>
-          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.took_part_games?.length}</Text>
+          <Text style={font('exo_bold', fontSizeCount, WHITE)}>
+            {user?.took_part_games?.length}
+          </Text>
         </View>
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отменено игр
           </Text>
-          <Text style={{ ...font('exo', fontSizeCount, WHITE) }}>{user?.create_games?.length}</Text>
+          <Text style={{ ...font('exo_bold', fontSizeCount, WHITE) }}>
+            {user?.create_games?.length}
+          </Text>
         </View>
         <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans', fontSizeTitle, WHITE), textAlign: 'center' }}>
+          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отклонено игр
           </Text>
-          <Text style={font('exo', fontSizeCount, WHITE)}>{user?.took_part_games?.length}</Text>
+          <Text style={font('exo_bold', fontSizeCount, WHITE)}>
+            {user?.took_part_games?.length}
+          </Text>
         </View>
       </View>
       {/* need detect user have a vk account and show it overwise show some text */}
       <Modal
         item={
           <View style={style.modal}>
-            <Text style={style.successTeam}>Аккаунт ВК не привязан</Text>
+            <Text style={style.successTeam}>Аккаунт игрока не привязан VK</Text>
           </View>
         }
         modalVisible={modalVisible}
@@ -136,7 +145,7 @@ function Index({ size, onPressImg }) {
       <TouchableOpacity
         onPress={() => {
           if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }
