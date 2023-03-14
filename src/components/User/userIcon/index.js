@@ -6,8 +6,8 @@ import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
 import { WHITE } from '@/theme/colors'
 import style from './styles'
-import UserLine from '@/assets/imgs/user/userLine'
-import UserCircle from '@/assets/imgs/user/userCircle'
+import UserLine from '../userLine'
+import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
 
@@ -83,9 +83,10 @@ function Index({ size, onPressImg }) {
           marginTop: size / RH(70),
         }}
       >
-        <UserCircle size={size + RW(25)} count={user.organizer} status={user.status} />
+        {console.log(user)}
+        <UserCircle size={size + RW(25)} count={user.create_games.length} status={user.status} />
         <UserLine size={size} status={user.status} />
-        <UserCircle size={size + RW(25)} count={user.participant} status={user.status} />
+        <UserCircle size={size + RW(25)} count={user.took_part_games.length} status={user.status} />
       </View>
       <View
         style={{
@@ -135,7 +136,7 @@ function Index({ size, onPressImg }) {
       <TouchableOpacity
         onPress={() => {
           if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }

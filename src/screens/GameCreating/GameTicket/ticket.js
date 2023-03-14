@@ -4,9 +4,10 @@ import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { ICON, WHITE } from '@/theme/colors'
 import { useSelector } from 'react-redux'
-import User from '@/assets/imgs/user/user'
+
 import Row from '@/components/wrappers/row'
 import { Players } from '@/assets/TestData'
+import User from '@/components/User/user'
 function Ticket({ game, initialState, name, dates }) {
   const { avatar } = useSelector(({ auth }) => auth.user)
   return (

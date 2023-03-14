@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { Rect, Defs, Stop, LinearGradient } from 'react-native-svg'
 import { Text, View } from 'react-native'
 import { font, RW } from '@/theme/utils'
-import { DARK_BLUE } from '@/theme/colors'
+import { BLACK, DARK_BLUE } from '@/theme/colors'
 import Row from '../wrappers/row'
 // import LinearGradient from "react-native-linear-gradient";
 
@@ -38,7 +38,7 @@ function SvgComponent({ status, size }) {
       >
         <Text
           style={{
-            ...font('bold', fontSize, BLACK),
+            ...font('bold', 10, BLACK),
             width: '38%',
             left: size / -RW(45),
           }}
@@ -47,7 +47,7 @@ function SvgComponent({ status, size }) {
         </Text>
         <Text
           style={{
-            ...font('bold', fontSize, BLACK),
+            ...font('bold', 10, BLACK),
             width: '4%',
             alignSelf: 'center',
             right: size / RW(100),
@@ -56,7 +56,7 @@ function SvgComponent({ status, size }) {
         >
           |
         </Text>
-        <Text style={{ ...font('bold', fontSize, BLACK), width: '30%' }}>УЧАСТНИК</Text>
+        <Text style={{ ...font('bold', 10, BLACK), width: '30%' }}>УЧАСТНИК</Text>
       </View>
       <Defs>
         <LinearGradient

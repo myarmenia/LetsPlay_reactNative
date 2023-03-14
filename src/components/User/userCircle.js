@@ -7,7 +7,6 @@ import { BLACK } from '@/theme/colors'
 function SvgComponent({ count, status, size }) {
   const width = size / RW(12)
   const height = size / RW(20)
-  const fontSize = size / RW(45)
   return (
     <Svg
       width={width}
