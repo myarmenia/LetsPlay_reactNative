@@ -5,8 +5,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
 import { RH } from '@/theme/utils'
 
-import User from '@/assets/imgs/user/user'
-import { Players } from '@/assets/TestData'
+import User from '@/components/User/user'
 import LogoSvg from '@/assets/LogoSvg'
 import { useNavigation } from '@react-navigation/native'
 
@@ -28,7 +27,7 @@ const HomeScreen = () => {
         <LogoSvg width={196} height={130} />
       </View>
       <View style={styles.detailContainer}>
-        <User user={Players[0]} size={370} onPressImg={true} />
+        <User size={370} onPressImg={true} />
       </View>
     </ScreenMask>
   )

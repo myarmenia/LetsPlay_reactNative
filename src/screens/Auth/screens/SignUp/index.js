@@ -46,8 +46,8 @@ const SignUp = () => {
   const scrollViewRef = useRef(null)
   const navigation = useNavigation()
 
-  const handlerMessage = message => {
-    setMessagesList(messagesList => [...messagesList, message])
+  const handlerMessage = (message) => {
+    setMessagesList((messagesList) => [...messagesList, message])
   }
 
   useEffect(() => {
@@ -151,12 +151,12 @@ const SignUp = () => {
       handlerMessage(messageDefault.createPassword)
       dispatch(setSignUpStep('PASSWORD'))
     } else if (signUpStep == 'SIGN_UP_SUCCESSFULED') {
-      navigation.navigate('Onboard')
+      navigation.replace('Onboard')
     }
   }, [signUpStep])
   useEffect(() => {
     if (documentRules?.length) {
-      documentRules.forEach(item => {
+      documentRules.forEach((item) => {
         handlerMessage({
           text: item.name,
           type: 'FILE',
@@ -168,6 +168,8 @@ const SignUp = () => {
     }
   }, [documentRules])
   useEffect(() => {
+    dispatch(setSignUpStep('NAME'))
+    setMessagesList([messageDefault.hello, messageDefault.hello2, messageDefault.name])
     return () => {
       dispatch(setSignUpStep('NAME'))
       setMessagesList([messageDefault.hello, messageDefault.hello2, messageDefault.name])
@@ -217,7 +219,7 @@ const SignUp = () => {
                 size={{ width: 170, height: 36 }}
                 label="Я согласен"
                 onPress={() => {
-                  const documents = documentRules?.map(item => item._id)
+                  const documents = documentRules?.map((item) => item._id)
                   handlerMessage(messageDefault.iAgree)
                   dispatch(signUp4({ expired_token, documents }))
                 }}
@@ -251,7 +253,7 @@ const SignUp = () => {
             <Composer
               text={text}
               setText={setText}
-              onSend={message => {
+              onSend={(message) => {
                 handlerMessage({ id: Math.random(), text: message })
                 setTimeout(onPress, 200)
               }}

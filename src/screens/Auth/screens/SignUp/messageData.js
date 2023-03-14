@@ -12,17 +12,17 @@ const messageDefault = {
     position: 'left',
   },
   name: {
-    text: 'Напишите Ваше имя',
+    text: 'Напишите ваше имя',
     type: 'TEXT',
     position: 'left',
   },
   surname: {
-    text: 'Напишите Вашу фамилию',
+    text: 'Напишите вашу фамилию',
     type: 'TEXT',
     position: 'left',
   },
   email: {
-    text: 'Укажите Вашу электронную почту',
+    text: 'Укажите вашу электронную почту',
     type: 'TEXT',
     position: 'left',
   },

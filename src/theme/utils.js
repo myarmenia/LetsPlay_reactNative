@@ -8,6 +8,8 @@ import {
   FONT_INTER_LIGHT,
   FONT_INTER_MEDIUM,
   FONT_INTER_REGULAR,
+  FONT_EXO,
+  FONT_OPEN_SANS,
 } from './fonts'
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
@@ -42,6 +44,10 @@ const getFontFamily = (fontFamily) => {
       return FONT_INTER_REGULAR
     case 'thin':
       return FONT_INTER_THIN
+    case 'exo':
+      return FONT_EXO
+    case 'openSans':
+      return FONT_OPEN_SANS
   }
 }
 /**

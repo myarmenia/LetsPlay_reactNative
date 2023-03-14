@@ -9,8 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { setToken } from '@/store/Slices/AuthSlice'
 
 const MyApp = () => {
-  0
   const userId = useSelector(({ auth }) => auth?.user?._id)
+
   const token = useSelector(({ auth }) => auth.token)
 
   const dispatch = useDispatch()

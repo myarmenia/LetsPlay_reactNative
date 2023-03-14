@@ -90,6 +90,7 @@ function DateComponent({
                     justifyContent: 'center',
                     paddingRight: 10,
                     marginLeft: RW(20),
+                    backgroundColor: editable ? BACKGROUND : null,
                   },
                 ]}
               >
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
   dateButton: {
     width: RW(185),
     height: RH(48),
-    backgroundColor: BACKGROUND,
+
     borderRadius: RW(10),
     flexDirection: 'row',
     alignItems: 'center',

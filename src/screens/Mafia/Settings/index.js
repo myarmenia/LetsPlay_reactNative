@@ -9,7 +9,7 @@ import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 
 function Index({ navigation }) {
-  const [valWord, setValWord] = useState(0)
+  const [valWord, setValWord] = useState(5)
 
   return (
     <ScreenMask>

@@ -8,9 +8,7 @@ import PlayNow from '@/screens/Mafia/PlayNow/playNow'
 import AboutGame from '@/screens/Mafia/AboutGame/AboutGame'
 import PlaceMan from '@/screens/Mafia/placeMan/placeMan'
 
-const MafiaNavigation = (props) => {
-  const { qrGame } = props.route.params
-
+const MafiaNavigation = () => {
   const Stack = createNativeStackNavigator()
 
   return (

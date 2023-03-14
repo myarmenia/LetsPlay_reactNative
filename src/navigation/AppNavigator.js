@@ -61,6 +61,7 @@ const AppNavigator = () => {
       <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
         <Stack.Screen name={'TabNavigator'} component={TabNavigator} />
         <Stack.Screen name={'HomeScreen'} component={HomeScreen} />
+        <Tab.Screen name={'Game'} component={GameSelectScreen} />
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'Game'} component={GameSelectScreen} />
         <Stack.Screen name={'JoinGame'} component={JoinGame} />

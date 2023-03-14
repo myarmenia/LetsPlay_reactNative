@@ -6,7 +6,7 @@ import Button from '@/assets/imgs/Button'
 import { BLACK } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import { Players } from '@/assets/TestData'
-import User from '@/assets/imgs/user/user'
+import User from '@/components/User/user'
 import { _storageUrl } from '@/constants'
 
 function Index({ navigation, route }) {
