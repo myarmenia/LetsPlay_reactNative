@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native'
 import {
   ACTIVE,
   BACKGROUND,
+  DARK_BLUE,
   ICON,
   LIGHT_GRAY,
   LIGHT_LABEL,
@@ -23,6 +24,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     width: RW(369),
+    height: '101%',
     right: RW(367 - 88),
     overflow: 'visible',
     // backgroundColor: '#fff',
@@ -38,6 +40,7 @@ export default StyleSheet.create({
     overflow: 'visible',
     backgroundColor: LIGHT_RED,
     borderRadius: RW(10),
+    alignItems: 'center',
     flexDirection: 'row-reverse',
   },
   deleteBtn: {
@@ -55,6 +58,18 @@ export default StyleSheet.create({
   deleteText: {
     color: 'red',
     marginLeft: 'auto',
+  },
+  modalBlock: {
+    width: RW(260),
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: RW(10),
+    backgroundColor: DARK_BLUE,
+  },
+  modalText: {
+    padding: RH(20),
+    textAlign: 'center',
+    ...font('regular', 21, WHITE, 26),
   },
   title: {
     ...font('bold', 24, LIGHT_GRAY, 29),

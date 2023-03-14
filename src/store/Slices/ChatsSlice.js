@@ -39,27 +39,52 @@ export const ChatsSlice = createSlice({
   },
 })
 
-export const getChats = (data) => (dispatch) => {
+export const getChats = data => dispatch => {
   axiosInstance
     .get(`/api/create/game/chat/${data}`)
-    .then((response) => {
+    .then(response => {
       dispatch(setChats(response.data.datas.reverse()))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request chats', err.request._response)
     })
 }
-export const sendMessage = (data) => (dispatch) => {
+export const sendMessage = data => dispatch => {
   axiosInstance
     .post(`/api/create/game/chat/`, data)
-    .then((response) => {
+    .then(response => {
       console.log(response.data)
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request', err.request._response)
     })
 }
+export const deleteMemberChat = (chatId, setDeleting) => dispatch => {
+  axiosInstance
+    .delete(`/api/participate/${chatId}`)
+    .then(response => {
+      setDeleting(false)
+    })
+    .catch(err => {
+      console.log('err deleting chat', err)
+    })
+}
+export const deleteOrganizerChat = (chatId, setDeleting) => dispatch => {
+  console.log(chatId)
+  axiosInstance
+    .delete(`/api/create/game/${chatId}`)
+    .then(response => {
+      setDeleting(false)
+    })
+    .catch(err => {
+      console.log('err deleting chat', err)
+    })
+}
 
-export const { setChats, setPlayMessageId, setPausedMessageId, setVoiceDuration } =
-  ChatsSlice.actions
+export const {
+  setChats,
+  setPlayMessageId,
+  setPausedMessageId,
+  setVoiceDuration,
+} = ChatsSlice.actions
 export default ChatsSlice.reducer

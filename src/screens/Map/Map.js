@@ -24,7 +24,7 @@ const Map = ({ route }) => {
   })
   const [markers, setMarkers] = useState([])
   const getPosition = () => {
-    Geolocation.getCurrentPosition((position) => {
+    Geolocation.getCurrentPosition(position => {
       const currentLatitude = position.coords.latitude
       const currentLongitude = position.coords.longitude
       setUserPosition({
@@ -34,7 +34,7 @@ const Map = ({ route }) => {
         longitudeDelta: 0.1,
       }),
         mapRef.current.animateToRegion(userPosition, 1000)
-      ;(error) => alert(error.message),
+      error => alert(error.message),
         {
           enableHighAccuracy: true,
           timeout: 20000,
@@ -58,7 +58,7 @@ const Map = ({ route }) => {
         // provider={PROVIDER_GOOGLE}
         provider={Platform.OS == 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
         showsUserLocation={false}
-        onPress={(e) => {
+        onPress={e => {
           dispatch(setLatitude(e.nativeEvent.coordinate.latitude)),
             dispatch(setLongitude(e.nativeEvent.coordinate.longitude))
           setMarkers([
@@ -74,12 +74,12 @@ const Map = ({ route }) => {
             e.nativeEvent.coordinate.latitude,
             e.nativeEvent.coordinate.longitude,
             null,
-          ).then(async (e) => {
+          ).then(async e => {
             await fetch(e.url)
-              .then((r) => {
+              .then(r => {
                 return r.json()
               })
-              .then((s) => {
+              .then(s => {
                 let response = s.results[0]?.formatted_address
                 dispatch(setPlaceName(response))
                 game
@@ -119,7 +119,7 @@ const Map = ({ route }) => {
           pinColor={'#00b7ff'}
           // description={'description'}
         />
-        {markers?.map((marker) => {
+        {markers?.map(marker => {
           return (
             <Marker
               tooltip={true}

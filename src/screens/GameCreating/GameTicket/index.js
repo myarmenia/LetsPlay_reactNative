@@ -11,13 +11,13 @@ import ShareSvg from '@/assets/svgs/shareSvg'
 import { useNavigation } from '@react-navigation/native'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 
-function Index(props) {
-  const { route } = props
+function Index({ route }) {
   const navigation = useNavigation()
-  const { flag, game, data, initialState, name } = route.params.params
+  const { flag, game, data, initialState, name, dates } = route.params.params
   const [isVisible, setIsVisible] = useState(false)
   const [success, setSuccess] = useState(false)
   const [modalClose, setModalClose] = useState(true)
+
   useEffect(() => {
     if (flag) {
       setIsVisible(true)
@@ -28,7 +28,7 @@ function Index(props) {
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View>
-        <Ticket data={data} game={game} initialState={initialState} name={name} />
+        <Ticket data={data} game={game} initialState={initialState} name={name} dates={dates} />
       </View>
       <View style={styles.gameTicketButtonsBlock}>
         <TouchableOpacity
@@ -36,9 +36,7 @@ function Index(props) {
             navigation.navigate('GameCreating', { screen: 'GameCreating', params: { game } })
           }}
         >
-          <EditSvg
-            onPress={() => navigation.navigate('GameCreating', { params: { game: initialState } })}
-          />
+          <EditSvg />
         </TouchableOpacity>
         <TouchableOpacity style={styles.shareButton}>
           <ShareSvg />

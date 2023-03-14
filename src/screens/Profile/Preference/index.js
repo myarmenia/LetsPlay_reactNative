@@ -8,37 +8,39 @@ import { ACTIVE, INACTIVE } from '@/theme/colors'
 import { getGames, getGamesOnlyNames, setNames } from '@/store/Slices/GamesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeUserPreferences } from '@/store/Slices/AuthSlice'
-import Select from '@/components/buttons/select'
 import LightButton from '@/assets/imgs/Button'
-import User from '@/assets/imgs/user/user'
 import Modal from '@/components/modal'
-
-function Index(props) {
+import { useIsFocused } from '@react-navigation/native'
+function Index() {
   const dispatch = useDispatch()
   const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
   const { preferences } = useSelector(({ auth }) => auth.user)
-  const { token, user } = useSelector(({ auth }) => auth)
+  const { token } = useSelector(({ auth }) => auth)
 
   const [modalVisible, setModalVisible] = useState(false)
 
-  useLayoutEffect(() => {
-    !nameOfGames.length && dispatch(getGamesOnlyNames())
-  }, [])
+  const isFocused = useIsFocused()
+
   useEffect(() => {
-    dispatch(
-      setNames(
-        nameOfGames.map(elm => {
-          let changed = elm
-          preferences.forEach(id => {
-            if (id === elm.id) {
-              changed = { ...elm, checked: !elm.checked }
-            }
-          })
-          return changed
-        }),
-      ),
-    )
-  }, [nameOfGames.length])
+    nameOfGames.length ? nameOfGames : dispatch(getGamesOnlyNames())
+  }, [isFocused])
+
+  // useEffect(() => {
+  //   dispatch(
+  //     setNames(
+  //       nameOfGames.map(elm => {
+  //         let changed = elm
+  //         preferences.forEach(id => {
+  //           if (id === elm.id) {
+  //             changed = { ...elm, checked: !elm.checked }
+  //           }
+  //         })
+  //         return changed
+  //       }),
+  //     ),
+  //   )
+  // }, [nameOfGames.length])
+
   const checkItem = useCallback(
     id => {
       dispatch(
@@ -122,7 +124,7 @@ function Index(props) {
         setIsVisible={setModalVisible}
         navigationText={'Profile'}
       />
-      <View>{/* <User user={user} size={80} onPressImg={false} /> */}</View>
+      {/* <View><User user={user} size={80} onPressImg={false} /></View> */}
     </ScreenMask>
   )
 }

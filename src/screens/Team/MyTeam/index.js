@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
@@ -11,10 +11,13 @@ import Modal from '@/components/modal'
 import style from './style'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
+import LinearGradient from 'react-native-linear-gradient'
+import EachCommand from './EachCommand'
 
 function Index() {
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
+  const [back, setBack] = useState(false)
   const { teamChatsList } = useSelector(({ teams }) => teams)
   const ModalItem = () => {
     return (
@@ -66,38 +69,7 @@ function Index() {
           />
         )}
         {teamChatsList.length ? (
-          teamChatsList.map((command, i) => (
-            <TouchableOpacity key={i} onPress={() => navigation.navigate('MyTeamInfo', command)}>
-              <View style={style.homeBlock}>
-                <View
-                  style={{
-                    zIndex: 1,
-                    marginLeft: RW(10),
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                  }}
-                >
-                  <View style={style.imageBlock}>
-                    <Image
-                      style={style.image}
-                      source={{ uri: _storageUrl + command.img }}
-                      resizeMode="cover"
-                    />
-                  </View>
-                  <View style={style.textBlock}>
-                    <Text style={style.text}>{command.name}</Text>
-                    <Text style={style.text}>{command.address_name}</Text>
-                    <Text style={style.text}>
-                      {command._id.substring(0, command._id.length - 1)}
-                    </Text>
-                  </View>
-                </View>
-                <View style={{ position: 'absolute' }}>
-                  <BgMyTem />
-                </View>
-              </View>
-            </TouchableOpacity>
-          ))
+          teamChatsList.map((command, i) => <EachCommand command={command} i={i} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
             <Text style={style.text}>Загрузка...</Text>

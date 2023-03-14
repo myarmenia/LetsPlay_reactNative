@@ -34,6 +34,8 @@ const Index = ({ route }) => {
               key={elem._id}
               style={{
                 width: width,
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <ListItem game={elem} pressable={true} qrGame={list == 'qr'} />

@@ -1,20 +1,22 @@
-import { Image, Linking, Platform, Pressable, Text, View } from 'react-native'
+import { Image, Linking, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native'
+import { useEffect, useState } from 'react'
+import { useNavigation } from '@react-navigation/native'
+import { font, RH, RW } from '@/theme/utils'
+import { _storageUrl } from '@/constants'
+import { useSelector } from 'react-redux'
+import { WHITE } from '@/theme/colors'
 import style from './styles'
 import UserLine from '@/assets/imgs/user/userLine'
 import UserCircle from '@/assets/imgs/user/userCircle'
-import { font, RH, RW } from '@/theme/utils'
-import { WHITE } from '@/theme/colors'
 import Vk from '@/assets/imgs/vk'
-import { useNavigation } from '@react-navigation/native'
-import { useEffect, useState } from 'react'
-import { _storageUrl } from '@/constants'
-import { useSelector } from 'react-redux'
+import Modal from '@/components/modal'
 
 function Index({ user, size, onPressImg }) {
   const { name, surname, vk_id, avatar } = useSelector(({ auth }) => auth.user)
   const fontSizeTitle = size / RW(35)
   const fontSizeCount = size / RW(25)
   const [loader, setLoader] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   useEffect(() => {
     avatar ? setLoader(false) : setLoader(true)
@@ -69,8 +71,8 @@ function Index({ user, size, onPressImg }) {
         />
       </Pressable>
       <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(16) }]}>
-        <Text style={font('bold', size / RW(22), WHITE)}>{name ? name : 'Имя'}</Text>
-        <Text style={font('bold', size / RW(22), WHITE)}>{surname ? surname : 'Фамилия'}</Text>
+        <Text style={font('bold', size / RW(20), WHITE)}>{name ? name : 'Имя'}</Text>
+        <Text style={font('bold', size / RW(20), WHITE)}>{surname ? surname : 'Фамилия'}</Text>
       </View>
       <View
         style={{
@@ -80,9 +82,9 @@ function Index({ user, size, onPressImg }) {
           marginTop: size / RH(70),
         }}
       >
-        <UserCircle size={size + RW(15)} count={user.organizer} status={user.status} />
+        <UserCircle size={size + RW(25)} count={user.organizer} status={user.status} />
         <UserLine size={size} status={user.status} />
-        <UserCircle size={size + RW(15)} count={user.participant} status={user.status} />
+        <UserCircle size={size + RW(25)} count={user.participant} status={user.status} />
       </View>
       <View
         style={{
@@ -119,20 +121,32 @@ function Index({ user, size, onPressImg }) {
         </View>
       </View>
       {/* need detect user have a vk account and show it overwise show some text */}
-      <Pressable
+      <Modal
+        item={
+          <View style={style.modal}>
+            <Text style={style.successTeam}>Аккаунт ВК не привязан</Text>
+          </View>
+        }
+        modalVisible={modalVisible}
+        setIsVisible={setModalVisible}
+        navigationText={'Home'}
+      />
+      <TouchableOpacity
         onPress={() => {
           if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }
             })
+          } else {
+            setModalVisible(true)
           }
         }}
         style={{ ...style.soc, marginTop: size / RH(30) }}
       >
         <Vk size={size / RH(12)} />
-      </Pressable>
+      </TouchableOpacity>
     </View>
   )
 }

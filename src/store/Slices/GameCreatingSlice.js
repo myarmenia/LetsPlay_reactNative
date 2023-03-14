@@ -6,7 +6,7 @@ const initialState = {
   number_of_players_to: 0,
   age_restrictions_from: 0,
   age_restrictions_to: 0,
-  players_gender: 'm',
+  players_gender: 'm/f',
   latitude: 0,
   longitude: 0,
   organizer_in_the_game: true,
@@ -110,15 +110,33 @@ export const GameCreatingSlice = createSlice({
   },
 })
 
-export const createGame = data => dispatch => {
+export const createGame = (data, errorSetting) => dispatch => {
   axiosInstance
     .post('api/create/game', JSON.stringify(data))
-    .then((res) => {
+    .then(res => {
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))
+        dispatch(
+          setInitialState({
+            number_of_players_from: 0,
+            number_of_players_to: 0,
+            age_restrictions_from: 0,
+            age_restrictions_to: 0,
+            players_gender: 'm/f',
+            latitude: 0,
+            longitude: 0,
+            organizer_in_the_game: true,
+            ticket_price: 0,
+            game: '',
+            placeName: '',
+            gameCreatedSuccessful: null,
+          }),
+        )
       }
     })
-    .catch(err => console.log(err.request))
+    .catch(err => {
+      console.log(data), console.log(err?.request), errorSetting(true)
+    })
 }
 
 export const {

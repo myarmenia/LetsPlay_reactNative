@@ -1,11 +1,14 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
-import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 import { ICON, WHITE } from '@/theme/colors'
-
-function Ticket({ game, initialState, name }) {
+import { useSelector } from 'react-redux'
+import User from '@/assets/imgs/user/user'
+import Row from '@/components/wrappers/row'
+import { Players } from '@/assets/TestData'
+function Ticket({ game, initialState, name, dates }) {
+  const { avatar } = useSelector(({ auth }) => auth.user)
   return (
     <View style={{}}>
       <View style={styles.ticketImgBlock}>
@@ -18,7 +21,7 @@ function Ticket({ game, initialState, name }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время игры:</Text>
-          <Text style={styles.ticketTextTwo}>{initialState?.start_date}</Text>
+          <Text style={styles.ticketTextTwo}>{dates[0]}</Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Количество игроков:</Text>
@@ -48,7 +51,7 @@ function Ticket({ game, initialState, name }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>
-          <Text style={styles.ticketTextTwo}>{initialState?.end_date}</Text>
+          <Text style={styles.ticketTextTwo}>{dates[1]}</Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Стоимость входного билета на игру:</Text>
@@ -59,15 +62,14 @@ function Ticket({ game, initialState, name }) {
         <Row wrapper={{ ...styles.ticketTextBlock }}>
           <Text style={styles.ticketText}>Организатор игры:</Text>
           <View style={{ width: RW(60), marginLeft: RW(20) }}>
-            {/* <User
+            <User
               size={40}
-              user={Players[6]}
+              user={Players[8]}
               onPressItem={{
-                item: <User user={Players[6]} size={390} />,
+                item: <User user={Players[8]} size={390} />,
                 modalClose: false,
               }}
-            /> */}
-            <Image source={require('./assets/user.png')} />
+            />
           </View>
         </Row>
       </View>

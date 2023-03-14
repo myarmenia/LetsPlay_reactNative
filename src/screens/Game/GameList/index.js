@@ -1,5 +1,5 @@
 import ScreenMask from '@/components/wrappers/screen'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { styles } from './styles'
 import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native'
 import { _gamesData } from '../gamesDatas/gamesData'
@@ -8,17 +8,15 @@ import Button from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
+import Wave from '@/assets/svgs/wave'
 
 function GamesList() {
   const navigation = useNavigation()
   const { findedGames } = useSelector(({ teams }) => teams)
-  const gameData = useMemo(() => {
-    return _gamesData
-  }, [])
 
-  const passIdGameItem = (id) => {
-    gameData.map((elem) => {
-      elem.data.forEach((elm) => {
+  const passIdGameItem = id => {
+    findedGames.map(elem => {
+      elem.data.forEach(elm => {
         if (elm.id === id) {
           navigation.navigate('GameItem', { item: { ...elm, clicked: true } })
         } else {
@@ -31,60 +29,77 @@ function GamesList() {
   return (
     <ScreenMask>
       <ScrollView>
-        {findedGames?.map((elm) => {
+        {findedGames?.map(elm => {
           return (
-            <View style={styles.gameListContainer} key={elm._id}>
-              <TouchableOpacity
-                key={Math.random().toString()}
-                style={styles.gameBox}
-                onPress={() => passIdGameItem(elm._id)}
+            <View style={styles.gameItemContainer}>
+              <View style={styles.image}>
+                <Image
+                  style={{
+                    width: RW(50),
+                    height: RH(50),
+                    resizeMode: 'contain',
+                    borderRadius: RW(30),
+                  }}
+                  source={{ uri: _storageUrl + elm.game?.img }}
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  height: '92%',
+                  width: '60%',
+                  justifyContent: 'space-evenly',
+                }}
               >
-                <View style={{ flexDirection: 'row' }}>
-                  <Image
+                <Text style={styles.midText}>
+                  {new Date(elm?.updatedAt).toLocaleDateString()},{' '}
+                  {new Date(elm?.updatedAt).toLocaleTimeString().slice(0, 5)}, Пресненская наб. 25
+                </Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    // alignSelf: 'center',
+                    width: '100%',
+                    alignItems: 'center',
+                    // backgroundColor: '#ccc',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <View style={styles.horizontalLine}></View>
+                  <View
                     style={{
-                      width: RW(40),
-                      height: RW(40),
-                      resizeMode: 'contain',
-                      marginTop: RH(10),
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      width: '30%',
                     }}
-                    source={{ uri: _storageUrl + elm.game?.img }}
-                  />
-                  <View style={styles.gameMiddleContainer}>
-                    <View style={styles.gameItemTop}>
-                      <Text style={styles.gameItemTopText}>
-                        {`${new Date(elm?.updatedAt).toLocaleDateString()} ,Z`}
-                      </Text>
-                      <Text style={styles.gameItemTopText}>
-                        {' '}
-                        {`${new Date(elm?.updatedAt).toLocaleTimeString().slice(0, 5)} ,`}
-                      </Text>
-                      <Text style={styles.gameItemTopText}>xxxxx</Text>
-                    </View>
-                    <View style={styles.gameItemBottom}>
-                      <Text style={styles.gameItemBottomText}>amiryan streen</Text>
-                      <View style={{ ...styles.distanceBox, marginLeft: 'auto' }}>
-                        <Text style={styles.gameItemBottomText}>1,6</Text>
-                      </View>
-                    </View>
-                  </View>
-                  <View style={styles.line} />
-                  <View style={styles.gameItemRight}>
-                    <Text style={styles.gameItemRightText}>{elm.number_of_players_from}</Text>
-                    <Text style={styles.gameItemRightText}>{elm.number_of_players_to}</Text>
-                    {/* {elm.availablePlayers ? ( */}
-                    <View style={styles.gameItemCircle}>
-                      <Text style={styles.circleText}>{elm.players.length}</Text>
-                    </View>
-                    {/* ) : null} */}
+                  >
+                    <Wave />
+                    <Text style={styles.midText}>1.6 км</Text>
                   </View>
                 </View>
-                <View style={styles.priceTextBlock}>
-                  <View style={styles.horizontalLine} />
-                  <Text
-                    style={styles.gameItemPriceText}
-                  >{`Сумма участия- ${elm.ticket_price}.`}</Text>
+                <Text style={styles.priceText}>{`Сумма участия- ${elm.ticket_price}.`}</Text>
+              </View>
+              <View style={styles.line}></View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  height: '80%',
+                  justifyContent: 'space-evenly',
+                }}
+              >
+                <View>
+                  <Text style={styles.playersText}>Игроки</Text>
+                  <Text style={styles.playersText}>
+                    {elm.number_of_players_from}-{elm.number_of_players_to}
+                  </Text>
                 </View>
-              </TouchableOpacity>
+                <View style={styles.countCircle}>
+                  <Text style={styles.countOfPlayersText}>{elm.players.length}</Text>
+                </View>
+              </View>
             </View>
           )
         })}
