@@ -37,11 +37,12 @@ const GameCreating = props => {
   const [addressName, setAddressName] = useState()
 
   // error messages
-  const [startDateError, setStartDateError] = useState()
-  const [endDateError, setEndDateError] = useState()
-  const [playersCuntError, setPlayersCuntError] = useState()
-  const [ageError, setAgeError] = useState()
-  const [addressError, setAddressError] = useState()
+  const [startDateError, setStartDateError] = useState(false)
+  const [endDateError, setEndDateError] = useState(false)
+  const [playersCuntError, setPlayersCuntError] = useState(false)
+  const [ageError, setAgeError] = useState(false)
+  const [addressError, setAddressError] = useState(false)
+  const [error, setError] = useState(false)
 
   //redux
   const dispatch = useDispatch()
@@ -118,12 +119,6 @@ const GameCreating = props => {
     .concat(' ' + timeFormat(endDate))
 
   const handleClick = () => {
-    console.log(initialState)
-    setStartDateError(null)
-    setEndDateError(null)
-    setAgeError(null)
-    setPlayersCuntError(null)
-    setAddressError(null)
     if (!startDate) {
       setStartDateError('Обязательное поле для заполнения')
     }
@@ -154,39 +149,27 @@ const GameCreating = props => {
     }
 
     if (
-      startDate &&
-      endDate &&
-      addressName?.placeName &&
-       initialState?.latitude &&
-      initialState?.longitude &&
-      +initialState?.age_restrictions_from > 0 &&
-      +initialState?.age_restrictions_from < +initialState?.age_restrictions_to &&
-      +initialState?.number_of_players_from > 0 &&
-      +initialState?.number_of_players_from < +initialState?.number_of_players_to
+      (startDate && endDate && addressName?.lat) ||
+      (initialState.latitude && addressName?.lng) ||
+      (initialState.longitude && addressName?.address_name) ||
+      (initialState.placeName &&
+        +initialState?.age_restrictions_from > 0 &&
+        +initialState?.age_restrictions_from < +initialState?.age_restrictions_to &&
+        +initialState?.number_of_players_from > 0 &&
+        +initialState?.number_of_players_from < +initialState?.number_of_players_to)
     ) {
+      console.log('aaaaaa', initialState)
       dispatch(
-        createGame({
-          ...initialState,
-          start_date: changedStartDate,
-          end_date: changedEndDate,
-        }),
+        createGame(
+          {
+            ...initialState,
+            start_date: changedStartDate,
+            end_date: changedEndDate,
+          },
+          setError,
+        ),
       )
-      dispatch(
-        setInitialState({
-          number_of_players_from: 0,
-          number_of_players_to: 0,
-          age_restrictions_from: 0,
-          age_restrictions_to: 0,
-          players_gender: 'm',
-          latitude: 0,
-          longitude: 0,
-          organizer_in_the_game: true,
-          ticket_price: 0,
-          game: '',
-          placeName: '',
-          gameCreatedSuccessful: null,
-        }),
-      )
+
       setModalOpen(true)
       setIsVisible(false)
     }
@@ -214,7 +197,9 @@ const GameCreating = props => {
 
   useEffect(() => {
     if (initialState.gameCreatedSuccessful) {
-      navigation.navigate('GameTicket', { params: { initialState, game, name: game.name } })
+      navigation.navigate('GameTicket', {
+        params: { initialState, game, name: game.name, dates: [changedStartDate, changedEndDate] },
+      })
       dispatch(setGameCreatedSuccessful(null))
     }
   }, [initialState.gameCreatedSuccessful])
@@ -247,9 +232,9 @@ const GameCreating = props => {
             setDate={date => setStartDate({ ...startDate, date })}
             setTime={time => setStartDate({ ...startDate, time })}
           />
-          {startDateError ? <Text style={styles.errorText}>{startDateError}</Text> : null}
+          {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}
           <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
-          {playersCuntError ? <Text style={styles.errorText}>{playersCuntError}</Text> : null}
+          {playersCuntError && <Text style={styles.errorText}>{playersCuntError}</Text>}
 
           <SecondBlock type={'age'} initialState={initialState} title={'Возрастные ограничения'} />
           {ageError ? <Text style={styles.errorText}>{ageError}</Text> : null}
@@ -263,8 +248,13 @@ const GameCreating = props => {
             list={genderList}
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
-          <SearchAddresses game={game} setAddressName={setAddressName} />
-          {addressError ? <Text style={styles.errorText}>{addressError}</Text> : null}
+          <SearchAddresses
+            game={game}
+            setAddressName={setAddressName}
+            addressName={addressName}
+            command={null}
+          />
+          {addressError && <Text style={styles.errorText}>{addressError}</Text>}
 
           <DateComponent
             title="Дата и время окончания поиска игроков"
@@ -359,6 +349,7 @@ const GameCreating = props => {
             )}
           </View>
           <View style={flag ? { ...styles.submitBlock } : { ...styles.submitBlock, marginTop: 20 }}>
+            {error && <Text style={styles.errorBoldText}>Ошибка</Text>}
             <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
           </View>
         </ScrollView>
@@ -434,6 +425,13 @@ const styles = StyleSheet.create({
     fontSize: RW(16),
     marginTop: RH(5),
     marginLeft: RH(10),
+  },
+  errorBoldText: {
+    color: LIGHT_RED,
+    fontSize: RW(20),
+    alignSelf: 'center',
+    marginTop: RH(5),
+    // marginLeft: RH(10),
   },
 })
 export default GameCreating

@@ -4,6 +4,50 @@ import { font, RH, RW } from '@/theme/utils'
 import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
+  gameItemContainer: {
+    width: RW(395),
+    height: RH(96),
+    backgroundColor: 'rgba(101, 122, 197, 0.6)',
+    borderRadius: RW(8),
+    alignSelf: 'center',
+    marginVertical: RW(6),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  midText: {
+    ...font('medium', 18, WHITE),
+    width: RW(230),
+    flexWrap: 'wrap',
+    textAlign: 'left',
+  },
+  priceText: {
+    ...font('medium', 12, WHITE),
+    width: RW(230),
+    textAlign: 'left',
+  },
+  playersText: {
+    textAlign: 'center',
+    ...font('regular', 10, WHITE),
+  },
+  countCircle: {
+    backgroundColor: ICON,
+    width: RW(28),
+    height: RH(28),
+    borderRadius: RW(19),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  countOfPlayersText: {
+    ...font('bold', 14, WHITE),
+  },
+  horizontalLine: {
+    width: '57%',
+    marginTop: RH(10),
+    alignSelf: 'flex-start',
+    borderWidth: RW(1),
+    borderColor: RADIO_TEXT,
+  },
   gameListContainer: {
     justifyContent: 'center',
     flexDirection: 'column',
@@ -63,12 +107,12 @@ export const styles = StyleSheet.create({
     borderColor: RADIO_TEXT,
     marginTop: RH(10),
   },
-  horizontalLine: {
-    borderWidth: RW(1),
-    width: RW(154),
-    borderColor: RADIO_TEXT,
-    marginTop: RH(5),
-  },
+  // horizontalLine: {
+  //   borderWidth: RW(1),
+  //   width: RW(154),
+  //   borderColor: RADIO_TEXT,
+  //   marginTop: RH(5),
+  // },
   gameItemRight: {
     flexDirection: 'column',
     // height: RH(66),

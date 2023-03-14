@@ -32,18 +32,31 @@ function SvgComponent({ status, size }) {
           width: '100%',
           height: '100%',
           alignItems: 'center',
+          flexDirection: 'row',
           justifyContent: 'center',
         }}
       >
-        <Row>
-          <Text style={{ ...font('exo', 10, DARK_BLUE), fontWeight: '700' }}>ОРГАНИЗАТОР</Text>
-          <Text
-            style={{ ...font('exo', 10, DARK_BLUE), fontWeight: '700', marginHorizontal: RW(5) }}
-          >
-            |
-          </Text>
-          <Text style={{ ...font('exo', 10, DARK_BLUE), fontWeight: '700' }}>УЧАСТНИК</Text>
-        </Row>
+        <Text
+          style={{
+            ...font('bold', fontSize, BLACK),
+            width: '38%',
+            left: size / -RW(45),
+          }}
+        >
+          ОРГАНИЗАТОР
+        </Text>
+        <Text
+          style={{
+            ...font('bold', fontSize, BLACK),
+            width: '4%',
+            alignSelf: 'center',
+            right: size / RW(100),
+            // position: 'absolute',
+          }}
+        >
+          |
+        </Text>
+        <Text style={{ ...font('bold', fontSize, BLACK), width: '30%' }}>УЧАСТНИК</Text>
       </View>
       <Defs>
         <LinearGradient

@@ -12,7 +12,7 @@ import { useNavigation } from '@react-navigation/native'
 
 function Index() {
   const dispatch = useDispatch()
-  const [value, setValue] = useState('63ff3e284b08cb7d912fc595')
+  const [value, setValue] = useState('')
   const [findedTeamEmpty, setFindedTeamEmpty] = useState(false)
   const navigation = useNavigation()
 
@@ -31,7 +31,7 @@ function Index() {
         style={styles.input}
         placeholderTextColor={ICON}
         value={value}
-        onChangeText={(e) => setValue(e)}
+        onChangeText={e => setValue(e)}
         placeholder={'ID карточка/По названию команды'}
       />
       <View style={{ alignItems: 'center', paddingRight: RW(10), width: '100%' }}>

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import SearchSvg from '@/assets/svgs/searchSvg'
 import {
   StyleSheet,
   View,
@@ -7,22 +6,28 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Keyboard,
   PermissionsAndroid,
   Alert,
   Platform,
-  Linking,
 } from 'react-native'
 import { RH, RW } from '@/theme/utils'
-import { BACKGROUND, DARK_BLUE, ICON, WHITE } from '@/theme/colors'
-import MapSvg from '@/assets/svgs/mapSvg'
+import { BACKGROUND, ICON } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import { fetchAddress } from './fetchAddress'
 import { useDispatch, useSelector } from 'react-redux'
-import Geolocation from 'react-native-geolocation-service'
 import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
+import Geolocation from 'react-native-geolocation-service'
+import MapSvg from '@/assets/svgs/mapSvg'
+
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
-const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '', command }) => {
+
+const SearchAddresses = ({
+  game,
+  setAddressName = () => {},
+  addressName = '',
+  navigateTo = '',
+  command = null,
+}) => {
   const inp = useRef()
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
@@ -54,21 +59,22 @@ const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '', com
     }
   }
   useEffect(() => {
-    inp.current.value = ''
     setAddresses('')
-    setState(command ? command?.address_name : '')
+    dispatch(setPlaceName(''))
+    setState(!command ? '' : command?.address_name)
   }, [])
   useEffect(() => {
+    console.log(initialState.placeName)
     setState(command ? command?.address_name : initialState?.placeName)
   }, [initialState.placeName])
-  const makeURL = async (state) => {
+  const makeURL = async state => {
     try {
-      const res = fetchAddress(false, null, null, state).then(async (e) => {
+      const res = fetchAddress(false, null, null, state).then(async e => {
         await fetch(e.url)
-          .then((r) => {
+          .then(r => {
             return r?.json()
           })
-          .then((s) => {
+          .then(s => {
             if (s.results?.length) {
               let response = s.results[0]?.formatted_address
               setAddresses(response)
@@ -79,8 +85,8 @@ const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '', com
               })
 
               dispatch(setLatitude(s.results[0]?.geometry.bounds?.northeast.lat))
-              dispatch(setLongitude(s.results[0]?.geometry.bounds?.northeast?.lng)),
-                dispatch(setPlaceName(response))
+              dispatch(setLongitude(s.results[0]?.geometry.bounds?.northeast?.lng))
+              // dispatch(setPlaceName(response))
             }
           })
       })
@@ -92,9 +98,16 @@ const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '', com
   const chooseAddress = () => {
     setState(addresses)
     if (state?.length >= 35) {
-      setState(state.split().reverse().join().substring(0, 32) + '...')
+      setState(
+        state
+          .split()
+          .reverse()
+          .join()
+          .substring(0, 32) + '...',
+      )
     }
     setAddresses(null)
+    dispatch(setPlaceName(addressName.address_name))
   }
   useEffect(() => {
     if (state?.length >= 5) {
@@ -118,9 +131,9 @@ const SearchAddresses = ({ game, setAddressName = () => {}, navigateTo = '', com
           placeholder={'Адрес проведения игры'}
           placeholderTextColor={ICON}
           value={state}
-          onChangeText={(e) => {
+          onChangeText={e => {
             setState(e)
-            if (state.length >= 4) {
+            if (state?.length >= 4) {
               makeURL(state)
             }
           }}

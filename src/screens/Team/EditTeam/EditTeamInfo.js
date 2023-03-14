@@ -75,6 +75,7 @@ const EditTeamInfo = ({ route }) => {
       <View style={styles.colBox}>
         <Text style={styles.text}>Адрес нахождения команды:</Text>
         <SearchAddresses
+          addressName={addresName}
           setAddressName={setAddressName}
           navigateTo="EditTeam"
           command={command}

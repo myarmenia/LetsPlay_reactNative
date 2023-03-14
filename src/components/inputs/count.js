@@ -11,15 +11,15 @@ import {
   setNumber_of_players_to,
 } from '@/store/Slices/GameCreatingSlice'
 
-const Count = (props) => {
+const Count = props => {
   const { placeholder, width, type, countType } = props
   const [value, setValue] = useState('')
   const dispatch = useDispatch()
   return (
     <>
       <TextInput
-        value={value}
-        onChangeText={(number) => {
+        // value={value}
+        onChangeText={number => {
           setValue(number)
           if (type === 'player') {
             countType === 'from'

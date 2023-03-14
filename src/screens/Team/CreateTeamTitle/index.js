@@ -117,7 +117,11 @@ const CreateTeamTitle = props => {
           </View>
           <View style={styles.colBox}>
             <View style={styles.inputBlock}>
-              <SearchAddresses setAddressName={setAddressName} navigateTo="CreateTeamTitle" />
+              <SearchAddresses
+                setAddressName={setAddressName}
+                addressName={addressName}
+                navigateTo="CreateTeamTitle"
+              />
             </View>
             {addressNameError && (
               <Text style={styles.errorText}>Обязательное поле для заполнения</Text>

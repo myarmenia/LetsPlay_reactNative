@@ -16,7 +16,7 @@ import { joinInGames } from '@/store/Slices/TeamSlice'
 
 const JoinGame = ({ route }) => {
   const dispatch = useDispatch()
-  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
+  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
 
   const freeOrPaid = [
     { id: 4, text: 'Бесплатно', checked: true },
@@ -42,7 +42,7 @@ const JoinGame = ({ route }) => {
   const [priceError, setPriceError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
 
-  const checkChecks = gameTypes.some((elm) => elm.checked === true)
+  const checkChecks = gameTypes.some(elm => elm.checked === true)
   useEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
   }, [])
@@ -57,18 +57,18 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
-    if (!price.length && Boolean(free.find((el) => el.checked).text == 'Платно')) {
+    if (!price.length && Boolean(free.find(el => el.checked).text == 'Платно')) {
       setPriceError(true)
     } else {
       setPriceError(false)
     }
     if (!priceError && !errorMessage) {
-      let ids = gameTypes.filter((el) => el.checked).map((el) => el.id)
+      let ids = gameTypes.filter(el => el.checked).map(el => el.id)
       let formData = new FormData()
       formData.append('price', Boolean(free))
       formData.append('latitude', route?.params?.latitude)
       formData.append('longitude', route?.params?.longitude)
-      ids.forEach((el) => {
+      ids.forEach(el => {
         formData.append('games[]', el)
       }),
         // console.log('xxxx', formData.getAll('games[]'))
@@ -92,7 +92,7 @@ const JoinGame = ({ route }) => {
           />
         </View>
 
-        {list.find((el) => el.checked).text === 'Выбрать игру' ? (
+        {list.find(el => el.checked).text === 'Выбрать игру' ? (
           <GameType
             showGameTypes={showGameTypes}
             setShowGameTypes={setShowGameTypes}
@@ -123,17 +123,22 @@ const JoinGame = ({ route }) => {
             </View>
           </View>
 
-          <SearchAddresses navigateTo="Join" setAddressName={setAddressName} show={false} />
+          <SearchAddresses
+            navigateTo="Join"
+            setAddressName={setAddressName}
+            addressName={addressName}
+            show={false}
+          />
           <View style={{ top: '-3%' }}>
             <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
             <RadioBlock list={free} onChange={setFree} />
-            {free.find((el) => el.checked).text === 'Платно' ? (
+            {free.find(el => el.checked).text === 'Платно' ? (
               <>
                 <View style={styles.priceInput}>
                   <TextInput
                     style={styles.priceInputText}
                     placeholder={'Сумма оплаты до'}
-                    onChangeText={(e) => setPrice(e)}
+                    onChangeText={e => setPrice(e)}
                     placeholderTextColor={ICON}
                     keyboardType="number-pad"
                   />

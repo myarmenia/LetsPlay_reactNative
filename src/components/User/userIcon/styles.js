@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { WHITE } from '@/theme/colors'
+import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 
 export default StyleSheet.create({
@@ -36,6 +36,17 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     left: -0.7,
+  },
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(20),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
   },
   nameBlock: {
     alignItems: 'center',

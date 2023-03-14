@@ -56,7 +56,7 @@ const SignUp = () => {
       if (signUpError == 'Электронная почта, уже используемая') {
         handlerMessage(messageDefault.usedEmail)
         handlerMessage({
-          text: `Хотите войти под електронной почте '${user.email}'`,
+          text: `Хотите авторизоваться с помощью электронной почты '${user.email}'?`,
           type: 'TEXT',
           position: 'left',
         })

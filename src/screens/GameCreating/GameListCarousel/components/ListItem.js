@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, StyleSheet, Text, View, Animated, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, Text, View, Animated, Pressable } from 'react-native'
 // import { styles } from '@/screens/GameCreatingScreens/GameListCarousel/components/style'
 import BgGamesLiner from '@/assets/imgs/games/BgGamesLiner'
 import Border from '@/assets/imgs/games/Border'
@@ -13,12 +13,15 @@ import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 
 function ListItem({ game, pressable, qrGame }) {
   const [active, setActive] = useState(false)
+  const [back, setBack] = useState(false)
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
   return (
     <Animated.View>
-      <TouchableOpacity
+      <Pressable
+        onPressIn={() => setBack(true)}
+        onPressOut={() => setBack(false)}
         onPress={() => {
           if (pressable) {
             setActive(true)
@@ -35,7 +38,7 @@ function ListItem({ game, pressable, qrGame }) {
         }}
         style={styles.bgFon}
       >
-        {active ? (
+        {back ? (
           <LinearGradient
             colors={['#7DCE8A', '#4D7CFE']}
             start={{ x: 0, y: 0 }}
@@ -51,7 +54,23 @@ function ListItem({ game, pressable, qrGame }) {
               opacity: 0.5,
             }}
           ></LinearGradient>
-        ) : null}
+        ) : (
+          <LinearGradient
+            colors={['#7DCE8A', '#4D7CFE']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            useAngle={true}
+            angle={105}
+            angleCenter={{ x: 0.5, y: 0.5 }}
+            style={{
+              width: RW(335),
+              height: RH(707),
+              zIndex: -1,
+              position: 'absolute',
+              opacity: 0.1,
+            }}
+          ></LinearGradient>
+        )}
 
         <View style={{ ...styles.border, ...styles.leftBorder }}>
           <Border />
@@ -85,7 +104,7 @@ function ListItem({ game, pressable, qrGame }) {
             <Text style={styles.btnText}>{game?.name}</Text>
           </LinearGradient>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </Animated.View>
   )
 }
@@ -94,7 +113,7 @@ const styles = StyleSheet.create({
   bgFon: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginTop: RH(40),
+    // marginTop: RH(40),
     width: RW(335),
     height: RH(707),
     borderWidth: RW(2),
