@@ -29,7 +29,6 @@ const Index = ({ route }) => {
         horizontal
       >
         {games?.map((elem, index) => {
-          console.log(elem)
           return (
             <View
               key={elem._id}
