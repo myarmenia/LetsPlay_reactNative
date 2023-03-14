@@ -20,12 +20,14 @@ import { deleteMemberChat, deleteOrganizerChat } from '@/store/Slices/ChatsSlice
 import { useDispatch, useSelector } from 'react-redux'
 import { setTookPartGames } from '@/store/Slices/AuthSlice'
 import { setTeamChats } from '@/store/Slices/TeamSlice'
+import LinearGradient from 'react-native-linear-gradient'
 
 function Index({ id, item, type }) {
   const navigation = useNavigation()
   const [animation] = useState(new Animated.Value(85))
   const [swipeDirection, setSwipeDirection] = useState(null)
   const [deleting, setDeleting] = useState(null)
+  const [back, setBack] = useState(false)
 
   const { user } = useSelector(({ auth }) => auth)
   const { teamChatsList } = useSelector(({ teams }) => teams)
@@ -60,25 +62,13 @@ function Index({ id, item, type }) {
           }).start()
         }
       },
-      // onPanResponderGrant: (evt, gestureState) => {
-      //   if (gestureState.dx > 80) {
-      //     console.log('Xxxxxx', gestureState.dx)
-      //     Animated.spring(animation, {
-      //       toValue: 85,
-      //       duration: 200,
-      //       useNativeDriver: true,
-      //     }).start()
-      //   }
-      // },
     }),
   ).current
 
   return (
     <View style={style.layer}>
-      {/* pressable kam touchableOpacity */}
       <View
         style={{
-          // alignSelf: 'flex-end',
           alignItems: 'center',
           justifyContent: 'flex-end',
           flexDirection: 'row',
@@ -104,9 +94,55 @@ function Index({ id, item, type }) {
         {...panResponder.panHandlers}
       >
         <Pressable
+          onPressIn={() => {
+            setBack(true)
+          }}
+          onPressOut={() => {
+            setBack(false)
+          }}
           onPress={() => navigation.navigate('PrivateChat', { id: item._id })}
           style={style.chatItemBlock}
         >
+          {back ? (
+            <LinearGradient
+              colors={['#7DCE8A', '#4D7CFE']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              useAngle={true}
+              angle={105}
+              angleCenter={{ x: 0.5, y: 0.5 }}
+              style={{
+                zIndex: -1,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                opacity: 0.5,
+                borderRadius: RW(10),
+              }}
+            ></LinearGradient>
+          ) : (
+            <LinearGradient
+              colors={['#7DCE8A', '#4D7CFE']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              useAngle={true}
+              angle={105}
+              angleCenter={{ x: 0.5, y: 0.5 }}
+              style={{
+                zIndex: -1,
+                position: 'absolute',
+                opacity: 0.3,
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                borderRadius: RW(10),
+              }}
+            ></LinearGradient>
+          )}
+
           <Image
             style={style.chatItemImg}
             source={{ uri: _storageUrl + (item?.img || item?.game?.img) }}
@@ -145,10 +181,12 @@ function Index({ id, item, type }) {
                     type == 'Участник'
                       ? dispatch(
                           setTookPartGames(
-                            user?.took_part_games?.filter(elm => elm._id !== item?._id),
+                            user?.took_part_games?.filter((elm) => elm._id !== item?._id),
                           ),
                         )
-                      : dispatch(setTeamChats(teamChatsList?.filter(elm => elm._id !== item?._id)))
+                      : dispatch(
+                          setTeamChats(teamChatsList?.filter((elm) => elm._id !== item?._id)),
+                        )
                   }}
                   size={{ width: 100, height: 36 }}
                   label={'Да'}

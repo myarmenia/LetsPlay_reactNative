@@ -10,19 +10,15 @@ const EachCommand = ({ command, i }) => {
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
   return (
-    // <Pressable
-    //   key={Math.random().toString()}
-    //   style={{ backgroundColor: '#ccc' }}
-    //   // onPressIn={() => setBack(true)}
-    //   // onPressOut={() => setBack(false)}
-    //   onPress={() => navigation.navigate('MyTeamInfo', command)}
-    //   // navigation.navigate('MyTeamInfo', command)
-    // >
     <Pressable
       style={style.homeBlock}
-      onPressIn={() => setBack(true)}
-      onPressOut={() => setBack(false)}
-      onPress={() => navigation.navigate('MyTeamInfo', command)}
+      onPressIn={() => {
+        setBack(true)
+      }}
+      onPressOut={() => {
+        setBack(false)
+        navigation.navigate('MyTeamInfo', command)
+      }}
     >
       {back ? (
         <LinearGradient
@@ -59,7 +55,7 @@ const EachCommand = ({ command, i }) => {
           }}
         ></LinearGradient>
       )}
-      <Pressable
+      <View
         style={{
           zIndex: 1,
           marginLeft: RW(10),
@@ -79,9 +75,8 @@ const EachCommand = ({ command, i }) => {
           <Text style={style.text}>{command.address_name}</Text>
           <Text style={style.text}>{command._id.substring(0, command._id.length - 1)}</Text>
         </View>
-      </Pressable>
+      </View>
     </Pressable>
-    // </Pressable>
   )
 }
 
