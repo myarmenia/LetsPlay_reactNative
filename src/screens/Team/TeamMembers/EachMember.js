@@ -1,58 +1,81 @@
+import React, { useState } from 'react'
 import { _storageUrl } from '@/constants'
-import { WHITE } from '@/theme/colors'
+import { BACKGROUND, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-const EachMember = ({ member }) => {
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import LightButton from '@/assets/imgs/Button'
+import User from '@/components/User/user'
+import ScreenMask from '@/components/wrappers/screen'
+
+const EachMember = ({ member, route, size = 430 }) => {
+  const [back, setBack] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
+  const commandName = route?.params?.command.name
+  const commandImg = route?.params?.command.img
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        top: RH(14),
-        marginHorizontal: RW(30),
-      }}
-    >
-      <Image
-        source={{ uri: _storageUrl + member?.img }}
+    <ScreenMask>
+      <Pressable
+        onPressIn={() => setBack(true)}
+        onPressOut={() => setBack(false)}
+        onPress={() => setModalVisible(true)}
         style={{
-          width: RW(80),
-          height: RH(82),
-          borderRadius: RH(41),
-          borderWidth: 1,
-          borderColor: WHITE,
-        }}
-        resizeMode="cover"
-      />
-      <View
-        style={{
-          marginHorizontal: RW(30),
+          width: '100%',
+          alignSelf: 'center',
+          alignItems: 'center',
           flexDirection: 'column',
-          alignItems: 'flex-start',
-          justifyContent: 'space-evenly',
-          height: '90%',
+          justifyContent: 'space-between',
+          height: '95%',
+          zIndex: 15,
         }}
       >
-        <Text style={styles.eachUserName}>Arsen Rustamyan</Text>
-        <Text style={styles.eachUserId}>ID : 6189187</Text>
-        <Text style={styles.eachUserVK}>ВК: vk.com</Text>
-      </View>
-    </View>
+        <View style={styles.rowBox}>
+          <Text style={styles.topTitle}>{commandName}</Text>
+          <Image
+            source={{ uri: _storageUrl + commandImg }}
+            resizeMode="cover"
+            style={styles.commandImg}
+          ></Image>
+        </View>
+        <User size={size} />
+        <View style={styles.btnsBox}>
+          <LightButton label={'Сделать администратором'} size={{ width: 308, height: 40 }} />
+          <LightButton label={'Удалить из команды'} size={{ width: 308, height: 40 }} />
+        </View>
+      </Pressable>
+    </ScreenMask>
   )
 }
 const styles = StyleSheet.create({
-  eachUserId: {
-    ...font('regular', 15, WHITE),
-    textAlign: 'center',
+  btnsBox: {
+    width: '100%',
+    alignItems: 'center',
+    flexDirection: 'column',
+    alignSelf: 'center',
+    // position: 'absolute',
+    // bottom: RH(40),
+    height: '11%',
+    justifyContent: 'space-between',
   },
-  eachUserName: {
-    ...font('bold', 17, WHITE),
+  topTitle: {
     textAlign: 'center',
+    ...font('bold', 22, WHITE),
+    marginVertical: RH(15),
   },
-  eachUserVK: {
-    ...font('regular', 16, WHITE),
-    textAlign: 'center',
-    textDecorationLine: 'underline',
+  commandImg: {
+    width: RW(40),
+    height: RW(40),
+    borderRadius: RW(20),
+    marginLeft: '3%',
+    borderWidth: 1,
+    borderColor: WHITE,
+  },
+  rowBox: {
+    width: '100%',
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: RH(15),
   },
 })
 export default EachMember

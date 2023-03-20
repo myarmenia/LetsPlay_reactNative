@@ -23,6 +23,7 @@ import PrivateChat from '@/screens/ChatScreens/PrivateChat'
 import ProfileNavigator from '@/navigation/ProfileNavigator'
 import GameList from '@/screens/Game/GameList'
 import Map from '@/screens/Map/Map'
+import GameItem from '@/screens/Game/GameList/gameItem'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
@@ -35,7 +36,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -64,6 +65,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'Game'} component={GameSelectScreen} />
         <Stack.Screen name={'JoinGame'} component={JoinGame} />
+        <Stack.Screen name={'GameItem'} component={GameItem} />
         <Stack.Screen name={'CreateGameNavigator'} component={CreateGameNavigator} />
         <Stack.Screen name={'MafiaNavigation'} component={MafiaNavigation} />
         <Stack.Screen name={'TeamNavigator'} component={TeamNavigator} />

@@ -12,17 +12,17 @@ const messageDefault = {
     position: 'left',
   },
   name: {
-    text: 'Напишите ваше имя',
+    text: 'Напишите Ваше имя',
     type: 'TEXT',
     position: 'left',
   },
   surname: {
-    text: 'Напишите вашу фамилию',
+    text: 'Напишите Вашу фамилию',
     type: 'TEXT',
     position: 'left',
   },
   email: {
-    text: 'Укажите вашу электронную почту',
+    text: 'Укажите Вашу электронную почту',
     type: 'TEXT',
     position: 'left',
   },
@@ -39,7 +39,8 @@ const messageDefault = {
     error: true,
   },
   emailCode: {
-    text: 'Вам на электронную почту поступило письмо от платформы «Играем» с кодом подтверждения, укажите его',
+    text:
+      'Вам на электронную почту поступило письмо от платформы «Играем» с кодом подтверждения, укажите его',
     type: 'TEXT',
     position: 'left',
   },

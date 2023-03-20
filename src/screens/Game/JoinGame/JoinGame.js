@@ -1,6 +1,6 @@
-import { Dimensions, StyleSheet, Text, View, ScrollView, TextInput } from 'react-native'
-import React, { memo, useEffect, useLayoutEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { StyleSheet, Text, View, ScrollView, TextInput } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import GameType from '../gameType'
 import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
@@ -9,14 +9,16 @@ import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/assets/imgs/Button'
-import CircleAdd from '@/components/buttons/circleAdd'
+// import CircleAdd from '@/components/buttons/circleAdd'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGamesOnlyNames } from '@/store/Slices/GamesSlice'
-import { joinInGames } from '@/store/Slices/TeamSlice'
+import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
 
 const JoinGame = ({ route }) => {
+  const props = route?.params
   const dispatch = useDispatch()
   const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  const { findedGames } = useSelector(({ teams }) => teams)
 
   const freeOrPaid = [
     { id: 4, text: 'Бесплатно', checked: true },
@@ -28,6 +30,7 @@ const JoinGame = ({ route }) => {
     { id: 3, text: 'Выбрать игру', checked: false },
   ]
   const navigation = useNavigation()
+
   //states
   const [showGameTypes, setShowGameTypes] = useState(false)
   const [addressName, setAddressName] = useState(route?.params?.address_name)
@@ -41,10 +44,11 @@ const JoinGame = ({ route }) => {
   //errors
   const [priceError, setPriceError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
-
   const checkChecks = gameTypes.some(elm => elm.checked === true)
+
   useEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
+    dispatch(setFindedGames([]))
   }, [])
 
   useEffect(() => {
@@ -63,17 +67,20 @@ const JoinGame = ({ route }) => {
       setPriceError(false)
     }
     if (!priceError && !errorMessage) {
-      let ids = gameTypes.filter(el => el.checked).map(el => el.id)
+      let ids = gameTypes?.filter(el => el?.checked).map(el => el?.id)
       let formData = new FormData()
-      formData.append('price', Boolean(free))
-      formData.append('latitude', route?.params?.latitude)
-      formData.append('longitude', route?.params?.longitude)
+      formData.append('price', free[0].checked ? false : true)
+      formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
+      formData.append('longitude', props?.fromMap ? props.longitude : addressName?.lng)
+      formData.append(
+        'address_name',
+        props?.fromMap ? props?.address_name : addressName?.address_name,
+      )
+      formData.append('game_of_your_choice', list[1].checked ? true : false)
       ids.forEach(el => {
         formData.append('games[]', el)
-      }),
-        // console.log('xxxx', formData.getAll('games[]'))
-        dispatch(joinInGames(formData))
-      navigation.navigate('GameList')
+      })
+      dispatch(searchGame(formData, navigation))
     } else {
       console.log('error')
     }
@@ -161,6 +168,7 @@ const JoinGame = ({ route }) => {
           },
         ]}
       >
+        {/* {!findedGames?.length ? ( */}
         <LightButton
           label={'Готово'}
           onPress={() => {
@@ -168,6 +176,9 @@ const JoinGame = ({ route }) => {
           }}
           size={{ width: RW(144), height: '100%' }}
         />
+        {/* ) : (
+          <Text style={styles.loading}>Загрузка...</Text>
+        )} */}
       </View>
     </ScreenMask>
   )
@@ -242,5 +253,9 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: RW(10),
     backgroundColor: 'transparent',
+  },
+  loading: {
+    ...font('regular', 15, WHITE),
+    left: '-4%',
   },
 })

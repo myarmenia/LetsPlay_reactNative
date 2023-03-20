@@ -45,6 +45,7 @@ function Index({ route }) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
+            console.log(initialState)
             dispatch(
               createGame(
                 {

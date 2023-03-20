@@ -18,6 +18,10 @@ import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
 import SearchInput from '@/screens/Team/SearchInput'
 import TeamInfo from '@/screens/Team/TeamInfo'
 import Map from '@/screens/Map/Map'
+import SearchUserResult from '@/screens/Team/SearchUserResult/SearchUserResult'
+import MembersInTeam from '@/screens/Team/TeamMembers/MembersInTeam'
+import EachMember from '@/screens/Team/TeamMembers/EachMember'
+import SearchedUserInfo from '@/screens/Team/SearchUserResult/SearchedUserInfo'
 const Stack = createNativeStackNavigator()
 
 function Index() {
@@ -30,6 +34,8 @@ function Index() {
       <Stack.Screen name="Map" component={Map} />
       <Stack.Screen name="TeamSelectGameCategory" component={TeamSelectCategoryComponent} />
       <Stack.Screen name="SelectTeam" component={SelectTeam} />
+      <Stack.Screen name="SearchUserResult" component={SearchUserResult} />
+      <Stack.Screen name="SearchedUserInfo" component={SearchedUserInfo} />
       <Stack.Screen name="SelectPlayers" component={SelectPlayers} />
       <Stack.Screen name="TeamsCreating" component={CreatingTeams} />
       <Stack.Screen name="CreateTeamTitle" component={CreateTeamTitle} />
@@ -38,6 +44,8 @@ function Index() {
       <Stack.Screen name="TeamModalSearch" component={TeamModalSearch} />
       <Stack.Screen name="Scheme" component={Scheme} />
       <Stack.Screen name="TeamMembers" component={TeamMembers} />
+      <Stack.Screen name="EachMember" component={EachMember} />
+      <Stack.Screen name="MembersInTeam" component={MembersInTeam} />
       <Stack.Screen name="SearchTeam" component={SearchInput} />
       <Stack.Screen name="TeamSearchRes" component={SearchRes} />
       <Stack.Screen name="TeamSearchInfo" component={TeamInfo} />

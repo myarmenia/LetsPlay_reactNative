@@ -2,15 +2,14 @@ import * as React from 'react'
 import Svg, { G, Path, Defs, LinearGradient, Stop, ClipPath } from 'react-native-svg'
 import { RH, RW } from '@/theme/utils'
 
-function InfoSvg(props) {
+function InfoSvg({ size = RW(40) }) {
   return (
     <Svg
-      width={RW(40)}
-      height={RW(40)}
+      width={size}
+      height={size}
       viewBox="0 0 41 41"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
     >
       <G clipPath="url(#clip0_1517_19480)">
         <Path

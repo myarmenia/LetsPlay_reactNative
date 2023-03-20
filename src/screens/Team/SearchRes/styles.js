@@ -11,9 +11,12 @@ export default StyleSheet.create({
   },
   homeBlock: {
     width: RW(395),
-    height: RH(111),
+    overflow: 'hidden',
+    // height: RH(111),
+    alignItems: 'flex-start',
+    justifyContent: 'center',
     marginVertical: RH(18),
-    padding: RW(11),
+    // padding: RW(11),
   },
   imageBlock: {
     width: RW(80),
@@ -21,6 +24,7 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     borderColor: WHITE,
+    margin: RW(15),
   },
   image: {
     borderWidth: 1,
@@ -32,9 +36,9 @@ export default StyleSheet.create({
   text: {
     marginVertical: RH(3),
     width: '85%',
-    ...font('bold', 14, WHITE),
+    ...font('bold', 11, WHITE),
   },
   textBlock: {
-    marginLeft: RW(15),
+    marginLeft: RW(18),
   },
 })
