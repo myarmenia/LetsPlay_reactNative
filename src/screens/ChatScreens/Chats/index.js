@@ -27,12 +27,12 @@ const ChatScreen = () => {
           {teamChatsList?.length || user?.took_part_games?.length ? (
             <>
               <View>
-                {teamChatsList?.map(eachChat => {
+                {teamChatsList?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Организатор" />
                 })}
               </View>
               <View>
-                {user?.took_part_games?.map(eachChat => {
+                {user?.took_part_games?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Участник" />
                 })}
               </View>

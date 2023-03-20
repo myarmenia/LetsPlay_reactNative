@@ -20,6 +20,7 @@ const JoinGame = ({ route }) => {
   const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
   const { findedGames } = useSelector(({ teams }) => teams)
 
+
   const freeOrPaid = [
     { id: 4, text: 'Бесплатно', checked: true },
     { id: 5, text: 'Платно', checked: false },
@@ -45,7 +46,6 @@ const JoinGame = ({ route }) => {
   const [priceError, setPriceError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
   const checkChecks = gameTypes.some(elm => elm.checked === true)
-
   useEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
     dispatch(setFindedGames([]))
@@ -61,7 +61,7 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
-    if (!price.length && Boolean(free.find(el => el.checked).text == 'Платно')) {
+    if (!price.length && Boolean(free.find((el) => el.checked).text == 'Платно')) {
       setPriceError(true)
     } else {
       setPriceError(false)
@@ -78,6 +78,7 @@ const JoinGame = ({ route }) => {
       )
       formData.append('game_of_your_choice', list[1].checked ? true : false)
       ids.forEach(el => {
+
         formData.append('games[]', el)
       })
       dispatch(searchGame(formData, navigation))
@@ -99,7 +100,7 @@ const JoinGame = ({ route }) => {
           />
         </View>
 
-        {list.find(el => el.checked).text === 'Выбрать игру' ? (
+        {list.find((el) => el.checked).text === 'Выбрать игру' ? (
           <GameType
             showGameTypes={showGameTypes}
             setShowGameTypes={setShowGameTypes}
@@ -139,13 +140,13 @@ const JoinGame = ({ route }) => {
           <View style={{ top: '-3%' }}>
             <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
             <RadioBlock list={free} onChange={setFree} />
-            {free.find(el => el.checked).text === 'Платно' ? (
+            {free.find((el) => el.checked).text === 'Платно' ? (
               <>
                 <View style={styles.priceInput}>
                   <TextInput
                     style={styles.priceInputText}
                     placeholder={'Сумма оплаты до'}
-                    onChangeText={e => setPrice(e)}
+                    onChangeText={(e) => setPrice(e)}
                     placeholderTextColor={ICON}
                     keyboardType="number-pad"
                   />
