@@ -11,12 +11,10 @@ import Message from './components/container/message'
 import { IS_IOS } from '@/constants'
 import { setPausedMessageId, setPlayMessageId } from '../../../store/Slices/ChatsSlice'
 import PrivateChatHeader from './components/PrivateChatHeader'
-import ModalItem from './components/PrivateChatHeader/Modal'
 
 function Index(props) {
   const [messageState, setMessageState] = useState([])
   const [voiceMessage, setVoiceMessage] = useState('')
-  const [modalVisible, setModalVisible] = useState(false)
 
   const { user, token } = useSelector(({ auth }) => auth)
   const { voiceDuration, chats } = useSelector(({ chats }) => chats)
@@ -127,13 +125,15 @@ function Index(props) {
             }
           : {})}
       >
-        <ModalItem modalVisible={modalVisible} setModalVisible={setModalVisible} />
-        <PrivateChatHeader setModalVisible={setModalVisible} />
+        <PrivateChatHeader gameID={gameID} />
         <FlatList
           data={[...messageState]?.reverse()}
+          // data={messageState}
           style={{
             marginBottom: RH(25),
           }}
+          // ListHeaderComponent={() => <PrivateChatHeader gameID={gameID} />}
+          // stickyHeaderIndices={[0]}
           inverted
           refreshing
           initialNumToRender={4}

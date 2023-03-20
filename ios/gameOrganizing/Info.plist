@@ -75,7 +75,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>NSCalendarsUsageDescription</string>
 	<key>NSCameraUsageDescription</key>
-	<string>NSCameraUsageDescription</string>
+	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>NSContactsUsageDescription</string>
 	<key>NSFaceIDUsageDescription</key>

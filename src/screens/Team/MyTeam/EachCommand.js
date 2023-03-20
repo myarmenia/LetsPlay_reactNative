@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import style from './style'
