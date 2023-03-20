@@ -17,9 +17,8 @@ import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
 const JoinGame = ({ route }) => {
   const props = route?.params
   const dispatch = useDispatch()
-  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   const { findedGames } = useSelector(({ teams }) => teams)
-
 
   const freeOrPaid = [
     { id: 4, text: 'Бесплатно', checked: true },
@@ -45,7 +44,7 @@ const JoinGame = ({ route }) => {
   //errors
   const [priceError, setPriceError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
-  const checkChecks = gameTypes.some(elm => elm.checked === true)
+  const checkChecks = gameTypes.some((elm) => elm.checked === true)
   useEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
     dispatch(setFindedGames([]))
@@ -67,7 +66,7 @@ const JoinGame = ({ route }) => {
       setPriceError(false)
     }
     if (!priceError && !errorMessage) {
-      let ids = gameTypes?.filter(el => el?.checked).map(el => el?.id)
+      let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       let formData = new FormData()
       formData.append('price', free[0].checked ? false : true)
       formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
@@ -77,8 +76,7 @@ const JoinGame = ({ route }) => {
         props?.fromMap ? props?.address_name : addressName?.address_name,
       )
       formData.append('game_of_your_choice', list[1].checked ? true : false)
-      ids.forEach(el => {
-
+      ids.forEach((el) => {
         formData.append('games[]', el)
       })
       dispatch(searchGame(formData, navigation))
@@ -118,7 +116,7 @@ const JoinGame = ({ route }) => {
                 dateAndroidStyle={{ width: RW(170) }}
                 dateValue={startDate}
                 setDate={setStartDate}
-                minDate={startDate}
+                // minDate={startDate}
               />
               <View style={styles.dash}></View>
               <DateComponent

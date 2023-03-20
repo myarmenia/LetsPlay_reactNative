@@ -22,8 +22,8 @@ function GamesList() {
       y: 10,
       animated: true,
     })
-  const passIdGameItem = id => {
-    findedGames.map(elem => {
+  const passIdGameItem = (id) => {
+    findedGames.map((elem) => {
       // elem.data.forEach(elm => {
       if (elem._id === id) {
         navigation.navigate('GameItem', { item: { ...elem, clicked: true } })
@@ -159,20 +159,13 @@ function GamesList() {
         showsVerticalScrollIndicator={false}
         ref={ref}
       >
-        {!findedGames.length && <Text style={styles.topLoading}>Загрузка...</Text>}
-        {/* <View
-          style={{
-            flexDirection: 'column',
-            alignItems: 'center',
-            alignSelf: 'center',
-            justifyContent: 'center',
-          }}
-        > */}
+        {!findedGames.length ? <Text style={styles.topLoading}>Загрузка...</Text> : null}
+
         {findedGames?.map((elm, i) => {
           return <EatchItem elm={elm} key={i} />
         })}
-        {/* </View> */}
-        {findedGames.length && (
+
+        {findedGames.length ? (
           <View style={{ alignSelf: 'center', paddingTop: RH(99), paddingBottom: RH(48) }}>
             <LightButton
               label={'Обновить'}
@@ -182,7 +175,7 @@ function GamesList() {
               }}
             />
           </View>
-        )}
+        ) : null}
       </ScrollView>
     </ScreenMask>
   )
