@@ -11,8 +11,8 @@ const SearchMemberResult = () => {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      {members?.map(member => {
-        return <BgMyTem children={<EachMember member={member} />} />
+      {members?.map((member, i) => {
+        return <EachMember member={member} key={i} />
       })}
     </ScrollView>
   )

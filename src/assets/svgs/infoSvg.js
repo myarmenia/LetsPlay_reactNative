@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Svg, { LinearGradient, Stop, Circle, Path } from 'react-native-svg'
-
 import { memo } from 'react'
 import { RW } from '@/theme/utils'
 

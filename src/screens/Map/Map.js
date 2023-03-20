@@ -84,7 +84,7 @@ const Map = ({ route }) => {
                 dispatch(setPlaceName(response))
                 game
                   ? navigation.navigate('GameCreating', {
-                      params: { game: game, response: response },
+                      params: { game: game, response: response, fromMap: true },
                     })
                   : null
                 navigateTo == 'CreateTeamTitle'
@@ -93,6 +93,7 @@ const Map = ({ route }) => {
                         address_name: response,
                         latitude: s.results[0].geometry.location.lat,
                         longitude: s.results[0].geometry.location.lng,
+                        fromMap: true,
                       },
                     })
                   : null
@@ -107,6 +108,7 @@ const Map = ({ route }) => {
                       address_name: response,
                       latitude: s.results[0].geometry.location.lat,
                       longitude: s.results[0].geometry.location.lng,
+                      fromMap: true,
                     })
                   : null
               })

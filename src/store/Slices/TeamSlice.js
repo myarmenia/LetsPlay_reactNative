@@ -6,6 +6,7 @@ const initialState = {
   findedTeam: [],
   members: [],
   findedGames: [],
+  findedPlayers: [],
 }
 export const TeamSlice = createSlice({
   name: 'teamSlice',
@@ -35,9 +36,15 @@ export const TeamSlice = createSlice({
         members: action.payload,
       }
     },
+    setFindedPlayers: (store, action) => {
+      return {
+        ...store,
+        findedPlayers: action.payload,
+      }
+    },
   },
 })
-export const getTeams = setModalVisible => dispatch => {
+export const getTeams = (setModalVisible = () => {}) => dispatch => {
   axiosInstance
     .get('api/team/')
     .then(response => {
@@ -50,49 +57,91 @@ export const getTeams = setModalVisible => dispatch => {
     })
     .catch(err => {
       setModalVisible && setModalVisible(true)
-      console.log('error getting team chats', err)
+      console.log('Error getting team chats', err)
     })
 }
-export const searchTeam = (teamId, isEmpty, nav) => async dispatch => {
+export const searchPlayer = url => dispatch => {
+  axiosInstance
+    .get(`/api/team/find/user/${url}`)
+    .then(response => {
+      dispatch(setFindedPlayers(response.data))
+    })
+
+    .catch(err => {
+      console.log('Error finding player', err)
+    })
+}
+export const searchTeam = (teamId, isEmpty = () => {}, nav) => async dispatch => {
+  console.log(teamId)
   axiosInstance
     .get(`api/team/${teamId}`)
     .then(async response => {
       if (response.data?.data) {
         isEmpty(false)
         await dispatch(setFindedTeam([response.data?.data]))
-        nav.navigate('TeamSearchRes')
+
+        nav && nav.navigate('TeamSearchRes')
       }
     })
     .catch(err => {
       dispatch(setFindedTeam([]))
       isEmpty(true)
-      console.log('error searching team', err)
+      console.log('Error searching team', err)
     })
 }
 export const getMembersList = teamId => async dispatch => {
   axiosInstance
     .get(`api/team/players/${teamId}`)
     .then(response => {
-      // dispatch(setMembersInTeam(response.data))
+      dispatch(setMembersInTeam(response.data.datas))
     })
     .catch(err => {
-      console.log('error searching players in this team :', err)
+      console.log('Error searching players in this team :', err)
     })
 }
-export const joinInGames = data => async dispatch => {
-  console.log(data)
+export const joinGame = (gameId, nav, setError, setModalVisible) => async dispatch => {
   axiosInstance
-    .get('api/create/game', data)
+    .post(`api/participate/${gameId}`)
     .then(response => {
-      // console.log(JSON.stringify(response.data, null, 4))
-      dispatch(setFindedGames(response?.data?.datas))
+      if (response.data.message !== 'Success') {
+        setError(response.data.message)
+        setModalVisible(true)
+      } else {
+        setModalVisible(false), nav.navigate('Home')
+      }
     })
     .catch(err => {
-      console.log('error searching players in this team :', err)
+      console.log('Error joining to game :', err)
+    })
+}
+export const searchGame = (data, nav) => async dispatch => {
+  let price = data.getAll('price')
+  let game_of_your_choice = data.getAll('game_of_your_choice')
+  let longitude = data.getAll('longitude')
+  let latitude = data.getAll('latitude')
+  console.log(price)
+  console.log(
+    `api/create/game/?price=${price}&game_of_your_choice=${game_of_your_choice}&longitude=${longitude}&latatude=${latitude}`,
+  )
+  axiosInstance
+    .get(
+      `api/create/game/?price=${price}&game_of_your_choice=${game_of_your_choice}&longitude=${longitude}&latatude=${latitude}`,
+    )
+    .then(response => {
+      console.log(JSON.stringify(response?.data?.datas, null, 5))
+      dispatch(setFindedGames(response?.data?.datas))
+      // console.log(
+      //   'hascener : ',
+      //   response?.data?.datas.map(elm => elm?.la),
+      // )
+      nav.navigate('GameList')
+    })
+    .catch(err => {
+      console.log('Error searching players in this team :', err)
     })
 }
 
-export const createTeam = (data, token, setModalVisible) => {
+export const createTeam = (data, token, setModalVisible = () => {}) => {
   // console.log(data, token)
   let myHeaders = new Headers()
   myHeaders.append('Content-Type', 'multipart/form-data')
@@ -110,8 +159,14 @@ export const createTeam = (data, token, setModalVisible) => {
       // console.log(response)
     })
     .catch(err => {
-      console.log('err creating team', err)
+      console.log('Error creating team :', err)
     })
 }
-export const { setTeamChats, setFindedTeam, setMembersInTeam, setFindedGames } = TeamSlice.actions
+export const {
+  setTeamChats,
+  setFindedTeam,
+  setMembersInTeam,
+  setFindedGames,
+  setFindedPlayers,
+} = TeamSlice.actions
 export default TeamSlice.reducer

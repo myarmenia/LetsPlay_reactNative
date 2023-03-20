@@ -11,11 +11,12 @@ import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
 
-function Index({ size, onPressImg }) {
+function Index({ size, onPressImg, pressedUser }) {
   const user = useSelector(({ auth }) => auth.user)
+  const [userNow, setUserNow] = useState(user)
   const { name, surname, vk_id, avatar } = user
-  const fontSizeTitle = size / RW(28)
-  const fontSizeCount = size / RW(22)
+  const fontSizeTitle = size > 150 ? size / RW(28) : size / RW(50)
+  const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
   const [loader, setLoader] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
@@ -27,9 +28,14 @@ function Index({ size, onPressImg }) {
       }
     }, 3000)
   }, [])
+
+  useEffect(() => {
+    setUserNow(!pressedUser ? user : pressedUser)
+  }, [user])
+
   const sizing = {
     padding: size > 40 ? RH(5) : RH(0),
-    marginTop: size > 40 ? RH(4) : RH(3),
+    marginTop: size > 150 ? RH(4) : RH(-4),
     width: size < 40 ? size / RW(3) : size / RW(4.3),
   }
   return (
@@ -57,7 +63,7 @@ function Index({ size, onPressImg }) {
       >
         <Image
           style={[
-            { ...style.image, borderRadius: size / RW(3), top: size < 40 ? '-50%' : 0 },
+            { ...style.image, borderRadius: size / RW(3), top: size > 150 ? '0%' : '-10%' },
             { resizeMode: 'cover' },
           ]}
           source={
@@ -66,27 +72,35 @@ function Index({ size, onPressImg }) {
               : avatar.startsWith('https://')
               ? { uri: avatar }
               : {
-                  uri: _storageUrl + avatar,
+                  uri: _storageUrl + userNow.avatar,
                 }
           }
         />
       </Pressable>
-      <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(16) }]}>
-        <Text style={font('bold', size / RW(20), WHITE)}>{name ? name : 'Имя'}</Text>
-        <Text style={font('bold', size / RW(20), WHITE)}>{surname ? surname : 'Фамилия'}</Text>
+      <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(10) }]}>
+        <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
+          {name ? name : 'Имя'}
+        </Text>
+        <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
+          {surname ? surname : 'Фамилия'}
+        </Text>
       </View>
       <View
         style={{
           ...style.statusBlock,
           width: size / RW(1.8),
           overflow: 'visible',
-          marginTop: size / RH(70),
+          marginTop: size > 150 ? size / RH(70) : size / RH(80),
         }}
       >
-        <UserCircle size={size + RW(25)} count={user?.create_games?.length} status={user.status} />
+        <UserCircle
+          size={size > 150 ? size + RW(25) : size - RW(25)}
+          count={user?.create_games?.length}
+          status={user.status}
+        />
         <UserLine size={size} status={user.status} />
         <UserCircle
-          size={size + RW(25)}
+          size={size > 150 ? size + RW(25) : size - RW(25)}
           count={user?.took_part_games?.length}
           status={user.status}
         />
@@ -94,8 +108,8 @@ function Index({ size, onPressImg }) {
       <View
         style={{
           ...style.titleBigBloc,
-          height: size < 40 ? size / RH(2.9) : size / RW(4.4),
-          marginTop: size / RH(55),
+          height: size < 40 ? size / RH(2.9) : size / RW(8.4),
+          marginTop: size > 150 ? size / RH(55) : size / RH(90),
           width: size < 40 ? size / RW(1.5) : size / RW(2.1),
           justifyContent: 'space-evenly',
         }}
@@ -135,7 +149,7 @@ function Index({ size, onPressImg }) {
       <Modal
         item={
           <View style={style.modal}>
-            <Text style={style.successTeam}>Аккаунт игрока не привязан VK</Text>
+            <Text style={style.successTeam}>Аккаунт игрока не привязан к VK</Text>
           </View>
         }
         modalVisible={modalVisible}
@@ -154,7 +168,7 @@ function Index({ size, onPressImg }) {
             setModalVisible(true)
           }
         }}
-        style={{ ...style.soc, marginTop: size / RH(30) }}
+        style={{ ...style.soc, marginTop: size > 150 ? size / RH(10) : size / RH(10) }}
       >
         <Vk size={size / RH(12)} />
       </TouchableOpacity>

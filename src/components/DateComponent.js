@@ -52,7 +52,15 @@ function DateComponent({
             />
           </View>
         ) : (
-          <View style={[styles.dateButton, dateAndroidStyle]}>
+          <View
+            style={[
+              styles.dateButton,
+              dateAndroidStyle,
+              Platform.OS == 'android'
+                ? { backgroundColor: BACKGROUND, borderRadius: RW(10) }
+                : null,
+            ]}
+          >
             <Pressable
               style={styles.dateButtonText}
               onPress={() => {

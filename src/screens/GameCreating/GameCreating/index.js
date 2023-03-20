@@ -159,7 +159,6 @@ const GameCreating = props => {
         +initialState?.number_of_players_from < +initialState?.number_of_players_to)
     ) {
       dispatch(setGameCreatedSuccessful(true))
-      // console.log('aaaaaa', initialState)
       // dispatch(
       //   createGame(
       //     {
@@ -168,7 +167,7 @@ const GameCreating = props => {
       //       end_date: changedEndDate,
       //     },
       //     setError,
-      // ),
+      //   ),
       // )
 
       setModalOpen(true)

@@ -1,4 +1,4 @@
-import { LIGHT_LABEL, WHITE, ICON, RADIO_TEXT } from '@/theme/colors'
+import { LIGHT_LABEL, WHITE, ICON, RADIO_TEXT, LIGHT_RED } from '@/theme/colors'
 import { FONT_INTER_REGULAR, FONT_INTER_MEDIUM, FONT_INTER_BOLD } from '@/theme/fonts'
 import { font, RH, RW } from '@/theme/utils'
 import { StyleSheet } from 'react-native'
@@ -7,13 +7,15 @@ export const styles = StyleSheet.create({
   gameItemContainer: {
     width: RW(395),
     height: RH(96),
-    backgroundColor: 'rgba(101, 122, 197, 0.6)',
+    // backgroundColor: 'rgba(101, 122, 197, 0.6)',
     borderRadius: RW(8),
     alignSelf: 'center',
     marginVertical: RW(6),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    // position: 'relative',
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   midText: {
     ...font('medium', 18, WHITE),
@@ -30,6 +32,11 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     ...font('regular', 10, WHITE),
   },
+  topLoading: {
+    textAlign: 'center',
+    ...font('regular', 19, WHITE),
+    paddingVertical: RH(12),
+  },
   countCircle: {
     backgroundColor: ICON,
     width: RW(28),
@@ -42,7 +49,7 @@ export const styles = StyleSheet.create({
     ...font('bold', 14, WHITE),
   },
   horizontalLine: {
-    width: '57%',
+    width: '59%',
     marginTop: RH(10),
     alignSelf: 'flex-start',
     borderWidth: RW(1),
@@ -53,19 +60,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
   },
-  gameBox: {
-    width: '100%',
-    marginTop: RH(15),
-    backgroundColor: 'rgba(101, 122, 197, 0.6)',
-    borderRadius: RW(10),
-    alignItems: 'center',
-    // alignSelf: 'center',
-    // justifyContent: 'center',
-    paddingLeft: RW(20),
-    paddingRight: RW(9),
-    paddingBottom: RH(10),
-    paddingTop: RH(10),
-  },
+
   gameItemTop: {
     flexDirection: 'row',
   },
@@ -103,28 +98,11 @@ export const styles = StyleSheet.create({
   },
   line: {
     borderWidth: RW(1),
-    height: RW(35),
+    height: RW(45),
     borderColor: RADIO_TEXT,
-    marginTop: RH(10),
+    marginHorizontal: '2%',
   },
-  // horizontalLine: {
-  //   borderWidth: RW(1),
-  //   width: RW(154),
-  //   borderColor: RADIO_TEXT,
-  //   marginTop: RH(5),
-  // },
-  gameItemRight: {
-    flexDirection: 'column',
-    // height: RH(66),
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    width: RW(47),
-  },
-  gameItemRightText: {
-    fontFamily: FONT_INTER_REGULAR,
-    color: WHITE,
-    fontSize: RH(10),
-  },
+
   gameItemCircle: {
     backgroundColor: '#596aaa',
     alignItems: 'center',
@@ -172,5 +150,16 @@ export const styles = StyleSheet.create({
   priceTextBlock: {
     width: '100%',
     marginLeft: RW(130),
+  },
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_RED,
+    borderRadius: RW(20),
+    padding: RW(30),
+    marginHorizontal: RW(30.5),
+  },
+  errMessage: {
+    ...font('inter', 18, WHITE, 20),
+    textAlign: 'center',
   },
 })

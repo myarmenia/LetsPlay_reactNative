@@ -16,7 +16,7 @@ function Index() {
   const [findedTeamEmpty, setFindedTeamEmpty] = useState(false)
   const navigation = useNavigation()
 
-  //test team id ---> 63ff3e284b08cb7d912fc595
+  //test team id ---> 640b2c8d9f063da9a3cf6b7e
   const handleSeach = () => {
     dispatch(searchTeam(value, setFindedTeamEmpty, navigation))
   }
