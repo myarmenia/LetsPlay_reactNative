@@ -9,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Linking,
 } from 'react-native'
 import style from './style'
 import TickSvg from '@/assets/svgs/tickSvg'
@@ -23,17 +24,23 @@ import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  connectVK,
   editProfile,
   setExpiredToken,
   setImage,
   setPending,
   setToken,
   setUser,
+  vkAuth,
 } from '@/store/Slices/AuthSlice'
+import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { _storageUrl } from '@/constants'
-import DateComponent from '@/components/DateComponent'
 import { clearAsyncStorage } from '../../../helpers/asyncStore'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { useNavigation } from '@react-navigation/native'
+import { io } from 'socket.io-client'
+import DateComponent from '@/components/DateComponent'
+import VKIcon from '@/assets/imgs/vk'
 
 function Index() {
   const [isVisible, setIsVisible] = useState(false)
@@ -41,6 +48,9 @@ function Index() {
     ({ auth }) => auth.user,
   )
   const user = useSelector(({ auth }) => auth.user)
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+
   const [editable, setEditable] = useState(false)
   const [nameState, setNameState] = useState(name)
   const [surNameState, setSurNameState] = useState(surname)
@@ -54,7 +64,62 @@ function Index() {
     { text: 'Ж', checked: gender == 'female', label: 'female' },
   ])
   const { token } = useSelector(({ auth }) => auth)
-  const dispatch = useDispatch()
+  const socket = io.connect('http://to-play.ru/vk/authorize', {
+    transports: ['websocket'],
+  })
+
+  const openLink = async url => {
+    try {
+      socket.on('message', data => {
+        if (data.vkAuthInfo && data.token == token) {
+          console.log('sssssss', data.vkAuthInfo)
+          InAppBrowser.close()
+          const vkAuthInfo = JSON.parse(data.vkAuthInfo)
+          dispatch(
+            connectVK({
+              id: vkAuthInfo.id,
+            }),
+          )
+        }
+      })
+      const canOpenURL = await Linking.canOpenURL(url)
+      if ((await InAppBrowser?.isAvailable()) && canOpenURL) {
+        await InAppBrowser.open(url, {
+          //iOS Properties
+          animated: true,
+          readerMode: true,
+          modalEnabled: true,
+          enableBarCollapsing: false,
+          dismissButtonStyle: 'cancel',
+          preferredControlTintColor: 'rgba(101, 122, 197, 1)',
+          preferredBarTintColor: '#001034',
+          modalPresentationStyle: 'formSheet',
+          modalTransitionStyle: 'coverVertical',
+          //Android Properties
+          showTitle: true,
+          enableUrlBarHiding: true,
+          enableDefaultShare: true,
+          navigationBarColor: '#001034',
+          showInRecents: true,
+          forceCloseOnRedirection: false,
+          navigationBarDividerColor: '#001034',
+          toolbarColor: '#001034',
+
+          animations: {
+            startEnter: 'slide_in_top',
+            startExit: 'slide_out_left',
+            endEnter: 'slide_in_bottom',
+            endExit: 'slide_out_right',
+          },
+        }).then(() => {
+          socket.off('message')
+        })
+      }
+    } catch (err) {
+      socket.off('message')
+      console.log(err)
+    }
+  }
   const uploadPhoto = async () => {
     const result = await launchImageLibrary({
       mediaType: 'mixed',
@@ -87,11 +152,11 @@ function Index() {
         : 'http://to-play.ru/api/profile/avatar',
       requestOptions,
     )
-      .then((response) => response.text())
-      .then((result) => {
+      .then(response => response.text())
+      .then(result => {
         dispatch(setImage(JSON.parse(result).avatar))
       })
-      .catch((error) => console.log('error', error))
+      .catch(error => console.log('error', error))
       .finally(() => dispatch(setPending(false)), setEditable(false))
   }
 
@@ -102,7 +167,7 @@ function Index() {
         ...{
           name: nameState,
           surname: surNameState,
-          gender: genderState?.find((elem) => elem?.checked).label,
+          gender: genderState?.find(elem => elem?.checked).label,
           dob: JSON.stringify(dateState),
           phone_number: phoneState,
           email: emailState,
@@ -114,7 +179,7 @@ function Index() {
       editProfile({
         name: nameState,
         surname: surNameState,
-        gender: genderState?.find((elem) => elem?.checked).label,
+        gender: genderState?.find(elem => elem?.checked).label,
         dob: dateState,
         phone_number: phoneState?.toString(),
         email: emailState,
@@ -194,13 +259,22 @@ function Index() {
             value={emailState}
             editable={editable}
           />
-          <InputBlock
-            text={'Vk:'}
-            placeholder={'Ссылка на профиль'}
-            value={vkUriState}
-            setValue={setVkUriState}
-            editable={editable}
-          />
+          {user.vk_uri ? (
+            <InputBlock
+              text={'VK:'}
+              placeholder={'Ссылка на профиль'}
+              value={vkUriState}
+              setValue={setVkUriState}
+              editable={editable}
+            />
+          ) : (
+            <Pressable
+              style={{ paddingTop: RH(10) }}
+              onPress={() => openLink(`https://to-play.ru/vk/auth.html?${token}`)}
+            >
+              <VKIcon />
+            </Pressable>
+          )}
           <TouchableOpacity onPress={() => setIsVisible(true)} style={style.logOut}>
             <Text style={style.logOutText}>Выход из аккаунта</Text>
           </TouchableOpacity>

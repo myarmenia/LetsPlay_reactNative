@@ -5,6 +5,9 @@ import ChooseGameType from '@/screens/GameCreating/ChooseGameType'
 import GameListCarousel from '@/screens/GameCreating/GameListCarousel'
 import GameCreating from '@/screens/GameCreating/GameCreating'
 import GameTicket from '@/screens/GameCreating/GameTicket'
+import CommandLeadCreate from '@/screens/Team/CommandLeadCreate/CreateGameInTeam'
+import ChoosePlayers from '@/screens/Team/CommandLeadCreate/ChoosePlayers'
+import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLeadNotCreate'
 
 const Stack = createNativeStackNavigator()
 
@@ -13,6 +16,9 @@ const CreateGameNavigator = () => {
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name={'ChooseGameType'} component={ChooseGameType} />
       <Stack.Screen name={'GameListCarousel'} component={GameListCarousel} />
+      <Stack.Screen name={'CommandLeadCreate'} component={CommandLeadCreate} />
+      <Stack.Screen name={'CommandLeadNotCreate'} component={CommandLeadNotCreate} />
+      <Stack.Screen name={'ChoosePlayers'} component={ChoosePlayers} />
       <Stack.Screen name={'GameCreating'} component={GameCreating} />
       <Stack.Screen name={'GameTicket'} component={GameTicket} />
     </Stack.Navigator>

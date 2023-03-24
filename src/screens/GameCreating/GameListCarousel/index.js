@@ -4,6 +4,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import { getGames } from '@/store/Slices/GamesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import ListItem from './components/ListItem'
+import { _storageUrl } from '@/constants'
 
 const Index = ({ route }) => {
   const { list } = route.params

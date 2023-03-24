@@ -8,10 +8,21 @@ import { font, RH, RW } from '@/theme/utils'
 import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
 import { _storageUrl } from '@/constants'
+import { useDispatch } from 'react-redux'
+import { useState } from 'react'
+import Modal from '@/components/modal'
+import { joinInTeam } from '@/store/Slices/TeamSlice'
+import { useNavigation } from '@react-navigation/native'
 
-function Index({ navigation, route }) {
+function Index({ route }) {
   const item = route.params
-
+  const [modalVisible, setModalVisible] = useState(false)
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
+  //640b2c8d9f063da9a3cf6b7e
+  const handleJoin = () => {
+    dispatch(joinInTeam(item?._id, setModalVisible, navigation))
+  }
   return (
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>
@@ -50,12 +61,23 @@ function Index({ navigation, route }) {
       </View>
       <View style={style.btn}>
         <Button
-          onPress={() => navigation.navigate('Home')}
+          onPress={handleJoin}
           size={{ width: RW(360), height: RH(48) }}
           label={'Присоединиться к команде'}
           labelStyle={font('bold', 18, BLACK)}
         />
       </View>
+      {modalVisible && (
+        <Modal
+          item={
+            <View style={style.modal}>
+              <Text style={style.successTeam}>Вы успешно присоединились к команду!</Text>
+            </View>
+          }
+          modalVisible={modalVisible}
+          setIsVisible={setModalVisible}
+        />
+      )}
     </ScreenMask>
   )
 }

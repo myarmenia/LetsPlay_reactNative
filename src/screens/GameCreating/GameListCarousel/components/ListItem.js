@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, View, Animated, Pressable } from 'react-native'
 // import { styles } from '@/screens/GameCreatingScreens/GameListCarousel/components/style'
 import BgGamesLiner from '@/assets/imgs/games/BgGamesLiner'
@@ -7,16 +7,23 @@ import { useNavigation } from '@react-navigation/native'
 import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
-import { BLACK, WHITE } from '@/theme/colors'
-import { useDispatch } from 'react-redux'
+import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { useDispatch, useSelector } from 'react-redux'
 import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
-
+import Modal from '@/components/modal'
+import LightButton from '@/assets/imgs/Button'
+import DarkButton from '@/assets/imgs/DarkButton'
 function ListItem({ game, pressable, qrGame }) {
   const [active, setActive] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  const { savedTeam } = useSelector(({ teams }) => teams)
 
+  useEffect(() => {
+    console.log('game :', game.name)
+  }, [])
   return (
     <Animated.View>
       <Pressable
@@ -28,9 +35,11 @@ function ListItem({ game, pressable, qrGame }) {
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
-              navigation.navigate('MafiaNavigation')
+              navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigation' : 'AliasNavigator')
             } else {
-              game.name ? navigation.navigate('GameCreating', { params: { game } }) : null
+              savedTeam
+                ? setModalVisible(true)
+                : navigation.navigate('GameCreating', { params: { game } })
             }
 
             setActive(false)
@@ -104,6 +113,31 @@ function ListItem({ game, pressable, qrGame }) {
             <Text style={styles.btnText}>{game?.name}</Text>
           </LinearGradient>
         </View>
+        {modalVisible && (
+          <Modal
+            modalVisible={modalVisible}
+            setIsVisible={setModalVisible}
+            item={
+              <View style={styles.modal}>
+                <Text style={styles.successTeam}>
+                  Вы хотите организовать игру между игроками команды?
+                </Text>
+                <View style={styles.rowBox}>
+                  <LightButton
+                    label={'Да'}
+                    size={{ width: 100 }}
+                    onPress={() => navigation.navigate('CommandLeadCreate', game)}
+                  />
+                  <DarkButton
+                    label={'Нет'}
+                    size={{ width: 100 }}
+                    onPress={() => navigation.navigate('CommandLeadNotCreate', game)}
+                  />
+                </View>
+              </View>
+            }
+          />
+        )}
       </Pressable>
     </Animated.View>
   )
@@ -155,11 +189,30 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     zIndex: 10,
   },
-
+  modal: {
+    alignSelf: 'center',
+    width: RW(280),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(40),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
+    width: '95%',
+  },
   image: {
     width: RW(300),
     height: RH(300),
     resizeMode: 'contain',
+  },
+  rowBox: {
+    width: '110%',
+    paddingTop: RH(20),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
   },
 })
 

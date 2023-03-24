@@ -8,11 +8,13 @@ import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
 import UserEditSvg from '@/assets/svgs/userEdit'
 import style from './style'
+import { useDispatch } from 'react-redux'
+import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 
 function Index({ route }) {
   const command = route.params
   const navigation = useNavigation()
-
+  const dispatch = useDispatch()
   return (
     <ScreenMask>
       <View style={style.rowBox}>
@@ -43,7 +45,9 @@ function Index({ route }) {
           />
         </View>
         <Button
-          onPress={() => navigation.navigate('CreateGameNavigator', command)}
+          onPress={() => {
+            navigation.navigate('CreateGameNavigator'), dispatch(saveTeamDataForCreating(command))
+          }}
           size={{ width: 265, height: 48 }}
           label={'Создать игру'}
           labelStyle={font('bold', 18, BLACK)}

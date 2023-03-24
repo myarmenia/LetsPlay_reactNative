@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Platform, Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import styles from '@/components/inputs/styles'
 import { ICON, RED, WHITE } from '@/theme/colors'
 import { font, RW } from '@/theme/utils'

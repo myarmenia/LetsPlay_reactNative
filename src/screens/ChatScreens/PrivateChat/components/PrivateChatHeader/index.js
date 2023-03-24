@@ -10,20 +10,20 @@ import ModalItem from './Modal'
 
 const PrivateChatHeader = ({ gameID }) => {
   const [modalVisible, setModalVisible] = useState(false)
-
   const navigation = useNavigation()
-
+  console.log(gameID)
   return (
-    <Row
-      wrapper={{
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'space-around',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        position: 'absolute',
+        // position: 'absolute',
         width: '100%',
+        top: '3%',
         zIndex: 9999,
       }}
     >
-      <ModalItem modalVisible={modalVisible} setModalVisible={setModalVisible} gameID={gameID} />
       <Pressable onPress={() => navigation.goBack()}>
         <Row>
           <LeftArrow />
@@ -35,7 +35,10 @@ const PrivateChatHeader = ({ gameID }) => {
       <Pressable onPress={() => setModalVisible(true)}>
         <InfoSvg />
       </Pressable>
-    </Row>
+      {modalVisible ? (
+        <ModalItem modalVisible={modalVisible} setModalVisible={setModalVisible} gameID={gameID} />
+      ) : null}
+    </View>
   )
 }
 

@@ -193,6 +193,13 @@ const GameCreating = props => {
     }
   }, [initialState.gameCreatedSuccessful])
 
+  useEffect(() => {
+    console.log('initialState', initialState)
+  }, [initialState])
+  useEffect(() => {
+    console.log('addressName', addressName)
+  }, [addressName])
+
   return (
     <ScreenMask>
       <KeyboardAvoidingView

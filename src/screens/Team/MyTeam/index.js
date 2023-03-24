@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '@/store/Slices/TeamSlice'
@@ -46,9 +46,10 @@ function Index() {
     )
   }
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
   useEffect(() => {
     dispatch(getTeams(setModalVisible))
-  }, [])
+  }, [isFocused])
   // useEffect(() => {
   //   !teamChatsList.length ? setModalVisible(true) : setModalVisible(false)
   // }, [teamChatsList])
@@ -68,8 +69,8 @@ function Index() {
             navigationText={'teamStart'}
           />
         )}
-        {teamChatsList.length ? (
-          teamChatsList.map((command, i) => <EachCommand command={command} i={i} key={i} />)
+        {teamChatsList?.length ? (
+          teamChatsList?.map((command, i) => <EachCommand command={command} i={i} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
             <Text style={style.text}>Загрузка...</Text>

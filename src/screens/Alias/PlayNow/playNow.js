@@ -26,7 +26,7 @@ const PlayNow = () => {
                 white={'white'}
                 background={'#7DCE8A'}
                 bgColor={'#4D7CFE'}
-                onPress={() => navigation.navigate('AboutGame')}
+                onPress={() => navigation.navigate('Commands')}
               />
             </View>
             <View>

@@ -27,6 +27,7 @@ const SearchAddresses = ({
   addressName = '',
   navigateTo = '',
   command = null,
+  size = null,
 }) => {
   const inp = useRef()
   const [state, setState] = useState('')
@@ -64,7 +65,6 @@ const SearchAddresses = ({
     setState(!command ? '' : command?.address_name)
   }, [])
   useEffect(() => {
-    console.log(initialState.placeName)
     setState(command ? command?.address_name : initialState?.address_name)
   }, [initialState.address_name])
   const makeURL = async state => {
@@ -122,6 +122,7 @@ const SearchAddresses = ({
       <View
         style={[
           styles.container,
+          { width: RW(size) },
           addresses ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : null,
         ]}
       >
@@ -208,6 +209,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  input: {
+    color: ICON,
+    width: '80%',
+    marginLeft: RW(20),
+    fontSize: RW(16),
+  },
   responseAddress: {
     backgroundColor: BACKGROUND,
     width: RW(380),
@@ -221,12 +228,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
   },
-  input: {
-    color: ICON,
-    width: '80%',
-    marginLeft: RW(20),
-    fontSize: RW(16),
-  },
+
   searchedAddress: {
     color: ICON,
     fontSize: RW(16),

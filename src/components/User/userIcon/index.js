@@ -14,7 +14,7 @@ import Modal from '@/components/modal'
 function Index({ size, onPressImg, pressedUser }) {
   const user = useSelector(({ auth }) => auth.user)
   const [userNow, setUserNow] = useState(user)
-  const { name, surname, vk_id, avatar } = user
+  const { name, surname, vk_uri, avatar } = user
   const fontSizeTitle = size > 150 ? size / RW(28) : size / RW(50)
   const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
   const [loader, setLoader] = useState(true)
@@ -158,12 +158,9 @@ function Index({ size, onPressImg, pressedUser }) {
       />
       <TouchableOpacity
         onPress={() => {
-          if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
-              if (e) {
-                Linking.openURL(`https://vk.com/id${vk_id}`)
-              }
-            })
+          console.log(vk_uri)
+          if (vk_uri) {
+            Linking.openURL(vk_uri)
           } else {
             setModalVisible(true)
           }

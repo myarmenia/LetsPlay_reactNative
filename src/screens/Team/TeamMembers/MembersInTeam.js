@@ -1,21 +1,12 @@
-import {
-  Image,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
-import { SCREEN_BACKGROUND, DARK_BLUE, WHITE } from '@/theme/colors'
+import { SCREEN_BACKGROUND, WHITE } from '@/theme/colors'
 import User from '@/components/User/user'
 import EmptyBorderedAvatar from '@/assets/svgs/EmptyBorderedAvatar'
 import LightButton from '@/assets/imgs/Button'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import UserEditSvg from '@/assets/svgs/userEdit'
+import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import Modal from '@/components/modal'

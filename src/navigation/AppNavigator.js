@@ -26,6 +26,7 @@ import Map from '@/screens/Map/Map'
 import GameItem from '@/screens/Game/GameList/gameItem'
 import JoinGameQr from '@/screens/Game/JoinGame/JoinGameQr'
 import JoinGameTypes from '@/screens/Game/JoinGame/JoinGameTypes'
+import AliasNavigator from './AliasNavigator'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
@@ -72,6 +73,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'JoinGameQr'} component={JoinGameQr} />
         <Stack.Screen name={'CreateGameNavigator'} component={CreateGameNavigator} />
         <Stack.Screen name={'MafiaNavigation'} component={MafiaNavigation} />
+        <Stack.Screen name={'AliasNavigator'} component={AliasNavigator} />
         <Stack.Screen name={'TeamNavigator'} component={TeamNavigator} />
         <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator} />
         <Stack.Screen name={'PrivateChat'} component={PrivateChat} />

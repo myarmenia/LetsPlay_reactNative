@@ -13,6 +13,17 @@ import {
 import { font, RH, RW } from '@/theme/utils'
 
 export default StyleSheet.create({
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(50),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
+  },
   team: {
     textAlign: 'center',
     ...font('bold', 22, WHITE, 27),

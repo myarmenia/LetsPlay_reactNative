@@ -10,15 +10,7 @@ function JoinGameTypes() {
   return (
     <ScreenMask>
       <View style={styles.btnBlock}>
-        <View style={styles.btnActiveGames}>
-          <LightButton
-            onPress={() => {
-              navigation.navigate('JoinGameQr')
-            }}
-            label={'через QR'}
-            size={{ width: 281, height: 50 }}
-          />
-        </View>
+        <View style={styles.btnActiveGames}></View>
         <View>
           <LightButton
             onPress={() => {

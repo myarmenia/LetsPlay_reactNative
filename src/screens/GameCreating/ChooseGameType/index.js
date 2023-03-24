@@ -9,7 +9,6 @@ import Modal from './Modal'
 const ChooseGameType = () => {
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-
   return (
     <>
       <ScreenMask>

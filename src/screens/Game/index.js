@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import TypeButton from './components/TypeButton'
+import { useDispatch } from 'react-redux'
+import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 
 const TYPES = [
   {
@@ -19,10 +21,14 @@ const TYPES = [
 ]
 
 const GameSelectScreen = ({ navigation }) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(saveTeamDataForCreating(null))
+  }, [])
   return (
     <ScreenMask>
       <View style={styles.container}>
-        {TYPES.map((type) => {
+        {TYPES.map(type => {
           return (
             <TypeButton
               title={type.title}

@@ -111,6 +111,14 @@ const Map = ({ route }) => {
                       fromMap: true,
                     })
                   : null
+                navigateTo == 'CommandLeadCreate'
+                  ? navigation.navigate(navigateTo, {
+                      address_name: response,
+                      latitude: s.results[0].geometry.location.lat,
+                      longitude: s.results[0].geometry.location.lng,
+                      fromMap: true,
+                    })
+                  : null
               })
           })
         }}
@@ -140,7 +148,7 @@ const Map = ({ route }) => {
           )
         })}
       </MapView>
-      <View style={{ width: '100%', position: 'absolute' }}>{/* <SearchAddresses /> */}</View>
+      {/* <View style={{ width: '100%', position: 'absolute' }}><SearchAddresses /></View> */}
       <Pressable onPress={getPosition} style={styles.geoBtn}>
         <GeolocationIcon />
       </Pressable>

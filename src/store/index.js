@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
+import AliasSlice from './Slices/AliasSlice'
 import AuthSlice from './Slices/AuthSlice'
 import ChatsSlice from './Slices/ChatsSlice'
 import GameCreatingSlice from './Slices/GameCreatingSlice'
@@ -14,6 +15,7 @@ const store = configureStore({
     chats: ChatsSlice,
     teams: TeamSlice,
     mafia: MafiaSlice,
+    alias: AliasSlice,
   },
 })
 

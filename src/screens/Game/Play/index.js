@@ -4,6 +4,7 @@ import { styles } from '@/screens/Game/Play/style'
 import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
 import LightButton from '@/assets/imgs/Button'
+import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 
 function Index() {
   const navigation = useNavigation()
@@ -22,7 +23,7 @@ function Index() {
         <View>
           <LightButton
             onPress={() => {
-              navigation.navigate('JoinGameTypes')
+              navigation.navigate('JoinGame'), dispatch(saveTeamDataForCreating({}))
             }}
             label={'Принять участие в игре'}
             size={{ width: 281, height: 50 }}

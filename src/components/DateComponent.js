@@ -118,7 +118,15 @@ function DateComponent({
                 />
               </View>
             ) : (
-              <View style={[styles.dateButton, { width: RW(125) }]}>
+              <View
+                style={[
+                  styles.dateButton,
+                  {
+                    width: RW(125),
+                    backgroundColor: Platform.OS == 'ios' ? 'transparent' : BACKGROUND,
+                  },
+                ]}
+              >
                 <Pressable
                   style={styles.dateButtonText}
                   onPress={() => {
@@ -177,7 +185,6 @@ const styles = StyleSheet.create({
   dateButton: {
     width: RW(185),
     height: RH(48),
-
     borderRadius: RW(10),
     flexDirection: 'row',
     alignItems: 'center',
