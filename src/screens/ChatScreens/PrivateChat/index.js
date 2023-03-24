@@ -50,7 +50,6 @@ function Index(props) {
       })
       formdata.append('create_game', gameID)
       formdata.append('file_length', voiceDuration)
-      console.log('formdata', formdata)
 
       let myHeaders = new Headers()
       myHeaders.append('Authorization', `Bearer ${token}`)
@@ -80,7 +79,6 @@ function Index(props) {
     }
   }
   const memoSocketFunc = (message) => {
-    console.log('message', message)
     if (message.file || message.message) {
       setMessageState((lastState) => {
         if (!lastState?.find((item) => item?.id == message?.id)) {

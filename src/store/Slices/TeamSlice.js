@@ -76,7 +76,6 @@ export const searchPlayer = (url) => (dispatch) => {
 export const searchTeam =
   (teamId, isEmpty = () => {}, nav) =>
   async (dispatch) => {
-    console.log(teamId)
     axiosInstance
       .get(`api/team/${teamId}`)
       .then(async (response) => {
@@ -123,16 +122,11 @@ export const searchGame = (data, nav) => async (dispatch) => {
   let game_of_your_choice = data.getAll('game_of_your_choice')
   let longitude = data.getAll('longitude')
   let latitude = data.getAll('latitude')
-  console.log(price)
-  console.log(
-    `api/create/game/?price=${price}&game_of_your_choice=${game_of_your_choice}&longitude=${longitude}&latatude=${latitude}`,
-  )
   axiosInstance
     .get(
       `api/create/game/?price=${price}&game_of_your_choice=${game_of_your_choice}&longitude=${longitude}&latatude=${latitude}`,
     )
     .then((response) => {
-      console.log(JSON.stringify(response?.data?.datas, null, 5))
       dispatch(setFindedGames(response?.data?.datas))
       // console.log(
       //   'hascener : ',

@@ -1,21 +1,16 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
-pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
-pod 'RNFS', :path => '../node_modules/react-native-fs'
-pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/Simon-TechForm/google-maps-ios-utils.git', :branch => 'feat/support-apple-silicon'
-
-rn_maps_path = '../node_modules/react-native-maps'
-pod 'react-native-google-maps', :path => rn_maps_path
-
-
-  
-
 
 platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
 
 target 'gameOrganizing' do
 
+pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
+pod 'RNFS', :path => '../node_modules/react-native-fs'
+pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/Simon-TechForm/google-maps-ios-utils.git', :branch => 'feat/support-apple-silicon'
+rn_maps_path = '../node_modules/react-native-maps'
+pod 'react-native-google-maps', :path => rn_maps_path
   
 #   permissions_path = '../node_modules/react-native-permissions/ios'
 
@@ -26,7 +21,9 @@ target 'gameOrganizing' do
  
   # Flags change depending on the env values.
   flags = get_default_flags()
-
+  # pod 'React', :path => '../node_modules/react-native', :subspecs => [
+  #   'RCTLinkingIOS',
+  # ]
   use_react_native!(
 
     :path => config[:reactNativePath],

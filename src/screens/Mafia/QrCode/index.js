@@ -7,10 +7,13 @@ import QrTest from '@/assets/imgs/qrTest.jpg'
 import Button from '@/assets/imgs/Button'
 import { RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
+import { _storageUrl } from '@/constants'
+import { useSelector } from 'react-redux'
 
 function Index({ navigation }) {
   const [modalRules, setModalRules] = useState(true)
-
+  const qrLink = useSelector(({ mafia }) => mafia.qrLink)
+  if (!qrLink) return null
   return (
     <ScreenMask>
       <View>
@@ -22,10 +25,15 @@ function Index({ navigation }) {
           />
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
-            <Image style={styles.qr} source={QrTest} />
+            <Image
+              style={styles.qr}
+              source={{ uri: _storageUrl + qrLink }}
+              onLoadStart={(e) => {}}
+              onLoadEnd={(e) => {}}
+            />
           </View>
           <Button
-            onPress={() => navigation.navigate('PlayNow')}
+            onPress={() => navigation.navigate('AddPlayers')}
             size={styles.btn}
             label={'Продолжить'}
           />

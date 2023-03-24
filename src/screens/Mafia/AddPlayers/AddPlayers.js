@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
@@ -6,19 +6,33 @@ import { BTN_TEXT, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import DarkButton from '@/assets/imgs/DarkButton'
-import { Players } from '@/assets/TestData'
 import PlayerList from './componnets/PlayerList'
+import { setAddPlayersError, startGame } from '@/store/Slices/MafiaSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-const PlayNow = () => {
+const AddPlayers = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const { mafiaGameId, players, addPlayersError } = useSelector(({ mafia }) => mafia)
+  useEffect(() => {
+    dispatch(setAddPlayersError(null))
+    return () => {
+      dispatch(setAddPlayersError(null))
+    }
+  }, [])
   return (
     <ScreenMask>
       <View>
         <View style={styles.common}>
           <Text style={styles.title}>Игроки добавились в игру</Text>
-          <PlayerList players={Players} />
+
+          <Text style={styles.errorMessage}>
+            {addPlayersError && 'Mafia game players minimum lenght must be 5'}
+          </Text>
+
+          <PlayerList players={players} />
           <View>
-            <View style={{ marginTop: RH(30), marginBottom: RH(20) }}>
+            <View style={{ marginTop: RH(20), marginBottom: RH(20) }}>
               <LightButton
                 size={{ width: 281, height: 48 }}
                 labelStyle={styles.countinue}
@@ -26,7 +40,9 @@ const PlayNow = () => {
                 white={'white'}
                 background={'#7DCE8A'}
                 bgColor={'#4D7CFE'}
-                onPress={() => navigation.navigate('AboutGame')}
+                onPress={() => {
+                  dispatch(startGame(mafiaGameId))
+                }}
               />
             </View>
             <View>
@@ -64,7 +80,12 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     ...font('bold', 24, WHITE),
-    marginVertical: RH(30),
+    marginTop: RH(30),
+  },
+  errorMessage: {
+    textAlign: 'center',
+    ...font('bold', 20, 'red'),
+    marginVertical: RH(10),
   },
   scroll: {
     marginRight: 'auto',
@@ -201,4 +222,4 @@ const styles = StyleSheet.create({
     ...font('inter', 18, BTN_TEXT, 24),
   },
 })
-export default PlayNow
+export default AddPlayers

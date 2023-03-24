@@ -1,24 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
-import MafiaData from '@/screens/Mafia/AboutGame/data'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import Modal from '@/components/modal'
+import { useDispatch, useSelector } from 'react-redux'
+import { _storageUrl } from '@/constants'
+import { participateToGame, setMafiaSocketOn, startGame } from '../../../store/Slices/MafiaSlice'
+import { setPending } from '@/store/Slices/AuthSlice'
 
-const AboutGame = () => {
+const AboutGame = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(true)
+  const { roles, participateSuccess } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const propsGameId = route.params?.id
 
+  useEffect(() => {
+    if (propsGameId) {
+      dispatch(setMafiaSocketOn(true))
+      dispatch(participateToGame(propsGameId))
+    }
+  }, [propsGameId])
+
+  useEffect(() => {
+    // if (participateSuccess === false) {
+    //   alert('Что-то пошло не так')
+    //   navigation.navigate('Home')
+    //   dispatch(setParticipateSuccess(null))
+    // }
+    dispatch(setPending(false))
+  }, [participateSuccess])
   return (
     <ScreenMask>
       <View style={styles.container}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.aboutMe}>Словарь игроков</Text>
 
-          {MafiaData.map((item, i) => (
+          {roles?.map((item, i) => (
             <ImageBackground
               key={i}
               source={require('@/assets/imgs/Grandient.png')}
@@ -34,7 +55,10 @@ const AboutGame = () => {
                   margin: RW(15),
                 }}
               >
-                <Image source={item.img} />
+                <Image
+                  style={{ resizeMode: 'contain', width: '100%', height: 125 }}
+                  source={{ uri: _storageUrl + item.img }}
+                />
               </View>
               <View
                 style={{
@@ -43,8 +67,8 @@ const AboutGame = () => {
                   padding: 10,
                 }}
               >
-                <Text style={styles.text}>{item.title}</Text>
-                <Text style={styles.textDecretion}>{item.text}</Text>
+                <Text style={styles.text}>{item.name}</Text>
+                <Text style={styles.textDecretion}>{item.description}</Text>
               </View>
             </ImageBackground>
           ))}
@@ -56,7 +80,10 @@ const AboutGame = () => {
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
-              onPress={() => navigation.navigate('PlaceMan')}
+              onPress={() => {
+                navigation.navigate('WaitPlayers')
+                // dispatch(startGame(gameId))
+              }}
             />
           </View>
         </ScrollView>
@@ -127,30 +154,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   aboutGamesText: {
-    ...font('inter', 24, WHITE, 24),
-    fontWeight: '700',
+    ...font('bold', 24, WHITE, 24),
     letterSpacing: 0.01,
     paddingVertical: RH(38),
   },
   mafiaText: {
     textAlign: 'center',
-    ...font('inter', 16, WHITE, 24),
+    ...font('regular', 16, WHITE, 24),
     paddingHorizontal: RW(24),
   },
   gamesText: {
     alignItems: 'center',
-    ...font('inter', 16, WHITE, 24),
+    ...font('regular', 16, WHITE, 24),
     paddingHorizontal: RW(24),
     paddingVertical: RH(24),
   },
   luckyGames: {
-    ...font('inter', 16, WHITE, 24),
+    ...font('regular', 16, WHITE, 24),
     paddingHorizontal: RW(24),
     paddingVertical: RH(24),
   },
   backgroundModal: {
     backgroundColor: LIGHT_LABEL,
     borderRadius: RW(20),
+    marginHorizontal: RW(10),
   },
 })
 

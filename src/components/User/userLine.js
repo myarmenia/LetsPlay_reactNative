@@ -2,10 +2,7 @@ import * as React from 'react'
 import Svg, { Rect, Defs, Stop, LinearGradient } from 'react-native-svg'
 import { Text, View } from 'react-native'
 import { font, RW } from '@/theme/utils'
-import { BLACK, DARK_BLUE } from '@/theme/colors'
-import Row from '../wrappers/row'
-// import LinearGradient from "react-native-linear-gradient";
-
+import { BLACK } from '@/theme/colors'
 function SvgComponent({ status, size }) {
   const width = size * RW(0.5)
   const height = size * RW(0.07)

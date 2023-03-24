@@ -23,7 +23,9 @@ function DateComponent({
   maxDate,
 }) {
   return (
-    <View style={containerStyle}>
+    <View
+      style={[Platform.OS == 'android' ? { backgroundColor: BACKGROUND } : null, containerStyle]}
+    >
       <Text style={[styles.title, titleStyle]}>{title}</Text>
       <Row wrapper={[styles.row, rowStyle]}>
         {Platform.OS == 'ios' ? (

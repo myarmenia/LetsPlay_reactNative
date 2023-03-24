@@ -3,8 +3,10 @@ import { ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native'
 import User from '@/components/User/user'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
+import { useSelector } from 'react-redux'
 
 function PlayerList({ players, isSelected = false, activePlayers = [], setActivePlayers }) {
+  const user = useSelector(({ auth }) => auth.user)
   const handlerActiveUser = (id) => {
     if (isSelected) {
       if (activePlayers.includes(id)) {
@@ -18,26 +20,48 @@ function PlayerList({ players, isSelected = false, activePlayers = [], setActive
   return (
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        {players.map((item, i) => (
+        {players.length ? (
+          players.map((item, i) => (
+            <TouchableOpacity
+              onPress={() => handlerActiveUser(item.id)}
+              key={i}
+              style={
+                activePlayers.includes(item.id) && isSelected ? styles.activeItem : styles.item
+              }
+            >
+              <User
+                size={90}
+                user={item}
+                onPressItem={
+                  !isSelected
+                    ? {
+                        item: <User user={item} size={390} />,
+                        modalClose: false,
+                      }
+                    : null
+                }
+              />
+            </TouchableOpacity>
+          ))
+        ) : (
           <TouchableOpacity
-            onPress={() => handlerActiveUser(item.id)}
-            key={i}
-            style={activePlayers.includes(item.id) && isSelected ? styles.activeItem : styles.item}
+            onPress={() => handlerActiveUser(user.id)}
+            style={activePlayers.includes(user.id) && isSelected ? styles.activeItem : styles.item}
           >
             <User
               size={90}
-              user={item}
+              user={user}
               onPressItem={
                 !isSelected
                   ? {
-                      item: <User user={item} size={390} />,
+                      item: <User user={user} size={390} />,
                       modalClose: false,
                     }
                   : null
               }
             />
           </TouchableOpacity>
-        ))}
+        )}
       </View>
     </ScrollView>
   )

@@ -1,4 +1,13 @@
-import { Image, Linking, Platform, Pressable, Text, TouchableOpacity, View } from 'react-native'
+import {
+  Dimensions,
+  Image,
+  Linking,
+  Platform,
+  Pressable,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { font, RH, RW } from '@/theme/utils'
@@ -11,31 +20,36 @@ import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
 
-function Index({ size, onPressImg, pressedUser }) {
-  const user = useSelector(({ auth }) => auth.user)
-  const [userNow, setUserNow] = useState(user)
+function Index({ size, onPressImg, userProps }) {
+  let user = useSelector(({ auth }) => auth.user)
+  if (userProps) {
+    user = userProps
+  }
+  // const [userNow, setUserNow] = useState(user)
   const { name, surname, vk_id, avatar } = user
   const fontSizeTitle = size > 150 ? size / RW(28) : size / RW(50)
   const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
-  const [loader, setLoader] = useState(true)
+  // const [loader, setLoader] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
-  useEffect(() => {
-    avatar ? setLoader(false) : setLoader(true)
-    setTimeout(() => {
-      if (!avatar) {
-        setLoader(false)
-      }
-    }, 3000)
-  }, [])
+  const screenWidth = Dimensions.get('screen').width
 
-  useEffect(() => {
-    setUserNow(!pressedUser ? user : pressedUser)
-  }, [user])
+  // useEffect(() => {
+  //   avatar ? setLoader(false) : setLoader(true)
+  //   setTimeout(() => {
+  //     if (!avatar) {
+  //       setLoader(false)
+  //     }
+  //   }, 3000)
+  // }, [])
+
+  // useEffect(() => {
+  //   // setUserNow(!pressedUser ? user : pressedUser)
+  // }, [user])
 
   const sizing = {
     padding: size > 40 ? RH(5) : RH(0),
-    marginTop: size > 150 ? RH(4) : RH(-4),
+    marginTop: size > 150 ? RH(4) : RH(-1),
     width: size < 40 ? size / RW(3) : size / RW(4.3),
   }
   return (
@@ -63,7 +77,12 @@ function Index({ size, onPressImg, pressedUser }) {
       >
         <Image
           style={[
-            { ...style.image, borderRadius: size / RW(3), top: size > 150 ? '0%' : '-10%' },
+            {
+              ...style.image,
+              borderRadius: size / RW(3),
+              top: size > 150 ? '0%' : '-20%',
+              left: RW(0.1),
+            },
             { resizeMode: 'cover' },
           ]}
           source={
@@ -72,7 +91,7 @@ function Index({ size, onPressImg, pressedUser }) {
               : avatar.startsWith('https://')
               ? { uri: avatar }
               : {
-                  uri: _storageUrl + userNow.avatar,
+                  uri: _storageUrl + user.avatar, //userNow.avatar
                 }
           }
         />
@@ -88,7 +107,7 @@ function Index({ size, onPressImg, pressedUser }) {
       <View
         style={{
           ...style.statusBlock,
-          width: size / RW(1.8),
+          width: screenWidth >= 420 ? size / RW(1.6) : size / RW(1.75),
           overflow: 'visible',
           marginTop: size > 150 ? size / RH(70) : size / RH(80),
         }}
@@ -98,7 +117,7 @@ function Index({ size, onPressImg, pressedUser }) {
           count={user?.create_games?.length}
           status={user.status}
         />
-        <UserLine size={size} status={user.status} />
+        <UserLine size={screenWidth >= 420 ? size / 1.05 : size} status={user.status} />
         <UserCircle
           size={size > 150 ? size + RW(25) : size - RW(25)}
           count={user?.took_part_games?.length}
@@ -154,12 +173,12 @@ function Index({ size, onPressImg, pressedUser }) {
         }
         modalVisible={modalVisible}
         setIsVisible={setModalVisible}
-        navigationText={'Home'}
+        // navigationText={'Home'}
       />
       <TouchableOpacity
         onPress={() => {
           if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }
@@ -168,7 +187,7 @@ function Index({ size, onPressImg, pressedUser }) {
             setModalVisible(true)
           }
         }}
-        style={{ ...style.soc, marginTop: size > 150 ? size / RH(10) : size / RH(10) }}
+        style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(6) : size / RH(10) }}
       >
         <Vk size={size / RH(12)} />
       </TouchableOpacity>

@@ -26,9 +26,6 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
     { id: 1, name: 'Активные игры' },
     { id: 2, name: 'Настольные игры' },
   ]
-  useEffect(() => {
-    console.log('gameTypes', gameTypes)
-  }, [])
   return (
     <View style={styles.gameTypeContainer}>
       <Pressable

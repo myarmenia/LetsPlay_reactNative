@@ -13,6 +13,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     padding: RH(5),
     marginTop: RH(4),
+
     flexDirection: 'column',
     justifyContent: 'center',
   },
