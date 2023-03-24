@@ -1,15 +1,52 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
-import { RH, RW, font } from '@/theme/utils'
+import { RH, font } from '@/theme/utils'
 import Slider from '@/components/range'
 import ToggleSwitch from '@/components/ToggleSwitch'
 import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
-
-function Index({ navigation }) {
+import { useDispatch, useSelector } from 'react-redux'
+import { postSettings, setMafiaSocketOn } from '@/store/Slices/MafiaSlice'
+import { useNavigation } from '@react-navigation/native'
+function Index() {
+  const [spyDon, setSpyDon] = useState(false)
   const [valWord, setValWord] = useState(5)
+  const { qrLink } = useSelector(({ mafia }) => mafia)
+  const token = useSelector(({ auth }) => auth.token)
+
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+  // const socket = io(`wss://to-play.ru/mafia?room=${mafiaGameId}`, {
+  //   transportOptions: {
+  //     polling: {
+  //       extraHeaders: {
+  //         Authorization: token,
+  //       },
+  //     },
+  //   },
+  // })
+  useEffect(() => {
+    if (qrLink) {
+      navigation.navigate('QrCode')
+      dispatch(setMafiaSocketOn(true))
+      // socket.on('message', (e) => {
+      //   console.log('mafia socket message', e)
+      // })
+      // return () => {
+      //   socket.off('message', (e) => {
+      //     console.log('off message', e)
+      //   })
+      // }
+      // mafiaSocket()
+    }
+  }, [qrLink])
+  useEffect(() => {
+    if (spyDon) {
+      setValWord(7)
+    }
+  }, [spyDon])
 
   return (
     <ScreenMask>
@@ -29,7 +66,7 @@ function Index({ navigation }) {
         <Text style={styles.time}>{valWord}</Text>
       </Row>
 
-      <Slider step={4} minVal={5} maxValue={20} val={valWord} setVal={setValWord} />
+      <Slider step={4} minVal={spyDon ? 7 : 5} maxValue={20} val={valWord} setVal={setValWord} />
 
       <Text style={styles.playersDescription}>Дополнительные персoнажы участвующие в игре</Text>
 
@@ -50,12 +87,19 @@ function Index({ navigation }) {
             top: '-4%',
           }}
         >
-          <ToggleSwitch />
+          <ToggleSwitch isOn={spyDon} setIsOn={setSpyDon} />
         </View>
       </Row>
       <View style={styles.btnContainer}>
         <Button
-          onPress={() => navigation.navigate('QrCode')}
+          onPress={() => {
+            dispatch(
+              postSettings({
+                vote_time: valWord,
+                spy_and_don: spyDon,
+              }),
+            )
+          }}
           size={styles.btn}
           label={'Продолжить'}
         />

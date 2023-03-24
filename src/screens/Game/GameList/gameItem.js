@@ -92,8 +92,7 @@ function GameItem({ route }) {
             label={'Присоединиться'}
             size={{ width: 313, height: 48 }}
             onPress={() => {
-              console.log(item.id),
-                dispatch(joinGame(item?.id, navigation, setError, setModalVisible))
+              dispatch(joinGame(item?.id, navigation, setError, setModalVisible))
             }}
           />
         </View>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, Pressable, View } from 'react-native'
+import { Text, Pressable } from 'react-native'
 import { styles } from './styles'
 import { useSelector } from 'react-redux'
 

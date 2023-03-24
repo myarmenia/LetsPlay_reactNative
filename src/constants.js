@@ -36,4 +36,5 @@ export const SCREEN_HEIGHT = Dimensions.get('window').height
 export const SCREEN_WIDTH = Dimensions.get('window').width
 
 export const REQUEST_TIMEOUT = 10000
-export const _storageUrl = IS_IOS ? 'https://to-play.ru/storage/' : 'http://to-play.ru/storage/'
+export const _storageUrl =
+  Platform.OS == 'ios' ? 'https://to-play.ru/storage/' : 'http://to-play.ru/storage/'

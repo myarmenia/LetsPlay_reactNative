@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, Pressable, TouchableOpacity } from 'react-native'
 import { styles } from '@/screens/Game/Play/style'
 import ArrowDown from '@/assets/svgs/arrowDown'
@@ -9,11 +9,11 @@ import { useSelector } from 'react-redux'
 
 function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
   const [showDropDown, setShowDropDown] = useState(false)
-  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   const [selected, setSelected] = useState('Выбрать игру')
-  const checkElem = elm => {
+  const checkElem = (elm) => {
     setGameTypes([
-      ...gameTypes.map(elem => {
+      ...gameTypes.map((elem) => {
         if (elem.id === elm.id) {
           return { ...elm, checked: !elm.checked }
         } else {
@@ -28,7 +28,7 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
   ]
   useEffect(() => {
     selected !== 'Выбрать игру'
-      ? setGameTypes([...gameTypes.map(elm => ({ ...elm, checked: false }))])
+      ? setGameTypes([...gameTypes.map((elm) => ({ ...elm, checked: false }))])
       : null
   }, [selected])
 
@@ -55,7 +55,7 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
         </View>
       </Pressable>
       {showDropDown
-        ? gameTypeBtns.map(elm => {
+        ? gameTypeBtns.map((elm) => {
             return (
               <Pressable
                 key={elm.id}
@@ -77,7 +77,7 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
         {selected !== 'Выбрать игру' ? (
           <>
             {selected == 'Активные игры'
-              ? gameTypes.slice(0, 7)?.map(elm => {
+              ? gameTypes.slice(0, 7)?.map((elm) => {
                   return (
                     <TouchableOpacity
                       onPress={() => checkElem(elm)}
@@ -89,7 +89,7 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
                     </TouchableOpacity>
                   )
                 })
-              : gameTypes?.slice(7, gameTypes?.length)?.map(elm => {
+              : gameTypes?.slice(7, gameTypes?.length)?.map((elm) => {
                   return (
                     <TouchableOpacity
                       onPress={() => checkElem(elm)}

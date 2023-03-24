@@ -25,7 +25,7 @@ const TeamMembers = ({ route }) => {
   const { findedPlayers, findedTeam } = useSelector(({ teams }) => teams)
   const [list, setList] = useState(btnsList)
   const [value, setValue] = useState('')
-  const radioValue = list.find(elm => elm.checked).text
+  const radioValue = list.find((elm) => elm.checked).text
 
   const EachUser = ({ member }) => {
     const [back, setBack] = useState(false)
@@ -118,7 +118,6 @@ const TeamMembers = ({ route }) => {
   }
 
   useEffect(() => {
-    console.log(findedTeam)
     dispatch(setFindedPlayers([]))
     dispatch(getMembersList(command?._id))
   }, [])
@@ -143,11 +142,11 @@ const TeamMembers = ({ route }) => {
           left={0}
         />
         <TextInput
-          placeholder={list.find(e => e?.checked)?.text}
+          placeholder={list.find((e) => e?.checked)?.text}
           placeholderTextColor={ICON}
           style={styles.input}
           value
-          onChangeText={e => setValue(e)}
+          onChangeText={(e) => setValue(e)}
         />
         <View style={{ alignSelf: 'center', paddingVertical: RH(10) }}>
           <LightButton
@@ -158,7 +157,7 @@ const TeamMembers = ({ route }) => {
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-        {findedTeam?.map(member => {
+        {findedTeam?.map((member) => {
           return <EachUser member={member} />
         })}
       </ScrollView>

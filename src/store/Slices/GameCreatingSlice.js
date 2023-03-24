@@ -110,14 +110,13 @@ export const GameCreatingSlice = createSlice({
   },
 })
 
-export const createGame = (data, nav) => dispatch => {
+export const createGame = (data, nav) => (dispatch) => {
   axiosInstance
     .post('api/create/game', JSON.stringify(data))
-    .then(res => {
+    .then((res) => {
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))
         nav()
-        console.log(res)
         // console.log('JSON', JSON.stringify(nav))
         // nav()
         // dispatch(
@@ -138,7 +137,7 @@ export const createGame = (data, nav) => dispatch => {
         // )
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('ERROR :', err)
       // console.log('gameData :', data), console.log(err)
     })

@@ -5,9 +5,11 @@ import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
 import LightButton from '@/assets/imgs/Button'
 import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
+import { useDispatch } from 'react-redux'
 
 function Index() {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
   return (
     <ScreenMask>
       <View style={styles.btnBlock}>

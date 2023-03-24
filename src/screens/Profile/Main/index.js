@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FlatList, Image, Text, TouchableOpacity, View, Linking } from 'react-native'
 import style from '../style'
 import ScreenMask from '@/components/wrappers/screen'
@@ -32,6 +32,7 @@ const index = () => {
     </TouchableOpacity>
   )
   const renderItem = ({ item }) => <LinkItem item={item} />
+
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View style={style.container}>

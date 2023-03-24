@@ -8,7 +8,7 @@ import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
 import Button from '@/assets/imgs/Button'
 import ModalStartItem from '@/screens/Team/SelectPlayersRival/ModalStartItem'
-import PlayerList from '@/screens/Mafia/PlayNow/componnets/PlayerList'
+import PlayerList from '@/screens/Mafia/AddPlayers/componnets/PlayerList'
 import { RH } from '@/theme/utils'
 
 function Index({ route, navigation }) {

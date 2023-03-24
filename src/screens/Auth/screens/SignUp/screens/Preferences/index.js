@@ -32,31 +32,30 @@ const Preferences = () => {
   const dispatch = useDispatch()
   const { expired_token } = useSelector(({ auth }) => auth)
   const { preferences } = useSelector(({ auth }) => auth.user)
-  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   useLayoutEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
   }, [])
-  useEffect(() => {
-    console.log(nameOfGames)
-    // dispatch(
-    //   setNames(
-    //     nameOfGames.map(elm => {
-    //       let changed = elm
-    //       preferences.forEach(id => {
-    //         if (id === elm.id) {
-    //           changed = { ...elm, checked: !elm.checked }
-    //         }
-    //       })
-    //       return changed
-    //     }),
-    //   ),
-    // )
-  }, [nameOfGames.length])
+  // useEffect(() => {
+  //   // dispatch(
+  //   //   setNames(
+  //   //     nameOfGames.map(elm => {
+  //   //       let changed = elm
+  //   //       preferences.forEach(id => {
+  //   //         if (id === elm.id) {
+  //   //           changed = { ...elm, checked: !elm.checked }
+  //   //         }
+  //   //       })
+  //   //       return changed
+  //   //     }),
+  //   //   ),
+  //   // )
+  // }, [nameOfGames.length])
   const checkItem = useCallback(
-    id => {
+    (id) => {
       dispatch(
         setNames([
-          ...nameOfGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
+          ...nameOfGames.map((elm) => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
         ]),
       )
     },
@@ -66,13 +65,12 @@ const Preferences = () => {
   const savePreferences = () => {
     dispatch(
       changeUserPreferences(
-        nameOfGames.filter(elm => elm.checked).map(el => el.id),
+        nameOfGames.filter((elm) => elm.checked).map((el) => el.id),
         expired_token,
       ),
     )
   }
   const PreferenceItem = ({ item }) => {
-    console.log('item', item)
     return (
       <TouchableOpacity
         onPress={() => checkItem(item.id)}
@@ -93,7 +91,7 @@ const Preferences = () => {
       <Text style={[styles.title, styles.mt60]}>Введите ваши предпочтения</Text>
       <Text style={[styles.subTitle, styles.mt40]}>Выбрать предпочтения</Text>
       <View style={style.flatListBlock}>
-        {nameOfGames?.map(elm => {
+        {nameOfGames?.map((elm) => {
           return (
             <TouchableOpacity
               key={elm.id}

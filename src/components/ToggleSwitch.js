@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { RH, RW } from '@/theme/utils'
 import LinearGradient from 'react-native-linear-gradient'
 
-const Toggle = () => {
-  const [isOn, setIsOn] = useState(false)
+const Toggle = ({ isOn, setIsOn }) => {
+  // const [isOn, setIsOn] = useState(false)
   const value = useRef(new Animated.Value(0)).current
 
   function toggleHandle() {
