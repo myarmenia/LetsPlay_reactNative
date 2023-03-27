@@ -21,9 +21,9 @@ function ListItem({ game, pressable, qrGame }) {
   const dispatch = useDispatch()
   const { savedTeam } = useSelector(({ teams }) => teams)
 
-  useEffect(() => {
-    console.log('game :', game.name)
-  }, [])
+  // useEffect(() => {
+  //   console.log('game :', game.name)
+  // }, [])
   return (
     <Animated.View>
       <Pressable
@@ -35,6 +35,7 @@ function ListItem({ game, pressable, qrGame }) {
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
+              // navigation.navigate('MafiaNavigation')
               navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigation' : 'AliasNavigator')
             } else {
               savedTeam

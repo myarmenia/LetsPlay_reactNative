@@ -1,13 +1,17 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg'
 import { font, RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
 // import { Shadow } from 'react-native-shadow-2'
 
-const LightButton = ({ onPress, label, labelStyle, wrapper, size, selectAvailable }) => {
+const LightButton = ({ onPress, label, labelStyle, wrapper, size }) => {
   const width = RW(size?.width) || RW(172)
-  const height = RH(size?.height) || RH(36)
+  let height = RH(size?.height) || RH(36)
+  if (Dimensions.get('screen').height < 670) {
+    height = height * 1.5
+  }
+
   const radius = '10'
   return (
     <TouchableOpacity

@@ -8,18 +8,19 @@ import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import User from '@/components/User/user'
 import MafiaModal from './components/MafiaModal'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import Time from './components/Time'
-import DeviceInfo from 'react-native-device-info'
+import MafiaLoader from './components/MafiaLoader'
+import { setNight } from '@/store/Slices/MafiaSlice'
 
 const PlayMafia = () => {
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const { mafiaRole, players, voteTime, roles, mafiaUsersId, mafiasCount, civiliansCount } =
+  const { mafiaRole, players, voteTime, roles, mafiaUsersId, mafiasCount, civiliansCount, night } =
     useSelector(({ mafia }) => mafia)
+  const dispatch = useDispatch()
   let mafiaImgPath = roles.find((item) => (item.name = 'Мафия'))?.img
-  let deviceName = DeviceInfo.getDeviceId()
 
   useEffect(() => {
     setModalVisible(true)
@@ -27,6 +28,7 @@ const PlayMafia = () => {
 
   return (
     <ScreenMask>
+      <MafiaLoader />
       <View style={styles.common}>
         <View style={styles.youPlaceMen}>
           <View>
@@ -41,7 +43,7 @@ const PlayMafia = () => {
             <VectorIcon />
           </Pressable>
         </View>
-        <Text style={styles.morningText}>Утро</Text>
+        <Text style={styles.morningText}>{night ? 'Ночь' : 'Утро'}</Text>
         <Time voteTime={voteTime} />
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
           <View
@@ -69,11 +71,14 @@ const PlayMafia = () => {
           <LightButton
             size={{ width: RW(281), height: RH(48) }}
             labelStyle={styles.invitePlayers}
-            label={'Ночь'}
+            label={!night ? 'Ночь' : 'Утро'}
             white={'white'}
             background={'#7DCE8A'}
             bgColor={'#4D7CFE'}
-            onPress={() => navigation.navigate('Vote')}
+            onPress={() => {
+              dispatch(setLoader(true))
+              dispatch(setNight(!night))
+            }}
           />
         </View>
       </View>
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: RH(30),
+    paddingBottom: RH(70),
   },
   container: {
     borderRadius: 10,

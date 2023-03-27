@@ -17,6 +17,8 @@ const initialState = {
   civiliansCount: 0,
   mafiasCount: 0,
   mafiaUsersId: [],
+  loader: false,
+  night: false,
 }
 
 export const MafiaSlice = createSlice({
@@ -107,6 +109,18 @@ export const MafiaSlice = createSlice({
         mafiaUsersId: action.payload,
       }
     },
+    setLoader: (store, action) => {
+      return {
+        ...store,
+        loader: action.payload,
+      }
+    },
+    setNight: (store, action) => {
+      return {
+        ...store,
+        night: action.payload,
+      }
+    },
   },
 })
 
@@ -171,5 +185,7 @@ export const {
   setCiviliansCount,
   setMafiaUsersId,
   setMafiasCount,
+  setLoader,
+  setNight,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer

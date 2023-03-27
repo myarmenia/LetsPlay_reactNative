@@ -17,7 +17,7 @@ import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
 const JoinGame = ({ route }) => {
   const props = route?.params
   const dispatch = useDispatch()
-  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   const { findedGames } = useSelector(({ teams }) => teams)
 
   const freeOrPaid = [
@@ -45,7 +45,7 @@ const JoinGame = ({ route }) => {
   const [priceError, setPriceError] = useState(false)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
-  const checkChecks = gameTypes.some(elm => elm.checked === true)
+  const checkChecks = gameTypes.some((elm) => elm.checked === true)
   useEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
     dispatch(setFindedGames([]))
@@ -54,9 +54,7 @@ const JoinGame = ({ route }) => {
   useEffect(() => {
     setGameTypes(nameOfGames)
   }, [nameOfGames])
-  useEffect(() => {
-    console.log(list[1].checked)
-  }, [list[1].checked])
+  useEffect(() => {}, [list[1].checked])
 
   const showHideError = () => {
     if (!checkChecks && list[2].checked == true) {
@@ -64,13 +62,13 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
-    if (!price.length && Boolean(free.find(el => el.checked).text == 'Платно')) {
+    if (!price.length && Boolean(free.find((el) => el.checked).text == 'Платно')) {
       setPriceError(true)
     } else {
       setPriceError(false)
     }
     if (!priceError && !errorMessage) {
-      let ids = gameTypes?.filter(el => el?.checked).map(el => el?.id)
+      let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = new FormData()
       formData.append('price', free[0].checked ? false : true)
       formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
@@ -102,7 +100,7 @@ const JoinGame = ({ route }) => {
           />
         </View>
 
-        {list.find(el => el.checked).text === 'Выбрать игру' ? (
+        {list.find((el) => el.checked).text === 'Выбрать игру' ? (
           <GameType
             showGameTypes={showGameTypes}
             setShowGameTypes={setShowGameTypes}
@@ -141,13 +139,13 @@ const JoinGame = ({ route }) => {
           <View style={{ top: '-3%' }}>
             <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
             <RadioBlock list={free} onChange={setFree} />
-            {free.find(el => el.checked).text === 'Платно' ? (
+            {free.find((el) => el.checked).text === 'Платно' ? (
               <>
                 <View style={styles.priceInput}>
                   <TextInput
                     style={styles.priceInputText}
                     placeholder={'Сумма оплаты до'}
-                    onChangeText={e => setPrice(e)}
+                    onChangeText={(e) => setPrice(e)}
                     placeholderTextColor={ICON}
                     keyboardType="number-pad"
                   />

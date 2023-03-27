@@ -24,8 +24,6 @@ const IniviteTeamPlayers = ({ route }) => {
         onPress={() => {
           if (commandCount <= commands.length) {
             let changedUser = false
-            console.log(commandCount)
-            console.log(playersCount)
 
             arr[commandCount] = arr[commandCount].map((elm, i) => {
               // return i == commandCount ? 1 : 0
@@ -37,7 +35,6 @@ const IniviteTeamPlayers = ({ route }) => {
               }
             })
 
-            console.log(arr)
             setArr(arr)
             playersCount++
             if (playersCount == 4) {

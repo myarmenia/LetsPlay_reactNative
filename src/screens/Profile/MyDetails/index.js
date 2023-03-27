@@ -68,11 +68,11 @@ function Index() {
     transports: ['websocket'],
   })
 
-  const openLink = async url => {
+  const openLink = async (url) => {
     try {
-      socket.on('message', data => {
+      socket.on('message', (data) => {
         if (data.vkAuthInfo && data.token == token) {
-          console.log('sssssss', data.vkAuthInfo)
+          // console.log('sssssss', data.vkAuthInfo)
           InAppBrowser.close()
           const vkAuthInfo = JSON.parse(data.vkAuthInfo)
           dispatch(
@@ -152,11 +152,11 @@ function Index() {
         : 'http://to-play.ru/api/profile/avatar',
       requestOptions,
     )
-      .then(response => response.text())
-      .then(result => {
+      .then((response) => response.text())
+      .then((result) => {
         dispatch(setImage(JSON.parse(result).avatar))
       })
-      .catch(error => console.log('error', error))
+      .catch((error) => console.log('error', error))
       .finally(() => dispatch(setPending(false)), setEditable(false))
   }
 
@@ -167,7 +167,7 @@ function Index() {
         ...{
           name: nameState,
           surname: surNameState,
-          gender: genderState?.find(elem => elem?.checked).label,
+          gender: genderState?.find((elem) => elem?.checked).label,
           dob: JSON.stringify(dateState),
           phone_number: phoneState,
           email: emailState,
@@ -179,7 +179,7 @@ function Index() {
       editProfile({
         name: nameState,
         surname: surNameState,
-        gender: genderState?.find(elem => elem?.checked).label,
+        gender: genderState?.find((elem) => elem?.checked).label,
         dob: dateState,
         phone_number: phoneState?.toString(),
         email: emailState,

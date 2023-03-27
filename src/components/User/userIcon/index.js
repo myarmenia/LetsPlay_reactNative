@@ -25,6 +25,9 @@ function Index({ size, onPressImg, userProps }) {
   if (userProps) {
     user = userProps
   }
+  if (user?.user) {
+    user = user.user
+  }
   // const [userNow, setUserNow] = useState(user)
   const { name, surname, vk_id, avatar, vk_uri } = user
   const fontSizeTitle = size > 150 ? size / RW(28) : size / RW(50)
@@ -91,7 +94,7 @@ function Index({ size, onPressImg, userProps }) {
               : avatar.startsWith('https://')
               ? { uri: avatar }
               : {
-                  uri: _storageUrl + user.avatar, //userNow.avatar
+                  uri: _storageUrl + avatar, //userNow.avatar
                 }
           }
         />
@@ -159,10 +162,7 @@ function Index({ size, onPressImg, userProps }) {
           <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отклонено игр
           </Text>
-          <Text style={font('exo_bold', fontSizeCount, WHITE)}>
-            {console.log(JSON.stringify(user, null, 4))}
-            {user?.exit_the_game}
-          </Text>
+          <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.exit_the_game}</Text>
         </View>
       </View>
       {/* need detect user have a vk account and show it overwise show some text */}

@@ -14,23 +14,16 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
   // console.log(teamInfo)
 
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
-  const gameInfo = took_part_games.find(elm => elm.id == gameID)
-  const gameDate = new Date(gameInfo?.start_date)
-    ?.toLocaleDateString()
-    .split('/')
-    .join('.')
+  const gameInfo = took_part_games.find((elm) => elm.id == gameID)
+  const gameDate = new Date(gameInfo?.start_date)?.toLocaleDateString().split('/').join('.')
   const gameDateTime = new Date(gameInfo?.start_date)
     .toLocaleTimeString()
     .split('/')
     .join(':')
     .slice(0, 6)
-  console.log(gameInfo)
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
-  const playersSearchDate = new Date(gameInfo?.end_date)
-    ?.toLocaleDateString()
-    .split('/')
-    .join('.')
+  const playersSearchDate = new Date(gameInfo?.end_date)?.toLocaleDateString().split('/').join('.')
   const playersSearchTime = new Date(gameInfo?.end_date)?.toTimeString().split(':')
   return (
     <Modal
