@@ -23,9 +23,7 @@ function DateComponent({
   maxDate,
 }) {
   return (
-    <View
-      style={[Platform.OS == 'android' ? { backgroundColor: BACKGROUND } : null, containerStyle]}
-    >
+    <View style={[containerStyle]}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
       <Row wrapper={[styles.row, rowStyle]}>
         {Platform.OS == 'ios' ? (
@@ -186,7 +184,7 @@ const styles = StyleSheet.create({
   },
   dateButton: {
     width: RW(185),
-    height: RH(48),
+    height: RH(40),
     borderRadius: RW(10),
     flexDirection: 'row',
     alignItems: 'center',

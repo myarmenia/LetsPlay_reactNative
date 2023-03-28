@@ -72,7 +72,6 @@ function Index() {
     try {
       socket.on('message', (data) => {
         if (data.vkAuthInfo && data.token == token) {
-          // console.log('sssssss', data.vkAuthInfo)
           InAppBrowser.close()
           const vkAuthInfo = JSON.parse(data.vkAuthInfo)
           dispatch(

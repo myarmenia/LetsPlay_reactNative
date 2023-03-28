@@ -81,7 +81,7 @@ const Commands = () => {
             <LightButton
               label={'Продолжить'}
               size={{ width: 310, height: 45 }}
-              onPress={() => navigation.navigate('InviteTeamPlayers', commandsCount)}
+              onPress={() => navigation.navigate('QrCode', commandsCount)}
             />
           </View>
         </View>

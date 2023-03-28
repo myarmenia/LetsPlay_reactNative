@@ -13,6 +13,7 @@ import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 import Modal from '@/components/modal'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
+import { setBetweenPlayers } from '@/store/Slices/TeamSlice'
 function ListItem({ game, pressable, qrGame }) {
   const [active, setActive] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
@@ -21,19 +22,17 @@ function ListItem({ game, pressable, qrGame }) {
   const dispatch = useDispatch()
   const { savedTeam } = useSelector(({ teams }) => teams)
 
-  // useEffect(() => {
-  //   console.log('game :', game.name)
-  // }, [])
   return (
     <Animated.View>
       <Pressable
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
-        onPress={() => {
+        onPress={async () => {
+          console.log(game.rules)
           if (pressable) {
             setActive(true)
             if (qrGame) {
-              dispatch(setRules(game.rules))
+              await dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
               // navigation.navigate('MafiaNavigation')
               navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigation' : 'AliasNavigator')
@@ -127,12 +126,18 @@ function ListItem({ game, pressable, qrGame }) {
                   <LightButton
                     label={'Да'}
                     size={{ width: 100 }}
-                    onPress={() => navigation.navigate('CommandLeadCreate', game)}
+                    onPress={() => {
+                      navigation.navigate('CommandLeadCreate', game),
+                        dispatch(setBetweenPlayers(true))
+                    }}
                   />
                   <DarkButton
                     label={'Нет'}
                     size={{ width: 100 }}
-                    onPress={() => navigation.navigate('CommandLeadNotCreate', game)}
+                    onPress={() => {
+                      navigation.navigate('CommandLeadNotCreate', game),
+                        dispatch(setBetweenPlayers(false))
+                    }}
                   />
                 </View>
               </View>

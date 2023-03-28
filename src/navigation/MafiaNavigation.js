@@ -34,7 +34,7 @@ const MafiaNavigation = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   let deviceName
-  DeviceInfo.getDeviceName().then((e) => {
+  DeviceInfo.getDeviceName().then(e => {
     deviceName = e
   })
   useEffect(() => {
@@ -83,7 +83,7 @@ const MafiaNavigation = () => {
           }
         })
       } else {
-        socket.off('message', (e) => {
+        socket.off('message', e => {
           console.log('off message', e)
         })
 

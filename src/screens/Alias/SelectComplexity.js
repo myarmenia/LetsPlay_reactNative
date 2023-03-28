@@ -5,6 +5,7 @@ import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import LinearGradient from 'react-native-linear-gradient'
 import LightButton from '@/assets/imgs/Button'
+import { useNavigation } from '@react-navigation/native'
 
 const SelectComplexity = () => {
   const btnsData = [
@@ -14,13 +15,14 @@ const SelectComplexity = () => {
     { id: 4, name: 'Рулетка', complexity: 'От простого до сложного', check: false },
   ]
   const [btns, setBtns] = useState(btnsData)
+  const navigation = useNavigation()
   const EachBtn = ({ btn }) => {
     return (
       <Pressable
         style={styles.btnContainer}
         onPress={() => {
           setBtns([
-            ...btns.map(elm =>
+            ...btns.map((elm, i) =>
               elm.id == btn.id ? { ...btn, check: true } : { ...elm, check: false },
             ),
           ])
@@ -73,13 +75,17 @@ const SelectComplexity = () => {
       <View style={styles.mainContainer}>
         <Text style={styles.title}>Уровень сложности</Text>
         <View style={{ alignSelf: 'center' }}>
-          {btns.map(btn => {
-            return <EachBtn btn={btn} />
+          {btns.map((btn, i) => {
+            return <EachBtn btn={btn} key={i} />
           })}
         </View>
       </View>
       <View style={styles.nextBtn}>
-        <LightButton label={'Продолжить'} size={{ width: 281, height: 48 }} />
+        <LightButton
+          label={'Продолжить'}
+          size={{ width: 281, height: 48 }}
+          onPress={() => navigation.navigate('Commands')}
+        />
       </View>
     </ScreenMask>
   )

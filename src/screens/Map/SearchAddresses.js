@@ -27,14 +27,14 @@ const SearchAddresses = ({
   addressName = '',
   navigateTo = '',
   command = null,
-  size = null,
+  size = 380,
 }) => {
   const inp = useRef()
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const initialState = useSelector((state) => state.game)
+  const initialState = useSelector(state => state.game)
 
   const checkPermissionAndNavigate = async function requestLocationPermission() {
     if (Platform.OS === 'android') {
@@ -67,14 +67,14 @@ const SearchAddresses = ({
   useEffect(() => {
     setState(command ? command?.address_name : initialState?.address_name)
   }, [initialState.address_name])
-  const makeURL = async (state) => {
+  const makeURL = async state => {
     try {
-      const res = fetchAddress(false, null, null, state).then(async (e) => {
+      const res = fetchAddress(false, null, null, state).then(async e => {
         await fetch(e.url)
-          .then((r) => {
+          .then(r => {
             return r?.json()
           })
-          .then((s) => {
+          .then(s => {
             if (s.results?.length) {
               let response = s.results[0]?.formatted_address
               setAddresses(response)
@@ -98,7 +98,13 @@ const SearchAddresses = ({
   const chooseAddress = () => {
     setState(addresses)
     if (state?.length >= 35) {
-      setState(state.split().reverse().join().substring(0, 32) + '...')
+      setState(
+        state
+          .split()
+          .reverse()
+          .join()
+          .substring(0, 32) + '...',
+      )
     }
     setAddresses(null)
     dispatch(setPlaceName(addressName.address_name))
@@ -126,7 +132,7 @@ const SearchAddresses = ({
           placeholder={'Адрес проведения игры'}
           placeholderTextColor={ICON}
           value={state}
-          onChangeText={(e) => {
+          onChangeText={e => {
             setState(e)
             if (state?.length >= 4) {
               makeURL(state)

@@ -17,7 +17,6 @@ const ChatScreen = () => {
 
   useEffect(() => {
     dispatch(getTeams())
-    console.log('xx')
   }, [isFocused])
 
   return (
