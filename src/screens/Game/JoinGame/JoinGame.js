@@ -54,9 +54,6 @@ const JoinGame = ({ route }) => {
   useEffect(() => {
     setGameTypes(nameOfGames)
   }, [nameOfGames])
-  useEffect(() => {
-    console.log(list[1].checked)
-  }, [list[1].checked])
 
   const showHideError = () => {
     if (!checkChecks && list[2].checked == true) {

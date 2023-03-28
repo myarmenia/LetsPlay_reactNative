@@ -11,7 +11,6 @@ import ModalItem from './Modal'
 const PrivateChatHeader = ({ gameID }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
-  console.log(gameID)
   return (
     <View
       style={{

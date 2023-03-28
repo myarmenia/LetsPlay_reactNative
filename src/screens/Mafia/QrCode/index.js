@@ -11,25 +11,19 @@ import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
 
 function Index({ navigation }) {
-  const [modalRules, setModalRules] = useState(true)
   const qrLink = useSelector(({ mafia }) => mafia.qrLink)
   if (!qrLink) return null
   return (
     <ScreenMask>
       <View>
         <View style={styles.body}>
-          <Modal
-            modalVisible={modalRules}
-            setIsVisible={setModalRules}
-            item={<Rules setModalRules={setModalRules} />}
-          />
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
             <Image
               style={styles.qr}
               source={{ uri: _storageUrl + qrLink }}
-              onLoadStart={(e) => {}}
-              onLoadEnd={(e) => {}}
+              onLoadStart={e => {}}
+              onLoadEnd={e => {}}
             />
           </View>
           <Button

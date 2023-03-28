@@ -10,9 +10,13 @@ import Row from '@/components/wrappers/row'
 import { useDispatch, useSelector } from 'react-redux'
 import { postSettings, setMafiaSocketOn } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
+import ModalRules from '../QrCode/ModalRules'
+import Modal from '@/components/modal'
+
 function Index() {
   const [spyDon, setSpyDon] = useState(false)
   const [valWord, setValWord] = useState(5)
+  const [modalRules, setModalRules] = useState(true)
   const { qrLink } = useSelector(({ mafia }) => mafia)
   const token = useSelector(({ auth }) => auth.token)
 
@@ -50,6 +54,13 @@ function Index() {
 
   return (
     <ScreenMask>
+      <View style={styles.body}>
+        <Modal
+          modalVisible={modalRules}
+          setIsVisible={setModalRules}
+          item={<ModalRules setModalRules={setModalRules} />}
+        />
+      </View>
       <Text style={styles.title}>Настройки</Text>
       <Row
         wrapper={{

@@ -29,7 +29,7 @@ const MafiaNavigation = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   let deviceName
-  DeviceInfo.getDeviceName().then((e) => {
+  DeviceInfo.getDeviceName().then(e => {
     deviceName = e
   })
   const socket = io(`wss://to-play.ru/mafia?room=${mafiaGameId}`, {
@@ -46,8 +46,7 @@ const MafiaNavigation = () => {
       console.log('Socket on', mafiaGameId)
 
       if (mafiaSocketOn) {
-        socket.on('message', (e) => {
-          console.log(`message ${deviceName}`, JSON.stringify(e, null, 4))
+        socket.on('message', e => {
           if (e?.type === 'new_user') {
             dispatch(setPlayers(e.mafia_game.players))
             dispatch(setVoteTime(e.mafia_game.vote_time))
@@ -71,7 +70,7 @@ const MafiaNavigation = () => {
           }
         })
       } else {
-        socket.off('message', (e) => {
+        socket.off('message', e => {
           console.log('off message', e)
         })
         console.log('socket off')

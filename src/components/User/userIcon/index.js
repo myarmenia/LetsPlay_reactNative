@@ -159,10 +159,7 @@ function Index({ size, onPressImg, userProps }) {
           <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отклонено игр
           </Text>
-          <Text style={font('exo_bold', fontSizeCount, WHITE)}>
-            {console.log(JSON.stringify(user, null, 4))}
-            {user?.exit_the_game}
-          </Text>
+          <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.exit_the_game}</Text>
         </View>
       </View>
       {/* need detect user have a vk account and show it overwise show some text */}
@@ -181,7 +178,7 @@ function Index({ size, onPressImg, userProps }) {
           if (vk_uri) {
             Linking.openURL(vk_uri)
           } else if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }

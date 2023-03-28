@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ScreenMask from '@/components/wrappers/screen'
 import DateComponent from '@/components/DateComponent'
@@ -40,7 +40,10 @@ const CommandLeadCreate = ({ route }) => {
   const [radioPrice, setRadioPrice] = useState(priceList)
   const [radioPlayers, setRadioPlayers] = useState(playersChoose)
   const [addressName, setAddressName] = useState('')
-
+  const { betweenPlayers } = useSelector(({ teams }) => teams)
+  useEffect(() => {
+    console.log(betweenPlayers)
+  }, [])
   const navigation = useNavigation()
   return (
     <ScreenMask>

@@ -24,7 +24,6 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
     .split('/')
     .join(':')
     .slice(0, 6)
-  console.log(gameInfo)
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
   const playersSearchDate = new Date(gameInfo?.end_date)

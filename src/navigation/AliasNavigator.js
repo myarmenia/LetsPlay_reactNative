@@ -8,19 +8,21 @@ import PlayNow from '@/screens/Alias/PlayNow/playNow'
 import QrCode from '@/screens/Alias/QrCode'
 import Settings from '@/screens/Alias/Settings'
 import SelectComplexity from '@/screens/Alias/SelectComplexity'
+import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
 
 const AliasNavigator = () => {
   const Stack = createNativeStackNavigator()
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
-      <Stack.Screen name="QrCode" component={QrCode} />
       <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="SelectComplexity" component={SelectComplexity} />
+      <Stack.Screen name="Commands" component={Commands} />
+      <Stack.Screen name="QrCode" component={QrCode} />
+      <Stack.Screen name="SearchTeamInvite" component={SearchTeamInvite} />
+      <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
-      <Stack.Screen name="Commands" component={Commands} />
-      <Stack.Screen name="SelectComplexity" component={SelectComplexity} />
-      <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
     </Stack.Navigator>
   )
 }

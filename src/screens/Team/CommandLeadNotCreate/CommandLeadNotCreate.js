@@ -1,63 +1,273 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import ScreenMask from '@/components/wrappers/screen'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { BACKGROUND, ICON } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
+import { useDispatch, useSelector } from 'react-redux'
 import SearchSvg from '@/assets/svgs/searchSvg'
 import RadioBlock from '@/components/RadioBlock'
-import { useSelector } from 'react-redux'
 import DateComponent from '@/components/DateComponent'
+import ScreenMask from '@/components/wrappers/screen'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
+import LightButton from '@/assets/imgs/Button'
+import { useNavigation } from '@react-navigation/native'
+import { getMembersList, searchTeam, setFindedPlayers } from '@/store/Slices/TeamSlice'
 
 const CommandLeadNotCreate = ({ route }) => {
-  const [state, setState] = useState('')
+  const item = route.params
+  const props = route.params // submited team after choosing
   const games = useSelector(({ games }) => games.games)
   const game = games.find(elm => elm.id == route?.params?.id)
+  const { betweenPlayers, findedTeam, savedTeam } = useSelector(({ teams }) => teams)
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+  //states ===================================
+  const [enemyTeam, setEnemyTeam] = useState('')
+  const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
+  const [addressName, setAddressName] = useState('')
+  const [valOne, setValOne] = useState('')
+  const [valSec, setValSec] = useState('')
+  const [price, setPrice] = useState('')
   const [formats, setFormats] = useState(
-    game.formats.map((elm, i) => {
-      return { id: i, text: elm, checked: false }
-    }),
+    game.formats
+      .map((elm, i) => {
+        return { id: i, text: elm, checked: false }
+      })
+      .concat({ id: 0, text: 'Свой Формат', checked: false }),
   )
   const [priceList, setPriceList] = useState([
-    { id: 1, text: 'Бесплатно', checked: false },
+    { id: 1, text: 'Бесплатно', checked: true },
     { id: 2, text: 'Платно', checked: false },
   ])
+  // states end ================================
+  // error states =============================
+  const [enemyTeamError, setEnemyTeamError] = useState(false)
+  const [formatError, setFormatError] = useState(false)
+  const [mapError, setMapError] = useState(false)
+  const [priceError, setPriceError] = useState(false)
+  // error states end =========================
+  const timeFormat = date => {
+    if (
+      date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
+      +date.time.toLocaleTimeString().slice(0, 2) != 12
+    ) {
+      return (
+        +date.time
+          .toLocaleTimeString()
+          .split(' ')[0]
+          .split(':')[0] +
+        12 +
+        ':' +
+        date.time.toLocaleTimeString().split(':')[1]
+      )
+    } else if (
+      date.time
+        .toLocaleTimeString()
+        .split(' ')[0]
+        .split(':')[0].length == 1
+    ) {
+      return (
+        '0' +
+        date.time
+          .toLocaleTimeString()
+          .split(' ')[0]
+          .split(':')[0] +
+        ':' +
+        date.time.toLocaleTimeString().split(':')[1]
+      )
+    } else {
+      return (
+        date.time
+          .toLocaleTimeString()
+          .split(' ')[0]
+          .split(':')[0] +
+        ':' +
+        date.time.toLocaleTimeString().split(':')[1]
+      )
+    }
+  }
+  const changedStartDate = startDate.date
+    .toISOString()
+    .substring(0, 10)
+    .concat(' ' + timeFormat(startDate))
+
+  const sendingData = {
+    address_name: addressName.address_name,
+    latitude: props.fromMap ? props.latitude : addressName.lat,
+    longitude: props.fromMap ? props.longitude : addressName.lng,
+    between_players: betweenPlayers,
+    all_players: false,
+    ticket_price: price ? price : 0,
+    team: savedTeam?._id,
+    // enemy_team: '', // gtac team i id
+    enemy_team_name: enemyTeam,
+    game: item?._id,
+    format:
+      valOne.length && valSec.length
+        ? valOne + ':' + valSec
+        : formats?.find(elm => elm?.checked)?.text
+        ? formats?.find(elm => elm?.checked)?.text
+        : '',
+    // : 'aaaaa',
+    // players id
+    players: ['64219136e3a868ee5e71a799'],
+    // savedTeam?.players?.map(elm => elm?._id),
+    start_date: changedStartDate,
+    // svoya igra i jamanaka drvum
+    name: '',
+    description: '',
+  }
+
+  const handleSubmit = () => {
+    console.log(formats?.filter(elm => elm.text == 'Свой Формат' && elm.checked)?.length)
+    if (!formats?.filter(elm => elm?.checked).length) {
+      setFormatError(true)
+    } else if (
+      formats?.filter(elm => elm.text == 'Свой Формат' && elm.checked)?.length &&
+      (!valOne || !valSec)
+    ) {
+      setFormatError(true)
+    } else {
+      setFormatError(false)
+    }
+
+    if (!enemyTeam.length) {
+      setEnemyTeamError(true)
+    } else {
+      setEnemyTeamError(false)
+    }
+    if (addressName) {
+      setMapError(false)
+    } else {
+      setMapError(true)
+    }
+    if (priceList.find(elm => elm.checked).text == 'Платно' && !price.length) {
+      setPriceError(true)
+    } else {
+      setPriceError(true)
+    }
+    if (
+      Boolean(addressName.address_name, price, enemyTeam, formats.filter(elm => elm.checked).length)
+    ) {
+      navigation.navigate('TeamInfo', { sendingData, item })
+    }
+  }
+
+  useEffect(() => {
+    dispatch(getMembersList(savedTeam?._id))
+    console.log('game :', game, 'item: ', item)
+  }, [])
+
   return (
     <ScreenMask>
-      <View style={styles.mainContainer}>
+      <ScrollView style={{ flex: 1.1 }}>
+        {/* <View style={[styles.mainContainer]}> */}
         <Text style={styles.searchTitle}>Название команды соперника</Text>
         <View style={styles.container}>
           <TextInput
             style={styles.input}
             placeholder={'Поиск'}
             placeholderTextColor={ICON}
-            value={state}
+            value={enemyTeam}
             onChangeText={e => {
-              setState(e)
+              setEnemyTeam(e)
             }}
-          ></TextInput>
-          <TouchableOpacity style={styles.searchIcon}>
+          />
+          <TouchableOpacity
+            style={styles.searchIcon}
+            onPress={async () => {
+              // 640f50743eb329edff23ed
+              // 640f2fb730eb329edff23e1
+              await dispatch(searchTeam(enemyTeam)),
+                navigation.navigate('SearchTeamInvite', { sendingData })
+            }}
+          >
             <SearchSvg />
           </TouchableOpacity>
         </View>
-        {!!game?.formats?.length && (
-          <RadioBlock
-            list={formats}
-            onChange={setFormats}
-            title={'Формат игры'}
-            titleStyle={{ color: ICON, left: '3%' }}
-          />
-        )}
-        <View style={styles.dateBox}>
-          <DateComponent showTime={true} title="Дата и время начала игры" />
+        {!!enemyTeamError && <Text style={styles.errorText}>Обязательное поле</Text>}
+        <View>
+          {!!game?.formats?.length && (
+            <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
+              <RadioBlock
+                list={formats}
+                onChange={setFormats}
+                title={'Формат игры'}
+                titleStyle={{ color: ICON, left: '3%' }}
+              />
+              {formats?.find(elm => elm.text == 'Свой Формат' && elm.checked) ? (
+                <View style={styles.formatInputBox}>
+                  <TextInput
+                    style={styles.formatInput}
+                    placeholder="__"
+                    placeholderTextColor={ICON}
+                    maxLength={2}
+                    onChangeText={e => {
+                      setValOne(e)
+                    }}
+                  />
+                  <Text style={{ color: ICON, fontSize: RW(14), width: '10%' }}>:</Text>
+                  <TextInput
+                    style={styles.formatInput}
+                    placeholder="__"
+                    placeholderTextColor={ICON}
+                    maxLength={2}
+                    onChangeText={e => {
+                      setValSec(e)
+                    }}
+                  />
+                </View>
+              ) : null}
+            </View>
+          )}
+          {!!formatError && <Text style={styles.errorText}>Заполните поле</Text>}
         </View>
-        <SearchAddresses size={380} />
+        <View style={styles.dateBox}>
+          <DateComponent
+            showTime={true}
+            title="Дата и время начала игры"
+            dateValue={startDate.date}
+            timeValue={startDate.time}
+            setDate={date => setStartDate({ ...startDate, date })}
+            setTime={time => setStartDate({ ...startDate, time })}
+          />
+        </View>
+        <View style={styles.mapBox}>
+          <SearchAddresses
+            size={380}
+            navigateTo="CommandLeadNotCreate"
+            setAddressName={setAddressName}
+            addressName={addressName}
+            show={false}
+          />
+          {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
+        </View>
         <RadioBlock
           title={'Стоимость входного билета в игру'}
           list={priceList}
           onChange={setPriceList}
           titleStyle={styles.searchTitle}
         />
+        {!!priceList[1].checked && (
+          <View style={styles.priceInput}>
+            <TextInput value={price} onChangeText={e => setPrice(e)} style={styles.price} />
+          </View>
+        )}
+        {!!priceError && !!priceList[1].checked && (
+          <Text style={styles.errorText}>Заполните поле</Text>
+        )}
+        {/* </View> */}
+      </ScrollView>
+      <View style={{ right: RW(10), bottom: RH(20), position: 'absolute' }}>
+        <LightButton label={'Готово'} onPress={handleSubmit} />
       </View>
     </ScreenMask>
   )
@@ -67,8 +277,8 @@ export default CommandLeadNotCreate
 
 const styles = StyleSheet.create({
   mainContainer: {
-    flex: 0.67,
     justifyContent: 'space-evenly',
+    flex: 0.8,
   },
   container: {
     backgroundColor: BACKGROUND,
@@ -76,7 +286,7 @@ const styles = StyleSheet.create({
     height: RH(50),
     alignSelf: 'center',
     flexDirection: 'row',
-    // top: RH(32),
+    marginVertical: RH(25),
     zIndex: 89,
     borderRadius: RW(10),
     flexDirection: 'row',
@@ -88,16 +298,65 @@ const styles = StyleSheet.create({
     marginLeft: RW(20),
     fontSize: RW(16),
   },
+  errorText: {
+    color: 'red',
+    top: RH(-4),
+    left: RW(12),
+    fontSize: RW(16),
+  },
+  price: {
+    color: ICON,
+    width: '100%',
+    textAlign: 'center',
+    paddingHorizontal: RW(9),
+    fontSize: RW(16),
+  },
   mapIcon: {
     left: '25%',
   },
   searchTitle: {
     ...font('regular', 16, ICON),
-    left: RW(10),
     top: '2%',
+  },
+  priceInput: {
+    backgroundColor: BACKGROUND,
+    width: RW(100),
+    height: RH(50),
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    marginLeft: RW(20),
+    zIndex: 89,
+    marginBottom: 20,
+    borderRadius: RW(10),
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   dateBox: {
     width: RW(380),
     alignSelf: 'center',
+  },
+  formatInputBox: {
+    width: RW(70),
+    height: RH(45),
+    backgroundColor: BACKGROUND,
+    borderRadius: RH(10),
+    overflow: 'hidden',
+    flexDirection: 'row',
+    alignItems: 'center',
+    left: RW(10),
+    bottom: RH(10),
+    justifyContent: 'center',
+  },
+  formatInput: {
+    height: '100%',
+    top: '2%',
+    width: '40%',
+    backgroundColor: BACKGROUND,
+    borderRadius: RH(10),
+    textAlign: 'center',
+    color: ICON,
+  },
+  mapBox: {
+    marginVertical: RH(20),
   },
 })

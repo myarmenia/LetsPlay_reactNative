@@ -7,12 +7,23 @@ import Slider from '@/components/range'
 import ToggleSwitch from '@/components/ToggleSwitch'
 import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
+import Modal from '@/components/modal'
+import ModalRules from '../QrCode/ModalRules'
 
 function Index({ navigation }) {
   const [valWord, setValWord] = useState(5)
+  const [modalRules, setModalRules] = useState(true)
+  const [isOn, setIsOn] = useState(false)
 
   return (
     <ScreenMask>
+      <View style={styles.body}>
+        <Modal
+          modalVisible={modalRules}
+          setIsVisible={setModalRules}
+          item={<ModalRules setModalRules={setModalRules} />}
+        />
+      </View>
       <Text style={styles.title}>Настройки</Text>
       <Row
         wrapper={{
@@ -50,7 +61,7 @@ function Index({ navigation }) {
             top: '-4%',
           }}
         >
-          <ToggleSwitch />
+          <ToggleSwitch isOn={isOn} setIsOn={setIsOn} />
         </View>
       </Row>
       <View style={styles.btnContainer}>

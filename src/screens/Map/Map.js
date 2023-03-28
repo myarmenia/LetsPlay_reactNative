@@ -5,7 +5,6 @@ import { RH, RW } from '@/theme/utils'
 import Geolocation from '@react-native-community/geolocation'
 import GeolocationIcon from '@/assets/svgs/GeoloactionIcon'
 import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from 'react-native-maps'
-import SearchAddresses from './SearchAddresses'
 import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
 import { useDispatch } from 'react-redux'
 import { fetchAddress } from './fetchAddress'
@@ -112,6 +111,14 @@ const Map = ({ route }) => {
                     })
                   : null
                 navigateTo == 'CommandLeadCreate'
+                  ? navigation.navigate(navigateTo, {
+                      address_name: response,
+                      latitude: s.results[0].geometry.location.lat,
+                      longitude: s.results[0].geometry.location.lng,
+                      fromMap: true,
+                    })
+                  : null
+                navigateTo == 'CommandLeadNotCreate'
                   ? navigation.navigate(navigateTo, {
                       address_name: response,
                       latitude: s.results[0].geometry.location.lat,

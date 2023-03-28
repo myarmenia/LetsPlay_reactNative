@@ -15,7 +15,7 @@ const IniviteTeamPlayers = ({ route }) => {
   let commandCount = 0
   let playersCount = 1
   const navigation = useNavigation()
-  const [arr, setArr] = useState(commands.map(() => [0, 0, 0, 0]))
+  const [arr, setArr] = useState(commands?.map(() => [0, 0, 0, 0]))
   //          [[0,0,0,0],[0,0,0,0]]
   const [users, setUsers] = useState([1, 2, 3, 4, 5, 6, 7, 8])
   const RenderItem = ({ item }) => {
@@ -24,8 +24,6 @@ const IniviteTeamPlayers = ({ route }) => {
         onPress={() => {
           if (commandCount <= commands.length) {
             let changedUser = false
-            console.log(commandCount)
-            console.log(playersCount)
 
             arr[commandCount] = arr[commandCount].map((elm, i) => {
               // return i == commandCount ? 1 : 0
@@ -60,7 +58,7 @@ const IniviteTeamPlayers = ({ route }) => {
         <View style={{ justifyContent: 'center' }}>
           <View style={styles.mainContainer}>
             <Text style={styles.title}>Распределите игроков</Text>
-            {arr.map((elem, i) => {
+            {arr?.map((elem, i) => {
               return (
                 <View key={i} style={{ paddingTop: RH(30) }}>
                   <Text style={styles.commandName}>Название команды {i + 1}</Text>
@@ -120,7 +118,7 @@ const IniviteTeamPlayers = ({ route }) => {
             <LightButton
               label={'Продолжить'}
               size={{ width: RW(310), height: RH(50) }}
-              onPress={() => navigation.navigate('Settings')}
+              onPress={() => navigation.navigate('')}
             />
           </View>
           <View style={styles.btnBox}>

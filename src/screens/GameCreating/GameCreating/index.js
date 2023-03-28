@@ -15,10 +15,8 @@ import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 // redux
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  createGame,
   setGame,
   setGameCreatedSuccessful,
-  setInitialState,
   setOrganizer_in_the_game,
   setPlayers_gender,
 } from '@/store/Slices/GameCreatingSlice'
@@ -42,7 +40,6 @@ const GameCreating = props => {
   const [playersCuntError, setPlayersCuntError] = useState(false)
   const [ageError, setAgeError] = useState(false)
   const [addressError, setAddressError] = useState(false)
-  const [error, setError] = useState(false)
 
   //redux
   const dispatch = useDispatch()
@@ -193,12 +190,12 @@ const GameCreating = props => {
     }
   }, [initialState.gameCreatedSuccessful])
 
-  useEffect(() => {
-    console.log('initialState', initialState)
-  }, [initialState])
-  useEffect(() => {
-    console.log('addressName', addressName)
-  }, [addressName])
+  // useEffect(() => {
+  //   console.log('initialState', initialState)
+  // }, [initialState])
+  // useEffect(() => {
+  //   console.log('addressName', addressName)
+  // }, [addressName])
 
   return (
     <ScreenMask>

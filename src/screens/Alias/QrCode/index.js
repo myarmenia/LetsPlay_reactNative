@@ -9,17 +9,10 @@ import { RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 
 function Index({ navigation }) {
-  const [modalRules, setModalRules] = useState(true)
-
   return (
     <ScreenMask>
       <View>
         <View style={styles.body}>
-          <Modal
-            modalVisible={modalRules}
-            setIsVisible={setModalRules}
-            item={<Rules setModalRules={setModalRules} />}
-          />
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
             <Image style={styles.qr} source={QrTest} />

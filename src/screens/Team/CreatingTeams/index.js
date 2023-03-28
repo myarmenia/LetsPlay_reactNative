@@ -1,12 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
-import ScreenMask from '@/components/wrappers/screen'
-import { Text } from 'react-native'
-import LightButton from '@/assets/imgs/Button'
 import { RH } from '@/theme/utils'
-import { useNavigation } from '@react-navigation/native'
+import { setFindedTeam } from '@/store/Slices/TeamSlice'
+import { useDispatch } from 'react-redux'
+import ScreenMask from '@/components/wrappers/screen'
+import LightButton from '@/assets/imgs/Button'
 
 const CreatingTeams = ({ navigation }) => {
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(setFindedTeam([]))
+  }, [])
   return (
     <ScreenMask>
       <View style={styles.common}>
