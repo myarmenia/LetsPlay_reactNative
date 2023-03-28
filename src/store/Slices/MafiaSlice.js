@@ -19,6 +19,8 @@ const initialState = {
   mafiaUsersId: [],
   loader: false,
   night: false,
+  answerQuestions: [],
+  sendAnswer: {},
 }
 
 export const MafiaSlice = createSlice({
@@ -121,6 +123,24 @@ export const MafiaSlice = createSlice({
         night: action.payload,
       }
     },
+    setWaitNight: (store, action) => {
+      return {
+        ...store,
+        waitNight: action.payload,
+      }
+    },
+    setAnswerQuestions: (store, action) => {
+      return {
+        ...store,
+        answerQuestions: action.payload,
+      }
+    },
+    setSendAnswer: (store, action) => {
+      return {
+        ...store,
+        sendAnswer: action.payload,
+      }
+    },
   },
 })
 
@@ -169,6 +189,25 @@ export const startGame = (mafia_game_id) => (dispatch) => {
     })
   dispatch(setPending(false))
 }
+export const clearAllDatas = () => (dispatch) => {
+  dispatch(setAddPlayersError(null))
+  dispatch(setQrGame(false))
+  dispatch(setQrLink(false))
+  dispatch(setRoles(null))
+  dispatch(setParticipateSuccess(null))
+  dispatch(setMafiaGameId(null))
+  dispatch(setMafiaSocketOn(false))
+  dispatch(setPlayers([]))
+  dispatch(setMafiaRole(null))
+  dispatch(setAddPlayersError(null))
+  dispatch(setVoteTime(0))
+  dispatch(setCiviliansCount(0))
+  dispatch(setMafiasCount(0))
+  dispatch(setMafiaUsersId([]))
+  dispatch(setLoader(false))
+  dispatch(setNight(false))
+  dispatch(setAnswerQuestions([]))
+}
 
 export const {
   setRules,
@@ -187,5 +226,8 @@ export const {
   setMafiasCount,
   setLoader,
   setNight,
+  setWaitNight,
+  setAnswerQuestions,
+  setSendAnswer,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer

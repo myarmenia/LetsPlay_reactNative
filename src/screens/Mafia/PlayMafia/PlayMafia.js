@@ -5,45 +5,86 @@ import VectorIcon from '@/assets/svgs/vectorSvg'
 import { font, RH, RW } from '@/theme/utils'
 import { GRAY, ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
 import User from '@/components/User/user'
 import MafiaModal from './components/MafiaModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
-import { setNight } from '@/store/Slices/MafiaSlice'
+import { setLoader, setSendAnswer, setWaitNight } from '@/store/Slices/MafiaSlice'
+import UserBorderSvg from './assets/UserBorderSvg'
 
 const PlayMafia = () => {
-  const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const { mafiaRole, players, voteTime, roles, mafiaUsersId, mafiasCount, civiliansCount, night } =
-    useSelector(({ mafia }) => mafia)
+  const [answers, setAnswers] = useState(1)
+  const [choosable, setChoosable] = useState(false)
+  const [choosedUsers, setChoosedUsers] = useState(null)
+
+  const {
+    mafiaRole,
+    players,
+    voteTime,
+    roles,
+    mafiaUsersId,
+    mafiasCount,
+    civiliansCount,
+    night,
+    answerQuestions,
+  } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
-  let mafiaImgPath = roles.find((item) => (item.name = 'Мафия'))?.img
+  let mafiaImgPath = roles?.find((item) => (item.name = 'Мафия'))?.img
 
   useEffect(() => {
     setModalVisible(true)
   }, [])
+  useEffect(() => {
+    if (answers < answerQuestions.length) {
+      setChoosable(true)
+    } else {
+      dispatch(setWaitNight(false))
+      dispatch(setLoader(true))
+      setChoosable(false)
+    }
+  }, [answers, answerQuestions])
 
   return (
     <ScreenMask>
       <MafiaLoader />
       <View style={styles.common}>
-        <View style={styles.youPlaceMen}>
-          <View>
-            <Image source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
-          </View>
-          <View style={styles.infoMafia}>
-            <Text style={styles.textPlaceMen}>Вы {mafiaRole?.name?.toLowerCase()}</Text>
-            <Text style={styles.text}>Мафия {mafiasCount}</Text>
-            <Text style={styles.text}>Мирные жители {civiliansCount}</Text>
-          </View>
-          <Pressable onPress={() => setModalVisible(true)}>
-            <VectorIcon />
-          </Pressable>
-        </View>
-        <Text style={styles.morningText}>{night ? 'Ночь' : 'Утро'}</Text>
+        {!night ? (
+          <>
+            <View style={styles.youPlaceMen}>
+              <View>
+                <Image source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
+              </View>
+              <View style={styles.infoMafia}>
+                <Text style={styles.textPlaceMen}>Вы {mafiaRole?.name?.toLowerCase()}</Text>
+                <Text style={styles.text}>Мафия {mafiasCount}</Text>
+                <Text style={styles.text}>Мирные жители {civiliansCount}</Text>
+              </View>
+              <Pressable onPress={() => setModalVisible(true)}>
+                <VectorIcon />
+              </Pressable>
+            </View>
+            <Text style={styles.morningText}>Утро</Text>
+          </>
+        ) : (
+          <>
+            <Text style={[styles.morningText, { color: ICON }]}>Ночь</Text>
+            <Pressable
+              style={{ position: 'absolute', right: RW(10), top: RH(2) }}
+              onPress={() => setModalVisible(true)}
+            >
+              <VectorIcon />
+            </Pressable>
+            <View>
+              {answers < answerQuestions.length ? (
+                <Text style={styles.question}>{answerQuestions[answers].question}</Text>
+              ) : null}
+            </View>
+          </>
+        )}
+
         <Time voteTime={voteTime} />
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
           <View
@@ -57,13 +98,26 @@ const PlayMafia = () => {
             }}
           >
             {players?.map((item, i) => (
-              <View style={{ margin: RW(10) }} key={i}>
-                {/* {console.log(deviceName, players?.user)} */}
-                {mafiaUsersId.find((id) => id == item) ? (
+              <Pressable
+                style={{ padding: RW(10), margin: RW(10), position: 'relative' }}
+                key={i}
+                onPress={() => {
+                  if (choosable) {
+                    setChoosedUsers(item._id)
+                  }
+                }}
+              >
+                {choosedUsers === item._id ? (
+                  <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+                    <UserBorderSvg />
+                  </View>
+                ) : null}
+
+                {mafiaUsersId?.find((id) => id == item._id) ? (
                   <Image style={styles.mafiaImg} source={{ uri: _storageUrl + mafiaImgPath }} />
                 ) : null}
                 <User size={90} user={item} />
-              </View>
+              </Pressable>
             ))}
           </View>
         </ScrollView>
@@ -71,13 +125,27 @@ const PlayMafia = () => {
           <LightButton
             size={{ width: RW(281), height: RH(48) }}
             labelStyle={styles.invitePlayers}
-            label={!night ? 'Ночь' : 'Утро'}
+            label={!night ? 'Ночь' : 'Подтвердить'}
             white={'white'}
             background={'#7DCE8A'}
             bgColor={'#4D7CFE'}
             onPress={() => {
-              dispatch(setLoader(true))
-              dispatch(setNight(!night))
+              if (!night) {
+                dispatch(setLoader(true))
+                dispatch(setWaitNight(!night))
+              } else {
+                if (choosedUsers) {
+                  setAnswers(answers + 1)
+                  setChoosedUsers(null)
+                  dispatch(
+                    setSendAnswer({
+                      type: 'answer_question',
+                      question_id: answerQuestions[answers]?._id,
+                      mafia_user_ids: choosedUsers,
+                    }),
+                  )
+                }
+              }
             }}
           />
         </View>
@@ -184,6 +252,12 @@ const styles = StyleSheet.create({
     zIndex: 999,
     top: RW(-3),
     left: RW(-3),
+  },
+  question: {
+    ...font('bold', 24, WHITE, 32),
+    textAlign: 'center',
+    marginHorizontal: RW(10),
+    marginBottom: RH(10),
   },
 })
 export default PlayMafia
