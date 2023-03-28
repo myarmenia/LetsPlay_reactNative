@@ -25,6 +25,9 @@ function Index({ size, onPressImg, userProps }) {
   if (userProps) {
     user = userProps
   }
+  if (user?.user) {
+    user = user.user
+  }
   // const [userNow, setUserNow] = useState(user)
   const { name, surname, vk_id, avatar, vk_uri } = user
   const fontSizeTitle = size > 150 ? size / RW(28) : size / RW(50)
@@ -91,7 +94,7 @@ function Index({ size, onPressImg, userProps }) {
               : avatar.startsWith('https://')
               ? { uri: avatar }
               : {
-                  uri: _storageUrl + user.avatar, //userNow.avatar
+                  uri: _storageUrl + avatar, //userNow.avatar
                 }
           }
         />

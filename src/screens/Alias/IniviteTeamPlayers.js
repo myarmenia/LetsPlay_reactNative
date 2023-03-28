@@ -35,7 +35,6 @@ const IniviteTeamPlayers = ({ route }) => {
               }
             })
 
-            console.log(arr)
             setArr(arr)
             playersCount++
             if (playersCount == 4) {

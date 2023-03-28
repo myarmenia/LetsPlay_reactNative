@@ -34,6 +34,7 @@ function ListItem({ game, pressable, qrGame }) {
             if (qrGame) {
               await dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
+              // navigation.navigate('MafiaNavigation')
               navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigation' : 'AliasNavigator')
             } else {
               savedTeam

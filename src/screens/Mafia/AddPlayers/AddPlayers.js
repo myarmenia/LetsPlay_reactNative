@@ -41,13 +41,14 @@ const AddPlayers = () => {
                 background={'#7DCE8A'}
                 bgColor={'#4D7CFE'}
                 onPress={() => {
+                  console.log('startGame mafiaGameId', mafiaGameId)
                   dispatch(startGame(mafiaGameId))
                 }}
               />
             </View>
             <View>
               <DarkButton
-                onPress={() => navigation.navigate('AliasNavigator')}
+                onPress={() => navigation.goBack()}
                 size={{ width: 281, height: 48 }}
                 label={'Пригласить игроков'}
               />

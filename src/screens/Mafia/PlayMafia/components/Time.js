@@ -1,9 +1,12 @@
 import { font } from '@/theme/utils'
 import React, { useState, useEffect } from 'react'
 import { Text } from 'react-native'
+import { useSelector } from 'react-redux'
 
-const Timer = ({ voteTime }) => {
+const Timer = () => {
+  const voteTime = useSelector(({ mafia }) => mafia.voteTime)
   const [seconds, setSeconds] = useState(voteTime * 60)
+
   useEffect(() => {
     let interval = null
 

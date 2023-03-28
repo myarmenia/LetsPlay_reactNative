@@ -12,52 +12,61 @@ import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
 import { useDispatch, useSelector } from 'react-redux'
 import { io } from 'socket.io-client'
 import {
+  clearAllDatas,
+  setAnswerQuestions,
   setCiviliansCount,
+  setLoader,
   setMafiaRole,
   setMafiasCount,
   setMafiaUsersId,
+  setNight,
   setPlayers,
   setVoteTime,
 } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
+import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 
 const MafiaNavigation = () => {
   const Stack = createNativeStackNavigator()
   const token = useSelector(({ auth }) => auth.token)
-  const { mafiaSocketOn, mafiaGameId } = useSelector(({ mafia }) => mafia)
+  const { mafiaSocketOn, mafiaGameId, waitNight, sendAnswer } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
   const navigation = useNavigation()
   let deviceName
   DeviceInfo.getDeviceName().then(e => {
     deviceName = e
   })
-  const socket = io(`wss://to-play.ru/mafia?room=${mafiaGameId}`, {
-    transportOptions: {
-      polling: {
-        extraHeaders: {
-          Authorization: token,
-        },
-      },
-    },
-  })
   useEffect(() => {
     if (mafiaSocketOn && token && mafiaGameId) {
       console.log('Socket on', mafiaGameId)
-
       if (mafiaSocketOn) {
-        socket.on('message', e => {
+        const socket = io(
+          `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+          {
+            transportOptions: {
+              polling: {
+                extraHeaders: {
+                  Authorization: token,
+                },
+              },
+            },
+          },
+        )
+        socket.on('message', (e) => {
+          console.log(`${deviceName} message`, JSON.stringify(e, null, 4))
           if (e?.type === 'new_user') {
             dispatch(setPlayers(e.mafia_game.players))
-            dispatch(setVoteTime(e.mafia_game.vote_time))
-          } else if (e?.type == 'divide_cards') {
+            // dispatch(setVoteTime(e.mafia_game.vote_time))
+          } else if (e?.type === 'divide_cards') {
             dispatch(setMafiaRole(e?.data?.role))
+            dispatch(setVoteTime(e?.vote_time))
+            dispatch(setAnswerQuestions(e?.data?.role?.answer_question))
             navigation.navigate('PlayMafia')
           } else if (e.type === 'user_count') {
             dispatch(setCiviliansCount(e?.civilian_count))
             dispatch(setMafiasCount(e?.mafia_count))
-            console.log('e.all_players', e.all_players)
-            dispatch(setPlayers(e.all_players))
+            dispatch(setPlayers(e?.all_players))
           } else if (e.type === 'mafia_users') {
             dispatch(
               setMafiaUsersId(
@@ -67,34 +76,62 @@ const MafiaNavigation = () => {
                 ),
               ),
             )
+          } else if (e.type === 'change_time') {
+            dispatch(setNight(e.mafia_game.night))
+            dispatch(setVoteTime(e.mafia_game.vote_time))
+            dispatch(setLoader(false))
           }
         })
       } else {
         socket.off('message', e => {
           console.log('off message', e)
         })
-        console.log('socket off')
-        dispatch(setCiviliansCount(0))
-        dispatch(setMafiasCount(0))
-        dispatch(setPlayers([]))
-        dispatch(setMafiaRole(null))
-        dispatch(setVoteTime(0))
-        dispatch(setMafiaUsersId([]))
+
+        dispatch(clearAllDatas())
       }
     }
-    // return () => {
-    //   socket.off('message', (e) => {
-    //     console.log('off message', e)
-    //   })
-    //   console.log('socket off')
-    //   dispatch(setCiviliansCount(0))
-    //   dispatch(setMafiasCount(0))
-    //   dispatch(setPlayers([]))
-    //   dispatch(setMafiaRole(null))
-    //   dispatch(setVoteTime(0))
-    //   dispatch(setMafiaUsersId([]))
-    // }
   }, [mafiaSocketOn, token, mafiaGameId])
+
+  useEffect(() => {
+    if (mafiaSocketOn) {
+      const socket = io(
+        `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+        {
+          transportOptions: {
+            polling: {
+              extraHeaders: {
+                Authorization: token,
+              },
+            },
+          },
+        },
+      )
+
+      socket.send({
+        type: 'end_time_vote',
+        night: waitNight,
+      })
+    }
+  }, [waitNight])
+
+  useEffect(() => {
+    if (sendAnswer?.type && sendAnswer?.question_id && sendAnswer?.mafia_user_ids) {
+      const socket = io(
+        `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+        {
+          transportOptions: {
+            polling: {
+              extraHeaders: {
+                Authorization: token,
+              },
+            },
+          },
+        },
+      )
+      console.log('socket.send(sendAnswer)', sendAnswer)
+      socket.send(sendAnswer)
+    }
+  }, [sendAnswer])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>

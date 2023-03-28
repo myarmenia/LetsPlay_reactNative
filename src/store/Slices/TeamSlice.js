@@ -129,12 +129,13 @@ export const joinGame = (gameId, nav, setError, setModalVisible) => async dispat
       console.log('Error joining to game :', err)
     })
 }
-export const joinInTeam = (teamId, setModalVisible, nav) => async dispatch => {
-  console.log(teamId)
+export const joinInTeam = (teamId, setModalVisible, nav) => async (dispatch) => {
+  // console.log(teamId)
   axiosInstance
     .post(`api/team/players/${teamId}`)
-    .then(response => {
-      console.log('response :', response)
+    .then((response) => {
+      // console.log('response :', response)
+
       setModalVisible(true)
       nav.navigate('Home')
     })
@@ -156,8 +157,9 @@ export const searchGame = (data, nav, setError) => async dispatch => {
   let link = `api/create/game/?${dates}&price=${price}&game_of_your_choice=${game_of_your_choice}${place}/${gameIdsForLink}`
   axiosInstance
     .get(link.slice(0, link.length - 1))
-    .then(response => {
-      console.log(JSON.stringify(response?.data?.datas, null, 5))
+
+    .then((response) => {
+      // console.log(JSON.stringify(response?.data?.datas, null, 5))
       dispatch(setFindedGames(response?.data?.datas))
       if (response?.data?.datas.length) {
         nav.navigate('GameList')

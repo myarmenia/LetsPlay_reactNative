@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
@@ -7,8 +7,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProfileInfo } from './store/Slices/AuthSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { setToken } from '@/store/Slices/AuthSlice'
-import { io } from 'socket.io-client'
-import message from './screens/Auth/shared/container/message'
 
 const MyApp = () => {
   const userId = useSelector(({ auth }) => auth?.user?._id)
