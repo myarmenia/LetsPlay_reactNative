@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native'
 import { createSlice } from '@reduxjs/toolkit'
 import { Platform } from 'react-native'
 import axiosInstance from '../Api'
@@ -85,16 +86,21 @@ export const searchPlayer = url => dispatch => {
       console.log('Error finding player', err)
     })
 }
-export const searchTeam = (teamId, isEmpty = () => {}, nav) => async dispatch => {
-  console.log(teamId)
+export const searchTeam = (
+  teamId,
+  isEmpty = () => {},
+  nav,
+  navText,
+  sendingData,
+) => async dispatch => {
   axiosInstance
-    .get(`api/team/id_or_name=${teamId}`)
+    .get(`api/team?id_or_name=${teamId}`)
     .then(async response => {
-      if (response.data?.data) {
+      if (response?.data?.datas?.length) {
+        console.log(response.data.datas)
+        await dispatch(setFindedTeam(response.data?.datas))
+        nav.navigate(navText, sendingData ? sendingData : null)
         isEmpty(false)
-        await dispatch(setFindedTeam([response.data?.data]))
-
-        nav?.navigate('TeamSearchRes')
       }
     })
     .catch(err => {
@@ -129,11 +135,11 @@ export const joinGame = (gameId, nav, setError, setModalVisible) => async dispat
       console.log('Error joining to game :', err)
     })
 }
-export const joinInTeam = (teamId, setModalVisible, nav) => async (dispatch) => {
+export const joinInTeam = (teamId, setModalVisible, nav) => async dispatch => {
   // console.log(teamId)
   axiosInstance
     .post(`api/team/players/${teamId}`)
-    .then((response) => {
+    .then(response => {
       // console.log('response :', response)
 
       setModalVisible(true)
@@ -158,7 +164,7 @@ export const searchGame = (data, nav, setError) => async dispatch => {
   axiosInstance
     .get(link.slice(0, link.length - 1))
 
-    .then((response) => {
+    .then(response => {
       // console.log(JSON.stringify(response?.data?.datas, null, 5))
       dispatch(setFindedGames(response?.data?.datas))
       if (response?.data?.datas.length) {

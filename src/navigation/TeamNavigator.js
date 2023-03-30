@@ -1,6 +1,5 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { NAV_HEADER_OPTION } from '@/constants'
 import MyTeam from '@/screens/Team/MyTeam'
 import MyTeamInfo from '@/screens/Team/MyTeamInfo'
 import TeamSelectCategoryComponent from '@/screens/Team/GameCategory/Cadegory'
@@ -16,12 +15,16 @@ import Scheme from '@/screens/Team/Scheme'
 import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
 import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
 import SearchInput from '@/screens/Team/SearchInput'
-import TeamInfo from '@/screens/Team/TeamInfo'
 import Map from '@/screens/Map/Map'
 import SearchUserResult from '@/screens/Team/SearchUserResult/SearchUserResult'
 import MembersInTeam from '@/screens/Team/TeamMembers/MembersInTeam'
 import EachMember from '@/screens/Team/TeamMembers/EachMember'
 import SearchedUserInfo from '@/screens/Team/SearchUserResult/SearchedUserInfo'
+import { NAV_HEADER_OPTION } from '@/constants'
+import SearchedTeamSubmit from '@/screens/Alias/SearchCommand/SearchedTeamSubmit'
+import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLeadNotCreate'
+import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
+import TeamInfo from '@/screens/Team/CommandLeadNotCreate/TeamInfo'
 const Stack = createNativeStackNavigator()
 
 function Index() {
@@ -36,6 +39,9 @@ function Index() {
       <Stack.Screen name="SelectTeam" component={SelectTeam} />
       <Stack.Screen name="SearchUserResult" component={SearchUserResult} />
       <Stack.Screen name="SearchedUserInfo" component={SearchedUserInfo} />
+      <Stack.Screen name="SearchTeamInvite" component={SearchTeamInvite} />
+      <Stack.Screen name="SearchedTeamSubmit" component={SearchedTeamSubmit} />
+      <Stack.Screen name="CommandLeadNotCreate" component={CommandLeadNotCreate} />
       <Stack.Screen name="SelectPlayers" component={SelectPlayers} />
       <Stack.Screen name="TeamsCreating" component={CreatingTeams} />
       <Stack.Screen name="CreateTeamTitle" component={CreateTeamTitle} />
@@ -48,7 +54,7 @@ function Index() {
       <Stack.Screen name="MembersInTeam" component={MembersInTeam} />
       <Stack.Screen name="SearchTeam" component={SearchInput} />
       <Stack.Screen name="TeamSearchRes" component={SearchRes} />
-      <Stack.Screen name="TeamSearchInfo" component={TeamInfo} />
+      <Stack.Screen name="TeamInfo" component={TeamInfo} />
     </Stack.Navigator>
   )
 }

@@ -7,8 +7,11 @@ import QrTest from '@/assets/imgs/qrTest.jpg'
 import Button from '@/assets/imgs/Button'
 import { RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
+import { useNavigation } from '@react-navigation/native'
 
-function Index({ navigation }) {
+function Index({ route }) {
+  const commandsCount = route?.params
+  const navigation = useNavigation()
   return (
     <ScreenMask>
       <View>
@@ -18,7 +21,7 @@ function Index({ navigation }) {
             <Image style={styles.qr} source={QrTest} />
           </View>
           <Button
-            onPress={() => navigation.navigate('PlayNow')}
+            onPress={() => navigation.navigate('InviteTeamPlayers', commandsCount)}
             size={styles.btn}
             label={'Продолжить'}
           />

@@ -1,16 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit'
-import axiosInstance from '../Api'
 
 const initialState = {
   rules: '',
   qrGame: false,
+  commands: null,
 }
 
 export const AliasSlice = createSlice({
   name: 'alias',
   initialState,
-  reducers: {},
+  reducers: {
+    setCommands: (store, action) => {
+      return { ...store, commands: action.payload }
+    },
+  },
 })
 
-export const {} = AliasSlice.actions
+export const { setCommands } = AliasSlice.actions
 export default AliasSlice.reducer

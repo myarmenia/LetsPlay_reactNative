@@ -22,7 +22,7 @@ const MembersInTeam = ({ route }) => {
   // const { findedTeam } = useSelector(({ teams }) => teams)
   const findedTeam = [{ players: [2, 2, 0, 0] }]
   useEffect(() => {
-    dispatch(searchTeam(command._id, () => {}, false))
+    dispatch(searchTeam(command._id, () => {}, navigation, null, null))
   }, [])
   useEffect(() => {
     setInvitedPlayers(
