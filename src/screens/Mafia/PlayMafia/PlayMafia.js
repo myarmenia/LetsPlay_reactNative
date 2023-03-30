@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
-import { setLoader, setWaitNight } from '@/store/Slices/MafiaSlice'
+import { setLoader, setSendAnswer, setWaitNight } from '@/store/Slices/MafiaSlice'
 import UserBorderSvg from './assets/UserBorderSvg'
 import { io } from 'socket.io-client'
 
@@ -153,38 +153,13 @@ const PlayMafia = () => {
                   // setAnswers(answers + 1)
                   // setChoosedUsers(null)
                   // console.log(token)
-                  // dispatch(
-                  //   setSendAnswer({
-                  //     type: 'answer_question',
-                  //     question_id: answerQuestions[answers]?._id,
-                  //     select_user: choosedUsers,
-                  //   }),
-                  // )
-                  const socket = io(
-                    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
-                    {
-                      transportOptions: {
-                        polling: {
-                          extraHeaders: {
-                            Authorization: token,
-                          },
-                        },
-                      },
-                    },
+                  dispatch(
+                    setSendAnswer({
+                      type: 'answer_question',
+                      question_id: answerQuestions[answers]?._id,
+                      select_user: choosedUsers,
+                    }),
                   )
-                  socket.off('message', (message) => {
-                    console.log('socket off message', message)
-                  })
-                  socket.send({
-                    type: 'answer_question',
-                    question_id: answerQuestions[answers]?._id,
-                    select_user: choosedUsers,
-                  })
-                  console.log('socket.send(sendAnswer)', {
-                    type: 'answer_question',
-                    question_id: answerQuestions[answers]?._id,
-                    select_user: choosedUsers,
-                  })
                 }
               }
             }}

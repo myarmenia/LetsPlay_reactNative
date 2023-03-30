@@ -133,28 +133,24 @@ const MafiaNavigation = () => {
     }
   }, [waitNight])
 
-  // useEffect(() => {
-  //   if (sendAnswer?.type && sendAnswer?.question_id && sendAnswer?.select_user) {
-  //     console.log('socket.send(sendAnswer)', sendAnswer)
-  //     const socket2 = io(
-  //       `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
-  //       {
-  //         transportOptions: {
-  //           polling: {
-  //             extraHeaders: {
-  //               Authorization: token,
-  //             },
-  //           },
-  //         },
-  //       },
-  //     )
-  //     socket2.send({
-  //       question_id: '640eea472d4934d87e84d9f0',
-  //       select_user: '64258e33a39b217bbe43ba99',
-  //       type: 'answer_question',
-  //     })
-  //   }
-  // }, [sendAnswer])
+  useEffect(() => {
+    if (sendAnswer?.type && sendAnswer?.question_id && sendAnswer?.select_user) {
+      console.log('socket.send(sendAnswer)', sendAnswer)
+      const socket = io(
+        `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+        {
+          transportOptions: {
+            polling: {
+              extraHeaders: {
+                Authorization: token,
+              },
+            },
+          },
+        },
+      )
+      socket.send(sendAnswer)
+    }
+  }, [sendAnswer])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
