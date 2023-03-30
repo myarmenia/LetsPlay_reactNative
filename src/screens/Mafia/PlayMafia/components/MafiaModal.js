@@ -8,7 +8,7 @@ import { _storageUrl } from '@/constants'
 
 const MafiaModal = ({ modalVisible, setModalVisible }) => {
   const { mafiaRole, roles } = useSelector(({ mafia }) => mafia)
-  const description = roles.find((item) => item?.name == mafiaRole?.name).description
+  const description = roles?.find((item) => item?.name == mafiaRole?.name)?.description
   return (
     <View>
       <Modal
@@ -31,7 +31,13 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
             <ImageBackground
               source={require('../assets/modalBg.png')}
               resizeMode={'contain'}
-              style={{ height: RH(420), justifyContent: 'center', alignItems: 'center' }}
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingVertical: RW(20),
+                paddingHorizontal: RH(10),
+                // height: RH(420),
+              }}
             >
               <Image
                 source={{ uri: _storageUrl + mafiaRole?.img }}

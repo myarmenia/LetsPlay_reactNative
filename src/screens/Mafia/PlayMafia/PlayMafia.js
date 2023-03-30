@@ -11,8 +11,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
-import { setLoader, setSendAnswer, setWaitNight } from '@/store/Slices/MafiaSlice'
+import { setLoader, setWaitNight } from '@/store/Slices/MafiaSlice'
 import UserBorderSvg from './assets/UserBorderSvg'
+import { io } from 'socket.io-client'
 
 const PlayMafia = () => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -23,14 +24,16 @@ const PlayMafia = () => {
   const {
     mafiaRole,
     players,
-    voteTime,
     roles,
     mafiaUsersId,
     mafiasCount,
     civiliansCount,
     night,
     answerQuestions,
+    questionTruthfulness,
+    mafiaGameId,
   } = useSelector(({ mafia }) => mafia)
+  const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
   let mafiaImgPath = roles?.find((item) => (item.name = 'Мафия'))?.img
 
@@ -38,14 +41,14 @@ const PlayMafia = () => {
     setModalVisible(true)
   }, [])
   useEffect(() => {
-    if (answers < answerQuestions.length) {
+    if (night && answers < answerQuestions.length) {
       setChoosable(true)
-    } else {
+    } else if (night && answers == answerQuestions.length) {
       dispatch(setWaitNight(false))
       dispatch(setLoader(true))
       setChoosable(false)
     }
-  }, [answers, answerQuestions])
+  }, [answers, answerQuestions, night])
 
   return (
     <ScreenMask>
@@ -85,7 +88,7 @@ const PlayMafia = () => {
           </>
         )}
 
-        <Time voteTime={voteTime} />
+        <Time />
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
           <View
             style={{
@@ -103,17 +106,29 @@ const PlayMafia = () => {
                 key={i}
                 onPress={() => {
                   if (choosable) {
-                    setChoosedUsers(item._id)
+                    setChoosedUsers(item?._id)
                   }
                 }}
               >
-                {choosedUsers === item._id ? (
+                {choosedUsers === item?._id ? (
                   <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-                    <UserBorderSvg />
+                    {console.log('questionTruthfulness', questionTruthfulness)}
+                    {!questionTruthfulness ? (
+                      <UserBorderSvg />
+                    ) : (
+                      <View
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          borderWidth: 2,
+                          borderColor: questionTruthfulness.truthfulness ? '#74C372' : '#F73934',
+                        }}
+                      />
+                    )}
                   </View>
                 ) : null}
 
-                {mafiaUsersId?.find((id) => id == item._id) ? (
+                {mafiaUsersId?.find((id) => id == item?._id) ? (
                   <Image style={styles.mafiaImg} source={{ uri: _storageUrl + mafiaImgPath }} />
                 ) : null}
                 <User size={90} user={item} />
@@ -135,15 +150,41 @@ const PlayMafia = () => {
                 dispatch(setWaitNight(!night))
               } else {
                 if (choosedUsers) {
-                  setAnswers(answers + 1)
-                  setChoosedUsers(null)
-                  dispatch(
-                    setSendAnswer({
-                      type: 'answer_question',
-                      question_id: answerQuestions[answers]?._id,
-                      mafia_user_ids: choosedUsers,
-                    }),
+                  // setAnswers(answers + 1)
+                  // setChoosedUsers(null)
+                  // console.log(token)
+                  // dispatch(
+                  //   setSendAnswer({
+                  //     type: 'answer_question',
+                  //     question_id: answerQuestions[answers]?._id,
+                  //     select_user: choosedUsers,
+                  //   }),
+                  // )
+                  const socket = io(
+                    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+                    {
+                      transportOptions: {
+                        polling: {
+                          extraHeaders: {
+                            Authorization: token,
+                          },
+                        },
+                      },
+                    },
                   )
+                  socket.off('message', (message) => {
+                    console.log('socket off message', message)
+                  })
+                  socket.send({
+                    type: 'answer_question',
+                    question_id: answerQuestions[answers]?._id,
+                    select_user: choosedUsers,
+                  })
+                  console.log('socket.send(sendAnswer)', {
+                    type: 'answer_question',
+                    question_id: answerQuestions[answers]?._id,
+                    select_user: choosedUsers,
+                  })
                 }
               }
             }}

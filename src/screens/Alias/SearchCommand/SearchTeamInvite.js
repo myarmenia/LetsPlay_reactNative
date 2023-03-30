@@ -13,7 +13,6 @@ function SearchTeamInvite({ route }) {
   const { findedTeam } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
   const { sendingData, item } = route.params
-  console.log('sendingData', item)
   return (
     <ScreenMask>
       <Text style={styles.title}>Результат поиска</Text>

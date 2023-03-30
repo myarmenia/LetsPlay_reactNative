@@ -28,7 +28,6 @@ function ListItem({ game, pressable, qrGame }) {
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
         onPress={async () => {
-          console.log(game.rules)
           if (pressable) {
             setActive(true)
             if (qrGame) {

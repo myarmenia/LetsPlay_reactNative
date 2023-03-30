@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProfileInfo } from './store/Slices/AuthSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { setToken } from '@/store/Slices/AuthSlice'
+import { io } from 'socket.io-client'
 
 const MyApp = () => {
   const userId = useSelector(({ auth }) => auth?.user?._id)
