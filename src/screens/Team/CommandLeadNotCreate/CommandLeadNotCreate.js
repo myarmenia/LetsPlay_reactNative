@@ -18,27 +18,36 @@ import DateComponent from '@/components/DateComponent'
 import ScreenMask from '@/components/wrappers/screen'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
-import { getMembersList, searchTeam, setFindedPlayers } from '@/store/Slices/TeamSlice'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import {
+  getMembersList,
+  searchTeam,
+  setFindedPlayers,
+  setFindedTeam,
+} from '@/store/Slices/TeamSlice'
 
 const CommandLeadNotCreate = ({ route }) => {
   const item = route.params
-  const props = route.params // submited team after choosing
+  useEffect(() => {
+    setGameId({ id: item?._id, img: item?.img })
+  }, [])
+  const isFocused = useIsFocused()
   const games = useSelector(({ games }) => games.games)
   const game = games.find(elm => elm.id == route?.params?.id)
   const { betweenPlayers, findedTeam, savedTeam } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const navigation = useNavigation()
   //states ===================================
+  const [gameId, setGameId] = useState('')
   const [enemyTeam, setEnemyTeam] = useState('')
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
-  const [addressName, setAddressName] = useState('')
+  const [addresName, setAddressName] = useState('')
   const [valOne, setValOne] = useState('')
   const [valSec, setValSec] = useState('')
   const [price, setPrice] = useState('')
   const [formats, setFormats] = useState(
-    game.formats
-      .map((elm, i) => {
+    game?.formats
+      ?.map((elm, i) => {
         return { id: i, text: elm, checked: false }
       })
       .concat({ id: 0, text: 'Свой Формат', checked: false }),
@@ -99,24 +108,18 @@ const CommandLeadNotCreate = ({ route }) => {
     .substring(0, 10)
     .concat(' ' + timeFormat(startDate))
 
-  const sendingData = {
-    address_name: addressName.address_name,
-    latitude: props.fromMap ? props.latitude : addressName.lat,
-    longitude: props.fromMap ? props.longitude : addressName.lng,
+  let sendingData = {
+    address_name: item?.fromMap ? item?.address_name : addresName?.address_name,
+    latitude: item?.fromMap ? item?.latitude : addresName?.lat,
+    longitude: item?.fromMap ? item?.longitude : addresName?.lng,
     between_players: betweenPlayers,
     all_players: false,
     ticket_price: price ? price : 0,
     team: savedTeam?._id,
-    // enemy_team: '', // gtac team i id
-    enemy_team_name: enemyTeam,
-    game: item?._id,
-    format:
-      valOne.length && valSec.length
-        ? valOne + ':' + valSec
-        : formats?.find(elm => elm?.checked)?.text
-        ? formats?.find(elm => elm?.checked)?.text
-        : '',
-    // : 'aaaaa',
+    // gtac team i id
+    //  enemy_team: findedTeam?._id
+    // enemy_team_name: enemyTeam,
+    game: gameId?.id,
     // players id
     players: ['64219136e3a868ee5e71a799'],
     // savedTeam?.players?.map(elm => elm?._id),
@@ -125,51 +128,54 @@ const CommandLeadNotCreate = ({ route }) => {
     name: '',
     description: '',
   }
-
   const handleSubmit = () => {
-    console.log(formats?.filter(elm => elm.text == 'Свой Формат' && elm.checked)?.length)
-    if (!formats?.filter(elm => elm?.checked).length) {
-      setFormatError(true)
-    } else if (
-      formats?.filter(elm => elm.text == 'Свой Формат' && elm.checked)?.length &&
-      (!valOne || !valSec)
-    ) {
-      setFormatError(true)
-    } else {
-      setFormatError(false)
-    }
-
     if (!enemyTeam.length) {
       setEnemyTeamError(true)
     } else {
       setEnemyTeamError(false)
     }
-    if (addressName) {
+    if (addresName?.address_name && !item?.latitude) {
       setMapError(false)
     } else {
       setMapError(true)
     }
+    if (item?.latitude) {
+      setMapError(false)
+    }
     if (priceList.find(elm => elm.checked).text == 'Платно' && !price.length) {
       setPriceError(true)
     } else {
-      setPriceError(true)
+      setPriceError(false)
     }
     if (
-      Boolean(addressName.address_name, price, enemyTeam, formats.filter(elm => elm.checked).length)
+      Boolean(
+        addresName.address_name || item.latitude,
+        price,
+        enemyTeam,
+        formats?.filter(elm => elm.checked).length,
+      )
     ) {
-      navigation.navigate('TeamInfo', { sendingData, item })
+      sendingData.enemy_team_name = enemyTeam
+      navigation.navigate('TeamInfo', { sendingData, gameId })
+    } else {
+      console.log('else')
     }
   }
 
   useEffect(() => {
     dispatch(getMembersList(savedTeam?._id))
-    console.log('game :', game, 'item: ', item)
   }, [])
 
+  useEffect(() => {
+    if (findedTeam) {
+      setEnemyTeam(findedTeam?.name)
+      sendingData.enemy_team = findedTeam?._id
+      delete sendingData.enemy_team_name
+    }
+  }, [findedTeam])
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1.1 }}>
-        {/* <View style={[styles.mainContainer]}> */}
         <Text style={styles.searchTitle}>Название команды соперника</Text>
         <View style={styles.container}>
           <TextInput
@@ -179,15 +185,16 @@ const CommandLeadNotCreate = ({ route }) => {
             value={enemyTeam}
             onChangeText={e => {
               setEnemyTeam(e)
+              dispatch(setFindedTeam(''))
+              delete sendingData.enemy_team
             }}
           />
           <TouchableOpacity
             style={styles.searchIcon}
-            onPress={async () => {
+            onPress={() => {
               // 640f50743eb329edff23ed
               // 640f2fb730eb329edff23e1
-              await dispatch(searchTeam(enemyTeam)),
-                navigation.navigate('SearchTeamInvite', { sendingData })
+              dispatch(searchTeam(enemyTeam, () => {}, navigation, 'SearchTeamInvite', sendingData))
             }}
           >
             <SearchSvg />
@@ -228,7 +235,6 @@ const CommandLeadNotCreate = ({ route }) => {
               ) : null}
             </View>
           )}
-          {!!formatError && <Text style={styles.errorText}>Заполните поле</Text>}
         </View>
         <View style={styles.dateBox}>
           <DateComponent
@@ -245,7 +251,7 @@ const CommandLeadNotCreate = ({ route }) => {
             size={380}
             navigateTo="CommandLeadNotCreate"
             setAddressName={setAddressName}
-            addressName={addressName}
+            addressName={addresName}
             show={false}
           />
           {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
@@ -286,7 +292,8 @@ const styles = StyleSheet.create({
     height: RH(50),
     alignSelf: 'center',
     flexDirection: 'row',
-    marginVertical: RH(25),
+    marginBottom: RH(10),
+    marginTop: RH(20),
     zIndex: 89,
     borderRadius: RW(10),
     flexDirection: 'row',
@@ -300,15 +307,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: 'red',
-    top: RH(-4),
     left: RW(12),
-    fontSize: RW(16),
-  },
-  price: {
-    color: ICON,
-    width: '100%',
-    textAlign: 'center',
-    paddingHorizontal: RW(9),
     fontSize: RW(16),
   },
   mapIcon: {
@@ -317,6 +316,13 @@ const styles = StyleSheet.create({
   searchTitle: {
     ...font('regular', 16, ICON),
     top: '2%',
+  },
+  price: {
+    color: ICON,
+    width: '100%',
+    textAlign: 'center',
+    paddingHorizontal: RW(9),
+    fontSize: RW(16),
   },
   priceInput: {
     backgroundColor: BACKGROUND,

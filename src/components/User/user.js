@@ -6,7 +6,15 @@ import { TouchableOpacity, View } from 'react-native'
 import Modal from '@/components/modal'
 import { useState } from 'react'
 
-function SvgComponent({ size = RW(100), onPressItem, onPressImg, pressedUser, user }) {
+function SvgComponent({
+  size = RW(100),
+  onPressItem = () => {},
+  visibleBorder = false,
+  setVisibleBorder = () => {},
+  onPressImg,
+  pressedUser,
+  user,
+}) {
   const width = RW(size < 40 ? 40 : size)
   const [modalVisible, setModalVisible] = useState(false)
   const item = (
@@ -108,7 +116,10 @@ function SvgComponent({ size = RW(100), onPressItem, onPressImg, pressedUser, us
 
   return onPressItem ? (
     <TouchableOpacity
-      onPress={() => setModalVisible(true)}
+      onLongPress={() => setModalVisible(true)}
+      onPress={() => {
+        onPressItem?.onClickFunc ? onPressItem?.onClickFunc() : null
+      }}
       style={{
         marginLeft: 'auto',
         marginRight: 'auto',

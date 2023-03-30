@@ -35,10 +35,10 @@ export default StyleSheet.create({
   },
   text: {
     marginVertical: RH(3),
-    width: '85%',
-    ...font('bold', 11, WHITE),
+    width: '100%',
+    ...font('medium', 16, WHITE),
   },
   textBlock: {
-    marginLeft: RW(18),
+    marginLeft: RW(15),
   },
 })

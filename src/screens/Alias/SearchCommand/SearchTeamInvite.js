@@ -1,23 +1,23 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
-import ScreenMask from '@/components/wrappers/screen'
-import BgMyTem from '@/assets/bgMyTem'
 import { WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
+import BgMyTem from '@/assets/bgMyTem'
 import LightButton from '@/assets/imgs/Button'
+import ScreenMask from '@/components/wrappers/screen'
 
 function SearchTeamInvite({ route }) {
   const { findedTeam } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
-  const { sendingData, item } = route.params
-  console.log('sendingData', item)
+  const sendingData = route.params
+  console.log('findedTeamxxx', route.params)
   return (
     <ScreenMask>
       <Text style={styles.title}>Результат поиска</Text>
-      <ScrollView>
+      <ScrollView style={{ flex: 1 }}>
         {findedTeam?.map((item, i) => {
           return (
             <TouchableOpacity
@@ -42,9 +42,13 @@ function SearchTeamInvite({ route }) {
             </TouchableOpacity>
           )
         })}
-        <View style={styles.bottomBtn}>
-          <LightButton label={'Подтвердить'} size={{ width: 260, height: 47 }} />
-        </View>
+        {/* <View style={styles.bottomBtn}>
+        <LightButton
+          label={'Подтвердить'}
+          size={{ width: 260, height: 47 }}
+          onPress={() => navigation.goBack()}
+        />
+      </View> */}
       </ScrollView>
     </ScreenMask>
   )
@@ -83,14 +87,14 @@ const styles = StyleSheet.create({
   text: {
     marginVertical: RH(3),
     width: '85%',
-    ...font('bold', 11, WHITE),
+    ...font('medium', 13, WHITE),
   },
   textBlock: {
     marginLeft: RW(18),
   },
   bottomBtn: {
     position: 'relative',
-    bottom: RH(24),
+    // bottom: RH(24),
     width: '100%',
     alignItems: 'center',
   },

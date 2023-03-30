@@ -9,29 +9,37 @@ import User from '@/components/User/user'
 import EmptyBorderedAvatar from '@/assets/svgs/EmptyBorderedAvatar'
 import LightButton from '@/assets/imgs/Button'
 import Modal from '@/components/modal'
+import { useDispatch } from 'react-redux'
+import { createTeamGame } from '@/store/Slices/TeamSlice'
 const ChoosePlayers = ({ route }) => {
-  const command = route.params
+  const { savedTeam, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
+  const [data, setData] = useState(sendingData)
+  const dispatch = useDispatch()
   const UserItem = ({ elm }) => {
+    //need fetch users in command and show
     const [visible, setVisible] = useState(false)
+    const [choosedUsers, setChoosedUsers] = useState([])
     return (
       <>
-        <Pressable style={styles.eachUser} onPress={() => setVisible(!visible)}>
-          {elm !== 2 ? (
-            //need detect user accept invite or not and set opacity and don't navigate another show modal
-            // <View style={{ opacity: 0.6 }}>
-            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
-              <View style={{ position: 'absolute' }}>
-                <User
-                  size={110}
-                  // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
-                />
-              </View>
+        <Pressable
+          style={styles.eachUser}
+          onPress={() => {
+            // setData({...data, players: ['64219136e3a868ee5e71a799']}),
+            setVisible(!visible)
+          }}
+        >
+          {/* //need detect user accept invite or not and set opacity and don't navigate another show modal */}
+          {/* // <View style={{ opacity: 0.6 }}> */}
+          <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+            <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
+            <View style={{ position: 'absolute' }}>
+              <User
+                size={110}
+                // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
+              />
             </View>
-          ) : (
-            <EmptyBorderedAvatar />
-          )}
+          </View>
         </Pressable>
       </>
     )
@@ -41,17 +49,17 @@ const ChoosePlayers = ({ route }) => {
       <ScrollView showsVerticalScrollIndicator={false} horizontal={false}>
         <View>
           <View style={styles.rowBox}>
-            <Text style={styles.topTitle}>{command?.name}</Text>
+            <Text style={styles.topTitle}>{savedTeam?.name}</Text>
             <Image
               style={styles.commandImg}
-              source={{ uri: _storageUrl + command?.img }}
+              source={{ uri: _storageUrl + savedTeam?.img }}
               resizeMode="cover"
             />
           </View>
           <View style={styles.playersContainer}>
             {/* map in players in team */}
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => {
-              return <UserItem />
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((elm, i) => {
+              return <UserItem key={i} />
             })}
           </View>
         </View>
@@ -59,10 +67,10 @@ const ChoosePlayers = ({ route }) => {
           <LightButton
             label={'Подтвердить'}
             size={{ width: 265, height: 42 }}
-            onPress={() => setModalVisible(true)}
+            onPress={() => dispatch(createTeamGame(data, setModalVisible))}
           />
         </View>
-        {modalVisible && (
+        {!!modalVisible && (
           <Modal
             item={
               <View style={styles.modal}>

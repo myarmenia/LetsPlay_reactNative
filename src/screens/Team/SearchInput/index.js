@@ -18,12 +18,12 @@ function Index() {
 
   //test team id ---> 640b2c8d9f063da9a3cf6b7e
   const handleSeach = () => {
-    dispatch(searchTeam(value, setFindedTeamEmpty, navigation))
+    dispatch(searchTeam(value, setFindedTeamEmpty, navigation, 'TeamSearchRes', null))
   }
 
   return (
     <ScreenMask style={{ paddingHorizontal: RW(32) }}>
-      <Text style={styles.title}> Создать команду</Text>
+      <Text style={styles.title}>Поиск команды</Text>
       <Text style={{ ...font('regular', 16, ICON, 24), marginVertical: RH(20) }}>
         Поиск команды
       </Text>

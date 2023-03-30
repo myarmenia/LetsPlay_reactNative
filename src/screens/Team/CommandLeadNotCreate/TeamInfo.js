@@ -9,13 +9,17 @@ import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 
 const TeamInfo = ({ route }) => {
-  const { sendingData, item } = route.params
+  const { sendingData, gameId } = route.params
   const navigation = useNavigation()
   return (
     <ScreenMask>
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Image source={{ uri: _storageUrl + item.img }} resizeMode="contain" style={styles.img} />
+          <Image
+            source={{ uri: _storageUrl + gameId?.img }}
+            resizeMode="contain"
+            style={styles.img}
+          />
           <Text style={styles.text}>
             Соперник:{' '}
             {sendingData?.enemy_team_name ? sendingData?.enemy_team_name : sendingData?.enemy_team}
@@ -40,7 +44,7 @@ const TeamInfo = ({ route }) => {
           <LightButton
             label={'Далее>>'}
             style={{ width: 166, height: 36 }}
-            onPress={() => navigation.navigate('EditTeamPlayers', { item, sendingData })}
+            onPress={() => navigation.navigate('EditTeamPlayers', { gameId, sendingData })}
           />
         </View>
       </View>

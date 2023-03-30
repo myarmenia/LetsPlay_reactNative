@@ -7,19 +7,21 @@ import CircleAdd from '@/components/buttons/circleAdd'
 import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
+import { setCommands } from '@/store/Slices/AliasSlice'
 
 const Commands = () => {
-  const [commandsCount, setCommands] = useState([
-    { input: 1, value: '' },
-    { input: 2, value: '' },
+  const [commandsCount, setCommandsCount] = useState([
+    { command: 1, value: '' },
+    { command: 2, value: '' },
   ])
   const navigation = useNavigation()
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(saveTeamDataForCreating({}))
   }, [])
+  let i = 0
   return (
     <ScreenMask>
       <View
@@ -37,8 +39,14 @@ const Commands = () => {
                   <View style={styles.inputBlock}>
                     <TextInput
                       style={styles.priceInputText}
-                      placeholder={`Название команды ${elm.input}`}
-                      onChangeText={e => setName(e, elm)}
+                      placeholder={`Название команды ${elm.command}`}
+                      onChangeText={e =>
+                        setCommandsCount([
+                          ...commandsCount.map((elm, ind) => {
+                            return i == ind ? { command: elm.command, value: e } : { ...elm }
+                          }),
+                        ])
+                      }
                       placeholderTextColor={ICON}
                       keyboardType="number-pad"
                     />
@@ -48,11 +56,11 @@ const Commands = () => {
                       onPress={() =>
                         commandsCount.length !== 1
                           ? commandsCount.length == 3
-                            ? setCommands([
-                                { input: 1, value: '' },
-                                { input: 2, value: '' },
+                            ? setCommandsCount([
+                                { command: 1, value: '' },
+                                { command: 2, value: '' },
                               ])
-                            : setCommands([...commandsCount.filter(elem => elm !== elem)])
+                            : setCommandsCount([...commandsCount.filter(elem => elm !== elem)])
                           : null
                       }
                     >
@@ -67,9 +75,9 @@ const Commands = () => {
             <Pressable
               style={styles.addCommandBox}
               onPress={() =>
-                setCommands([
+                setCommandsCount([
                   ...commandsCount,
-                  { input: commandsCount[commandsCount.length - 1].input + 1, value: '' },
+                  { command: commandsCount[commandsCount.length - 1].command + 1, value: '' },
                 ])
               }
             >
@@ -81,7 +89,10 @@ const Commands = () => {
             <LightButton
               label={'Продолжить'}
               size={{ width: 310, height: 45 }}
-              onPress={() => navigation.navigate('QrCode', commandsCount)}
+              onPress={() => {
+                console.log(commandsCount)
+                dispatch(setCommands(commandsCount)), navigation.navigate('QrCode', commandsCount)
+              }}
             />
           </View>
         </View>

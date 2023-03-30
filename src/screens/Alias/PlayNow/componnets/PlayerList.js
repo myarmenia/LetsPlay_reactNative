@@ -5,7 +5,7 @@ import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 
 function PlayerList({ players, isSelected = false, activePlayers = [], setActivePlayers }) {
-  const handlerActiveUser = (id) => {
+  const handlerActiveUser = id => {
     if (isSelected) {
       if (activePlayers.includes(id)) {
         const temp = activePlayers.filter((item, i) => item !== id)
@@ -16,30 +16,28 @@ function PlayerList({ players, isSelected = false, activePlayers = [], setActive
     }
   }
   return (
-    <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-        {players.map((item, i) => (
-          <TouchableOpacity
-            onPress={() => handlerActiveUser(item.id)}
-            key={i}
-            style={activePlayers.includes(item.id) && isSelected ? styles.activeItem : styles.item}
-          >
-            <User
-              size={90}
-              user={item}
-              onPressItem={
-                !isSelected
-                  ? {
-                      item: <User user={item} size={390} />,
-                      modalClose: false,
-                    }
-                  : null
-              }
-            />
-          </TouchableOpacity>
-        ))}
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      {players.map((item, i) => (
+        <TouchableOpacity
+          onPress={() => handlerActiveUser(item.id)}
+          key={i}
+          style={styles.activeItem}
+        >
+          <User
+            size={70}
+            user={item}
+            onPressItem={
+              !isSelected
+                ? {
+                    item: <User user={item} size={390} />,
+                    modalClose: false,
+                  }
+                : null
+            }
+          />
+        </TouchableOpacity>
+      ))}
+    </View>
   )
 }
 
@@ -78,20 +76,14 @@ export const styles = StyleSheet.create({
   },
   container: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    width: '100%',
+    // justifyContent: 'space-evenly',
     flexWrap: 'wrap',
   },
 
-  item: {
-    padding: RW(3),
-    marginTop: RH(30),
-  },
   activeItem: {
     padding: RW(3),
-    marginTop: RH(30),
-    borderWidth: 1,
-    borderColor: '#7DCE8A',
-    borderRadius: RW(15),
+    marginTop: RH(5),
   },
 })
 

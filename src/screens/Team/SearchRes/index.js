@@ -10,6 +10,7 @@ import BgMyTem from '@/assets/bgMyTem'
 function Index() {
   const { findedTeam } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
+  console.log('findedTeam', findedTeam)
 
   return (
     <ScreenMask>

@@ -12,7 +12,7 @@ import { createTeamGame } from '@/store/Slices/TeamSlice'
 import { useDispatch } from 'react-redux'
 
 const EditTeamPlayers = ({ route }) => {
-  const { item, sendingData } = route.params
+  const { gameId, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
   const [acceptedPlayers, setAcceptedPlayers] = useState([1])
 
@@ -27,7 +27,7 @@ const EditTeamPlayers = ({ route }) => {
           </Text>
           <Image
             style={styles.commandImg}
-            source={{ uri: _storageUrl + item?.img }}
+            source={{ uri: _storageUrl + gameId?.img }}
             resizeMode="cover"
           />
         </View>

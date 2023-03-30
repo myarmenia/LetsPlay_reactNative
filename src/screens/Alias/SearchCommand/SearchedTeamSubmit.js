@@ -1,9 +1,9 @@
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import style from './styles'
+
 import Button from '@/assets/imgs/Button'
-import { BLACK } from '@/theme/colors'
+import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
@@ -11,7 +11,7 @@ import { _storageUrl } from '@/constants'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import Modal from '@/components/modal'
-import { joinInTeam } from '@/store/Slices/TeamSlice'
+import { joinInTeam, setFindedTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
 
 function SearchedTeamSubmit({ route }) {
@@ -21,6 +21,7 @@ function SearchedTeamSubmit({ route }) {
   const dispatch = useDispatch()
   //640b2c8d9f063da9a3cf6b7e
   const handleJoin = () => {
+    dispatch(setFindedTeam(item))
     navigation.navigate('CommandLeadNotCreate', item)
   }
   return (
@@ -83,3 +84,68 @@ function SearchedTeamSubmit({ route }) {
 }
 
 export default SearchedTeamSubmit
+const style = StyleSheet.create({
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(50),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
+  },
+  team: {
+    textAlign: 'center',
+    ...font('bold', 22, WHITE, 27),
+    marginTop: RH(39),
+    marginBottom: RH(57),
+  },
+  textLined: {
+    ...font('bold', 14, WHITE, 20),
+    marginVertical: RH(10),
+    textDecorationLine: 'underline',
+  },
+  imageBlock: {
+    width: RW(240),
+    height: RW(240),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: RH(33),
+    borderWidth: 1,
+    borderRadius: RW(150),
+    borderColor: WHITE,
+  },
+  image: {
+    borderWidth: 1,
+    borderRadius: RW(150),
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  text: {
+    ...font('bold', 14, WHITE, 20),
+    marginTop: RH(5),
+  },
+
+  line: {
+    width: RW(130),
+    height: RH(1),
+    backgroundColor: 'white',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: RH(45),
+  },
+  btns: {
+    marginTop: RH(150),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  btn: {
+    marginTop: 'auto',
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: RH(64),
+  },
+})
