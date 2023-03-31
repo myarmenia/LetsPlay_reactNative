@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image, Pressable } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import { font, RH, RW } from '@/theme/utils'
@@ -11,8 +19,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
-import { setLoader, setSendAnswer, setWaitNight } from '@/store/Slices/MafiaSlice'
+import {
+  setLoader,
+  setQuestionTruthfulness,
+  setSendAnswer,
+  setWaitNight,
+} from '@/store/Slices/MafiaSlice'
 import UserBorderSvg from './assets/UserBorderSvg'
+import { io } from 'socket.io-client'
 
 const PlayMafia = () => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -23,13 +37,13 @@ const PlayMafia = () => {
   const {
     mafiaRole,
     players,
-    voteTime,
     roles,
     mafiaUsersId,
     mafiasCount,
     civiliansCount,
     night,
     answerQuestions,
+    questionTruthfulness,
   } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
   let mafiaImgPath = roles?.find((item) => (item.name = 'Мафия'))?.img
@@ -38,14 +52,14 @@ const PlayMafia = () => {
     setModalVisible(true)
   }, [])
   useEffect(() => {
-    if (answers < answerQuestions.length) {
+    if (night && answers < answerQuestions.length) {
       setChoosable(true)
-    } else {
+    } else if (answers == answerQuestions.length) {
       dispatch(setWaitNight(false))
       dispatch(setLoader(true))
       setChoosable(false)
     }
-  }, [answers, answerQuestions])
+  }, [answers, answerQuestions, night])
 
   return (
     <ScreenMask>
@@ -85,7 +99,7 @@ const PlayMafia = () => {
           </>
         )}
 
-        <Time voteTime={voteTime} />
+        <Time />
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
           <View
             style={{
@@ -98,26 +112,42 @@ const PlayMafia = () => {
             }}
           >
             {players?.map((item, i) => (
-              <Pressable
-                style={{ padding: RW(10), margin: RW(10), position: 'relative' }}
-                key={i}
-                onPress={() => {
-                  if (choosable) {
-                    setChoosedUsers(item._id)
-                  }
-                }}
-              >
-                {choosedUsers === item._id ? (
+              <View style={{ padding: RW(10), margin: RW(10), position: 'relative' }} key={i}>
+                {choosedUsers === item?._id ? (
                   <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-                    <UserBorderSvg />
+                    {!questionTruthfulness ? (
+                      <UserBorderSvg />
+                    ) : (
+                      <View
+                        style={{
+                          width: '80%',
+                          height: '100%',
+                          alignSelf: 'center',
+                          borderWidth: 2,
+                          borderRadius: 10,
+                          borderColor: questionTruthfulness.truthfulness ? '#74C372' : '#F73934',
+                        }}
+                      />
+                    )}
                   </View>
                 ) : null}
 
-                {mafiaUsersId?.find((id) => id == item._id) ? (
+                {mafiaUsersId?.find((id) => id == item?._id) ? (
                   <Image style={styles.mafiaImg} source={{ uri: _storageUrl + mafiaImgPath }} />
                 ) : null}
-                <User size={90} user={item} />
-              </Pressable>
+                <User
+                  onPressItem={{
+                    onClickFunc: () => {
+                      console.log(choosable)
+                      if (choosable) {
+                        setChoosedUsers(item?._id)
+                      }
+                    },
+                  }}
+                  size={90}
+                  user={item}
+                />
+              </View>
             ))}
           </View>
         </ScrollView>
@@ -133,18 +163,18 @@ const PlayMafia = () => {
               if (!night) {
                 dispatch(setLoader(true))
                 dispatch(setWaitNight(!night))
-              } else {
-                if (choosedUsers) {
-                  setAnswers(answers + 1)
-                  setChoosedUsers(null)
-                  dispatch(
-                    setSendAnswer({
-                      type: 'answer_question',
-                      question_id: answerQuestions[answers]?._id,
-                      mafia_user_ids: choosedUsers,
-                    }),
-                  )
-                }
+              } else if (Object.keys(questionTruthfulness || {}).length) {
+                dispatch(setQuestionTruthfulness(null))
+                setAnswers(answers + 1)
+                setChoosedUsers(null)
+              } else if (choosedUsers) {
+                dispatch(
+                  setSendAnswer({
+                    type: 'answer_question',
+                    question_id: answerQuestions[answers]?._id,
+                    select_user: choosedUsers,
+                  }),
+                )
               }
             }}
           />

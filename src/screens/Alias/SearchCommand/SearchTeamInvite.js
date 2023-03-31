@@ -14,6 +14,7 @@ function SearchTeamInvite({ route }) {
   const navigation = useNavigation()
   const sendingData = route.params
   console.log('findedTeamxxx', route.params)
+
   return (
     <ScreenMask>
       <Text style={styles.title}>Результат поиска</Text>

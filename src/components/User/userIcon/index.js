@@ -181,7 +181,7 @@ function Index({ size, onPressImg, userProps }) {
           if (vk_uri) {
             Linking.openURL(vk_uri)
           } else if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }

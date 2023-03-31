@@ -21,6 +21,8 @@ const initialState = {
   night: false,
   answerQuestions: [],
   sendAnswer: {},
+  questionTruthfulness: null,
+  waitNight: null,
 }
 
 export const MafiaSlice = createSlice({
@@ -141,6 +143,12 @@ export const MafiaSlice = createSlice({
         sendAnswer: action.payload,
       }
     },
+    setQuestionTruthfulness: (store, action) => {
+      return {
+        ...store,
+        questionTruthfulness: action.payload,
+      }
+    },
   },
 })
 
@@ -229,5 +237,6 @@ export const {
   setWaitNight,
   setAnswerQuestions,
   setSendAnswer,
+  setQuestionTruthfulness,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer
