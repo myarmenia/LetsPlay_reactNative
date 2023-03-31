@@ -22,6 +22,7 @@ const initialState = {
   answerQuestions: [],
   sendAnswer: {},
   questionTruthfulness: null,
+  waitNight: null,
 }
 
 export const MafiaSlice = createSlice({

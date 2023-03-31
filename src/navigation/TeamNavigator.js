@@ -25,6 +25,7 @@ import SearchedTeamSubmit from '@/screens/Alias/SearchCommand/SearchedTeamSubmit
 import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLeadNotCreate'
 import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
 import TeamInfo from '@/screens/Team/CommandLeadNotCreate/TeamInfo'
+import EditTeamPlayers from '@/screens/Team/CommandLeadNotCreate/EditTeamPlayers'
 const Stack = createNativeStackNavigator()
 
 function Index() {
@@ -55,6 +56,7 @@ function Index() {
       <Stack.Screen name="SearchTeam" component={SearchInput} />
       <Stack.Screen name="TeamSearchRes" component={SearchRes} />
       <Stack.Screen name="TeamInfo" component={TeamInfo} />
+      <Stack.Screen name="EditTeamPlayers" component={EditTeamPlayers} />
     </Stack.Navigator>
   )
 }

@@ -132,12 +132,14 @@ function SvgComponent({
           position: 'absolute',
         }}
       >
-        <Modal
-          modalVisible={modalVisible}
-          modalClose={onPressItem.modalClose}
-          item={onPressItem.item}
-          setIsVisible={setModalVisible}
-        />
+        {onPressItem.item ? (
+          <Modal
+            modalVisible={modalVisible}
+            modalClose={onPressItem.modalClose}
+            item={onPressItem.item}
+            setIsVisible={setModalVisible}
+          />
+        ) : null}
       </View>
     </TouchableOpacity>
   ) : (
