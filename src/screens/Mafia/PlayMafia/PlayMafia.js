@@ -1,13 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { View, Text, StyleSheet, ScrollView, Image, Pressable } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import { font, RH, RW } from '@/theme/utils'
@@ -20,19 +12,24 @@ import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
 import {
+  setAnswerQuestions,
   setLoader,
   setQuestionTruthfulness,
   setSendAnswer,
   setWaitNight,
 } from '@/store/Slices/MafiaSlice'
 import UserBorderSvg from './assets/UserBorderSvg'
-import { io } from 'socket.io-client'
+import MafiaDeadModal from './components/MafiaDeadModal'
 
 const PlayMafia = () => {
   const [modalVisible, setModalVisible] = useState(false)
+  const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [answers, setAnswers] = useState(1)
   const [choosable, setChoosable] = useState(false)
   const [choosedUsers, setChoosedUsers] = useState(null)
+  const [nightQueastions, setNightQueastions] = useState([])
+  const [dayQueastions, setDayQueastions] = useState([])
+  const daysCountRef = useRef(1)
 
   const {
     mafiaRole,
@@ -44,6 +41,7 @@ const PlayMafia = () => {
     night,
     answerQuestions,
     questionTruthfulness,
+    deadUsers,
   } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
   let mafiaImgPath = roles?.find((item) => (item.name = 'Мафия'))?.img
@@ -52,14 +50,35 @@ const PlayMafia = () => {
     setModalVisible(true)
   }, [])
   useEffect(() => {
-    if (night && answers < answerQuestions.length) {
+    if (night && answers < nightQueastions.length) {
       setChoosable(true)
-    } else if (answers == answerQuestions.length) {
+    } else if (night && answers == nightQueastions.length) {
+      // dispatch(setAnswerQuestions([]))
+      setAnswers(1)
       dispatch(setWaitNight(false))
+      dispatch(setLoader(true))
+      setChoosable(false)
+    } else if (!night && answers < dayQueastions.length && daysCountRef > 1) {
+      console.log('answers', answers)
+      setChoosable(true)
+    } else if (night && answers == dayQueastions.length) {
+      // dispatch(setAnswerQuestions([]))
+      setAnswers(1)
+      dispatch(setWaitNight(true))
       dispatch(setLoader(true))
       setChoosable(false)
     }
   }, [answers, answerQuestions, night])
+  useEffect(() => {
+    if (deadUsers.length) {
+      setDeadModalVisible(true)
+    }
+  }, [deadUsers])
+
+  useEffect(() => {
+    setNightQueastions(answerQuestions.filter((item) => item.night))
+    setDayQueastions(answerQuestions.filter((item) => !item.night))
+  }, [answerQuestions])
 
   return (
     <ScreenMask>
@@ -81,6 +100,9 @@ const PlayMafia = () => {
               </Pressable>
             </View>
             <Text style={styles.morningText}>Утро</Text>
+            <View>
+              <Text style={styles.question}>{dayQueastions[0]?.question}</Text>
+            </View>
           </>
         ) : (
           <>
@@ -91,11 +113,11 @@ const PlayMafia = () => {
             >
               <VectorIcon />
             </Pressable>
-            <View>
-              {answers < answerQuestions.length ? (
-                <Text style={styles.question}>{answerQuestions[answers].question}</Text>
-              ) : null}
-            </View>
+            {daysCountRef.current > 1 ? (
+              <View>
+                <Text style={styles.question}>{nightQueastions[answers]?.question}</Text>
+              </View>
+            ) : null}
           </>
         )}
 
@@ -112,7 +134,15 @@ const PlayMafia = () => {
             }}
           >
             {players?.map((item, i) => (
-              <View style={{ padding: RW(10), margin: RW(10), position: 'relative' }} key={i}>
+              <View
+                style={{
+                  padding: RW(5),
+                  margin: RW(5),
+                  position: 'relative',
+                  opacity: item?.status ? 1 : 0.5,
+                }}
+                key={i}
+              >
                 {choosedUsers === item?._id ? (
                   <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
                     {!questionTruthfulness ? (
@@ -138,8 +168,8 @@ const PlayMafia = () => {
                 <User
                   onPressItem={{
                     onClickFunc: () => {
-                      console.log(choosable)
-                      if (choosable) {
+                      console.log(daysCountRef.current)
+                      if (choosable || daysCountRef.current > 1) {
                         setChoosedUsers(item?._id)
                       }
                     },
@@ -155,23 +185,31 @@ const PlayMafia = () => {
           <LightButton
             size={{ width: RW(281), height: RH(48) }}
             labelStyle={styles.invitePlayers}
-            label={!night ? 'Ночь' : 'Подтвердить'}
+            label={
+              !night && daysCountRef.current > 1 ? 'Голосовать' : !night ? 'Ночь' : 'Подтвердить'
+            }
             white={'white'}
             background={'#7DCE8A'}
             bgColor={'#4D7CFE'}
             onPress={() => {
-              if (!night) {
+              if (!night && daysCountRef.current == 1) {
+                daysCountRef.current = 2
                 dispatch(setLoader(true))
                 dispatch(setWaitNight(!night))
               } else if (Object.keys(questionTruthfulness || {}).length) {
                 dispatch(setQuestionTruthfulness(null))
                 setAnswers(answers + 1)
                 setChoosedUsers(null)
+                if (!night && daysCountRef.current > 1) {
+                  dispatch(setLoader(true))
+                  dispatch(setWaitNight(true))
+                }
               } else if (choosedUsers) {
+                console.log('choosedUser' + choosedUsers)
                 dispatch(
                   setSendAnswer({
                     type: 'answer_question',
-                    question_id: answerQuestions[answers]?._id,
+                    question_id: night ? nightQueastions[answers]?._id : dayQueastions[0]?._id,
                     select_user: choosedUsers,
                   }),
                 )
@@ -181,6 +219,7 @@ const PlayMafia = () => {
         </View>
       </View>
       <MafiaModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <MafiaDeadModal modalVisible={deadModalVisible} setModalVisible={setDeadModalVisible} />
     </ScreenMask>
   )
 }
@@ -205,7 +244,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
     width: RW(330),
-    height: RH(600),
+    height: RH(500),
   },
   youPlaceMen: {
     flexDirection: 'row',

@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { Linking, Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
@@ -8,7 +8,6 @@ import { RH } from '@/theme/utils'
 import User from '@/components/User/user'
 import LogoSvg from '@/assets/LogoSvg'
 import { useNavigation } from '@react-navigation/native'
-import Time from '../Mafia/PlayMafia/components/Time'
 
 const HomeScreen = () => {
   const navigation = useNavigation()
