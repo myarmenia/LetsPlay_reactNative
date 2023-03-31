@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
-import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
+import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import CircleAdd from '@/components/buttons/circleAdd'
 import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
 import LightButton from '@/assets/imgs/Button'
@@ -18,10 +18,24 @@ const Commands = () => {
   ])
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  const [error, setError] = useState(false)
   useEffect(() => {
     dispatch(saveTeamDataForCreating({}))
   }, [])
-  let i = 0
+  const handleSubmit = () => {
+    let empty = 0
+    for (let elem of commandsCount) {
+      if (!elem.value) {
+        empty++
+      }
+    }
+    if (empty !== 0) {
+      setError(true)
+    } else {
+      setError(false)
+      dispatch(setCommands(commandsCount)), navigation.navigate('QrCode', commandsCount)
+    }
+  }
   return (
     <ScreenMask>
       <View
@@ -85,14 +99,12 @@ const Commands = () => {
               <Text style={styles.addCommandText}>Добавить еще</Text>
             </Pressable>
           ) : null}
+          {error && <Text style={styles.errorText}>Заполните все поля</Text>}
           <View style={{ paddingTop: RH(30) }}>
             <LightButton
               label={'Продолжить'}
               size={{ width: 310, height: 45 }}
-              onPress={() => {
-                console.log(commandsCount)
-                dispatch(setCommands(commandsCount)), navigation.navigate('QrCode', commandsCount)
-              }}
+              onPress={handleSubmit}
             />
           </View>
         </View>
@@ -138,5 +150,8 @@ const styles = StyleSheet.create({
   },
   addCommandText: {
     ...font('regular', 12, WHITE),
+  },
+  errorText: {
+    ...font('regular', 17, RED, 24),
   },
 })

@@ -8,7 +8,7 @@ import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { useEffect } from 'react'
 import { TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import LinearGradient from 'react-native-linear-gradient'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
@@ -19,17 +19,45 @@ const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const { commands } = useSelector(({ alias }) => alias)
   const [selecteds, setSelecteds] = useState([])
+  const [accepteds, setAccepteds] = useState([])
   const [i, setI] = useState(0)
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
 
-  useEffect(() => {
-    i == commands?.length ? navigation.navigate('PlayNow') : null
-    setSelecteds([])
-  }, [i])
   useEffect(() => {
     setI(0)
-  }, [])
+  }, [isFocused])
 
+  useEffect(() => {
+    if (i >= commands?.length) {
+      navigation.navigate('PlayNow')
+    }
+  }, [i])
+
+  const handleApply = () => {
+    setAccepteds([...selecteds])
+    setSelecteds([])
+    setI(i + 1)
+    setAccepteds(selecteds)
+    dispatch(
+      setCommands([
+        ...commands.map(elm => {
+          return elm?.command - 1 == i ? { ...elm, members: selecteds } : elm
+        }),
+      ]),
+    )
+  }
+  let [users, setUsers] = useState([
+    { id: 0, f: '' },
+    { id: 1, f: '' },
+    { id: 2, f: '' },
+    { id: 3, f: '' },
+    { id: 4, f: '' },
+    { id: 5, f: '' },
+    { id: 6, f: '' },
+    { id: 7, f: '' },
+    { id: 8, f: '' },
+  ])
   const UserItem = ({ elm, i }) => {
     const handleClick = () => {
       if (selecteds.some(item => item == elm.id)) {
@@ -44,7 +72,11 @@ const IniviteTeamPlayers = ({ route }) => {
         <BorderGradient
           height={142}
           width={105}
-          opacity={selecteds.some(elm => elm == i) ? 1 : 0}
+          opacity={
+            selecteds.some(elm => elm == i) && !commands?.[i]?.members?.find(item => item == elm.id)
+              ? 1
+              : 0
+          }
         />
         <View style={{ position: 'absolute', zIndex: 65 }}>
           <User
@@ -52,7 +84,10 @@ const IniviteTeamPlayers = ({ route }) => {
             onPressItem={{
               item: <User size={390} />,
               modalClose: false,
-              onClickFunc: handleClick,
+              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
+              onClickFunc: commands?.[i]?.members?.find(item => item == elm.id)
+                ? null
+                : handleClick,
             }}
           />
         </View>
@@ -70,18 +105,17 @@ const IniviteTeamPlayers = ({ route }) => {
             <Text style={styles.commandName}>{commands[i]?.value}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
-                {[
-                  { id: 0, f: '' },
-                  { id: 1, f: '' },
-                  { id: 2, f: '' },
-                  { id: 3, f: '' },
-                  { id: 4, f: '' },
-                  { id: 5, f: '' },
-                  { id: 6, f: '' },
-                  { id: 7, f: '' },
-                  { id: 8, f: '' },
-                ].map((elm, i) => {
-                  return <UserItem i={i} elm={elm} key={elm.id} />
+                {users.map((elm, j) => {
+                  return (
+                    <View
+                      style={{
+                        opacity: commands?.[i]?.members?.find(item => item == elm.id) ? 0.5 : 1,
+                      }}
+                    >
+                      {console.log(commands?.[i]?.members?.find(item => item == elm.id))}
+                      <UserItem i={j} elm={elm} key={j} />
+                    </View>
+                  )
                 })}
               </View>
             </ScrollView>
@@ -102,16 +136,7 @@ const IniviteTeamPlayers = ({ route }) => {
             <LightButton
               label={'Продолжить'}
               size={{ width: RW(310), height: RH(50) }}
-              onPress={() => {
-                setI(i + 1),
-                  dispatch(
-                    setCommands([
-                      ...commands.map(elm => {
-                        return elm?.command - 1 == i ? { ...elm, members: selecteds } : elm
-                      }),
-                    ]),
-                  )
-              }}
+              onPress={handleApply}
             />
           </View>
           <View style={styles.btnBox}>
