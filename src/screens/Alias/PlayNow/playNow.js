@@ -2,12 +2,10 @@ import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
-import { BTN_TEXT, ICON, LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
-import DarkButton from '@/assets/imgs/DarkButton'
-import { Players } from '@/assets/TestData'
-import PlayerList from './componnets/PlayerList'
+import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 
 const PlayNow = () => {
@@ -22,7 +20,23 @@ const PlayNow = () => {
               return (
                 <View key={i}>
                   <Text style={styles.commandName}>{elm.value}</Text>
-                  <PlayerList players={Players} />
+                  <View style={styles.eachCommandBox}>
+                    {elm?.members?.map(user => {
+                      return (
+                        <View>
+                          {/* pass user in User component with pressed user prop */}
+                          <User
+                            size={70}
+                            onPressItem={{
+                              item: <User size={390} />,
+                              modalClose: false,
+                              // onClickFunc: handleClick,
+                            }}
+                          />
+                        </View>
+                      )
+                    })}
+                  </View>
                 </View>
               )
             })}
@@ -37,7 +51,7 @@ const PlayNow = () => {
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
-              // onPress={() => navigation.navigate('InviteTeamPlayers')}
+              onPress={() => navigation.navigate('GameStart')}
             />
           </View>
         </View>
@@ -78,6 +92,10 @@ const styles = StyleSheet.create({
   },
   commandsConatainer: {
     paddingTop: RH(100),
+  },
+  eachCommandBox: {
+    flexDirection: 'row',
+    paddingVertical: RH(10),
   },
 })
 export default PlayNow
