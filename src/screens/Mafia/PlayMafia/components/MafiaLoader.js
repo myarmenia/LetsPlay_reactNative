@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import LoaderSvg from '../assets/LoaderSvg'
 import { RH } from '@/theme/utils'
 
-const MafiaLoader = () => {
+const MafiaLoader = ({ background = true }) => {
   const { loader } = useSelector(({ mafia }) => mafia)
 
   const rotateAnimation = new Animated.Value(0)
@@ -53,7 +53,7 @@ const MafiaLoader = () => {
         left: -40,
         right: -40,
         paddingHorizontal: 40,
-        backgroundColor: 'rgba(0,0,0,0.7)',
+        backgroundColor: background ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0)',
       }}
     >
       {/* <ActivityIndicator size="large" color={'#fff'} /> */}

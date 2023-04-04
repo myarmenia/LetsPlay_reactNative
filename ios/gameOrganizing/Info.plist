@@ -73,8 +73,6 @@
 	<string>NSSiriUsageDescription</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>NSSpeechRecognitionUsageDescription</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>NSUserTrackingUsageDescription</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Black.ttf</string>

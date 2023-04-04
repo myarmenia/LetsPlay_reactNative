@@ -53,17 +53,6 @@ export const useGameSocketHelper = (socket) => {
     }
   }, [sendAnswer])
 
-  // useEffect(() => {
-  //   console.log('mafiaGameId useEffect', mafiaGameId)
-  //   if (!mafiaGameId) {
-  //     console.log('mafiaGameId useEffect disconnect')
-  //     socket?.disconnect()
-  //   } else {
-  //     console.log('mafiaGameId useEffect connect')
-  //     socket?.connect()
-  //   }
-  // }, [mafiaGameId, socket])
-
   useEffect(() => {
     if (socket && !isMounted.current) {
       isMounted.current = true
@@ -77,6 +66,7 @@ export const useGameSocketHelper = (socket) => {
             dispatch(setMafiaRole(e?.data?.role))
             dispatch(setVoteTime(e?.vote_time))
             dispatch(setAnswerQuestions(e?.data?.role?.answer_question))
+            dispatch(setLoader(false))
             navigation.navigate('PlayMafia')
             break
           case 'user_count':

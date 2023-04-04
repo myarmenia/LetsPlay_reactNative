@@ -26,7 +26,6 @@ const PlayMafia = () => {
   const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [winnerModal, setWinnerModal] = useState(false)
   const [currentUserDeaded, setCurrentUserDeaded] = useState(false)
-
   const [answers, setAnswers] = useState(1)
   const [choosable, setChoosable] = useState(false)
   const [choosedUsers, setChoosedUsers] = useState(null)
