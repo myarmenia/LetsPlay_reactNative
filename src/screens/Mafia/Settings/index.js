@@ -8,7 +8,7 @@ import ToggleSwitch from '@/components/ToggleSwitch'
 import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import { useDispatch, useSelector } from 'react-redux'
-import { postSettings, setMafiaSocketOn } from '@/store/Slices/MafiaSlice'
+import { postSettings, setMafiaSocketOn, setOrganizer } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import ModalRules from '../QrCode/ModalRules'
 import Modal from '@/components/modal'
@@ -22,28 +22,10 @@ function Index() {
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  // const socket = io(`wss://to-play.ru/mafia?room=${mafiaGameId}`, {
-  //   transportOptions: {
-  //     polling: {
-  //       extraHeaders: {
-  //         Authorization: token,
-  //       },
-  //     },
-  //   },
-  // })
   useEffect(() => {
     if (qrLink) {
       navigation.navigate('QrCode')
       dispatch(setMafiaSocketOn(true))
-      // socket.on('message', (e) => {
-      //   console.log('mafia socket message', e)
-      // })
-      // return () => {
-      //   socket.off('message', (e) => {
-      //     console.log('off message', e)
-      //   })
-      // }
-      // mafiaSocket()
     }
   }, [qrLink])
   useEffect(() => {
@@ -76,7 +58,6 @@ function Index() {
 
         <Text style={styles.time}>{valWord}</Text>
       </Row>
-
       <Slider
         step={1}
         count={5}
@@ -117,6 +98,7 @@ function Index() {
                 spy_and_don: spyDon,
               }),
             )
+            dispatch(setOrganizer(true))
           }}
           size={styles.btn}
           label={'Продолжить'}

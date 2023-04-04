@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
@@ -9,53 +9,55 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import PlayerList from './componnets/PlayerList'
 import { setAddPlayersError, startGame } from '@/store/Slices/MafiaSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import ErrorModal from './componnets/ErrorModal'
 
 const AddPlayers = () => {
+  const [errorModal, setErrorModal] = useState(false)
+  const { mafiaGameId, players, addPlayersError } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const { mafiaGameId, players, addPlayersError } = useSelector(({ mafia }) => mafia)
   useEffect(() => {
     dispatch(setAddPlayersError(null))
     return () => {
       dispatch(setAddPlayersError(null))
     }
   }, [])
+
+  useEffect(() => {
+    if (addPlayersError) {
+      setErrorModal(true)
+    }
+  }, [addPlayersError])
   return (
     <ScreenMask>
-      <View>
-        <View style={styles.common}>
-          <Text style={styles.title}>Игроки добавились в игру</Text>
-
-          <Text style={styles.errorMessage}>
-            {addPlayersError && 'Mafia game players minimum lenght must be 5'}
-          </Text>
-
-          <PlayerList players={players} />
+      <View style={styles.common}>
+        <Text style={styles.title}>Игроки добавились в игру</Text>
+        <PlayerList players={players} />
+        <View>
+          <View style={{ marginTop: RH(20), marginBottom: RH(20) }}>
+            <LightButton
+              size={{ width: 281, height: 48 }}
+              labelStyle={styles.countinue}
+              label={'Продолжить'}
+              white={'white'}
+              background={'#7DCE8A'}
+              bgColor={'#4D7CFE'}
+              onPress={() => {
+                console.log('startGame mafiaGameId', mafiaGameId)
+                dispatch(startGame(mafiaGameId))
+              }}
+            />
+          </View>
           <View>
-            <View style={{ marginTop: RH(20), marginBottom: RH(20) }}>
-              <LightButton
-                size={{ width: 281, height: 48 }}
-                labelStyle={styles.countinue}
-                label={'Продолжить'}
-                white={'white'}
-                background={'#7DCE8A'}
-                bgColor={'#4D7CFE'}
-                onPress={() => {
-                  console.log('startGame mafiaGameId', mafiaGameId)
-                  dispatch(startGame(mafiaGameId))
-                }}
-              />
-            </View>
-            <View>
-              <DarkButton
-                onPress={() => navigation.goBack()}
-                size={{ width: 281, height: 48 }}
-                label={'Пригласить игроков'}
-              />
-            </View>
+            <DarkButton
+              onPress={() => navigation.goBack()}
+              size={{ width: 281, height: 48 }}
+              label={'Пригласить игроков'}
+            />
           </View>
         </View>
       </View>
+      <ErrorModal modalVisible={errorModal} setModalVisible={setErrorModal} />
     </ScreenMask>
   )
 }
@@ -82,11 +84,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     ...font('bold', 24, WHITE),
     marginTop: RH(30),
-  },
-  errorMessage: {
-    textAlign: 'center',
-    ...font('bold', 20, 'red'),
-    marginVertical: RH(10),
   },
   scroll: {
     marginRight: 'auto',
@@ -136,7 +133,6 @@ const styles = StyleSheet.create({
   },
   draggableBox: {
     position: 'absolute',
-    // borderRadius: 10,
   },
   detail: {
     width: 50,
