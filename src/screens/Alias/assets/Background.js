@@ -2,13 +2,20 @@ import * as React from 'react'
 import { Image, ImageBackground, SafeAreaView, View } from 'react-native'
 import Background from './background.jpg'
 
-function AliasBackground({ children }) {
+function AliasBackground({ children, style = {} }) {
   return (
     <ImageBackground
       source={Background}
-      style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+      resizeMode="cover"
+      style={{
+        height: '100%',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+      }}
     >
-      <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
+      <SafeAreaView style={style}>{children}</SafeAreaView>
     </ImageBackground>
   )
 }

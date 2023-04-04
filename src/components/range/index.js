@@ -1,77 +1,80 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View } from 'react-native'
-import { styles } from './style'
+import { Text, View, StyleSheet } from 'react-native'
 import Slider from '@react-native-community/slider'
 import CircleSlide from '@/assets/imgs/CircleSlide.png'
+import { RH, RW, font } from '@/theme/utils'
+import { WHITE } from '@/theme/colors'
 
-function Index({ step, minVal, maxValue, val, setVal }) {
-  const [steps, setSteps] = useState([])
-  const p = maxValue / 100
-
-  useEffect(() => {
-    const temp = []
-    const stetCount = maxValue / step
-    let res = 0
-    for (let i = 0; i < step; i++) {
-      res = res + stetCount
-      if (i === 0 && minVal >= res) {
-        continue
+function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, style = {} }) {
+  const renderScaleLabels = () => {
+    const labels = () => {
+      let newArr = []
+      for (let i = 1; i <= maxValue / count; i++) {
+        newArr.push(i * count)
       }
-      temp.push(res)
+      return newArr
     }
-    setSteps(temp)
-  }, [])
+    return labels().map((label, index) => (
+      <Text
+        key={index}
+        style={[styles.scaleLabel, { left: label == 80 && index == 1 ? '-50%' : 0 }, style]}
+      >
+        {label == 40 ? 50 : label}
+      </Text>
+    ))
+  }
 
   return (
-    <View style={{ width: '100%', alignItems: 'center' }}>
-      <Slider
-        style={{
-          left: 0,
-          width: '100%',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-        }}
-        onValueChange={(ev) => {
-          setVal(
-            Math.floor(
-              Math.round(ev * 100 * p) <= steps[0]
-                ? Math.round(ev * 100 * p) / (steps[0] / minVal) + minVal
-                : Math.round(ev * 100 * p),
-            ),
-          )
-        }}
-        minimumTrackTintColor="#4D7CFE"
-        maximumTrackTintColor="rgba(255, 0, 0, 0.01)"
-        thumbImage={CircleSlide}
-      />
-
-      <View style={styles.body}>
-        {steps.map((item, i) => (
-          <View key={i} style={{ ...styles.stepBody, width: `${100 / steps.length - 0.5}%` }}>
-            <View style={styles.stepFon} />
-            <View
-              style={{
-                flexDirection: 'row',
-                width: '100%',
-                borderColor: 'red',
-                justifyContent: i === 0 ? 'space-between' : 'flex-end',
-              }}
-            >
-              {i === 0 ? <Text style={{ ...styles.stepText, left: 0 }}>{minVal}</Text> : null}
-              <Text
-                style={{
-                  ...styles.stepText,
-                  left: item === steps[steps.length - 1] ? '85%' : '95%',
-                }}
-              >
-                {item}
-              </Text>
-            </View>
-          </View>
-        ))}
+    <View style={styles.container}>
+      <View style={styles.sliderContainer}>
+        <Slider
+          style={styles.slider}
+          minimumValue={minValue}
+          maximumValue={maxValue}
+          step={step}
+          value={value}
+          minimumTrackTintColor="#4d7cfe"
+          maximumTrackTintColor="#ccc"
+          thumbImage={CircleSlide}
+          onValueChange={newValue => setValue(newValue)}
+        />
       </View>
+      <View style={styles.scaleLabelsContainer}>{renderScaleLabels()}</View>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+  },
+  sliderContainer: {
+    width: '100%',
+    height: RH(50),
+    justifyContent: 'center',
+  },
+  slider: {
+    width: '105%',
+    alignSelf: 'center',
+    height: RH(20),
+  },
+  scaleLabelsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    width: '95%',
+  },
+  scaleLabel: {
+    ...font('regular', 12, WHITE),
+    color: WHITE,
+
+    paddingHorizontal: RW(28),
+  },
+  selectedValue: {
+    marginTop: RH(10),
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+})
 
 export default Index

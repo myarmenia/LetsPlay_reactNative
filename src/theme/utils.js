@@ -12,6 +12,7 @@ import {
   FONT_EXO_BOLD,
   FONT_OPEN_SANS,
   FONT_OPEN_SANS_MEDIUM,
+  FONT_ITNER_ITALIC,
 } from './fonts'
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
@@ -54,6 +55,8 @@ const getFontFamily = fontFamily => {
       return FONT_OPEN_SANS
     case 'openSans_medium':
       return FONT_OPEN_SANS_MEDIUM
+    case 'Italic':
+      return FONT_ITNER_ITALIC
   }
 }
 /**

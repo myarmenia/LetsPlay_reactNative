@@ -4,6 +4,7 @@ const initialState = {
   rules: '',
   qrGame: false,
   commands: null,
+  minutesInGame: 0,
 }
 
 export const AliasSlice = createSlice({
@@ -13,8 +14,11 @@ export const AliasSlice = createSlice({
     setCommands: (store, action) => {
       return { ...store, commands: action.payload }
     },
+    setMinutes: (store, action) => {
+      return { ...store, minutesInGame: action.payload }
+    },
   },
 })
 
-export const { setCommands } = AliasSlice.actions
+export const { setCommands, setMinutes } = AliasSlice.actions
 export default AliasSlice.reducer

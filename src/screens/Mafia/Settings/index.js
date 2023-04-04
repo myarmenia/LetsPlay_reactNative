@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
-import { RH, font } from '@/theme/utils'
+import { RH, RW, font } from '@/theme/utils'
 import Slider from '@/components/range'
 import ToggleSwitch from '@/components/ToggleSwitch'
 import { WHITE } from '@/theme/colors'
@@ -77,8 +77,15 @@ function Index() {
         <Text style={styles.time}>{valWord}</Text>
       </Row>
 
-      <Slider step={4} minVal={spyDon ? 7 : 5} maxValue={20} val={valWord} setVal={setValWord} />
-
+      <Slider
+        step={1}
+        count={5}
+        maxValue={20}
+        minValue={spyDon ? 7 : 5}
+        setValue={setValWord}
+        value={valWord}
+        style={{ marginHorizontal: RW(85), left: RW(3) }}
+      />
       <Text style={styles.playersDescription}>Дополнительные персoнажы участвующие в игре</Text>
 
       <Row

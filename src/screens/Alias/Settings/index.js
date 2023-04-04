@@ -5,16 +5,35 @@ import Button from '@/assets/imgs/Button'
 import { RH, RW, font } from '@/theme/utils'
 import Slider from '@/components/range'
 import ToggleSwitch from '@/components/ToggleSwitch'
-import { WHITE } from '@/theme/colors'
+import { RED, WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import Modal from '@/components/modal'
 import ModalRules from '../QrCode/ModalRules'
+import { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { setMinutes } from '@/store/Slices/AliasSlice'
 
 function Index({ navigation }) {
-  const [valWord, setValWord] = useState(5)
+  //===================states=====================
   const [modalRules, setModalRules] = useState(true)
+  const [countOfWords, setCountOfWords] = useState(0)
+  const [timeOfRounds, setTimeOfRounds] = useState(0)
   const [isOn, setIsOn] = useState(false)
+  //==================states end==================
+  const [error, setError] = useState(false)
 
+  const dispatch = useDispatch()
+
+  const handleSubmit = () => {
+    if (countOfWords == 0 || timeOfRounds == 0) {
+      setError(true)
+    } else {
+      setError(false)
+    }
+    if (!error) {
+      dispatch(setMinutes(timeOfRounds)), navigation.navigate('GameStart')
+    } //navigation.navigate('SelectComplexity')
+  }
   return (
     <ScreenMask>
       <View style={styles.body}>
@@ -33,28 +52,54 @@ function Index({ navigation }) {
         }}
       >
         <View>
-          <Text style={styles.timeTitle}>Время до голосования</Text>
-          <Text style={styles.timeSubtitle}>продолжительность в менутах</Text>
+          <Text style={styles.timeTitle}>Количество слов</Text>
+          <Text style={styles.timeSubtitle}>для достижения победы</Text>
         </View>
 
-        <Text style={styles.time}>{valWord}</Text>
+        <Text style={styles.time}>{countOfWords}</Text>
       </Row>
 
-      <Slider step={4} minVal={5} maxValue={20} val={valWord} setVal={setValWord} />
-
-      <Text style={styles.playersDescription}>Дополнительные персoнажы участвующие в игре</Text>
+      <Slider
+        step={1}
+        count={10}
+        maxValue={90}
+        minValue={10}
+        setValue={setCountOfWords}
+        value={countOfWords}
+      />
 
       <Row
         wrapper={{
           justifyContent: 'space-between',
-          marginTop: RH(30),
+          marginBottom: RH(10),
+          marginTop: RH(60),
         }}
       >
         <View>
-          <Text style={styles.timeTitle}>Шпион и Дон</Text>
-          <Text style={styles.timeSubtitle}>
-            (Количество игроков должно быть не менее {'\n'}7 человек)
-          </Text>
+          <Text style={styles.timeTitle}>Время раунда</Text>
+          <Text style={styles.timeSubtitle}>продолжительность в секундах</Text>
+        </View>
+
+        <Text style={styles.time}>{timeOfRounds}</Text>
+      </Row>
+
+      <Slider
+        step={10}
+        count={40}
+        maxValue={180}
+        minValue={30}
+        setValue={setTimeOfRounds}
+        value={timeOfRounds}
+      />
+      <Row
+        wrapper={{
+          justifyContent: 'space-between',
+          marginTop: RH(80),
+        }}
+      >
+        <View>
+          <Text style={styles.timeTitle}>Штраф за пропуск</Text>
+          <Text style={styles.timeSubtitle}>Каждое пропущенное слово отнимает одно очко</Text>
         </View>
         <View
           style={{
@@ -65,11 +110,8 @@ function Index({ navigation }) {
         </View>
       </Row>
       <View style={styles.btnContainer}>
-        <Button
-          onPress={() => navigation.navigate('SelectComplexity')}
-          size={styles.btn}
-          label={'Продолжить'}
-        />
+        {error ? <Text style={styles.errorText}>Заполните все поля</Text> : null}
+        <Button onPress={handleSubmit} size={styles.btn} label={'Продолжить'} />
       </View>
     </ScreenMask>
   )
@@ -104,6 +146,12 @@ const styles = StyleSheet.create({
   btn: {
     width: 281,
     height: 48,
+  },
+  errorText: {
+    color: RED,
+    left: RW(12),
+    fontSize: RW(16),
+    bottom: '100%',
   },
 })
 

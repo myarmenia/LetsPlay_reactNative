@@ -10,6 +10,8 @@ import Settings from '@/screens/Alias/Settings'
 import SelectComplexity from '@/screens/Alias/SelectComplexity'
 import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
 import GameStart from '@/screens/Alias/StartGame/GameStart'
+import ResultsOfAnswers from '@/screens/Alias/StartGame/ResultsOfAnswers'
+import TeamsResults from '@/screens/Alias/TeamsResults/TeamsResults'
 
 const AliasNavigator = () => {
   const Stack = createNativeStackNavigator()
@@ -25,6 +27,8 @@ const AliasNavigator = () => {
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
       <Stack.Screen name="GameStart" component={GameStart} />
+      <Stack.Screen name="ResultsOfAnswers" component={ResultsOfAnswers} />
+      <Stack.Screen name="TeamsResults" component={TeamsResults} />
     </Stack.Navigator>
   )
 }
