@@ -8,7 +8,12 @@ import { useNavigation } from '@react-navigation/native'
 import Modal from '@/components/modal'
 import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
-import { participateToGame, setMafiaSocketOn, startGame } from '../../../store/Slices/MafiaSlice'
+import {
+  clearAllDatas,
+  participateToGame,
+  setMafiaSocketOn,
+  setParticipateSuccess,
+} from '../../../store/Slices/MafiaSlice'
 import { setPending } from '@/store/Slices/AuthSlice'
 
 const AboutGame = ({ route }) => {
@@ -20,17 +25,18 @@ const AboutGame = ({ route }) => {
 
   useEffect(() => {
     if (propsGameId) {
+      dispatch(clearAllDatas())
       dispatch(setMafiaSocketOn(true))
       dispatch(participateToGame(propsGameId))
     }
   }, [propsGameId])
 
   useEffect(() => {
-    // if (participateSuccess === false) {
-    //   alert('Что-то пошло не так')
-    //   navigation.navigate('Home')
-    //   dispatch(setParticipateSuccess(null))
-    // }
+    if (participateSuccess === false) {
+      alert('Что-то пошло не так')
+      navigation.navigate('Home')
+      dispatch(setParticipateSuccess(null))
+    }
     dispatch(setPending(false))
   }, [participateSuccess])
   return (

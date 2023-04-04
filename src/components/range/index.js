@@ -10,20 +10,21 @@ function Index({ step, minVal, maxValue, val, setVal }) {
 
   useEffect(() => {
     const temp = []
-    const stetCount = maxValue / step
+    const stetCount = maxValue / (step + 1)
+    console.log('stetCount', stetCount)
     let res = 0
-    for (let i = 0; i < step; i++) {
+    for (let i = 0; i <= step; i++) {
       res = res + stetCount
-      if (i === 0 && minVal >= res) {
-        continue
-      }
+      // if (i === 0 && minVal >= res) {
+      //   continue
+      // }
       temp.push(res)
     }
     setSteps(temp)
   }, [])
 
   return (
-    <View style={{ width: '100%', alignItems: 'center' }}>
+    <View style={{ width: '80%', alignItems: 'center' }}>
       <Slider
         style={{
           left: 0,
@@ -43,25 +44,24 @@ function Index({ step, minVal, maxValue, val, setVal }) {
         minimumTrackTintColor="#4D7CFE"
         maximumTrackTintColor="rgba(255, 0, 0, 0.01)"
         thumbImage={CircleSlide}
+        // step={10}
       />
 
       <View style={styles.body}>
         {steps.map((item, i) => (
-          <View key={i} style={{ ...styles.stepBody, width: `${100 / steps.length - 0.5}%` }}>
+          <View key={i} style={{ ...styles.stepBody, width: `${100 / (step - 1)}%` }}>
             <View style={styles.stepFon} />
             <View
               style={{
                 flexDirection: 'row',
                 width: '100%',
-                borderColor: 'red',
-                justifyContent: i === 0 ? 'space-between' : 'flex-end',
+                justifyContent: 'flex-end',
               }}
             >
-              {i === 0 ? <Text style={{ ...styles.stepText, left: 0 }}>{minVal}</Text> : null}
               <Text
                 style={{
                   ...styles.stepText,
-                  left: item === steps[steps.length - 1] ? '85%' : '95%',
+                  // left: item === steps[steps.length - 1] ? '85%' : '95%',
                 }}
               >
                 {item}

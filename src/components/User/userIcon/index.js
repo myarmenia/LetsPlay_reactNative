@@ -29,7 +29,7 @@ function Index({ size, onPressImg, userProps }) {
     user = user.user
   }
   // const [userNow, setUserNow] = useState(user)
-  const { name, surname, vk_id, avatar, vk_uri } = user
+  const { name, surname, vk_id, avatar, vk_uri } = user || {}
   const fontSizeTitle = size > 150 ? size / RW(28) : size / RW(50)
   const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
   // const [loader, setLoader] = useState(true)
@@ -118,13 +118,13 @@ function Index({ size, onPressImg, userProps }) {
         <UserCircle
           size={size > 150 ? size + RW(25) : size - RW(25)}
           count={user?.create_games?.length}
-          status={user.status}
+          status={user?.status}
         />
-        <UserLine size={screenWidth >= 420 ? size / 1.05 : size} status={user.status} />
+        <UserLine size={screenWidth >= 420 ? size / 1.05 : size} status={user?.status} />
         <UserCircle
           size={size > 150 ? size + RW(25) : size - RW(25)}
           count={user?.took_part_games?.length}
-          status={user.status}
+          status={user?.status}
         />
       </View>
       <View

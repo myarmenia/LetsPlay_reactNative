@@ -8,7 +8,7 @@ import ToggleSwitch from '@/components/ToggleSwitch'
 import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import { useDispatch, useSelector } from 'react-redux'
-import { postSettings, setMafiaSocketOn } from '@/store/Slices/MafiaSlice'
+import { postSettings, setMafiaSocketOn, setOrganizer } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import ModalRules from '../QrCode/ModalRules'
 import Modal from '@/components/modal'
@@ -77,7 +77,7 @@ function Index() {
         <Text style={styles.time}>{valWord}</Text>
       </Row>
 
-      <Slider step={4} minVal={spyDon ? 7 : 5} maxValue={20} val={valWord} setVal={setValWord} />
+      <Slider step={2} minVal={spyDon ? 7 : 5} maxValue={20} val={valWord} setVal={setValWord} />
 
       <Text style={styles.playersDescription}>Дополнительные персoнажы участвующие в игре</Text>
 
@@ -110,6 +110,7 @@ function Index() {
                 spy_and_don: spyDon,
               }),
             )
+            dispatch(setOrganizer(true))
           }}
           size={styles.btn}
           label={'Продолжить'}
