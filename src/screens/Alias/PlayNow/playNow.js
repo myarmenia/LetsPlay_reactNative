@@ -16,14 +16,14 @@ const PlayNow = () => {
       <View style={styles.mainContainer}>
         <ScrollView>
           <View style={styles.commandsConatainer}>
-            {commands.map((elm, i) => {
+            {commands?.map((elm, i) => {
               return (
                 <View key={i}>
                   <Text style={styles.commandName}>{elm.value}</Text>
                   <View style={styles.eachCommandBox}>
                     {elm?.members?.map(user => {
                       return (
-                        <View>
+                        <View key={Math.random().toString()}>
                           {/* pass user in User component with pressed user prop */}
                           <User
                             size={70}
