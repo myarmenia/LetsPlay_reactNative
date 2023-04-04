@@ -9,13 +9,13 @@ import { useSelector } from 'react-redux'
 
 const Timer = ({ stoped, modalVisible, userModalVisible, setSecModalVisible }) => {
   const { minutesInGame } = useSelector(({ alias }) => alias)
-  const [selectedTime, setSelectedTime] = useState({ seconds: 3 })
+  const [selectedTime, setSelectedTime] = useState({ seconds: minutesInGame + 0 })
   useEffect(() => {
     const timer = setInterval(() => {
       if (!stoped) {
         if (selectedTime.seconds !== 0) {
           if (selectedTime.seconds > 0 && !modalVisible && !userModalVisible) {
-            setSelectedTime(prev => ({
+            setSelectedTime((prev) => ({
               seconds: selectedTime.seconds - 1,
             }))
           }
@@ -26,7 +26,7 @@ const Timer = ({ stoped, modalVisible, userModalVisible, setSecModalVisible }) =
           }
         }
       } else {
-        setSelectedTime(prev => ({ ...prev, seconds: prev.seconds }))
+        setSelectedTime((prev) => ({ ...prev, seconds: prev.seconds }))
       }
     }, 1000)
 

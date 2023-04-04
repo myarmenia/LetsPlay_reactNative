@@ -25,7 +25,9 @@ export const useGameSocketHelper = (socket) => {
   const dispatch = useDispatch()
   const isMounted = useRef(false)
   const navigation = useNavigation()
-  const { sendAnswer, waitNight, alredyDeadedUsers } = useSelector(({ mafia }) => mafia)
+  const { sendAnswer, waitNight, alredyDeadedUsers, mafiaGameId } = useSelector(
+    ({ mafia }) => mafia,
+  )
 
   useEffect(() => {
     console.log('waitNight', waitNight)
@@ -43,6 +45,24 @@ export const useGameSocketHelper = (socket) => {
       dispatch(setSendAnswer({}))
     }
   }, [sendAnswer, socket])
+  useEffect(() => {
+    if (Object.keys(sendAnswer || {}).length && Object.values(sendAnswer || {}).length) {
+      console.log('sendAnswer', sendAnswer)
+      socket?.send(sendAnswer)
+      dispatch(setSendAnswer({}))
+    }
+  }, [sendAnswer])
+
+  // useEffect(() => {
+  //   console.log('mafiaGameId useEffect', mafiaGameId)
+  //   if (!mafiaGameId) {
+  //     console.log('mafiaGameId useEffect disconnect')
+  //     socket?.disconnect()
+  //   } else {
+  //     console.log('mafiaGameId useEffect connect')
+  //     socket?.connect()
+  //   }
+  // }, [mafiaGameId, socket])
 
   useEffect(() => {
     if (socket && !isMounted.current) {
@@ -68,7 +88,10 @@ export const useGameSocketHelper = (socket) => {
             dispatch(
               setMafiaUsersId(
                 e.mafia_users.reduce(
-                  (prevValue, currentValue) => [...prevValue, {id: currentValue?._id, name: currentValue?.role?.name}],
+                  (prevValue, currentValue) => [
+                    ...prevValue,
+                    { id: currentValue?._id, name: currentValue?.role?.name },
+                  ],
                   [],
                 ),
               ),

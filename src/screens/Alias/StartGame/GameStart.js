@@ -25,13 +25,13 @@ const GameStart = () => {
     false: 0,
   })
 
-  useEffect(() => {
-    // setAnswers({
-    //   true: 0,
-    //   false: 0,
-    // }),
-    setUserModalVisible(true)
-  }, [isFocused])
+  // useEffect(() => {
+  //   // setAnswers({
+  //   //   true: 0,
+  //   //   false: 0,
+  //   // }),
+  //   setUserModalVisible(true)
+  // }, [isFocused])
 
   const UserModal = () => {
     return (

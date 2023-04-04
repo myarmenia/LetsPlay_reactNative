@@ -227,6 +227,7 @@ const PlayMafia = () => {
               Не правильно
             </Text>
           ) : null}
+          {console.log('night', night)}
           {!currentUserDeaded ? (
             <LightButton
               size={{ width: RW(281), height: RH(48) }}

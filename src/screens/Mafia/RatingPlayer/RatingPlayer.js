@@ -45,7 +45,7 @@ const RatingPlayer = () => {
                 label={'Завершить игру'}
                 onPress={() => {
                   dispatch(clearAllDatas())
-                  navigation.navigate('HomeScreen')
+                  navigation.navigate('Home')
                 }}
               />
             </View>
