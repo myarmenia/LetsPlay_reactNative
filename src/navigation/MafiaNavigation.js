@@ -15,7 +15,6 @@ import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
 import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
 import { clearAllDatas } from '@/store/Slices/MafiaSlice'
-import { useIsFocused } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
 const MafiaNavigation = () => {
@@ -29,9 +28,10 @@ const MafiaNavigation = () => {
     deviceName = e
   })
 
-  // const isFocused = useIsFocused()
-  // console.log('isFocused', isFocused)
   useEffect(() => {
+    if (!mafiaGameId && socketRef.current) {
+      socketRef.current = null
+    }
     if (socketRef.current || !mafiaGameId) return
 
     console.log('mafiaGameId -', mafiaGameId)
@@ -50,10 +50,9 @@ const MafiaNavigation = () => {
   }, [mafiaGameId, token])
 
   useEffect(() => {
-    console.log('useEffect')
     return () => {
-      console.log('useEffect clearAllDatas')
-      dispatch(clearAllDatas())
+      // console.log('useEffect clearAllDatas')
+      // dispatch(clearAllDatas())
     }
   }, [])
 

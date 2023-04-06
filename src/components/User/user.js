@@ -2,7 +2,7 @@ import * as React from 'react'
 import Svg, { LinearGradient, Stop, Path, Defs } from 'react-native-svg'
 import { RH, RW } from '@/theme/utils'
 import User from '@/components/User/userIcon'
-import { TouchableOpacity, View } from 'react-native'
+import { Pressable, TouchableOpacity, View } from 'react-native'
 import Modal from '@/components/modal'
 import { useState } from 'react'
 
@@ -115,7 +115,7 @@ function SvgComponent({
   )
 
   return onPressItem ? (
-    <TouchableOpacity
+    <Pressable
       onLongPress={() => setModalVisible(true)}
       onPress={() => {
         onPressItem?.onClickFunc ? onPressItem?.onClickFunc() : null
@@ -141,7 +141,7 @@ function SvgComponent({
           />
         ) : null}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   ) : (
     <View
       style={{

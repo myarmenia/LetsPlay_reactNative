@@ -100,7 +100,7 @@ function Index({ id, item, type }) {
           onPressOut={() => {
             setBack(false)
           }}
-          onPress={() => navigation.navigate('PrivateChat', { id: item._id })}
+          onPress={() => navigation.navigate('PrivateChat', { id: item._id, type: type })}
           style={style.chatItemBlock}
         >
           {back ? (

@@ -39,7 +39,7 @@ const Timer = ({
       if (!stoped) {
         if (selectedTime.seconds !== 0) {
           if (selectedTime.seconds > 0 && !modalVisible && !userModalVisible) {
-            setSelectedTime(prev => ({
+            setSelectedTime((prev) => ({
               seconds: selectedTime.seconds - 1,
             }))
           }
@@ -51,7 +51,7 @@ const Timer = ({
           }
         }
       } else {
-        setSelectedTime(prev => ({ ...prev, seconds: prev.seconds }))
+        setSelectedTime((prev) => ({ ...prev, seconds: prev.seconds }))
       }
     }, 1000)
 

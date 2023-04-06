@@ -7,7 +7,7 @@ const WaitPlayers = () => {
   return (
     <ScreenMask>
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <MafiaLoader />
+        <MafiaLoader background={false} />
       </View>
     </ScreenMask>
   )

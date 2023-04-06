@@ -52,7 +52,7 @@ const Commands = () => {
                     <TextInput
                       style={styles.priceInputText}
                       placeholder={`Название команды ${elm.command}`}
-                      onChangeText={e =>
+                      onChangeText={(e) =>
                         setCommandsCount([
                           ...commandsCount.map((elm, ind) => {
                             return i == ind
@@ -62,7 +62,7 @@ const Commands = () => {
                         ])
                       }
                       placeholderTextColor={ICON}
-                      keyboardType="number-pad"
+                      // keyboardType="number-pad"
                     />
                   </View>
                   {commandsCount.length !== 2 ? (
@@ -74,7 +74,7 @@ const Commands = () => {
                                 { command: 1, value: '', members: [] },
                                 { command: 2, value: '', members: [] },
                               ])
-                            : setCommandsCount([...commandsCount.filter(elem => elm !== elem)])
+                            : setCommandsCount([...commandsCount.filter((elem) => elm !== elem)])
                           : null
                       }
                     >
@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
   priceInputText: {
     color: ICON,
     width: '80%',
+    height: RH(48),
     marginLeft: RW(15),
     fontSize: RW(16),
   },

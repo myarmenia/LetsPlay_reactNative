@@ -18,7 +18,6 @@ function Index() {
   const [valWord, setValWord] = useState(5)
   const [modalRules, setModalRules] = useState(true)
   const { qrLink } = useSelector(({ mafia }) => mafia)
-  const token = useSelector(({ auth }) => auth.token)
 
   const dispatch = useDispatch()
   const navigation = useNavigation()

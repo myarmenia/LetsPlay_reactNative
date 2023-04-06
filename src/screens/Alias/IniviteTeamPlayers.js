@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { useEffect } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
@@ -15,6 +16,7 @@ import ScreenMask from '@/components/wrappers/screen'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
+
   const { commands, reservedUsers, users } = useSelector(({ alias }) => alias)
   const [i, setI] = useState(0)
   const [error, setError] = useState(false)
@@ -63,6 +65,7 @@ const IniviteTeamPlayers = ({ route }) => {
     } else {
       setError(true)
     }
+
   }
 
   return (
@@ -178,6 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   btnBox: {
     marginTop: RH(10),

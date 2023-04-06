@@ -23,11 +23,12 @@ const initialState = {
   sendAnswer: {},
   questionTruthfulness: null,
   waitNight: null,
-  deadUsers: [],
+  deadUser: [],
   alredyDeadedUsers: [],
   playersRatings: [],
   winner: null,
   organizer: false,
+  currentUserDeaded: false,
 }
 
 export const MafiaSlice = createSlice({
@@ -160,10 +161,10 @@ export const MafiaSlice = createSlice({
         questionTruthfulness: action.payload,
       }
     },
-    setDeadUsers: (store, action) => {
+    setDeadUser: (store, action) => {
       return {
         ...store,
-        deadUsers: action.payload,
+        deadUser: action.payload,
       }
     },
     setAlredyDeadedUsers: (store, action) => {
@@ -182,6 +183,12 @@ export const MafiaSlice = createSlice({
       return {
         ...store,
         winner: action.payload,
+      }
+    },
+    setCurrentUserDeaded: (store, action) => {
+      return {
+        ...store,
+        currentUserDeaded: action.payload,
       }
     },
   },
@@ -251,11 +258,12 @@ export const clearAllDatas = () => (dispatch) => {
   dispatch(setWaitNight(null))
   dispatch(setSendAnswer({}))
   dispatch(setQuestionTruthfulness(null))
-  dispatch(setDeadUsers([]))
+  dispatch(setDeadUser([]))
   dispatch(setAlredyDeadedUsers([]))
   dispatch(setPlayersRatings([]))
   dispatch(setWinner(null))
   dispatch(setOrganizer(false))
+  dispatch(setCurrentUserDeaded(false))
 }
 export const resetGame = (mafia_game_id) => (dispatch) => {
   dispatch(setPending(true))
@@ -293,10 +301,11 @@ export const {
   setAnswerQuestions,
   setSendAnswer,
   setQuestionTruthfulness,
-  setDeadUsers,
+  setDeadUser,
   setAlredyDeadedUsers,
   setPlayersRatings,
   setWinner,
   setOrganizer,
+  setCurrentUserDeaded,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer

@@ -11,6 +11,7 @@ import { _storageUrl } from '@/constants'
 import {
   clearAllDatas,
   participateToGame,
+  setLoader,
   setMafiaSocketOn,
   setParticipateSuccess,
 } from '../../../store/Slices/MafiaSlice'
@@ -88,7 +89,7 @@ const AboutGame = ({ route }) => {
               bgColor={'#4D7CFE'}
               onPress={() => {
                 navigation.navigate('WaitPlayers')
-                // dispatch(startGame(gameId))
+                dispatch(setLoader(true))
               }}
             />
           </View>
