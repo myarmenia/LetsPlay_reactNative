@@ -51,7 +51,11 @@ function GameItem({ route }) {
           </Text>
           <Text style={styles.eachInfo}>Половой признак игроков:</Text>
           <Text style={styles.eachInfoTwo}>
-            {item?.players_gender == 'm' ? 'М' : item?.players_gender == 'f' ? 'Ж' : 'М/Ж'}
+            {item?.players_gender == 'm'
+              ? 'М'
+              : item?.players_gender == 'f'
+              ? 'Ж'
+              : 'Без ограничений'}
           </Text>
           <Text style={styles.eachInfo}>Адрес проведения игры:</Text>
           <Text style={styles.eachInfoTwo}>{item?.address_name}</Text>

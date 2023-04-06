@@ -31,8 +31,9 @@ function Index({ navigation }) {
       setError(false)
     }
     if (!error) {
-      dispatch(setMinutes(timeOfRounds)) //, navigation.navigate('GameStart')
-      navigation.navigate('SelectComplexity')
+      dispatch(setMinutes(timeOfRounds)),
+        // navigation.navigate('GameStart')
+        navigation.navigate('SelectComplexity')r
     }
   }
   return (

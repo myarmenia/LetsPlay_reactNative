@@ -14,7 +14,7 @@ const Index = ({ route }) => {
 
   useEffect(() => {
     dispatch(getGames(list))
-    dispatch(saveTeamDataForCreating(null))
+    // dispatch(saveTeamDataForCreating(null))
   }, [list])
 
   return (

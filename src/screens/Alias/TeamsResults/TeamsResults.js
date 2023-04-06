@@ -28,7 +28,7 @@ const TeamsResults = () => {
         <LightButton
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
-          onPress={() => navigation.navigate('GameStart')}
+          onPress={() => navigation.navigate('GameStart', { fromRes: true })}
         />
       </View>
     </ScreenMask>

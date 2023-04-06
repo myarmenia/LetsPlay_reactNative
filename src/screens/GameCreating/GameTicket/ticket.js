@@ -22,7 +22,14 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время игры:</Text>
-          <Text style={styles.ticketTextTwo}>{dates[0]}</Text>
+          {console.log(dates[0])}
+          <Text style={styles.ticketTextTwo}>
+            {dates[0]
+              .substr(0, 10)
+              .split('-')
+              .reverse()
+              .join('-') + dates[0].substr(10, dates[1].length)}
+          </Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Количество игроков:</Text>
@@ -43,7 +50,7 @@ function Ticket({ game, initialState, name, dates }) {
               ? 'М'
               : initialState?.players_gender == 'Ж'
               ? 'Ж'
-              : 'М/Ж'}
+              : 'Без ограничений'}
           </Text>
         </View>
         <View style={styles.ticketTextBlock}>
@@ -52,7 +59,13 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>
-          <Text style={styles.ticketTextTwo}>{dates[1]}</Text>
+          <Text style={styles.ticketTextTwo}>
+            {dates[1]
+              .substr(0, 10)
+              .split('-')
+              .reverse()
+              .join('-') + dates[1].substr(10, dates[1].length)}
+          </Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Стоимость входного билета на игру:</Text>

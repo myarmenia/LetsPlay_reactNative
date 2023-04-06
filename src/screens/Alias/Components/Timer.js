@@ -6,10 +6,34 @@ import { memo } from 'react'
 import { font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { useSelector } from 'react-redux'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 
-const Timer = ({ stoped, modalVisible, userModalVisible, setSecModalVisible }) => {
+const Timer = ({
+  stoped,
+  modalVisible,
+  setModalVisible,
+  timerStart,
+  setUserModalVisible,
+  userModalVisible,
+  secModalVisible,
+  setSecModalVisible,
+}) => {
   const { minutesInGame } = useSelector(({ alias }) => alias)
-  const [selectedTime, setSelectedTime] = useState({ seconds: minutesInGame + 0 })
+  const isFocused = useIsFocused()
+  const navigation = useNavigation()
+  const [selectedTime, setSelectedTime] = useState({ seconds: 5 })
+  useEffect(() => {
+    if (timerStart) {
+      setSelectedTime({ seconds: 5 + 0 })
+    }
+  }, [timerStart])
+
+  useEffect(() => {
+    if (selectedTime.seconds == 0 && !userModalVisible) {
+      setSelectedTime({ seconds: 0 })
+      setSecModalVisible(true)
+    }
+  }, [selectedTime.seconds])
   useEffect(() => {
     const timer = setInterval(() => {
       if (!stoped) {
@@ -20,6 +44,7 @@ const Timer = ({ stoped, modalVisible, userModalVisible, setSecModalVisible }) =
             }))
           }
           if (selectedTime.seconds == 1) {
+            // console.log('end')
             setSelectedTime({ seconds: 0 })
             setSecModalVisible(true)
             clearInterval(timer)

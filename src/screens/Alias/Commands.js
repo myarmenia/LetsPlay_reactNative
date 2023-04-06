@@ -13,15 +13,13 @@ import { setCommands } from '@/store/Slices/AliasSlice'
 
 const Commands = () => {
   const [commandsCount, setCommandsCount] = useState([
-    { command: 1, value: '' },
-    { command: 2, value: '' },
+    { command: 1, value: '', members: [] },
+    { command: 2, value: '', members: [] },
   ])
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const [error, setError] = useState(false)
-  useEffect(() => {
-    dispatch(saveTeamDataForCreating({}))
-  }, [])
+
   const handleSubmit = () => {
     let empty = 0
     for (let elem of commandsCount) {
@@ -57,7 +55,9 @@ const Commands = () => {
                       onChangeText={(e) =>
                         setCommandsCount([
                           ...commandsCount.map((elm, ind) => {
-                            return i == ind ? { command: elm.command, value: e } : { ...elm }
+                            return i == ind
+                              ? { command: elm.command, value: e, members: [] }
+                              : { ...elm }
                           }),
                         ])
                       }
@@ -71,8 +71,8 @@ const Commands = () => {
                         commandsCount.length !== 1
                           ? commandsCount.length == 3
                             ? setCommandsCount([
-                                { command: 1, value: '' },
-                                { command: 2, value: '' },
+                                { command: 1, value: '', members: [] },
+                                { command: 2, value: '', members: [] },
                               ])
                             : setCommandsCount([...commandsCount.filter((elem) => elm !== elem)])
                           : null
@@ -91,7 +91,11 @@ const Commands = () => {
               onPress={() =>
                 setCommandsCount([
                   ...commandsCount,
-                  { command: commandsCount[commandsCount.length - 1].command + 1, value: '' },
+                  {
+                    command: commandsCount[commandsCount.length - 1].command + 1,
+                    value: '',
+                    members: [],
+                  },
                 ])
               }
             >

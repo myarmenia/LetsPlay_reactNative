@@ -1,11 +1,11 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder } from 'react-native'
 import { Animated } from 'react-native'
 
-const AnimatedCircle = ({ word, answers, setAnswers }) => {
+const AnimatedCircle = ({ word, answers, setAnswers, stoped }) => {
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = useRef(
@@ -15,14 +15,14 @@ const AnimatedCircle = ({ word, answers, setAnswers }) => {
       onPanResponderRelease: (e, gestureState) => {
         pan.flattenOffset()
         if (gestureState.moveY < 233) {
-          setAnswers({ ...answers, true: ++answers.true })
+          stoped == false ? setAnswers({ ...answers, true: ++answers.true }) : null
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
             useNativeDriver: false,
           }).start()
         } else if (gestureState.moveY > 555) {
-          setAnswers({ ...answers, false: ++answers.false })
+          stoped == false ? setAnswers({ ...answers, false: ++answers.false }) : null
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
@@ -50,7 +50,7 @@ const AnimatedCircle = ({ word, answers, setAnswers }) => {
     transform: [{ translateY: clampedY }],
   }
   return (
-    <Animated.View style={animatedStyle} {...panResponder.panHandlers}>
+    <Animated.View style={!stoped ? animatedStyle : {}} {...panResponder.panHandlers}>
       <TypeButton title={word} key={Math.random().toString()} />
     </Animated.View>
   )
