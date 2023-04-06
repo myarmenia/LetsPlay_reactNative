@@ -1,6 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NAV_HEADER_OPTION } from '@/constants'
+import { useDispatch, useSelector } from 'react-redux'
+import { io } from 'socket.io-client'
+import { Platform } from 'react-native'
+import { useGameSocketHelper } from './helpers'
 
 import QrCode from '@/screens/Mafia/QrCode'
 import Settings from '@/screens/Mafia/Settings'
@@ -8,17 +12,16 @@ import AddPlayers from '@/screens/Mafia/AddPlayers/AddPlayers'
 import AboutGame from '@/screens/Mafia/AboutGame/AboutGame'
 import WaitPlayers from '@/screens/Mafia/WaitPlayers'
 import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { io } from 'socket.io-client'
-import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { useGameSocketHelper } from './helpers'
+import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
+import { clearAllDatas } from '@/store/Slices/MafiaSlice'
+import { useIsFocused } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
 const MafiaNavigation = () => {
   const socketRef = useRef(null)
   const token = useSelector(({ auth }) => auth.token)
+  const dispatch = useDispatch()
   const { mafiaGameId } = useSelector(({ mafia }) => mafia)
   const {} = useGameSocketHelper(socketRef.current)
   let deviceName
@@ -26,6 +29,8 @@ const MafiaNavigation = () => {
     deviceName = e
   })
 
+  // const isFocused = useIsFocused()
+  // console.log('isFocused', isFocused)
   useEffect(() => {
     if (socketRef.current || !mafiaGameId) return
 
@@ -44,6 +49,14 @@ const MafiaNavigation = () => {
     )
   }, [mafiaGameId, token])
 
+  useEffect(() => {
+    console.log('useEffect')
+    return () => {
+      console.log('useEffect clearAllDatas')
+      dispatch(clearAllDatas())
+    }
+  }, [])
+
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />
@@ -52,11 +65,7 @@ const MafiaNavigation = () => {
       <Stack.Screen name="AboutGame" component={AboutGame} />
       <Stack.Screen name="WaitPlayers" component={WaitPlayers} />
       <Stack.Screen name="PlayMafia" component={PlayMafia} />
-
-      {/* <Stack.Screen name="Vote" component={Vote} />
-      <Stack.Screen name="PlayerOut" component={PlayerOut} />
-      <Stack.Screen name="Ratings" component={Ratings} />
-      <Stack.Screen name="RatingPlayer" component={RatingPlayer} /> */}
+      <Stack.Screen name="RatingPlayer" component={RatingPlayer} />
     </Stack.Navigator>
   )
 }

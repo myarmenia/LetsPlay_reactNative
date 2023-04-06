@@ -12,7 +12,6 @@ import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
 import {
-  setAnswerQuestions,
   setLoader,
   setQuestionTruthfulness,
   setSendAnswer,
@@ -20,10 +19,14 @@ import {
 } from '@/store/Slices/MafiaSlice'
 import UserBorderSvg from './assets/UserBorderSvg'
 import MafiaDeadModal from './components/MafiaDeadModal'
+import WinnerModal from './components/WinnerModal'
 
 const PlayMafia = () => {
-  const [modalVisible, setModalVisible] = useState(false)
+  const [modalVisible, setModalVisible] = useState(true)
   const [deadModalVisible, setDeadModalVisible] = useState(false)
+  const [winnerModal, setWinnerModal] = useState(false)
+  const [currentUserDeaded, setCurrentUserDeaded] = useState(false)
+
   const [answers, setAnswers] = useState(1)
   const [choosable, setChoosable] = useState(false)
   const [choosedUsers, setChoosedUsers] = useState(null)
@@ -42,27 +45,25 @@ const PlayMafia = () => {
     answerQuestions,
     questionTruthfulness,
     deadUsers,
+    winner,
   } = useSelector(({ mafia }) => mafia)
+  const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
-  let mafiaImgPath = roles?.find((item) => (item.name = 'Мафия'))?.img
 
   useEffect(() => {
     setModalVisible(true)
-  }, [])
+  }, [mafiaRole])
   useEffect(() => {
     if (night && answers < nightQueastions.length) {
       setChoosable(true)
     } else if (night && answers == nightQueastions.length) {
-      // dispatch(setAnswerQuestions([]))
       setAnswers(1)
       dispatch(setWaitNight(false))
       dispatch(setLoader(true))
       setChoosable(false)
     } else if (!night && answers < dayQueastions.length && daysCountRef > 1) {
-      console.log('answers', answers)
       setChoosable(true)
     } else if (night && answers == dayQueastions.length) {
-      // dispatch(setAnswerQuestions([]))
       setAnswers(1)
       dispatch(setWaitNight(true))
       dispatch(setLoader(true))
@@ -72,13 +73,17 @@ const PlayMafia = () => {
   useEffect(() => {
     if (deadUsers.length) {
       setDeadModalVisible(true)
+      setCurrentUserDeaded(deadUsers[0]?.user?._id == currentUser._id)
     }
   }, [deadUsers])
-
   useEffect(() => {
     setNightQueastions(answerQuestions.filter((item) => item.night))
     setDayQueastions(answerQuestions.filter((item) => !item.night))
   }, [answerQuestions])
+
+  useEffect(() => {
+    setWinnerModal(winner)
+  }, [winner])
 
   return (
     <ScreenMask>
@@ -100,9 +105,11 @@ const PlayMafia = () => {
               </Pressable>
             </View>
             <Text style={styles.morningText}>Утро</Text>
-            <View>
-              <Text style={styles.question}>{dayQueastions[0]?.question}</Text>
-            </View>
+            {daysCountRef.current > 1 ? (
+              <View>
+                <Text style={styles.question}>{dayQueastions[0]?.question}</Text>
+              </View>
+            ) : null}
           </>
         ) : (
           <>
@@ -113,11 +120,10 @@ const PlayMafia = () => {
             >
               <VectorIcon />
             </Pressable>
-            {daysCountRef.current > 1 ? (
-              <View>
-                <Text style={styles.question}>{nightQueastions[answers]?.question}</Text>
-              </View>
-            ) : null}
+
+            <View>
+              <Text style={styles.question}>{nightQueastions[answers]?.question}</Text>
+            </View>
           </>
         )}
 
@@ -133,93 +139,138 @@ const PlayMafia = () => {
               marginTop: 20,
             }}
           >
-            {players?.map((item, i) => (
-              <View
-                style={{
-                  padding: RW(5),
-                  margin: RW(5),
-                  position: 'relative',
-                  opacity: item?.status ? 1 : 0.5,
-                }}
-                key={i}
-              >
-                {choosedUsers === item?._id ? (
-                  <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-                    {!questionTruthfulness ? (
-                      <UserBorderSvg />
-                    ) : (
-                      <View
-                        style={{
-                          width: '80%',
-                          height: '100%',
-                          alignSelf: 'center',
-                          borderWidth: 2,
-                          borderRadius: 10,
-                          borderColor: questionTruthfulness.truthfulness ? '#74C372' : '#F73934',
+            {players?.map((item, i) => {
+              if (item?.user?._id !== currentUser._id) {
+                return (
+                  <View
+                    style={{
+                      padding: RW(5),
+                      margin: RW(5),
+                      position: 'relative',
+                      opacity: item?.status ? 1 : 0.5,
+                    }}
+                    key={i}
+                  >
+                    {choosedUsers === item?._id ? (
+                      <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+                        {!questionTruthfulness || !night ? (
+                          <UserBorderSvg />
+                        ) : (
+                          <View
+                            style={{
+                              width: '80%',
+                              height: '100%',
+                              alignSelf: 'center',
+                              borderWidth: 2,
+                              borderRadius: 10,
+                              borderColor: questionTruthfulness?.truthfulness
+                                ? '#74C372'
+                                : '#F73934',
+                            }}
+                          />
+                        )}
+                      </View>
+                    ) : null}
+                    {mafiaUsersId?.find((elm) => elm.id == item?._id) ? (
+                      <Image
+                        style={styles.mafiaImg}
+                        source={{
+                          uri:
+                            _storageUrl +
+                            (mafiaUsersId?.find((elm) => elm?.id == item?._id)?.name == 'Дон'
+                              ? roles?.find((item) => item.name == 'Дон')?.img
+                              : roles?.find((item) => item.name == 'Мафия')?.img),
                         }}
                       />
-                    )}
+                    ) : null}
+                    <User
+                      onPressItem={{
+                        onClickFunc: () => {
+                          if (
+                            (choosable || daysCountRef.current > 1) &&
+                            item?.status &&
+                            !currentUserDeaded &&
+                            questionTruthfulness?.truthfulness === undefined
+                          ) {
+                            setChoosedUsers(item?._id)
+                          }
+                        },
+                      }}
+                      size={90}
+                      user={item}
+                    />
                   </View>
-                ) : null}
-
-                {mafiaUsersId?.find((id) => id == item?._id) ? (
-                  <Image style={styles.mafiaImg} source={{ uri: _storageUrl + mafiaImgPath }} />
-                ) : null}
-                <User
-                  onPressItem={{
-                    onClickFunc: () => {
-                      console.log(daysCountRef.current)
-                      if (choosable || daysCountRef.current > 1) {
-                        setChoosedUsers(item?._id)
-                      }
-                    },
-                  }}
-                  size={90}
-                  user={item}
-                />
-              </View>
-            ))}
-          </View>
-        </ScrollView>
-        <View style={{ marginTop: RH(38) }}>
-          <LightButton
-            size={{ width: RW(281), height: RH(48) }}
-            labelStyle={styles.invitePlayers}
-            label={
-              !night && daysCountRef.current > 1 ? 'Голосовать' : !night ? 'Ночь' : 'Подтвердить'
-            }
-            white={'white'}
-            background={'#7DCE8A'}
-            bgColor={'#4D7CFE'}
-            onPress={() => {
-              if (!night && daysCountRef.current == 1) {
-                daysCountRef.current = 2
-                dispatch(setLoader(true))
-                dispatch(setWaitNight(!night))
-              } else if (Object.keys(questionTruthfulness || {}).length) {
-                dispatch(setQuestionTruthfulness(null))
-                setAnswers(answers + 1)
-                setChoosedUsers(null)
-                if (!night && daysCountRef.current > 1) {
-                  dispatch(setLoader(true))
-                  dispatch(setWaitNight(true))
-                }
-              } else if (choosedUsers) {
-                console.log('choosedUser' + choosedUsers)
-                dispatch(
-                  setSendAnswer({
-                    type: 'answer_question',
-                    question_id: night ? nightQueastions[answers]?._id : dayQueastions[0]?._id,
-                    select_user: choosedUsers,
-                  }),
                 )
               }
-            }}
-          />
+            })}
+          </View>
+        </ScrollView>
+        <View style={{ position: 'absolute', bottom: RH(15) }}>
+          {questionTruthfulness?.truthfulness && night ? (
+            <Text
+              style={{
+                ...font('bold', 18, '#74C472', 24),
+                alignSelf: 'center',
+                marginBottom: RH(20),
+              }}
+            >
+              Правильно
+            </Text>
+          ) : questionTruthfulness?.truthfulness !== undefined && night ? (
+            <Text
+              style={{
+                ...font('bold', 18, '#F73934', 24),
+                alignSelf: 'center',
+                marginBottom: RH(20),
+              }}
+            >
+              Не правильно
+            </Text>
+          ) : null}
+          {!currentUserDeaded ? (
+            <LightButton
+              size={{ width: RW(281), height: RH(48) }}
+              labelStyle={styles.invitePlayers}
+              label={
+                !night && daysCountRef.current > 1 ? 'Голосовать' : !night ? 'Ночь' : 'Подтвердить'
+              }
+              white={'white'}
+              background={'#7DCE8A'}
+              bgColor={'#4D7CFE'}
+              onPress={() => {
+                if (!night && daysCountRef.current == 1) {
+                  daysCountRef.current = 2
+                  dispatch(setLoader(true))
+                  dispatch(setWaitNight(!night))
+                } else if (Object.keys(questionTruthfulness || {}).length) {
+                  dispatch(setQuestionTruthfulness(null))
+                  setAnswers(answers + 1)
+                  setChoosedUsers(null)
+                  if (!night && daysCountRef.current > 1) {
+                    dispatch(setLoader(true))
+                    dispatch(setWaitNight(true))
+                  }
+                } else if (choosedUsers) {
+                  dispatch(
+                    setSendAnswer({
+                      type: 'answer_question',
+                      question_id: night ? nightQueastions[answers]?._id : dayQueastions[0]?._id,
+                      select_user: choosedUsers,
+                    }),
+                  )
+                  if (!night && daysCountRef.current > 1) {
+                    dispatch(setLoader(true))
+                    dispatch(setWaitNight(true))
+                  }
+                }
+              }}
+            />
+          ) : null}
         </View>
       </View>
       <MafiaModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
       <MafiaDeadModal modalVisible={deadModalVisible} setModalVisible={setDeadModalVisible} />
+      <WinnerModal modalVisible={winnerModal} setModalVisible={setWinnerModal} />
     </ScreenMask>
   )
 }
@@ -239,7 +290,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: RH(70),
+    height: '100%',
   },
   container: {
     borderRadius: 10,

@@ -17,6 +17,8 @@ import {
   setWaitNight,
   setDeadUsers,
   setAlredyDeadedUsers,
+  setPlayersRatings,
+  setWinner,
 } from '@/store/Slices/MafiaSlice'
 
 export const useGameSocketHelper = (socket) => {
@@ -60,14 +62,13 @@ export const useGameSocketHelper = (socket) => {
           case 'user_count':
             dispatch(setCiviliansCount(e?.civilian_count))
             dispatch(setMafiasCount(e?.mafia_count))
-            dispatch(setPlayers([]))
             dispatch(setPlayers(e?.all_players))
             break
           case 'mafia_users':
             dispatch(
               setMafiaUsersId(
                 e.mafia_users.reduce(
-                  (prevValue, currentValue) => [...prevValue, currentValue?._id],
+                  (prevValue, currentValue) => [...prevValue, {id: currentValue?._id, name: currentValue?.role?.name}],
                   [],
                 ),
               ),
@@ -78,6 +79,7 @@ export const useGameSocketHelper = (socket) => {
             dispatch(setVoteTime(e.mafia_game.vote_time))
             dispatch(setLoader(false))
             dispatch(setWaitNight(null))
+            dispatch(setPlayers(e?.all_players))
             dispatch(
               setDeadUsers(
                 e.all_players.filter((user) => {
@@ -94,12 +96,13 @@ export const useGameSocketHelper = (socket) => {
             break
           case 'player_out':
             const deadUser = e?.all_players?.find((user) => user?._id == e?.player?._id)
-            // deadUser.role = e?.player?.role?.name
-            // console.log('e?.player?.role?.name', e?.player?.role?.name)
             dispatch(setDeadUsers({ ...deadUser, role: e?.player?.role?.name }))
             break
           case 'end_game':
-            alert('мафия Победили')
+            dispatch(setWinner(e.winner))
+            break
+          case 'players_rating':
+            dispatch(setPlayersRatings(e.players_rating))
             break
           default:
             break

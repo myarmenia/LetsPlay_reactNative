@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import AppNavigator from '@/navigation/AppNavigator'
 import { DARK_BLUE } from '@/theme/colors'
@@ -16,18 +16,21 @@ const MyApp = () => {
 
   const dispatch = useDispatch()
 
-  const myFunc = async () => {
+  const myFunc = useCallback(async () => {
     let tokenWithAsync = await AsyncStorage.getItem('token')
     dispatch(setToken(tokenWithAsync))
-  }
-  useEffect(() => {
-    if (!token) myFunc()
   }, [])
 
-  if (token && !userId) {
-    // console.log('getProfileInfo')
-    dispatch(getProfileInfo())
-  }
+  useEffect(() => {
+    if (!token) myFunc()
+  }, [token, myFunc])
+
+  useEffect(() => {
+    if (token && !userId) {
+      // console.log('getProfileInfo')
+      dispatch(getProfileInfo())
+    }
+  }, [token, userId])
 
   console.log('Token - ', token)
 

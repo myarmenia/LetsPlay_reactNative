@@ -25,12 +25,21 @@ const initialState = {
   waitNight: null,
   deadUsers: [],
   alredyDeadedUsers: [],
+  playersRatings: [],
+  winner: null,
+  organizer: false,
 }
 
 export const MafiaSlice = createSlice({
   name: 'mafia',
   initialState,
   reducers: {
+    setOrganizer: (store, action) => {
+      return {
+        ...store,
+        organizer: action.payload,
+      }
+    },
     setRules: (store, action) => {
       return {
         ...store,
@@ -163,6 +172,18 @@ export const MafiaSlice = createSlice({
         alredyDeadedUsers: action.payload,
       }
     },
+    setPlayersRatings: (store, action) => {
+      return {
+        ...store,
+        playersRatings: action.payload,
+      }
+    },
+    setWinner: (store, action) => {
+      return {
+        ...store,
+        winner: action.payload,
+      }
+    },
   },
 })
 
@@ -215,13 +236,11 @@ export const clearAllDatas = () => (dispatch) => {
   dispatch(setAddPlayersError(null))
   dispatch(setQrGame(false))
   dispatch(setQrLink(false))
-  dispatch(setRoles(null))
   dispatch(setParticipateSuccess(null))
   dispatch(setMafiaGameId(null))
   dispatch(setMafiaSocketOn(false))
   dispatch(setPlayers([]))
   dispatch(setMafiaRole(null))
-  dispatch(setAddPlayersError(null))
   dispatch(setVoteTime(0))
   dispatch(setCiviliansCount(0))
   dispatch(setMafiasCount(0))
@@ -229,6 +248,28 @@ export const clearAllDatas = () => (dispatch) => {
   dispatch(setLoader(false))
   dispatch(setNight(false))
   dispatch(setAnswerQuestions([]))
+  dispatch(setWaitNight(null))
+  dispatch(setSendAnswer({}))
+  dispatch(setQuestionTruthfulness(null))
+  dispatch(setDeadUsers([]))
+  dispatch(setAlredyDeadedUsers([]))
+  dispatch(setPlayersRatings([]))
+  dispatch(setWinner(null))
+  dispatch(setOrganizer(false))
+}
+export const resetGame = (mafia_game_id) => (dispatch) => {
+  dispatch(setPending(true))
+  axiosInstance
+    .post(`/api/game/mafia/reset/${mafia_game_id}`)
+    .then((e) => {
+      console.log('reset mafia', e)
+      dispatch(clearAllDatas())
+    })
+    .catch((err) => {
+      dispatch(setAddPlayersError(true))
+      console.log('err request startGame', err.request._response)
+    })
+  dispatch(setPending(false))
 }
 
 export const {
@@ -254,5 +295,8 @@ export const {
   setQuestionTruthfulness,
   setDeadUsers,
   setAlredyDeadedUsers,
+  setPlayersRatings,
+  setWinner,
+  setOrganizer,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer

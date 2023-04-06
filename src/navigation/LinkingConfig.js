@@ -1,7 +1,7 @@
 import { Linking } from 'react-native'
 
 export default {
-  prefixes: ['game://'], //'game:/',
+  prefixes: ['game://', 'https://game.com'], //'game:/',
   config: {
     screens: {
       // HomeScreen: 'home',
