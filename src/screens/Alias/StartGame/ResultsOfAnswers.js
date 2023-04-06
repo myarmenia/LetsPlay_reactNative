@@ -17,7 +17,7 @@ const ResultsOfAnswers = () => {
             <Text style={styles.title}>Отгадано 3</Text>
             <View style={styles.trueAnswersWrap}>
               {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
-                return <Text style={styles.word}>{`${i + 1} Слово`}</Text>
+                return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
               })}
             </View>
           </View>
@@ -25,7 +25,7 @@ const ResultsOfAnswers = () => {
             <Text style={styles.title}>Пропущено 4</Text>
             <View style={styles.trueAnswersWrap}>
               {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
-                return <Text style={styles.word}>{`${i + 1} Слово`}</Text>
+                return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
               })}
             </View>
           </View>

@@ -48,37 +48,6 @@ function ListItem({ game, pressable, qrGame }) {
         }}
         style={styles.bgFon}
       >
-        {modalVisible && (
-          <Modal
-            modalVisible={modalVisible}
-            setIsVisible={setModalVisible}
-            item={
-              <View style={styles.modal}>
-                <Text style={styles.successTeam}>
-                  Вы хотите организовать игру между игроками команды?
-                </Text>
-                <View style={styles.rowBox}>
-                  <LightButton
-                    label={'Да'}
-                    size={{ width: 100 }}
-                    onPress={() => {
-                      navigation.navigate('CommandLeadCreate', game),
-                        dispatch(setBetweenPlayers(true))
-                    }}
-                  />
-                  <DarkButton
-                    label={'Нет'}
-                    size={{ width: 100 }}
-                    onPress={() => {
-                      navigation.navigate('CommandLeadNotCreate', game),
-                        dispatch(setBetweenPlayers(false))
-                    }}
-                  />
-                </View>
-              </View>
-            }
-          />
-        )}
         {back ? (
           <LinearGradient
             colors={['#7DCE8A', '#4D7CFE']}
@@ -144,6 +113,37 @@ function ListItem({ game, pressable, qrGame }) {
           >
             <Text style={styles.btnText}>{game?.name}</Text>
           </LinearGradient>
+          {modalVisible && (
+            <Modal
+              modalVisible={modalVisible}
+              setIsVisible={setModalVisible}
+              item={
+                <View style={styles.modal}>
+                  <Text style={styles.successTeam}>
+                    Вы хотите организовать игру между игроками команды?
+                  </Text>
+                  <View style={styles.rowBox}>
+                    <LightButton
+                      label={'Да'}
+                      size={{ width: 100 }}
+                      onPress={() => {
+                        navigation.navigate('CommandLeadCreate', game),
+                          dispatch(setBetweenPlayers(true))
+                      }}
+                    />
+                    <DarkButton
+                      label={'Нет'}
+                      size={{ width: 100 }}
+                      onPress={() => {
+                        navigation.navigate('CommandLeadNotCreate', game),
+                          dispatch(setBetweenPlayers(false))
+                      }}
+                    />
+                  </View>
+                </View>
+              }
+            />
+          )}
         </View>
       </Pressable>
     </Animated.View>

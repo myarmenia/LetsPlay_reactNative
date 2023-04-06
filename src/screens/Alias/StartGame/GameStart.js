@@ -12,9 +12,10 @@ import AnimatedCircle from '../Components/AnimatedCircle'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
 
-const GameStart = () => {
+const GameStart = ({ route }) => {
   const navigation = useNavigation()
   const isFocused = useIsFocused()
+  let props = route?.params
   const [modalVisible, setModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
   const [secModalVisible, setSecModalVisible] = useState(false)
@@ -26,12 +27,13 @@ const GameStart = () => {
   })
 
   useEffect(() => {
-    // setAnswers({
-    //   true: 0,
-    //   false: 0,
-    // }),
-    setUserModalVisible(true)
-  }, [isFocused])
+    if (secModalVisible == false) {
+      if (props?.fromRes == true) {
+        setUserModalVisible(true)
+        props.fromRes = null
+      }
+    }
+  }, [secModalVisible, props])
 
   const UserModal = () => {
     return (
@@ -95,7 +97,7 @@ const GameStart = () => {
             true: 0,
             false: 0,
           }),
-            // setUserModalVisible(true),
+            setSecModalVisible(false),
             navigation.navigate('ResultsOfAnswers')
         }}
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
@@ -108,12 +110,14 @@ const GameStart = () => {
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>
-        {modalVisible || (secModalVisible && !userModalVisible) ? (
+        {modalVisible ? (
+          <Modal setIsVisible={setModalVisible} modalVisible={modalVisible} item={<ModalItem />} />
+        ) : null}
+        {secModalVisible && !userModalVisible ? (
           <Modal
-            setIsVisible={setSecModalVisible ? setSecModalVisible : setModalVisible}
-            modalVisible={secModalVisible ? secModalVisible : modalVisible}
-            navigationText={secModalVisible ? 'ResultsOfAnswers' : ''}
-            item={secModalVisible ? <TimeIsFinished /> : <ModalItem />}
+            setIsVisible={setSecModalVisible}
+            modalVisible={secModalVisible}
+            item={<TimeIsFinished />}
           />
         ) : null}
         {userModalVisible ? (
@@ -140,7 +144,12 @@ const GameStart = () => {
           <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
         </View>
         <View>
-          <AnimatedCircle word={'Testing'} answers={answers} setAnswers={setAnswers} />
+          <AnimatedCircle
+            word={'Testing'}
+            answers={answers}
+            setAnswers={setAnswers}
+            stoped={stoped ? true : false}
+          />
         </View>
         <View style={styles.answersBox}>
           <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
@@ -155,9 +164,12 @@ const GameStart = () => {
             </View>
             <View style={{ alignItems: 'center', width: '35%' }}>
               <Timer
+                secModalVisible={secModalVisible}
                 userModalVisible={userModalVisible}
                 stoped={stoped}
+                timerStart={!props?.fromRes ? true : false}
                 modalVisible={modalVisible}
+                setUserModalVisible={setUserModalVisible}
                 setSecModalVisible={setSecModalVisible}
               />
             </View>
@@ -203,6 +215,7 @@ const styles = StyleSheet.create({
   answersBox: {
     flexDirection: 'column',
     alignItems: 'center',
+    zIndex: 999,
   },
   bottomBox: {
     width: '97%',

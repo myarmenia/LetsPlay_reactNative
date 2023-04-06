@@ -1,26 +1,23 @@
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { memo, useCallback, useState } from 'react'
-import ScreenMask from '@/components/wrappers/screen'
-import { ICON, WHITE } from '@/theme/colors'
+import React from 'react'
+import { useEffect } from 'react'
+import { ICON, RED, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import UserEmptyIcon from '@/assets/svgs/userEmptyIcon'
+import { memo, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { setCommands, setReservedUsers } from '@/store/Slices/AliasSlice'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
-import { useEffect } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import LinearGradient from 'react-native-linear-gradient'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
-import { useDispatch, useSelector } from 'react-redux'
-import { setCommands } from '@/store/Slices/AliasSlice'
+import ScreenMask from '@/components/wrappers/screen'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
-  const { commands } = useSelector(({ alias }) => alias)
-  const [selecteds, setSelecteds] = useState([])
-  const [accepteds, setAccepteds] = useState([])
+  const { commands, reservedUsers, users } = useSelector(({ alias }) => alias)
   const [i, setI] = useState(0)
+  const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
@@ -28,71 +25,44 @@ const IniviteTeamPlayers = ({ route }) => {
     setI(0)
   }, [isFocused])
 
-  useEffect(() => {
-    if (i >= commands?.length) {
-      navigation.navigate('PlayNow')
-    }
-  }, [i])
-
-  const handleApply = () => {
-    setAccepteds([...selecteds])
-    setSelecteds([])
-    setI(i + 1)
-    setAccepteds(selecteds)
-    dispatch(
-      setCommands([
-        ...commands.map(elm => {
-          return elm?.command - 1 == i ? { ...elm, members: selecteds } : elm
-        }),
-      ]),
-    )
-  }
-  let [users, setUsers] = useState([
-    { id: 0, f: '' },
-    { id: 1, f: '' },
-    { id: 2, f: '' },
-    { id: 3, f: '' },
-    { id: 4, f: '' },
-    { id: 5, f: '' },
-    { id: 6, f: '' },
-    { id: 7, f: '' },
-    { id: 8, f: '' },
-  ])
-  const UserItem = ({ elm, i }) => {
-    const handleClick = () => {
-      if (selecteds.some(item => item == elm.id)) {
-        return setSelecteds(selecteds.filter(user => user !== elm.id))
+  const handleClick = elm => {
+    if (!reservedUsers?.includes(elm.id)) {
+      if (commands?.[i]?.members?.some(item => item == elm.id)) {
+        console.log('if')
+        dispatch(
+          setCommands(
+            commands.map(elem => {
+              if (elem.members.includes(elm.id)) {
+                return { ...elem, members: elem.members.filter(item => item !== elm.id) }
+              } else {
+                return elem
+              }
+            }),
+          ),
+        )
       } else {
-        return setSelecteds([...selecteds, elm.id])
+        console.log('else')
+        dispatch(
+          setCommands([
+            ...commands.map(item =>
+              item.command - 1 == i ? { ...item, members: [...item.members, elm.id] } : item,
+            ),
+          ]),
+        )
       }
     }
+  }
 
-    return (
-      <View style={{ alignItems: 'center', justifyContent: 'center', paddingVertical: RH(6) }}>
-        <BorderGradient
-          height={142}
-          width={105}
-          opacity={
-            selecteds.some(elm => elm == i) && !commands?.[i]?.members?.find(item => item == elm.id)
-              ? 1
-              : 0
-          }
-        />
-        <View style={{ position: 'absolute', zIndex: 65 }}>
-          <User
-            size={100}
-            onPressItem={{
-              item: <User size={390} />,
-              modalClose: false,
-              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
-              onClickFunc: commands?.[i]?.members?.find(item => item == elm.id)
-                ? null
-                : handleClick,
-            }}
-          />
-        </View>
-      </View>
-    )
+  const handleSubmit = () => {
+    if (commands[i].members.length) {
+      setError(false)
+      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      console.log('reservedUsers', reservedUsers)
+      setI(prev => prev + 1)
+      i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
+    } else {
+      setError(true)
+    }
   }
 
   return (
@@ -102,18 +72,49 @@ const IniviteTeamPlayers = ({ route }) => {
           <View style={styles.mainContainer}>
             <Text style={styles.title}>Игроки добавились в игру</Text>
             <Text style={styles.title}>Распределите игроков</Text>
-            <Text style={styles.commandName}>{commands[i]?.value}</Text>
+            <Text style={styles.commandName}>{commands?.[i]?.value}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
                 {users.map((elm, j) => {
                   return (
                     <View
                       style={{
-                        opacity: commands?.[i]?.members?.find(item => item == elm.id) ? 0.5 : 1,
+                        // opacity: commands?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
+                        opacity: reservedUsers?.includes(elm.id) ? 0.5 : 1,
                       }}
+                      key={j + 10}
                     >
-                      {console.log(commands?.[i]?.members?.find(item => item == elm.id))}
-                      <UserItem i={j} elm={elm} key={j} />
+                      <View
+                        style={{
+                          alignItems: 'center',
+                          justifyContent: 'center',
+
+                          // paddingVertical: RH(6),
+                        }}
+                      >
+                        <BorderGradient
+                          height={142}
+                          width={105}
+                          opacity={commands?.[i]?.members?.includes(elm.id) ? 1 : 0}
+                        />
+                        <Pressable
+                          style={{
+                            position: 'absolute',
+                            zIndex: 65,
+                          }}
+                          onPress={() => handleClick(elm)}
+                        >
+                          <User
+                            size={100}
+                            onPressItem={{
+                              item: <User size={390} />,
+                              modalClose: false,
+                              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
+                              onClickFunc: () => handleClick(elm),
+                            }}
+                          />
+                        </Pressable>
+                      </View>
                     </View>
                   )
                 })}
@@ -132,11 +133,12 @@ const IniviteTeamPlayers = ({ route }) => {
             marginBottom: RH(20),
           }}
         >
+          {!!error && <Text style={styles.errorText}>Выберите игроков</Text>}
           <View style={styles.btnBox}>
             <LightButton
               label={'Продолжить'}
               size={{ width: RW(310), height: RH(50) }}
-              onPress={handleApply}
+              onPress={handleSubmit}
             />
           </View>
           <View style={styles.btnBox}>
@@ -173,9 +175,14 @@ const styles = StyleSheet.create({
   gridBox: {
     width: '100%',
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     flexWrap: 'wrap',
   },
   btnBox: {
     marginTop: RH(10),
+  },
+  errorText: {
+    ...font('regular', 17, RED, 24),
   },
 })

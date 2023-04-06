@@ -22,9 +22,9 @@ const TYPES = [
 
 const GameSelectScreen = ({ navigation }) => {
   const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(saveTeamDataForCreating(null))
-  }, [])
+  // useEffect(() => {
+  //   dispatch(saveTeamDataForCreating(null))
+  // }, [])
   return (
     <ScreenMask>
       <View style={styles.container}>
