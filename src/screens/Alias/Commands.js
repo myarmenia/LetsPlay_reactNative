@@ -8,7 +8,6 @@ import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 import { setCommands } from '@/store/Slices/AliasSlice'
 
 const Commands = () => {

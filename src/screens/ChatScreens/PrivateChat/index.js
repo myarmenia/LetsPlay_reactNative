@@ -22,7 +22,10 @@ function Index(props) {
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
-  console.log('token', gameID)
+  console.log('gameID', gameID)
+  console.log('token', token)
+  console.log('userId', userId)
+
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
       type == 'Организатор' ? '/team' : ''
@@ -125,10 +128,11 @@ function Index(props) {
         item={item}
         key={index}
         id={item._id || item.id}
-        myMessage={item?.user?._id == userId || item?.user == userId}
+        myMessage={item?.user?._id == userId || item?.user == userId || item.user_id}
       />
     )
   }
+
   return (
     <ScreenMask>
       <KeyboardAvoidingView

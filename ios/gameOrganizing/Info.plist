@@ -86,6 +86,10 @@
 		<string>Inter-Thin.ttf</string>
 		<string>Exo.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
+		<string>Exo-SemiBold.ttf</string>
+		<string>Inter-ExtraLightItalic.ttf</string>
+		<string>Inter-LightItalic.ttf</string>
+		<string>OpenSans-Medium.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
