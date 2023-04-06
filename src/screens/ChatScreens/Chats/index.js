@@ -6,6 +6,7 @@ import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
+import { getChats } from '@/store/Slices/ChatsSlice'
 
 const ChatScreen = () => {
   const { user } = useSelector(({ auth }) => auth)
@@ -27,12 +28,14 @@ const ChatScreen = () => {
           {teamChatsList?.length || user?.took_part_games?.length ? (
             <>
               <View>
-                {teamChatsList?.map(eachChat => {
+                {teamChatsList?.map((eachChat) => {
+                  // console.log(eachChat)
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Организатор" />
                 })}
               </View>
               <View>
-                {user?.took_part_games?.map(eachChat => {
+                {user?.took_part_games?.map((eachChat) => {
+                  // console.log(eachChat)
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Участник" />
                 })}
               </View>

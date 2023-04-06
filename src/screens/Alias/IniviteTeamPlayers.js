@@ -1,15 +1,12 @@
-import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { memo, useCallback, useState } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { memo, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { ICON, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import UserEmptyIcon from '@/assets/svgs/userEmptyIcon'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { useEffect } from 'react'
-import { TouchableOpacity } from 'react-native'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import LinearGradient from 'react-native-linear-gradient'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,7 +16,7 @@ const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const { commands } = useSelector(({ alias }) => alias)
   const [selecteds, setSelecteds] = useState([])
-  const [accepteds, setAccepteds] = useState([])
+  // const [accepteds, setAccepteds] = useState([])
   const [i, setI] = useState(0)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -35,17 +32,15 @@ const IniviteTeamPlayers = ({ route }) => {
   }, [i])
 
   const handleApply = () => {
-    setAccepteds([...selecteds])
-    setSelecteds([])
-    setI(i + 1)
-    setAccepteds(selecteds)
     dispatch(
-      setCommands([
-        ...commands.map(elm => {
+      setCommands(
+        commands.map((elm) => {
           return elm?.command - 1 == i ? { ...elm, members: selecteds } : elm
         }),
-      ]),
+      ),
     )
+    setSelecteds([])
+    setI(i + 1)
   }
   let [users, setUsers] = useState([
     { id: 0, f: '' },
@@ -58,10 +53,15 @@ const IniviteTeamPlayers = ({ route }) => {
     { id: 7, f: '' },
     { id: 8, f: '' },
   ])
+
+  useEffect(() => {
+    console.log('useEffect')
+    setUsers(users)
+  }, [commands])
   const UserItem = ({ elm, i }) => {
     const handleClick = () => {
-      if (selecteds.some(item => item == elm.id)) {
-        return setSelecteds(selecteds.filter(user => user !== elm.id))
+      if (selecteds.includes(elm.id)) {
+        return setSelecteds(selecteds.filter((user) => user !== elm.id))
       } else {
         return setSelecteds([...selecteds, elm.id])
       }
@@ -72,11 +72,7 @@ const IniviteTeamPlayers = ({ route }) => {
         <BorderGradient
           height={142}
           width={105}
-          opacity={
-            selecteds.some(elm => elm == i) && !commands?.[i]?.members?.find(item => item == elm.id)
-              ? 1
-              : 0
-          }
+          opacity={selecteds.includes(i) && !commands?.[i]?.members?.includes(elm.id) ? 1 : 0}
         />
         <View style={{ position: 'absolute', zIndex: 65 }}>
           <User
@@ -85,9 +81,7 @@ const IniviteTeamPlayers = ({ route }) => {
               item: <User size={390} />,
               modalClose: false,
               // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
-              onClickFunc: commands?.[i]?.members?.find(item => item == elm.id)
-                ? null
-                : handleClick,
+              onClickFunc: commands?.[i]?.members?.includes(elm.id) ? null : handleClick,
             }}
           />
         </View>
@@ -109,10 +103,10 @@ const IniviteTeamPlayers = ({ route }) => {
                   return (
                     <View
                       style={{
-                        opacity: commands?.[i]?.members?.find(item => item == elm.id) ? 0.5 : 1,
+                        opacity: commands?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
                       }}
+                      key={j}
                     >
-                      {console.log(commands?.[i]?.members?.find(item => item == elm.id))}
                       <UserItem i={j} elm={elm} key={j} />
                     </View>
                   )
@@ -174,6 +168,7 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   btnBox: {
     marginTop: RH(10),

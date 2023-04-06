@@ -12,6 +12,7 @@ import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
 import {
+  setCurrentUserDeaded,
   setLoader,
   setQuestionTruthfulness,
   setSendAnswer,
@@ -25,13 +26,16 @@ const PlayMafia = () => {
   const [modalVisible, setModalVisible] = useState(true)
   const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [winnerModal, setWinnerModal] = useState(false)
-  const [currentUserDeaded, setCurrentUserDeaded] = useState(false)
-  const [answers, setAnswers] = useState(1)
+  // const [currentUserDeaded, setCurrentUserDeaded] = useState(false)
+
   const [choosable, setChoosable] = useState(false)
   const [choosedUsers, setChoosedUsers] = useState(null)
   const [nightQueastions, setNightQueastions] = useState([])
+  const [answers, setAnswers] = useState(1)
   const [dayQueastions, setDayQueastions] = useState([])
-  const daysCountRef = useRef(1)
+  const [daysCount, setDaysCount] = useState(1)
+
+  // const daysCountRef = useRef(1)
 
   const {
     mafiaRole,
@@ -43,8 +47,11 @@ const PlayMafia = () => {
     night,
     answerQuestions,
     questionTruthfulness,
-    deadUsers,
     winner,
+    waitNight,
+    alredyDeadedUsers,
+    currentUserDeaded,
+    deadUser,
   } = useSelector(({ mafia }) => mafia)
   const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
@@ -53,15 +60,13 @@ const PlayMafia = () => {
     setModalVisible(true)
   }, [mafiaRole])
   useEffect(() => {
-    if (night && answers < nightQueastions.length) {
+    if (night) {
       setChoosable(true)
-    } else if (night && answers == nightQueastions.length) {
-      setAnswers(1)
+      setAnswers(Math.round(Math.random() * (nightQueastions.length - 1)))
+    } else if (night && questionTruthfulness?.truthfulness !== undefined) {
       dispatch(setWaitNight(false))
       dispatch(setLoader(true))
-      setChoosable(false)
-    } else if (!night && answers < dayQueastions.length && daysCountRef > 1) {
-      setChoosable(true)
+      dispatch(setQuestionTruthfulness(null))
     } else if (night && answers == dayQueastions.length) {
       setAnswers(1)
       dispatch(setWaitNight(true))
@@ -70,11 +75,14 @@ const PlayMafia = () => {
     }
   }, [answers, answerQuestions, night])
   useEffect(() => {
-    if (deadUsers.length) {
+    console.log('deadUser', deadUser)
+    console.log('deadUser._id == currentUser._id', deadUser?.user?._id == currentUser?._id)
+    if (Object.keys(deadUser || {}).length) {
       setDeadModalVisible(true)
-      setCurrentUserDeaded(deadUsers[0]?.user?._id == currentUser._id)
+      dispatch(setCurrentUserDeaded(deadUser?.user?._id == currentUser?._id))
     }
-  }, [deadUsers])
+  }, [deadUser])
+  // console.log('currentUser', currentUser)
   useEffect(() => {
     setNightQueastions(answerQuestions.filter((item) => item.night))
     setDayQueastions(answerQuestions.filter((item) => !item.night))
@@ -104,7 +112,7 @@ const PlayMafia = () => {
               </Pressable>
             </View>
             <Text style={styles.morningText}>Утро</Text>
-            {daysCountRef.current > 1 ? (
+            {daysCount > 1 ? (
               <View>
                 <Text style={styles.question}>{dayQueastions[0]?.question}</Text>
               </View>
@@ -152,7 +160,7 @@ const PlayMafia = () => {
                   >
                     {choosedUsers === item?._id ? (
                       <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-                        {!questionTruthfulness || !night ? (
+                        {!questionTruthfulness ? ( //|| !night || waitNight == false
                           <UserBorderSvg />
                         ) : (
                           <View
@@ -185,8 +193,9 @@ const PlayMafia = () => {
                     <User
                       onPressItem={{
                         onClickFunc: () => {
+                          // console.log(questionTruthfulness?.truthfulness)
                           if (
-                            (choosable || daysCountRef.current > 1) &&
+                            (choosable || daysCount > 1) &&
                             item?.status &&
                             !currentUserDeaded &&
                             questionTruthfulness?.truthfulness === undefined
@@ -205,7 +214,7 @@ const PlayMafia = () => {
           </View>
         </ScrollView>
         <View style={{ position: 'absolute', bottom: RH(15) }}>
-          {questionTruthfulness?.truthfulness && night ? (
+          {questionTruthfulness?.truthfulness && night && waitNight == false ? (
             <Text
               style={{
                 ...font('bold', 18, '#74C472', 24),
@@ -215,7 +224,7 @@ const PlayMafia = () => {
             >
               Правильно
             </Text>
-          ) : questionTruthfulness?.truthfulness !== undefined && night ? (
+          ) : questionTruthfulness?.truthfulness !== undefined && night && waitNight == false ? (
             <Text
               style={{
                 ...font('bold', 18, '#F73934', 24),
@@ -226,30 +235,26 @@ const PlayMafia = () => {
               Не правильно
             </Text>
           ) : null}
-          {console.log('night', night)}
           {!currentUserDeaded ? (
             <LightButton
               size={{ width: RW(281), height: RH(48) }}
               labelStyle={styles.invitePlayers}
-              label={
-                !night && daysCountRef.current > 1 ? 'Голосовать' : !night ? 'Ночь' : 'Подтвердить'
-              }
+              label={!night && daysCount > 1 ? 'Голосовать' : !night ? 'Ночь' : 'Подтвердить'}
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
               onPress={() => {
-                if (!night && daysCountRef.current == 1) {
-                  daysCountRef.current = 2
+                if (!night && daysCount == 1) {
+                  setDaysCount(2)
                   dispatch(setLoader(true))
                   dispatch(setWaitNight(!night))
                 } else if (Object.keys(questionTruthfulness || {}).length) {
                   dispatch(setQuestionTruthfulness(null))
-                  setAnswers(answers + 1)
                   setChoosedUsers(null)
-                  if (!night && daysCountRef.current > 1) {
-                    dispatch(setLoader(true))
-                    dispatch(setWaitNight(true))
-                  }
+                  // if (night || daysCount > 1) {
+                  dispatch(setLoader(true))
+                  dispatch(setWaitNight(!night))
+                  // }
                 } else if (choosedUsers) {
                   dispatch(
                     setSendAnswer({
@@ -258,10 +263,12 @@ const PlayMafia = () => {
                       select_user: choosedUsers,
                     }),
                   )
-                  if (!night && daysCountRef.current > 1) {
-                    dispatch(setLoader(true))
-                    dispatch(setWaitNight(true))
-                  }
+                  // if (!night && daysCount > 1) {
+                  //   dispatch(setLoader(true))
+                  //   dispatch(setWaitNight(true))
+                  //   setChoosedUsers(null)
+                  //   dispatch(setQuestionTruthfulness(null))
+                  // }
                 }
               }}
             />

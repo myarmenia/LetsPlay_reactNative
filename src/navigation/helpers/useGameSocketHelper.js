@@ -15,7 +15,7 @@ import {
   setAnswerQuestions,
   setQuestionTruthfulness,
   setWaitNight,
-  setDeadUsers,
+  setDeadUser,
   setAlredyDeadedUsers,
   setPlayersRatings,
   setWinner,
@@ -25,12 +25,10 @@ export const useGameSocketHelper = (socket) => {
   const dispatch = useDispatch()
   const isMounted = useRef(false)
   const navigation = useNavigation()
-  const { sendAnswer, waitNight, alredyDeadedUsers, mafiaGameId } = useSelector(
-    ({ mafia }) => mafia,
-  )
+  const { sendAnswer, waitNight, alredyDeadedUsers, deadUser } = useSelector(({ mafia }) => mafia)
 
   useEffect(() => {
-    console.log('waitNight', waitNight)
+    // console.log('waitNight', waitNight)
     if (waitNight === null) return
     socket?.send({
       type: 'end_time_vote',
@@ -40,19 +38,11 @@ export const useGameSocketHelper = (socket) => {
 
   useEffect(() => {
     if (Object.keys(sendAnswer || {}).length && Object.values(sendAnswer || {}).length) {
-      console.log('sendAnswer', sendAnswer)
+      // console.log('sendAnswer', sendAnswer)
       socket?.send(sendAnswer)
       dispatch(setSendAnswer({}))
     }
   }, [sendAnswer, socket])
-  useEffect(() => {
-    if (Object.keys(sendAnswer || {}).length && Object.values(sendAnswer || {}).length) {
-      console.log('sendAnswer', sendAnswer)
-      socket?.send(sendAnswer)
-      dispatch(setSendAnswer({}))
-    }
-  }, [sendAnswer])
-
   useEffect(() => {
     if (socket && !isMounted.current) {
       isMounted.current = true
@@ -93,25 +83,29 @@ export const useGameSocketHelper = (socket) => {
             dispatch(setLoader(false))
             dispatch(setWaitNight(null))
             dispatch(setPlayers(e?.all_players))
-            dispatch(
-              setDeadUsers(
-                e.all_players.filter((user) => {
-                  if (!user.status && !alredyDeadedUsers?.find((id) => user?._id == id)) {
-                    dispatch(setAlredyDeadedUsers([...alredyDeadedUsers, user._id]))
-                    return user
-                  }
-                }),
-              ),
-            )
+            // dispatch(
+            //   setDeadUser(
+            //     e.all_players.filter((user) => {
+            //       if (!user.status && !alredyDeadedUsers?.find((id) => user?._id == id)) {
+            //         dispatch(setAlredyDeadedUsers([...alredyDeadedUsers, user._id]))
+            //         return user
+            //       }
+            //     }),
+            //   ),
+            // )
             break
           case 'question_answer':
             dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
             break
           case 'player_out':
-            const deadUser = e?.all_players?.find((user) => user?._id == e?.player?._id)
-            dispatch(setDeadUsers({ ...deadUser, role: e?.player?.role?.name }))
+            const filteredData = e?.all_players?.find((user) => {
+              return !user.status && !alredyDeadedUsers?.find((id) => user?._id == id)
+            })
+            dispatch(setAlredyDeadedUsers([...alredyDeadedUsers, filteredData?.user?._id]))
+            dispatch(setDeadUser(filteredData))
             break
           case 'end_game':
+            dispatch(setLoader(false))
             dispatch(setWinner(e.winner))
             break
           case 'players_rating':

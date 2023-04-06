@@ -9,20 +9,20 @@ import { useSelector } from 'react-redux'
 
 function Index(props) {
   const token = useSelector(({ auth }) => auth.token)
-  // const socket = io('wss://to-play.ru/notification', {
-  //   transportOptions: {
-  //     polling: {
-  //       extraHeaders: {
-  //         Authorization: token,
-  //       },
-  //     },
-  //   },
-  // })
+  const socket = io('wss://to-play.ru/notification', {
+    transportOptions: {
+      polling: {
+        extraHeaders: {
+          Authorization: token,
+        },
+      },
+    },
+  })
 
-  //get message
-  // socket.on('message', (m) => {
-  //   console.log('notification', m)
-  // })
+  // get message
+  socket.on('message', (m) => {
+    console.log('notification', m)
+  })
   return (
     <ScreenMask>
       <View style={style.container}>

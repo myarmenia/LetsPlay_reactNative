@@ -1,9 +1,9 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native'
 import { RH } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats } from '@/store/Slices/ChatsSlice'
+import { getChats, getTeamChats, sendTeamMessage } from '@/store/Slices/ChatsSlice'
 import { sendMessage } from '../../../store/Slices/ChatsSlice'
 import { io } from 'socket.io-client'
 import CustomInput from './components/Input'
@@ -21,9 +21,12 @@ function Index(props) {
   const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
-  // const gameID = '6401e307216c08e6662114d4'
-  const socket = io.connect(
-    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/chat?room=${gameID}`,
+  const type = props.route.params.type
+  console.log('token', gameID)
+  const socket = io(
+    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
+      type == 'Организатор' ? '/team' : ''
+    }/chat?room=${gameID}`,
     {
       transportOptions: {
         polling: {
@@ -70,15 +73,25 @@ function Index(props) {
         })
         .catch((error) => console.log('error', error))
     } else {
-      dispatch(
-        sendMessage({
-          message: text,
-          create_game: gameID,
-        }),
-      )
+      if (type == 'Организатор') {
+        dispatch(
+          sendTeamMessage({
+            message: text,
+            team: gameID,
+          }),
+        )
+      } else {
+        dispatch(
+          sendMessage({
+            message: text,
+            create_game: gameID,
+          }),
+        )
+      }
     }
   }
   const memoSocketFunc = (message) => {
+    console.log('message', message)
     if (message.file || message.message) {
       setMessageState((lastState) => {
         if (!lastState?.find((item) => item?.id == message?.id)) {
@@ -94,6 +107,11 @@ function Index(props) {
 
   useEffect(() => {
     dispatch(getChats(gameID))
+    dispatch(getTeamChats(gameID))
+    return () => {
+      console.log('chat socket disconnect')
+      socket.disconnect()
+    }
   }, [])
   useEffect(() => {
     setMessageState(chats)

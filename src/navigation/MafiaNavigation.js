@@ -51,8 +51,8 @@ const MafiaNavigation = () => {
 
   useEffect(() => {
     return () => {
-      console.log('useEffect clearAllDatas')
-      dispatch(clearAllDatas())
+      // console.log('useEffect clearAllDatas')
+      // dispatch(clearAllDatas())
     }
   }, [])
 

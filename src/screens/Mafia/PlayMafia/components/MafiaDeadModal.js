@@ -1,23 +1,21 @@
-import { Text, View, Image, ImageBackground, Pressable } from 'react-native'
+import { Text, View } from 'react-native'
 import React from 'react'
 import Modal from '@/components/modal'
-import { font, RH, RW } from '@/theme/utils'
-import { WHITE } from '@/theme/colors'
+import { font, RH } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import User from '@/components/User/user'
-import { setDeadUsers } from '@/store/Slices/MafiaSlice'
+import { setDeadUser } from '@/store/Slices/MafiaSlice'
 
 const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
-  const { deadUsers } = useSelector(({ mafia }) => mafia)
+  const { deadUser } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
-  // console.log('deadUsers', deadUsers)
   if (!modalVisible) return null
   return (
     <Modal
       modalVisible={modalVisible}
       setIsVisible={(e) => {
-        dispatch(setDeadUsers([]))
+        dispatch(setDeadUser([]))
         setModalVisible(e)
       }}
       item={
@@ -25,9 +23,9 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
           <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginBottom: RH(50) }}>
             Игрок выбыл
           </Text>
-          <User size={400} user={deadUsers[0]} onPressItem={{ onClickFunc: () => {} }} />
+          <User size={400} user={deadUser} onPressItem={{ onClickFunc: () => {} }} />
           <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginTop: RH(30) }}>
-            {deadUsers?.role}
+            {deadUser?.role}
           </Text>
         </View>
       }

@@ -16,8 +16,8 @@ import { setMinutes } from '@/store/Slices/AliasSlice'
 function Index({ navigation }) {
   //===================states=====================
   const [modalRules, setModalRules] = useState(true)
-  const [countOfWords, setCountOfWords] = useState(0)
-  const [timeOfRounds, setTimeOfRounds] = useState(0)
+  const [countOfWords, setCountOfWords] = useState(10)
+  const [timeOfRounds, setTimeOfRounds] = useState(30)
   const [isOn, setIsOn] = useState(false)
   //==================states end==================
   const [error, setError] = useState(false)
@@ -31,8 +31,9 @@ function Index({ navigation }) {
       setError(false)
     }
     if (!error) {
-      dispatch(setMinutes(timeOfRounds)), navigation.navigate('GameStart')
-    } //navigation.navigate('SelectComplexity')
+      dispatch(setMinutes(timeOfRounds)) //, navigation.navigate('GameStart')
+      navigation.navigate('SelectComplexity')
+    }
   }
   return (
     <ScreenMask>
