@@ -4,6 +4,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import TypeButton from './components/TypeButton'
 import { useDispatch } from 'react-redux'
 import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
+import { useIsFocused } from '@react-navigation/native'
 
 const TYPES = [
   {
@@ -22,9 +23,10 @@ const TYPES = [
 
 const GameSelectScreen = ({ navigation }) => {
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
   // useEffect(() => {
-  //   dispatch(saveTeamDataForCreating(null))
-  // }, [])
+  // dispatch(saveTeamDataForCreating(null))
+  // }, [isFocused])
   return (
     <ScreenMask>
       <View style={styles.container}>
