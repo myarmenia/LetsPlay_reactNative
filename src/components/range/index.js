@@ -17,9 +17,9 @@ function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, sty
     return labels().map((label, index) => (
       <Text
         key={index}
-        style={[styles.scaleLabel, { left: label == 80 && index == 1 ? '-50%' : 0 }, style]}
+        style={[styles.scaleLabel, { left: label == 80 && index == 1 ? '-45%' : 0 }, style]}
       >
-        {label == 40 ? 50 : label}
+        {label}
       </Text>
     ))
   }

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { useEffect } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
@@ -30,7 +29,6 @@ const IniviteTeamPlayers = ({ route }) => {
   const handleClick = elm => {
     if (!reservedUsers?.includes(elm.id)) {
       if (commands?.[i]?.members?.some(item => item == elm.id)) {
-        console.log('if')
         dispatch(
           setCommands(
             commands.map(elem => {
@@ -43,7 +41,6 @@ const IniviteTeamPlayers = ({ route }) => {
           ),
         )
       } else {
-        console.log('else')
         dispatch(
           setCommands([
             ...commands.map(item =>
@@ -59,13 +56,11 @@ const IniviteTeamPlayers = ({ route }) => {
     if (commands[i].members.length) {
       setError(false)
       dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
-      console.log('reservedUsers', reservedUsers)
       setI(prev => prev + 1)
       i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)
     }
-
   }
 
   return (

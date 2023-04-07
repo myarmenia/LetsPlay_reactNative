@@ -11,7 +11,7 @@ import Modal from '@/components/modal'
 import ModalRules from '../QrCode/ModalRules'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setMinutes } from '@/store/Slices/AliasSlice'
+import { setCountWords, setMinutes } from '@/store/Slices/AliasSlice'
 
 function Index({ navigation }) {
   //===================states=====================
@@ -32,6 +32,7 @@ function Index({ navigation }) {
     }
     if (!error) {
       dispatch(setMinutes(timeOfRounds)),
+        dispatch(setCountWords(countOfWords)),
         // navigation.navigate('GameStart')
         navigation.navigate('SelectComplexity')
     }

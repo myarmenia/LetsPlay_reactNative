@@ -1,21 +1,37 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import ScreenMask from '@/components/wrappers/screen'
+import { useState } from 'react'
+import { RED, WHITE } from '@/theme/colors'
+import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { WHITE } from '@/theme/colors'
+import { useNavigation } from '@react-navigation/native'
+import { setComplexity } from '@/store/Slices/AliasSlice'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+import ScreenMask from '@/components/wrappers/screen'
 import LinearGradient from 'react-native-linear-gradient'
 import LightButton from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
 
 const SelectComplexity = () => {
   const btnsData = [
-    { id: 1, name: 'Быстрая игра', complexity: 'Легкий', check: false },
-    { id: 2, name: 'Оптимус', complexity: 'Средний', check: false },
-    { id: 3, name: 'Мозговой штурм', complexity: 'Сложный', check: false },
-    { id: 4, name: 'Рулетка', complexity: 'От простого до сложного', check: false },
+    { id: 1, name: 'Быстрая игра', complexity: 'Легкий', type: 'easy', check: false },
+    { id: 2, name: 'Оптимус', complexity: 'Средний', type: 'average', check: false },
+    { id: 3, name: 'Мозговой штурм', complexity: 'Сложный', type: 'difficult', check: false },
+    { id: 4, name: 'Рулетка', complexity: 'От простого до сложного', type: 'random', check: false },
   ]
-  const [btns, setBtns] = useState(btnsData)
+
+  const dispatch = useDispatch()
   const navigation = useNavigation()
+  const [btns, setBtns] = useState(btnsData)
+  const [error, setError] = useState(false)
+  const { complexity } = useSelector(({ alias }) => alias)
+  const handleSubmit = () => {
+    if (!btns.filter(elm => elm.check)?.length) {
+      setError(true)
+    } else {
+      setError(false)
+      dispatch(setComplexity(btns.filter(elm => elm.check)[0]?.type))
+      navigation.navigate('Commands')
+    }
+  }
+
   const EachBtn = ({ btn }) => {
     return (
       <Pressable
@@ -80,11 +96,12 @@ const SelectComplexity = () => {
           })}
         </View>
       </View>
+      {!!error && <Text style={styles.errorText}>Выберите сложность игры</Text>}
       <View style={styles.nextBtn}>
         <LightButton
           label={'Продолжить'}
           size={{ width: 281, height: 48 }}
-          onPress={() => navigation.navigate('Commands')}
+          onPress={handleSubmit}
         />
       </View>
     </ScreenMask>
@@ -125,5 +142,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     bottom: RH(60),
+  },
+  errorText: {
+    textAlign: 'center',
+    ...font('medium', 18, RED),
   },
 })

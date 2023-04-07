@@ -11,6 +11,13 @@ export default {
           },
         },
       },
+      AliasNavigator: {
+        screens: {
+          GameStart: {
+            path: 'playAlias/:id',
+          },
+        },
+      },
     },
   },
   subscribe(listener) {

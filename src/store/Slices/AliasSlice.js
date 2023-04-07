@@ -1,9 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
+import axiosInstance from '../Api'
 
 const initialState = {
   rules: '',
-  qrGame: false,
+  qrGameImg: false,
   commands: null,
+  complexity: null,
+  aliasGameId: null,
+  countOfWords: null,
   minutesInGame: 0,
   users: [
     { id: 0, f: '' },
@@ -36,6 +40,18 @@ export const AliasSlice = createSlice({
     setReservedUsers: (store, action) => {
       return { ...store, reservedUsers: action.payload }
     },
+    setAliasGameId: (store, action) => {
+      return { ...store, aliasGameId: action.payload }
+    },
+    setComplexity: (store, action) => {
+      return { ...store, complexity: action.payload }
+    },
+    setCountWords: (store, action) => {
+      return { ...store, countOfWords: action.payload }
+    },
+    setQrImg: (store, action) => {
+      return { ...store, qrGameImg: action.payload }
+    },
     // setTrueAnswers: (store, action) => {
     //   return {
     //     ...store,
@@ -66,10 +82,29 @@ export const AliasSlice = createSlice({
   },
 })
 
+export const sendAliasSettings = data => dispatch => {
+  axiosInstance
+    .post('api/game/alias', data)
+    .then(response => {
+      if (response.data?.data) {
+        dispatch(setQrImg(response.data?.data?.qr_link))
+        dispatch(setAliasGameId(response.data?.data?._id))
+        // console.log('qr Link :', JSON.stringify(response.data.data.qr_link, null, 5))
+      }
+    })
+    .catch(err => {
+      console.log('err request', err)
+    })
+}
+
 export const {
-  setCommands,
+  setQrImg,
   setMinutes,
+  setCommands,
+  setCountWords,
+  setComplexity,
   setTrueAnswers,
+  setAliasGameId,
   setFalseAnswers,
   setReservedUsers,
 } = AliasSlice.actions
