@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Image, Pressable, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTeams } from '@/store/Slices/TeamSlice'
+import { getTeams, saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
 import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
@@ -50,6 +50,7 @@ function Index() {
   useEffect(() => {
     dispatch(getTeams(setModalVisible))
   }, [isFocused])
+
   // useEffect(() => {
   //   !teamChatsList.length ? setModalVisible(true) : setModalVisible(false)
   // }, [teamChatsList])

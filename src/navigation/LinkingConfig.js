@@ -4,14 +4,6 @@ export default {
   prefixes: ['game://', 'https://game.com'], //'game:/',
   config: {
     screens: {
-      // HomeScreen: 'home',
-      // TabNavigator: {
-      //   screens: {
-      //     Profile: {
-      //       path: 'profile',
-      //     },
-      //   },
-      // },
       MafiaNavigator: {
         screens: {
           AboutGame: {

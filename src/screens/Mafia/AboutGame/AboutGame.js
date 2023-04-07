@@ -27,7 +27,6 @@ const AboutGame = ({ route }) => {
   useEffect(() => {
     if (propsGameId) {
       dispatch(clearAllDatas())
-      dispatch(setMafiaSocketOn(true))
       dispatch(participateToGame(propsGameId))
     }
   }, [propsGameId])

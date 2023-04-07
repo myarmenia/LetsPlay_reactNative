@@ -50,7 +50,7 @@ const GameStart = ({ route }) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-evenly',
-          top: '5%',
+          top: '6%',
         }}
       >
         <View style={styles.userModalBox}>
