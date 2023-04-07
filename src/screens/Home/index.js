@@ -15,11 +15,14 @@ const HomeScreen = () => {
   return (
     <ScreenMask>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => {}}>
-          {/* navigation.navigate('CalendarNavigator') */}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('CalendarNavigator')
+          }}
+        >
           <CalendarIcon />
         </TouchableOpacity>
-        <Pressable onPress={() => navigation.navigate('Notification')}>
+        <Pressable onPress={() => navigation.navigate('NotificationScreen')}>
           <NotificationIcon />
         </Pressable>
       </View>

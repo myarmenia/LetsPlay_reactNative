@@ -22,7 +22,7 @@ function Index(props) {
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
-  console.log('token', gameID)
+
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
       type == 'Организатор' ? '/team' : ''
@@ -91,7 +91,6 @@ function Index(props) {
     }
   }
   const memoSocketFunc = (message) => {
-    console.log('message', message)
     if (message.file || message.message) {
       setMessageState((lastState) => {
         if (!lastState?.find((item) => item?.id == message?.id)) {
@@ -125,10 +124,11 @@ function Index(props) {
         item={item}
         key={index}
         id={item._id || item.id}
-        myMessage={item?.user?._id == userId || item?.user == userId}
+        myMessage={item?.user?._id == userId || item?.user == userId || item.user_id}
       />
     )
   }
+
   return (
     <ScreenMask>
       <KeyboardAvoidingView

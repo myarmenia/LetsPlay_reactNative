@@ -1,28 +1,11 @@
 import React from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import style from '@/screens/Notification/style'
+import style from './style'
 import CloseSvg from '@/assets/svgs/closeSvg'
 import Button from '@/assets/imgs/Button'
-import { io } from 'socket.io-client'
-import { useSelector } from 'react-redux'
 
-function Index(props) {
-  const token = useSelector(({ auth }) => auth.token)
-  const socket = io('wss://to-play.ru/notification', {
-    transportOptions: {
-      polling: {
-        extraHeaders: {
-          Authorization: token,
-        },
-      },
-    },
-  })
-
-  // get message
-  socket.on('message', (m) => {
-    console.log('notification', m)
-  })
+function NotificationScreen(props) {
   return (
     <ScreenMask>
       <View style={style.container}>
@@ -48,4 +31,4 @@ function Index(props) {
   )
 }
 
-export default Index
+export default NotificationScreen

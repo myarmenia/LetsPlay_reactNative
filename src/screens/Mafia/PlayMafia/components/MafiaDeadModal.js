@@ -15,7 +15,7 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
     <Modal
       modalVisible={modalVisible}
       setIsVisible={(e) => {
-        dispatch(setDeadUser([]))
+        dispatch(setDeadUser(null))
         setModalVisible(e)
       }}
       item={
