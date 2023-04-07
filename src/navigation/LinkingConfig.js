@@ -12,10 +12,17 @@ export default {
       //     },
       //   },
       // },
-      MafiaNavigation: {
+      MafiaNavigator: {
         screens: {
           AboutGame: {
             path: 'playMafia/:id',
+          },
+        },
+      },
+      AliasNavigator: {
+        screens: {
+          GameStart: {
+            path: 'playAlias/:id',
           },
         },
       },

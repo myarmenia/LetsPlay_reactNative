@@ -1,24 +1,24 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import ScreenMask from '@/components/wrappers/screen'
-import { font, RH, RW } from '@/theme/utils'
-import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
-import CircleAdd from '@/components/buttons/circleAdd'
-import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
-import LightButton from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
-import { setCommands } from '@/store/Slices/AliasSlice'
+import { font, RH, RW } from '@/theme/utils'
+import { sendAliasSettings, setCommands } from '@/store/Slices/AliasSlice'
+import { useNavigation } from '@react-navigation/native'
+import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
+import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
+import CircleAdd from '@/components/buttons/circleAdd'
+import ScreenMask from '@/components/wrappers/screen'
+import LightButton from '@/assets/imgs/Button'
 
 const Commands = () => {
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const { countOfWords, minutesInGame, complexity } = useSelector(({ alias }) => alias)
+  const [error, setError] = useState(false)
   const [commandsCount, setCommandsCount] = useState([
     { command: 1, value: '', members: [] },
     { command: 2, value: '', members: [] },
   ])
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
-  const [error, setError] = useState(false)
 
   const handleSubmit = () => {
     let empty = 0
@@ -31,7 +31,17 @@ const Commands = () => {
       setError(true)
     } else {
       setError(false)
-      dispatch(setCommands(commandsCount)), navigation.navigate('QrCode', commandsCount)
+      dispatch(setCommands(commandsCount)),
+        dispatch(
+          sendAliasSettings({
+            number_of_words: countOfWords,
+            round_time: minutesInGame,
+            pass_fine: true,
+            type: complexity,
+            teams: commandsCount.map(elm => elm.value),
+          }),
+        )
+      navigation.navigate('QrCode', commandsCount)
     }
   }
   return (
@@ -52,7 +62,7 @@ const Commands = () => {
                     <TextInput
                       style={styles.priceInputText}
                       placeholder={`Название команды ${elm.command}`}
-                      onChangeText={(e) =>
+                      onChangeText={e =>
                         setCommandsCount([
                           ...commandsCount.map((elm, ind) => {
                             return i == ind
@@ -74,7 +84,7 @@ const Commands = () => {
                                 { command: 1, value: '', members: [] },
                                 { command: 2, value: '', members: [] },
                               ])
-                            : setCommandsCount([...commandsCount.filter((elem) => elm !== elem)])
+                            : setCommandsCount([...commandsCount.filter(elem => elm !== elem)])
                           : null
                       }
                     >

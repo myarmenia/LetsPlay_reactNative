@@ -1,6 +1,8 @@
-import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useEffect, useRef } from 'react'
 import { NAV_HEADER_OPTION } from '@/constants'
+import { useGameSocketHelper } from './helpers'
+import { useDispatch, useSelector } from 'react-redux'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Commands from '@/screens/Alias/Commands'
 import IniviteTeamPlayers from '@/screens/Alias/IniviteTeamPlayers'
 import AboutGame from '@/screens/Alias/AboutGame/AboutGame'
@@ -12,10 +14,40 @@ import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
 import GameStart from '@/screens/Alias/StartGame/GameStart'
 import ResultsOfAnswers from '@/screens/Alias/StartGame/ResultsOfAnswers'
 import TeamsResults from '@/screens/Alias/TeamsResults/TeamsResults'
+import { io } from 'socket.io-client'
 
 const AliasNavigator = () => {
   const Stack = createNativeStackNavigator()
+  const socketRef = useRef(null)
+  const token = useSelector(({ auth }) => auth.token)
+  const dispatch = useDispatch()
+  const { aliasGameId } = useSelector(({ alias }) => alias)
+  const {} = useGameSocketHelper(socketRef.current)
+  // let deviceName
+  // DeviceInfo.getDeviceName().then((e) => {
+  //   deviceName = e
+  // })
 
+  useEffect(() => {
+    if (!aliasGameId && socketRef.current) {
+      socketRef.current = null
+    }
+    if (socketRef.current || !aliasGameId) return
+
+    console.log('aliasGameId -', aliasGameId)
+    socketRef.current = io(
+      `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/alias?room=${aliasGameId}`,
+      {
+        transportOptions: {
+          polling: {
+            extraHeaders: {
+              Authorization: token,
+            },
+          },
+        },
+      },
+    )
+  }, [aliasGameId, token])
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />

@@ -25,7 +25,8 @@ const GameStart = ({ route }) => {
     true: 0,
     false: 0,
   })
-
+  const id = props.id
+  console.log('id from redirect :', id)
   useEffect(() => {
     if (secModalVisible == false) {
       if (props?.fromRes == true) {

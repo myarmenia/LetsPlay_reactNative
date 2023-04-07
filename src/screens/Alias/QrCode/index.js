@@ -1,24 +1,24 @@
-import React, { useState } from 'react'
-import { Image, Text, View, StyleSheet } from 'react-native'
-import Modal from '@/components/modal'
-import ScreenMask from '@/components/wrappers/screen'
-import Rules from './ModalRules'
-import QrTest from '@/assets/imgs/qrTest.jpg'
-import Button from '@/assets/imgs/Button'
-import { RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
+import { RH, RW } from '@/theme/utils'
+import { useSelector } from 'react-redux'
+import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
+import { Image, Text, View, StyleSheet } from 'react-native'
+import Button from '@/assets/imgs/Button'
+import ScreenMask from '@/components/wrappers/screen'
 
 function Index({ route }) {
   const commandsCount = route?.params
+  const { qrGameImg } = useSelector(({ alias }) => alias)
   const navigation = useNavigation()
+
   return (
     <ScreenMask>
       <View>
         <View style={styles.body}>
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
-            <Image style={styles.qr} source={QrTest} />
+            <Image style={styles.qr} source={{ uri: _storageUrl + qrGameImg }} />
           </View>
           <Button
             onPress={() => navigation.navigate('InviteTeamPlayers', commandsCount)}
