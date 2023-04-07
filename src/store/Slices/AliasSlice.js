@@ -93,7 +93,17 @@ export const sendAliasSettings = data => dispatch => {
       }
     })
     .catch(err => {
-      console.log('err request', err)
+      console.log('err sending alias settings :', err)
+    })
+}
+export const sendGameId = id => dispatch => {
+  axiosInstance
+    .post(`api/game/alias/participate/${id}`)
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(err => {
+      console.log('err sending alias game id :', err)
     })
 }
 

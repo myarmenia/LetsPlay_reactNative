@@ -11,6 +11,7 @@ import LightButton from '@/assets/imgs/Button'
 import AnimatedCircle from '../Components/AnimatedCircle'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
+import { sendGameId } from '@/store/Slices/AliasSlice'
 
 const GameStart = ({ route }) => {
   const navigation = useNavigation()
@@ -25,7 +26,7 @@ const GameStart = ({ route }) => {
     true: 0,
     false: 0,
   })
-  const id = props.id
+  const id = props?.id
   console.log('id from redirect :', id)
   useEffect(() => {
     if (secModalVisible == false) {
@@ -35,6 +36,11 @@ const GameStart = ({ route }) => {
       }
     }
   }, [secModalVisible, props])
+
+  useEffect(() => {
+    console.log('id from redirect :', id)
+    sendGameId(props.id)
+  }, [props?.id])
 
   const UserModal = () => {
     return (
