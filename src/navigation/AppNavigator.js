@@ -10,13 +10,12 @@ import { NAV_HEADER_OPTION } from '@/constants'
 import ProfileScreen from '@/screens/Profile'
 import ChatScreen from '@/screens/ChatScreens/Chats'
 import HomeScreen from '@/screens/Home'
-import NotificationScreen from '@/screens/Notification'
 import GameSelectScreen from '@/screens/Game'
 //TAB SCREENS END
 // SCREENS
 import Play from '@/screens/Game/Play'
 import CreateGameNavigator from './CreateGameNavigator'
-import MafiaNavigation from './MafiaNavigation'
+import MafiaNavigator from './MafiaNavigator'
 import JoinGame from '@/screens/Game/JoinGame/JoinGame'
 import TeamNavigator from '@/navigation/TeamNavigator'
 import PrivateChat from '@/screens/ChatScreens/PrivateChat'
@@ -27,6 +26,7 @@ import GameItem from '@/screens/Game/GameList/gameItem'
 import JoinGameQr from '@/screens/Game/JoinGame/JoinGameQr'
 import JoinGameTypes from '@/screens/Game/JoinGame/JoinGameTypes'
 import AliasNavigator from './AliasNavigator'
+import NotificationNavigator from './NotificationNavigator'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
@@ -52,7 +52,6 @@ const TabNavigator = () => {
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Chat'} component={ChatScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
-        <Tab.Screen name={'Notification'} component={NotificationScreen} />
       </Tab.Navigator>
       <CircleButton isHome={isHome} setIsHome={setIsHome} />
     </>
@@ -65,6 +64,8 @@ const AppNavigator = () => {
       <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
         <Stack.Screen name={'TabNavigator'} component={TabNavigator} />
         <Stack.Screen name={'HomeScreen'} component={HomeScreen} />
+        <Stack.Screen name={'NotificationNavigator'} component={NotificationNavigator} />
+        {/* <Stack.Screen name={'NotificationSettings'} component={NotificationSettings} /> */}
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'Game'} component={GameSelectScreen} />
         <Stack.Screen name={'JoinGame'} component={JoinGame} />
@@ -72,7 +73,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'JoinGameTypes'} component={JoinGameTypes} />
         <Stack.Screen name={'JoinGameQr'} component={JoinGameQr} />
         <Stack.Screen name={'CreateGameNavigator'} component={CreateGameNavigator} />
-        <Stack.Screen name={'MafiaNavigation'} component={MafiaNavigation} />
+        <Stack.Screen name={'MafiaNavigator'} component={MafiaNavigator} />
         <Stack.Screen name={'AliasNavigator'} component={AliasNavigator} />
         <Stack.Screen name={'TeamNavigator'} component={TeamNavigator} />
         <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator} />

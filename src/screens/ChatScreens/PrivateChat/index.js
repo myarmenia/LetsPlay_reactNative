@@ -22,9 +22,6 @@ function Index(props) {
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
-  console.log('gameID', gameID)
-  console.log('token', token)
-  console.log('userId', userId)
 
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
@@ -94,7 +91,6 @@ function Index(props) {
     }
   }
   const memoSocketFunc = (message) => {
-    console.log('message', message)
     if (message.file || message.message) {
       setMessageState((lastState) => {
         if (!lastState?.find((item) => item?.id == message?.id)) {

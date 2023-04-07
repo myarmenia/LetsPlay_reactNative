@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { io } from 'socket.io-client'
 import { Platform } from 'react-native'
 import { useGameSocketHelper } from './helpers'
-
 import QrCode from '@/screens/Mafia/QrCode'
 import Settings from '@/screens/Mafia/Settings'
 import AddPlayers from '@/screens/Mafia/AddPlayers/AddPlayers'
@@ -16,7 +15,6 @@ import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
 import { clearAllDatas } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
-
 import {
   setNight,
   setLoader,
@@ -31,22 +29,21 @@ import {
   setQuestionTruthfulness,
   setWaitNight,
   setDeadUser,
-  setAlredyDeadedUsers,
   setPlayersRatings,
   setWinner,
 } from '@/store/Slices/MafiaSlice'
 
 const Stack = createNativeStackNavigator()
-const MafiaNavigation = () => {
+const MafiaNavigator = () => {
   const socketRef = useRef(null)
+  const alredyDeadedUsers = useRef([])
+
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { mafiaGameId, sendAnswer, waitNight, alredyDeadedUsers } = useSelector(
-    ({ mafia }) => mafia,
-  )
+  const { mafiaGameId, sendAnswer, waitNight } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
 
-  const callBackFunc = (e) => {
+  const callBackFunc = async (e) => {
     console.log('message', JSON.stringify(e, null, 4))
     switch (e?.type) {
       case 'new_user':
@@ -83,26 +80,21 @@ const MafiaNavigation = () => {
         dispatch(setLoader(false))
         dispatch(setWaitNight(null))
         dispatch(setPlayers(e?.all_players))
-        dispatch(
-          setDeadUser(
-            e.all_players.filter((user) => {
-              if (!user.status && !alredyDeadedUsers?.find((id) => user?._id == id)) {
-                dispatch(setAlredyDeadedUsers([...alredyDeadedUsers, user._id]))
-                return user
-              }
-            }),
-          ),
-        )
+
         break
       case 'question_answer':
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
         break
       case 'player_out':
-        // const filteredData = e?.all_players?.find((user) => {
-        //   return !user.status && !alredyDeadedUsers?.find((id) => user?._id == id)
-        // })
-        // dispatch(setAlredyDeadedUsers([...alredyDeadedUsers, filteredData?.user?._id]))
-        // dispatch(setDeadUser(filteredData))
+        const deadUser = e.all_players.find((user) => {
+          if (!user.status && !alredyDeadedUsers.current?.find((id) => user?._id == id)) {
+            alredyDeadedUsers.current = [...alredyDeadedUsers.current, user._id]
+            return true
+          } else {
+            return false
+          }
+        })
+        dispatch(setDeadUser(deadUser))
         break
       case 'end_game':
         dispatch(setLoader(false))
@@ -122,7 +114,6 @@ const MafiaNavigation = () => {
   })
 
   useEffect(() => {
-    // console.log('waitNight', waitNight)
     if (waitNight === null) return
     socketRef.current?.send({
       type: 'end_time_vote',
@@ -132,7 +123,6 @@ const MafiaNavigation = () => {
 
   useEffect(() => {
     if (Object.keys(sendAnswer || {}).length && Object.values(sendAnswer || {}).length) {
-      // console.log('sendAnswer', sendAnswer)
       socketRef.current?.send(sendAnswer)
       dispatch(setSendAnswer({}))
     }
@@ -161,8 +151,9 @@ const MafiaNavigation = () => {
 
   useEffect(() => {
     return () => {
-      // console.log('useEffect clearAllDatas')
-      // dispatch(clearAllDatas())
+      socketRef.current.disconnect()
+      console.log('useEffect clearAllDatas')
+      dispatch(clearAllDatas())
     }
   }, [])
 
@@ -179,4 +170,4 @@ const MafiaNavigation = () => {
   )
 }
 
-export default MafiaNavigation
+export default MafiaNavigator

@@ -15,7 +15,7 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
     <Modal
       modalVisible={modalVisible}
       setIsVisible={(e) => {
-        dispatch(setDeadUser([]))
+        dispatch(setDeadUser(null))
         setModalVisible(e)
       }}
       item={
@@ -23,9 +23,9 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
           <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginBottom: RH(50) }}>
             Игрок выбыл
           </Text>
-          <User size={400} user={deadUser[0]} onPressItem={{ onClickFunc: () => {} }} />
+          <User size={400} user={deadUser} onPressItem={{ onClickFunc: () => {} }} />
           <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginTop: RH(30) }}>
-            {deadUser[0]?.role}
+            {deadUser?.role}
           </Text>
         </View>
       }

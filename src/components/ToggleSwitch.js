@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 const Toggle = ({ isOn, setIsOn }) => {
   // const [isOn, setIsOn] = useState(false)
-  const value = useRef(new Animated.Value(0)).current
+  const value = useRef(new Animated.Value(isOn ? 37 : 0)).current
 
   function toggleHandle() {
     setIsOn(!isOn)

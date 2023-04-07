@@ -22,11 +22,29 @@ export default StyleSheet.create({
     ...font('bold', 24, WHITE, 29),
     marginBottom: RH(32),
   },
-  deleteAll: {
-    marginLeft: 'auto',
-    marginRight: RW(7),
-    marginBottom: RH(20),
+  row: {
+    justifyContent: 'space-between',
+    width: '100%',
+    marginHorizontal: RW(13),
+    marginBottom: RH(16),
   },
+  settings: {
+    backgroundColor: '#142A5C',
+    borderRadius: 30,
+    borderWidth: RW(1),
+    borderColor: '#657AC5',
+    paddingVertical: RW(5),
+    paddingHorizontal: RW(7),
+
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  settingsText: {
+    ...font('bold', 14, ICON, 17),
+    marginRight: RW(5),
+  },
+  deleteAll: {},
   deleteAllText: {
     ...font('bold', 14, ICON, 17),
     textDecorationLine: 'underline',
