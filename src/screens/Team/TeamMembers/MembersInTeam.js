@@ -61,6 +61,13 @@ const MembersInTeam = ({ route }) => {
               <View style={{ position: 'absolute' }}>
                 <User
                   size={120}
+                  onPressItem={{
+                    modalClose: false,
+                    item: <User size={390} />,
+                    onClickFunc: () => {
+                      return null
+                    },
+                  }}
                   // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
                 />
               </View>

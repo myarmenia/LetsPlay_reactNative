@@ -30,15 +30,16 @@ function ListItem({ game, pressable, qrGame }) {
         onPress={async () => {
           if (pressable) {
             setActive(true)
-            if (qrGame) {
+            console.log(qrGame)
+            if ((qrGame, savedTeam)) {
               await dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
               // navigation.navigate('MafiaNavigation')
-              !savedTeam
+              !savedTeam && qrGame
                 ? navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigation' : 'AliasNavigator')
                 : navigation.navigate('CommandLeadCreate', game)
             } else {
-              savedTeam
+              savedTeam.id
                 ? setModalVisible(true)
                 : navigation.navigate('GameCreating', { params: { game } })
             }
@@ -113,7 +114,7 @@ function ListItem({ game, pressable, qrGame }) {
           >
             <Text style={styles.btnText}>{game?.name}</Text>
           </LinearGradient>
-          {modalVisible && (
+          {savedTeam && modalVisible && (
             <Modal
               modalVisible={modalVisible}
               setIsVisible={setModalVisible}
@@ -129,6 +130,7 @@ function ListItem({ game, pressable, qrGame }) {
                       onPress={() => {
                         navigation.navigate('CommandLeadCreate', game),
                           dispatch(setBetweenPlayers(true))
+                        setModalVisible(false)
                       }}
                     />
                     <DarkButton
@@ -137,6 +139,7 @@ function ListItem({ game, pressable, qrGame }) {
                       onPress={() => {
                         navigation.navigate('CommandLeadNotCreate', game),
                           dispatch(setBetweenPlayers(false))
+                        setModalVisible(false)
                       }}
                     />
                   </View>

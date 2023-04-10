@@ -22,6 +22,10 @@ function DateComponent({
   minDate,
   maxDate,
 }) {
+  let dateLocalizaded = dateValue.toLocaleDateString().substring(0, 10)
+  let textDate = `${dateLocalizaded.split('/')[1]}/${dateLocalizaded.split('/')[0]}/${
+    dateLocalizaded.split('/')[2]
+  }`
   return (
     <View style={[containerStyle]}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
@@ -81,7 +85,7 @@ function DateComponent({
               }}
             >
               <DateSvg style={styles.dateSvg} />
-              <Text style={styles.dateText}>{dateValue.toLocaleDateString().substring(0, 10)}</Text>
+              <Text style={styles.dateText}>{textDate}</Text>
             </Pressable>
           </View>
         )}
