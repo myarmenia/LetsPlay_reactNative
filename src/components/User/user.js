@@ -7,12 +7,13 @@ import Modal from '@/components/modal'
 import { useState } from 'react'
 
 function SvgComponent({
-  size = RW(100),
-  onPressItem = () => {},
-  visibleBorder = false,
   setVisibleBorder = () => {},
-  onPressImg,
+  visibleBorder = false,
+  onPressItem = () => {},
+  size = RW(100),
   pressedUser,
+  onPressImg,
+  zoom,
   user,
 }) {
   const width = RW(size < 40 ? 40 : size)
@@ -116,9 +117,8 @@ function SvgComponent({
 
   return onPressItem ? (
     <Pressable
-      onLongPress={() => setModalVisible(true)}
       onPress={() => {
-        onPressItem?.onClickFunc ? onPressItem?.onClickFunc() : null
+        onPressItem?.onClickFunc() !== null ? onPressItem?.onClickFunc() : setModalVisible(true)
       }}
       style={{
         marginLeft: 'auto',

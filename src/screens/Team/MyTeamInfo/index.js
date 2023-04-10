@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
-import { BLACK } from '@/theme/colors'
 import { font } from '@/theme/utils'
+import { BLACK } from '@/theme/colors'
+import { useDispatch } from 'react-redux'
 import { _storageUrl } from '@/constants'
+import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
+import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
 import UserEditSvg from '@/assets/svgs/userEdit'
 import style from './style'
-import { useDispatch } from 'react-redux'
-import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 
 function Index({ route }) {
   const command = route.params
   const navigation = useNavigation()
   const dispatch = useDispatch()
+
   return (
     <ScreenMask>
       <View style={style.rowBox}>

@@ -1,11 +1,10 @@
-import React from 'react'
 import { useEffect } from 'react'
-import { ICON, RED, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
+import { ICON, RED, WHITE } from '@/theme/colors'
+import { sendGameId, setCommands } from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { setCommands, setReservedUsers } from '@/store/Slices/AliasSlice'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
@@ -15,25 +14,33 @@ import ScreenMask from '@/components/wrappers/screen'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
-
-  const { commands, reservedUsers, users } = useSelector(({ alias }) => alias)
+  const props = route.params
+  const { commands, reservedUsers, aliasGameId, playersInGame, teamDatas } = useSelector(
+    ({ alias }) => alias,
+  )
+  const { _id } = useSelector(({ auth }) => auth.user)
+  let authedUserId = _id
   const [i, setI] = useState(0)
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
-
   useEffect(() => {
     setI(0)
   }, [isFocused])
 
+  useEffect(() => {
+    dispatch(sendGameId(props?.id ? props.id : aliasGameId._id))
+    console.log('playersInGame', playersInGame)
+  }, [playersInGame])
+
   const handleClick = elm => {
-    if (!reservedUsers?.includes(elm.id)) {
-      if (commands?.[i]?.members?.some(item => item == elm.id)) {
+    if (!reservedUsers?.includes(elm?._id)) {
+      if (commands?.[i]?.members?.some(item => item == elm?._id)) {
         dispatch(
           setCommands(
-            commands.map(elem => {
-              if (elem.members.includes(elm.id)) {
-                return { ...elem, members: elem.members.filter(item => item !== elm.id) }
+            commands?.map(elem => {
+              if (elem.members.includes(elm?._id)) {
+                return { ...elem, members: elem.members.filter(item => item !== elm?._id) }
               } else {
                 return elem
               }
@@ -42,20 +49,27 @@ const IniviteTeamPlayers = ({ route }) => {
         )
       } else {
         dispatch(
-          setCommands([
-            ...commands.map(item =>
-              item.command - 1 == i ? { ...item, members: [...item.members, elm.id] } : item,
+          setCommands(
+            commands?.map(item =>
+              item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
-          ]),
+          ),
         )
       }
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (commands[i].members.length) {
       setError(false)
-      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      await dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      dispatch(
+        setPlayers({
+          alias_id: aliasGameId._id,
+          team_id: teamDatas[i]?._id,
+          players: reservedUsers,
+        }),
+      )
       setI(prev => prev + 1)
       i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
@@ -73,12 +87,12 @@ const IniviteTeamPlayers = ({ route }) => {
             <Text style={styles.commandName}>{commands?.[i]?.value}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
-                {users.map((elm, j) => {
+                {playersInGame?.players?.map((elm, j) => {
                   return (
                     <View
                       style={{
-                        // opacity: commands?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
-                        opacity: reservedUsers?.includes(elm.id) ? 0.5 : 1,
+                        //  opacity: commands?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
+                        opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1,
                       }}
                       key={j + 10}
                     >
@@ -93,7 +107,7 @@ const IniviteTeamPlayers = ({ route }) => {
                         <BorderGradient
                           height={142}
                           width={105}
-                          opacity={commands?.[i]?.members?.includes(elm.id) ? 1 : 0}
+                          opacity={commands?.[i]?.members?.includes(elm?._id) ? 1 : 0}
                         />
                         <Pressable
                           style={{
@@ -102,15 +116,20 @@ const IniviteTeamPlayers = ({ route }) => {
                           }}
                           onPress={() => handleClick(elm)}
                         >
-                          <User
-                            size={100}
-                            onPressItem={{
-                              item: <User size={390} />,
-                              modalClose: false,
-                              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
-                              onClickFunc: () => handleClick(elm),
-                            }}
-                          />
+                          {elm._id !== authedUserId ? (
+                            <User
+                              size={100}
+                              pressedUser={elm}
+                              zoom={true}
+                              onPressItem={{
+                                item: <User size={390} pressedUser={elm} />,
+                                modalClose: false,
+
+                                // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
+                                onClickFunc: () => handleClick(elm),
+                              }}
+                            />
+                          ) : null}
                         </Pressable>
                       </View>
                     </View>

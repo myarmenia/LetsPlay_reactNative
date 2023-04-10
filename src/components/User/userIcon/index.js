@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
@@ -20,8 +20,9 @@ import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
 
-function Index({ size, onPressImg, userProps }) {
-  let user = useSelector(({ auth }) => auth.user)
+function Index({ size, onPressImg, userProps, pressedUser }) {
+  let authedUser = useSelector(({ auth }) => auth.user)
+  let user = pressedUser ? pressedUser : authedUser
   if (userProps) {
     user = userProps
   }
@@ -181,7 +182,7 @@ function Index({ size, onPressImg, userProps }) {
           if (vk_uri) {
             Linking.openURL(vk_uri)
           } else if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }
@@ -190,7 +191,7 @@ function Index({ size, onPressImg, userProps }) {
             setModalVisible(true)
           }
         }}
-        style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(6) : size / RH(10) }}
+        style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}
       >
         <Vk size={size / RH(12)} />
       </TouchableOpacity>

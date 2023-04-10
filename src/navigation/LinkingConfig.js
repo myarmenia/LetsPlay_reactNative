@@ -13,7 +13,7 @@ export default {
       },
       AliasNavigator: {
         screens: {
-          GameStart: {
+          InviteTeamPlayers: {
             path: 'playAlias/:id',
           },
         },

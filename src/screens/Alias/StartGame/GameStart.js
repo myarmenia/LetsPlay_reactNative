@@ -11,9 +11,12 @@ import LightButton from '@/assets/imgs/Button'
 import AnimatedCircle from '../Components/AnimatedCircle'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
+import { sendGameId } from '@/store/Slices/AliasSlice'
+import { useDispatch } from 'react-redux'
 
 const GameStart = ({ route }) => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
   const isFocused = useIsFocused()
   let props = route?.params
   const [modalVisible, setModalVisible] = useState(false)
@@ -25,8 +28,6 @@ const GameStart = ({ route }) => {
     true: 0,
     false: 0,
   })
-  const id = props.id
-  console.log('id from redirect :', id)
   useEffect(() => {
     if (secModalVisible == false) {
       if (props?.fromRes == true) {
