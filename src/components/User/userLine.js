@@ -30,14 +30,16 @@ function SvgComponent({ status, size }) {
           height: '100%',
           alignItems: 'center',
           flexDirection: 'row',
-          justifyContent: 'center',
+          // justifyContent: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: RW(10),
         }}
       >
         <Text
           style={{
             ...font('bold', size > 220 ? 8 : 2, BLACK),
-            width: '42%',
-            left: size / -RW(100),
+            // width: '42%',
+            // left: size / -RW(100),
           }}
         >
           ОРГАНИЗАТОР
@@ -45,15 +47,20 @@ function SvgComponent({ status, size }) {
         <Text
           style={{
             ...font('bold', size > 220 ? 9 : 4, BLACK),
-            width: '3%',
-            alignSelf: 'center',
-            right: size / RW(100),
+            // width: '3%',
+            // alignSelf: 'center',
+            // right: size / RW(100),
             // position: 'absolute',
           }}
         >
           |
         </Text>
-        <Text style={{ ...font('bold', size > 220 ? 8.5 : 2, BLACK), width: '35%', left: '23%' }}>
+        <Text
+          style={{
+            ...font('bold', size > 220 ? 8.5 : 2, BLACK),
+            // width: '35%', left: '23%'
+          }}
+        >
           УЧАСТНИК
         </Text>
       </View>

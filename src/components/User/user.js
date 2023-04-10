@@ -118,7 +118,7 @@ function SvgComponent({
   return onPressItem ? (
     <Pressable
       onPress={() => {
-        onPressItem?.onClickFunc() !== null ? onPressItem?.onClickFunc() : setModalVisible(true)
+        onPressItem?.onClickFunc ? onPressItem?.onClickFunc() : setModalVisible(true)
       }}
       style={{
         marginLeft: 'auto',

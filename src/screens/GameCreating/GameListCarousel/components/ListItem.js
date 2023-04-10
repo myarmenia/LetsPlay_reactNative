@@ -30,16 +30,15 @@ function ListItem({ game, pressable, qrGame }) {
         onPress={async () => {
           if (pressable) {
             setActive(true)
-            console.log(qrGame)
-            if ((qrGame, savedTeam)) {
-              await dispatch(setRules(game.rules))
+            if (qrGame) {
+              dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
               // navigation.navigate('MafiaNavigation')
-              !savedTeam && qrGame
+              !savedTeam?.id && qrGame
                 ? navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigation' : 'AliasNavigator')
                 : navigation.navigate('CommandLeadCreate', game)
             } else {
-              savedTeam.id
+              savedTeam?.id
                 ? setModalVisible(true)
                 : navigation.navigate('GameCreating', { params: { game } })
             }

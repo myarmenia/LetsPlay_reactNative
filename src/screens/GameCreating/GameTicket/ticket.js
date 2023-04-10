@@ -22,13 +22,9 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время игры:</Text>
-          {console.log(dates[0])}
           <Text style={styles.ticketTextTwo}>
-            {dates[0]
-              .substr(0, 10)
-              .split('-')
-              .reverse()
-              .join('-') + dates[0].substr(10, dates[1].length)}
+            {dates[0].substr(0, 10).split('-').reverse().join('-') +
+              dates[0].substr(10, dates[1].length)}
           </Text>
         </View>
         <View style={styles.ticketTextBlock}>
@@ -60,11 +56,8 @@ function Ticket({ game, initialState, name, dates }) {
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>
           <Text style={styles.ticketTextTwo}>
-            {dates[1]
-              .substr(0, 10)
-              .split('-')
-              .reverse()
-              .join('-') + dates[1].substr(10, dates[1].length)}
+            {dates[1].substr(0, 10).split('-').reverse().join('-') +
+              dates[1].substr(10, dates[1].length)}
           </Text>
         </View>
         <View style={styles.ticketTextBlock}>
@@ -75,7 +68,7 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <Row wrapper={{ ...styles.ticketTextBlock }}>
           <Text style={styles.ticketText}>Организатор игры:</Text>
-          <View style={{ width: RW(60), marginLeft: RW(20) }}>
+          <View style={{ width: RW(60), top: '-2%', marginLeft: RW(20) }}>
             <User
               size={40}
               user={Players[8]}

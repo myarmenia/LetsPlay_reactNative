@@ -25,7 +25,7 @@ function GamesList() {
   const passIdGameItem = (id) => {
     findedGames.map((elem) => {
       // elem.data.forEach(elm => {
-      if (elem._id === id) {
+      if (elem?._id === id) {
         navigation.navigate('GameItem', { item: { ...elem, clicked: true } })
       } else {
         return null

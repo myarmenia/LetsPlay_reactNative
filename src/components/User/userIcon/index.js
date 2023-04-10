@@ -84,7 +84,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
             {
               ...style.image,
               borderRadius: size / RW(3),
-              top: size > 150 ? '0%' : '-20%',
+              top: size > 150 ? '0%' : size < 40 ? '-45%' : '-20%',
               left: RW(0.1),
             },
             { resizeMode: 'cover' },
@@ -182,7 +182,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
           if (vk_uri) {
             Linking.openURL(vk_uri)
           } else if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then(e => {
+            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
               if (e) {
                 Linking.openURL(`https://vk.com/id${vk_id}`)
               }

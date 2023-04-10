@@ -36,7 +36,7 @@ const NotificationNavigator = () => {
     return () => {
       socketRef.current.disconnect()
       console.log('useEffect clearAllDatas')
-      dispatch(clearAllDatas())
+      // dispatch(clearAllDatas())
     }
   }, [])
 

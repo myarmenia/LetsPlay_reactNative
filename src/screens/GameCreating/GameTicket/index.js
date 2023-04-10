@@ -59,15 +59,6 @@ function Index({ route }) {
         >
           <CheckedCheckbox />
         </TouchableOpacity>
-        {/*<Button*/}
-
-        {/*    size={{width: 192, height: 36}}*/}
-        {/*    label={'Редактировать'}*/}
-        {/*/>*/}
-        {/*<Button*/}
-        {/*    size={{width: 166, height: 36}}*/}
-        {/*    label={'Готово'}*/}
-        {/*/>*/}
       </View>
       <View style={{ position: 'absolute' }}>
         <Modal
