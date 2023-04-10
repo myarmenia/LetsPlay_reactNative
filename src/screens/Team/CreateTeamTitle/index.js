@@ -23,16 +23,7 @@
 //   }
 // }
 import React, { useState, useEffect, memo } from 'react'
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ToastAndroid,
-  Alert,
-  Image,
-} from 'react-native'
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, RED, WHITE } from '@/theme/colors'
@@ -44,7 +35,7 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 
-const CreateTeamTitle = props => {
+const CreateTeamTitle = (props) => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
@@ -54,11 +45,12 @@ const CreateTeamTitle = props => {
   const response = props?.route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
-  useEffect(() => {
-    setAddressName(response)
-  }, [response])
+  // useEffect(() => {
+  //   setAddressName(response)
+  // }, [response])
+  // console.log(props.route)
   const handleCreate = () => {
-    if (!addressName) {
+    if (!addressName || !response) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
@@ -79,7 +71,8 @@ const CreateTeamTitle = props => {
         uri: avatar?.assets?.[0].uri,
       })
 
-      createTeam(formdata, token, setModalVisible)
+      console.log(formdata)
+      // createTeam(formdata, token, setModalVisible)
       // setModalVisible(true),
     }
   }
@@ -108,7 +101,7 @@ const CreateTeamTitle = props => {
                 placeholderTextColor={ICON}
                 maxLength={30}
                 style={styles.inputs}
-                onChangeText={value => setTeamName(value)}
+                onChangeText={(value) => setTeamName(value)}
               />
             </View>
             {teamNameError && (
