@@ -7,16 +7,17 @@ import { useGameSocketHelper } from './helpers'
 
 import NotificationScreen from '@/screens/Notifications/NotificationScreen'
 import NotificationSettings from '../screens/Notifications/NotificationSettings'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Stack = createNativeStackNavigator()
 const NotificationNavigator = () => {
   const socketRef = useRef(null)
-
   const token = useSelector(({ auth }) => auth.token)
   const callBackFunc = (e) => {
     console.log('notifcation socket ', e)
   }
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (socketRef.current) return

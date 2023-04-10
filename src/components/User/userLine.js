@@ -37,7 +37,7 @@ function SvgComponent({ status, size }) {
           style={{
             ...font('bold', size > 220 ? 8 : 2, BLACK),
             width: '42%',
-            left: size / -RW(60),
+            left: size / -RW(100),
           }}
         >
           ОРГАНИЗАТОР
@@ -53,7 +53,9 @@ function SvgComponent({ status, size }) {
         >
           |
         </Text>
-        <Text style={{ ...font('bold', size > 220 ? 8.5 : 2, BLACK), width: '35%' }}>УЧАСТНИК</Text>
+        <Text style={{ ...font('bold', size > 220 ? 8.5 : 2, BLACK), width: '35%', left: '23%' }}>
+          УЧАСТНИК
+        </Text>
       </View>
       <Defs>
         <LinearGradient

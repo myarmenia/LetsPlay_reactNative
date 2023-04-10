@@ -52,6 +52,7 @@ const TabNavigator = () => {
         <Tab.Screen name={'Home'} component={HomeScreen} />
         <Tab.Screen name={'Chat'} component={ChatScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
+        {/* <Tab.Screen name={'NotificationNavigator'} component={NotificationNavigator} /> */}
       </Tab.Navigator>
       <CircleButton isHome={isHome} setIsHome={setIsHome} />
     </>

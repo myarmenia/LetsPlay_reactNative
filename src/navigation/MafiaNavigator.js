@@ -13,7 +13,7 @@ import WaitPlayers from '@/screens/Mafia/WaitPlayers'
 import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
 import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
-import { clearAllDatas } from '@/store/Slices/MafiaSlice'
+// import { clearAllDatas } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import {
   setNight,
@@ -152,8 +152,8 @@ const MafiaNavigator = () => {
   useEffect(() => {
     return () => {
       socketRef.current.disconnect()
-      console.log('useEffect clearAllDatas')
-      dispatch(clearAllDatas())
+      // console.log('useEffect clearAllDatas')
+      // dispatch(clearAllDatas())
     }
   }, [])
 

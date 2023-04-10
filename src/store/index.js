@@ -6,9 +6,11 @@ import GameCreatingSlice from './Slices/GameCreatingSlice'
 import GamesSlice from './Slices/GamesSlice'
 import MafiaSlice from './Slices/MafiaSlice'
 import TeamSlice from './Slices/TeamSlice'
+import AppSlice from './Slices/AppSlice'
 
 const store = configureStore({
   reducer: {
+    app: AppSlice,
     auth: AuthSlice,
     game: GameCreatingSlice,
     games: GamesSlice,

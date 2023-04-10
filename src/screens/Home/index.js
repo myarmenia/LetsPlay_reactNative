@@ -22,7 +22,7 @@ const HomeScreen = () => {
         >
           <CalendarIcon />
         </TouchableOpacity>
-        <Pressable onPress={() => navigation.navigate('NotificationScreen')}>
+        <Pressable onPress={() => navigation.navigate('NotificationNavigator')}>
           <NotificationIcon />
         </Pressable>
       </View>

@@ -30,7 +30,7 @@ function Index({ size, onPressImg, userProps }) {
   }
   // const [userNow, setUserNow] = useState(user)
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
-  const fontSizeTitle = size > 150 ? size / RW(28) : size / RW(50)
+  const fontSizeTitle = size > 150 ? size / RW(33) : size / RW(50)
   const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
   // const [loader, setLoader] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
