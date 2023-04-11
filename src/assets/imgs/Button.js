@@ -18,7 +18,10 @@ const LightButton = ({ onPress, label, labelStyle, wrapper, size }) => {
       disabled={false}
       activeOpacity={0.5}
       onPress={onPress && onPress}
-      style={{ backgroundColor: 'transparent' }}
+      style={{
+        // backgroundColor: 'transparent',
+        backgroundColor: 'hsla(0 0% 0% / 100.0)',
+      }}
     >
       {/* <Shadow
         style={{ width: width - RW(10), height: height - RH(6), borderRadius: RW(20) }}

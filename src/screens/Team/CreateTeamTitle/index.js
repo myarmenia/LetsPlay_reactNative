@@ -50,7 +50,7 @@ const CreateTeamTitle = (props) => {
   // }, [response])
   // console.log(props.route)
   const handleCreate = () => {
-    if (!addressName || !response) {
+    if (!addressName && !response.latitude) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
@@ -60,26 +60,21 @@ const CreateTeamTitle = (props) => {
     } else {
       setTeamNameError(false)
     }
+
     if (!addressNameError && !teamNameError) {
       formdata.append('name', teamName)
-      formdata.append('address_name', addressName?.address_name)
-      formdata.append('latitude', addressName?.lat)
-      formdata.append('longitude', addressName?.lng)
+      formdata.append('address_name', response?.address_name || addressName?.address_name)
+      formdata.append('latitude', response?.latitude || addressName?.lat)
+      formdata.append('longitude', response?.longitude || addressName?.lng)
       formdata.append('image', {
         name: avatar?.assets?.[0].fileName,
         type: avatar?.assets?.[0].type,
         uri: avatar?.assets?.[0].uri,
       })
-
       console.log(formdata)
-      // createTeam(formdata, token, setModalVisible)
-      // setModalVisible(true),
+      createTeam(formdata, token, setModalVisible)
     }
   }
-
-  // const setToastMsg = msg => {
-  //   ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
-  // }
 
   const uploadImageHandle = async () => {
     const result = await launchImageLibrary({
