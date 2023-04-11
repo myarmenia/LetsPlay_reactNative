@@ -17,31 +17,31 @@ const MembersInTeam = ({ route }) => {
   const command = route.params
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const [invitedPlayers, setInvitedPlayers] = useState([0, 2, 0, 0, 2, 0, 0, 0])
   const dispatch = useDispatch()
-  // const { findedTeam } = useSelector(({ teams }) => teams)
+  const { findedTeam } = useSelector(({ teams }) => teams)
   const user = useSelector(({ auth }) => auth.user)
-  const findedTeam = [{ players: [2, 2, 0, 0] }]
   useEffect(() => {
     dispatch(searchTeam(command._id, () => {}, navigation, null, null))
   }, [])
-  useEffect(() => {
-    setInvitedPlayers(
-      invitedPlayers?.map((elm, i) => {
-        if (findedTeam[0]?.players[i]) {
-          return (elm = findedTeam[0]?.players[i])
-        } else {
-          return 0
-        }
-      }),
-    )
-  }, [findedTeam?.[0]?.players?.length])
-
+  // useEffect(() => {
+  //   setInvitedPlayers(
+  //     invitedPlayers?.map((elm, i) => {
+  //       if (findedTeam[0]?.players[i]) {
+  //         return (elm = findedTeam[0]?.players[i])
+  //       } else {
+  //         return 0
+  //       }
+  //     }),
+  //   )
+  // }, [findedTeam?.[0]?.players?.length])
+  console.log('findedTeam', command)
   const UserItem = ({ elm }) => {
     const [visible, setVisible] = useState(false)
     return (
       <>
-        <View style={styles.eachUser}>
+        <View
+          style={[styles.eachUser, { opacity: findedTeam?.invited_players == user?._id ? 0.7 : 1 }]}
+        >
           {elm == 2 ? (
             //need detect user accept invite or not and set opacity and don't navigate another show modal
             // <View style={{ opacity: 0.6 }}>
@@ -100,7 +100,7 @@ const MembersInTeam = ({ route }) => {
       </View>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.membersBox}>
-          {invitedPlayers.map((elm, i) => {
+          {[1, 2, 2].map((elm, i) => {
             return <UserItem elm={elm} key={i} />
           })}
         </View>
