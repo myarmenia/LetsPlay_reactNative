@@ -20,7 +20,10 @@ function Index() {
           return (
             <TouchableOpacity
               key={item?._id || Math.random()}
-              onPress={() => navigation.navigate('TeamSearchInfo', item)}
+              onPress={() => {
+                console.log(item)
+                navigation.navigate('SearchedTeamSubmit', item)
+              }}
             >
               <View style={style.homeBlock}>
                 <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>

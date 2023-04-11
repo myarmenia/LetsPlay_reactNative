@@ -14,11 +14,12 @@ function Index({ navigation, route }) {
   const { item, data } = route.params
   const [modal, setModal] = useState(false)
   const team = item
+  console.log('team', route.params)
   return (
     <ScreenMask>
-      <Text style={style.team}>{team.name}</Text>
+      <Text style={style.team}>{team?.name}</Text>
       <View style={style.imageBlock}>
-        <Image style={style.image} source={{ uri: team.image }} />
+        <Image style={style.image} source={{ uri: team?.image }} />
       </View>
       <Text style={style.text}>Адрес нахождения команды</Text>
       <Text
@@ -32,22 +33,33 @@ function Index({ navigation, route }) {
           borderBottomWidth: 1,
         }}
       >
-        {team.address}
+        {team?.address}
       </Text>
       <View style={style.teamInfoBlock}>
         <View style={{ alignItems: 'center' }}>
           <Text style={style.textTeam}>Организатор команды:</Text>
           <TouchableOpacity onPress={() => setModal(true)}>
-            <User user={Players[1]} />
+            <User user={Players[1]} pressedUser={Players[1]} />
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: 'center', marginTop: RH(10) }}>
           <Text style={style.textTeam}>Администратор команды:</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <User user={Players[1]} />
-            <User user={Players[2]} />
-            <User user={Players[3]} />
-            <User user={Players[4]} />
+            <User
+              user={Players[1]}
+              size={60}
+              pressedUser={Players[1]}
+              onPressItem={{
+                item: <User size={390} pressedUser={Players[1]} />,
+                modalClose: false,
+
+                // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
+                onClickFunc: () => {},
+              }}
+            />
+            <User user={Players[2]} size={60} pressedUser={Players[1]} />
+            <User user={Players[3]} size={60} pressedUser={Players[1]} />
+            <User user={Players[4]} size={60} pressedUser={Players[1]} />
           </View>
         </View>
       </View>

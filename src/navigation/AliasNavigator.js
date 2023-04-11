@@ -25,7 +25,12 @@ const AliasNavigator = () => {
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
   const { aliasGameId } = useSelector(({ alias }) => alias)
-  const callBackFunc = async e => {
+  let deviceName
+  DeviceInfo.getDeviceName().then((e) => {
+    deviceName = e
+  })
+  const callBackFunc = async (e) => {
+    console.log(`message  from : ${deviceName}`, e)
     switch (e.type) {
       case 'new_user': {
         dispatch(setPlayersInGame(e))
@@ -33,20 +38,16 @@ const AliasNavigator = () => {
       }
     }
   }
-  let deviceName
-  DeviceInfo.getDeviceName().then(e => {
-    deviceName = e
-  })
 
   useEffect(() => {
-    if (!aliasGameId?._id && socketRef.current) {
+    if (!aliasGameId && socketRef.current) {
       socketRef.current = null
     }
     if (socketRef.current || !aliasGameId) return
 
-    console.log('aliasGameId -', aliasGameId?._id)
+    console.log('aliasGameId -', aliasGameId)
     socketRef.current = io(
-      `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/alias?room=${aliasGameId?._id}`,
+      `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/alias?room=${aliasGameId}`,
       {
         transportOptions: {
           polling: {
@@ -57,7 +58,7 @@ const AliasNavigator = () => {
         },
       },
     )
-  }, [aliasGameId?._id, token])
+  }, [aliasGameId, token])
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>

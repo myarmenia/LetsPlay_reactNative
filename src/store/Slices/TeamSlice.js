@@ -59,92 +59,105 @@ export const TeamSlice = createSlice({
     },
   },
 })
-export const getTeams = (setModalVisible = () => {}) => dispatch => {
-  axiosInstance
-    .get('api/team/')
-    .then(response => {
-      if (response?.data?.datas?.length) {
-        dispatch(setTeamChats(response?.data?.datas))
-        setModalVisible && setModalVisible(false)
-      } else {
+export const getTeams =
+  (setModalVisible = () => {}) =>
+  (dispatch) => {
+    axiosInstance
+      .get('api/team/')
+      .then((response) => {
+        if (response?.data?.datas?.length) {
+          dispatch(setTeamChats(response?.data?.datas))
+          setModalVisible && setModalVisible(false)
+        } else {
+          setModalVisible && setModalVisible(true)
+        }
+      })
+      .catch((err) => {
         setModalVisible && setModalVisible(true)
-      }
-    })
-    .catch(err => {
-      setModalVisible && setModalVisible(true)
-      console.log('Error getting team chats', err)
-    })
-}
-export const searchPlayer = url => dispatch => {
+        console.log('Error getting team chats', err)
+      })
+  }
+export const searchPlayer = (url) => (dispatch) => {
   axiosInstance
     .get(`/api/team/find/user/?${url}`)
-    .then(response => {
+    .then((response) => {
       console.log(response.data)
       dispatch(setFindedPlayers(response.data.users))
     })
 
-    .catch(err => {
+    .catch((err) => {
       console.log('Error finding player :', err)
     })
 }
-export const inviteUserToTeam = data => dispatch => {
+export const inviteUserToTeam = (data) => (dispatch) => {
   axiosInstance
     .patch('/api/team/invite', data)
-    .then(response => {
+    .then((response) => {
       console.log(response.data)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Error inviting player :', err)
     })
 }
-export const setPlayerAdmin = data => dispatch => {
+export const setPlayerAdmin = (data) => (dispatch) => {
+  console.log('data :', data)
+
   axiosInstance
     .patch('/api/team/become_admin', data)
-    .then(response => {
+    .then((response) => {
       console.log(response.data)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Error set user admin :', err)
     })
 }
-export const searchTeam = (
-  teamId,
-  isEmpty = () => {},
-  nav,
-  navText,
-  sendingData,
-) => async dispatch => {
+export const deletePlayerFromTeam = (data) => (dispatch) => {
+  console.log('data :', data)
   axiosInstance
-    .get(`api/team?id_or_name=${teamId}`)
-    .then(async response => {
-      if (response?.data?.datas?.length) {
-        console.log(response.data.datas)
-        await dispatch(setFindedTeam(response.data?.datas))
-        nav.navigate(navText, sendingData ? sendingData : null)
-        isEmpty(false)
-      }
+    .delete('/api/team/players', data)
+    .then((response) => {
+      console.log(response.data)
     })
-    .catch(err => {
-      dispatch(setFindedTeam([]))
-      isEmpty(true)
-      console.log('Error searching team', err)
+    .catch((err) => {
+      console.log('Error delete user from team :', err)
     })
 }
-export const getMembersList = teamId => async dispatch => {
+export const searchTeam =
+  (teamId, isEmpty = () => {}, nav, navText, sendingData) =>
+  async (dispatch) => {
+    axiosInstance
+      .get(`api/team?id_or_name=${teamId}`)
+      .then(async (response) => {
+        console.log(response.data)
+        if (response?.data?.datas?.length) {
+          await dispatch(setFindedTeam(response.data?.datas))
+          nav.navigate(navText, sendingData ? sendingData : null)
+          isEmpty(false)
+        } else {
+          isEmpty(true)
+        }
+      })
+      .catch((err) => {
+        dispatch(setFindedTeam([]))
+        isEmpty(true)
+        console.log('Error searching team', err)
+      })
+  }
+export const getMembersList = (teamId) => async (dispatch) => {
   axiosInstance
     .get(`api/team/players/${teamId}`)
-    .then(response => {
+    .then((response) => {
       console.log(response?.data?.datas)
       // dispatch(setMembersInTeam(response.data.datas))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Error searching players in this team :', err)
     })
 }
-export const joinGame = (gameId, nav, setError, setModalVisible) => async dispatch => {
+export const joinGame = (gameId, nav, setError, setModalVisible) => async (dispatch) => {
   axiosInstance
     .post(`api/participate/${gameId}`)
-    .then(response => {
+    .then((response) => {
       if (response.data.message !== 'Success') {
         setError(response.data.message)
         setModalVisible(true)
@@ -152,40 +165,46 @@ export const joinGame = (gameId, nav, setError, setModalVisible) => async dispat
         setModalVisible(false), nav.navigate('Home')
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Error joining to game :', err)
     })
 }
-export const joinInTeam = (teamId, setModalVisible, nav) => async dispatch => {
+export const joinInTeam = (teamId, setModalVisible, nav) => async (dispatch) => {
   // console.log(teamId)
   axiosInstance
     .post(`api/team/players/${teamId}`)
-    .then(response => {
+    .then((response) => {
       // console.log('response :', response)
 
       setModalVisible(true)
       nav.navigate('Home')
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Error joining to team :', err)
     })
 }
-export const searchGame = (data, nav, setError) => async dispatch => {
+export const searchGame = (data, nav, setError) => async (dispatch) => {
   let price = data.getAll('price')
   let game_of_your_choice = data.getAll('game_of_your_choice')
   let longitude = data.getAll('longitude')
   let latitude = data.getAll('latitude')
-  let dateFrom = data.getAll('dateFrom')
-  let dateTo = data.getAll('dateTo')
-  let place = latitude[0] && longitude[0] ? `&longitude=${longitude}&latatude=${latitude}` : ''
+  let dateFrom = data.getAll('date_from')
+  let dateTo = data.getAll('date_to')
+  let place =
+    latitude[0] && longitude[0] ? `&longitude=${longitude[0]}&latatude=${latitude[0]}` : ''
   let dates = dateFrom && dateTo ? `date_from=${dateFrom}&date_to=${dateTo}` : ''
   let gameIds = data.getAll('ids')
-  let gameIdsForLink = gameIds[0].map(elm => `games[]=${elm}&`).join('')
-  let link = `api/create/game/?${dates}&price=${price}&game_of_your_choice=${game_of_your_choice}${place}/${gameIdsForLink}`
+  let gameIdsForLink = gameIds[0].map((elm) => `games[]=${elm}&`).join('')
+  console.log('game_of_your_choice', game_of_your_choice)
+  let link = `api/create/game/?${dates}${price.length ? '&price=' + price[0] : ''}${
+    game_of_your_choice.length ? '&game_of_your_choice=' + game_of_your_choice[0] : ''
+  }${place}/${gameIdsForLink}`
+  console.log('price', price)
+  console.log(link.slice(0, link.length - 1))
   axiosInstance
     .get(link.slice(0, link.length - 1))
 
-    .then(response => {
+    .then((response) => {
       // console.log(JSON.stringify(response?.data?.datas, null, 5))
       dispatch(setFindedGames(response?.data?.datas))
       if (response?.data?.datas.length) {
@@ -197,7 +216,7 @@ export const searchGame = (data, nav, setError) => async dispatch => {
         }, 2500)
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Error searching players in this team :', err?.message)
     })
 }
@@ -215,22 +234,22 @@ export const createTeam = (data, token, setModalVisible = () => {}) => {
     body: data,
   }
   fetch(`${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api/team`, requestOptions)
-    .then(response => {
+    .then((response) => {
       setModalVisible(true)
       // console.log(response)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Error creating team :', err)
     })
 }
-export const createTeamGame = (data, setModalVisible) => dispatch => {
+export const createTeamGame = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .post('api/team/create/game', data)
-    .then(response => {
+    .then((response) => {
       console.log('response :', response)
       setModalVisible([true, 'ok'])
     })
-    .catch(err => {
+    .catch((err) => {
       setModalVisible([true, 'error'])
       console.log('Error creating game with team :', err.request)
     })

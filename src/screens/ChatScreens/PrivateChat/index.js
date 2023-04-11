@@ -22,11 +22,6 @@ function Index(props) {
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
-  console.log(
-    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
-      type == 'Организатор' ? '/team' : ''
-    }/chat?room=${gameID}`,
-  )
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
       type == 'Организатор' ? '/team' : ''
@@ -112,8 +107,8 @@ function Index(props) {
     dispatch(getChats(gameID))
     dispatch(getTeamChats(gameID))
     return () => {
-      // console.log('chat socket disconnect')
-      // socket.disconnect()
+      console.log('chat socket disconnect')
+      socket.disconnect()
     }
   }, [])
   useEffect(() => {

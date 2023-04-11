@@ -1,21 +1,21 @@
-import React from 'react'
-import { Image, Text, View } from 'react-native'
-import ScreenMask from '@/components/wrappers/screen'
 import style from './styles'
-import Button from '@/assets/imgs/Button'
+import { useState } from 'react'
 import { BLACK } from '@/theme/colors'
-import { font, RH, RW } from '@/theme/utils'
-import { Players } from '@/assets/TestData'
+import Modal from '@/components/modal'
+import Button from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import { _storageUrl } from '@/constants'
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
-import Modal from '@/components/modal'
+import { Players } from '@/assets/TestData'
+import { font, RH, RW } from '@/theme/utils'
+import { Image, Text, View } from 'react-native'
+import ScreenMask from '@/components/wrappers/screen'
 import { joinInTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
 
 function Index({ route }) {
   const item = route.params
+  console.log('item', item)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const dispatch = useDispatch()
