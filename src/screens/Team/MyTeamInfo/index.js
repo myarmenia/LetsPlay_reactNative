@@ -38,7 +38,11 @@ function Index({ route }) {
       <View style={style.btns}>
         <View style={style.btn}>
           <Button
-            onPress={() => navigation.navigate('MembersInTeam', command)}
+            onPress={() =>
+              command?.invited_players?.length
+                ? navigation.navigate('MembersInTeam', command)
+                : navigation.navigate('TeamMembers', command)
+            }
             size={{ width: 265, height: 48 }}
             label={'Состав'}
             labelStyle={font('bold', 18, BLACK)}

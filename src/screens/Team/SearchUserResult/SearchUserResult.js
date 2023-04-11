@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux'
 
 const SearchUserResult = ({ route }) => {
   const { findedPlayers } = useSelector(({ teams }) => teams)
-  console.log('findedTeam', findedTeam)
 
   return (
     <ScreenMask>

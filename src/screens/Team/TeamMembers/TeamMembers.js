@@ -25,7 +25,7 @@ const TeamMembers = ({ route }) => {
   const { findedPlayers, findedTeam } = useSelector(({ teams }) => teams)
   const [list, setList] = useState(btnsList)
   const [value, setValue] = useState('')
-  const radioValue = list.find((elm) => elm.checked).text
+  const radioValue = list.find(elm => elm.checked).text
 
   const EachUser = ({ member }) => {
     const [back, setBack] = useState(false)
@@ -35,7 +35,9 @@ const TeamMembers = ({ route }) => {
         key={member.id}
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
-        onPress={() => navigation.navigate('SearchedUserInfo', member)}
+        onPress={() =>
+          navigation.navigate('SearchedUserInfo', { member: member, command: command?._id })
+        }
       >
         {back ? (
           <LinearGradient
@@ -83,10 +85,7 @@ const TeamMembers = ({ route }) => {
           }}
         >
           <View style={{ marginLeft: RW(15) }}>
-            <User
-              size={70}
-              // pressedUser={member}
-            />
+            <User size={70} pressedUser={member} />
           </View>
           <Text style={styles.userID}>ID{member?.id}</Text>
         </View>
@@ -102,7 +101,7 @@ const TeamMembers = ({ route }) => {
         break
       }
       case 'По ФИО / Логин': {
-        url = `fullname=${value}`
+        url = `name=${value}`
         break
       }
       case 'По номеру телефона / e-mail': {
@@ -122,11 +121,6 @@ const TeamMembers = ({ route }) => {
     dispatch(getMembersList(command?._id))
   }, [])
 
-  useEffect(() => {
-    if (findedPlayers?.length) {
-      navigation.navigate('SearchUserResult')
-    }
-  }, [findedPlayers?.length])
   return (
     <ScreenMask>
       <View style={styles.rowBox}>
@@ -142,11 +136,11 @@ const TeamMembers = ({ route }) => {
           left={0}
         />
         <TextInput
-          placeholder={list.find((e) => e?.checked)?.text}
+          placeholder={list.find(e => e?.checked)?.text}
           placeholderTextColor={ICON}
           style={styles.input}
           value
-          onChangeText={(e) => setValue(e)}
+          onChangeText={e => setValue(e)}
         />
         <View style={{ alignSelf: 'center', paddingVertical: RH(10) }}>
           <LightButton
@@ -157,8 +151,8 @@ const TeamMembers = ({ route }) => {
         </View>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-        {findedTeam?.map((member) => {
-          return <EachUser member={member} />
+        {findedPlayers?.map((member, i) => {
+          return <EachUser member={member} key={i} />
         })}
       </ScrollView>
     </ScreenMask>

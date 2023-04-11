@@ -77,13 +77,34 @@ export const getTeams = (setModalVisible = () => {}) => dispatch => {
 }
 export const searchPlayer = url => dispatch => {
   axiosInstance
-    .get(`/api/team/find/user/${url}`)
+    .get(`/api/team/find/user/?${url}`)
     .then(response => {
-      dispatch(setFindedPlayers(response.data))
+      console.log(response.data)
+      dispatch(setFindedPlayers(response.data.users))
     })
 
     .catch(err => {
-      console.log('Error finding player', err)
+      console.log('Error finding player :', err)
+    })
+}
+export const inviteUserToTeam = data => dispatch => {
+  axiosInstance
+    .patch('/api/team/invite', data)
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(err => {
+      console.log('Error inviting player :', err)
+    })
+}
+export const setPlayerAdmin = data => dispatch => {
+  axiosInstance
+    .patch('/api/team/become_admin', data)
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(err => {
+      console.log('Error set user admin :', err)
     })
 }
 export const searchTeam = (

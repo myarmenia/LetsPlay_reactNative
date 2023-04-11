@@ -6,12 +6,25 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import ScreenMask from '@/components/wrappers/screen'
+import { useDispatch } from 'react-redux'
+import { setPlayerAdmin } from '@/store/Slices/TeamSlice'
 
-const EachMember = ({ member, route, size = 430 }) => {
+const EachMember = ({ route }) => {
   const [back, setBack] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const commandName = route?.params?.command.name
   const commandImg = route?.params?.command.img
+  const dispatch = useDispatch()
+  const props = route?.params
+  console.log('member', route.params)
+  const submitAdmin = () => {
+    dispatch(
+      setPlayerAdmin({
+        team_id: props.command?._id,
+        user_id: props.member,
+      }),
+    )
+  }
   return (
     <ScreenMask>
       <Pressable
@@ -36,10 +49,14 @@ const EachMember = ({ member, route, size = 430 }) => {
             style={styles.commandImg}
           ></Image>
         </View>
-        <User size={size} />
+        <User size={430} />
         <View style={styles.btnsBox}>
-          <LightButton label={'Сделать администратором'} size={{ width: 308, height: 40 }} />
-          <LightButton label={'Удалить из команды'} size={{ width: 308, height: 40 }} />
+          <LightButton
+            label={'Сделать администратором'}
+            size={{ width: 308, height: 45 }}
+            onPress={submitAdmin}
+          />
+          <LightButton label={'Удалить из команды'} size={{ width: 308, height: 45 }} />
         </View>
       </Pressable>
     </ScreenMask>
@@ -53,7 +70,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // position: 'absolute',
     // bottom: RH(40),
-    height: '11%',
+    height: '12%',
     justifyContent: 'space-between',
   },
   topTitle: {
