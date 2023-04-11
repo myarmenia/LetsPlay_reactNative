@@ -7,13 +7,20 @@ import Modal from '@/components/modal'
 import { useDispatch } from 'react-redux'
 import { SCREEN_BACKGROUND, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
+import { inviteUserToTeam } from '@/store/Slices/TeamSlice'
 
-const SearchedUserInfo = ({ userInfo }) => {
+const SearchedUserInfo = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [back, setBack] = useState(false)
+  const props = route.params
   const dispatch = useDispatch()
   const handleInvite = () => {
-    // dispatch
+    dispatch(
+      inviteUserToTeam({
+        team_id: props.command,
+        user_id: props.member,
+      }),
+    )
     setModalVisible(true)
   }
   return (

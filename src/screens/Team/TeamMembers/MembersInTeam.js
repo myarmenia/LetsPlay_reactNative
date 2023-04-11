@@ -12,14 +12,15 @@ import BorderGradient from '@/assets/svgs/BorderGradiend'
 import Modal from '@/components/modal'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchTeam } from '@/store/Slices/TeamSlice'
-
+import OrganizerSvg from '@/assets/svgs/OrganizatorSvg'
 const MembersInTeam = ({ route }) => {
   const command = route.params
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const [invitedPlayers, setInvitedPlayers] = useState([0, 2, 0, 0, 0, 0, 0, 0])
+  const [invitedPlayers, setInvitedPlayers] = useState([0, 2, 0, 0, 2, 0, 0, 0])
   const dispatch = useDispatch()
   // const { findedTeam } = useSelector(({ teams }) => teams)
+  const user = useSelector(({ auth }) => auth.user)
   const findedTeam = [{ players: [2, 2, 0, 0] }]
   useEffect(() => {
     dispatch(searchTeam(command._id, () => {}, navigation, null, null))
@@ -38,44 +39,43 @@ const MembersInTeam = ({ route }) => {
 
   const UserItem = ({ elm }) => {
     const [visible, setVisible] = useState(false)
-
     return (
       <>
-        <Pressable
-          style={styles.eachUser}
-          onPressIn={() => setVisible(true)}
-          onPressOut={() => setVisible(false)}
-          onPress={() =>
-            elm == 3
-              ? setModalVisible(true)
-              : elm == 2
-              ? navigation.navigate('EachMember', { member: elm, command: command })
-              : null
-          }
-        >
+        <View style={styles.eachUser}>
           {elm == 2 ? (
             //need detect user accept invite or not and set opacity and don't navigate another show modal
             // <View style={{ opacity: 0.6 }}>
-            <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-              <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
+            <Pressable
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: RW(5),
+              }}
+              onPressIn={() => setVisible(true)}
+              onPressOut={() => setVisible(false)}
+              // onPress={() => navigation.navigate('EachMember', { member: elm, command: command })}
+            >
+              <BorderGradient height={145} width={110} opacity={visible ? 1 : 0} />
               <View style={{ position: 'absolute' }}>
+                {command.user == user._id ? <OrganizerSvg /> : null}
                 <User
-                  size={120}
+                  size={110}
                   onPressItem={{
                     modalClose: false,
-                    item: <User size={390} />,
                     onClickFunc: () => {
-                      return null
+                      console.log('xxxxxxxxx', user, command.user == user)
+                      navigation.navigate('EachMember', { member: elm, command: command })
+                      // item: <User size={390} />,
                     },
                   }}
                   // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
                 />
               </View>
-            </View>
+            </Pressable>
           ) : null
           // <EmptyBorderedAvatar />
           }
-        </Pressable>
+        </View>
       </>
     )
   }
@@ -122,7 +122,7 @@ const MembersInTeam = ({ route }) => {
                 <User
                   size={370}
                   //pass elm to paddedUser for draw inside user component with reading elm
-                  pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
+                  // pressedUser={}
                 />
               </View>
               <Text style={styles.playerMessage}>
