@@ -31,7 +31,7 @@ function Index() {
         style={styles.input}
         placeholderTextColor={ICON}
         value={value}
-        onChangeText={e => setValue(e)}
+        onChangeText={(e) => setValue(e)}
         placeholder={'ID карточка/По названию команды'}
       />
       <View style={{ alignItems: 'center', paddingRight: RW(10), width: '100%' }}>

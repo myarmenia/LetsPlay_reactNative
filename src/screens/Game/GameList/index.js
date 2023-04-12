@@ -95,7 +95,8 @@ function GamesList() {
           style={{
             flexDirection: 'column',
             alignItems: 'center',
-            height: '92%',
+            height: '93%',
+            paddingVertical: RH(5),
             width: '57%',
             marginHorizontal: RW(20),
             justifyContent: 'space-evenly',

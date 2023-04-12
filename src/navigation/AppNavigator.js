@@ -27,6 +27,7 @@ import JoinGameQr from '@/screens/Game/JoinGame/JoinGameQr'
 import JoinGameTypes from '@/screens/Game/JoinGame/JoinGameTypes'
 import AliasNavigator from './AliasNavigator'
 import NotificationNavigator from './NotificationNavigator'
+import CalendarNavigator from './CalendarNavigator'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
@@ -66,7 +67,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'TabNavigator'} component={TabNavigator} />
         <Stack.Screen name={'HomeScreen'} component={HomeScreen} />
         <Stack.Screen name={'NotificationNavigator'} component={NotificationNavigator} />
-        {/* <Stack.Screen name={'NotificationSettings'} component={NotificationSettings} /> */}
+        <Stack.Screen name={'CalendarNavigator'} component={CalendarNavigator} />
         <Stack.Screen name={'Play'} component={Play} />
         <Stack.Screen name={'Game'} component={GameSelectScreen} />
         <Stack.Screen name={'JoinGame'} component={JoinGame} />

@@ -15,6 +15,7 @@ import style from './styles'
 
 function Index({ route }) {
   const item = route.params
+  console.log('item', item)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const dispatch = useDispatch()

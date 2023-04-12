@@ -6,7 +6,8 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   gameItemContainer: {
     width: RW(395),
-    height: RH(96),
+    minHeight: RH(99),
+    maxHeight: RH(116),
     // backgroundColor: 'rgba(101, 122, 197, 0.6)',
     borderRadius: RW(8),
     alignSelf: 'center',
@@ -18,8 +19,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   midText: {
-    ...font('medium', 18, WHITE),
-    width: RW(230),
+    ...font('medium', 17, WHITE),
+    width: RW(240),
     flexWrap: 'wrap',
     textAlign: 'left',
   },
