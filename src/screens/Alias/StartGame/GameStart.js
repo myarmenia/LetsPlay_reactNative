@@ -1,27 +1,25 @@
-import React, { memo, useEffect, useState } from 'react'
-import { View, StyleSheet, Text, Pressable } from 'react-native'
-import { font, RH, RW } from '@/theme/utils'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { ICON, WHITE } from '@/theme/colors'
-import AliasBackground from '../assets/Background'
-import TypeButton from '@/screens/Game/components/TypeButton'
-import Modal from '@/components/modal'
+import { useDispatch } from 'react-redux'
+import { font, RH, RW } from '@/theme/utils'
+import { memo, useEffect, useState } from 'react'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { View, StyleSheet, Text, Pressable } from 'react-native'
 import PlayingInstructionSVG from '../assets/PlayingInstructionSVG'
-import LightButton from '@/assets/imgs/Button'
+import TypeButton from '@/screens/Game/components/TypeButton'
 import AnimatedCircle from '../Components/AnimatedCircle'
+import AliasBackground from '../assets/Background'
+import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
-import { sendGameId } from '@/store/Slices/AliasSlice'
-import { useDispatch } from 'react-redux'
+import Modal from '@/components/modal'
 
 const GameStart = ({ route }) => {
-  const navigation = useNavigation()
-  const dispatch = useDispatch()
-  const isFocused = useIsFocused()
   let props = route?.params
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const [userModalVisible, setUserModalVisible] = useState(true)
   const [secModalVisible, setSecModalVisible] = useState(false)
+  const [userModalVisible, setUserModalVisible] = useState(true)
 
   const [stoped, setStoped] = useState(false)
   const [answers, setAnswers] = useState({
@@ -40,7 +38,10 @@ const GameStart = ({ route }) => {
   const UserModal = () => {
     return (
       <Pressable
-        onPress={() => (setUserModalVisible(false), setModalVisible(true))}
+        onPress={() => {
+          setUserModalVisible(false)
+          setModalVisible(true)
+        }}
         style={{
           flexDirection: 'column',
           alignItems: 'center',
@@ -57,7 +58,10 @@ const GameStart = ({ route }) => {
           <LightButton
             label={'Начать'}
             size={{ width: 281, height: 48 }}
-            onPress={() => (setUserModalVisible(false), setModalVisible(true))}
+            onPress={() => {
+              setUserModalVisible(false)
+              setModalVisible(true)
+            }}
           />
         </View>
       </Pressable>
@@ -72,7 +76,7 @@ const GameStart = ({ route }) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-evenly',
-          top: '5%',
+          position: 'absolute',
         }}
       >
         <View style={styles.modalBox}>
@@ -112,24 +116,25 @@ const GameStart = ({ route }) => {
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>
-        {modalVisible ? (
-          <Modal setIsVisible={setModalVisible} modalVisible={modalVisible} item={<ModalItem />} />
-        ) : null}
-        {secModalVisible && !userModalVisible ? (
-          <Modal
-            setIsVisible={setSecModalVisible}
-            modalVisible={secModalVisible}
-            item={<TimeIsFinished />}
-          />
-        ) : null}
-        {userModalVisible ? (
-          <Modal
-            setIsVisible={setUserModalVisible}
-            modalVisible={userModalVisible}
-            navigationText={''}
-            item={<UserModal />}
-          />
-        ) : null}
+        {console.log('modalVisible', modalVisible)}
+        {/* {secModalVisible && !userModalVisible ? ( */}
+        <Modal
+          setIsVisible={setSecModalVisible}
+          modalVisible={secModalVisible}
+          item={<TimeIsFinished />}
+        />
+        {/* ) : null} */}
+        {/* {userModalVisible ? ( */}
+        <Modal
+          setIsVisible={setUserModalVisible}
+          modalVisible={userModalVisible}
+          navigationText={''}
+          item={<UserModal />}
+        />
+        {/* ) : null} */}
+        {/* {modalVisible ? ( */}
+        <Modal setIsVisible={setModalVisible} modalVisible={modalVisible} item={<ModalItem />} />
+        {/* ) : null} */}
       </View>
       <View
         style={{
@@ -190,7 +195,7 @@ const styles = StyleSheet.create({
   },
 
   instruction: {
-    ...font('Italic', 18, WHITE),
+    ...font('regular', 18, WHITE),
   },
   modalBox: {
     // height: '100%',

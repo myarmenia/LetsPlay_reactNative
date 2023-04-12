@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     ...font('medium', 24, ICON, 32),
   },
   subTitle: {
-    fontStyle: 'italic',
+    fontStyle: 'regular',
     ...font('medium', 18, WHITE, 28),
   },
   linkText: {

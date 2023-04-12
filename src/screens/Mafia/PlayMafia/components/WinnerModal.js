@@ -14,35 +14,38 @@ const WinnerModal = ({ modalVisible, setModalVisible }) => {
   const { roles } = useSelector(({ mafia }) => mafia)
   const imgPath = _storageUrl + roles?.find((item) => item.type == modalVisible)?.img
   const navigation = useNavigation()
+  console.log(modalVisible)
   if (!modalVisible) return null
   return (
-    <Modal
-      modalVisible={!!modalVisible}
-      setIsVisible={(e) => {
-        navigation.navigate('RatingPlayer')
-        setModalVisible(e)
-      }}
-      item={
-        <View style={styles.container}>
-          <Image style={styles.img} source={{ uri: imgPath }} />
-          <Text style={styles.text}>
-            {modalVisible == 'мафия'
-              ? 'Игра окончена. Победила мафия.'
-              : 'Игра окончена. Победили мирные жители.'}
-          </Text>
-          <View style={{ alignSelf: 'center', marginTop: RH(12) }}>
-            <LightButton
-              size={{ width: RW(281), height: RH(48) }}
-              label={'Рейтинги'}
-              onPress={() => {
-                setModalVisible(false)
-                navigation.navigate('RatingPlayer')
-              }}
-            />
+    <View>
+      <Modal
+        modalVisible={Boolean(modalVisible)}
+        setIsVisible={(e) => {
+          navigation.navigate('RatingPlayer')
+          setModalVisible(e)
+        }}
+        item={
+          <View style={styles.container}>
+            <Image style={styles.img} source={{ uri: imgPath }} />
+            <Text style={styles.text}>
+              {modalVisible == 'мафия'
+                ? 'Игра окончена. Победила мафия.'
+                : 'Игра окончена. Победили мирные жители.'}
+            </Text>
+            <View style={{ alignSelf: 'center', marginTop: RH(12) }}>
+              <LightButton
+                size={{ width: RW(281), height: RH(48) }}
+                label={'Рейтинги'}
+                onPress={() => {
+                  setModalVisible(false)
+                  navigation.navigate('RatingPlayer')
+                }}
+              />
+            </View>
           </View>
-        </View>
-      }
-    />
+        }
+      />
+    </View>
   )
 }
 

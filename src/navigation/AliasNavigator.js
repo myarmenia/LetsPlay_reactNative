@@ -17,35 +17,48 @@ import TeamsResults from '@/screens/Alias/TeamsResults/TeamsResults'
 import { io } from 'socket.io-client'
 import DeviceInfo from 'react-native-device-info'
 
-import { setPlayersInGame } from '@/store/Slices/AliasSlice'
+import { setPlayersInGame, setUserIsOrganizer } from '@/store/Slices/AliasSlice'
+import { useNavigation } from '@react-navigation/native'
+
+const Stack = createNativeStackNavigator()
 
 const AliasNavigator = () => {
-  const Stack = createNativeStackNavigator()
   const socketRef = useRef(null)
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
   const { aliasGameId } = useSelector(({ alias }) => alias)
-  let deviceName
-  DeviceInfo.getDeviceName().then((e) => {
-    deviceName = e
-  })
+  const { user } = useSelector(({ auth }) => auth)
+  const navigation = useNavigation()
+
   const callBackFunc = async (e) => {
-    console.log(`message  from : ${deviceName}`, e)
+    console.log(`message  from : ${DeviceInfo.getDeviceId()}`, e)
     switch (e.type) {
       case 'new_user': {
-        dispatch(setPlayersInGame(e))
+        dispatch(setPlayersInGame(e?.alias_game?.players))
+        dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
         break
+      }
+      case 'explain_you': {
+        navigation.navigate('GameStart')
+      }
+
+      case 'explain_another_team_user': {
+        navigation.navigate('GameStart')
+      }
+      case 'explain_your_team_user': {
+        navigation.navigate('GameStart')
       }
     }
   }
+  const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {
-    if (!aliasGameId && socketRef.current) {
-      socketRef.current = null
-    }
+    console.log('aliasGameId -' + DeviceInfo.getDeviceId(), aliasGameId)
+    // if (!aliasGameId && socketRef.current) {
+    //   socketRef.current = null
+    // }
     if (socketRef.current || !aliasGameId) return
 
-    console.log('aliasGameId -', aliasGameId)
     socketRef.current = io(
       `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/alias?room=${aliasGameId}`,
       {
@@ -59,7 +72,7 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
-  const {} = useGameSocketHelper(socketRef.current, callBackFunc)
+
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />

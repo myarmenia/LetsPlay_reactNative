@@ -85,6 +85,7 @@ const PlayMafia = () => {
   }, [answerQuestions])
 
   useEffect(() => {
+    console.log('winner', winner)
     setWinnerModal(winner)
   }, [winner])
 
