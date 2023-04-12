@@ -16,7 +16,6 @@ const EachMember = ({ route }) => {
   const commandImg = route?.params?.command.img
   const dispatch = useDispatch()
   const props = route?.params
-  console.log('member', route.params)
   const submitAdmin = () => {
     dispatch(
       setPlayerAdmin({

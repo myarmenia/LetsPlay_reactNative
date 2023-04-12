@@ -63,7 +63,6 @@ const MembersInTeam = ({ route }) => {
                   onPressItem={{
                     modalClose: false,
                     onClickFunc: () => {
-                      console.log('xxxxxxxxx', user, command.user == user)
                       navigation.navigate('EachMember', { member: elm, command: command })
                       // item: <User size={390} />,
                     },

@@ -10,7 +10,6 @@ import BgMyTem from '@/assets/bgMyTem'
 function Index() {
   const { findedTeam } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
-  console.log('findedTeam', findedTeam)
 
   return (
     <ScreenMask>
@@ -20,7 +19,7 @@ function Index() {
           return (
             <TouchableOpacity
               key={item?._id || Math.random()}
-              onPress={() => navigation.navigate('TeamSearchInfo', item)}
+              onPress={() => navigation.navigate('JoinTeam', item)}
             >
               <View style={style.homeBlock}>
                 <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>

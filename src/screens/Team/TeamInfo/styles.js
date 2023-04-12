@@ -31,7 +31,7 @@ export default StyleSheet.create({
     marginBottom: RH(57),
   },
   textLined: {
-    ...font('bold', 14, WHITE, 20),
+    ...font('bold', 14, WHITE, 19),
     marginVertical: RH(10),
     textDecorationLine: 'underline',
   },

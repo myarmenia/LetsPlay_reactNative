@@ -15,6 +15,7 @@ import Scheme from '@/screens/Team/Scheme'
 import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
 import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
 import SearchInput from '@/screens/Team/SearchInput'
+import JoinTeam from '@/screens/Team/TeamInfo'
 import Map from '@/screens/Map/Map'
 import SearchUserResult from '@/screens/Team/SearchUserResult/SearchUserResult'
 import MembersInTeam from '@/screens/Team/TeamMembers/MembersInTeam'
@@ -45,6 +46,7 @@ function Index() {
       <Stack.Screen name="SearchedTeamSubmit" component={SearchedTeamSubmit} />
       <Stack.Screen name="CommandLeadNotCreate" component={CommandLeadNotCreate} />
       <Stack.Screen name="CommandLeadCreate" component={CommandLeadCreate} />
+      <Stack.Screen name="JoinTeam" component={JoinTeam} />
       <Stack.Screen name="SelectPlayers" component={SelectPlayers} />
       <Stack.Screen name="TeamsCreating" component={CreatingTeams} />
       <Stack.Screen name="CreateTeamTitle" component={CreateTeamTitle} />
