@@ -169,15 +169,13 @@ export const joinGame = (gameId, nav, setError, setModalVisible) => async (dispa
       console.log('Error joining to game :', err)
     })
 }
-export const joinInTeam = (teamId, setModalVisible, nav) => async (dispatch) => {
-  // console.log(teamId)
+export const joinInTeam = (teamId, setModalVisible) => async dispatch => {
   axiosInstance
     .post(`api/team/players/${teamId}`)
     .then((response) => {
       // console.log('response :', response)
 
       setModalVisible(true)
-      nav.navigate('Home')
     })
     .catch((err) => {
       console.log('Error joining to team :', err)

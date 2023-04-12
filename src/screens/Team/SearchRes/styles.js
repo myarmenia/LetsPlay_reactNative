@@ -36,9 +36,7 @@ export default StyleSheet.create({
   text: {
     marginVertical: RH(3),
     width: '100%',
-    ...font('medium', 16, WHITE),
+    ...font('medium', 15, WHITE),
   },
-  textBlock: {
-    marginLeft: RW(15),
-  },
+  textBlock: {},
 })
