@@ -7,9 +7,11 @@ const initialState = {
   rules: '',
   qrGameImg: false,
   commands: null,
+  explainYou: null,
   complexity: null,
   aliasGameId: null,
   countOfWords: null,
+  explainerTeam: null,
   minutesInGame: 0,
   playersInGame: [],
   reservedUsers: [],
@@ -60,6 +62,24 @@ export const AliasSlice = createSlice({
         participateSuccess: action.payload,
       }
     },
+    setExplainingUser: (store, action) => {
+      return {
+        ...store,
+        explainingUser: action.payload
+      }
+    },
+    setExplainerTeam: (store, action) => {
+      return {
+        ...store,
+        explainerTeam: action.payload
+      }
+    },
+    setYouExplainer: (store, action) => {
+      return {
+        ...store,
+        explainYou: action.payload
+      }
+    }
     // setTrueAnswers: (store, action) => {
     //   return {
     //     ...store,
@@ -152,9 +172,12 @@ export const {
   setComplexity,
   setAliasGameId,
   setTrueAnswers,
+  setYouExplainer,
   setFalseAnswers,
-  setPlayersInGame,
   setReservedUsers,
+  setExplainerTeam,
+  setPlayersInGame,
+  setExplainingUser,
   setUserIsOrganizer,
   setParticipateSuccess,
 } = AliasSlice.actions

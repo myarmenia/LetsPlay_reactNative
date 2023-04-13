@@ -1,5 +1,5 @@
 import { ICON, WHITE } from '@/theme/colors'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useEffect, useState } from 'react'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
@@ -20,7 +20,12 @@ const GameStart = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [secModalVisible, setSecModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
-
+  const {
+    explainYou,
+    explainerTeam,
+    explainingUser
+  } = useSelector(({ alias }) => alias)
+  const { user } = useSelector(({auth})=>auth)
   const [stoped, setStoped] = useState(false)
   const [answers, setAnswers] = useState({
     true: 0,
@@ -49,20 +54,20 @@ const GameStart = ({ route }) => {
           top: '6%',
         }}
       >
-        <View style={styles.userModalBox}>
-          <Text style={styles.commandName}>Команда 1</Text>
+        <View style={[styles.userModalBox, {top: !explainYou ? "-26%" : "-4%"}]}>{console.log("xxxxxxxx", explainerTeam, "xxxxxxx")}
+          <Text style={styles.commandName}>{explainerTeam?.name}</Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            <User size={380} />
+            <User size={380} pressedUser={explainYou ? user : explainingUser}/>
           </View>
-          <LightButton
+          {!!explainYou && <LightButton
             label={'Начать'}
             size={{ width: 281, height: 48 }}
             onPress={() => {
               setUserModalVisible(false)
               setModalVisible(true)
             }}
-          />
+          />}
         </View>
       </Pressable>
     )
@@ -116,7 +121,6 @@ const GameStart = ({ route }) => {
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>
-        {console.log('modalVisible', modalVisible)}
         {/* {secModalVisible && !userModalVisible ? ( */}
         <Modal
           setIsVisible={setSecModalVisible}
@@ -146,7 +150,7 @@ const GameStart = ({ route }) => {
         }}
       >
         <View style={styles.answersBox}>
-          <Text style={styles.commandName}>Команда 1</Text>
+          <Text style={styles.commandName}>{explainerTeam?.name}</Text>
           <Text style={styles.countOfTrueAnswer}>{answers.true}</Text>
           <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
         </View>
@@ -207,7 +211,7 @@ const styles = StyleSheet.create({
   },
   userModalBox: {
     height: '95%',
-    top: '-4%',
+    
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'column',

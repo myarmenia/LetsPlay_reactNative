@@ -17,7 +17,7 @@ import TeamsResults from '@/screens/Alias/TeamsResults/TeamsResults'
 import { io } from 'socket.io-client'
 import DeviceInfo from 'react-native-device-info'
 
-import { setPlayersInGame, setUserIsOrganizer } from '@/store/Slices/AliasSlice'
+import { setExplainerTeam, setExplainingUser, setPlayersInGame, setUserIsOrganizer, setYouExplainer } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
@@ -31,7 +31,7 @@ const AliasNavigator = () => {
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
-    console.log(`message  from : ${DeviceInfo.getDeviceId()}`, e)
+    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null,5)}`)
     switch (e.type) {
       case 'new_user': {
         dispatch(setPlayersInGame(e?.alias_game?.players))
@@ -39,14 +39,29 @@ const AliasNavigator = () => {
         break
       }
       case 'explain_you': {
+        dispatch(setYouExplainer(true))
+        dispatch(setExplainerTeam({name: e.team.name}))
         navigation.navigate('GameStart')
+        break
       }
 
       case 'explain_another_team_user': {
+        console.log('explain_another_team_user  --------------', e.explain_user);
+        dispatch(setExplainingUser(e.explain_user))
+        dispatch(setExplainerTeam({name: e.team.name}))
         navigation.navigate('GameStart')
+        break
       }
       case 'explain_your_team_user': {
+        dispatch(setExplainingUser(e.user))
+        dispatch(setExplainerTeam({name: e.team.name}))
         navigation.navigate('GameStart')
+        break
+      }
+      case 'alias_start': {
+        dispatch(setExplainingUser(e.user))
+        navigation.navigate('GameStart')
+        break
       }
     }
   }
