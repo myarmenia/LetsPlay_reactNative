@@ -51,23 +51,26 @@ const GameStart = ({ route }) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-evenly',
-          top: '6%',
+
+         
         }}
       >
-        <View style={[styles.userModalBox, {top: !explainYou ? "-26%" : "-4%"}]}>{console.log("xxxxxxxx", explainerTeam, "xxxxxxx")}
-          <Text style={styles.commandName}>{explainerTeam?.name}</Text>
+        <View style={[styles.userModalBox]}>{console.log("xxxxxxxx", explainerTeam, "xxxxxxx")}
+          <Text style={[styles.commandName, {position: "absolute", top: RH(20)}]}>{explainerTeam}</Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
             <User size={380} pressedUser={explainYou ? user : explainingUser}/>
           </View>
-          {!!explainYou && <LightButton
+          
+          {!!explainYou && <View style={{position: "absolute", bottom: RH(20)}}><LightButton
             label={'Начать'}
             size={{ width: 281, height: 48 }}
             onPress={() => {
               setUserModalVisible(false)
               setModalVisible(true)
             }}
-          />}
+          /></View>}
+          
         </View>
       </Pressable>
     )
@@ -150,7 +153,7 @@ const GameStart = ({ route }) => {
         }}
       >
         <View style={styles.answersBox}>
-          <Text style={styles.commandName}>{explainerTeam?.name}</Text>
+          <Text style={styles.commandName}>{explainerTeam}</Text>
           <Text style={styles.countOfTrueAnswer}>{answers.true}</Text>
           <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
         </View>
@@ -211,9 +214,8 @@ const styles = StyleSheet.create({
   },
   userModalBox: {
     height: '95%',
-    
     alignSelf: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     flexDirection: 'column',
     alignItems: 'center',
   },

@@ -40,21 +40,22 @@ const AliasNavigator = () => {
       }
       case 'explain_you': {
         dispatch(setYouExplainer(true))
-        dispatch(setExplainerTeam({name: e.team.name}))
+        dispatch(setExplainerTeam(e.team.name))
         navigation.navigate('GameStart')
         break
       }
 
       case 'explain_another_team_user': {
-        console.log('explain_another_team_user  --------------', e.explain_user);
+        console.log("explain_another_team_user", e.explain_user_team.name, "explain_another_team_user");
         dispatch(setExplainingUser(e.explain_user))
-        dispatch(setExplainerTeam({name: e.team.name}))
+        dispatch(setExplainerTeam(e.explain_user_team.name))
         navigation.navigate('GameStart')
         break
       }
       case 'explain_your_team_user': {
+        console.log("explain_your_team_user", e.explain_user_team, "explain_your_team_user");
         dispatch(setExplainingUser(e.user))
-        dispatch(setExplainerTeam({name: e.team.name}))
+        dispatch(setExplainerTeam(e.explain_user_team.name))
         navigation.navigate('GameStart')
         break
       }
