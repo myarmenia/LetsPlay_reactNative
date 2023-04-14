@@ -7,9 +7,9 @@ export const useGameSocketHelper = (socket, callBackFunc) => {
       isMounted.current = true
       socket.on('message', callBackFunc)
     }
-    return () => {
-      socket?.off('message')
-    }
+    // return () => {
+    //   socket?.off('message')
+    // }
   }, [socket])
 
   return {}

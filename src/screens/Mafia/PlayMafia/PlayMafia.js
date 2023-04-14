@@ -55,7 +55,6 @@ const PlayMafia = () => {
     setModalVisible(true)
   }, [mafiaRole])
   useEffect(() => {
-    console.log('night', night)
     if (night) {
       setDaysCount(2)
       setChoosable(true)
@@ -85,6 +84,7 @@ const PlayMafia = () => {
   }, [answerQuestions])
 
   useEffect(() => {
+    console.log('winner', winner)
     setWinnerModal(winner)
   }, [winner])
 

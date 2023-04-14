@@ -6,11 +6,13 @@ import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import User from '@/components/User/user'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { startAliasGame } from '@/store/Slices/AliasSlice'
 
 const PlayNow = () => {
   const navigation = useNavigation()
-  const { commands } = useSelector(({ alias }) => alias)
+  const dispatch = useDispatch()
+  const { commands, aliasGameId } = useSelector(({ alias }) => alias)
   return (
     <ScreenMask>
       <View style={styles.mainContainer}>
@@ -21,7 +23,7 @@ const PlayNow = () => {
                 <View key={i}>
                   <Text style={styles.commandName}>{elm.value}</Text>
                   <View style={styles.eachCommandBox}>
-                    {elm?.members?.map(user => {
+                    {elm?.members?.map((user) => {
                       return (
                         <View key={Math.random().toString()}>
                           {/* pass user in User component with pressed user prop */}
@@ -51,7 +53,9 @@ const PlayNow = () => {
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
-              onPress={() => navigation.navigate('GameStart')}
+              onPress={() => {
+                dispatch(startAliasGame(aliasGameId))
+              }}
             />
           </View>
         </View>

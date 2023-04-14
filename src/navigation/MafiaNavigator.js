@@ -13,7 +13,7 @@ import WaitPlayers from '@/screens/Mafia/WaitPlayers'
 import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
 import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
-// import { clearAllDatas } from '@/store/Slices/MafiaSlice'
+import { clearAllDatas } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import {
   setNight,
@@ -94,7 +94,12 @@ const MafiaNavigator = () => {
             return false
           }
         })
-        dispatch(setDeadUser(deadUser))
+        if (e?.roleDatas?.civilian == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
+          break
+        }
+        dispatch(setDeadUser({ ...deadUser, role: e?.player?.role?.name }))
+        dispatch(setCiviliansCount(e?.roleDatas?.civilian))
+        dispatch(setMafiasCount(e?.roleDatas?.mafia))
         break
       case 'end_game':
         dispatch(setLoader(false))
@@ -108,10 +113,6 @@ const MafiaNavigator = () => {
     }
   }
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
-  let deviceName
-  DeviceInfo.getDeviceName().then((e) => {
-    deviceName = e
-  })
 
   useEffect(() => {
     if (waitNight === null) return
@@ -151,9 +152,9 @@ const MafiaNavigator = () => {
 
   useEffect(() => {
     return () => {
-      socketRef.current.disconnect()
-      // console.log('useEffect clearAllDatas')
-      // dispatch(clearAllDatas())
+      socketRef?.current?.disconnect()
+      console.log('useEffect clearAllDatas')
+      dispatch(clearAllDatas())
     }
   }, [])
 

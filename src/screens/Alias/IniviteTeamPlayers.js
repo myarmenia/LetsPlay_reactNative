@@ -2,7 +2,13 @@ import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
-import { sendAliasGameId, setCommands } from '@/store/Slices/AliasSlice'
+import {
+  sendAliasGameId,
+  setCommands,
+  setParticipateSuccess,
+  setPlayers,
+  setReservedUsers,
+} from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -11,15 +17,20 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
+import { setPending } from '@/store/Slices/AuthSlice'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const props = route.params
-  const { commands, reservedUsers, aliasGameId, playersInGame, teamDatas } = useSelector(
-    ({ alias }) => alias,
-  )
-  const { _id } = useSelector(({ auth }) => auth.user)
-  let authedUserId = _id
+  const {
+    commands,
+    reservedUsers,
+    aliasGameId,
+    playersInGame,
+    teamDatas,
+    participateSuccess,
+    userIsOrganizer,
+  } = useSelector(({ alias }) => alias)
   const [i, setI] = useState(0)
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
@@ -29,9 +40,18 @@ const IniviteTeamPlayers = ({ route }) => {
   }, [isFocused])
 
   useEffect(() => {
-    dispatch(sendAliasGameId(props?.id ? props.id : aliasGameId._id))
+    if (props.id) {
+      dispatch(sendAliasGameId(props?.id))
+    }
   }, [props])
-
+  useEffect(() => {
+    if (participateSuccess === false) {
+      alert('Что-то пошло не так')
+      // navigation.navigate('Home')
+      dispatch(setParticipateSuccess(null))
+    }
+    dispatch(setPending(false))
+  }, [participateSuccess])
   const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
       if (commands?.[i]?.members?.some((item) => item == elm?._id)) {
@@ -61,16 +81,18 @@ const IniviteTeamPlayers = ({ route }) => {
   const handleSubmit = async () => {
     if (commands[i].members.length >= 2) {
       setError(false)
-      await dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
       dispatch(
         setPlayers({
-          alias_id: aliasGameId._id,
+          alias_id: aliasGameId,
           team_id: teamDatas[i]?._id,
-          players: reservedUsers,
+          players: commands?.[i]?.members,
         }),
       )
       setI((prev) => prev + 1)
-      i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
+      if (i >= commands.length - 1) {
+        navigation.navigate('PlayNow')
+      }
     } else {
       setError(true)
     }
@@ -86,7 +108,7 @@ const IniviteTeamPlayers = ({ route }) => {
             <Text style={styles.commandName}>{commands?.[i]?.value}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
-                {playersInGame?.players?.map((elm, j) => {
+                {playersInGame?.map((elm, j) => {
                   return (
                     <View
                       style={{
@@ -115,7 +137,6 @@ const IniviteTeamPlayers = ({ route }) => {
                           }}
                           onPress={() => handleClick(elm)}
                         >
-                          {/* {elm._id !== authedUserId ? ( */}
                           <User
                             size={100}
                             pressedUser={elm}
@@ -123,12 +144,9 @@ const IniviteTeamPlayers = ({ route }) => {
                             onPressItem={{
                               item: <User size={390} pressedUser={elm} />,
                               modalClose: false,
-
-                              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
                               onClickFunc: () => handleClick(elm),
                             }}
                           />
-                          {/* ) : null} */}
                         </Pressable>
                       </View>
                     </View>
@@ -139,28 +157,31 @@ const IniviteTeamPlayers = ({ route }) => {
           </View>
         </View>
 
-        <View
-          style={{
-            width: '100%',
-            alignSelf: 'center',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: RH(80),
-            marginBottom: RH(20),
-          }}
-        >
-          {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 2</Text>}
-          <View style={styles.btnBox}>
-            <LightButton
-              label={'Продолжить'}
-              size={{ width: RW(310), height: RH(50) }}
-              onPress={handleSubmit}
-            />
+
+        {userIsOrganizer ? (
+          <View
+            style={{
+              width: '100%',
+              alignSelf: 'center',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: RH(80),
+              marginBottom: RH(20),
+            }}
+          >
+            {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 2</Text>}
+            <View style={styles.btnBox}>
+              <LightButton
+                label={'Продолжить'}
+                size={{ width: RW(310), height: RH(50) }}
+                onPress={handleSubmit}
+              />
+            </View>
+            <View style={styles.btnBox}>
+              <DarkButton label={'Пригласить игроков'} size={{ width: RW(310), height: RH(50) }} />
+            </View>
           </View>
-          <View style={styles.btnBox}>
-            <DarkButton label={'Пригласить игроков'} size={{ width: RW(310), height: RH(50) }} />
-          </View>
-        </View>
+        ) : null}
       </ScrollView>
     </ScreenMask>
   )

@@ -20,9 +20,6 @@ const RatingPlayer = () => {
         <View>
           <View style={styles.ratingsView}>
             <Text style={styles.ratingsText}> Рейтинги игроков</Text>
-            <View style={styles.vectorView}>
-              <VectorIcon />
-            </View>
           </View>
           <View style={styles.ratingsCommon}>
             {playersRatings?.map((item, id) => (
@@ -80,10 +77,6 @@ const styles = StyleSheet.create({
     ...font('inter', 24, ICON, 24),
     fontWeight: '700',
     letterSpacing: 0.01,
-  },
-  vectorView: {
-    position: 'absolute',
-    right: RW(10),
   },
   img: {
     width: '100%',

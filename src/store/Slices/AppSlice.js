@@ -3,6 +3,7 @@ import axiosInstance from '../Api'
 
 const initialState = {
   notifications: [],
+  calendarGames: [],
 }
 
 export const AliasSlice = createSlice({
@@ -13,6 +14,12 @@ export const AliasSlice = createSlice({
       return {
         ...store,
         notifications: action.payload,
+      }
+    },
+    setCalendarGames: (store, action) => {
+      return {
+        ...store,
+        calendarGames: action.payload,
       }
     },
   },
@@ -73,5 +80,16 @@ export const deleteAllNotifications = () => (dispatch) => {
     })
 }
 
-export const { setNotifications } = AliasSlice.actions
+export const getCalendarGames = (data) => (dispatch) => {
+  axiosInstance
+    .get(`api/create/game/by_date?date_from=${data.date_from}&date_to=${data.date_to}`)
+    .then((response) => {
+      dispatch(setCalendarGames(response.data.datas))
+    })
+    .catch((err) => {
+      console.log('err request notification', err)
+    })
+}
+
+export const { setNotifications, setCalendarGames } = AliasSlice.actions
 export default AliasSlice.reducer

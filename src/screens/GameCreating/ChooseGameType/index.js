@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { memo, useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import React, { memo, useState } from 'react'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import { font, RH, RW } from '@/theme/utils'

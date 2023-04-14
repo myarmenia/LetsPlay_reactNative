@@ -14,8 +14,18 @@ const WinnerModal = ({ modalVisible, setModalVisible }) => {
   const { roles } = useSelector(({ mafia }) => mafia)
   const imgPath = _storageUrl + roles?.find((item) => item.type == modalVisible)?.img
   const navigation = useNavigation()
+  console.log(modalVisible)
   if (!modalVisible) return null
   return (
+    // <View
+    //   style={{
+    //     flex: 1,
+    //     position: 'absolute',
+    //     // backgroundColor: 'red',
+    //     width: '100%',
+    //     height: '100%',
+    //   }}
+    // >
     <Modal
       modalVisible={!!modalVisible}
       setIsVisible={(e) => {
@@ -43,6 +53,7 @@ const WinnerModal = ({ modalVisible, setModalVisible }) => {
         </View>
       }
     />
+    // </View>
   )
 }
 
