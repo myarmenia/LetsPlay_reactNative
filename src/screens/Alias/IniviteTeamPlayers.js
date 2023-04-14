@@ -60,7 +60,7 @@ const IniviteTeamPlayers = ({ route }) => {
   }
 
   const handleSubmit = async () => {
-    if (commands[i].members.length) {
+    if (commands[i].members.length >= 2) {
       setError(false)
       await dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
       dispatch(
@@ -150,7 +150,7 @@ const IniviteTeamPlayers = ({ route }) => {
             marginBottom: RH(20),
           }}
         >
-          {!!error && <Text style={styles.errorText}>Выберите игроков</Text>}
+          {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 2</Text>}
           <View style={styles.btnBox}>
             <LightButton
               label={'Продолжить'}

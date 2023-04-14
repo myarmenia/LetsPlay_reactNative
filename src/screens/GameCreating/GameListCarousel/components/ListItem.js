@@ -35,7 +35,13 @@ function ListItem({ game, pressable, qrGame }) {
               dispatch(setQrGame(qrGame))
               // navigation.navigate('MafiaNavigation')
               !savedTeam?.id && qrGame
-                ? navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigation' : 'AliasNavigator')
+                ? navigation.navigate(
+                    game?.name == 'Мафия'
+                      ? 'MafiaNavigation'
+                      : game?.name == 'Алиас'
+                      ? 'AliasNavigator'
+                      : 'CrocodileNavigator',
+                  )
                 : navigation.navigate('CommandLeadCreate', game)
             } else {
               savedTeam?.id
