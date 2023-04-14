@@ -1,6 +1,5 @@
 import FilterSvg from '@/assets/svgs/FilterSvg'
 import Row from '@/components/wrappers/row'
-import ScreenMask from '@/components/wrappers/screen'
 import { ICON } from '@/theme/colors'
 import { BACKGROUND } from '@/theme/colors'
 import { RH, RW, font } from '@/theme/utils'
@@ -11,6 +10,7 @@ import CircleSvg from '../assets/CircleSvg'
 import { getCalendarGames } from '@/store/Slices/AppSlice'
 import CalendarGameItem from './CalendarGameItem'
 import TriangleSvg from '../assets/TriangleSvg'
+import CalendarDropDown from './CalendarDropDown'
 
 class Calendar extends React.Component {
   months = [
@@ -27,6 +27,20 @@ class Calendar extends React.Component {
     'Ноябрь',
     'Декабрь',
   ]
+  months2 = [
+    'Января',
+    'Февраля',
+    'Марта',
+    'Апреля',
+    'Майя',
+    'Июня',
+    'Июля',
+    'Августа',
+    'Сентября',
+    'Октября',
+    'Ноября',
+    'Декабряы',
+  ]
 
   _onPress = (item) => {
     this.setState(() => {
@@ -42,12 +56,10 @@ class Calendar extends React.Component {
 
         this.props.dispatch(
           getCalendarGames({
-            date_from: this.state.choosedDate,
-            date_to: dateTo,
+            date_from: this.state.choosedDate.toISOString().substring(0, 10),
+            date_to: dateTo.toISOString().substring(0, 10),
           }),
         )
-        // this.state.choosedDate
-
         return this.state
       }
     })
@@ -67,6 +79,7 @@ class Calendar extends React.Component {
   state = {
     activeDate: new Date(),
     choosedDate: null,
+    showYaersDropDown: false,
   }
 
   generateMatrix() {
@@ -176,7 +189,7 @@ class Calendar extends React.Component {
         )
       }
     })
-    const showYears = [
+    const showYearsArray = [
       this.state.activeDate.getFullYear() - 1,
       this.state.activeDate.getFullYear(),
       this.state.activeDate.getFullYear() + 1,
@@ -185,6 +198,18 @@ class Calendar extends React.Component {
 
     return (
       <ScrollView>
+        {this.state.showYaersDropDown ? (
+          <CalendarDropDown
+            showYearsArray={showYearsArray}
+            setState={(yaer) => {
+              this.setState(() => {
+                this.state.activeDate.setFullYear(yaer)
+                return this.state
+              })
+            }}
+            activeDate={this.state.activeDate.getFullYear()}
+          />
+        ) : null}
         <View style={styles.container}>
           <View style={styles.header}>
             <Row wrapper={styles.headerRow}>
@@ -218,57 +243,52 @@ class Calendar extends React.Component {
               <View>
                 <Pressable
                   style={[styles.settings]}
-                  onPress={() => this.props.navigation.navigate('CalendarSettings')}
+                  onPress={() =>
+                    this.setState(() => {
+                      this.state.showYaersDropDown = !this.state.showYaersDropDown
+                      return this.state
+                    })
+                  }
                 >
-                  <Text style={[styles.settingsText, { marginRight: RW(20) }]}>Год</Text>
+                  <Text style={[styles.settingsText, { width: RW(35) }]}>Год</Text>
                   <TriangleSvg />
                 </Pressable>
-
-                <View style={styles.yearsDropDown}>
-                  {showYears.map((year) => {
-                    return (
-                      <Pressable
-                        onPress={() => {
-                          this.setState(() => {
-                            this.state.activeDate.setFullYear(year)
-                            return this.state
-                          })
-                        }}
-                        style={{ marginVertical: RH(4) }}
-                      >
-                        <Text
-                          style={[
-                            styles.settingsText,
-                            {
-                              color: year == this.state.activeDate.getFullYear() ? '#8B99CA' : ICON,
-                            },
-                          ]}
-                        >
-                          {year}
-                        </Text>
-                      </Pressable>
-                    )
-                  })}
-                </View>
               </View>
             </Row>
           </View>
           <View style={{ paddingBottom: RH(20) }}>{rows}</View>
           <View style={styles.line} />
-          {this.props.calendarGames.length ? (
-            <View style={styles.agentaContainer}>
-              {this.props.calendarGames.map((item) => {
-                return (
-                  <CalendarGameItem
-                    key={item?._id}
-                    img={item?.game?.img}
-                    name={item?.game?.name}
-                    startDate={item?.start_date}
-                  />
-                )
-              })}
-            </View>
-          ) : null}
+
+          <View style={styles.agentaContainer}>
+            {Object.keys(this.props?.calendarGames || {})?.map((date, i) => {
+              let dateString = new Date(date)
+              return (
+                <View key={i}>
+                  <Row wrapper={{ width: '85%', alignSelf: 'center' }}>
+                    <Text style={{ ...font('bold', 18, ICON, 36), marginRight: RW(5) }}>
+                      {dateString.getDate()}
+                    </Text>
+                    <Text style={font('regular', 18, ICON, 36)}>
+                      {this.months2[dateString.getMonth()]}
+                    </Text>
+                  </Row>
+                  {this.props?.calendarGames[date].map((item) => {
+                    return (
+                      <CalendarGameItem
+                        key={item?._id}
+                        img={item?.game?.img}
+                        name={item?.game?.name}
+                        startDate={item?.start_date}
+                        onPress={() =>
+                          this.props.navigation.navigate('CalendarGameScreen', { game: item })
+                        }
+                      />
+                    )
+                  })}
+                </View>
+              )
+            })}
+          </View>
         </View>
       </ScrollView>
     )
@@ -319,29 +339,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  yearsDropDown: {
-    // position: 'absolute',
-    // zIndex: 9999999999999,
-    // backgroundColor: '#142A5C',
-    backgroundColor: BACKGROUND,
-    // backgroundColor: 'red',
-    borderRadius: RW(12),
-    borderWidth: RW(1),
-    borderColor: '#657AC5',
-    paddingVertical: RW(5),
-    paddingHorizontal: RW(10),
-    marginTop: RH(5),
-    opacity: 1,
-    justifyContent: 'center',
-  },
+
   settingsText: {
     ...font('bold', 14, ICON, 17),
     marginRight: RW(5),
   },
   line: {
-    backgroundColor: ICON,
+    borderColor: ICON,
     width: '100%',
-    height: 1,
+    borderWidth: 1,
+    zIndex: -12,
+    // top: 70,
   },
   agentaContainer: {
     paddingVertical: RH(20),

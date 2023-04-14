@@ -55,7 +55,6 @@ const PlayMafia = () => {
     setModalVisible(true)
   }, [mafiaRole])
   useEffect(() => {
-    console.log('night', night)
     if (night) {
       setDaysCount(2)
       setChoosable(true)

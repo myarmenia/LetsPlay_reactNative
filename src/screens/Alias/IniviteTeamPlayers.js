@@ -7,9 +7,7 @@ import {
   setCommands,
   setParticipateSuccess,
   setPlayers,
-  setPlayersInGame,
   setReservedUsers,
-  startAliasGame,
 } from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'

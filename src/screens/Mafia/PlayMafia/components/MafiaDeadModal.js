@@ -10,7 +10,6 @@ import { setDeadUser } from '@/store/Slices/MafiaSlice'
 const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
   const { deadUser } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
-  console.log(deadUser)
   if (!modalVisible) return null
   return (
     <Modal

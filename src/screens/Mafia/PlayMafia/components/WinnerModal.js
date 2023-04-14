@@ -17,35 +17,43 @@ const WinnerModal = ({ modalVisible, setModalVisible }) => {
   console.log(modalVisible)
   if (!modalVisible) return null
   return (
-    <View>
-      <Modal
-        modalVisible={Boolean(modalVisible)}
-        setIsVisible={(e) => {
-          navigation.navigate('RatingPlayer')
-          setModalVisible(e)
-        }}
-        item={
-          <View style={styles.container}>
-            <Image style={styles.img} source={{ uri: imgPath }} />
-            <Text style={styles.text}>
-              {modalVisible == 'мафия'
-                ? 'Игра окончена. Победила мафия.'
-                : 'Игра окончена. Победили мирные жители.'}
-            </Text>
-            <View style={{ alignSelf: 'center', marginTop: RH(12) }}>
-              <LightButton
-                size={{ width: RW(281), height: RH(48) }}
-                label={'Рейтинги'}
-                onPress={() => {
-                  setModalVisible(false)
-                  navigation.navigate('RatingPlayer')
-                }}
-              />
-            </View>
+    // <View
+    //   style={{
+    //     flex: 1,
+    //     position: 'absolute',
+    //     // backgroundColor: 'red',
+    //     width: '100%',
+    //     height: '100%',
+    //   }}
+    // >
+    <Modal
+      modalVisible={!!modalVisible}
+      setIsVisible={(e) => {
+        navigation.navigate('RatingPlayer')
+        setModalVisible(e)
+      }}
+      item={
+        <View style={styles.container}>
+          <Image style={styles.img} source={{ uri: imgPath }} />
+          <Text style={styles.text}>
+            {modalVisible == 'мафия'
+              ? 'Игра окончена. Победила мафия.'
+              : 'Игра окончена. Победили мирные жители.'}
+          </Text>
+          <View style={{ alignSelf: 'center', marginTop: RH(12) }}>
+            <LightButton
+              size={{ width: RW(281), height: RH(48) }}
+              label={'Рейтинги'}
+              onPress={() => {
+                setModalVisible(false)
+                navigation.navigate('RatingPlayer')
+              }}
+            />
           </View>
-        }
-      />
-    </View>
+        </View>
+      }
+    />
+    // </View>
   )
 }
 
