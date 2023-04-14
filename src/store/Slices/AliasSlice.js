@@ -45,6 +45,7 @@ export const AliasSlice = createSlice({
     setPlayersInGame: (store, action) => {
       return { ...store, playersInGame: action.payload }
     },
+
     // setTrueAnswers: (store, action) => {
     //   return {
     //     ...store,
@@ -75,36 +76,48 @@ export const AliasSlice = createSlice({
   },
 })
 
-export const sendAliasSettings = (data) => (dispatch) => {
+export const clearAllAliasData = () => dispatch => {
+  dispatch(setCommands(null))
+  dispatch(setMinutes(0))
+  dispatch(setReservedUsers([]))
+  dispatch(setAliasGameId(null))
+  dispatch(setTeams([]))
+  dispatch(setComplexity(null))
+  dispatch(setCountWords(null))
+  dispatch(setQrImg(null))
+  dispatch(setPlayersInGame(null))
+}
+
+export const sendAliasSettings = data => dispatch => {
   axiosInstance
     .post('api/game/alias', data)
-    .then((response) => {
+    .then(response => {
       if (response.data?.data) {
         dispatch(setQrImg(response.data?.data?.qr_link))
         dispatch(setAliasGameId(response.data?.data?._id))
         dispatch(setTeams(response.data.data.teams))
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err sending alias settings :', err)
     })
 }
-export const sendAliasGameId = (id) => (dispatch) => {
+export const sendAliasGameId = id => dispatch => {
   axiosInstance
     .post(`api/game/alias/participate/${id}`)
-    .then(async (response) => {
+    .then(async response => {
       await dispatch(setPlayersInGame(response?.data.data))
       dispatch(setAliasGameId(response?.data?.data?._id))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err sending alias game id :', err)
     })
 }
-export const setPlayers = (teamInfo) => (dispatch) => {
+export const setPlayers = teamInfo => dispatch => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
-    .then(async (response) => {})
-    .catch((err) => {
+    .then(async response => {})
+    .catch(err => {
       console.log('err setting players :', err)
     })
 }

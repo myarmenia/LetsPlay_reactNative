@@ -27,8 +27,8 @@ import JoinGameQr from '@/screens/Game/JoinGame/JoinGameQr'
 import JoinGameTypes from '@/screens/Game/JoinGame/JoinGameTypes'
 import AliasNavigator from './AliasNavigator'
 import NotificationNavigator from './NotificationNavigator'
-import CrocodileNavigator from './CrocodileNavigator'
 import CalendarNavigator from './CalendarNavigator'
+import CrocodileNavigator from './CrocodileNavigator'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
