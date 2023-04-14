@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     borderColor: '#657AC5',
     paddingVertical: RW(5),
     paddingHorizontal: RW(7),
-
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

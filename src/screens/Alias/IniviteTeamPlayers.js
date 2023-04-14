@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
-import { sendGameId, setCommands } from '@/store/Slices/AliasSlice'
+import { sendAliasGameId, setCommands } from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -29,18 +29,17 @@ const IniviteTeamPlayers = ({ route }) => {
   }, [isFocused])
 
   useEffect(() => {
-    dispatch(sendGameId(props?.id ? props.id : aliasGameId._id))
-    console.log('playersInGame', playersInGame)
-  }, [playersInGame])
+    dispatch(sendAliasGameId(props?.id ? props.id : aliasGameId._id))
+  }, [props])
 
-  const handleClick = elm => {
+  const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
-      if (commands?.[i]?.members?.some(item => item == elm?._id)) {
+      if (commands?.[i]?.members?.some((item) => item == elm?._id)) {
         dispatch(
           setCommands(
-            commands?.map(elem => {
+            commands?.map((elem) => {
               if (elem.members.includes(elm?._id)) {
-                return { ...elem, members: elem.members.filter(item => item !== elm?._id) }
+                return { ...elem, members: elem.members.filter((item) => item !== elm?._id) }
               } else {
                 return elem
               }
@@ -50,7 +49,7 @@ const IniviteTeamPlayers = ({ route }) => {
       } else {
         dispatch(
           setCommands(
-            commands?.map(item =>
+            commands?.map((item) =>
               item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
           ),
@@ -70,7 +69,7 @@ const IniviteTeamPlayers = ({ route }) => {
           players: reservedUsers,
         }),
       )
-      setI(prev => prev + 1)
+      setI((prev) => prev + 1)
       i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)
@@ -116,20 +115,20 @@ const IniviteTeamPlayers = ({ route }) => {
                           }}
                           onPress={() => handleClick(elm)}
                         >
-                          {elm._id !== authedUserId ? (
-                            <User
-                              size={100}
-                              pressedUser={elm}
-                              zoom={true}
-                              onPressItem={{
-                                item: <User size={390} pressedUser={elm} />,
-                                modalClose: false,
+                          {/* {elm._id !== authedUserId ? ( */}
+                          <User
+                            size={100}
+                            pressedUser={elm}
+                            zoom={true}
+                            onPressItem={{
+                              item: <User size={390} pressedUser={elm} />,
+                              modalClose: false,
 
-                                // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
-                                onClickFunc: () => handleClick(elm),
-                              }}
-                            />
-                          ) : null}
+                              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
+                              onClickFunc: () => handleClick(elm),
+                            }}
+                          />
+                          {/* ) : null} */}
                         </Pressable>
                       </View>
                     </View>

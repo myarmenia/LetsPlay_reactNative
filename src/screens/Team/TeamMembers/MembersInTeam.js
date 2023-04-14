@@ -73,6 +73,7 @@ const MembersInTeam = ({ route }) => {
             </Pressable>
           ) : null
           // <EmptyBorderedAvatar />
+
           }
         </View>
       </>

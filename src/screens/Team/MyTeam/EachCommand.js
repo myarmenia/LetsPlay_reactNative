@@ -73,7 +73,7 @@ const EachCommand = ({ command, i }) => {
         <View style={style.textBlock}>
           <Text style={style.text}>{command.name}</Text>
           <Text style={style.text}>{command.address_name}</Text>
-          <Text style={style.text}>{command._id.substring(0, command._id.length - 1)}</Text>
+          <Text style={style.text}>{command.id}</Text>
         </View>
       </View>
     </Pressable>

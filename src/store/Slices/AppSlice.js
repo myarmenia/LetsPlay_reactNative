@@ -29,6 +29,7 @@ export const notificationSettings = (e) => (dispatch) => {
         console.log('err request notification', err)
       })
   } else {
+    console.log(JSON.stringify({ name: e?.label }))
     // axiosInstance
     //   .delete('api/profile/notification', JSON.stringify({ name: e?.label }))
     //   .then((response) => {

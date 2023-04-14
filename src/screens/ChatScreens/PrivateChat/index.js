@@ -22,7 +22,6 @@ function Index(props) {
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
-
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
       type == 'Организатор' ? '/team' : ''

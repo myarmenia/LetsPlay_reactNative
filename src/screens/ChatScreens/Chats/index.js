@@ -19,7 +19,7 @@ const ChatScreen = () => {
   useEffect(() => {
     dispatch(getTeams())
   }, [isFocused])
-
+  console.log(JSON.stringify(user, null, 4))
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -28,9 +28,13 @@ const ChatScreen = () => {
           {teamChatsList?.length || user?.took_part_games?.length ? (
             <>
               <View>
-                {teamChatsList?.map((eachChat) => {
+                {/* {teamChatsList?.map((eachChat) => {
                   // console.log(eachChat)
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Организатор" />
+                })} */}
+                {user?.inside_teams?.map((eachChat) => {
+                  // console.log(eachChat)
+                  return <ChatItem item={eachChat} key={eachChat?._id} type="Участник" />
                 })}
               </View>
               <View>

@@ -7,7 +7,7 @@ import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch } from 'react-redux'
-import { setPlayerAdmin } from '@/store/Slices/TeamSlice'
+import { deletePlayerFromTeam, setPlayerAdmin } from '@/store/Slices/TeamSlice'
 
 const EachMember = ({ route }) => {
   const [back, setBack] = useState(false)
@@ -16,9 +16,18 @@ const EachMember = ({ route }) => {
   const commandImg = route?.params?.command.img
   const dispatch = useDispatch()
   const props = route?.params
+
   const submitAdmin = () => {
     dispatch(
       setPlayerAdmin({
+        team_id: props.command?._id,
+        user_id: props.member,
+      }),
+    )
+  }
+  const handleDelete = () => {
+    dispatch(
+      deletePlayerFromTeam({
         team_id: props.command?._id,
         user_id: props.member,
       }),
@@ -55,7 +64,11 @@ const EachMember = ({ route }) => {
             size={{ width: 308, height: 45 }}
             onPress={submitAdmin}
           />
-          <LightButton label={'Удалить из команды'} size={{ width: 308, height: 45 }} />
+          <LightButton
+            label={'Удалить из команды'}
+            size={{ width: 308, height: 45 }}
+            onPress={handleDelete}
+          />
         </View>
       </Pressable>
     </ScreenMask>

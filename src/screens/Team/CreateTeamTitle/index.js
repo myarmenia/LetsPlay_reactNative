@@ -23,16 +23,7 @@
 //   }
 // }
 import React, { useState, useEffect, memo } from 'react'
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  ToastAndroid,
-  Alert,
-  Image,
-} from 'react-native'
+import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, RED, WHITE } from '@/theme/colors'
@@ -44,7 +35,7 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 
-const CreateTeamTitle = props => {
+const CreateTeamTitle = (props) => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
@@ -54,11 +45,12 @@ const CreateTeamTitle = props => {
   const response = props?.route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
-  useEffect(() => {
-    setAddressName(response)
-  }, [response])
+  // useEffect(() => {
+  //   setAddressName(response)
+  // }, [response])
+  // console.log(props.route)
   const handleCreate = () => {
-    if (!addressName) {
+    if (!addressName && !response.latitude) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
@@ -68,25 +60,21 @@ const CreateTeamTitle = props => {
     } else {
       setTeamNameError(false)
     }
+
     if (!addressNameError && !teamNameError) {
       formdata.append('name', teamName)
-      formdata.append('address_name', addressName?.address_name)
-      formdata.append('latitude', addressName?.lat)
-      formdata.append('longitude', addressName?.lng)
+      formdata.append('address_name', response?.address_name || addressName?.address_name)
+      formdata.append('latitude', response?.latitude || addressName?.lat)
+      formdata.append('longitude', response?.longitude || addressName?.lng)
       formdata.append('image', {
         name: avatar?.assets?.[0].fileName,
         type: avatar?.assets?.[0].type,
         uri: avatar?.assets?.[0].uri,
       })
-
+      console.log(formdata)
       createTeam(formdata, token, setModalVisible)
-      // setModalVisible(true),
     }
   }
-
-  // const setToastMsg = msg => {
-  //   ToastAndroid.showWithGravity(msg, ToastAndroid.SHORT, ToastAndroid.CENTER)
-  // }
 
   const uploadImageHandle = async () => {
     const result = await launchImageLibrary({
@@ -108,7 +96,7 @@ const CreateTeamTitle = props => {
                 placeholderTextColor={ICON}
                 maxLength={30}
                 style={styles.inputs}
-                onChangeText={value => setTeamName(value)}
+                onChangeText={(value) => setTeamName(value)}
               />
             </View>
             {teamNameError && (

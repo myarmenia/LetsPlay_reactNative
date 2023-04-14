@@ -18,15 +18,10 @@ const LightButton = ({ onPress, label, labelStyle, wrapper, size }) => {
       disabled={false}
       activeOpacity={0.5}
       onPress={onPress && onPress}
-      style={{ backgroundColor: 'transparent' }}
+      style={{
+        backgroundColor: 'transparent',
+      }}
     >
-      {/* <Shadow
-        style={{ width: width - RW(10), height: height - RH(6), borderRadius: RW(20) }}
-        distance={8}
-        startColor={'#00000070'}
-        endColor={'#00000000'}
-        offset={[8, 6]}
-      > */}
       <Svg
         width={width}
         height={height}
