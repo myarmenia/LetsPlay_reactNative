@@ -1,10 +1,11 @@
+import GameCreatingSlice from './Slices/GameCreatingSlice'
+import CrocodileSlice from './Slices/CrocodileSlice'
 import { configureStore } from '@reduxjs/toolkit'
+import MafiaSlice from './Slices/MafiaSlice'
+import GamesSlice from './Slices/GamesSlice'
+import ChatsSlice from './Slices/ChatsSlice'
 import AliasSlice from './Slices/AliasSlice'
 import AuthSlice from './Slices/AuthSlice'
-import ChatsSlice from './Slices/ChatsSlice'
-import GameCreatingSlice from './Slices/GameCreatingSlice'
-import GamesSlice from './Slices/GamesSlice'
-import MafiaSlice from './Slices/MafiaSlice'
 import TeamSlice from './Slices/TeamSlice'
 import AppSlice from './Slices/AppSlice'
 
@@ -18,6 +19,7 @@ const store = configureStore({
     teams: TeamSlice,
     mafia: MafiaSlice,
     alias: AliasSlice,
+    crocodile: CrocodileSlice,
   },
 })
 

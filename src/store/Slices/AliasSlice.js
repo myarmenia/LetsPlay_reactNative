@@ -110,17 +110,29 @@ export const AliasSlice = createSlice({
   },
 })
 
-export const sendAliasSettings = (data) => (dispatch) => {
+export const clearAllAliasData = () => dispatch => {
+  dispatch(setCommands(null))
+  dispatch(setMinutes(0))
+  dispatch(setReservedUsers([]))
+  dispatch(setAliasGameId(null))
+  dispatch(setTeams([]))
+  dispatch(setComplexity(null))
+  dispatch(setCountWords(null))
+  dispatch(setQrImg(null))
+  dispatch(setPlayersInGame(null))
+}
+
+export const sendAliasSettings = data => dispatch => {
   axiosInstance
     .post('api/game/alias', data)
-    .then((response) => {
+    .then(response => {
       if (response.data?.data) {
         dispatch(setQrImg(response.data?.data?.qr_link))
         dispatch(setAliasGameId(response.data?.data?._id))
         dispatch(setTeams(response.data.data.teams))
       }
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err sending alias settings :', err)
     })
 }

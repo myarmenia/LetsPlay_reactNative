@@ -28,6 +28,7 @@ import JoinGameTypes from '@/screens/Game/JoinGame/JoinGameTypes'
 import AliasNavigator from './AliasNavigator'
 import NotificationNavigator from './NotificationNavigator'
 import CalendarNavigator from './CalendarNavigator'
+import CrocodileNavigator from './CrocodileNavigator'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
@@ -40,7 +41,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -77,6 +78,7 @@ const AppNavigator = () => {
         <Stack.Screen name={'CreateGameNavigator'} component={CreateGameNavigator} />
         <Stack.Screen name={'MafiaNavigator'} component={MafiaNavigator} />
         <Stack.Screen name={'AliasNavigator'} component={AliasNavigator} />
+        <Stack.Screen name={'CrocodileNavigator'} component={CrocodileNavigator} />
         <Stack.Screen name={'TeamNavigator'} component={TeamNavigator} />
         <Stack.Screen name={'ProfileNavigator'} component={ProfileNavigator} />
         <Stack.Screen name={'PrivateChat'} component={PrivateChat} />

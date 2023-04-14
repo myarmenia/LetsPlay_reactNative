@@ -9,11 +9,12 @@ import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
+import { clearAllDatas, setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 import Modal from '@/components/modal'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { setBetweenPlayers } from '@/store/Slices/TeamSlice'
+import { clearAllAliasData } from '@/store/Slices/AliasSlice'
 function ListItem({ game, pressable, qrGame }) {
   const [active, setActive] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
@@ -28,14 +29,25 @@ function ListItem({ game, pressable, qrGame }) {
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
         onPress={async () => {
+          console.log(game?.name)
           if (pressable) {
             setActive(true)
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
+              dispatch(clearAllAliasData())
+              dispatch(clearAllDatas())
               // navigation.navigate('MafiaNavigation')
               !savedTeam?.id && qrGame
-                ? navigation.navigate(game?.name == 'Мафия' ? 'MafiaNavigator' : 'AliasNavigator')
+                ? navigation.navigate(
+                    game?.name == 'Мафия'
+                      ? 'MafiaNavigation'
+                      : game?.name == 'Элиас'
+                      ? 'AliasNavigator'
+                      : game?.name == 'Крокодил'
+                      ? 'CrocodileNavigator'
+                      : '',
+                  )
                 : navigation.navigate('CommandLeadCreate', game)
             } else {
               savedTeam?.id

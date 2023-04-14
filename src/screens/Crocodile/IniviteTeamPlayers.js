@@ -2,13 +2,7 @@ import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
-import {
-  sendAliasGameId,
-  setCommands,
-  setParticipateSuccess,
-  setPlayers,
-  setReservedUsers,
-} from '@/store/Slices/AliasSlice'
+import { sendAliasGameId, setCommands } from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -17,20 +11,13 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
-import { setPending } from '@/store/Slices/AuthSlice'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const props = route.params
-  const {
-    commands,
-    reservedUsers,
-    aliasGameId,
-    playersInGame,
-    teamDatas,
-    participateSuccess,
-    userIsOrganizer,
-  } = useSelector(({ alias }) => alias)
+  const { commands, reservedUsers, playersInGame } = useSelector(({ crocodile }) => crocodile)
+  const { _id } = useSelector(({ auth }) => auth.user)
+  let authedUserId = _id
   const [i, setI] = useState(0)
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
@@ -39,27 +26,18 @@ const IniviteTeamPlayers = ({ route }) => {
     setI(0)
   }, [isFocused])
 
-  useEffect(() => {
-    if (props.id) {
-      dispatch(sendAliasGameId(props?.id))
-    }
-  }, [props])
-  useEffect(() => {
-    if (participateSuccess === false) {
-      alert('Что-то пошло не так')
-      // navigation.navigate('Home')
-      dispatch(setParticipateSuccess(null))
-    }
-    dispatch(setPending(false))
-  }, [participateSuccess])
-  const handleClick = (elm) => {
+  // useEffect(() => {
+  //   dispatch(sendAliasGameId(props?.id ? props.id : aliasGameId._id))
+  // }, [props])
+
+  const handleClick = elm => {
     if (!reservedUsers?.includes(elm?._id)) {
-      if (commands?.[i]?.members?.some((item) => item == elm?._id)) {
+      if (commands?.[i]?.members?.some(item => item == elm?._id)) {
         dispatch(
           setCommands(
-            commands?.map((elem) => {
+            commands?.map(elem => {
               if (elem.members.includes(elm?._id)) {
-                return { ...elem, members: elem.members.filter((item) => item !== elm?._id) }
+                return { ...elem, members: elem.members.filter(item => item !== elm?._id) }
               } else {
                 return elem
               }
@@ -69,7 +47,7 @@ const IniviteTeamPlayers = ({ route }) => {
       } else {
         dispatch(
           setCommands(
-            commands?.map((item) =>
+            commands?.map(item =>
               item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
           ),
@@ -79,24 +57,24 @@ const IniviteTeamPlayers = ({ route }) => {
   }
 
   const handleSubmit = async () => {
-    if (commands[i].members.length >= 2) {
-      setError(false)
-      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
-      dispatch(
-        setPlayers({
-          alias_id: aliasGameId,
-          team_id: teamDatas[i]?._id,
-          players: commands?.[i]?.members,
-        }),
-      )
-      setI((prev) => prev + 1)
-      if (i >= commands.length - 1) {
-        navigation.navigate('PlayNow')
-      }
-    } else {
-      setError(true)
-    }
+    navigation.navigate('PlayNow')
   }
+  //   if (commands[i].members.length >= 2) {
+  //     setError(false)
+  //     await dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+  //     dispatch(
+  //       setPlayers({
+  //         alias_id: aliasGameId._id,
+  //         team_id: teamDatas[i]?._id,
+  //         players: reservedUsers,
+  //       }),
+  //     )
+  //     setI((prev) => prev + 1)
+  //     i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
+  //   } else {
+  //     setError(true)
+  //   }
+  // }
 
   return (
     <ScreenMask>
@@ -108,7 +86,7 @@ const IniviteTeamPlayers = ({ route }) => {
             <Text style={styles.commandName}>{commands?.[i]?.value}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
-                {playersInGame?.map((elm, j) => {
+                {playersInGame?.players?.map((elm, j) => {
                   return (
                     <View
                       style={{
@@ -137,6 +115,7 @@ const IniviteTeamPlayers = ({ route }) => {
                           }}
                           onPress={() => handleClick(elm)}
                         >
+                          {/* {elm._id !== authedUserId ? ( */}
                           <User
                             size={100}
                             pressedUser={elm}
@@ -144,9 +123,12 @@ const IniviteTeamPlayers = ({ route }) => {
                             onPressItem={{
                               item: <User size={390} pressedUser={elm} />,
                               modalClose: false,
+
+                              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
                               onClickFunc: () => handleClick(elm),
                             }}
                           />
+                          {/* ) : null} */}
                         </Pressable>
                       </View>
                     </View>
@@ -157,31 +139,28 @@ const IniviteTeamPlayers = ({ route }) => {
           </View>
         </View>
 
-
-        {userIsOrganizer ? (
-          <View
-            style={{
-              width: '100%',
-              alignSelf: 'center',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginTop: RH(80),
-              marginBottom: RH(20),
-            }}
-          >
-            {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 2</Text>}
-            <View style={styles.btnBox}>
-              <LightButton
-                label={'Продолжить'}
-                size={{ width: RW(310), height: RH(50) }}
-                onPress={handleSubmit}
-              />
-            </View>
-            <View style={styles.btnBox}>
-              <DarkButton label={'Пригласить игроков'} size={{ width: RW(310), height: RH(50) }} />
-            </View>
+        <View
+          style={{
+            width: '100%',
+            alignSelf: 'center',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginTop: RH(80),
+            marginBottom: RH(20),
+          }}
+        >
+          {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 2</Text>}
+          <View style={styles.btnBox}>
+            <LightButton
+              label={'Продолжить'}
+              size={{ width: RW(310), height: RH(50) }}
+              onPress={handleSubmit}
+            />
           </View>
-        ) : null}
+          <View style={styles.btnBox}>
+            <DarkButton label={'Пригласить игроков'} size={{ width: RW(310), height: RH(50) }} />
+          </View>
+        </View>
       </ScrollView>
     </ScreenMask>
   )
