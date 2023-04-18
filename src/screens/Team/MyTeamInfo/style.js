@@ -48,7 +48,7 @@ export default StyleSheet.create({
   text: {
     textAlign: 'center',
     marginVertical: RH(5),
-    ...font('italic', 18, WHITE),
+    ...font('regular', 18, WHITE),
   },
   textLined: {
     ...font('bold', 16, WHITE, 20),

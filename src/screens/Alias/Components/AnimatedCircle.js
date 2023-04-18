@@ -1,9 +1,6 @@
-import { useEffect, useRef } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
-import { PanResponder } from 'react-native'
-import { Animated } from 'react-native'
+import { PanResponder, Animated } from 'react-native'
 
 const AnimatedCircle = ({ word, answers, setAnswers, stoped }) => {
   //animation =====================================
