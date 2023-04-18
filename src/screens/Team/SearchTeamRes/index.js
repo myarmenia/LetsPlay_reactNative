@@ -14,7 +14,6 @@ function Index({ navigation, route }) {
   const { item, data } = route.params
   const [modal, setModal] = useState(false)
   const team = item
-  console.log('team', route.params)
   return (
     <ScreenMask>
       <Text style={style.team}>{team?.name}</Text>

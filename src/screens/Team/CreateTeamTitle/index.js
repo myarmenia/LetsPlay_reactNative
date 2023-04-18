@@ -45,10 +45,6 @@ const CreateTeamTitle = (props) => {
   const response = props?.route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
-  // useEffect(() => {
-  //   setAddressName(response)
-  // }, [response])
-  // console.log(props.route)
   const handleCreate = () => {
     if (!addressName && !response.latitude) {
       setAddressNameError(true)
@@ -71,7 +67,6 @@ const CreateTeamTitle = (props) => {
         type: avatar?.assets?.[0].type,
         uri: avatar?.assets?.[0].uri,
       })
-      console.log(formdata)
       createTeam(formdata, token, setModalVisible)
     }
   }

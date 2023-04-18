@@ -11,7 +11,6 @@ import SearchRes from '@/screens/Team/SearchRes'
 import SearchTeamRes from '@/screens/Team/SearchTeamRes'
 import SelectPlayersRival from '@/screens/Team/SelectPlayersRival'
 import TeamModalSearch from '@/screens/Team/GameCategory/ModalItem'
-import Scheme from '@/screens/Team/Scheme'
 import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
 import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
 import SearchInput from '@/screens/Team/SearchInput'
@@ -22,12 +21,13 @@ import MembersInTeam from '@/screens/Team/TeamMembers/MembersInTeam'
 import EachMember from '@/screens/Team/TeamMembers/EachMember'
 import SearchedUserInfo from '@/screens/Team/SearchUserResult/SearchedUserInfo'
 import { NAV_HEADER_OPTION } from '@/constants'
-import SearchedTeamSubmit from '@/screens/Alias/SearchCommand/SearchedTeamSubmit'
+import SearchedTeamSubmit from '@/screens/Team/SearchCommand/SearchedTeamSubmit'
 import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLeadNotCreate'
-import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
+import SearchTeamInvite from '@/screens/Team/SearchCommand/SearchTeamInvite'
 import TeamInfo from '@/screens/Team/CommandLeadNotCreate/TeamInfo'
 import EditTeamPlayers from '@/screens/Team/CommandLeadNotCreate/EditTeamPlayers'
 import CommandLeadCreate from '@/screens/Team/CommandLeadCreate/CreateGameInTeam'
+import TeamSchemes from '@/screens/Team/TeamSchemes'
 const Stack = createNativeStackNavigator()
 
 function Index() {
@@ -53,7 +53,6 @@ function Index() {
       <Stack.Screen name="SearchTeamRes" component={SearchTeamRes} />
       <Stack.Screen name="SelectPlayersRival" component={SelectPlayersRival} />
       <Stack.Screen name="TeamModalSearch" component={TeamModalSearch} />
-      <Stack.Screen name="Scheme" component={Scheme} />
       <Stack.Screen name="TeamMembers" component={TeamMembers} />
       <Stack.Screen name="EachMember" component={EachMember} />
       <Stack.Screen name="MembersInTeam" component={MembersInTeam} />
@@ -61,6 +60,7 @@ function Index() {
       <Stack.Screen name="TeamSearchRes" component={SearchRes} />
       <Stack.Screen name="TeamInfo" component={TeamInfo} />
       <Stack.Screen name="EditTeamPlayers" component={EditTeamPlayers} />
+      <Stack.Screen name="TeamSchemes" component={TeamSchemes} />
     </Stack.Navigator>
   )
 }

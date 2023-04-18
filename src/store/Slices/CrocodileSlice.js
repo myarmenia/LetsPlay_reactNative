@@ -25,13 +25,13 @@ export const CrocodileSlice = createSlice({
   },
 })
 
-export const sendCrocodileSettings = data => dispatch => {
+export const sendCrocodileSettings = (data) => (dispatch) => {
   axiosInstance
     .post('api/game/crocodile', data)
-    .then(response => {
-      console.log(response)
+    .then((response) => {
+      // console.log(response)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err sending crocodile settings :', err)
     })
 }

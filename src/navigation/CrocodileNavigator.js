@@ -60,8 +60,6 @@ const CrocodileNavigator = () => {
       <Stack.Screen name="SelectComplexity" component={SelectComplexity} />
       <Stack.Screen name="Commands" component={Commands} />
       <Stack.Screen name="QrCode" component={QrCode} />
-
-      {/* <Stack.Screen name="SearchTeamInvite" component={SearchTeamInvite} /> */}
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
 
       <Stack.Screen name="PlayNow" component={PlayNow} />

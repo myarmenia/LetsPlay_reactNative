@@ -77,7 +77,7 @@ function Index() {
             <Text style={style.text}>Загрузка...</Text>
           </View>
         )}
-        <Text style={style.title}>Участник команды</Text>
+        {/* <Text style={style.title}>Участник команды</Text> */}
       </ScrollView>
     </ScreenMask>
   )

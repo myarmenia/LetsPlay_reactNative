@@ -10,14 +10,19 @@ import PlayNow from '@/screens/Alias/PlayNow/playNow'
 import QrCode from '@/screens/Alias/QrCode'
 import Settings from '@/screens/Alias/Settings'
 import SelectComplexity from '@/screens/Alias/SelectComplexity'
-import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
 import GameStart from '@/screens/Alias/StartGame/GameStart'
 import ResultsOfAnswers from '@/screens/Alias/StartGame/ResultsOfAnswers'
 import TeamsResults from '@/screens/Alias/TeamsResults/TeamsResults'
 import { io } from 'socket.io-client'
 import DeviceInfo from 'react-native-device-info'
 
-import { setExplainerTeam, setExplainingUser, setPlayersInGame, setUserIsOrganizer, setYouExplainer } from '@/store/Slices/AliasSlice'
+import {
+  setExplainerTeam,
+  setExplainingUser,
+  setPlayersInGame,
+  setUserIsOrganizer,
+  setYouExplainer,
+} from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
@@ -31,7 +36,7 @@ const AliasNavigator = () => {
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
-    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null,5)}`)
+    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
       case 'new_user': {
         dispatch(setPlayersInGame(e?.alias_game?.players))
@@ -46,14 +51,18 @@ const AliasNavigator = () => {
       }
 
       case 'explain_another_team_user': {
-        console.log("explain_another_team_user", e.explain_user_team.name, "explain_another_team_user");
+        console.log(
+          'explain_another_team_user',
+          e.explain_user_team.name,
+          'explain_another_team_user',
+        )
         dispatch(setExplainingUser(e.explain_user))
         dispatch(setExplainerTeam(e.explain_user_team.name))
         navigation.navigate('GameStart')
         break
       }
       case 'explain_your_team_user': {
-        console.log("explain_your_team_user", e.explain_user_team, "explain_your_team_user");
+        console.log('explain_your_team_user', e.explain_user_team, 'explain_your_team_user')
         dispatch(setExplainingUser(e.user))
         dispatch(setExplainerTeam(e.explain_user_team.name))
         navigation.navigate('GameStart')
@@ -95,7 +104,6 @@ const AliasNavigator = () => {
       <Stack.Screen name="SelectComplexity" component={SelectComplexity} />
       <Stack.Screen name="Commands" component={Commands} />
       <Stack.Screen name="QrCode" component={QrCode} />
-      <Stack.Screen name="SearchTeamInvite" component={SearchTeamInvite} />
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />

@@ -13,10 +13,10 @@ import { clearAllDatas, setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 import Modal from '@/components/modal'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
-import { setBetweenPlayers } from '@/store/Slices/TeamSlice'
+import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
 import { clearAllAliasData } from '@/store/Slices/AliasSlice'
 function ListItem({ game, pressable, qrGame }) {
-  const [active, setActive] = useState(false)
+  // const [active, setActive] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
@@ -29,33 +29,31 @@ function ListItem({ game, pressable, qrGame }) {
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
         onPress={async () => {
-          console.log(game?.name)
           if (pressable) {
-            setActive(true)
+            // setActive(true)
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
               dispatch(clearAllAliasData())
               dispatch(clearAllDatas())
-              // navigation.navigate('MafiaNavigation')
               !savedTeam?.id && qrGame
                 ? navigation.navigate(
                     game?.name == 'Мафия'
-                      ? 'MafiaNavigation'
+                      ? 'MafiaNavigator'
                       : game?.name == 'Элиас'
                       ? 'AliasNavigator'
                       : game?.name == 'Крокодил'
                       ? 'CrocodileNavigator'
                       : '',
                   )
-                : navigation.navigate('CommandLeadCreate', game)
+                : navigation.navigate('CommandLeadCreate')
             } else {
               savedTeam?.id
                 ? setModalVisible(true)
                 : navigation.navigate('GameCreating', { params: { game } })
             }
 
-            setActive(false)
+            // setActive(false)
           }
         }}
         style={styles.bgFon}
@@ -139,8 +137,9 @@ function ListItem({ game, pressable, qrGame }) {
                       label={'Да'}
                       size={{ width: 100 }}
                       onPress={() => {
-                        navigation.navigate('CommandLeadCreate', game),
-                          dispatch(setBetweenPlayers(true))
+                        dispatch(setChoosedTeamGame(game))
+                        navigation.navigate('CommandLeadCreate', game)
+                        dispatch(setBetweenPlayers(true))
                         setModalVisible(false)
                       }}
                     />
@@ -148,8 +147,9 @@ function ListItem({ game, pressable, qrGame }) {
                       label={'Нет'}
                       size={{ width: 100 }}
                       onPress={() => {
-                        navigation.navigate('CommandLeadNotCreate', game),
-                          dispatch(setBetweenPlayers(false))
+                        dispatch(setChoosedTeamGame(game))
+                        navigation.navigate('CommandLeadNotCreate', game)
+                        dispatch(setBetweenPlayers(false))
                         setModalVisible(false)
                       }}
                     />

@@ -28,17 +28,16 @@ import {
 
 const CommandLeadNotCreate = ({ route }) => {
   const item = route.params
-  useEffect(() => {
-    setGameId({ id: item?._id, img: item?.img })
-  }, [])
-  const isFocused = useIsFocused()
+
   const games = useSelector(({ games }) => games.games)
-  const game = games.find((elm) => elm.id == route?.params?.id)
+  const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
+
+  const game = games.find((elm) => elm.id == choosedTeamGame?.id)
   const { betweenPlayers, findedTeam, savedTeam } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const navigation = useNavigation()
   //states ===================================
-  const [gameId, setGameId] = useState('')
+  const [gameId, setGameId] = useState(null)
   const [enemyTeam, setEnemyTeam] = useState('')
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
   const [addresName, setAddressName] = useState('')
@@ -46,11 +45,9 @@ const CommandLeadNotCreate = ({ route }) => {
   const [valSec, setValSec] = useState('')
   const [price, setPrice] = useState('')
   const [formats, setFormats] = useState(
-    game?.formats
-      ?.map((elm, i) => {
-        return { id: i, text: elm, checked: false }
-      })
-      .concat({ id: 0, text: 'Свой Формат', checked: false }),
+    game?.formats?.map((elm, i) => {
+      return { id: i, text: elm, checked: false }
+    }),
   )
   const [priceList, setPriceList] = useState([
     { id: 1, text: 'Бесплатно', checked: true },
@@ -147,10 +144,16 @@ const CommandLeadNotCreate = ({ route }) => {
       console.log('else')
     }
   }
-
   useEffect(() => {
-    dispatch(getMembersList(savedTeam?._id))
-  }, [])
+    if (item?._id && item?.img) {
+      setGameId({ id: item?._id, img: item?.img })
+    }
+  }, [item])
+  useEffect(() => {
+    if (savedTeam?._id) {
+      dispatch(getMembersList(savedTeam?._id))
+    }
+  }, [savedTeam])
 
   useEffect(() => {
     if (findedTeam) {
@@ -159,6 +162,7 @@ const CommandLeadNotCreate = ({ route }) => {
       delete sendingData.enemy_team_name
     }
   }, [findedTeam])
+
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1.1 }}>
@@ -178,8 +182,6 @@ const CommandLeadNotCreate = ({ route }) => {
           <TouchableOpacity
             style={styles.searchIcon}
             onPress={() => {
-              // 640f50743eb329edff23ed
-              // 640f2fb730eb329edff23e1
               dispatch(searchTeam(enemyTeam, () => {}, navigation, 'SearchTeamInvite', sendingData))
             }}
           >
@@ -188,7 +190,7 @@ const CommandLeadNotCreate = ({ route }) => {
         </View>
         {!!enemyTeamError && <Text style={styles.errorText}>Обязательное поле</Text>}
         <View>
-          {!!game?.formats?.length && (
+          {formats?.length ? (
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
               <RadioBlock
                 list={formats}
@@ -196,31 +198,8 @@ const CommandLeadNotCreate = ({ route }) => {
                 title={'Формат игры'}
                 titleStyle={{ color: ICON, left: '3%' }}
               />
-              {formats?.find((elm) => elm.text == 'Свой Формат' && elm.checked) ? (
-                <View style={styles.formatInputBox}>
-                  <TextInput
-                    style={styles.formatInput}
-                    placeholder="__"
-                    placeholderTextColor={ICON}
-                    maxLength={2}
-                    onChangeText={(e) => {
-                      setValOne(e)
-                    }}
-                  />
-                  <Text style={{ color: ICON, fontSize: RW(14), width: '10%' }}>:</Text>
-                  <TextInput
-                    style={styles.formatInput}
-                    placeholder="__"
-                    placeholderTextColor={ICON}
-                    maxLength={2}
-                    onChangeText={(e) => {
-                      setValSec(e)
-                    }}
-                  />
-                </View>
-              ) : null}
             </View>
-          )}
+          ) : null}
         </View>
         <View style={styles.dateBox}>
           <DateComponent
@@ -242,13 +221,16 @@ const CommandLeadNotCreate = ({ route }) => {
           />
           {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
         </View>
-        <RadioBlock
-          title={'Стоимость входного билета в игру'}
-          list={priceList}
-          onChange={setPriceList}
-          titleStyle={styles.searchTitle}
-        />
-        {!!priceList[1].checked && (
+        {priceList?.length ? (
+          <RadioBlock
+            title={'Стоимость входного билета в игру'}
+            list={priceList}
+            onChange={setPriceList}
+            titleStyle={styles.searchTitle}
+          />
+        ) : null}
+
+        {!!priceList[1]?.checked && (
           <View style={styles.priceInput}>
             <TextInput value={price} onChangeText={(e) => setPrice(e)} style={styles.price} />
           </View>
@@ -256,7 +238,6 @@ const CommandLeadNotCreate = ({ route }) => {
         {!!priceError && !!priceList[1].checked && (
           <Text style={styles.errorText}>Заполните поле</Text>
         )}
-        {/* </View> */}
       </ScrollView>
       <View style={{ right: RW(10), bottom: RH(20), position: 'absolute' }}>
         <LightButton label={'Готово'} onPress={handleSubmit} />

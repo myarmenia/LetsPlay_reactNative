@@ -9,15 +9,18 @@ import Modal from '@/components/modal'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import LightButton from '@/assets/imgs/Button'
 import { createTeamGame } from '@/store/Slices/TeamSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 
 const EditTeamPlayers = ({ route }) => {
   const { gameId, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
   const [acceptedPlayers, setAcceptedPlayers] = useState([1])
+  const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
 
   const dispatch = useDispatch()
-
+  const navigation = useNavigation()
+  console.log(sendingData)
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -47,13 +50,29 @@ const EditTeamPlayers = ({ route }) => {
       <View style={styles.bottomBtn}>
         <LightButton
           label={'Подтвердить'}
-          size={{ width: 280, height: 40 }}
+          size={{ width: 284, height: 48 }}
           onPress={() => {
-            console.log(sendingData)
             dispatch(createTeamGame(sendingData, setModalVisible))
           }}
         />
+        {choosedTeamGame?.schema_img ? (
+          <View style={{ marginTop: RH(15) }}>
+            <LightButton
+              label={'Схема игры'}
+              size={{ width: 284, height: 48 }}
+              onPress={() => {
+                navigation.navigate('TeamSchemes', {
+                  players: sendingData?.players,
+                  schemaImg: choosedTeamGame?.schema_img,
+                  teamImg: gameId?.img,
+                  teamName: sendingData?.enemy_team_name,
+                })
+              }}
+            />
+          </View>
+        ) : null}
       </View>
+
       {!!modalVisible[0] && (
         <Modal
           modalVisible={modalVisible[0]}
@@ -79,7 +98,7 @@ export default EditTeamPlayers
 const EachUser = React.memo(({ elm, acceptedPlayers, setAcceptedPlayers }) => {
   const [visible, setVisible] = useState(false)
   const handleClick = useCallback(
-    elm => {
+    (elm) => {
       setVisible(!visible), setAcceptedPlayers(acceptedPlayers.concat(elm))
     },
     [acceptedPlayers],

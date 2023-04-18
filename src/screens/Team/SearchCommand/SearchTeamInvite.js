@@ -9,40 +9,43 @@ import BgMyTem from '@/assets/bgMyTem'
 import LightButton from '@/assets/imgs/Button'
 import ScreenMask from '@/components/wrappers/screen'
 
-function SearchTeamInvite({ route }) {
+function SearchTeamInvite() {
   const { findedTeam } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
-  const sendingData = route.params
-  console.log('findedTeamxxx', route.params)
 
   return (
     <ScreenMask>
       <Text style={styles.title}>Результат поиска</Text>
       <ScrollView style={{ flex: 1 }}>
-        {findedTeam?.map((item, i) => {
-          return (
-            <TouchableOpacity
-              key={item?._id || Math.random()}
-              onPress={() => navigation.navigate('SearchedTeamSubmit', item)}
-            >
-              <View style={styles.homeBlock}>
-                <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                  <View style={styles.imageBlock}>
-                    <Image style={styles.image} source={{ uri: _storageUrl + item?.img }} />
+        {console.log('findedTeam', findedTeam)}
+        {findedTeam.length
+          ? findedTeam?.map((item, i) => {
+              return (
+                <TouchableOpacity
+                  key={item?._id || Math.random()}
+                  onPress={() => navigation.navigate('SearchedTeamSubmit', item)}
+                >
+                  <View style={styles.homeBlock}>
+                    <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                      <View style={styles.imageBlock}>
+                        <Image style={styles.image} source={{ uri: _storageUrl + item?.img }} />
+                      </View>
+                      <View style={styles.textBlock}>
+                        <Text style={styles.text}>{item?.name}</Text>
+                        <Text style={styles.text}>{item?.address_name}</Text>
+                        <Text style={styles.text}>
+                          {item?._id?.substring(0, item?._id.length - 1)}
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={{ position: 'absolute' }}>
+                      <BgMyTem gradient={i % 2 == 0} />
+                    </View>
                   </View>
-                  <View style={styles.textBlock}>
-                    <Text style={styles.text}>{item?.name}</Text>
-                    <Text style={styles.text}>{item?.address_name}</Text>
-                    <Text style={styles.text}>{item?._id?.substring(0, item?._id.length - 1)}</Text>
-                  </View>
-                </View>
-                <View style={{ position: 'absolute' }}>
-                  <BgMyTem gradient={i % 2 == 0} />
-                </View>
-              </View>
-            </TouchableOpacity>
-          )
-        })}
+                </TouchableOpacity>
+              )
+            })
+          : null}
         {/* <View style={styles.bottomBtn}>
         <LightButton
           label={'Подтвердить'}

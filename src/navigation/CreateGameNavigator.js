@@ -9,7 +9,6 @@ import CommandLeadCreate from '@/screens/Team/CommandLeadCreate/CreateGameInTeam
 import ChoosePlayers from '@/screens/Team/CommandLeadCreate/ChoosePlayers'
 import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLeadNotCreate'
 import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
-import SearchTeamInvite from '@/screens/Alias/SearchCommand/SearchTeamInvite'
 import TeamInfo from '@/screens/Team/CommandLeadNotCreate/TeamInfo'
 import EditTeamPlayers from '@/screens/Team/CommandLeadNotCreate/EditTeamPlayers'
 
@@ -25,7 +24,6 @@ const CreateGameNavigator = () => {
       <Stack.Screen name={'EditTeamPlayers'} component={EditTeamPlayers} />
       <Stack.Screen name={'TeamInfo'} component={TeamInfo} />
       <Stack.Screen name={'TeamSearchInfo'} component={EditTeamInfo} />
-      <Stack.Screen name={'SearchTeamInvite'} component={SearchTeamInvite} />
       <Stack.Screen name={'ChoosePlayers'} component={ChoosePlayers} />
       <Stack.Screen name={'GameCreating'} component={GameCreating} />
       <Stack.Screen name={'GameTicket'} component={GameTicket} />

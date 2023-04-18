@@ -12,7 +12,7 @@ import {
   setTicket_price,
 } from '@/store/Slices/GameCreatingSlice'
 
-const Radio = props => {
+const Radio = (props) => {
   const { list, margin, setFlag, type, data, setData } = props
   const [value, setValue] = useState('')
   const [checked, setChecked] = useState(true)
@@ -20,7 +20,7 @@ const Radio = props => {
   useEffect(() => {
     type === 'gender' ? dispatch(setPlayers_gender('m/f')) : null
   }, [])
-  const handleChange = ev => {
+  const handleChange = (ev) => {
     setChecked(false)
     setValue(ev.id)
     if (data) {
@@ -49,7 +49,7 @@ const Radio = props => {
     }
   }
 
-  return list.map(ev => (
+  return list?.map((ev) => (
     <TouchableOpacity
       style={{ ...style.radioBlock, marginLeft: margin }}
       onPress={() => {

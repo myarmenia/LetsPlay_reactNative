@@ -65,21 +65,21 @@ export const AliasSlice = createSlice({
     setExplainingUser: (store, action) => {
       return {
         ...store,
-        explainingUser: action.payload
+        explainingUser: action.payload,
       }
     },
     setExplainerTeam: (store, action) => {
       return {
         ...store,
-        explainerTeam: action.payload
+        explainerTeam: action.payload,
       }
     },
     setYouExplainer: (store, action) => {
       return {
         ...store,
-        explainYou: action.payload
+        explainYou: action.payload,
       }
-    }
+    },
     // setTrueAnswers: (store, action) => {
     //   return {
     //     ...store,
@@ -110,7 +110,7 @@ export const AliasSlice = createSlice({
   },
 })
 
-export const clearAllAliasData = () => dispatch => {
+export const clearAllAliasData = () => (dispatch) => {
   dispatch(setCommands(null))
   dispatch(setMinutes(0))
   dispatch(setReservedUsers([]))
@@ -122,17 +122,17 @@ export const clearAllAliasData = () => dispatch => {
   dispatch(setPlayersInGame(null))
 }
 
-export const sendAliasSettings = data => dispatch => {
+export const sendAliasSettings = (data) => (dispatch) => {
   axiosInstance
     .post('api/game/alias', data)
-    .then(response => {
+    .then((response) => {
       if (response.data?.data) {
         dispatch(setQrImg(response.data?.data?.qr_link))
         dispatch(setAliasGameId(response.data?.data?._id))
         dispatch(setTeams(response.data.data.teams))
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err sending alias settings :', err)
     })
 }
@@ -141,7 +141,6 @@ export const sendAliasGameId = (id) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/participate/${id}`)
     .then(async (response) => {
-      console.log()
       if (response.data?.data?.players) {
         dispatch(setPlayersInGame(response.data.data.players))
       }
