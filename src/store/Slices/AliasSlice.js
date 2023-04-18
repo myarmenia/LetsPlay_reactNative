@@ -1,14 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
-import { useSelector } from 'react-redux'
 
 const initialState = {
   rules: '',
-  qrGameImg: false,
   commands: null,
   complexity: null,
   aliasGameId: null,
   countOfWords: null,
+  qrGameImg: false,
   minutesInGame: 0,
   playersInGame: [],
   reservedUsers: [],

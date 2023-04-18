@@ -2,10 +2,15 @@ import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
-import { sendAliasGameId, setCommands } from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  sendAliasGameId,
+  setCommands,
+  setPlayers,
+  setReservedUsers,
+} from '@/store/Slices/AliasSlice'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import User from '@/components/User/user'
@@ -32,14 +37,14 @@ const IniviteTeamPlayers = ({ route }) => {
     dispatch(sendAliasGameId(props?.id ? props.id : aliasGameId._id))
   }, [props])
 
-  const handleClick = (elm) => {
+  const handleClick = elm => {
     if (!reservedUsers?.includes(elm?._id)) {
-      if (commands?.[i]?.members?.some((item) => item == elm?._id)) {
+      if (commands?.[i]?.members?.some(item => item == elm?._id)) {
         dispatch(
           setCommands(
-            commands?.map((elem) => {
+            commands?.map(elem => {
               if (elem.members.includes(elm?._id)) {
-                return { ...elem, members: elem.members.filter((item) => item !== elm?._id) }
+                return { ...elem, members: elem.members.filter(item => item !== elm?._id) }
               } else {
                 return elem
               }
@@ -49,7 +54,7 @@ const IniviteTeamPlayers = ({ route }) => {
       } else {
         dispatch(
           setCommands(
-            commands?.map((item) =>
+            commands?.map(item =>
               item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
           ),
@@ -61,7 +66,7 @@ const IniviteTeamPlayers = ({ route }) => {
   const handleSubmit = async () => {
     if (commands[i].members.length >= 2) {
       setError(false)
-      await dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
       dispatch(
         setPlayers({
           alias_id: aliasGameId._id,
@@ -69,7 +74,7 @@ const IniviteTeamPlayers = ({ route }) => {
           players: reservedUsers,
         }),
       )
-      setI((prev) => prev + 1)
+      setI(prev => prev + 1)
       i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)

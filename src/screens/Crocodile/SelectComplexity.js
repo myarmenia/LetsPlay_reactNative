@@ -11,9 +11,9 @@ import LightButton from '@/assets/imgs/Button'
 
 const SelectComplexity = () => {
   const btnsData = [
-    { id: 1, name: 'Быстрая игра', complexity: 'Легкий', type: 'easy', check: false },
-    { id: 2, name: 'Оптимус', complexity: 'Средний', type: 'average', check: false },
-    { id: 3, name: 'Мозговой штурм', complexity: 'Сложный', type: 'difficult', check: false },
+    { id: 1, name: 'Быстрая игра', complexity: 'Легкий', type: 'quick_game', check: false },
+    { id: 2, name: 'Оптимус', complexity: 'Средний', type: 'optimus', check: false },
+    { id: 3, name: 'Мозговой штурм', complexity: 'Сложный', type: 'brainstorm', check: false },
     { id: 4, name: 'Рулетка', complexity: 'От простого до сложного', type: 'random', check: false },
   ]
 

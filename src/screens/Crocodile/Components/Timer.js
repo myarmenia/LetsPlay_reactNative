@@ -21,10 +21,10 @@ const Timer = ({
   const { minutesInGame } = useSelector(({ alias }) => alias)
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  const [selectedTime, setSelectedTime] = useState({ seconds: 5 })
+  const [selectedTime, setSelectedTime] = useState({ seconds: 20 })
   useEffect(() => {
     if (timerStart) {
-      setSelectedTime({ seconds: 5 + 0 })
+      setSelectedTime({ seconds: 20 + 0 })
     }
   }, [timerStart])
 
@@ -39,7 +39,7 @@ const Timer = ({
       if (!stoped) {
         if (selectedTime.seconds !== 0) {
           if (selectedTime.seconds > 0 && !modalVisible && !userModalVisible) {
-            setSelectedTime((prev) => ({
+            setSelectedTime(prev => ({
               seconds: selectedTime.seconds - 1,
             }))
           }
@@ -51,7 +51,7 @@ const Timer = ({
           }
         }
       } else {
-        setSelectedTime((prev) => ({ ...prev, seconds: prev.seconds }))
+        setSelectedTime(prev => ({ ...prev, seconds: prev.seconds }))
       }
     }, 1000)
 

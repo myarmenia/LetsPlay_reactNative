@@ -17,7 +17,7 @@ const TYPES = [
   },
   {
     title: 'Турнир',
-    navigateTo: 'Tournament',
+    navigateTo: 'TournamentNavigator',
   },
 ]
 
@@ -35,9 +35,7 @@ const GameSelectScreen = ({ navigation }) => {
             <TypeButton
               title={type.title}
               key={type.title}
-              onPress={() =>
-                type.navigateTo != 'Tournament' ? navigation.navigate(type.navigateTo) : {}
-              }
+              onPress={() => navigation.navigate(type.navigateTo)}
             />
           )
         })}

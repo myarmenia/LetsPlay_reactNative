@@ -1,5 +1,5 @@
-import { ICON, WHITE } from '@/theme/colors'
-import { useDispatch } from 'react-redux'
+import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
+import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useEffect, useState } from 'react'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
@@ -17,10 +17,13 @@ const GameStart = ({ route }) => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
+  const { commands } = useSelector(({ crocodile }) => crocodile)
   let props = route?.params
   const [modalVisible, setModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
   const [secModalVisible, setSecModalVisible] = useState(false)
+  const [answerVisible, setAnswerVisible] = useState({ visible: true, answerTruthy: null })
+  const [instructionModal, setInstructionModal] = useState(false)
 
   const [stoped, setStoped] = useState(false)
   const [answers, setAnswers] = useState({
@@ -36,6 +39,46 @@ const GameStart = ({ route }) => {
     }
   }, [secModalVisible, props])
 
+  const AboutWordModal = () => {
+    return (
+      <View style={styles.wordModalBox}>
+        <Text style={styles.instructionText}>
+          Задача каждого игрока - объяснить как можно больше слов товарищам по команде за
+          ограниченное время Задача каждого игрока - объяснить как можно больше слов товарищам по
+          команде за ограниченное время Задача каждого игрока - объяснить как можно больше слов
+          товарищам по команде за ограниченное время
+        </Text>
+        <TypeButton
+          size={55}
+          title={'OK'}
+          onPress={() => {
+            setInstructionModal(false), setStoped(false)
+          }}
+        />
+      </View>
+    )
+  }
+  const AnswerModal = () => {
+    return (
+      <View style={styles.answerModalBox}>
+        <Text style={styles.instructionText}>Слово отгадано!</Text>
+        <LightButton
+          label={'Продолжить'}
+          size={150}
+          onPress={() => {
+            setAnswerVisible({ visible: false, answerTruthy: null }), setStoped(false)
+          }}
+        />
+        <LightButton
+          label={'Завершить'}
+          size={150}
+          onPress={() => {
+            setAnswerVisible({ visible: false, answerTruthy: null }), setStoped(false)
+          }}
+        />
+      </View>
+    )
+  }
   const UserModal = () => {
     return (
       <Pressable
@@ -115,6 +158,20 @@ const GameStart = ({ route }) => {
         {modalVisible ? (
           <Modal setIsVisible={setModalVisible} modalVisible={modalVisible} item={<ModalItem />} />
         ) : null}
+        {answerVisible.visible ? (
+          <Modal
+            setIsVisible={setAnswerVisible}
+            modalVisible={answerVisible.visible}
+            item={<AnswerModal />}
+          />
+        ) : null}
+        {instructionModal ? (
+          <Modal
+            setIsVisible={setInstructionModal}
+            modalVisible={instructionModal}
+            item={<AboutWordModal />}
+          />
+        ) : null}
         {secModalVisible && !userModalVisible ? (
           <Modal
             setIsVisible={setSecModalVisible}
@@ -141,21 +198,33 @@ const GameStart = ({ route }) => {
         }}
       >
         <View style={styles.answersBox}>
-          <Text style={styles.commandName}>Команда 1</Text>
-          <Text style={styles.countOfTrueAnswer}>{answers.true}</Text>
-          <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
+          {commands.length > 1 ? (
+            <>
+              <Text style={styles.commandName}>Команда 1</Text>
+              <Text style={styles.countOfTrueAnswer}>{answers.true}</Text>
+              <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
+            </>
+          ) : null}
         </View>
         <View>
           <AnimatedCircle
             word={'Testing'}
             answers={answers}
             setAnswers={setAnswers}
-            stoped={stoped ? true : false}
+            setInstructionModal={setInstructionModal}
+            setAnswerVisible={setAnswerVisible}
+            stoped={stoped}
+            setStoped={setStoped}
           />
         </View>
         <View style={styles.answersBox}>
-          <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
-          <Text style={styles.countOfTrueAnswer}>{answers.false}</Text>
+          {commands.length > 1 ? (
+            <>
+              <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
+              <Text style={styles.countOfTrueAnswer}>{answers.false}</Text>
+            </>
+          ) : null}
+
           <View style={styles.bottomBox}>
             <View style={{ width: '65%' }}>
               <LightButton
@@ -233,6 +302,29 @@ const styles = StyleSheet.create({
   countOfTrueAnswer: {
     ...font('regular', 24, WHITE),
     paddingVertical: RH(5),
+  },
+  wordModalBox: {
+    width: '73%',
+    height: '40%',
+    backgroundColor: BACKGROUND,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    alignSelf: 'center',
+    borderRadius: RW(15),
+  },
+  answerModalBox: {
+    width: '73%',
+    height: '24%',
+    backgroundColor: BACKGROUND,
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    alignSelf: 'center',
+    borderRadius: RW(15),
+  },
+  instructionText: {
+    paddingHorizontal: RW(15),
+    textAlign: 'center',
+    ...font('regular', 17, WHITE),
   },
 })
 

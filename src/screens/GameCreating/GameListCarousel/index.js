@@ -7,7 +7,7 @@ import ListItem from './components/ListItem'
 import { _storageUrl } from '@/constants'
 import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 const Index = ({ route }) => {
-  const { list } = route.params
+  const { list, fromTournament = null } = route.params
   const { width } = Dimensions.get('window')
   const games = useSelector(({ games }) => games.games)
   const dispatch = useDispatch()
@@ -40,7 +40,12 @@ const Index = ({ route }) => {
                 justifyContent: 'center',
               }}
             >
-              <ListItem game={elem} pressable={true} qrGame={list == 'qr'} />
+              <ListItem
+                game={elem}
+                pressable={true}
+                qrGame={list == 'qr'}
+                fromTournament={fromTournament}
+              />
             </View>
           )
         })}

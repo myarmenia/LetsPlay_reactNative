@@ -12,7 +12,7 @@ import Modal from '@/components/modal'
 function Index({ route }) {
   const commandsCount = route?.params
   const [modalRules, setModalRules] = useState(true)
-  const { qrGameImg } = useSelector(({ alias }) => alias)
+  const { qrGameImg } = useSelector(({ crocodile }) => crocodile)
   const navigation = useNavigation()
 
   return (

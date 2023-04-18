@@ -18,6 +18,13 @@ export default {
           },
         },
       },
+      CrocodileNavigator: {
+        screens: {
+          InviteTeamPlayers: {
+            path: 'playCrocodile/:id',
+          },
+        },
+      },
     },
   },
   subscribe(listener) {
