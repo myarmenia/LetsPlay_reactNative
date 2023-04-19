@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
-import { sendAliasGameId, setCommands } from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
@@ -11,24 +10,34 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
+import {
+  sendCrocodileGameId,
+  setCommands,
+  setPlayers,
+  setReservedUsers,
+} from '@/store/Slices/CrocodileSlice'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const props = route.params
-  const { commands, reservedUsers, playersInGame } = useSelector(({ crocodile }) => crocodile)
+  const { commands, reservedUsers, playersInGame, crocodileGameId, teamDatas } = useSelector(
+    ({ crocodile }) => crocodile,
+  )
   const { _id } = useSelector(({ auth }) => auth.user)
-  let authedUserId = _id
   const [i, setI] = useState(0)
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
+  let authedUserId = _id
   useEffect(() => {
     setI(0)
   }, [isFocused])
 
-  // useEffect(() => {
-  //   dispatch(sendAliasGameId(props?.id ? props.id : aliasGameId._id))
-  // }, [props])
+  useEffect(() => {
+    if(props?.id){
+      dispatch(sendCrocodileGameId(props?.id))  
+    }
+  }, [props])
 
   const handleClick = elm => {
     if (!reservedUsers?.includes(elm?._id)) {
@@ -57,24 +66,22 @@ const IniviteTeamPlayers = ({ route }) => {
   }
 
   const handleSubmit = async () => {
-    navigation.navigate('PlayNow')
+    if (commands[i].members.length >= 2) {
+      setError(false)
+      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      dispatch(
+        setPlayers({
+          alias_id: crocodileGameId,
+          team_id: teamDatas[i]?._id,
+          players: reservedUsers,
+        }),
+      )
+      setI(prev => prev + 1)
+      i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
+    } else {
+      setError(true)
+    }
   }
-  //   if (commands[i].members.length >= 2) {
-  //     setError(false)
-  //     await dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
-  //     dispatch(
-  //       setPlayers({
-  //         alias_id: aliasGameId._id,
-  //         team_id: teamDatas[i]?._id,
-  //         players: reservedUsers,
-  //       }),
-  //     )
-  //     setI((prev) => prev + 1)
-  //     i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
-  //   } else {
-  //     setError(true)
-  //   }
-  // }
 
   return (
     <ScreenMask>
@@ -158,7 +165,11 @@ const IniviteTeamPlayers = ({ route }) => {
             />
           </View>
           <View style={styles.btnBox}>
-            <DarkButton label={'Пригласить игроков'} size={{ width: RW(310), height: RH(50) }} />
+            <DarkButton
+              label={'Пригласить игроков'}
+              size={{ width: RW(310), height: RH(50) }}
+              onPress={() => navigation.goBack()}
+            />
           </View>
         </View>
       </ScrollView>

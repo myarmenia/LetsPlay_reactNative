@@ -15,8 +15,9 @@ import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
 import { clearAllAliasData } from '@/store/Slices/AliasSlice'
-function ListItem({ game, pressable, qrGame }) {
-  // const [active, setActive] = useState(false)
+function ListItem({ game, pressable, qrGame, fromTournament }) {
+  const [active, setActive] = useState(false)
+
   const [modalVisible, setModalVisible] = useState(false)
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
@@ -50,6 +51,11 @@ function ListItem({ game, pressable, qrGame }) {
             } else {
               savedTeam?.id
                 ? setModalVisible(true)
+                : fromTournament
+                ? navigation.navigate('TournamentNavigator', {
+                    screen: 'CreateTournament',
+                    // params: ""
+                  })
                 : navigation.navigate('GameCreating', { params: { game } })
             }
 

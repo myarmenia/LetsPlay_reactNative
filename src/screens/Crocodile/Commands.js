@@ -15,12 +15,16 @@ const Commands = () => {
   const navigation = useNavigation()
   const { complexity } = useSelector(({ crocodile }) => crocodile)
   const [error, setError] = useState(false)
-  const [commandsCount, setCommandsCount] = useState([
-    { command: 1, value: '', members: [] },
-    { command: 2, value: '', members: [] },
-  ])
+  const [commandsCount, setCommandsCount] = useState([{ command: 1, value: '', members: [] }])
 
   const handleSubmit = () => {
+    const sendingObj = {
+      number_of_words: 30,
+      round_time: 2,
+      team_game: commandsCount.length > 1 ? true : false,
+      type: complexity,
+      teams: commandsCount.map(elm => elm.value),
+    }
     let empty = 0
     for (let elem of commandsCount) {
       if (!elem.value) {
@@ -31,17 +35,8 @@ const Commands = () => {
       setError(true)
     } else {
       setError(false)
-      dispatch(setCommands(commandsCount)),
-        // dispatch(
-        //   sendCrocodileSettings({
-        //     number_of_words: countOfWords,
-        //     round_time: minutesInGame,
-        //     pass_fine: true,
-        //     type: complexity,
-        //     teams: commandsCount.map(elm => elm.value),
-        //   }),
-        // )
-        navigation.navigate('QrCode', commandsCount)
+      dispatch(setCommands(commandsCount)), dispatch(sendCrocodileSettings(sendingObj))
+      navigation.navigate('QrCode', commandsCount)
     }
   }
   return (
@@ -75,15 +70,12 @@ const Commands = () => {
                       // keyboardType="number-pad"
                     />
                   </View>
-                  {commandsCount.length !== 2 ? (
+                  {commandsCount.length !== 1 ? (
                     <Pressable
                       onPress={() =>
                         commandsCount.length !== 1
-                          ? commandsCount.length == 3
-                            ? setCommandsCount([
-                                { command: 1, value: '', members: [] },
-                                { command: 2, value: '', members: [] },
-                              ])
+                          ? commandsCount.length == 2
+                            ? setCommandsCount([{ command: 1, value: '', members: [] }])
                             : setCommandsCount([...commandsCount.filter(elem => elm !== elem)])
                           : null
                       }
