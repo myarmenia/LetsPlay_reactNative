@@ -78,7 +78,8 @@ const AliasNavigator = () => {
         break
       }
       case 'explain_results': {
-
+        // dispatch(setExplains(e.explains))
+        // dispatch(setSkips(e.skips))
       }
       case 'end_game': {
 
