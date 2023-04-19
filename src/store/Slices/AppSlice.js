@@ -29,14 +29,11 @@ export const notificationSettings = (e) => (dispatch) => {
   if (e.checked) {
     axiosInstance
       .post('api/profile/notification', JSON.stringify({ name: e?.label }))
-      .then((response) => {
-        console.log(response.data)
-      })
+      .then((response) => {})
       .catch((err) => {
         console.log('err request notification', err)
       })
   } else {
-    console.log(JSON.stringify({ name: e?.label }))
     // axiosInstance
     //   .delete('api/profile/notification', JSON.stringify({ name: e?.label }))
     //   .then((response) => {
@@ -61,9 +58,7 @@ export const getNotifications = () => (dispatch) => {
 export const deleteNotification = (id) => (dispatch) => {
   axiosInstance
     .delete(`api/notification/${id}`)
-    .then((response) => {
-      console.log(response.data)
-    })
+    .then((response) => {})
     .catch((err) => {
       console.log('err request notification', err)
     })
@@ -73,7 +68,6 @@ export const deleteAllNotifications = () => (dispatch) => {
     .delete('api/notification')
     .then((response) => {
       dispatch(setNotifications([]))
-      console.log(response.data)
     })
     .catch((err) => {
       console.log('err request notification', err)

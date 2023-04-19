@@ -26,7 +26,6 @@ const MyApp = () => {
 
   useEffect(() => {
     if (token && !userId) {
-      // console.log('getProfileInfo')
       dispatch(getProfileInfo())
     }
   }, [token, userId])

@@ -5,7 +5,6 @@ import { joinInTeam } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
 import { useDispatch } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { useNavigation } from '@react-navigation/native'
 import { Image, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
@@ -15,14 +14,14 @@ import style from './styles'
 
 function Index({ route }) {
   const item = route.params
-  console.log('item', item)
+
   const [modalVisible, setModalVisible] = useState(false)
-  const navigation = useNavigation()
+
   const dispatch = useDispatch()
-  //640b2c8d9f063da9a3cf6b7e
   const handleJoin = () => {
     dispatch(joinInTeam(item?._id, setModalVisible))
   }
+
   return (
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>

@@ -6,9 +6,11 @@ import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON, RADIO_TEXT, WHITE } from '@/theme/colors'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from './Modal'
+import { useSelector } from 'react-redux'
 const ChooseGameType = () => {
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
+  const savedTeam = useSelector(({ teams }) => teams.savedTeam)
   return (
     <>
       <ScreenMask>
@@ -25,7 +27,11 @@ const ChooseGameType = () => {
           <View>
             <LightButton
               onPress={() => {
-                setModalVisible(true)
+                if (!Object.keys(savedTeam || {}).length) {
+                  setModalVisible(true)
+                } else {
+                  navigation.navigate('GameListCarousel', { list: 'desktop' })
+                }
               }}
               label={'Настольные игры'}
               size={{ width: 281, height: 50 }}

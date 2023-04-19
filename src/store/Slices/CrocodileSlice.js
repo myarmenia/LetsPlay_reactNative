@@ -50,7 +50,7 @@ export const sendCrocodileSettings = data => dispatch => {
       dispatch(setCrocodileGameId(response.data?.data?._id))
       dispatch(setTeams(response.data.data.teams))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err sending crocodile settings :', err)
     })
 }

@@ -1,4 +1,3 @@
-import { useNavigation } from '@react-navigation/native'
 import { createSlice } from '@reduxjs/toolkit'
 import { Platform } from 'react-native'
 import axiosInstance from '../Api'
@@ -10,6 +9,7 @@ const initialState = {
   findedPlayers: [],
   savedTeam: null,
   betweenPlayers: false,
+  choosedTeamGame: null,
 }
 export const TeamSlice = createSlice({
   name: 'teamSlice',
@@ -57,6 +57,12 @@ export const TeamSlice = createSlice({
         findedPlayers: action.payload,
       }
     },
+    setChoosedTeamGame: (store, action) => {
+      return {
+        ...store,
+        choosedTeamGame: action.payload,
+      }
+    },
   },
 })
 export const getTeams =
@@ -81,7 +87,7 @@ export const searchPlayer = (url) => (dispatch) => {
   axiosInstance
     .get(`/api/team/find/user/?${url}`)
     .then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
       dispatch(setFindedPlayers(response.data.users))
     })
 
@@ -93,19 +99,17 @@ export const inviteUserToTeam = (data) => (dispatch) => {
   axiosInstance
     .patch('/api/team/invite', data)
     .then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
     })
     .catch((err) => {
       console.log('Error inviting player :', err)
     })
 }
 export const setPlayerAdmin = (data) => (dispatch) => {
-  console.log('data :', data)
-
   axiosInstance
     .patch('/api/team/become_admin', data)
     .then((response) => {
-      console.log(response.data)
+      // console.log(response.data)
     })
     .catch((err) => {
       console.log('Error set user admin :', err)
@@ -115,9 +119,7 @@ export const deletePlayerFromTeam = (data) => (dispatch) => {
   console.log('data :', data)
   axiosInstance
     .delete('/api/team/players', data)
-    .then((response) => {
-      console.log(response.data)
-    })
+    .then((response) => {})
     .catch((err) => {
       console.log('Error delete user from team :', err)
     })
@@ -147,7 +149,7 @@ export const getMembersList = (teamId) => async (dispatch) => {
   axiosInstance
     .get(`api/team/players/${teamId}`)
     .then((response) => {
-      console.log(response?.data?.datas)
+      console.log('getMembersList', response?.data?.datas)
       // dispatch(setMembersInTeam(response.data.datas))
     })
     .catch((err) => {
@@ -169,7 +171,7 @@ export const joinGame = (gameId, nav, setError, setModalVisible) => async (dispa
       console.log('Error joining to game :', err)
     })
 }
-export const joinInTeam = (teamId, setModalVisible) => async dispatch => {
+export const joinInTeam = (teamId, setModalVisible) => async (dispatch) => {
   axiosInstance
     .post(`api/team/players/${teamId}`)
     .then((response) => {
@@ -193,12 +195,10 @@ export const searchGame = (data, nav, setError) => async (dispatch) => {
   let dates = dateFrom && dateTo ? `date_from=${dateFrom}&date_to=${dateTo}` : ''
   let gameIds = data.getAll('ids')
   let gameIdsForLink = gameIds[0].map((elm) => `games[]=${elm}&`).join('')
-  console.log('game_of_your_choice', game_of_your_choice)
   let link = `api/create/game/?${dates}${price.length ? '&price=' + price[0] : ''}${
     game_of_your_choice.length ? '&game_of_your_choice=' + game_of_your_choice[0] : ''
   }${place}/${gameIdsForLink}`
-  console.log('price', price)
-  console.log(link.slice(0, link.length - 1))
+
   axiosInstance
     .get(link.slice(0, link.length - 1))
 
@@ -260,5 +260,6 @@ export const {
   setFindedGames,
   setFindedPlayers,
   setBetweenPlayers,
+  setChoosedTeamGame,
 } = TeamSlice.actions
 export default TeamSlice.reducer

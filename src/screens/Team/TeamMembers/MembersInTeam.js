@@ -34,7 +34,7 @@ const MembersInTeam = ({ route }) => {
   //     }),
   //   )
   // }, [findedTeam?.[0]?.players?.length])
-  console.log('findedTeam', command)
+
   const UserItem = ({ elm }) => {
     const [visible, setVisible] = useState(false)
     return (
@@ -42,38 +42,38 @@ const MembersInTeam = ({ route }) => {
         <View
           style={[styles.eachUser, { opacity: findedTeam?.invited_players == user?._id ? 0.7 : 1 }]}
         >
-          {elm == 2 ? (
-            //need detect user accept invite or not and set opacity and don't navigate another show modal
-            // <View style={{ opacity: 0.6 }}>
-            <Pressable
-              style={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: RW(5),
-              }}
-              onPressIn={() => setVisible(true)}
-              onPressOut={() => setVisible(false)}
-              // onPress={() => navigation.navigate('EachMember', { member: elm, command: command })}
-            >
-              <BorderGradient height={145} width={110} opacity={visible ? 1 : 0} />
-              <View style={{ position: 'absolute' }}>
-                {command.user == user._id ? <OrganizerSvg /> : null}
-                <User
-                  size={110}
-                  onPressItem={{
-                    modalClose: false,
-                    onClickFunc: () => {
-                      navigation.navigate('EachMember', { member: elm, command: command })
-                      // item: <User size={390} />,
-                    },
-                  }}
-                  // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
-                />
-              </View>
-            </Pressable>
-          ) : null
-          // <EmptyBorderedAvatar />
-
+          {
+            elm == 2 ? (
+              //need detect user accept invite or not and set opacity and don't navigate another show modal
+              // <View style={{ opacity: 0.6 }}>
+              <Pressable
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: RW(5),
+                }}
+                onPressIn={() => setVisible(true)}
+                onPressOut={() => setVisible(false)}
+                // onPress={() => navigation.navigate('EachMember', { member: elm, command: command })}
+              >
+                <BorderGradient height={145} width={110} opacity={visible ? 1 : 0} />
+                <View style={{ position: 'absolute' }}>
+                  {command.user == user._id ? <OrganizerSvg /> : null}
+                  <User
+                    size={110}
+                    onPressItem={{
+                      modalClose: false,
+                      onClickFunc: () => {
+                        navigation.navigate('EachMember', { member: elm, command: command })
+                        // item: <User size={390} />,
+                      },
+                    }}
+                    // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
+                  />
+                </View>
+              </Pressable>
+            ) : null
+            // <EmptyBorderedAvatar />
           }
         </View>
       </>

@@ -7,16 +7,19 @@ import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
 import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
+import { useSelector } from 'react-redux'
 
 const TeamInfo = ({ route }) => {
   const { sendingData, gameId } = route.params
+  const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
   const navigation = useNavigation()
+
   return (
     <ScreenMask>
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <Image
-            source={{ uri: _storageUrl + gameId?.img }}
+            source={{ uri: _storageUrl + choosedTeamGame?.img }}
             resizeMode="contain"
             style={styles.img}
           />
