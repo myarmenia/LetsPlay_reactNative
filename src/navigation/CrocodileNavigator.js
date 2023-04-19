@@ -20,25 +20,29 @@ const CrocodileNavigator = () => {
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
   const { crocodileGameId } = useSelector(({ crocodile }) => crocodile)
-  const callBackFunc = async e => {
+  let deviceName
+  DeviceInfo.getDeviceName().then(e => {
+    deviceName = e
+  })
+  const callBackFunc =  e => {
+    console.log(`message  from :  ${JSON.stringify(e, null,5)}`)
     switch (e.type) {
       case 'new_user': {
+        console.log(e)
         break
       }
     }
   }
-  // let deviceName
-  // DeviceInfo.getDeviceName().then(e => {
-  //   deviceName = e
-  // })
+  console.log("xxxxxx", crocodileGameId);
+  const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {
-    if (!crocodileGameId && socketRef.current) {
-      socketRef.current = null
-    }
-    if (socketRef.current || !crocodileGameId) return
+    console.log('crocodile -' + DeviceInfo.getDeviceId(), crocodileGameId)
+    // if (!crocodile && socketRef.current) {
+    //   socketRef.current = null
+    // }
+    // if (socketRef.current || !crocodileGameId) return
 
-    console.log('crocodileGameId -', crocodileGameId)
     socketRef.current = io(
       `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/crocodile?room=${crocodileGameId}`,
       {
@@ -52,7 +56,10 @@ const CrocodileNavigator = () => {
       },
     )
   }, [crocodileGameId, token])
-  const {} = useGameSocketHelper(socketRef.current, callBackFunc)
+
+
+
+
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       {/* <Stack.Screen name="Settings" component={Settings} /> */}

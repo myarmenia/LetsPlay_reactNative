@@ -2,21 +2,16 @@ import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
 import { ICON, RED, WHITE } from '@/theme/colors'
-import {
-  sendAliasGameId,
-  setCommands,
-  setParticipateSuccess,
-  setPlayers,
-  setReservedUsers,
-} from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import {
   sendAliasGameId,
   setCommands,
+  setParticipateSuccess,
   setPlayers,
   setReservedUsers,
+  setUsersInGame,
 } from '@/store/Slices/AliasSlice'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
@@ -36,6 +31,7 @@ const IniviteTeamPlayers = ({ route }) => {
     teamDatas,
     participateSuccess,
     userIsOrganizer,
+    usersInGame,
   } = useSelector(({ alias }) => alias)
   const [i, setI] = useState(0)
   const [error, setError] = useState(false)
@@ -94,13 +90,19 @@ const IniviteTeamPlayers = ({ route }) => {
           team_id: teamDatas[i]?._id,
           players: commands?.[i]?.members,
         }),
-      )
-      setI(prev => prev + 1)
+        )
+        // dispatch(setUsersInGame(...usersInGame, playersInGame.filter((elm,j) => elm?._id == commands[i].members[j])))
+        // console.log("0000000000", playersInGame.filter((elm,j) => elm?._id == commands[i].members[j]));
+        setI(prev => prev + 1)
       i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)
     }
   }
+
+  useEffect(()=>{
+    console.log("usersInGame ========", usersInGame);
+  },[usersInGame])
 
   return (
     <ScreenMask>

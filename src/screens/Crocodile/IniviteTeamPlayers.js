@@ -34,7 +34,9 @@ const IniviteTeamPlayers = ({ route }) => {
   }, [isFocused])
 
   useEffect(() => {
-    dispatch(sendCrocodileGameId(props?.id ? props.id : crocodileGameId._id))
+    if(props?.id){
+      dispatch(sendCrocodileGameId(props?.id))  
+    }
   }, [props])
 
   const handleClick = elm => {
@@ -69,7 +71,7 @@ const IniviteTeamPlayers = ({ route }) => {
       dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
       dispatch(
         setPlayers({
-          alias_id: crocodileGameId._id,
+          alias_id: crocodileGameId,
           team_id: teamDatas[i]?._id,
           players: reservedUsers,
         }),

@@ -17,7 +17,7 @@ import TeamsResults from '@/screens/Alias/TeamsResults/TeamsResults'
 import { io } from 'socket.io-client'
 import DeviceInfo from 'react-native-device-info'
 
-import { setExplainerTeam, setExplainingUser, setPlayersInGame, setUserIsOrganizer, setYouExplainer } from '@/store/Slices/AliasSlice'
+import { setCommandsAndPlayers, setExplainerTeam, setExplainingUser, setPlayersInGame, setUserIsOrganizer, setWords, setYouExplainer } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
@@ -26,10 +26,12 @@ const AliasNavigator = () => {
   const socketRef = useRef(null)
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { aliasGameId } = useSelector(({ alias }) => alias)
+  const { aliasGameId, endRound } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
-
+  useEffect(()=>{
+    socketRef.current?.emit("end_time",{})
+  },[endRound])
   const callBackFunc = async (e) => {
     console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null,5)}`)
     switch (e.type) {
@@ -38,8 +40,11 @@ const AliasNavigator = () => {
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
         break
       }
+     
       case 'explain_you': {
         dispatch(setYouExplainer(true))
+        // console.log("-------------------", e);
+        dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
         navigation.navigate('GameStart')
         break
@@ -48,6 +53,7 @@ const AliasNavigator = () => {
       case 'explain_another_team_user': {
         console.log("explain_another_team_user", e.explain_user_team.name, "explain_another_team_user");
         dispatch(setExplainingUser(e.explain_user))
+        dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.explain_user_team.name))
         navigation.navigate('GameStart')
         break
@@ -55,7 +61,7 @@ const AliasNavigator = () => {
       case 'explain_your_team_user': {
         console.log("explain_your_team_user", e.explain_user_team, "explain_your_team_user");
         dispatch(setExplainingUser(e.user))
-        dispatch(setExplainerTeam(e.explain_user_team.name))
+        dispatch(setExplainerTeam(e.team.name))
         navigation.navigate('GameStart')
         break
       }
@@ -64,8 +70,20 @@ const AliasNavigator = () => {
         navigation.navigate('GameStart')
         break
       }
+      case 'alias_team_confirm': {
+        dispatch(setCommandsAndPlayers(e.alias.teams))
+        break
+      }
+      case 'explain_results': {
+
+      }
+      case 'end_game': {
+
+      }
     }
   }
+
+  // end time sending --- socket.emit("end_time",{})
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {

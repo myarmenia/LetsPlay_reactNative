@@ -57,9 +57,12 @@ export const sendCrocodileSettings = data => dispatch => {
 export const sendCrocodileGameId = id => dispatch => {
   axiosInstance
     .post(`api/crocodile/participate/${id}`)
-    .then(async response => {
-      await dispatch(setPlayersInGame(response?.data.data))
-      dispatch(setCrocodileGameId(response?.data?.data?._id))
+    .then( response => {
+      console.log("response =", response.data);
+      if (response.data?.data?.players) {
+        dispatch(setPlayersInGame(response.data.data))
+      }
+      dispatch(setCrocodileGameId(id))
     })
     .catch(err => {
       console.log('err sending crocodile game id :', err)

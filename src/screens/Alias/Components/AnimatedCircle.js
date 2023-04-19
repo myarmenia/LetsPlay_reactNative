@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder, Animated } from 'react-native'
 
-const AnimatedCircle = ({ word, answers, setAnswers, stoped }) => {
+const AnimatedCircle = ({ word, answers, setAnswers, stoped, setI }) => {
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = PanResponder.create({
@@ -12,6 +12,7 @@ const AnimatedCircle = ({ word, answers, setAnswers, stoped }) => {
       pan.flattenOffset()
       if (gestureState.moveY < 233) {
         stoped == false ? setAnswers({ ...answers, true: ++answers.true }) : null
+        setI(prev => prev++)
         Animated.timing(pan, {
           toValue: { x: 0, y: 0 },
           duration: 300,
@@ -19,6 +20,7 @@ const AnimatedCircle = ({ word, answers, setAnswers, stoped }) => {
         }).start()
       } else if (gestureState.moveY > 555) {
         stoped == false ? setAnswers({ ...answers, false: ++answers.false }) : null
+        setI(prev => prev++)
         Animated.timing(pan, {
           toValue: { x: 0, y: 0 },
           duration: 300,

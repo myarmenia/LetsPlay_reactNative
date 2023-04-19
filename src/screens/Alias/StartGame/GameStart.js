@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useEffect, useState } from 'react'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { View, StyleSheet, Text, Pressable } from 'react-native'
+import { View, StyleSheet, Text, Pressable, InteractionManager } from 'react-native'
 import PlayingInstructionSVG from '../assets/PlayingInstructionSVG'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import AnimatedCircle from '../Components/AnimatedCircle'
@@ -20,7 +20,9 @@ const GameStart = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [secModalVisible, setSecModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
+  const [i, setI] = useState(0)
   const {
+    words,
     explainYou,
     explainerTeam,
     explainingUser
@@ -39,13 +41,16 @@ const GameStart = ({ route }) => {
       }
     }
   }, [secModalVisible, props])
-
+  
   const UserModal = () => {
     return (
       <Pressable
+        collapsable={true}
         onPress={() => {
+          if(!explainYou){
+            setStoped(false)
+          }
           setUserModalVisible(false)
-          setModalVisible(true)
         }}
         style={{
           flexDirection: 'column',
@@ -55,8 +60,8 @@ const GameStart = ({ route }) => {
          
         }}
       >
-        <View style={[styles.userModalBox]}>{console.log("xxxxxxxx", explainerTeam, "xxxxxxx")}
-          <Text style={[styles.commandName, {position: "absolute", top: RH(20)}]}>{explainerTeam}</Text>
+        <View style={[styles.userModalBox]}>
+          <Text style={[styles.commandName, {position: "absolute", top: RH(40)}]}>{explainerTeam}</Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
             <User size={380} pressedUser={explainYou ? user : explainingUser}/>
@@ -67,7 +72,7 @@ const GameStart = ({ route }) => {
             size={{ width: 281, height: 48 }}
             onPress={() => {
               setUserModalVisible(false)
-              setModalVisible(true)
+              
             }}
           /></View>}
           
@@ -83,7 +88,7 @@ const GameStart = ({ route }) => {
         style={{
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'space-evenly',
+          justifyContent: 'space-around',
           position: 'absolute',
         }}
       >
@@ -96,7 +101,7 @@ const GameStart = ({ route }) => {
           </View>
           <PlayingInstructionSVG />
         </View>
-        <View style={{ top: '-10%' }}>
+        <View style={{ top: '7%' }}>
           <TypeButton size={60} title={'OK'} onPress={() => setModalVisible(false)} />
         </View>
       </Pressable>
@@ -120,7 +125,17 @@ const GameStart = ({ route }) => {
       </Pressable>
     )
   }
+  useEffect(()=>{
+    InteractionManager.runAfterInteractions(() => {
+      if(!userModalVisible && explainYou){
+        setModalVisible(true)
+      } 
+      else if(!userModalVisible && !explainYou){
+        setStoped(false)
 
+      }
+    });
+  },[userModalVisible])
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>
@@ -159,7 +174,8 @@ const GameStart = ({ route }) => {
         </View>
         <View>
           <AnimatedCircle
-            word={'Testing'}
+            word={words[i]?.name}
+            setI={setI}
             answers={answers}
             setAnswers={setAnswers}
             stoped={stoped ? true : false}
@@ -170,11 +186,13 @@ const GameStart = ({ route }) => {
           <Text style={styles.countOfTrueAnswer}>{answers.false}</Text>
           <View style={styles.bottomBox}>
             <View style={{ width: '65%' }}>
+              {!!explainYou &&  (
               <LightButton
                 label={!stoped ? 'Стоп' : 'Продолжить'}
                 size={{ width: !stoped ? 100 : null, height: 36 }}
                 onPress={() => setStoped(!stoped)}
               />
+              )}
             </View>
             <View style={{ alignItems: 'center', width: '35%' }}>
               <Timer
@@ -206,7 +224,7 @@ const styles = StyleSheet.create({
   },
   modalBox: {
     // height: '100%',
-    width: '97%',
+    width: '95%',
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -220,7 +238,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   instructionTextBox: {
-    height: '50%',
+    height: '60%',
     width: '70%',
     justifyContent: 'space-between',
     alignSelf: 'center',

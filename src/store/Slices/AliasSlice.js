@@ -10,13 +10,17 @@ const initialState = {
   complexity: null,
   aliasGameId: null,
   countOfWords: null,
-  qrGameImg: false,
   explainerTeam: null,
-  minutesInGame: 0,
+  commandsAndPlayers: null,
+  participateSuccess: null,
+  words: [],
+  usersInGame: [],
   playersInGame: [],
   reservedUsers: [],
+  endRound: false,
+  qrGameImg: false,
   userIsOrganizer: false,
-  participateSuccess: null,
+  minutesInGame: 0
 }
 
 export const AliasSlice = createSlice({
@@ -44,11 +48,23 @@ export const AliasSlice = createSlice({
     setCountWords: (store, action) => {
       return { ...store, countOfWords: action.payload }
     },
+    setEndRound: (store, action) => {
+      return { ...store, endRound: action.payload }
+    },
     setQrImg: (store, action) => {
       return { ...store, qrGameImg: action.payload }
     },
     setPlayersInGame: (store, action) => {
       return { ...store, playersInGame: action.payload }
+    },
+    setUsersInGame: (store, action) => {
+      return { ...store, usersInGame: action.payload }
+    },
+    setCommandsAndPlayers: (store, action) => {
+      return { ...store, commandsAndPlayers: action.payload }
+    },
+    setWords: (store, action) => {
+      return { ...store, words: action.payload }
     },
     setUserIsOrganizer: (store, action) => {
       return {
@@ -141,7 +157,6 @@ export const sendAliasGameId = id => dispatch => {
   axiosInstance
     .post(`api/game/alias/participate/${id}`)
     .then(async response => {
-      console.log()
       if (response.data?.data?.players) {
         dispatch(setPlayersInGame(response.data.data.players))
       }
@@ -154,7 +169,6 @@ export const sendAliasGameId = id => dispatch => {
     })
 }
 export const setPlayers = teamInfo => dispatch => {
-  console.log('teamInfo', teamInfo)
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
     .then(response => {
@@ -177,11 +191,14 @@ export const startAliasGame = gameId => dispatch => {
 }
 export const {
   setQrImg,
+  setWords,
   setTeams,
   setMinutes,
+  setEndRound,
   setCommands,
   setCountWords,
   setComplexity,
+  setUsersInGame,
   setAliasGameId,
   setTrueAnswers,
   setYouExplainer,
@@ -192,5 +209,6 @@ export const {
   setExplainingUser,
   setUserIsOrganizer,
   setParticipateSuccess,
+  setCommandsAndPlayers
 } = AliasSlice.actions
 export default AliasSlice.reducer

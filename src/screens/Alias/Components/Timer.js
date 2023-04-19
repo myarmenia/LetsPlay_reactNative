@@ -4,9 +4,10 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import { memo } from 'react'
 import { font } from '@/theme/utils'
-import { WHITE } from '@/theme/colors'
-import { useSelector } from 'react-redux'
+import { RED, WHITE } from '@/theme/colors'
+import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { setEndRound } from '@/store/Slices/AliasSlice'
 
 const Timer = ({
   stoped,
@@ -18,10 +19,11 @@ const Timer = ({
   secModalVisible,
   setSecModalVisible,
 }) => {
-  const { minutesInGame } = useSelector(({ alias }) => alias)
+  const [selectedTime, setSelectedTime] = useState({ seconds: 5 })
+  const { minutesInGame,explainYou } = useSelector(({ alias }) => alias)
+  const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  const [selectedTime, setSelectedTime] = useState({ seconds: 5 })
   useEffect(() => {
     if (timerStart) {
       setSelectedTime({ seconds: 5 + 0 })
@@ -31,6 +33,7 @@ const Timer = ({
   useEffect(() => {
     if (selectedTime.seconds == 0 && !userModalVisible) {
       setSelectedTime({ seconds: 0 })
+      dispatch(setEndRound(true))
       setSecModalVisible(true)
     }
   }, [selectedTime.seconds])
@@ -38,7 +41,7 @@ const Timer = ({
     const timer = setInterval(() => {
       if (!stoped) {
         if (selectedTime.seconds !== 0) {
-          if (selectedTime.seconds > 0 && !modalVisible && !userModalVisible) {
+          if ((selectedTime.seconds > 0 && !modalVisible && !userModalVisible)){
             setSelectedTime((prev) => ({
               seconds: selectedTime.seconds - 1,
             }))
@@ -66,7 +69,7 @@ const Timer = ({
   return (
     <>
       <Text style={styles.timer}>Оставшееся время</Text>
-      <Text style={styles.timerClock}>
+      <Text style={[styles.timerClock, {color: explainYou ? WHITE : RED}]}>
         {displayMinutes}:{displaySeconds}
       </Text>
     </>
