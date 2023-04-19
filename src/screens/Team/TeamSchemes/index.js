@@ -9,11 +9,17 @@ import User from '@/components/User/user'
 import DraggableComponent from './components/DraggableComponent'
 
 const TeamSchemes = ({ route }) => {
-  const data = route.params
+  // const data = route.params
+  const data = {
+    players: ['64219136e3a868ee5e71a799'],
+    schemaImg: '/game_schema_img/Group 1805.png',
+    teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
+    teamName: 'Test2',
+  }
+  //
   // let containerLayout, imgLayout
   const [containerLayout, setContainerLayout] = useState()
   const [imageLayout, setImageLayout] = useState()
-  console.log((containerLayout?.width - imageLayout?.width) / 2 + containerLayout?.y)
 
   return (
     <ScreenMask>
@@ -42,9 +48,9 @@ const TeamSchemes = ({ route }) => {
             // containerLayout?.width && imageLayout?.width && containerLayout?.y ?
             [1, 2, 3, 4].map((item, key) => (
               <DraggableComponent
-                children={<User />}
+                itemId={item}
                 key={key}
-                maxTop={(containerLayout?.width - imageLayout?.width) / 2 + containerLayout?.y}
+                // maxTop={(containerLayout?.width - imageLayout?.width) / 2 + containerLayout?.y}
               />
             ))
             // : null

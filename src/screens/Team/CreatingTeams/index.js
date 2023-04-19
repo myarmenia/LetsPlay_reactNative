@@ -25,8 +25,8 @@ const CreatingTeams = ({ navigation }) => {
           <LightButton
             label={'Мои команды'}
             size={{ width: 270, height: 48 }}
-            onPress={() => navigation.navigate('MyTeam')}
-            // onPress={() => navigation.navigate('TeamSchemes')}
+            // onPress={() => navigation.navigate('MyTeam')}
+            onPress={() => navigation.navigate('TeamSchemes')}
           />
         </View>
         <View style={styles.btn}>

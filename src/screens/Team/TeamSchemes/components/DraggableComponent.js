@@ -1,101 +1,64 @@
+import { RH, RW } from '@/theme/utils'
 import React, { useRef, useState } from 'react'
-import { View, StyleSheet, PanResponder } from 'react-native'
-const DraggableComponent = ({ children, style, maxTop }) => {
+import { View, PanResponder } from 'react-native'
+import User from '@/components/User/user'
+const DraggableComponent = ({ style, itemId }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [smallSize, setSmallSize] = useState(false)
 
   const componentRef = useRef(null)
-  const currentPosition = { x: 0, y: 0, height: 0, width: 0 }
+  const panResponder = useRef(null)
+
   const handleLayout = () => {
     componentRef.current.measure((x, y, width, height, pageX, pageY) => {
-      currentPosition.y = pageY
-      currentPosition.x = pageX
-      currentPosition.height = height
-      currentPosition.width = width
+      let currentPosition = { x: pageX, y: 596, height: height, width: width }
+      panResponder.current = PanResponder.create({
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderMove: (event, gesture) => {
+          setSmallSize(false)
+          setPosition({
+            x: gesture.moveX - currentPosition.x - RW(50), // - currentPosition.width / 2
+            y: gesture.moveY - currentPosition.y - RW(smallSize ? 50 : 100), // - currentPosition.height / 2
+          })
+        },
+        onPanResponderEnd: (event, gesture) => {
+          if (
+            gesture.moveX >= 95 &&
+            gesture.moveX <= 301 &&
+            gesture.moveY >= 195 &&
+            gesture.moveY <= 500
+          ) {
+            setSmallSize(true)
+          } else {
+            setPosition({
+              x: 0,
+              y: 0,
+            })
+          }
+        },
+      })
     })
   }
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: () => true,
-      onPanResponderMove: (event, gesture) => {
-        console.log('maxTop', maxTop)
-        if (gesture.moveY >= 122) {
-          setPosition({
-            x: gesture.moveX - currentPosition.x - currentPosition.width / 2,
-            y: gesture.moveY - currentPosition.y - currentPosition.height / 2,
-          })
-        }
-      },
-    }),
-  ).current
+
   return (
     <View
+      onLayout={handleLayout}
+      ref={componentRef}
       style={[
         {
-          alignSelf: 'flex-start',
+          alignSelf: 'center',
+          justifyContent: 'center',
+          alignItems: 'center',
           transform: [{ translateX: position?.x }, { translateY: position?.y }],
         },
         style,
+        // { flex: 1, justifyContent: 'space-between' },
       ]}
-      {...panResponder.panHandlers}
-      onLayout={handleLayout}
-      ref={componentRef}
+      {...panResponder.current?.panHandlers}
     >
-      {children}
+      {/* <View style={{ width: RW(100), height: RW(100) }} /> */}
+      <User size={smallSize ? RW(40) : RW(100)} />
     </View>
   )
 }
 export default DraggableComponent
-const styles = StyleSheet.create({
-  container: {
-    width: 100,
-    height: 100,
-    zIndex: 9999,
-  },
-})
-
-// import React from 'react'
-// import { StyleSheet, Text, View } from 'react-native'
-
-// import usePanResponder from './helpers/usePanResponder'
-
-// export default function App() {
-//   const [state, panHandlers] = usePanResponder()
-
-//   const { dragging, initialY, initialX, offsetY, offsetX } = state
-
-//   const style = {
-//     backgroundColor: dragging ? '#2DC' : '#0BA',
-//     transform: [{ translateX: initialX + offsetX }, { translateY: initialY + offsetY }],
-//   }
-
-//   return (
-//     <View style={styles.container}>
-//       <View
-//         // Put all panHandlers into the View's props
-//         {...panHandlers}
-//         style={[styles.square, style]}
-//       >
-//         <Text style={styles.text}>DRAG ME</Text>
-//       </View>
-//     </View>
-//   )
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   square: {
-//     position: 'absolute',
-//     width: 100,
-//     height: 100,
-//     borderRadius: 50,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   text: {
-//     color: 'white',
-//     fontWeight: 'bold',
-//     fontSize: 16,
-//   },
-// })
