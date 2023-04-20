@@ -11,7 +11,7 @@ import { getChats } from '@/store/Slices/ChatsSlice'
 const ChatScreen = () => {
   const { user } = useSelector(({ auth }) => auth)
   const { teamChatsList } = useSelector(({ teams }) => teams)
-
+console.log(teamChatsList);
   const dispatch = useDispatch()
 
   const isFocused = useIsFocused()
@@ -27,9 +27,9 @@ const ChatScreen = () => {
           {teamChatsList?.length || user?.took_part_games?.length ? (
             <>
               <View>
-                {/* {teamChatsList?.map((eachChat) => {
+                {teamChatsList?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Организатор" />
-                })} */}
+                })}
                 {user?.inside_teams?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Участник" />
                 })}

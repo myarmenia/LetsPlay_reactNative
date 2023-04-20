@@ -12,7 +12,8 @@ import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import EachCommand from './EachCommand'
 
-function Index() {
+function Index({route}) {
+  const props = route.params
   const isFocused = useIsFocused()
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
@@ -71,7 +72,7 @@ function Index() {
           />
         )}
         {teamChatsList?.length ? (
-          teamChatsList?.map((command, i) => <EachCommand command={command} i={i} key={i} />)
+          teamChatsList?.map((command, i) => <EachCommand route={props} command={command} i={i} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
             <Text style={style.text}>Загрузка...</Text>

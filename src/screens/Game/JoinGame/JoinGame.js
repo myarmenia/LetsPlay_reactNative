@@ -18,7 +18,6 @@ const JoinGame = ({ route }) => {
   const props = route?.params
   const dispatch = useDispatch()
   const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
-  const { findedGames } = useSelector(({ teams }) => teams)
 
   const freeOrPaid = [
     { id: 4, text: 'Бесплатно', checked: true },
