@@ -44,17 +44,13 @@ const TeamSchemes = ({ route }) => {
       <View style={{ zIndex: 99999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
         <Row>
-          {
-            // containerLayout?.width && imageLayout?.width && containerLayout?.y ?
-            [1, 2, 3, 4].map((item, key) => (
-              <DraggableComponent
-                itemId={item}
-                key={key}
-                // maxTop={(containerLayout?.width - imageLayout?.width) / 2 + containerLayout?.y}
-              />
-            ))
-            // : null
-          }
+          {/* {[1, 2, 3, 4].map((item, key) => ( */}
+          <DraggableComponent
+          // itemId={item}
+          // key={key}
+          // maxTop={(containerLayout?.width - imageLayout?.width) / 2 + containerLayout?.y}
+          />
+          {/* ))} */}
         </Row>
       </View>
     </ScreenMask>

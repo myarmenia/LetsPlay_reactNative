@@ -165,7 +165,7 @@ const MafiaNavigator = () => {
       <Stack.Screen name="AddPlayers" component={AddPlayers} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
       <Stack.Screen name="WaitPlayers" component={WaitPlayers} />
-      <Stack.Screen name="PlayMafia" component={PlayMafia} />
+      <Stack.Screen name="PlayMafia" component={PlayMafia} options={{ gestureEnabled: false }} />
       <Stack.Screen name="RatingPlayer" component={RatingPlayer} />
     </Stack.Navigator>
   )
