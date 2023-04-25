@@ -8,6 +8,7 @@ import AliasSlice from './Slices/AliasSlice'
 import AuthSlice from './Slices/AuthSlice'
 import TeamSlice from './Slices/TeamSlice'
 import AppSlice from './Slices/AppSlice'
+import TournamentSlice from './Slices/TournamentSlice'
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     mafia: MafiaSlice,
     alias: AliasSlice,
     crocodile: CrocodileSlice,
+    tournament: TournamentSlice,
   },
 })
 

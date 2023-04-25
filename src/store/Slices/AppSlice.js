@@ -6,8 +6,8 @@ const initialState = {
   calendarGames: [],
 }
 
-export const AliasSlice = createSlice({
-  name: 'alias',
+export const AppSlice = createSlice({
+  name: 'app',
   initialState,
   reducers: {
     setNotifications: (store, action) => {
@@ -25,12 +25,12 @@ export const AliasSlice = createSlice({
   },
 })
 
-export const notificationSettings = (e) => (dispatch) => {
+export const notificationSettings = e => dispatch => {
   if (e.checked) {
     axiosInstance
       .post('api/profile/notification', JSON.stringify({ name: e?.label }))
-      .then((response) => {})
-      .catch((err) => {
+      .then(response => {})
+      .catch(err => {
         console.log('err request notification', err)
       })
   } else {
@@ -45,45 +45,45 @@ export const notificationSettings = (e) => (dispatch) => {
   }
 }
 
-export const getNotifications = () => (dispatch) => {
+export const getNotifications = () => dispatch => {
   axiosInstance
     .get('api/notification')
-    .then((response) => {
+    .then(response => {
       dispatch(setNotifications(response.data?.datas))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request notification', err)
     })
 }
-export const deleteNotification = (id) => (dispatch) => {
+export const deleteNotification = id => dispatch => {
   axiosInstance
     .delete(`api/notification/${id}`)
-    .then((response) => {})
-    .catch((err) => {
+    .then(response => {})
+    .catch(err => {
       console.log('err request notification', err)
     })
 }
-export const deleteAllNotifications = () => (dispatch) => {
+export const deleteAllNotifications = () => dispatch => {
   axiosInstance
     .delete('api/notification')
-    .then((response) => {
+    .then(response => {
       dispatch(setNotifications([]))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request notification', err)
     })
 }
 
-export const getCalendarGames = (data) => (dispatch) => {
+export const getCalendarGames = data => dispatch => {
   axiosInstance
     .get(`api/create/game/by_date?date_from=${data.date_from}&date_to=${data.date_to}`)
-    .then((response) => {
+    .then(response => {
       dispatch(setCalendarGames(response.data.datas))
     })
-    .catch((err) => {
+    .catch(err => {
       console.log('err request notification', err)
     })
 }
 
-export const { setNotifications, setCalendarGames } = AliasSlice.actions
-export default AliasSlice.reducer
+export const { setNotifications, setCalendarGames } = AppSlice.actions
+export default AppSlice.reducer
