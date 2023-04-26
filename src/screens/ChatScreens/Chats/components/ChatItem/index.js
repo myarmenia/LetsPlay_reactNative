@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import style from '../../style'
 import { useNavigation } from '@react-navigation/native'
-import { RH, RW } from '@/theme/utils'
+import {  RW } from '@/theme/utils'
 import Modal from '@/components/modal'
 import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
@@ -24,7 +24,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 function Index({ id, item, type }) {
   const navigation = useNavigation()
-  const [animation] = useState(new Animated.Value(85))
+  const [animation] = useState(new Animated.Value(RW(95)))
   const [swipeDirection, setSwipeDirection] = useState(null)
   const [deleting, setDeleting] = useState(null)
   const [back, setBack] = useState(false)
@@ -51,13 +51,13 @@ function Index({ id, item, type }) {
         if (gestureState.moveX < 160) {
           setDeleting(true)
           Animated.timing(animation, {
-            toValue: 0,
+            toValue: 20,
             duration: 200,
             useNativeDriver: true,
           }).start()
         } else {
           Animated.timing(animation, {
-            toValue: 0,
+            toValue: 20,
             duration: 200,
             useNativeDriver: true,
           }).start()
@@ -90,7 +90,7 @@ function Index({ id, item, type }) {
       <Animated.View
         style={[
           style.containerr,
-          { transform: [{ translateX: swipeDirection == 'right' ? 85 : animation }] },
+          { transform: [{ translateX: swipeDirection == 'right' ? RW(95) : animation }] },
         ]}
         {...panResponder.panHandlers}
       >

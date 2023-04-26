@@ -30,12 +30,14 @@ function Index({ route }) {
           />
         </View>
       </View>
+      <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
       {modalRules ? (
         <Modal
           modalVisible={modalRules}
           setIsVisible={setModalRules}
           item={
-            <ScrollView>
+            <ScrollView style={{flex: 1,
+             }} contentContainerStyle={{justifyContent:"center", alignItems:"center", flex:1}} horizontal={false} >
               <Pressable onPress={() => setModalRules(false)} style={styles.modalBody}>
                 <Text style={styles.title}>Правила</Text>
                 <Text style={{ ...styles.text, marginBottom: 20 }}>
@@ -61,8 +63,9 @@ function Index({ route }) {
               </Pressable>
             </ScrollView>
           }
-        />
-      ) : null}
+          />
+          ) : null}
+          </View>
     </ScreenMask>
   )
 }
@@ -97,6 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#001034',
     borderRadius: 20,
     padding: 25,
+    alignSelf:"center"
   },
   title: {
     color: WHITE,

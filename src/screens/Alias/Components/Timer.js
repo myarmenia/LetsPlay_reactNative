@@ -19,14 +19,14 @@ const Timer = ({
   secModalVisible,
   setSecModalVisible,
 }) => {
-  const [selectedTime, setSelectedTime] = useState({ seconds: 5 })
+  const [selectedTime, setSelectedTime] = useState({ seconds: 8 })
   const { minutesInGame,explainYou } = useSelector(({ alias }) => alias)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
   useEffect(() => {
     if (timerStart) {
-      setSelectedTime({ seconds: 5 + 0 })
+      setSelectedTime({ seconds: 8 + 0 })
     }
   }, [timerStart])
 
@@ -41,13 +41,16 @@ const Timer = ({
     const timer = setInterval(() => {
       if (!stoped) {
         if (selectedTime.seconds !== 0) {
-          if ((selectedTime.seconds > 0 && !modalVisible && !userModalVisible)){
+          if (selectedTime.seconds > 0 && !modalVisible && !userModalVisible){
+            setSelectedTime((prev) => ({
+              seconds: selectedTime.seconds - 1,
+            }))
+          } else if(selectedTime.seconds > 0 && !userModalVisible){
             setSelectedTime((prev) => ({
               seconds: selectedTime.seconds - 1,
             }))
           }
           if (selectedTime.seconds == 1) {
-            // console.log('end')
             setSelectedTime({ seconds: 0 })
             setSecModalVisible(true)
             clearInterval(timer)
@@ -59,7 +62,7 @@ const Timer = ({
     }, 1000)
 
     return () => clearInterval(timer)
-  }, [selectedTime.seconds, modalVisible || stoped])
+  }, [selectedTime.seconds, modalVisible || stoped, explainYou, userModalVisible])
 
   const displayMinutes = Math.floor(selectedTime.seconds / 60)
     .toString()
@@ -69,7 +72,7 @@ const Timer = ({
   return (
     <>
       <Text style={styles.timer}>Оставшееся время</Text>
-      <Text style={[styles.timerClock, {color: explainYou ? WHITE : RED}]}>
+      <Text style={[styles.timerClock, {color: selectedTime.seconds > 5 ? WHITE : RED}]}>
         {displayMinutes}:{displaySeconds}
       </Text>
     </>

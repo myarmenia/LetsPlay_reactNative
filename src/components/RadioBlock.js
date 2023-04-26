@@ -2,7 +2,7 @@ import React from 'react'
 import { Pressable, Text, View, StyleSheet } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import LinearGradient from 'react-native-linear-gradient'
-import { LIGHT_LABEL, RADIO, RADIO_TEXT, WHITE } from '@/theme/colors'
+import { ICON, LIGHT_LABEL, RADIO, RADIO_TEXT, WHITE } from '@/theme/colors'
 
 function RadioBlock({
   title,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     borderWidth: RW(1),
   },
   inputTitle: {
-    ...font('regular', 16, WHITE, 19),
+    ...font('regular', 16, ICON, 19),
     marginBottom: RH(14),
   },
 })

@@ -20,9 +20,7 @@ const GameStart = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [secModalVisible, setSecModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
-  const [i, setI] = useState(0)
   const {
-    words,
     explainYou,
     explainerTeam,
     explainingUser
@@ -45,7 +43,6 @@ const GameStart = ({ route }) => {
   const UserModal = () => {
     return (
       <Pressable
-        collapsable={true}
         onPress={() => {
           if(!explainYou){
             setStoped(false)
@@ -117,7 +114,7 @@ const GameStart = ({ route }) => {
             false: 0,
           }),
             setSecModalVisible(false),
-            navigation.navigate('ResultsOfAnswers')
+            navigation.navigate('ResultsOfAnswers', answers)
         }}
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
       >
@@ -132,7 +129,7 @@ const GameStart = ({ route }) => {
       } 
       else if(!userModalVisible && !explainYou){
         setStoped(false)
-
+        setModalVisible(false)
       }
     });
   },[userModalVisible])
@@ -174,8 +171,6 @@ const GameStart = ({ route }) => {
         </View>
         <View>
           <AnimatedCircle
-            word={words[i]?.name}
-            setI={setI}
             answers={answers}
             setAnswers={setAnswers}
             stoped={stoped ? true : false}

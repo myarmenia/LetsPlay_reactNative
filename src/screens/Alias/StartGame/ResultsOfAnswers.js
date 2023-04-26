@@ -6,15 +6,16 @@ import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 
-const ResultsOfAnswers = () => {
+const ResultsOfAnswers = ({route}) => {
   const navigation = useNavigation()
+  const props = route.params
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.commandName}>Команда 1</Text>
         <View style={styles.mainBox}>
           <View style={styles.trueAnswers}>
-            <Text style={styles.title}>Отгадано 3</Text>
+            <Text style={styles.title}>Отгадано {props?.true}</Text>
             <View style={styles.trueAnswersWrap}>
               {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
                 return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
@@ -22,7 +23,7 @@ const ResultsOfAnswers = () => {
             </View>
           </View>
           <View style={styles.falseAnswers}>
-            <Text style={styles.title}>Пропущено 4</Text>
+            <Text style={styles.title}>Пропущено {props.false}</Text>
             <View style={styles.trueAnswersWrap}>
               {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
                 return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
