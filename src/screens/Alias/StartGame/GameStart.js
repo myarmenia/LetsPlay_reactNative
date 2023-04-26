@@ -12,6 +12,7 @@ import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
 import Modal from '@/components/modal'
+import { setStoping } from '@/store/Slices/AliasSlice'
 
 const GameStart = ({ route }) => {
   let props = route?.params
@@ -21,6 +22,7 @@ const GameStart = ({ route }) => {
   const [secModalVisible, setSecModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
   const {
+    stoping,
     explainYou,
     explainerTeam,
     explainingUser
@@ -69,7 +71,6 @@ const GameStart = ({ route }) => {
             size={{ width: 281, height: 48 }}
             onPress={() => {
               setUserModalVisible(false)
-              
             }}
           /></View>}
           
@@ -81,7 +82,7 @@ const GameStart = ({ route }) => {
   const ModalItem = () => {
     return (
       <Pressable
-        onPress={() => setModalVisible(false)}
+        onPress={() => (setModalVisible(false), dispatch(setStoping(false)))}
         style={{
           flexDirection: 'column',
           alignItems: 'center',
@@ -99,7 +100,7 @@ const GameStart = ({ route }) => {
           <PlayingInstructionSVG />
         </View>
         <View style={{ top: '7%' }}>
-          <TypeButton size={60} title={'OK'} onPress={() => setModalVisible(false)} />
+          <TypeButton size={60} title={'OK'} onPress={() => (setModalVisible(false), dispatch(setStoping(false)))} />
         </View>
       </Pressable>
     )
@@ -185,7 +186,7 @@ const GameStart = ({ route }) => {
               <LightButton
                 label={!stoped ? 'Стоп' : 'Продолжить'}
                 size={{ width: !stoped ? 100 : null, height: 36 }}
-                onPress={() => setStoped(!stoped)}
+                onPress={() =>( setStoped(!stoped), dispatch(setStoping(!stoping)))}
               />
               )}
             </View>

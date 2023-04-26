@@ -33,6 +33,7 @@ const CreateTournamentInfo = ({ route }) => {
   // ================== states ==================
   const [modalVisible, setModalVisible] = useState(false)
   const [addressName, setAddressName] = useState()
+  const [price, setPrice] = useState(0)
   const [startDate, setStartDate] = useState({
     date: new Date(),
     time: new Date(),
@@ -52,17 +53,18 @@ const CreateTournamentInfo = ({ route }) => {
   ])
   const [priceExist, setPriceExist] = useState([
     { id: 1, text: 'Бесплатно', checked: true },
-    { id: 2, text: 'Пsлатно', checled: false },
+    { id: 2, text: 'Платно', checled: false },
   ])
+
   // ================== states end ==================
 
   //errors
   const [ageError, setAgeError] = useState(false)
-  const [startDateError, setStartDateError] = useState(false)
   const [countError, setCountError] = useState(false)
   const [endDateError, setEndDateError] = useState(false)
-  const [playersCountError, setPlayersCountError] = useState(false)
+  const [startDateError, setStartDateError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
+  const [priceError, setPriceError] = useState(false)
 
   const handleSubmit = () => {
     if (!addressName && !response?.address_name) {
@@ -85,20 +87,25 @@ const CreateTournamentInfo = ({ route }) => {
     } else {
       setAgeError(false)
     }
-    if (!initialState.number_of_participants_from || !initialState.number_of_participants_t0) {
+    if (!initialState.number_of_participants_from || !initialState.number_of_participants_to) {
       setCountError('Обязательное поле для заполнения')
     } else if (initialState.number_of_participants_from >= initialState.number_of_participants_to) {
       setCountError('Введите корректную возраст')
     } else {
       setCountError(false)
     }
+    if(priceExist[1].checked && !price){
+      setPriceError('Введите сумму')
+    } else {
+      setPriceError("")
+    }
 
     // setModalVisible(true)
   }
 
-  useEffect(() => {
-    console.log(initialState)
-  }, [initialState])
+  // useEffect(() => {
+  //   console.log(initialState)
+  // }, [initialState])
 
   return (
     <ScreenMask>
@@ -236,8 +243,20 @@ const CreateTournamentInfo = ({ route }) => {
           </View>
           {!!priceExist[1].checked && (
             <View style={{ width: RW(200), left: '5%' }}>
-              <Price text={'Сумма оплаты'} width={'100%'} placeholder={'Сумма оплаты 200р.'} />
+              <View style={styles.priceBlock }>
+                <TextInput
+                  style={styles.priceInput}
+                  placeholder={'Сумма оплаты 200р.'}
+                  placeholderTextColor={ICON}
+                  onChangeText={ev => {
+                    setPrice(ev)
+                  }}
+                  keyboardType={'numeric'}
+                />
+    </View>
+              {!!priceError && <Text style={styles.error}>{priceError}</Text>}
             </View>
+
           )}
           <View style={{ alignItems: 'flex-end', padding: RH(15) }}>
             <LightButton label={'Готово'} onPress={handleSubmit} />
@@ -314,5 +333,25 @@ const styles = StyleSheet.create({
     ...font('regular', 18, RED),
     left: '6%',
     paddingTop: '5%',
+  },
+  priceInput: {
+    height: '100%',
+    // width: '30%',
+    backgroundColor: BACKGROUND,
+    borderRadius: RW(10),
+    color: ICON,
+    zIndex: 22,
+  },
+  priceText: {
+    ...font('regular', 16, ICON, 19),
+  },
+  priceBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: RH(48),
+    backgroundColor: BACKGROUND,
+    borderRadius: RW(10),
+    paddingLeft: RW(24),
+    color: ICON,
   },
 })

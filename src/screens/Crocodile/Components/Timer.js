@@ -18,9 +18,9 @@ const Timer = ({
   secModalVisible,
   setSecModalVisible,
 }) => {
-  const { minutesInGame } = useSelector(({ alias }) => alias)
   const isFocused = useIsFocused()
   const navigation = useNavigation()
+  const {time} = useSelector(({alias})=>alias)
   const [selectedTime, setSelectedTime] = useState({ seconds: 20 })
   useEffect(() => {
     if (timerStart) {
@@ -58,10 +58,10 @@ const Timer = ({
     return () => clearInterval(timer)
   }, [selectedTime.seconds, modalVisible || stoped])
 
-  const displayMinutes = Math.floor(selectedTime.seconds / 60)
+  const displayMinutes = Math.floor(time / 60)
     .toString()
     .padStart(2, '0')
-  const displaySeconds = (selectedTime.seconds % 60).toString().padStart(2, '0')
+  const displaySeconds = (time % 60).toString().padStart(2, '0')
 
   return (
     <>

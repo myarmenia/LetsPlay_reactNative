@@ -13,7 +13,7 @@ import LightButton from '@/assets/imgs/Button'
 const Commands = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { countOfWords, minutesInGame, complexity } = useSelector(({ alias }) => alias)
+  const { countOfWords, stoping, complexity, time } = useSelector(({ alias }) => alias)
   const [error, setError] = useState(false)
   const [commandsCount, setCommandsCount] = useState([
     { command: 1, value: '', members: [] },
@@ -35,7 +35,7 @@ const Commands = () => {
         dispatch(
           sendAliasSettings({
             number_of_words: countOfWords,
-            round_time: minutesInGame,
+            round_time: time,
             pass_fine: true,
             type: complexity,
             teams: commandsCount.map(elm => elm.value),

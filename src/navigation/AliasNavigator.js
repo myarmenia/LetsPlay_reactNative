@@ -16,7 +16,7 @@ import TeamsResults from '@/screens/Alias/TeamsResults/TeamsResults'
 import { io } from 'socket.io-client'
 import DeviceInfo from 'react-native-device-info'
 
-import { setCommandsAndPlayers, setExplainerTeam, setExplainingUser, setPlayersInGame, setUserIsOrganizer, setWords, setYouExplainer } from '@/store/Slices/AliasSlice'
+import { setCommandsAndPlayers, setExplainerTeam, setExplainingUser, setPlayersInGame, setStoping, setTime, setUserIsOrganizer, setWords, setYouExplainer } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 
 const Stack = createNativeStackNavigator()
@@ -25,12 +25,10 @@ const AliasNavigator = () => {
   const socketRef = useRef(null)
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { aliasGameId, endRound } = useSelector(({ alias }) => alias)
+  const { aliasGameId, endRound, stoping, time} = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
-  useEffect(()=>{
-    socketRef.current?.emit("end_time",{})
-  },[endRound])
+ 
   const callBackFunc = async (e) => {
     console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
@@ -50,11 +48,7 @@ const AliasNavigator = () => {
       }
 
       case 'explain_another_team_user': {
-        console.log(
-          'explain_another_team_user',
-          e.explain_user_team.name,
-          'explain_another_team_user',
-        )
+        
         dispatch(setExplainingUser(e.explain_user))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.explain_user_team.name))
@@ -62,7 +56,6 @@ const AliasNavigator = () => {
         break
       }
       case 'explain_your_team_user': {
-        console.log('explain_your_team_user', e.explain_user_team, 'explain_your_team_user')
         dispatch(setExplainingUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
         navigation.navigate('GameStart')
@@ -81,8 +74,11 @@ const AliasNavigator = () => {
         // dispatch(setExplains(e.explains))
         // dispatch(setSkips(e.skips))
       }
-      case 'end_game': {
-
+      case 'pause_or_start': {
+        if(stoping !== e.data.stoping){
+          dispatch(setStoping(e?.data?.stoping))
+          dispatch(setTime(e?.data?.time))
+        }
       }
     }
   }
@@ -110,6 +106,10 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
+
+  useEffect(()=>{
+        socketRef.current?.emit("pause_or_start", {stoping, time})
+  },[stoping])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>

@@ -7,7 +7,7 @@ import { font } from '@/theme/utils'
 import { RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { setEndRound } from '@/store/Slices/AliasSlice'
+import { setEndRound, setStoping, setTime } from '@/store/Slices/AliasSlice'
 
 const Timer = ({
   stoped,
@@ -19,20 +19,24 @@ const Timer = ({
   secModalVisible,
   setSecModalVisible,
 }) => {
-  const [selectedTime, setSelectedTime] = useState({ seconds: 8 })
-  const { minutesInGame,explainYou } = useSelector(({ alias }) => alias)
+  const {  explainYou, stoping, time } = useSelector(({ alias }) => alias)
+  const [selectedTime, setSelectedTime] = useState({seconds : time})
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
   useEffect(() => {
     if (timerStart) {
-      setSelectedTime({ seconds: 8 + 0 })
+      setSelectedTime({ seconds: selectedTime.seconds+ 0 })
+      dispatch(setStoping(false))
+      dispatch(setTime(selectedTime.seconds))
     }
   }, [timerStart])
 
   useEffect(() => {
     if (selectedTime.seconds == 0 && !userModalVisible) {
       setSelectedTime({ seconds: 0 })
+      dispatch(setStoping(false))
+      dispatch(setTime(selectedTime.seconds))
       dispatch(setEndRound(true))
       setSecModalVisible(true)
     }
@@ -45,19 +49,27 @@ const Timer = ({
             setSelectedTime((prev) => ({
               seconds: selectedTime.seconds - 1,
             }))
+            dispatch(setStoping( false))
+            dispatch(setTime(selectedTime.seconds))
           } else if(selectedTime.seconds > 0 && !userModalVisible){
             setSelectedTime((prev) => ({
               seconds: selectedTime.seconds - 1,
             }))
+            dispatch(setStoping(false))
+            dispatch(setTime(selectedTime.seconds))
           }
           if (selectedTime.seconds == 1) {
             setSelectedTime({ seconds: 0 })
+            dispatch(setStoping( false))
+            dispatch(setTime(selectedTime.seconds))
             setSecModalVisible(true)
             clearInterval(timer)
           }
         }
       } else {
         setSelectedTime((prev) => ({ ...prev, seconds: prev.seconds }))
+        dispatch(setStoping( false))
+            dispatch(setTime(selectedTime.seconds))
       }
     }, 1000)
 
@@ -73,7 +85,7 @@ const Timer = ({
     <>
       <Text style={styles.timer}>Оставшееся время</Text>
       <Text style={[styles.timerClock, {color: selectedTime.seconds > 5 ? WHITE : RED}]}>
-        {displayMinutes}:{displaySeconds}
+        {time}
       </Text>
     </>
   )
