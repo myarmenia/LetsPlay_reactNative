@@ -6,20 +6,85 @@ import ArrowSvg from './assets/ArrowSvg'
 import { ICON } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 
-const SchemeUsers = ({ users, dragUser }) => {
+const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
   const [scrollViewWidth, setScrollViewWidth] = useState(288)
   const [screenX, setScreenX] = useState(scrollViewWidth)
   const scrollRef = useRef(null)
 
-  const panResponders = users?.map((ref, index) =>
+  // const panResponders = users?.map((ref, index) =>
+  //   PanResponder.create({
+  //     onMoveShouldSetPanResponder: () => true,
+  //     onPanResponderGrant: (event, gesture) => {
+  //       dragUser(users[index])
+  //     },
+  //   }),
+  // )
+
+  const panResponders = replacementPlayers?.map((ref, index) =>
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderGrant: (event, gesture) => {
-        dragUser(users[index])
+      onPanResponderMove: (event, gesture) => {
+        const { dx, dy } = gesture
+        setReplacementPlayers((prevplayingPlayers) => {
+          console.log(prevplayingPlayers)
+          const updatedplayingPlayers = [...prevplayingPlayers]
+          updatedplayingPlayers[index] = {
+            small: false,
+            x: prevplayingPlayers[index].x + dx,
+            y: prevplayingPlayers[index].y + dy,
+            moveX: gesture.moveX,
+            moveY: gesture.moveY,
+          }
+          return updatedplayingPlayers
+        })
+      },
+      onPanResponderEnd: (event, gesture) => {
+        if (
+          replacementPlayers[index].moveX >= 95 &&
+          replacementPlayers[index].moveX <= 301 &&
+          replacementPlayers[index].moveY >= 195 &&
+          replacementPlayers[index].moveY <= 500
+        ) {
+          const currentComponent = replacementPlayers[index]
+          replacementPlayers.forEach((item, i) => {
+            if (item?.moveX && i !== index) {
+              const differenceX = currentComponent.moveX - item.moveX
+              const differenceY = currentComponent.moveY - item.moveY
+              if (differenceX < 25 && differenceX > -25 && differenceY < 25 && differenceY > -25) {
+                setReplacementPlayers((prevplayingPlayers) => {
+                  const updatedplayingPlayers = [...prevplayingPlayers]
+                  updatedplayingPlayers[i] = {
+                    x: 0,
+                    y: 0,
+                    small: false,
+                  }
+                  return updatedplayingPlayers
+                })
+              }
+            }
+          })
+          setReplacementPlayers((prevplayingPlayers) => {
+            const updatedplayingPlayers = [...prevplayingPlayers]
+            updatedplayingPlayers[index] = {
+              ...updatedplayingPlayers[index],
+              small: true,
+            }
+            return updatedplayingPlayers
+          })
+        } else {
+          setReplacementPlayers((prevplayingPlayers) => {
+            const updatedplayingPlayers = [...prevplayingPlayers]
+            updatedplayingPlayers[index] = {
+              x: 0,
+              y: 0,
+              small: false,
+            }
+            return updatedplayingPlayers
+          })
+        }
       },
     }),
   )
-
   return (
     <Row wrapper={styles.container}>
       <Pressable
@@ -36,7 +101,7 @@ const SchemeUsers = ({ users, dragUser }) => {
       >
         <ArrowSvg />
       </Pressable>
-      <Animated.ScrollView
+      {/* <Animated.ScrollView
         ref={scrollRef}
         horizontal
         snapToInterval={scrollViewWidth}
@@ -49,17 +114,30 @@ const SchemeUsers = ({ users, dragUser }) => {
           setScrollViewWidth(e.nativeEvent.layout.width)
         }}
         scrollEnabled={false}
-      >
-        {users?.map((user, index) => (
-          <View key={index} ref={user.ref} {...panResponders[index]?.panHandlers}>
-            <User size={RW(90)} />
-          </View>
-        ))}
-      </Animated.ScrollView>
+      > */}
+      {replacementPlayers?.map((user, index) => (
+        <View
+          key={index}
+          ref={user.ref}
+          style={[
+            {
+              paddingVertical: user.small ? RW(28) : 0,
+              paddingHorizontal: user.small ? RW(22) : 0,
+              zIndex: user.small ? 9 : 99,
+              position: user.small ? 'absolute' : 'relative',
+            },
+            { transform: [{ translateX: user.x }, { translateY: user.y }] },
+          ]}
+          {...panResponders[index]?.panHandlers}
+        >
+          <User size={user.small ? RW(40) : RW(90)} />
+        </View>
+      ))}
+      {/* </Animated.ScrollView> */}
       <Pressable
         style={[styles.arrowContainer, { transform: [{ rotate: '180deg' }] }]}
         onPress={() => {
-          if (scrollRef.current && screenX < users.length * RW(90) - scrollViewWidth) {
+          if (scrollRef.current && screenX < replacementPlayers.length * RW(90) - scrollViewWidth) {
             setScreenX(screenX + scrollViewWidth)
             scrollRef.current.scrollTo({
               x: screenX + scrollViewWidth,
@@ -78,10 +156,10 @@ export default SchemeUsers
 
 const styles = StyleSheet.create({
   container: {},
-  scrollContainer: {
-    flex: 1,
-    width: '100%',
-  },
+  // scrollContainer: {
+  //   flex: 1,
+  //   width: '100%',
+  // },
   arrowContainer: {
     backgroundColor: ICON,
     width: RW(40),

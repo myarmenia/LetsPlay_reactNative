@@ -63,22 +63,24 @@ const TeamSchemes = ({ route }) => {
       <View style={{ zIndex: 99999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
         <SchemeUsers
-          users={replacementPlayers}
-          dragUser={(user) => {
-            setReplacementPlayers((prevState) => {
-              const updatedState = prevState.filter((item) => item != user)
-              return updatedState
-            })
-            setDragedUser(user)
-            setPlayingPlayers([...playingPlayers, user])
-          }}
+          replacementPlayers={replacementPlayers}
+          setReplacementPlayers={setReplacementPlayers}
+          // dragUser={(user) => {
+          //   setReplacementPlayers((prevState) => {
+          //     const updatedState = prevState.filter((item) => item != user)
+          //     return updatedState
+          //   })
+
+          //   setDragedUser(user)
+          //   setPlayingPlayers([...playingPlayers, user])
+          // }}
         />
 
-        <DraggableComponent
+        {/* <DraggableComponent
           dragedUser={dragedUser}
           playingPlayers={playingPlayers}
           setPlayingPlayers={setPlayingPlayers}
-        />
+        /> */}
       </View>
     </ScreenMask>
   )
