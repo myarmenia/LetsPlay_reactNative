@@ -27,6 +27,7 @@ const initialState = {
   playersRatings: [],
   winner: null,
   organizer: false,
+  waitAnswer: false,
 }
 
 export const MafiaSlice = createSlice({
@@ -154,10 +155,13 @@ export const MafiaSlice = createSlice({
       }
     },
     setQuestionTruthfulness: (store, action) => {
-      return {
-        ...store,
-        questionTruthfulness: action.payload,
+      if (store.waitAnswer) {
+        return {
+          ...store,
+          questionTruthfulness: action.payload,
+        }
       }
+      return store
     },
     setDeadUser: (store, action) => {
       return {
@@ -175,6 +179,12 @@ export const MafiaSlice = createSlice({
       return {
         ...store,
         winner: action.payload,
+      }
+    },
+    setWaitAnswer: (store, action) => {
+      return {
+        ...store,
+        waitAnswer: action.payload,
       }
     },
   },
@@ -289,5 +299,6 @@ export const {
   setPlayersRatings,
   setWinner,
   setOrganizer,
+  setWaitAnswer,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer

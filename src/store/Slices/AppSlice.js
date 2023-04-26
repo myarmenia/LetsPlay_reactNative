@@ -6,8 +6,8 @@ const initialState = {
   calendarGames: [],
 }
 
-export const AliasSlice = createSlice({
-  name: 'alias',
+export const AppSlice = createSlice({
+  name: 'app',
   initialState,
   reducers: {
     setNotifications: (store, action) => {
@@ -85,5 +85,5 @@ export const getCalendarGames = (data) => (dispatch) => {
     })
 }
 
-export const { setNotifications, setCalendarGames } = AliasSlice.actions
-export default AliasSlice.reducer
+export const { setNotifications, setCalendarGames } = AppSlice.actions
+export default AppSlice.reducer

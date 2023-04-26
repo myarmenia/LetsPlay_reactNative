@@ -40,11 +40,11 @@ const MafiaNavigator = () => {
 
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { mafiaGameId, sendAnswer, waitNight } = useSelector(({ mafia }) => mafia)
+  const { mafiaGameId, sendAnswer, waitNight, waitAnswer } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
-    console.log('message', JSON.stringify(e, null, 4))
+    console.log(`${DeviceInfo.getDeviceId()} message`, JSON.stringify(e, null, 4))
     switch (e?.type) {
       case 'new_user':
         dispatch(setPlayers(e.mafia_game.players))
@@ -55,6 +55,9 @@ const MafiaNavigator = () => {
         dispatch(setAnswerQuestions(e?.data?.role?.answer_question))
         dispatch(setLoader(false))
         navigation.navigate('PlayMafia')
+        break
+      case 'questions':
+        dispatch(setAnswerQuestions(e?.questions))
         break
       case 'user_count':
         dispatch(setCiviliansCount(e?.civilian_count))
@@ -84,6 +87,7 @@ const MafiaNavigator = () => {
         break
       case 'question_answer':
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
+
         break
       case 'player_out':
         const deadUser = e.all_players.find((user) => {
@@ -101,6 +105,9 @@ const MafiaNavigator = () => {
         dispatch(setCiviliansCount(e?.roleDatas?.civilian))
         dispatch(setMafiasCount(e?.roleDatas?.mafia))
         break
+      case 'equal_votes':
+        console.log('equal_votes')
+        break
       case 'end_game':
         dispatch(setLoader(false))
         dispatch(setWinner(e.winner))
@@ -115,6 +122,7 @@ const MafiaNavigator = () => {
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {
+    console.log('waitNight', waitNight)
     if (waitNight === null) return
     socketRef.current?.send({
       type: 'end_time_vote',
