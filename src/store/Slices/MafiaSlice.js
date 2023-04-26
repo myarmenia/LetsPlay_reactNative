@@ -28,6 +28,7 @@ const initialState = {
   winner: null,
   organizer: false,
   waitAnswer: false,
+  equalVotes: null,
 }
 
 export const MafiaSlice = createSlice({
@@ -187,6 +188,12 @@ export const MafiaSlice = createSlice({
         waitAnswer: action.payload,
       }
     },
+    setEqualVotes: (store, action) => {
+      return {
+        ...store,
+        equalVotes: action.payload,
+      }
+    },
   },
 })
 
@@ -300,5 +307,6 @@ export const {
   setWinner,
   setOrganizer,
   setWaitAnswer,
+  setEqualVotes,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer

@@ -49,6 +49,7 @@ const PlayMafia = () => {
     deadUser,
     voteTime,
     waitAnswer,
+    equalVotes,
   } = useSelector(({ mafia }) => mafia)
   const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
@@ -90,9 +91,15 @@ const PlayMafia = () => {
               </Pressable>
             </View>
             <Text style={styles.morningText}>Утро</Text>
-            {daysCount > 1 ? (
+            {daysCount > 1 && !Object.keys(equalVotes || {}).length ? (
               <View>
                 <Text style={styles.question}>{dayQueastions?.question}</Text>
+              </View>
+            ) : Object.keys(equalVotes || {}).length ? (
+              <View>
+                <Text style={styles.question}>
+                  Игроки набрали равное количество голосов. Голосуем между ними.
+                </Text>
               </View>
             ) : null}
           </>
@@ -295,6 +302,7 @@ const PlayMafia = () => {
                   } else if (!night) {
                     console.log('if 6')
                     // day
+                    setAnswersCount(0)
                     dispatch(setLoader(true))
                     dispatch(setWaitNight(true))
                   }

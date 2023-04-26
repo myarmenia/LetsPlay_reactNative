@@ -13,7 +13,7 @@ import WaitPlayers from '@/screens/Mafia/WaitPlayers'
 import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
 import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
-import { clearAllDatas } from '@/store/Slices/MafiaSlice'
+import { clearAllDatas, setEqualVotes } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import {
   setNight,
@@ -106,7 +106,14 @@ const MafiaNavigator = () => {
         dispatch(setMafiasCount(e?.roleDatas?.mafia))
         break
       case 'equal_votes':
-        console.log('equal_votes')
+        dispatch(setLoader(false))
+        dispatch(
+          setEqualVotes({
+            question_id: e?.question_id,
+            first_player: e?.first_player?.user,
+            second_player: e?.second_player?.user,
+          }),
+        )
         break
       case 'end_game':
         dispatch(setLoader(false))
