@@ -21,14 +21,8 @@ const GameStart = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [secModalVisible, setSecModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
-  const {
-    stoping,
-    explainYou,
-    explainerTeam,
-    explainingUser
-  } = useSelector(({ alias }) => alias)
-  const { user } = useSelector(({auth})=>auth)
-  const [stoped, setStoped] = useState(false)
+  const { stoping, explainYou, explainerTeam, explainingUser } = useSelector(({ alias }) => alias)
+  const { user } = useSelector(({ auth }) => auth)
   const [answers, setAnswers] = useState({
     true: 0,
     false: 0,
@@ -41,13 +35,13 @@ const GameStart = ({ route }) => {
       }
     }
   }, [secModalVisible, props])
-  
+
   const UserModal = () => {
     return (
       <Pressable
         onPress={() => {
-          if(!explainYou){
-            setStoped(false)
+          if (!explainYou) {
+            dispatch(setStoping(false))
           }
           setUserModalVisible(false)
         }}
@@ -55,25 +49,28 @@ const GameStart = ({ route }) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'space-evenly',
-
-         
         }}
       >
         <View style={[styles.userModalBox]}>
-          <Text style={[styles.commandName, {position: "absolute", top: RH(40)}]}>{explainerTeam}</Text>
+          <Text style={[styles.commandName, { position: 'absolute', top: RH(40) }]}>
+            {explainerTeam}
+          </Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            <User size={380} pressedUser={explainYou ? user : explainingUser}/>
+            <User size={380} pressedUser={explainYou ? user : explainingUser} />
           </View>
-          
-          {!!explainYou && <View style={{position: "absolute", bottom: RH(20)}}><LightButton
-            label={'Начать'}
-            size={{ width: 281, height: 48 }}
-            onPress={() => {
-              setUserModalVisible(false)
-            }}
-          /></View>}
-          
+
+          {!!explainYou && (
+            <View style={{ position: 'absolute', bottom: RH(20) }}>
+              <LightButton
+                label={'Начать'}
+                size={{ width: 281, height: 48 }}
+                onPress={() => {
+                  setUserModalVisible(false)
+                }}
+              />
+            </View>
+          )}
         </View>
       </Pressable>
     )
@@ -100,7 +97,11 @@ const GameStart = ({ route }) => {
           <PlayingInstructionSVG />
         </View>
         <View style={{ top: '7%' }}>
-          <TypeButton size={60} title={'OK'} onPress={() => (setModalVisible(false), dispatch(setStoping(false)))} />
+          <TypeButton
+            size={60}
+            title={'OK'}
+            onPress={() => (setModalVisible(false), dispatch(setStoping(false)))}
+          />
         </View>
       </Pressable>
     )
@@ -123,17 +124,16 @@ const GameStart = ({ route }) => {
       </Pressable>
     )
   }
-  useEffect(()=>{
+  useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
-      if(!userModalVisible && explainYou){
+      if (!userModalVisible && explainYou) {
         setModalVisible(true)
-      } 
-      else if(!userModalVisible && !explainYou){
-        setStoped(false)
+      } else if (!userModalVisible && !explainYou) {
+        dispatch(setStoping(false))
         setModalVisible(false)
       }
-    });
-  },[userModalVisible])
+    })
+  }, [userModalVisible])
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>
@@ -174,7 +174,7 @@ const GameStart = ({ route }) => {
           <AnimatedCircle
             answers={answers}
             setAnswers={setAnswers}
-            stoped={stoped ? true : false}
+            stoped={stoping ? true : false}
           />
         </View>
         <View style={styles.answersBox}>
@@ -182,19 +182,18 @@ const GameStart = ({ route }) => {
           <Text style={styles.countOfTrueAnswer}>{answers.false}</Text>
           <View style={styles.bottomBox}>
             <View style={{ width: '65%' }}>
-              {!!explainYou &&  (
-              <LightButton
-                label={!stoped ? 'Стоп' : 'Продолжить'}
-                size={{ width: !stoped ? 100 : null, height: 36 }}
-                onPress={() =>( setStoped(!stoped), dispatch(setStoping(!stoping)))}
-              />
+              {!!explainYou && (
+                <LightButton
+                  label={!stoping ? 'Стоп' : 'Продолжить'}
+                  size={{ width: !stoping ? 100 : null, height: 36 }}
+                  onPress={() => dispatch(setStoping(!stoping))}
+                />
               )}
             </View>
             <View style={{ alignItems: 'center', width: '35%' }}>
               <Timer
                 secModalVisible={secModalVisible}
                 userModalVisible={userModalVisible}
-                stoped={stoped}
                 timerStart={!props?.fromRes ? true : false}
                 modalVisible={modalVisible}
                 setUserModalVisible={setUserModalVisible}
