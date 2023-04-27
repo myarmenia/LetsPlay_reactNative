@@ -20,8 +20,10 @@ const initialState = {
   endRound: false,
   qrGameImg: false,
   userIsOrganizer: false,
-  minutesInGame: 0
+  stoping: null,
+  time: 0
 }
+
 
 export const AliasSlice = createSlice({
   name: 'alias',
@@ -30,9 +32,9 @@ export const AliasSlice = createSlice({
     setCommands: (store, action) => {
       return { ...store, commands: action.payload }
     },
-    setMinutes: (store, action) => {
-      return { ...store, minutesInGame: action.payload }
-    },
+    // setMinutes: (store, action) => {
+    //   return { ...store, minutesInGame: action.payload }
+    // },
     setReservedUsers: (store, action) => {
       return { ...store, reservedUsers: action.payload }
     },
@@ -44,6 +46,17 @@ export const AliasSlice = createSlice({
     },
     setComplexity: (store, action) => {
       return { ...store, complexity: action.payload }
+    },
+    setStoping: (store, action) => {
+      return { ...store, 
+        stoping: action.payload 
+      }
+    },
+    setTime: (store, action)=>{
+      return {
+        ...store,
+        time: action.payload
+      }
     },
     setCountWords: (store, action) => {
       return { ...store, countOfWords: action.payload }
@@ -128,7 +141,7 @@ export const AliasSlice = createSlice({
 
 export const clearAllAliasData = () => (dispatch) => {
   dispatch(setCommands(null))
-  dispatch(setMinutes(0))
+  // dispatch(setMinutes(0))
   dispatch(setReservedUsers([]))
   dispatch(setAliasGameId(null))
   dispatch(setTeams([]))
@@ -190,10 +203,11 @@ export const startAliasGame = gameId => dispatch => {
     })
 }
 export const {
+  setTime,
   setQrImg,
   setWords,
   setTeams,
-  setMinutes,
+  setStoping,
   setEndRound,
   setCommands,
   setCountWords,

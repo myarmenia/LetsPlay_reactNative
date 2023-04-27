@@ -3,9 +3,9 @@ import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder, Animated } from 'react-native'
 import { useSelector } from 'react-redux'
 
-const AnimatedCircle = ({  answers, setAnswers, stoped }) => {
+const AnimatedCircle = ({  answers, setAnswers }) => {
   const [step, setStep] = useState(0)
-  const { words } = useSelector(({alias})=> alias)
+  const { words, stoping } = useSelector(({alias})=> alias)
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = PanResponder.create({
@@ -13,8 +13,9 @@ const AnimatedCircle = ({  answers, setAnswers, stoped }) => {
     onPanResponderMove: Animated.event([null, { dy: pan.y }]),
     onPanResponderRelease: (e, gestureState) => {
       pan.flattenOffset()
+      console.log("stoping", stoping);
       if (gestureState.moveY < 233) {
-        stoped == false ? setAnswers({ ...answers, true: ++answers.true }) : null
+        stoping == false ? setAnswers({ ...answers, true: ++answers.true }) : null
         setStep(step+1)
         Animated.timing(pan, {
           toValue: { x: 0, y: 0 },
@@ -22,7 +23,7 @@ const AnimatedCircle = ({  answers, setAnswers, stoped }) => {
           useNativeDriver: false,
         }).start()
       } else if (gestureState.moveY > 555) {
-        stoped == false ? setAnswers({ ...answers, false: ++answers.false }) : null
+        stoping == false ? setAnswers({ ...answers, false: ++answers.false }) : null
         setStep(step+1)
         Animated.timing(pan, {
           toValue: { x: 0, y: 0 },
@@ -38,9 +39,7 @@ const AnimatedCircle = ({  answers, setAnswers, stoped }) => {
       }
     },
   })
-  useEffect(()=>{
-    console.log("step  ----------" , step, words?.[step]?.name);
-  },[step])
+ 
   const range = [-140, 0, 155]
   const clampedY = pan.y.interpolate({
     inputRange: range,
@@ -51,9 +50,8 @@ const AnimatedCircle = ({  answers, setAnswers, stoped }) => {
   const animatedStyle = {
     transform: [{ translateY: clampedY }],
   }
-  console.log("words", words);
   return (
-    <Animated.View style={!stoped ? animatedStyle : {}} {...panResponder.panHandlers}>
+    <Animated.View style={!stoping ? animatedStyle : {}} {...panResponder.panHandlers}>
       <TypeButton title={words?.[step]?.name} key={Math.random().toString()} />
     </Animated.View>
   )
