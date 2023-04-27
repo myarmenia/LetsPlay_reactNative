@@ -1,10 +1,10 @@
-import { setWaitNight } from '@/store/Slices/MafiaSlice'
+import { setLoader, setWaitNight } from '@/store/Slices/MafiaSlice'
 import { font } from '@/theme/utils'
 import React, { useState, useEffect } from 'react'
 import { Text } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-const Timer = ({ voteTime, firstNightQuestion, night, setAnswer, endTime }) => {
+const Timer = ({ voteTime, answer, night, setAnswer, endTime }) => {
   const [seconds, setSeconds] = useState(voteTime * 60)
 
   const dispatch = useDispatch()
@@ -17,10 +17,11 @@ const Timer = ({ voteTime, firstNightQuestion, night, setAnswer, endTime }) => {
     interval = setInterval(() => {
       if (seconds > 0) {
         setSeconds((seconds) => seconds - 1)
-      } else if (night && firstNightQuestion) {
-        setSeconds(150) //7
+      } else if (night && answer == 0) {
+        setSeconds(187) // 7
         // setAnswer(1)
-      } else if (night && !firstNightQuestion) {
+      } else if (night && answer > 0) {
+        // dispatch(setLoader(true))
         // dispatch(setWaitNight(false))
       } else {
         clearInterval(interval)
@@ -28,12 +29,13 @@ const Timer = ({ voteTime, firstNightQuestion, night, setAnswer, endTime }) => {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [seconds, night, firstNightQuestion])
+  }, [seconds, night, answer])
   useEffect(() => {
-    if (night && firstNightQuestion) {
-      setSeconds(200) //8
+    console.log('night', answer)
+    if (night && answer == 0) {
+      setSeconds(188) // 8
     }
-  }, [night, firstNightQuestion])
+  }, [night, answer])
 
   let minute =
     Math.floor(seconds / 60).toString().length == 1

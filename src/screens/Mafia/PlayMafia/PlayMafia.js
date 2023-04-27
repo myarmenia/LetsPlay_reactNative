@@ -62,6 +62,7 @@ const PlayMafia = () => {
       }
     }
   }, [deadUser])
+
   useEffect(() => {
     setNightQueastions(answerQuestions?.filter((item) => item.night))
     setDayQueastions(answerQuestions?.find((item) => !item.night))

@@ -56,6 +56,10 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
     marginTop: size > 150 ? RH(4) : RH(-1),
     width: size < 40 ? size / RW(3) : size / RW(4.3),
   }
+
+  const ImagePressableComponent = !onPressImg ? View : Pressable
+  const VkPressableComponent = size < 100 ? View : Pressable
+
   return (
     <View
       style={{
@@ -63,9 +67,13 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         alignItems: 'center',
       }}
     >
-      <Pressable
-        onPress={() =>
-          onPressImg ? navigation.navigate('ProfileNavigator', { screen: 'Gallery' }) : null
+      <ImagePressableComponent
+        onPress={
+          onPressImg
+            ? () => {
+                navigation.navigate('ProfileNavigator', { screen: 'Gallery' })
+              }
+            : null
         }
         style={{
           width: size / 2.8,
@@ -99,7 +107,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
                 }
           }
         />
-      </Pressable>
+      </ImagePressableComponent>
       <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(10) }]}>
         <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
           {name ? name : 'Имя'}
@@ -177,7 +185,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         setIsVisible={setModalVisible}
         // navigationText={'Home'}
       />
-      <TouchableOpacity
+      <VkPressableComponent
         onPress={() => {
           if (vk_uri) {
             Linking.openURL(vk_uri)
@@ -194,7 +202,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}
       >
         <Vk size={size / RH(12)} />
-      </TouchableOpacity>
+      </VkPressableComponent>
     </View>
   )
 }
