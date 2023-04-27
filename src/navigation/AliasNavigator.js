@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { NAV_HEADER_OPTION } from '@/constants'
 import { useGameSocketHelper } from './helpers'
 import { useDispatch, useSelector } from 'react-redux'
@@ -118,11 +118,14 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
+  console.log("stoping ------>",stoping);
 
   useEffect(() => {
-    console.log('useEffect stop-p--------')
-    socketRef.current?.emit('pause_or_start', { stoping, time })
-  }, [stoping])
+    if(stoping !== null && explainYou){
+      console.log('useEffect stop-p--------')
+      socketRef.current?.emit('pause_or_start', { stoping, time })
+    }
+  }, [stoping, explainYou])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
@@ -133,7 +136,7 @@ const AliasNavigator = () => {
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
-      <Stack.Screen name="GameStart" component={GameStart} />
+      <Stack.Screen name="GameStart" component={GameStart  } props={{a:5}} />
       <Stack.Screen name="ResultsOfAnswers" component={ResultsOfAnswers} />
       <Stack.Screen name="TeamsResults" component={TeamsResults} />
     </Stack.Navigator>
