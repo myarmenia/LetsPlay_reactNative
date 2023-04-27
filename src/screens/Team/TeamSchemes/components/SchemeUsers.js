@@ -1,18 +1,31 @@
 import { RW } from '@/theme/utils'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { View, PanResponder, Animated, Dimensions, Pressable, StyleSheet } from 'react-native'
 import User from '@/components/User/user'
 import ArrowSvg from './assets/ArrowSvg'
 import { ICON } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 
-const DraggableComponent = ({ dragedUser, playingPlayers, setPlayingPlayers }) => {
-  const panResponders = playingPlayers?.map((ref, index) =>
+const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
+  const [scrollViewWidth, setScrollViewWidth] = useState(288)
+  const [screenX, setScreenX] = useState(scrollViewWidth)
+  const scrollRef = useRef(null)
+
+  // const panResponders = users?.map((ref, index) =>
+  //   PanResponder.create({
+  //     onMoveShouldSetPanResponder: () => true,
+  //     onPanResponderGrant: (event, gesture) => {
+  //       dragUser(users[index])
+  //     },
+  //   }),
+  // )
+
+  const panResponders = replacementPlayers?.map((ref, index) =>
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onPanResponderMove: (event, gesture) => {
         const { dx, dy } = gesture
-        setPlayingPlayers((prevplayingPlayers) => {
+        setReplacementPlayers((prevplayingPlayers) => {
           console.log(prevplayingPlayers)
           const updatedplayingPlayers = [...prevplayingPlayers]
           updatedplayingPlayers[index] = {
@@ -27,18 +40,18 @@ const DraggableComponent = ({ dragedUser, playingPlayers, setPlayingPlayers }) =
       },
       onPanResponderEnd: (event, gesture) => {
         if (
-          playingPlayers[index].moveX >= 95 &&
-          playingPlayers[index].moveX <= 301 &&
-          playingPlayers[index].moveY >= 195 &&
-          playingPlayers[index].moveY <= 500
+          replacementPlayers[index].moveX >= 95 &&
+          replacementPlayers[index].moveX <= 301 &&
+          replacementPlayers[index].moveY >= 195 &&
+          replacementPlayers[index].moveY <= 500
         ) {
-          const currentComponent = playingPlayers[index]
-          playingPlayers.forEach((item, i) => {
+          const currentComponent = replacementPlayers[index]
+          replacementPlayers.forEach((item, i) => {
             if (item?.moveX && i !== index) {
               const differenceX = currentComponent.moveX - item.moveX
               const differenceY = currentComponent.moveY - item.moveY
               if (differenceX < 25 && differenceX > -25 && differenceY < 25 && differenceY > -25) {
-                setPlayingPlayers((prevplayingPlayers) => {
+                setReplacementPlayers((prevplayingPlayers) => {
                   const updatedplayingPlayers = [...prevplayingPlayers]
                   updatedplayingPlayers[i] = {
                     x: 0,
@@ -50,7 +63,7 @@ const DraggableComponent = ({ dragedUser, playingPlayers, setPlayingPlayers }) =
               }
             }
           })
-          setPlayingPlayers((prevplayingPlayers) => {
+          setReplacementPlayers((prevplayingPlayers) => {
             const updatedplayingPlayers = [...prevplayingPlayers]
             updatedplayingPlayers[index] = {
               ...updatedplayingPlayers[index],
@@ -59,7 +72,7 @@ const DraggableComponent = ({ dragedUser, playingPlayers, setPlayingPlayers }) =
             return updatedplayingPlayers
           })
         } else {
-          setPlayingPlayers((prevplayingPlayers) => {
+          setReplacementPlayers((prevplayingPlayers) => {
             const updatedplayingPlayers = [...prevplayingPlayers]
             updatedplayingPlayers[index] = {
               x: 0,
@@ -74,36 +87,79 @@ const DraggableComponent = ({ dragedUser, playingPlayers, setPlayingPlayers }) =
   )
   return (
     <Row wrapper={styles.container}>
-      {playingPlayers?.map((user, index) => (
+      <Pressable
+        style={styles.arrowContainer}
+        onPress={() => {
+          if (scrollRef.current && screenX > scrollViewWidth) {
+            scrollRef.current.scrollTo({
+              x: screenX - scrollViewWidth,
+              animated: true,
+            })
+            setScreenX(screenX - scrollViewWidth)
+          }
+        }}
+      >
+        <ArrowSvg />
+      </Pressable>
+      {/* <Animated.ScrollView
+        ref={scrollRef}
+        horizontal
+        snapToInterval={scrollViewWidth}
+        decelerationRate="fast"
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+        scrollEventThrottle={1}
+        style={styles.scrollContainer}
+        onLayout={(e) => {
+          setScrollViewWidth(e.nativeEvent.layout.width)
+        }}
+        scrollEnabled={false}
+      > */}
+      {replacementPlayers?.map((user, index) => (
         <View
           key={index}
           ref={user.ref}
           style={[
             {
               paddingVertical: user.small ? RW(28) : 0,
-              paddingHorizontal: user.small ? RW(23) : 0,
+              paddingHorizontal: user.small ? RW(22) : 0,
               zIndex: user.small ? 9 : 99,
+              position: user.small ? 'absolute' : 'relative',
             },
             { transform: [{ translateX: user.x }, { translateY: user.y }] },
           ]}
           {...panResponders[index]?.panHandlers}
-          onContentSizeChange={(e) => {
-            console.log('onContentSizeChange', e)
-          }}
         >
           <User size={user.small ? RW(40) : RW(90)} />
         </View>
       ))}
+      {/* </Animated.ScrollView> */}
+      <Pressable
+        style={[styles.arrowContainer, { transform: [{ rotate: '180deg' }] }]}
+        onPress={() => {
+          if (scrollRef.current && screenX < replacementPlayers.length * RW(90) - scrollViewWidth) {
+            setScreenX(screenX + scrollViewWidth)
+            scrollRef.current.scrollTo({
+              x: screenX + scrollViewWidth,
+              animated: true,
+            })
+          }
+        }}
+      >
+        <ArrowSvg />
+      </Pressable>
     </Row>
   )
 }
 
+export default SchemeUsers
+
 const styles = StyleSheet.create({
   container: {},
-  scrollContainer: {
-    flex: 1,
-    width: '100%',
-  },
+  // scrollContainer: {
+  //   flex: 1,
+  //   width: '100%',
+  // },
   arrowContainer: {
     backgroundColor: ICON,
     width: RW(40),
@@ -114,4 +170,3 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 })
-export default DraggableComponent

@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
@@ -7,8 +7,26 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import User from '@/components/User/user'
 import DraggableComponent from './components/DraggableComponent'
+import SchemeUsers from './components/SchemeUsers'
 
 const TeamSchemes = ({ route }) => {
+  const [replacementPlayers, setReplacementPlayers] = useState([
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+  ])
+  const [playingPlayers, setPlayingPlayers] = useState([])
+  const [dragedUser, setDragedUser] = useState(null)
+
   // const data = route.params
   const data = {
     players: ['64219136e3a868ee5e71a799'],
@@ -16,10 +34,11 @@ const TeamSchemes = ({ route }) => {
     teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
     teamName: 'Test2',
   }
+
   //
   // let containerLayout, imgLayout
-  const [containerLayout, setContainerLayout] = useState()
-  const [imageLayout, setImageLayout] = useState()
+  // const [containerLayout, setContainerLayout] = useState()
+  // const [imageLayout, setImageLayout] = useState()
 
   return (
     <ScreenMask>
@@ -29,33 +48,39 @@ const TeamSchemes = ({ route }) => {
       </Row>
       <View
         style={styles.schemaImgContainer}
-        onLayout={(e) => {
-          setContainerLayout(e.nativeEvent.layout)
-        }}
+        // onLayout={(e) => {
+        //   setContainerLayout(e.nativeEvent.layout)
+        // }}
       >
         <Image
-          onLayout={(e) => {
-            setImageLayout(e.nativeEvent.layout)
-          }}
+          // onLayout={(e) => {
+          //   setImageLayout(e.nativeEvent.layout)
+          // }}
           style={styles.schemaImg}
           source={{ uri: _storageUrl + data?.schemaImg }}
         />
       </View>
       <View style={{ zIndex: 99999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
-        <Row>
-          {
-            // containerLayout?.width && imageLayout?.width && containerLayout?.y ?
-            [1, 2, 3, 4].map((item, key) => (
-              <DraggableComponent
-                itemId={item}
-                key={key}
-                // maxTop={(containerLayout?.width - imageLayout?.width) / 2 + containerLayout?.y}
-              />
-            ))
-            // : null
-          }
-        </Row>
+        <SchemeUsers
+          replacementPlayers={replacementPlayers}
+          setReplacementPlayers={setReplacementPlayers}
+          // dragUser={(user) => {
+          //   setReplacementPlayers((prevState) => {
+          //     const updatedState = prevState.filter((item) => item != user)
+          //     return updatedState
+          //   })
+
+          //   setDragedUser(user)
+          //   setPlayingPlayers([...playingPlayers, user])
+          // }}
+        />
+
+        {/* <DraggableComponent
+          dragedUser={dragedUser}
+          playingPlayers={playingPlayers}
+          setPlayingPlayers={setPlayingPlayers}
+        /> */}
       </View>
     </ScreenMask>
   )

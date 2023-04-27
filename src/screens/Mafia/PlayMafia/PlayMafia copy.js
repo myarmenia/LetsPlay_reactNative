@@ -15,7 +15,6 @@ import {
   setLoader,
   setQuestionTruthfulness,
   setSendAnswer,
-  setWaitAnswer,
   setWaitNight,
 } from '@/store/Slices/MafiaSlice'
 import UserBorderSvg from './assets/UserBorderSvg'
@@ -29,9 +28,10 @@ const PlayMafia = () => {
   const [choosable, setChoosable] = useState(false)
   const [choosedUsers, setChoosedUsers] = useState(null)
   const [nightQueastions, setNightQueastions] = useState([])
-  const [answersCount, setAnswersCount] = useState(0)
+  const [answers, setAnswers] = useState(0)
   const [dayQueastions, setDayQueastions] = useState(null)
   const [daysCount, setDaysCount] = useState(1)
+  const [waitAnswers, setWaitAnswers] = useState(false)
 
   const currentUserDeaded = useRef(false)
 
@@ -46,13 +46,45 @@ const PlayMafia = () => {
     answerQuestions,
     questionTruthfulness,
     winner,
+    waitNight,
     deadUser,
     voteTime,
-    waitAnswer,
-    equalVotes,
   } = useSelector(({ mafia }) => mafia)
   const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    // setModalVisible(true)
+  }, [mafiaRole])
+  useEffect(() => {
+    if (night) {
+      setDaysCount(2)
+      setChoosable(true)
+    }
+    //  else if (night && questionTruthfulness?.truthfulness !== undefined) {
+    //   dispatch(setWaitNight(false))
+    //   dispatch(setLoader(true))
+    //   dispatch(setQuestionTruthfulness(null))
+    // } else if (night && answers == dayQueastions.length) {
+    //   setAnswers(1)
+    //   dispatch(setWaitNight(true))
+    //   dispatch(setLoader(true))
+    //   setChoosable(false)
+    // }
+  }, [night]) //answers, answerQuestions,
+  useEffect(() => {
+    if (
+      night &&
+      answers == 0 &&
+      (mafiaRole.name == 'Дон' || mafiaRole.name == 'Шериф' || mafiaRole.name == 'Доктор')
+    ) {
+      console.log('setWaitAnswers(true)')
+      setWaitAnswers(true)
+    } else {
+      console.log('setWaitAnswers(false)')
+      setWaitAnswers(false)
+    }
+  }, [answers, mafiaRole, night])
 
   useEffect(() => {
     if (Object.keys(deadUser || {}).length) {
@@ -91,15 +123,9 @@ const PlayMafia = () => {
               </Pressable>
             </View>
             <Text style={styles.morningText}>Утро</Text>
-            {daysCount > 1 && !Object.keys(equalVotes || {}).length ? (
+            {daysCount > 1 ? (
               <View>
                 <Text style={styles.question}>{dayQueastions?.question}</Text>
-              </View>
-            ) : Object.keys(equalVotes || {}).length ? (
-              <View>
-                <Text style={styles.question}>
-                  Игроки набрали равное количество голосов. Голосуем между ними.
-                </Text>
               </View>
             ) : null}
           </>
@@ -114,15 +140,15 @@ const PlayMafia = () => {
             </Pressable>
 
             <View>
-              <Text style={styles.question}>{nightQueastions[answersCount]?.question}</Text>
+              <Text style={styles.question}>{nightQueastions[answers]?.question}</Text>
             </View>
           </>
         )}
         <Time
           voteTime={voteTime}
-          answer={answersCount}
+          answer={answers}
           night={night}
-          setAnswer={setAnswersCount}
+          setAnswer={setAnswers}
           endTime={() => {}}
         />
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -150,10 +176,10 @@ const PlayMafia = () => {
                   >
                     {choosedUsers === item?._id ? (
                       <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-                        {choosedUsers === item?._id &&
-                        !Object.keys(questionTruthfulness || {}).length ? (
+                        {console.log('waitAnswers', waitAnswers)}
+                        {!questionTruthfulness || !waitAnswers ? (
                           <UserBorderSvg />
-                        ) : waitAnswer && Object.keys(questionTruthfulness || {}).length ? (
+                        ) : waitAnswers && questionTruthfulness ? (
                           <View
                             style={{
                               width: '80%',
@@ -190,20 +216,15 @@ const PlayMafia = () => {
                             }
                           : {
                               onClickFunc: () => {
-                                console.log('choosable', choosable)
-                                if (choosable) {
-                                  console.log(mafiaRole?.name) //"Дон" Шериф Шпион
-                                  if (
-                                    answersCount == 0 &&
-                                    night &&
-                                    (mafiaRole?.name == 'Дон' ||
-                                      mafiaRole?.name == 'Шериф' ||
-                                      mafiaRole?.name == 'Шпион')
-                                  ) {
-                                    dispatch(setWaitAnswer(true))
-                                  } else {
-                                    dispatch(setWaitAnswer(false))
-                                  }
+                                if (
+                                  night &&
+                                  daysCount > 1 &&
+                                  item?.status &&
+                                  !currentUserDeaded.current &&
+                                  (!waitAnswers ||
+                                    (waitAnswers &&
+                                      questionTruthfulness?.truthfulness === undefined))
+                                ) {
                                   setChoosedUsers(item?._id)
                                 }
                               },
@@ -219,7 +240,11 @@ const PlayMafia = () => {
           </View>
         </ScrollView>
         <View style={{ position: 'absolute', bottom: RH(15) }}>
-          {waitAnswer && questionTruthfulness?.truthfulness ? (
+          {waitAnswers &&
+          answers == 0 &&
+          night &&
+          waitNight == false &&
+          questionTruthfulness?.truthfulness ? (
             <Text
               style={{
                 ...font('bold', 18, '#74C472', 24),
@@ -229,7 +254,7 @@ const PlayMafia = () => {
             >
               Правильно
             </Text>
-          ) : waitAnswer && questionTruthfulness?.truthfulness == false ? (
+          ) : waitAnswers && answers == 0 && night && waitNight == false ? (
             <Text
               style={{
                 ...font('bold', 18, '#F73934', 24),
@@ -244,68 +269,38 @@ const PlayMafia = () => {
             <LightButton
               size={{ width: RW(281), height: RH(48) }}
               labelStyle={styles.invitePlayers}
-              label={
-                !night && daysCount > 1
-                  ? 'Голосовать'
-                  : !night
-                  ? 'Ночь'
-                  : waitAnswer && Object.keys(questionTruthfulness || {}).length
-                  ? 'Продолжить'
-                  : 'Подтвердить'
-              }
+              label={!night && daysCount > 1 ? 'Голосовать' : !night ? 'Ночь' : 'Подтвердить'}
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
               onPress={() => {
-                if (daysCount == 1) {
-                  console.log('if 1')
+                if (!night && daysCount == 1) {
                   dispatch(setLoader(true))
                   dispatch(setWaitNight(true))
-                  setDaysCount(2)
-                  setChoosable(true)
                 } else if (choosedUsers) {
-                  console.log('if')
-                  if (waitAnswer && Object.keys(questionTruthfulness || {}).length) {
-                    console.log('if 1')
+                  dispatch(
+                    setSendAnswer({
+                      type: 'answer_question',
+                      question_id: night ? nightQueastions[answers]?._id : dayQueastions?._id,
+                      select_user: choosedUsers,
+                    }),
+                  )
+
+                  if (night && answers == 0) {
+                    setAnswers(1)
                     dispatch(setQuestionTruthfulness(null))
                     setChoosedUsers(null)
-                    dispatch(setWaitAnswer(false))
-                    setAnswersCount(1)
-                    setChoosable(true)
                   } else {
-                    console.log('if 2')
-                    dispatch(
-                      setSendAnswer({
-                        type: 'answer_question',
-                        question_id: night
-                          ? nightQueastions[answersCount]?._id
-                          : dayQueastions?._id,
-                        select_user: choosedUsers,
-                      }),
-                    )
-
-                    if (waitAnswer) {
-                      console.log('if 3')
-                      setChoosable(false)
-                    } else {
-                      console.log('if 4')
-                      setChoosedUsers(null)
-                      setChoosable(true)
-                      setAnswersCount(1)
-                    }
-                  }
-                  if (night && answersCount == 1) {
-                    console.log('if 5')
-                    setAnswersCount(0)
-                    dispatch(setLoader(true))
                     dispatch(setWaitNight(false))
-                  } else if (!night) {
-                    console.log('if 6')
-                    // day
-                    setAnswersCount(0)
-                    dispatch(setLoader(true))
-                    dispatch(setWaitNight(true))
+                    setAnswers(0)
+                    setChoosedUsers(null)
                   }
+                } else if (night && answers == 1) {
+                  dispatch(setQuestionTruthfulness(null))
+                  setChoosedUsers(null)
+                  setAnswers(0)
+                  dispatch(setLoader(true))
+                  dispatch(setWaitNight(!night))
                 }
               }}
             />
