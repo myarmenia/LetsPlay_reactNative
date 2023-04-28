@@ -54,7 +54,7 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
                 : fromTournament
                 ? navigation.navigate('TournamentNavigator', {
                     screen: 'CreateTournament',
-                    // params: ""
+                    params: game,
                   })
                 : navigation.navigate('GameCreating', { params: { game } })
             }

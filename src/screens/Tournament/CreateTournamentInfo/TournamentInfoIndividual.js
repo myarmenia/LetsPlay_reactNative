@@ -18,81 +18,86 @@ import {
   WHITE,
 } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
-const EachTournament = ({ route }) => {
+import { useDispatch, useSelector } from 'react-redux'
+import Row from '@/components/wrappers/row'
+import { createTournament } from '@/store/Slices/TournamentSlice'
+const TournamentInfoIndividual = ({ route }) => {
   const props = route.params
   const navigation = useNavigation()
+  const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
   const initialState = useSelector(({ tournament }) => tournament)
+  const { user } = useSelector(({ auth }) => auth)
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
           <Image
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
-            source={{
-              uri: _storageUrl + (props?.data.data ? props?.data?.data?.game?.img : props?.img),
-            }}
+            source={{ uri: _storageUrl + (props?.game?.img ? props?.game?.img : props?.img) }}
           />
         </View>
         <View>
-          <Text style={styles.eachInfo}>Тип турнира :</Text>
-          <Text style={styles.eachInfoTwo}>
-            {props?.data.data ? props?.data?.data?.game?.name : ''}
-          </Text>
-          <Text style={styles.eachInfo}>Название турнира: </Text>
-          <Text style={styles.eachInfoTwo}>
-            {props?.data.data ? props.data?.data?.data?.name : ''}
-          </Text>
-          <Text style={styles.eachInfo}>Описание турнира: </Text>
-          <Text style={styles.eachInfoTwo}>
-            {props.data?.data?.data ? props.data?.data?.data?.game_description : ''}
-          </Text>
-          <Text style={styles.eachInfo}>Количество команд:</Text>
-          <Text style={styles.eachInfoTwo}>
-            от {props.data?.data?.data.number_of_teams_from} до{' '}
-            {props.data?.data?.data.number_of_teams_to}
-          </Text>
-          <Text style={styles.eachInfo}>Дата турнира:</Text>
-          <Text style={styles.eachInfoTwo}>
-            {props?.data?.data?.data?.start_date
-              .split('/')
-              .reverse()
-              .join('-')
-              .slice(0, 10)}
-          </Text>
-          <Text style={styles.eachInfo}>Время:</Text>
-          <Text style={styles.eachInfoTwo}>
-            {initialState?.start_date
-              ?.split('/')
-              .reverse()
-              .join('-')
-              .slice(10)}
-            {/* {new Date(props?.start_date).toLocaleTimeString().slice(0, 5)}  */}
-          </Text>
-          <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
-          <Text style={styles.eachInfoTwo}>
-            {initialState.address_name}
-            {/* {new Date(props?.end_date).toLocaleDateString()},{' '}
-            {new Date(props?.end_date).toLocaleTimeString().slice(0, 5)} */}
-          </Text>
-          <Text style={styles.eachInfo}>Плата за участие: </Text>
-          <Text style={styles.eachInfoTwo}>
-            {console.log(initialState)}
-            {initialState?.ticket_price ? initialState?.ticket_price : '0 р.'}
-            {/* {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'} */}
-          </Text>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Тип турнира :</Text>
+            <Text style={styles.eachInfoTwo}>
+              {/* Своя игра */}
+              {props?.game.name}
+            </Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Название турнира: </Text>
+            <Text style={styles.eachInfoTwo}> {props?.data.name}</Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Описание турнира: </Text>
+            <Text style={styles.eachInfoTwo}>
+              {props.data.description.length ? props.data.description : 'Нету'}
+            </Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Количество игроков</Text>
+            <Text style={styles.eachInfoTwo}>
+              от {props.data.number_of_participants_from} до {props.data.number_of_participants_to}
+            </Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Дата турнира:</Text>
+            <Text style={styles.eachInfoTwo}>{initialState.start_date.slice(0, 10)}</Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Время:</Text>
+            <Text style={styles.eachInfoTwo}>{initialState?.end_search_date.slice(10)}</Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
+            <Text style={styles.eachInfoTwo}>{initialState.address_name}</Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Плата за участие: </Text>
+            <Text style={styles.eachInfoTwo}>
+              {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'}
+            </Text>
+          </Row>
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
             <Text style={styles.eachInfo}>Организатор турнира:</Text>
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>
               <User
                 size={30}
                 onPressItem={{
-                  item: <User size={390} pressedUser={Players[0]} />,
+                  item: <User size={390} pressedUser={user} />,
                   modalClose: false,
                   // onClickFunc: handleClick,
                 }}
-                pressedUser={Players[0]}
+                pressedUser={user}
               />
             </View>
           </View>
@@ -111,17 +116,7 @@ const EachTournament = ({ route }) => {
             label={'Редактировать'}
             size={{ width: 220, height: 40 }}
             onPress={() => {
-              // if (data.fromTournament) {
-              //   navigation.navigate('TournamentNavigator', {
-              //     screen: 'SelectMembers',
-              //     params: { command: command, data: data },
-              //   })
-              //   setBack(false)
-              // }
-              navigation.navigate(
-                !props?.data.data?.data ? 'JoinTournament' : 'SelectMembers',
-                props,
-              )
+              navigation.navigate('CreateTournamentInfoIndividual')
               //   dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
             }}
           />
@@ -130,7 +125,8 @@ const EachTournament = ({ route }) => {
             size={{ width: 120, height: 40 }}
             onPress={() => {
               setModalVisible(true)
-              //   dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
+              dispatch(createTournament(initialState))
+              // dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
             }}
           />
         </View>
@@ -138,11 +134,11 @@ const EachTournament = ({ route }) => {
         <Modal
           item={
             <View style={styles.modal}>
-              <Text style={styles.modalText}>Вы успешно присоединились к турниру!</Text>
+              <Text style={styles.modalText}>Вы успешно создали турнир!</Text>
             </View>
           }
           modalVisible={modalVisible}
-          navigationText={'Home'}
+          // navigationText={'Home'}
           setIsVisible={setModalVisible}
         />
       </ScrollView>
@@ -150,7 +146,7 @@ const EachTournament = ({ route }) => {
   )
 }
 
-export default EachTournament
+export default TournamentInfoIndividual
 
 export const styles = StyleSheet.create({
   gameItemContainer: {
@@ -278,14 +274,15 @@ export const styles = StyleSheet.create({
     marginBottom: RH(33),
   },
   eachInfo: {
-    ...font('regular', 14, WHITE, 20),
+    ...font('regular', 16, WHITE, 20),
     marginLeft: RW(11),
-    marginBottom: RH(6),
   },
   eachInfoTwo: {
     ...font('bold', 16, ICON, 20),
     marginLeft: RW(11),
-    marginBottom: RH(24),
+    width: '50%',
+    flexWrap: 'wrap',
+    // marginBottom: RH(24),
   },
   eachInfoRegular: {
     fontFamily: FONT_INTER_BOLD,

@@ -6,8 +6,15 @@ import { RH, RW, font } from '@/theme/utils'
 import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import {
+  setGameDescription,
+  setTeamTourney,
+  setTournamentName,
+} from '@/store/Slices/TournamentSlice'
 
-const CreateTournament = () => {
+const CreateTournament = ({ route }) => {
+  const props = route.params
   const [formatList, setFormatList] = useState([
     {
       id: 1,
@@ -20,14 +27,21 @@ const CreateTournament = () => {
       checked: false,
     },
   ])
+  const dispatch = useDispatch()
   const navigation = useNavigation()
   const [error, setError] = useState(false)
-  const [tournamentName, setTournamentName] = useState('')
-  const [description, setDescription] = useState('')
+  const [tourName, setTourName] = useState('')
   const handleClick = () => {
-    if (tournamentName.length) {
+    if (tourName.length) {
       setError(false)
-      navigation.navigate('CreateTournamentInfo')
+      dispatch(setTournamentName(tourName))
+      if (formatList[0].checked) {
+        navigation.navigate('CreateTournamentInfoIndividual', props)
+        // dispatch(setTeamTourney(false))
+      } else {
+        dispatch(setTeamTourney(true))
+        navigation.navigate('CreateTournamentInfoCommand', props)
+      }
     } else {
       setError(true)
     }
@@ -39,16 +53,16 @@ const CreateTournament = () => {
           <TextInput
             style={styles.input}
             placeholderTextColor={ICON}
-            value={tournamentName}
-            onChangeText={e => setTournamentName(e)}
+            value={tourName}
+            onChangeText={e => setTourName(e)}
             placeholder={'Название турнира'}
           />
           <TextInput
             style={styles.inputMulti}
             placeholderTextColor={ICON}
             multiline={true}
-            // value={value}
-            // onChangeText={(e) => setValue(e)}
+            // value={description}
+            onChangeText={e => dispatch(setGameDescription(e))}
             placeholder={'Описание турнира (можно использовать ссылку на интернет страничку):'}
           />
         </View>
