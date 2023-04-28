@@ -194,7 +194,7 @@ const GameStart = ({ route }) => {
               <Timer
                 secModalVisible={secModalVisible}
                 userModalVisible={userModalVisible}
-                timerStart={!props?.fromRes ? true : false}
+                timerStart={!props?.fromRes}
                 modalVisible={modalVisible}
                 setUserModalVisible={setUserModalVisible}
                 setSecModalVisible={setSecModalVisible}

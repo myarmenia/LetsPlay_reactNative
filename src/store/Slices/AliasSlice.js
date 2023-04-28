@@ -20,7 +20,7 @@ const initialState = {
   endRound: false,
   qrGameImg: false,
   userIsOrganizer: false,
-  stoping: true,
+  stoping: null,
   time: 0
 }
 

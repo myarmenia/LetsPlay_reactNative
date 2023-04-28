@@ -23,56 +23,63 @@ const Timer = ({
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  useEffect(() => {
-    if (timerStart) {
-      console.log('timerStart useEffect')
-      setSelectedTime({ seconds: selectedTime.seconds + 0 })
-      dispatch(setStoping(false))
-      dispatch(setTime(selectedTime.seconds))
-    }
-  }, [timerStart])
+  // useEffect(() => {
+  //   console.log('timerStart useEffect', timerStart)
+  //   if (timerStart) {
+
+  //     setSelectedTime({ seconds: selectedTime.seconds + 0 })
+  //     dispatch(setStoping(false))
+  //     dispatch(setTime(selectedTime.seconds))
+  //   }
+  // }, [timerStart])
 
   useEffect(() => {
     if (selectedTime.seconds == 0 && !userModalVisible) {
       console.log('seconds == 0 useEffect')
       setSelectedTime({ seconds: 0 })
-      dispatch(setStoping(false))
+      dispatch(setStoping(true))
       dispatch(setTime(selectedTime.seconds))
       dispatch(setEndRound(true))
       setSecModalVisible(true)
     }
   }, [selectedTime.seconds])
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (!stoping) {
-        if (selectedTime.seconds !== 0) {
-          if (selectedTime.seconds > 0 && !modalVisible && !userModalVisible) {
-            setSelectedTime((prev) => ({
-              seconds: selectedTime.seconds - 1,
-            }))
-            dispatch(setStoping(false))
-            dispatch(setTime(selectedTime.seconds))
-          } else if (selectedTime.seconds > 0 && !userModalVisible) {
-            setSelectedTime((prev) => ({
-              seconds: selectedTime.seconds - 1,
-            }))
-            dispatch(setStoping(false))
-            dispatch(setTime(selectedTime.seconds))
-          }
-          if (selectedTime.seconds == 0) {
-            setSelectedTime({ seconds: 0 })
-            dispatch(setStoping(false))
+    let timer 
+    if (!stoping) {
+      console.log("useEffect timer if")
+       timer = setInterval(() => {
+          if (selectedTime.seconds > 0 && selectedTime.seconds !== 0) {
+            if ( !modalVisible && !userModalVisible && explainYou) {
+              setSelectedTime({
+                seconds: selectedTime.seconds - 1,
+              })
+              // dispatch(setStoping(false))
+              dispatch(setTime(selectedTime.seconds - 1))
+            } 
+            if (!userModalVisible && !explainYou) {
+              setSelectedTime({
+                seconds: selectedTime.seconds - 1,
+              })
+              // dispatch(setStoping(false))
+              dispatch(setTime(selectedTime.seconds -1))
+            }
+      
+          } else   if (selectedTime.seconds == 0) {
+            // setSelectedTime({ seconds: 0 })
+            dispatch(setStoping(true))
             dispatch(setTime(selectedTime.seconds))
             setSecModalVisible(true)
             clearInterval(timer)
           }
-        }
-      } else {
-        setSelectedTime((prev) => ({ ...prev, seconds: prev.seconds }))
-        dispatch(setStoping(false))
-        dispatch(setTime(selectedTime.seconds))
-      }
-    }, 1000)
+
+      }, 1000)
+  } else {
+    console.log("useEffect timer else")
+    // setSelectedTime((prev) => ({ seconds: prev.seconds }))
+    // dispatch(setStoping(false))
+    clearInterval(timer)
+    dispatch(setTime(selectedTime.seconds))
+  }
 
     return () => clearInterval(timer)
   }, [selectedTime.seconds, stoping, explainYou, userModalVisible])
