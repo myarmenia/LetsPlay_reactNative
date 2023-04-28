@@ -6,7 +6,7 @@ import { RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
 
-const EachCommand = ({ command, i , route}) => {
+const EachCommand = ({ command, i, data }) => {
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
   return (
@@ -16,15 +16,15 @@ const EachCommand = ({ command, i , route}) => {
         setBack(true)
       }}
       onPressOut={() => {
-        if(route.fromTournament){
+        if (data.fromTournament) {
           navigation.navigate('TournamentNavigator', {
-            screen: "SelectMembers",
-            params: command
+            screen: 'SelectMembers',
+            params: { command: command, data: data },
           })
           setBack(false)
         } else {
           setBack(false)
-          navigation.navigate('MyTeamInfo', command)
+          navigation.navigate('MyTeamInfo', { command, data })
         }
       }}
     >

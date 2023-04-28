@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import axiosInstance from '../Api'
 
 const initialState = {
   name: 'string',
@@ -6,8 +7,8 @@ const initialState = {
   game_name: 'string',
   game_description: 'string',
   team_tourney: true,
-  start_date: '2023-04-25T12:18:05.599Z',
-  end_search_date: '2023-04-25T12:18:05.599Z',
+  start_date: new Date().toLocaleDateString(),
+  end_search_date: new Date().toLocaleDateString(),
   prize_fund: true,
   organizer_status: true,
   ticket_price: 0,
@@ -56,13 +57,13 @@ const TournamentSlice = createSlice({
         team_tourney: action.payload,
       }
     },
-    setStartDate: (store, action) => {
+    setTourStartDate: (store, action) => {
       return {
         ...store,
         start_date: action.payload,
       }
     },
-    setEndDate: (store, action) => {
+    setTourEndDate: (store, action) => {
       return {
         ...store,
         end_search_date: action.payload,
@@ -128,7 +129,7 @@ const TournamentSlice = createSlice({
         number_of_teams_to: action.payload,
       }
     },
-    setAddressName: (store, action) => {
+    setAddressNameTour: (store, action) => {
       return {
         ...store,
         address_name: action.payload,
@@ -148,22 +149,31 @@ const TournamentSlice = createSlice({
     },
   },
 })
+export const createTournament = data => dispatch => {
+  axiosInstance
+    .post('api/tourney/', data)
+    .then(response => {
+      console.log('response -------', JSON.stringify(response))
+    })
+    .catch(err => console.log('Error creating tournament', err.request))
+}
+
 export const {
-  setEndDate,
   setGameName,
   setLatitude,
-  setStartDate,
   setLongitude,
   setTeamTourney,
+  setTourEndDate,
   setDescription,
   setTicketPrice,
-  setAddressName,
   setPlayersGender,
+  setTourStartDate,
   setTournamentName,
   setTournamentFund,
   setGameDescription,
   setOrganizerStatus,
   setNumberOfTeamsTo,
+  setAddressNameTour,
   setNumberOfTeamsFrom,
   setAgeRestrictionsTo,
   setAgeRestrictionsFrom,
