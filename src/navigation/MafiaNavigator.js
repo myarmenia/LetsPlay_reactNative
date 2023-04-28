@@ -13,7 +13,7 @@ import WaitPlayers from '@/screens/Mafia/WaitPlayers'
 import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
 import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
-import { clearAllDatas, setEqualVotes } from '@/store/Slices/MafiaSlice'
+import { clearAllDatas, setEqualVotes, setDonVotedPlayers } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import {
   setNight,
@@ -101,7 +101,12 @@ const MafiaNavigator = () => {
         if (e?.roleDatas?.civilian == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
           break
         }
-        dispatch(setDeadUser({ ...deadUser, role: e?.player?.role?.name }))
+        if (e?.player?.role?.name) {
+          dispatch(setDeadUser({ ...deadUser, role: e?.player?.role?.name }))
+        } else {
+          dispatch(setDeadUser({ ...deadUser }))
+        }
+
         dispatch(setCiviliansCount(e?.roleDatas?.civilian))
         dispatch(setMafiasCount(e?.roleDatas?.mafia))
         break
@@ -115,6 +120,9 @@ const MafiaNavigator = () => {
           }),
         )
         break
+      case 'voted_players':
+        dispatch(setDonVotedPlayers(e?.voted_players))
+        break
       case 'end_game':
         dispatch(setLoader(false))
         dispatch(setWinner(e.winner))
@@ -122,6 +130,7 @@ const MafiaNavigator = () => {
       case 'players_rating':
         dispatch(setPlayersRatings(e.players_rating))
         break
+
       default:
         break
     }

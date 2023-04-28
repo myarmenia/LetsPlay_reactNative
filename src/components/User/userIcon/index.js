@@ -20,7 +20,7 @@ import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
 
-function Index({ size, onPressImg, userProps, pressedUser }) {
+function Index({ size, size2, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
   let user = pressedUser ? pressedUser : authedUser
   if (userProps) {
@@ -29,27 +29,12 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
   if (user?.user) {
     user = user.user
   }
-  // const [userNow, setUserNow] = useState(user)
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
   const fontSizeTitle = size > 150 ? size / RW(33) : size / RW(50)
   const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
-  // const [loader, setLoader] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('screen').width
-
-  // useEffect(() => {
-  //   avatar ? setLoader(false) : setLoader(true)
-  //   setTimeout(() => {
-  //     if (!avatar) {
-  //       setLoader(false)
-  //     }
-  //   }, 3000)
-  // }, [])
-
-  // useEffect(() => {
-  //   // setUserNow(!pressedUser ? user : pressedUser)
-  // }, [user])
 
   const sizing = {
     padding: size > 40 ? RH(5) : RH(0),
@@ -78,13 +63,11 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         style={{
           width: size / 2.8,
           height: size / 2.8,
-          width: size / 2.8,
-          height: size / 2.8,
           resizeMode: 'cover',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          top: 8,
+          top: size2 == 150 ? 13 : 8,
         }}
       >
         <Image

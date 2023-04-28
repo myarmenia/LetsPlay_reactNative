@@ -1,11 +1,13 @@
 import { Text, View } from 'react-native'
 import React from 'react'
 import Modal from '@/components/modal'
-import { font, RH } from '@/theme/utils'
+import { font, RH, RW } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import User from '@/components/User/user'
 import { setDeadUser } from '@/store/Slices/MafiaSlice'
+import { SCREEN_BACKGROUND } from '@/theme/colors'
+import NotDeadedPlayerSvg from '../assets/NotDeadedPlayerSvg'
 
 const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
   const { deadUser } = useSelector(({ mafia }) => mafia)
@@ -19,15 +21,39 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
         setModalVisible(e)
       }}
       item={
-        <View>
-          <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginBottom: RH(50) }}>
-            Игрок выбыл
-          </Text>
-          <User size={400} user={deadUser} onPressItem={{ onClickFunc: () => {} }} />
-          <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginTop: RH(30) }}>
-            {deadUser?.role}
-          </Text>
-        </View>
+        Object.keys(deadUser || {}).length ? (
+          <View>
+            <Text
+              style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginBottom: RH(50) }}
+            >
+              Игрок выбыл
+            </Text>
+            <User size={400} user={deadUser} onPressItem={{ onClickFunc: () => {} }} />
+            <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginTop: RH(30) }}>
+              {deadUser?.role}
+            </Text>
+          </View>
+        ) : (
+          <View
+            style={{
+              alignSelf: 'center',
+              backgroundColor: SCREEN_BACKGROUND,
+              width: RW(306),
+              paddingTop: RH(23),
+              paddingBottom: RH(17),
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: RW(20),
+            }}
+          >
+            <NotDeadedPlayerSvg />
+            <Text
+              style={{ ...font('regular', 16, '#fff', 25), textAlign: 'center', marginTop: RH(17) }}
+            >
+              Ночью никого “не убили”.{'\n'}Доктор спас игрока.{'\n'}Шериф никого “не арестовал”.
+            </Text>
+          </View>
+        )
       }
     />
   )

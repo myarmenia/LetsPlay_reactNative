@@ -62,7 +62,7 @@ const MafiaLoader = ({ background = true }) => {
       </Animated.View>
 
       <Text style={{ color: '#fff', fontSize: 20, textAlign: 'center', marginTop: RH(20) }}>
-        Не все игроки готовы. Ждем остальных!
+        {typeof loader == 'string' ? loader : 'Не все игроки готовы. Ждем остальных!'}
       </Text>
     </View>
   )

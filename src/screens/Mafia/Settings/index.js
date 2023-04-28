@@ -30,6 +30,8 @@ function Index() {
   useEffect(() => {
     if (spyDon) {
       setValWord(7)
+    } else {
+      setValWord(5)
     }
   }, [spyDon])
 
@@ -61,7 +63,7 @@ function Index() {
         step={1}
         count={5}
         maxValue={20}
-        minValue={spyDon ? 7 : 5}
+        minValue={5}
         setValue={setValWord}
         value={valWord}
         style={{ marginHorizontal: RW(85), left: RW(3) }}
