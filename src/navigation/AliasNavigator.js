@@ -45,6 +45,7 @@ const AliasNavigator = () => {
       case 'new_user': {
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
+
         break
       }
 
@@ -72,10 +73,12 @@ const AliasNavigator = () => {
       }
       case 'alias_start': {
         dispatch(setExplainingUser(e.user))
+        dispatch(setTime(e?.alias_game_team?.round_time))
         navigation.navigate('GameStart')
         break
       }
       case 'alias_team_confirm': {
+        dispatch(setTime(e?.alias?.round_time))
         dispatch(setCommandsAndPlayers(e.alias.teams))
         break
       }
@@ -84,12 +87,13 @@ const AliasNavigator = () => {
         // dispatch(setSkips(e.skips))
       }
       case 'pause_or_start': {
-        if (stoping !== e.data.stoping && !explainYou) {
-          console.log('pause_or_start if')
+        if (!explainYou) {
+          console.log(e?.data?.time);
+        // console.log('pause_or_start if')
           dispatch(setStoping(e?.data?.stoping))
-          dispatch(setTime(e?.data?.time))
-        } else {
-          console.log('pause_or_start else')
+        // } else {
+          // console.log('pause_or_start else')
+          // dispatch(setTime(e?.data?.time))
         }
       }
     }
@@ -121,9 +125,9 @@ const AliasNavigator = () => {
   console.log("stoping ------>",stoping);
 
   useEffect(() => {
-    if(stoping !== null && explainYou){
+    if(explainYou){
       console.log('useEffect stop-p--------')
-      socketRef.current?.emit('pause_or_start', { stoping, time })
+      socketRef.current?.emit('pause_or_start', { stoping })//time
     }
   }, [stoping, explainYou])
 

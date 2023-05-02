@@ -20,7 +20,7 @@ const initialState = {
   endRound: false,
   qrGameImg: false,
   userIsOrganizer: false,
-  stoping: null,
+  stoping: true,
   time: 0
 }
 
@@ -185,7 +185,7 @@ export const setPlayers = teamInfo => dispatch => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
     .then(response => {
-      console.log('setPlayers response', response.data)
+      // console.log('setPlayers response', response.data)
     })
     .catch(err => {
       console.log('err setPlayers : response', err.response)
