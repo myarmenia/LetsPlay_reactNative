@@ -159,7 +159,11 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     } else {
       dispatch(setOrganizerStatus(false))
     }
-    if (!initialState.age_restrictions_from || !initialState.age_restrictions_to) {
+    if (
+      initialState.age_restrictions_from == undefined ||
+      initialState.age_restrictions_to == undefined
+    ) {
+      console.log('5555555555555555555')
       setAgeError('Обязательное поле для заполнения')
     }
     if (initialState.age_restrictions_from > initialState.age_restrictions_to) {
@@ -361,7 +365,7 @@ const CreateTournamentInfoIndividual = ({ route }) => {
                   placeholder={'Сумма оплаты 200р.'}
                   placeholderTextColor={ICON}
                   onChangeText={ev => {
-                    setPrice(ev)
+                    setPrice(+ev)
                   }}
                   keyboardType={'numeric'}
                 />

@@ -133,6 +133,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
     .concat(' ' + timeFormat(endDate))
 
   const handleSubmit = () => {
+    console.log('response ==================', response)
     if (!addressName && !response?.address_name) {
       setAddressNameError(true)
     } else {
@@ -178,7 +179,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
     }
     if (
       !priceError &&
-      initialState.number_of_teams_from <= initialState.number_of_teams_to &&
+      initialState.number_of_teams_from >= initialState.number_of_teams_to &&
       !endDateError &&
       !startDateError &&
       !addressNameError
@@ -312,8 +313,8 @@ const CreateTournamentInfoCommand = ({ route }) => {
                   placeholder={'Сумма оплаты 200р.'}
                   placeholderTextColor={ICON}
                   onChangeText={ev => {
-                    setPrice(ev)
-                    dispatch(setTicketPrice(ev))
+                    setPrice(+ev)
+                    dispatch(setTicketPrice(+ev))
                   }}
                   keyboardType={'numeric'}
                 />

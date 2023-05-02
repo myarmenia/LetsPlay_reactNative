@@ -1,13 +1,15 @@
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { BACKGROUND, ICON, RED } from '@/theme/colors'
 import { RH, RW, font } from '@/theme/utils'
 import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
+  clearTournamentData,
+  setDescription,
   setGameDescription,
   setTeamTourney,
   setTournamentName,
@@ -46,6 +48,13 @@ const CreateTournament = ({ route }) => {
       setError(true)
     }
   }
+  const initialState = useSelector(({ tournament }) => tournament)
+  useEffect(() => {
+    dispatch(clearTournamentData())
+  }, [])
+  useEffect(() => {
+    console.log('initialState --->', initialState)
+  }, [initialState])
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
@@ -62,7 +71,7 @@ const CreateTournament = ({ route }) => {
             placeholderTextColor={ICON}
             multiline={true}
             // value={description}
-            onChangeText={e => dispatch(setGameDescription(e))}
+            onChangeText={e => dispatch(setDescription(e))}
             placeholder={'Описание турнира (можно использовать ссылку на интернет страничку):'}
           />
         </View>

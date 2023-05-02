@@ -18,11 +18,13 @@ import {
   WHITE,
 } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 const TournamentInfoCommand = ({ route }) => {
   const props = route.params
   console.log('props', props)
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
+  const initialState = useSelector(({ tournament }) => tournament)
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
@@ -73,8 +75,7 @@ const TournamentInfoCommand = ({ route }) => {
           </Text>
           <Text style={styles.eachInfo}>Плата за участие: </Text>
           <Text style={styles.eachInfoTwo}>
-            500 руб.
-            {/* {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'} */}
+            {initialState?.ticket_price ? `${initialState?.ticket_price} руб.` : 'Бесплатно'}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
             <Text style={styles.eachInfo}>Организатор турнира:</Text>
