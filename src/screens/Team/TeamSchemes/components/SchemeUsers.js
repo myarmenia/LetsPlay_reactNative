@@ -10,6 +10,7 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
   const [scrollViewWidth, setScrollViewWidth] = useState(288)
   const [screenX, setScreenX] = useState(scrollViewWidth)
   const scrollRef = useRef(null)
+  console.log('replacementPlayers', replacementPlayers)
 
   // const panResponders = users?.map((ref, index) =>
   //   PanResponder.create({
@@ -26,7 +27,6 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
       onPanResponderMove: (event, gesture) => {
         const { dx, dy } = gesture
         setReplacementPlayers((prevplayingPlayers) => {
-          console.log(prevplayingPlayers)
           const updatedplayingPlayers = [...prevplayingPlayers]
           updatedplayingPlayers[index] = {
             small: false,

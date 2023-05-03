@@ -138,7 +138,7 @@ const TournamentInfoIndividual = ({ route }) => {
             </View>
           }
           modalVisible={modalVisible}
-          // navigationText={'Home'}
+          navigationText={'Home'}
           setIsVisible={setModalVisible}
         />
       </ScrollView>

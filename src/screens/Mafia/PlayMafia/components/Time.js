@@ -6,11 +6,8 @@ import { useDispatch } from 'react-redux'
 
 const Timer = ({ voteTime, answer, night, setAnswer, mafiaRoleName, setChoosedUsers }) => {
   const [seconds, setSeconds] = useState(voteTime * 60)
-
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   setSeconds(voteTime * 60)
-  // }, [voteTime])
+
   useEffect(() => {
     let interval = null
 

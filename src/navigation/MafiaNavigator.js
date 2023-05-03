@@ -98,11 +98,13 @@ const MafiaNavigator = () => {
             return false
           }
         })
-        if (e?.roleDatas?.civilian == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
+        if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
           break
         }
+        console.log('e?.player?.role?.name', e?.player?.role?.name)
+
         if (e?.player?.role?.name) {
-          dispatch(setDeadUser({ ...deadUser, role: e?.player?.role?.name }))
+          dispatch(setDeadUser({ ...deadUser, role: e?.players?.[0].role?.name }))
         } else {
           dispatch(setDeadUser({ ...deadUser }))
         }

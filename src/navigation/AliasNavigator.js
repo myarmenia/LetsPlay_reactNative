@@ -18,6 +18,7 @@ import DeviceInfo from 'react-native-device-info'
 
 import {
   setCommandsAndPlayers,
+  setEndRound,
   setExplainerTeam,
   setExplainingUser,
   setPlayersInGame,
@@ -86,10 +87,12 @@ const AliasNavigator = () => {
       case 'pause_or_start': {
         if (stoping !== e.data.stoping && !explainYou) {
           console.log('pause_or_start if')
-          dispatch(setStoping(e?.data?.stoping))
           dispatch(setTime(e?.data?.time))
+          dispatch(setStoping(e?.data?.stoping))
+          dispatch(setEndRound(e.data.end))
         } else {
           console.log('pause_or_start else')
+          dispatch(setTime(e?.data?.time))
         }
       }
     }
@@ -118,14 +121,19 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
-  console.log("stoping ------>",stoping);
+  console.log('stoping ------>', stoping)
 
   useEffect(() => {
-    if(stoping !== null && explainYou){
+    if (stoping !== null && explainYou) {
       console.log('useEffect stop-p--------')
-      socketRef.current?.emit('pause_or_start', { stoping, time })
+      socketRef.current?.emit('pause_or_start', { stoping, time, end: false })
     }
   }, [stoping, explainYou])
+  useEffect(() => {
+    if (explainYou && endRound) {
+      socketRef.current?.emit('pause_or_start', { stoping, time, end: true })
+    }
+  }, [endRound, stoping, explainYou])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
@@ -136,7 +144,7 @@ const AliasNavigator = () => {
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
-      <Stack.Screen name="GameStart" component={GameStart  } props={{a:5}} />
+      <Stack.Screen name="GameStart" component={GameStart} props={{ a: 5 }} />
       <Stack.Screen name="ResultsOfAnswers" component={ResultsOfAnswers} />
       <Stack.Screen name="TeamsResults" component={TeamsResults} />
     </Stack.Navigator>

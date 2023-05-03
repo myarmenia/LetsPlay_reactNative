@@ -54,39 +54,56 @@ const PlayMafia = () => {
     equalVotes,
     waitNight,
     donVotedPlayers,
+    loader,
   } = useSelector(({ mafia }) => mafia)
   const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (Object.keys(deadUser || {}).length) {
-      setDeadModalVisible(true)
-      if (deadUser?.user?._id == currentUser?._id) {
-        currentUserDeaded.current = true
+    InteractionManager.runAfterInteractions(() => {
+      if (Object.keys(deadUser || {}).length) {
+        setDeadModalVisible(true)
+        if (deadUser?.user?._id == currentUser?._id) {
+          currentUserDeaded.current = true
+        }
       }
-    }
+    })
   }, [deadUser])
 
   useEffect(() => {
-    if (!night && daysCount > 1 && !Object.keys(deadUser || {}).length && waitNight == null) {
-      setDeadModalVisible(true)
-    }
+    InteractionManager.runAfterInteractions(() => {
+      if (!night && daysCount > 1 && !Object.keys(deadUser || {}).length && waitNight == null) {
+        setDeadModalVisible(true)
+      }
+    })
   }, [night, daysCount, deadUser, waitNight])
 
   useEffect(() => {
-    setDayQueastions(answerQuestions?.find((item) => !item.night))
-    if (mafiaRole.name !== 'Дон') {
-      setNightQueastions(answerQuestions?.filter((item) => item.night))
-    } else {
-      setNightQueastions(
-        answerQuestions?.filter((item) => item.night && item.answer_user !== 'Мирный житель'),
-      )
-    }
+    InteractionManager.runAfterInteractions(() => {
+      setDayQueastions(answerQuestions?.find((item) => !item.night))
+      if (mafiaRole.name !== 'Дон') {
+        setNightQueastions(answerQuestions?.filter((item) => item.night))
+      } else {
+        setNightQueastions(
+          answerQuestions?.filter((item) => item.night && item.answer_user !== 'Мирный житель'),
+        )
+      }
+    })
   }, [answerQuestions])
 
   useEffect(() => {
-    setWinnerModal(winner)
+    InteractionManager.runAfterInteractions(() => {
+      setWinnerModal(winner)
+    })
   }, [winner])
+
+  useEffect(() => {
+    console.log('donVotedPlayers.length == mafiasCount - 1', donVotedPlayers)
+    console.log(' loader', loader)
+    if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
+      setAnswersCount(1)
+    }
+  }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
 
   return (
     <ScreenMask>
@@ -432,7 +449,7 @@ const PlayMafia = () => {
                     dispatch(setWaitNight(false))
                   } else {
                     console.log('if 2')
-                    console.log('choosedUsers', {
+                    console.log('choosedUsers ' + mafiaRole?.name, {
                       type: 'answer_question',
                       question_id: night ? nightQueastions[answersCount]?._id : dayQueastions?._id,
                       select_user: choosedUsers,
