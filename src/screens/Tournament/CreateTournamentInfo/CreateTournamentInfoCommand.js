@@ -162,7 +162,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
 
     if (!initialState.number_of_teams_from || !initialState.number_of_teams_to) {
       setCountError('Обязательное поле для заполнения')
-    } else if (initialState.number_of_teams_from >= initialState.number_of_teams_to) {
+    } else if (initialState.number_of_teams_from <= initialState.number_of_teams_to) {
       console.log(initialState.number_of_teams_from, initialState.number_of_teams_to)
       setCountError('Введите корректную количество')
     } else {
@@ -312,8 +312,8 @@ const CreateTournamentInfoCommand = ({ route }) => {
                   placeholder={'Сумма оплаты 200р.'}
                   placeholderTextColor={ICON}
                   onChangeText={ev => {
-                    setPrice(ev)
-                    dispatch(setTicketPrice(ev))
+                    setPrice(+ev)
+                    dispatch(setTicketPrice(+ev))
                   }}
                   keyboardType={'numeric'}
                 />

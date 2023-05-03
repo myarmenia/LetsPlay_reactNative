@@ -21,9 +21,10 @@ const initialState = {
   endRound: false,
   qrGameImg: false,
   userIsOrganizer: false,
-  stoping: null,
-  time: 0,
+  stoping: true,
+  time: 0
 }
+
 
 export const AliasSlice = createSlice({
   name: 'alias',
@@ -48,12 +49,14 @@ export const AliasSlice = createSlice({
       return { ...store, complexity: action.payload }
     },
     setStoping: (store, action) => {
-      return { ...store, stoping: action.payload }
+      return { ...store, 
+        stoping: action.payload 
+      }
     },
-    setTime: (store, action) => {
+    setTime: (store, action)=>{
       return {
         ...store,
-        time: action.payload,
+        time: action.payload
       }
     },
     setCountWords: (store, action) => {
@@ -188,8 +191,9 @@ export const sendAliasGameId = (id) => (dispatch) => {
 export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
-    .then((response) => {
-      console.log('setPlayers response', response.data)
+    .then(response => {
+      // console.log('setPlayers response', response.data)
+
     })
     .catch((err) => {
       console.log('err setPlayers : response', err.response)

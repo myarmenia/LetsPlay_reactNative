@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, Pressable } from 'react-native'
+import { Image, StyleSheet, Text, View, Pressable, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
@@ -14,7 +14,7 @@ const SelectMembers = ({ route }) => {
   const props = route?.params
   console.log('xxxxxx ------>', props)
   const navigation = useNavigation()
-  const test = [1, 2, 3, 4, 5, 6, 7, 8]
+  const test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const [reservedUsers, setReservedUsers] = useState([])
   const handleClick = user => {
     if (!reservedUsers.includes(user)) {
@@ -59,26 +59,25 @@ const SelectMembers = ({ route }) => {
   }
   return (
     <ScreenMask>
-      <View style={{ flex: 0.9, justifyContent: 'space-between' }}>
+      <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View style={styles.header}>
           <View style={styles.headerChild}>
             <Image
-              source={{ uri: _storageUrl + (props?.img || props?.data?.data?.game?.img) }}
+              source={{ uri: _storageUrl + (props?.img || props?.command?.img) }}
               style={styles.commandImg}
               resizeMode="cover"
             />
-            <Text style={styles.teamName}>
-              Dinamo
-              {/* {command?.name} */}
-            </Text>
+            <Text style={styles.teamName}>{props?.command?.name}</Text>
           </View>
         </View>
-        <View style={styles.usersContainer}>
-          {test.map((user, i) => {
-            return <EachUser key={i} user={user} />
-          })}
-        </View>
-        <View style={{ alignSelf: 'center' }}>
+        <ScrollView>
+          <View style={styles.usersContainer}>
+            {test.map((user, i) => {
+              return <EachUser key={i} user={user} />
+            })}
+          </View>
+        </ScrollView>
+        <View style={{ alignSelf: 'center', paddingBottom: RH(50) }}>
           <LightButton
             label={'Подтвердить'}
             size={{ width: 280, height: 43 }}
@@ -106,12 +105,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  header: {},
+  header: {
+    paddingTop: '5%',
+  },
   teamName: {
     ...font('medium', 20, WHITE),
   },
   usersContainer: {
-    width: '93%',
+    width: '96%',
+    paddingTop: '11%',
+    height: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',

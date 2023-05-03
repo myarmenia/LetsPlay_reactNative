@@ -18,12 +18,16 @@ import {
   WHITE,
 } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { createTournament } from '@/store/Slices/TournamentSlice'
+import { joinGame } from '@/store/Slices/TeamSlice'
 const EachTournament = ({ route }) => {
   const props = route.params
+  const dispatch = useDispatch()
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
   const initialState = useSelector(({ tournament }) => tournament)
+  const { user } = useSelector(({ auth }) => auth)
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
@@ -31,27 +35,24 @@ const EachTournament = ({ route }) => {
           <Image
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
             source={{
-              uri: _storageUrl + (props?.data.data ? props?.data?.data?.game?.img : props?.img),
+              uri: _storageUrl + (props?.data?.data ? props?.data?.data?.game?.img : props?.img),
             }}
           />
         </View>
         <View>
           <Text style={styles.eachInfo}>Тип турнира :</Text>
           <Text style={styles.eachInfoTwo}>
-            {props?.data.data ? props?.data?.data?.game?.name : ''}
+            {props?.data?.data ? props?.data?.data?.game?.name : ''}
           </Text>
           <Text style={styles.eachInfo}>Название турнира: </Text>
-          <Text style={styles.eachInfoTwo}>
-            {props?.data.data ? props.data?.data?.data?.name : ''}
-          </Text>
+          <Text style={styles.eachInfoTwo}>{initialState?.name ? initialState?.name : ''}</Text>
           <Text style={styles.eachInfo}>Описание турнира: </Text>
           <Text style={styles.eachInfoTwo}>
-            {props.data?.data?.data ? props.data?.data?.data?.game_description : ''}
+            {initialState?.game_description ? initialState.game_description : ''}
           </Text>
           <Text style={styles.eachInfo}>Количество команд:</Text>
           <Text style={styles.eachInfoTwo}>
-            от {props.data?.data?.data.number_of_teams_from} до{' '}
-            {props.data?.data?.data.number_of_teams_to}
+            от {initialState?.number_of_teams_from} до {initialState?.number_of_teams_to}
           </Text>
           <Text style={styles.eachInfo}>Дата турнира:</Text>
           <Text style={styles.eachInfoTwo}>
@@ -88,11 +89,11 @@ const EachTournament = ({ route }) => {
               <User
                 size={30}
                 onPressItem={{
-                  item: <User size={390} pressedUser={Players[0]} />,
+                  item: <User size={390} pressedUser={user} />,
                   modalClose: false,
                   // onClickFunc: handleClick,
                 }}
-                pressedUser={Players[0]}
+                pressedUser={user}
               />
             </View>
           </View>
@@ -119,7 +120,7 @@ const EachTournament = ({ route }) => {
               //   setBack(false)
               // }
               navigation.navigate(
-                !props?.data.data?.data ? 'JoinTournament' : 'SelectMembers',
+                !props?.data?.data?.data ? 'JoinTournament' : 'SelectMembers',
                 props,
               )
               //   dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
@@ -129,7 +130,11 @@ const EachTournament = ({ route }) => {
             label={'Готово'}
             size={{ width: 120, height: 40 }}
             onPress={() => {
-              setModalVisible(true)
+              console.log(initialState)
+              initialState.team_tourney == true
+                ? (dispatch(createTournament(initialState)), setModalVisible(true))
+                : null
+              // setModalVisible(true)
               //   dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
             }}
           />
@@ -138,7 +143,11 @@ const EachTournament = ({ route }) => {
         <Modal
           item={
             <View style={styles.modal}>
-              <Text style={styles.modalText}>Вы успешно присоединились к турниру!</Text>
+              <Text style={styles.modalText}>
+                {initialState.team_tourney == true
+                  ? 'Вы успешно создали турнир!'
+                  : 'Вы успешно присоединились к турниру!'}
+              </Text>
             </View>
           }
           modalVisible={modalVisible}

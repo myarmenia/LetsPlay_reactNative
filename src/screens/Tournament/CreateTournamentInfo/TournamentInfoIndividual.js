@@ -84,7 +84,7 @@ const TournamentInfoIndividual = ({ route }) => {
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Плата за участие: </Text>
             <Text style={styles.eachInfoTwo}>
-              {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'}
+              {initialState?.ticket_price ? `${initialState?.ticket_price} руб.` : 'Бесплатно'}
             </Text>
           </Row>
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>

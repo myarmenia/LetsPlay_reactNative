@@ -22,35 +22,38 @@ const AnimatedCircle = ({
       setAnswers({ true: answers.true, false: ++answers.false })
     }
   }
+  const { explainYou } = useSelector(({ alias }) => alias)
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: Animated.event([null, { dy: pan.y }]),
     onPanResponderRelease: (e, gestureState) => {
-      pan.flattenOffset()
-      if (gestureState.moveY < 233) {
-        increment(true)
-        setAnswerVisible({ visible: true, answerTruthy: true })
-        Animated.timing(pan, {
-          toValue: { x: 0, y: 0 },
-          duration: 300,
-          useNativeDriver: false,
-        }).start()
-      } else if (gestureState.moveY > 555) {
-        increment(false)
-        setAnswerVisible({ visible: true, answerTruthy: false })
-        Animated.timing(pan, {
-          toValue: { x: 0, y: 0 },
-          duration: 300,
-          useNativeDriver: false,
-        }).start()
-      } else {
-        Animated.timing(pan, {
-          toValue: { x: 0, y: 0 },
-          duration: 300,
-          useNativeDriver: false,
-        }).start()
+      if (explainYou) {
+        pan.flattenOffset()
+        if (gestureState.moveY < 233) {
+          increment(true)
+          setAnswerVisible({ visible: true, answerTruthy: true })
+          Animated.timing(pan, {
+            toValue: { x: 0, y: 0 },
+            duration: 300,
+            useNativeDriver: false,
+          }).start()
+        } else if (gestureState.moveY > 555) {
+          increment(false)
+          setAnswerVisible({ visible: true, answerTruthy: false })
+          Animated.timing(pan, {
+            toValue: { x: 0, y: 0 },
+            duration: 300,
+            useNativeDriver: false,
+          }).start()
+        } else {
+          Animated.timing(pan, {
+            toValue: { x: 0, y: 0 },
+            duration: 300,
+            useNativeDriver: false,
+          }).start()
+        }
       }
     },
   })
@@ -67,7 +70,7 @@ const AnimatedCircle = ({
   }
 
   return (
-    <Animated.View style={animatedStyle} {...panResponder.panHandlers}>
+    <Animated.View style={explainYou ? animatedStyle : {}} {...panResponder.panHandlers}>
       <TypeButton
         title={word}
         key={Math.random().toString()}

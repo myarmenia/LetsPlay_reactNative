@@ -12,7 +12,7 @@ import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
 import Modal from '@/components/modal'
-import { setStoping } from '@/store/Slices/AliasSlice'
+import { setStoping, startAliasGame } from '@/store/Slices/AliasSlice'
 
 const GameStart = ({ route }) => {
   let props = route?.params
@@ -21,7 +21,7 @@ const GameStart = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [secModalVisible, setSecModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
-  const { stoping, explainYou, explainerTeam, explainingUser } = useSelector(({ alias }) => alias)
+  const { stoping, explainYou, explainerTeam, explainingUser,aliasGameId } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const [answers, setAnswers] = useState({
     true: 0,
@@ -30,6 +30,7 @@ const GameStart = ({ route }) => {
   useEffect(() => {
     if (secModalVisible == false) {
       if (props?.fromRes == true) {
+        dispatch(startAliasGame(aliasGameId))
         setUserModalVisible(true)
         props.fromRes = null
       }
@@ -40,9 +41,9 @@ const GameStart = ({ route }) => {
     return (
       <Pressable
         onPress={() => {
-          if (!explainYou) {
-            dispatch(setStoping(false))
-          }
+          // if (!explainYou) {
+          //   dispatch(setStoping(false))
+          // }
           setUserModalVisible(false)
         }}
         style={{
@@ -129,7 +130,7 @@ const GameStart = ({ route }) => {
       if (!userModalVisible && explainYou) {
         setModalVisible(true)
       } else if (!userModalVisible && !explainYou) {
-        dispatch(setStoping(false))
+        // dispatch(setStoping(false))
         setModalVisible(false)
       }
     })
@@ -194,7 +195,7 @@ const GameStart = ({ route }) => {
               <Timer
                 secModalVisible={secModalVisible}
                 userModalVisible={userModalVisible}
-                timerStart={!props?.fromRes}
+                // timerStart={!props?.fromRes} 
                 modalVisible={modalVisible}
                 setUserModalVisible={setUserModalVisible}
                 setSecModalVisible={setSecModalVisible}

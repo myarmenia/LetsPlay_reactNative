@@ -46,6 +46,7 @@ const AliasNavigator = () => {
       case 'new_user': {
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
+
         break
       }
 
@@ -73,10 +74,12 @@ const AliasNavigator = () => {
       }
       case 'alias_start': {
         dispatch(setExplainingUser(e.user))
+        dispatch(setTime(e?.alias_game_team?.round_time))
         navigation.navigate('GameStart')
         break
       }
       case 'alias_team_confirm': {
+        dispatch(setTime(e?.alias?.round_time))
         dispatch(setCommandsAndPlayers(e.alias.teams))
         break
       }
@@ -85,14 +88,13 @@ const AliasNavigator = () => {
         // dispatch(setSkips(e.skips))
       }
       case 'pause_or_start': {
-        if (stoping !== e.data.stoping && !explainYou) {
-          console.log('pause_or_start if')
-          dispatch(setTime(e?.data?.time))
+        if (!explainYou) {
+          console.log(e?.data?.time);
+        // console.log('pause_or_start if')
           dispatch(setStoping(e?.data?.stoping))
-          dispatch(setEndRound(e.data.end))
-        } else {
-          console.log('pause_or_start else')
-          dispatch(setTime(e?.data?.time))
+        // } else {
+          // console.log('pause_or_start else')
+          // dispatch(setTime(e?.data?.time))
         }
       }
     }
@@ -121,19 +123,14 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
-  console.log('stoping ------>', stoping)
+  console.log("stoping ------>",stoping);
 
   useEffect(() => {
-    if (stoping !== null && explainYou) {
+    if(explainYou){
       console.log('useEffect stop-p--------')
-      socketRef.current?.emit('pause_or_start', { stoping, time, end: false })
+      socketRef.current?.emit('pause_or_start', { stoping })//time
     }
   }, [stoping, explainYou])
-  useEffect(() => {
-    if (explainYou && endRound) {
-      socketRef.current?.emit('pause_or_start', { stoping, time, end: true })
-    }
-  }, [endRound, stoping, explainYou])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
@@ -144,7 +141,7 @@ const AliasNavigator = () => {
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
-      <Stack.Screen name="GameStart" component={GameStart} props={{ a: 5 }} />
+      <Stack.Screen name="GameStart" component={GameStart} />
       <Stack.Screen name="ResultsOfAnswers" component={ResultsOfAnswers} />
       <Stack.Screen name="TeamsResults" component={TeamsResults} />
     </Stack.Navigator>

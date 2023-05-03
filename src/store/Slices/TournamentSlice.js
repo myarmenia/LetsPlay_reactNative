@@ -2,26 +2,29 @@ import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 
 const initialState = {
-  name: 'string',
-  description: 'string',
-  game_name: 'string',
-  game_description: 'string',
-  team_tourney: true,
-  start_date: new Date().toLocaleDateString(),
-  end_search_date: new Date().toLocaleDateString(),
-  prize_fund: true,
-  organizer_status: true,
-  ticket_price: 0,
-  number_of_participants_from: 0,
-  number_of_participants_to: 0,
-  age_restrictions_from: 0,
-  age_restrictions_to: 0,
-  players_gender: 'm',
-  number_of_teams_from: 0,
-  number_of_teams_to: 0,
-  address_name: 'string',
-  latitude: 0,
-  longitude: 0,
+  // name: '',
+  // description: '',
+  // === menak svoya igrai jamanakan
+  // game_description: '',
+  // ====
+  // team_tourney: true,
+  // start_date: new Date().toLocaleDateString(),
+  // end_search_date: new Date().toLocaleDateString(),
+  // prize_fund: true,
+  // organizer_status: true,
+  // ticket_price: 0,
+  // number_of_teams_from: 0,
+  // number_of_teams_to: 0,
+  // address_name: '',
+  // latitude: 0,
+  // longitude: 0,
+  // game_name: 'string',
+  // petqa menak ind i vaxt
+  // number_of_participants_from: 0,
+  // number_of_participants_to: 0,
+  // age_restrictions_from: 0,
+  // age_restrictions_to: 0,
+  // players_gender: 'm',
 }
 const TournamentSlice = createSlice({
   name: 'tournament',
@@ -157,11 +160,24 @@ export const createTournament = data => dispatch => {
     })
     .catch(err => console.log('Error creating tournament', err.request))
 }
+export const clearTournamentData = () => dispatch => {
+  dispatch(setTournamentName(''))
+  dispatch(setDescription(''))
+  dispatch(setTeamTourney(false))
+  dispatch(setTourStartDate(new Date().toLocaleDateString()))
+  dispatch(setTourEndDate(new Date().toLocaleDateString()))
+  dispatch(setTournamentFund(false))
+  dispatch(setOrganizerStatus(true))
+  dispatch(setAddressNameTour(''))
+  dispatch(setLongitude(''))
+  dispatch(setLatitude(''))
+}
 
 export const {
   setGameName,
   setLatitude,
   setLongitude,
+  setClearData,
   setTeamTourney,
   setTourEndDate,
   setDescription,
