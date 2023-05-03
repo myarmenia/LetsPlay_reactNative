@@ -163,7 +163,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
 
     if (!initialState.number_of_teams_from || !initialState.number_of_teams_to) {
       setCountError('Обязательное поле для заполнения')
-    } else if (initialState.number_of_teams_from >= initialState.number_of_teams_to) {
+    } else if (initialState.number_of_teams_from <= initialState.number_of_teams_to) {
       console.log(initialState.number_of_teams_from, initialState.number_of_teams_to)
       setCountError('Введите корректную количество')
     } else {
@@ -179,7 +179,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
     }
     if (
       !priceError &&
-      initialState.number_of_teams_from >= initialState.number_of_teams_to &&
+      initialState.number_of_teams_from <= initialState.number_of_teams_to &&
       !endDateError &&
       !startDateError &&
       !addressNameError
