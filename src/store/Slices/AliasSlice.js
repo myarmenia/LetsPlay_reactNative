@@ -5,6 +5,7 @@ import { setPending } from './AuthSlice'
 
 const initialState = {
   rules: '',
+  isZero: null,
   commands: null,
   explainYou: null,
   complexity: null,
@@ -109,6 +110,12 @@ export const AliasSlice = createSlice({
         explainYou: action.payload,
       }
     },
+    setIsZero: (store, action) => {
+      return {
+        ...store,
+        isZero: action.payload,
+      }
+    },
     // setTrueAnswers: (store, action) => {
     //   return {
     //     ...store,
@@ -165,40 +172,41 @@ export const sendAliasSettings = (data) => (dispatch) => {
       console.log('err sending alias settings :', err)
     })
 }
-export const sendAliasGameId = id => dispatch => {
+export const sendAliasGameId = (id) => (dispatch) => {
   dispatch(setPending(true))
   axiosInstance
     .post(`api/game/alias/participate/${id}`)
-    .then(async response => {
+    .then(async (response) => {
       if (response.data?.data?.players) {
         dispatch(setPlayersInGame(response.data.data.players))
       }
       dispatch(setAliasGameId(id))
       dispatch(setParticipateSuccess(true))
     })
-    .catch(err => {
+    .catch((err) => {
       dispatch(setParticipateSuccess(false))
       console.log('err sending alias game id :', err)
     })
 }
-export const setPlayers = teamInfo => dispatch => {
+export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
     .then(response => {
       // console.log('setPlayers response', response.data)
+
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err setPlayers : response', err.response)
     })
 }
-export const startAliasGame = gameId => dispatch => {
+export const startAliasGame = (gameId) => (dispatch) => {
   console.log('gameId', gameId)
   axiosInstance
     .post(`api/game/alias/start/${gameId}`)
-    .then(response => {
+    .then((response) => {
       console.log('startAliasGame response', response.data)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err startAliasGame esponse', err.response)
     })
 }
@@ -207,6 +215,7 @@ export const {
   setQrImg,
   setWords,
   setTeams,
+  setIsZero,
   setStoping,
   setEndRound,
   setCommands,
@@ -223,6 +232,6 @@ export const {
   setExplainingUser,
   setUserIsOrganizer,
   setParticipateSuccess,
-  setCommandsAndPlayers
+  setCommandsAndPlayers,
 } = AliasSlice.actions
 export default AliasSlice.reducer

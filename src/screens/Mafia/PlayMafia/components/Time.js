@@ -1,39 +1,46 @@
-import { setWaitNight } from '@/store/Slices/MafiaSlice'
+import { setLoader, setWaitNight } from '@/store/Slices/MafiaSlice'
 import { font } from '@/theme/utils'
 import React, { useState, useEffect } from 'react'
 import { Text } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-const Timer = ({ voteTime, firstNightQuestion, night, setAnswer, endTime }) => {
+const Timer = ({ voteTime, answer, night, setAnswer, mafiaRoleName, setChoosedUsers }) => {
   const [seconds, setSeconds] = useState(voteTime * 60)
-
   const dispatch = useDispatch()
-  useEffect(() => {
-    setSeconds(voteTime * 60)
-  }, [voteTime])
+
   useEffect(() => {
     let interval = null
 
     interval = setInterval(() => {
       if (seconds > 0) {
         setSeconds((seconds) => seconds - 1)
-      } else if (night && firstNightQuestion) {
-        setSeconds(150) //7
-        // setAnswer(1)
-      } else if (night && !firstNightQuestion) {
-        // dispatch(setWaitNight(false))
+      } else if (night && answer == 0) {
+        setSeconds(120) // 8
+        setAnswer(1)
+        setChoosedUsers(null)
+        if (mafiaRoleName == 'Дон') {
+          dispatch(setLoader(false))
+        }
+      } else if (night && answer > 0) {
+        dispatch(setLoader(true))
+        dispatch(setWaitNight(false))
+        setChoosedUsers(null)
       } else {
         clearInterval(interval)
       }
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [seconds, night, firstNightQuestion])
+  }, [seconds, night, answer])
   useEffect(() => {
-    if (night && firstNightQuestion) {
-      setSeconds(200) //8
+    if (night && answer == 0) {
+      setSeconds(120) // 7
+      setChoosedUsers(null)
+    } else if (!night) {
+      setSeconds(voteTime * 60)
+      setChoosedUsers(null)
     }
-  }, [night, firstNightQuestion])
+  }, [night, answer])
 
   let minute =
     Math.floor(seconds / 60).toString().length == 1

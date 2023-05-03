@@ -42,6 +42,9 @@ const Timer = ({
       dispatch(setEndRound(true))
       setSecModalVisible(true)
     }
+    // else  if (selectedTime.seconds == 0 && !explainYou && endRound) {
+    //   setSecModalVisible(true)
+    // }
   }, [selectedTime.seconds])
   useEffect(() => {
     let timer 
@@ -82,6 +85,7 @@ const Timer = ({
     // dispatch(setTime(selectedTime.seconds))
     // clearInterval(timer)
   }
+
 
     return () => clearInterval(timer)
   }, [selectedTime.seconds, stoping, explainYou, userModalVisible])

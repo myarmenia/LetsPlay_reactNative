@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { View, Text, StyleSheet, ScrollView, Image, Pressable } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
+import UserBorderSvg from './assets/UserBorderSvg'
 import { font, RH, RW } from '@/theme/utils'
 import { GRAY, ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
@@ -18,12 +19,13 @@ import {
   setWaitAnswer,
   setWaitNight,
 } from '@/store/Slices/MafiaSlice'
-import UserBorderSvg from './assets/UserBorderSvg'
+
 import MafiaDeadModal from './components/MafiaDeadModal'
 import WinnerModal from './components/WinnerModal'
+import Row from '@/components/wrappers/row'
 
 const PlayMafia = () => {
-  const [modalVisible, setModalVisible] = useState(true)
+  const [modalVisible, setModalVisible] = useState(true) //true
   const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [winnerModal, setWinnerModal] = useState(false)
   const [choosable, setChoosable] = useState(false)
@@ -50,26 +52,58 @@ const PlayMafia = () => {
     voteTime,
     waitAnswer,
     equalVotes,
+    waitNight,
+    donVotedPlayers,
+    loader,
   } = useSelector(({ mafia }) => mafia)
   const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (Object.keys(deadUser || {}).length) {
-      setDeadModalVisible(true)
-      if (deadUser?.user?._id == currentUser?._id) {
-        currentUserDeaded.current = true
+    InteractionManager.runAfterInteractions(() => {
+      if (Object.keys(deadUser || {}).length) {
+        setDeadModalVisible(true)
+        if (deadUser?.user?._id == currentUser?._id) {
+          currentUserDeaded.current = true
+        }
       }
-    }
+    })
   }, [deadUser])
+
   useEffect(() => {
-    setNightQueastions(answerQuestions?.filter((item) => item.night))
-    setDayQueastions(answerQuestions?.find((item) => !item.night))
+    InteractionManager.runAfterInteractions(() => {
+      if (!night && daysCount > 1 && !Object.keys(deadUser || {}).length && waitNight == null) {
+        setDeadModalVisible(true)
+      }
+    })
+  }, [night, daysCount, deadUser, waitNight])
+
+  useEffect(() => {
+    InteractionManager.runAfterInteractions(() => {
+      setDayQueastions(answerQuestions?.find((item) => !item.night))
+      if (mafiaRole.name !== 'Дон') {
+        setNightQueastions(answerQuestions?.filter((item) => item.night))
+      } else {
+        setNightQueastions(
+          answerQuestions?.filter((item) => item.night && item.answer_user !== 'Мирный житель'),
+        )
+      }
+    })
   }, [answerQuestions])
 
   useEffect(() => {
-    setWinnerModal(winner)
+    InteractionManager.runAfterInteractions(() => {
+      setWinnerModal(winner)
+    })
   }, [winner])
+
+  useEffect(() => {
+    console.log('donVotedPlayers.length == mafiasCount - 1', donVotedPlayers)
+    console.log(' loader', loader)
+    if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
+      setAnswersCount(1)
+    }
+  }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
 
   return (
     <ScreenMask>
@@ -95,12 +129,6 @@ const PlayMafia = () => {
               <View>
                 <Text style={styles.question}>{dayQueastions?.question}</Text>
               </View>
-            ) : Object.keys(equalVotes || {}).length ? (
-              <View>
-                <Text style={styles.question}>
-                  Игроки набрали равное количество голосов. Голосуем между ними.
-                </Text>
-              </View>
             ) : null}
           </>
         ) : (
@@ -112,9 +140,19 @@ const PlayMafia = () => {
             >
               <VectorIcon />
             </Pressable>
-
             <View>
-              <Text style={styles.question}>{nightQueastions[answersCount]?.question}</Text>
+              {mafiaRole?.name !== 'Дон' || answersCount == 0 ? (
+                <Text style={styles.question}>{nightQueastions[answersCount]?.question}</Text>
+              ) : mafiaRole?.name == 'Дон' && answersCount > 0 ? (
+                <View>
+                  <Text style={styles.question}>
+                    {
+                      answerQuestions?.find((item) => item.answer_user === 'Мирный житель')
+                        ?.question
+                    }
+                  </Text>
+                </View>
+              ) : null}
             </View>
           </>
         )}
@@ -124,7 +162,10 @@ const PlayMafia = () => {
           night={night}
           setAnswer={setAnswersCount}
           endTime={() => {}}
+          mafiaRoleName={mafiaRole?.name}
+          setChoosedUsers={setChoosedUsers}
         />
+
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
           <View
             style={{
@@ -136,86 +177,185 @@ const PlayMafia = () => {
               marginTop: 20,
             }}
           >
-            {players?.map((item, i) => {
-              if (item?.user?._id !== currentUser._id && item?._id !== currentUser?._id) {
-                return (
-                  <View
-                    style={{
-                      padding: RW(5),
-                      margin: RW(5),
-                      position: 'relative',
-                      opacity: item?.status == false ? 0.5 : 1,
+            {Object.keys(equalVotes || {}).length ? (
+              <Row>
+                <View
+                  style={{
+                    padding: RW(5),
+                    margin: RW(5),
+                    position: 'relative',
+                    opacity: 1,
+                  }}
+                >
+                  {choosedUsers === equalVotes?.first_player?._id ? (
+                    <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+                      <UserBorderSvg />
+                    </View>
+                  ) : null}
+
+                  {mafiaUsersId?.find((elm) => elm.id == equalVotes?.first_player?._id) ? (
+                    <Image
+                      style={styles.mafiaImg}
+                      source={{
+                        uri:
+                          _storageUrl +
+                          (mafiaUsersId?.find((elm) => elm?.id == equalVotes?.first_player?._id)
+                            ?.name == 'Дон' && mafiaRole.name !== 'Шпион'
+                            ? roles?.find((item) => item.name == 'Дон')?.img
+                            : roles?.find((item) => item.name == 'Мафия')?.img),
+                      }}
+                    />
+                  ) : null}
+                  <User
+                    onPressItem={{
+                      onClickFunc: () => {
+                        if (!currentUserDeaded.current)
+                          setChoosedUsers(equalVotes?.first_player?._id)
+                      },
                     }}
-                    key={i}
-                  >
-                    {choosedUsers === item?._id ? (
-                      <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
-                        {choosedUsers === item?._id &&
-                        !Object.keys(questionTruthfulness || {}).length ? (
-                          <UserBorderSvg />
-                        ) : waitAnswer && Object.keys(questionTruthfulness || {}).length ? (
+                    size={150}
+                    user={equalVotes?.first_player}
+                  />
+                </View>
+
+                <View
+                  style={{
+                    padding: RW(5),
+                    margin: RW(5),
+                    position: 'relative',
+                    opacity: 1,
+                  }}
+                >
+                  {choosedUsers === equalVotes?.second_player?._id ? (
+                    <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+                      <UserBorderSvg />
+                    </View>
+                  ) : null}
+                  {mafiaUsersId?.find((elm) => elm.id == equalVotes?.second_player?._id) ? (
+                    <Image
+                      style={styles.mafiaImg}
+                      source={{
+                        uri:
+                          _storageUrl +
+                          (mafiaUsersId?.find((elm) => elm?.id == equalVotes?.first_player?._id)
+                            ?.name == 'Дон' && mafiaRole.name !== 'Шпион'
+                            ? roles?.find((item) => item.name == 'Дон')?.img
+                            : roles?.find((item) => item.name == 'Мафия')?.img),
+                      }}
+                    />
+                  ) : null}
+                  <User
+                    onPressItem={{
+                      onClickFunc: () => {
+                        if (!currentUserDeaded.current)
+                          setChoosedUsers(equalVotes?.second_player?._id)
+                      },
+                    }}
+                    size={150}
+                    user={equalVotes?.second_player}
+                  />
+                </View>
+              </Row>
+            ) : (
+              <>
+                {players?.map((item, i) => {
+                  if (item?.user?._id !== currentUser._id && item?._id !== currentUser?._id) {
+                    return (
+                      <View
+                        style={{
+                          padding: RW(5),
+                          margin: RW(5),
+                          position: 'relative',
+                          opacity: item?.status == false ? 0.5 : 1,
+                        }}
+                        key={i}
+                      >
+                        {choosedUsers === item?._id ? (
                           <View
-                            style={{
-                              width: '80%',
-                              height: '100%',
-                              alignSelf: 'center',
-                              borderWidth: 2,
-                              borderRadius: 10,
-                              borderColor: questionTruthfulness?.truthfulness
-                                ? '#74C372'
-                                : '#F73934',
+                            style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}
+                          >
+                            {choosedUsers === item?._id &&
+                            !Object.keys(questionTruthfulness || {}).length ? (
+                              <UserBorderSvg />
+                            ) : waitAnswer && Object.keys(questionTruthfulness || {}).length ? (
+                              <View
+                                style={{
+                                  width: '80%',
+                                  height: '100%',
+                                  alignSelf: 'center',
+                                  borderWidth: 2,
+                                  borderRadius: 10,
+                                  borderColor: questionTruthfulness?.truthfulness
+                                    ? '#74C372'
+                                    : '#F73934',
+                                }}
+                              />
+                            ) : null}
+                          </View>
+                        ) : null}
+                        {mafiaUsersId?.find((elm) => elm.id == item?._id) ? (
+                          <Image
+                            style={styles.mafiaImg}
+                            source={{
+                              uri:
+                                _storageUrl +
+                                (mafiaUsersId?.find(
+                                  (elm) => elm?.id == equalVotes?.first_player?._id,
+                                )?.name == 'Дон' && mafiaRole.name !== 'Шпион'
+                                  ? roles?.find((item) => item.name == 'Дон')?.img
+                                  : roles?.find((item) => item.name == 'Мафия')?.img),
                             }}
                           />
                         ) : null}
-                      </View>
-                    ) : null}
-                    {mafiaUsersId?.find((elm) => elm.id == item?._id) ? (
-                      <Image
-                        style={styles.mafiaImg}
-                        source={{
-                          uri:
-                            _storageUrl +
-                            (mafiaUsersId?.find((elm) => elm?.id == item?._id)?.name == 'Дон'
-                              ? roles?.find((item) => item.name == 'Дон')?.img
-                              : roles?.find((item) => item.name == 'Мафия')?.img),
-                        }}
-                      />
-                    ) : null}
-                    <User
-                      onPressItem={
-                        daysCount == 1
-                          ? {
-                              item: <User size={390} user={item} />,
-                              modalClose: false,
-                            }
-                          : {
-                              onClickFunc: () => {
-                                console.log('choosable', choosable)
-                                if (choosable) {
-                                  console.log(mafiaRole?.name) //"Дон" Шериф Шпион
-                                  if (
-                                    answersCount == 0 &&
-                                    night &&
-                                    (mafiaRole?.name == 'Дон' ||
-                                      mafiaRole?.name == 'Шериф' ||
-                                      mafiaRole?.name == 'Шпион')
-                                  ) {
-                                    dispatch(setWaitAnswer(true))
-                                  } else {
-                                    dispatch(setWaitAnswer(false))
-                                  }
-                                  setChoosedUsers(item?._id)
+                        <User
+                          onPressItem={
+                            daysCount == 1
+                              ? {
+                                  item: <User size={390} user={item} />,
+                                  modalClose: false,
                                 }
-                              },
-                            }
-                      }
-                      size={90}
-                      user={item}
-                    />
-                  </View>
-                )
-              }
-            })}
+                              : {
+                                  onClickFunc: () => {
+                                    console.log('currentUserDeaded.current', choosable)
+                                    if (choosable && !currentUserDeaded.current && item?.status) {
+                                      if (
+                                        answersCount == 0 &&
+                                        night &&
+                                        (mafiaRole?.name == 'Дон' ||
+                                          mafiaRole?.name == 'Шериф' ||
+                                          mafiaRole?.name == 'Шпион')
+                                      ) {
+                                        dispatch(setWaitAnswer(true))
+                                      } else {
+                                        dispatch(setWaitAnswer(false))
+                                      }
+
+                                      setChoosedUsers(item?._id)
+                                    }
+                                  },
+                                }
+                          }
+                          size={90}
+                          user={item}
+                        />
+
+                        {answersCount == 1 && night && mafiaRole?.name == 'Дон' ? (
+                          <Text
+                            style={{
+                              ...font('bold', 14, '#fff'),
+                              alignSelf: 'center',
+                              marginTop: 2,
+                            }}
+                          >
+                            {donVotedPlayers?.[item?._id]}
+                          </Text>
+                        ) : null}
+                      </View>
+                    )
+                  }
+                })}
+              </>
+            )}
           </View>
         </ScrollView>
         <View style={{ position: 'absolute', bottom: RH(15) }}>
@@ -263,17 +403,57 @@ const PlayMafia = () => {
                   dispatch(setWaitNight(true))
                   setDaysCount(2)
                   setChoosable(true)
+                } else if (equalVotes?.question_id) {
+                  console.log('if equalVotes?.question_id', equalVotes?.question_id)
+                  dispatch(
+                    setSendAnswer({
+                      type: 'answer_question',
+                      question_id: equalVotes?.question_id,
+                      select_user: choosedUsers,
+                    }),
+                  )
+                  setChoosedUsers(null)
+                  dispatch(setLoader(true))
+                  dispatch(setWaitNight(true))
                 } else if (choosedUsers) {
                   console.log('if')
+
                   if (waitAnswer && Object.keys(questionTruthfulness || {}).length) {
                     console.log('if 1')
                     dispatch(setQuestionTruthfulness(null))
                     setChoosedUsers(null)
                     dispatch(setWaitAnswer(false))
-                    setAnswersCount(1)
                     setChoosable(true)
+                    if (mafiaRole?.name !== 'Дон') {
+                      setAnswersCount(1)
+                    } else {
+                      dispatch(setLoader('Ждем голосование мафии'))
+                    }
+                  } else if (
+                    night &&
+                    answersCount > 0 &&
+                    Object.keys(donVotedPlayers || {}.length)
+                  ) {
+                    const questionId = answerQuestions?.find(
+                      (item) => item.answer_user === 'Мирный житель',
+                    )?._id
+                    dispatch(
+                      setSendAnswer({
+                        type: 'answer_question',
+                        question_id: questionId,
+                        select_user: choosedUsers,
+                      }),
+                    )
+                    setAnswersCount(0)
+                    dispatch(setLoader(true))
+                    dispatch(setWaitNight(false))
                   } else {
                     console.log('if 2')
+                    console.log('choosedUsers ' + mafiaRole?.name, {
+                      type: 'answer_question',
+                      question_id: night ? nightQueastions[answersCount]?._id : dayQueastions?._id,
+                      select_user: choosedUsers,
+                    })
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -295,10 +475,18 @@ const PlayMafia = () => {
                     }
                   }
                   if (night && answersCount == 1) {
+                    console.log('if equalVotes?.question_id', equalVotes?.question_id)
+                    dispatch(
+                      setSendAnswer({
+                        type: 'answer_question',
+                        question_id: nightQueastions[answersCount]?._id,
+                        select_user: choosedUsers,
+                      }),
+                    )
                     console.log('if 5')
                     setAnswersCount(0)
                     dispatch(setLoader(true))
-                    dispatch(setWaitNight(false))
+                    // dispatch(setWaitNight(false))
                   } else if (!night) {
                     console.log('if 6')
                     // day

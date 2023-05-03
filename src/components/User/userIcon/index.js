@@ -20,7 +20,7 @@ import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
 
-function Index({ size, onPressImg, userProps, pressedUser }) {
+function Index({ size, size2, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
   let user = pressedUser ? pressedUser : authedUser
   if (userProps) {
@@ -29,33 +29,22 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
   if (user?.user) {
     user = user.user
   }
-  // const [userNow, setUserNow] = useState(user)
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
   const fontSizeTitle = size > 150 ? size / RW(33) : size / RW(50)
   const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
-  // const [loader, setLoader] = useState(true)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('screen').width
-
-  // useEffect(() => {
-  //   avatar ? setLoader(false) : setLoader(true)
-  //   setTimeout(() => {
-  //     if (!avatar) {
-  //       setLoader(false)
-  //     }
-  //   }, 3000)
-  // }, [])
-
-  // useEffect(() => {
-  //   // setUserNow(!pressedUser ? user : pressedUser)
-  // }, [user])
 
   const sizing = {
     padding: size > 40 ? RH(5) : RH(0),
     marginTop: size > 150 ? RH(4) : RH(-1),
     width: size < 40 ? size / RW(3) : size / RW(4.3),
   }
+
+  const ImagePressableComponent = !onPressImg ? View : Pressable
+  const VkPressableComponent = size < 100 ? View : Pressable
+
   return (
     <View
       style={{
@@ -63,20 +52,22 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         alignItems: 'center',
       }}
     >
-      <Pressable
-        onPress={() =>
-          onPressImg ? navigation.navigate('ProfileNavigator', { screen: 'Gallery' }) : null
+      <ImagePressableComponent
+        onPress={
+          onPressImg
+            ? () => {
+                navigation.navigate('ProfileNavigator', { screen: 'Gallery' })
+              }
+            : null
         }
         style={{
-          width: size / 2.8,
-          height: size / 2.8,
           width: size / 2.8,
           height: size / 2.8,
           resizeMode: 'cover',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          top: 8,
+          top: size2 == 150 ? 13 : 8,
         }}
       >
         <Image
@@ -99,7 +90,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
                 }
           }
         />
-      </Pressable>
+      </ImagePressableComponent>
       <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(10) }]}>
         <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
           {name ? name : 'Имя'}
@@ -177,7 +168,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         setIsVisible={setModalVisible}
         // navigationText={'Home'}
       />
-      <TouchableOpacity
+      <VkPressableComponent
         onPress={() => {
           if (vk_uri) {
             Linking.openURL(vk_uri)
@@ -194,7 +185,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}
       >
         <Vk size={size / RH(12)} />
-      </TouchableOpacity>
+      </VkPressableComponent>
     </View>
   )
 }

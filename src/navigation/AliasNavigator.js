@@ -18,6 +18,7 @@ import DeviceInfo from 'react-native-device-info'
 
 import {
   setCommandsAndPlayers,
+  setEndRound,
   setExplainerTeam,
   setExplainingUser,
   setPlayersInGame,
@@ -140,7 +141,7 @@ const AliasNavigator = () => {
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
-      <Stack.Screen name="GameStart" component={GameStart  } props={{a:5}} />
+      <Stack.Screen name="GameStart" component={GameStart} />
       <Stack.Screen name="ResultsOfAnswers" component={ResultsOfAnswers} />
       <Stack.Screen name="TeamsResults" component={TeamsResults} />
     </Stack.Navigator>

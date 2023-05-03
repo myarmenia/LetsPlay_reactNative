@@ -125,7 +125,6 @@ const TournamentInfoIndividual = ({ route }) => {
             size={{ width: 120, height: 40 }}
             onPress={() => {
               setModalVisible(true)
-              console.log('===========', initialState)
               dispatch(createTournament(initialState))
               // dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
             }}

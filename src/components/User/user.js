@@ -110,7 +110,13 @@ function SvgComponent({
           position: 'absolute',
         }}
       >
-        <User size={width} onPressImg={onPressImg} pressedUser={pressedUser} userProps={user} />
+        <User
+          size={width}
+          size2={size}
+          onPressImg={onPressImg}
+          pressedUser={pressedUser}
+          userProps={user}
+        />
       </View>
     </View>
   )

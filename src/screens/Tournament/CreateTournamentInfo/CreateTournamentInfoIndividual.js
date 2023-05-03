@@ -163,7 +163,6 @@ const CreateTournamentInfoIndividual = ({ route }) => {
       initialState.age_restrictions_from == undefined ||
       initialState.age_restrictions_to == undefined
     ) {
-      console.log('5555555555555555555')
       setAgeError('Обязательное поле для заполнения')
     }
     if (initialState.age_restrictions_from > initialState.age_restrictions_to) {
@@ -378,6 +377,7 @@ const CreateTournamentInfoIndividual = ({ route }) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
       <Modal
         navigationText={''}
         item={

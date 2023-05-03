@@ -133,7 +133,6 @@ const CreateTournamentInfoCommand = ({ route }) => {
     .concat(' ' + timeFormat(endDate))
 
   const handleSubmit = () => {
-    console.log('response ==================', response)
     if (!addressName && !response?.address_name) {
       setAddressNameError(true)
     } else {
