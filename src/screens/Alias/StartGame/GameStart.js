@@ -12,7 +12,8 @@ import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
 import Modal from '@/components/modal'
-import { setStoping, startAliasGame } from '@/store/Slices/AliasSlice'
+import { setEndRound, setStoping, startAliasAgain, startAliasGame } from '@/store/Slices/AliasSlice'
+import { setUser } from '@/store/Slices/AuthSlice'
 
 const GameStart = ({ route }) => {
   let props = route?.params
@@ -21,22 +22,34 @@ const GameStart = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [secModalVisible, setSecModalVisible] = useState(false)
   const [userModalVisible, setUserModalVisible] = useState(true)
-  const { stoping, explainYou, explainerTeam, explainingUser,aliasGameId } = useSelector(({ alias }) => alias)
+  const { stoping, explainYou, explainerTeam, explainingUser,startAgain, endRound } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
+  const isFocused = useIsFocused()
   const [answers, setAnswers] = useState({
     true: 0,
     false: 0,
   })
   useEffect(() => {
-    if (secModalVisible == false) {
-      if (props?.fromRes == true) {
-        dispatch(startAliasGame(aliasGameId))
-        setUserModalVisible(true)
-        props.fromRes = null
-      }
-    }
-  }, [secModalVisible, props])
+    InteractionManager.runAfterInteractions(()=>{
 
+      if(!startAgain){
+        if (!userModalVisible && explainYou) {
+          setModalVisible(true)
+        } else if (!userModalVisible && !explainYou)  {
+          setModalVisible(false)
+        } 
+      } 
+      
+    })
+  }, [isFocused, userModalVisible, startAgain])
+    useEffect(()=>{
+      InteractionManager.runAfterInteractions(()=>{
+        if(!modalVisible && endRound && startAgain){
+          setUserModalVisible(true)
+        } 
+      })
+    },[startAgain, modalVisible, userModalVisible, explainYou])
+  
   const UserModal = () => {
     return (
       <Pressable
@@ -125,16 +138,7 @@ const GameStart = ({ route }) => {
       </Pressable>
     )
   }
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      if (!userModalVisible && explainYou) {
-        setModalVisible(true)
-      } else if (!userModalVisible && !explainYou) {
-        // dispatch(setStoping(false))
-        setModalVisible(false)
-      }
-    })
-  }, [userModalVisible])
+
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>

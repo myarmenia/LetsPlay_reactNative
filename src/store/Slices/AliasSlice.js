@@ -14,11 +14,13 @@ const initialState = {
   explainerTeam: null,
   commandsAndPlayers: null,
   participateSuccess: null,
+  startAgain: null,
   words: [],
   usersInGame: [],
+  endRound: false,
+  setStaticTime: null,
   playersInGame: [],
   reservedUsers: [],
-  endRound: false,
   qrGameImg: false,
   userIsOrganizer: false,
   stoping: true,
@@ -74,6 +76,9 @@ export const AliasSlice = createSlice({
     setUsersInGame: (store, action) => {
       return { ...store, usersInGame: action.payload }
     },
+    setStaticRoundTime: (store, action) => {
+      return {...store, staticRoundTime: action.payload}
+    } ,
     setCommandsAndPlayers: (store, action) => {
       return { ...store, commandsAndPlayers: action.payload }
     },
@@ -221,6 +226,7 @@ export const {
   setCommands,
   setCountWords,
   setComplexity,
+  setTeamResults,
   setUsersInGame,
   setAliasGameId,
   setTrueAnswers,
@@ -230,6 +236,8 @@ export const {
   setExplainerTeam,
   setPlayersInGame,
   setExplainingUser,
+  setStaticRoundTime,
+  startAliasAgain,
   setUserIsOrganizer,
   setParticipateSuccess,
   setCommandsAndPlayers,

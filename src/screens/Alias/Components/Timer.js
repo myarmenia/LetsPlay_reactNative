@@ -7,7 +7,7 @@ import { font } from '@/theme/utils'
 import { RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { setEndRound, setStoping, setTime } from '@/store/Slices/AliasSlice'
+import {  setStoping, setTime } from '@/store/Slices/AliasSlice'
 
 const Timer = ({
   modalVisible,
@@ -18,9 +18,9 @@ const Timer = ({
   secModalVisible,
   setSecModalVisible,
 }) => {
-  const { explainYou, stoping, time } = useSelector(({ alias }) => alias)
+  const { explainYou, stoping, time, staticRoundTime, startAgain } = useSelector(({ alias }) => alias)
   console.log("time", time)
-  const [selectedTime, setSelectedTime] = useState({ seconds: time })
+  const [selectedTime, setSelectedTime] = useState({ seconds: staticRoundTime })
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
@@ -33,13 +33,17 @@ const Timer = ({
   //     dispatch(setTime(selectedTime.seconds))
   //   }
   // }, [timerStart])
-
+  useEffect(()=>{
+  console.log("startAgain", startAgain);
+    if(selectedTime.seconds == 0 ){
+      setSelectedTime({seconds: staticRoundTime})
+    }
+  },[startAgain])
   useEffect(() => {
     if (selectedTime.seconds == 0) {
       // setSelectedTime({ seconds: 0 })
       // dispatch(setStoping(true))
       // dispatch(setTime(selectedTime.seconds))
-      dispatch(setEndRound(true))
       setSecModalVisible(true)
     }
     // else  if (selectedTime.seconds == 0 && !explainYou && endRound) {
@@ -72,7 +76,6 @@ const Timer = ({
             dispatch(setTime(selectedTime.seconds))
             // dispatch(setStoping(true))
             // dispatch(setTime(selectedTime.seconds))
-            dispatch(setEndRound(true))
             // setSecModalVisible(true)
             // clearInterval(timer)
           }

@@ -5,9 +5,17 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setEndRound, startAliasAgain } from '@/store/Slices/AliasSlice'
 
 const TeamsResults = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const handleClick = () => {
+    dispatch(setEndRound(true))
+    dispatch(startAliasAgain(true))
+    navigation.navigate('GameStart')
+  }
   return (
     <ScreenMask>
       <View style={styles.container}>
@@ -28,7 +36,7 @@ const TeamsResults = () => {
         <LightButton
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
-          onPress={() => navigation.navigate('GameStart', { fromRes: true })}
+          onPress={handleClick}
         />
       </View>
     </ScreenMask>

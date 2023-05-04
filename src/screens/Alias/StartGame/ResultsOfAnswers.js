@@ -5,10 +5,16 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setEndRound } from '@/store/Slices/AliasSlice'
 
 const ResultsOfAnswers = ({route}) => {
   const navigation = useNavigation()
   const props = route.params
+  const dispatch = useDispatch()
+  const handleClick = ()=>{
+     navigation.navigate('TeamsResults')
+  }
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -35,7 +41,7 @@ const ResultsOfAnswers = ({route}) => {
           <LightButton
             label={'Продолжить'}
             size={{ width: 281, height: 48 }}
-            onPress={() => navigation.navigate('TeamsResults')}
+            onPress={handleClick}
           />
         </View>
       </ScrollView>

@@ -22,7 +22,9 @@ import {
   setExplainerTeam,
   setExplainingUser,
   setPlayersInGame,
+  setStaticRoundTime,
   setStoping,
+  setTeamResults,
   setTime,
   setUserIsOrganizer,
   setWords,
@@ -42,6 +44,8 @@ const AliasNavigator = () => {
 
   const callBackFunc = async (e) => {
     console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
+    
+    // console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
       case 'new_user': {
         dispatch(setPlayersInGame(e?.alias_game?.players))
@@ -61,12 +65,14 @@ const AliasNavigator = () => {
 
       case 'explain_another_team_user': {
         dispatch(setExplainingUser(e.explain_user))
+        dispatch(setYouExplainer(false))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.explain_user_team.name))
         navigation.navigate('GameStart')
         break
       }
       case 'explain_your_team_user': {
+        dispatch(setYouExplainer(false))
         dispatch(setExplainingUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
         navigation.navigate('GameStart')
@@ -75,6 +81,7 @@ const AliasNavigator = () => {
       case 'alias_start': {
         dispatch(setExplainingUser(e.user))
         dispatch(setTime(e?.alias_game_team?.round_time))
+        dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
         navigation.navigate('GameStart')
         break
       }
@@ -88,14 +95,18 @@ const AliasNavigator = () => {
         // dispatch(setSkips(e.skips))
       }
       case 'pause_or_start': {
-        if (!explainYou) {
+        // if (!explainYou) {
           console.log(e?.data?.time);
         // console.log('pause_or_start if')
           dispatch(setStoping(e?.data?.stoping))
         // } else {
           // console.log('pause_or_start else')
           // dispatch(setTime(e?.data?.time))
-        }
+        // }
+      }
+      
+      case 'all_teams_resaults': {
+        dispatch(setTeamResults(e?.all_teams))
       }
     }
   }
@@ -123,14 +134,17 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
-  console.log("stoping ------>",stoping);
 
   useEffect(() => {
     if(explainYou){
       console.log('useEffect stop-p--------')
       socketRef.current?.emit('pause_or_start', { stoping })//time
     }
-  }, [stoping, explainYou])
+  }, [stoping])
+  useEffect(()=>{
+    console.log("xxxxxxxxxxxxxx==============");
+    socketRef.current?.emit("end_time",{})
+  },[endRound])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
