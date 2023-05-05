@@ -43,26 +43,27 @@ const TournamentInfoIndividual = ({ route }) => {
             <Text style={styles.eachInfo}>Тип турнира :</Text>
             <Text style={styles.eachInfoTwo}>
               {/* Своя игра */}
-              {props?.game.name}
+              {props?.game?.name}
             </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Название турнира: </Text>
-            <Text style={styles.eachInfoTwo}> {props?.data.name}</Text>
+            <Text style={styles.eachInfoTwo}> {initialState?.name}</Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Описание турнира: </Text>
             <Text style={styles.eachInfoTwo}>
-              {props.data.description.length ? props.data.description : 'Нету'}
+              {initialState?.description?.length ? initialState?.description : 'Нету'}
             </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Количество игроков</Text>
             <Text style={styles.eachInfoTwo}>
-              от {props.data.number_of_participants_from} до {props.data.number_of_participants_to}
+              от {initialState.number_of_participants_from} до{' '}
+              {initialState.number_of_participants_to}
             </Text>
           </Row>
           <Row>

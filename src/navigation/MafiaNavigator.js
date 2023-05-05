@@ -44,7 +44,7 @@ const MafiaNavigator = () => {
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
-    console.log(`${DeviceInfo.getDeviceId()} message`, JSON.stringify(e, null, 4))
+    // console.log(`${DeviceInfo.getDeviceId()} message`, JSON.stringify(e, null, 4))
     switch (e?.type) {
       case 'new_user':
         dispatch(setPlayers(e.mafia_game.players))
@@ -98,12 +98,12 @@ const MafiaNavigator = () => {
             return false
           }
         })
-        if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
-          break
-        }
-        console.log('e?.player?.role?.name', e?.player?.role?.name)
+        // if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
+        //   break
+        // }
+        // console.log('e?.player?.role?.name', e?.player?.role?.name)
 
-        if (e?.player?.role?.name) {
+        if (e?.players?.[0].role?.name) {
           dispatch(setDeadUser({ ...deadUser, role: e?.players?.[0].role?.name }))
         } else {
           dispatch(setDeadUser({ ...deadUser }))

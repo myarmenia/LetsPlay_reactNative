@@ -81,41 +81,27 @@ const CreateTournamentInfoCommand = ({ route }) => {
   const [playersCountError, setPlayersCountError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
 
-  const timeFormat = date => {
+  const timeFormat = (date) => {
     if (
       date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
       +date.time.toLocaleTimeString().slice(0, 2) != 12
     ) {
       return (
-        +date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        +date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         12 +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
-    } else if (
-      date.time
-        .toLocaleTimeString()
-        .split(' ')[0]
-        .split(':')[0].length == 1
-    ) {
+    } else if (date.time.toLocaleTimeString().split(' ')[0].split(':')[0].length == 1) {
       return (
         '0' +
-        date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
     } else {
       return (
-        date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
@@ -193,7 +179,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
 
   return (
     <ScreenMask>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         {...(Platform.OS === 'ios'
           ? {
               behavior: 'padding',
@@ -202,130 +188,130 @@ const CreateTournamentInfoCommand = ({ route }) => {
               style: { flex: 1 },
             }
           : {})}
-      >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <DateComponent
-            title="Дата и время начала турнира"
-            containerStyle={{
-              width: RW(380),
-              marginTop: RH(24),
-              alignSelf: 'center',
+      > */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <DateComponent
+          title="Дата и время начала турнира"
+          containerStyle={{
+            width: RW(380),
+            marginTop: RH(24),
+            alignSelf: 'center',
+          }}
+          rowStyle={{
+            justifyContent: 'space-around',
+          }}
+          dateValue={startDate.date}
+          timeValue={startDate.time}
+          setDate={(date) => setStartDate({ ...startDate, date })}
+          setTime={(time) => setStartDate({ ...startDate, time })}
+        />
+        {startDateError && <Text style={styles.error}>Введите корректную дату</Text>}
+        <View>
+          <Text style={styles.titles}>Количество команд</Text>
+          <View style={styles.countBlock}>
+            <TextInput
+              // value={value}
+              onChangeText={(n) => {
+                dispatch(setNumberOfTeamsFrom(n))
+              }}
+              keyboardType={'numeric'}
+              style={styles.countInput}
+              placeholder={'От'}
+              placeholderTextColor={ICON}
+            />
+            <View style={styles.dash}></View>
+            <TextInput
+              // value={value}
+              onChangeText={(e) => {
+                dispatch(setNumberOfTeamsTo(e))
+              }}
+              keyboardType={'numeric'}
+              style={styles.countInput}
+              placeholder={'До'}
+              placeholderTextColor={ICON}
+            />
+          </View>
+        </View>
+        {countError && <Text style={styles.error}>{countError}</Text>}
+        <View style={{ paddingVertical: RH(15) }}></View>
+        <SearchAddresses
+          navigateTo="CreateTournamentInfo"
+          setAddressName={setAddressName}
+          addressName={addressName}
+          show={false}
+        />
+        {addressNameError ? <Text style={styles.error}>Выберите аддрес</Text> : null}
+        <DateComponent
+          title="Дата и время окончания поиска команд"
+          containerStyle={{
+            width: RW(380),
+            marginTop: RH(24),
+            alignSelf: 'center',
+          }}
+          rowStyle={{
+            justifyContent: 'space-around',
+          }}
+          dateValue={endDate.date}
+          timeValue={endDate.time}
+          setDate={(date) => setEndDate({ ...endDate, date })}
+          setTime={(time) => setEndDate({ ...endDate, time })}
+        />
+        {endDateError && <Text style={styles.error}>Введите корректную дату</Text>}
+        <View style={{ paddingTop: '3%', left: '2%' }}>
+          <RadioBlock
+            onChange={(priceFond) => {
+              setPriceFond(priceFond)
             }}
-            rowStyle={{
-              justifyContent: 'space-around',
-            }}
-            dateValue={startDate.date}
-            timeValue={startDate.time}
-            setDate={date => setStartDate({ ...startDate, date })}
-            setTime={time => setStartDate({ ...startDate, time })}
+            title="Призовой фонд"
+            list={priceFond}
+            // containerStyle={{ paddingTop: '4%' }}
+            titleStyle={{ ...styles.titles, marginBottom: RW(5) }}
           />
-          {startDateError && <Text style={styles.error}>Введите корректную дату</Text>}
-          <View>
-            <Text style={styles.titles}>Количество команд</Text>
-            <View style={styles.countBlock}>
+        </View>
+        <View style={{ paddingTop: '2%', left: '2%' }}>
+          <RadioBlock
+            onChange={(organizerJoin) => {
+              setOrganizerJoin(organizerJoin)
+            }}
+            title="Статус организатора в турнире"
+            list={organizerJoin}
+            // containerStyle={{ paddingTop: '4%' }}
+            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
+          />
+        </View>
+        <View style={{ paddingTop: '2%', left: '2%' }}>
+          <RadioBlock
+            onChange={(priceExist) => {
+              setPriceExist(priceExist)
+            }}
+            title="Стоимость входного билета на турнир"
+            list={priceExist}
+            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
+          />
+        </View>
+        {!!priceExist[1].checked && (
+          <View style={{ width: RW(200), left: '5%' }}>
+            <Text style={styles.titles}>Сумма оплаты</Text>
+            <View style={styles.priceBlock}>
               <TextInput
-                // value={value}
-                onChangeText={n => {
-                  dispatch(setNumberOfTeamsFrom(n))
+                style={styles.priceInput}
+                placeholder={'Сумма оплаты 200р.'}
+                placeholderTextColor={ICON}
+                onChangeText={(ev) => {
+                  setPrice(+ev)
+                  dispatch(setTicketPrice(+ev))
                 }}
                 keyboardType={'numeric'}
-                style={styles.countInput}
-                placeholder={'От'}
-                placeholderTextColor={ICON}
-              />
-              <View style={styles.dash}></View>
-              <TextInput
-                // value={value}
-                onChangeText={e => {
-                  dispatch(setNumberOfTeamsTo(e))
-                }}
-                keyboardType={'numeric'}
-                style={styles.countInput}
-                placeholder={'До'}
-                placeholderTextColor={ICON}
               />
             </View>
+            {!!priceError && <Text style={styles.error}>Введите сумму</Text>}
           </View>
-          {countError && <Text style={styles.error}>{countError}</Text>}
-          <View style={{ paddingVertical: RH(15) }}></View>
-          <SearchAddresses
-            navigateTo="CreateTournamentInfo"
-            setAddressName={setAddressName}
-            addressName={addressName}
-            show={false}
-          />
-          {addressNameError ? <Text style={styles.error}>Выберите аддрес</Text> : null}
-          <DateComponent
-            title="Дата и время окончания поиска команд"
-            containerStyle={{
-              width: RW(380),
-              marginTop: RH(24),
-              alignSelf: 'center',
-            }}
-            rowStyle={{
-              justifyContent: 'space-around',
-            }}
-            dateValue={endDate.date}
-            timeValue={endDate.time}
-            setDate={date => setEndDate({ ...endDate, date })}
-            setTime={time => setEndDate({ ...endDate, time })}
-          />
-          {endDateError && <Text style={styles.error}>Введите корректную дату</Text>}
-          <View style={{ paddingTop: '3%', left: '2%' }}>
-            <RadioBlock
-              onChange={priceFond => {
-                setPriceFond(priceFond)
-              }}
-              title="Призовой фонд"
-              list={priceFond}
-              // containerStyle={{ paddingTop: '4%' }}
-              titleStyle={{ ...styles.titles, marginBottom: RW(5) }}
-            />
-          </View>
-          <View style={{ paddingTop: '2%', left: '2%' }}>
-            <RadioBlock
-              onChange={organizerJoin => {
-                setOrganizerJoin(organizerJoin)
-              }}
-              title="Статус организатора в турнире"
-              list={organizerJoin}
-              // containerStyle={{ paddingTop: '4%' }}
-              titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
-            />
-          </View>
-          <View style={{ paddingTop: '2%', left: '2%' }}>
-            <RadioBlock
-              onChange={priceExist => {
-                setPriceExist(priceExist)
-              }}
-              title="Стоимость входного билета на турнир"
-              list={priceExist}
-              titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
-            />
-          </View>
-          {!!priceExist[1].checked && (
-            <View style={{ width: RW(200), left: '5%' }}>
-              <Text style={styles.titles}>Сумма оплаты</Text>
-              <View style={styles.priceBlock}>
-                <TextInput
-                  style={styles.priceInput}
-                  placeholder={'Сумма оплаты 200р.'}
-                  placeholderTextColor={ICON}
-                  onChangeText={ev => {
-                    setPrice(+ev)
-                    dispatch(setTicketPrice(+ev))
-                  }}
-                  keyboardType={'numeric'}
-                />
-              </View>
-              {!!priceError && <Text style={styles.error}>Введите сумму</Text>}
-            </View>
-          )}
-          <View style={{ alignItems: 'flex-end', padding: RH(15) }}>
-            <LightButton label={'Готово'} onPress={handleSubmit} />
-          </View>
-        </ScrollView>
-        {/* <Modal
+        )}
+        <View style={{ alignItems: 'flex-end', padding: RH(15) }}>
+          <LightButton label={'Готово'} onPress={handleSubmit} />
+        </View>
+      </ScrollView>
+      {/* <Modal
           navigationText={''}
           item={
             <View style={styles.modal}>
@@ -339,7 +325,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
           modalVisible={modalVisible}
           setIsVisible={setModalVisible}
         /> */}
-      </KeyboardAvoidingView>
+      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }
