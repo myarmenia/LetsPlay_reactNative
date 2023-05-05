@@ -29,6 +29,7 @@ const GameStart = ({ route }) => {
     true: 0,
     false: 0,
   })
+  //
   useEffect(() => {
     InteractionManager.runAfterInteractions(()=>{
 
