@@ -22,6 +22,7 @@ import {
   setExplainerTeam,
   setExplainingUser,
   setPlayersInGame,
+  setStaticRoundTime,
   setStoping,
   setTime,
   setUserIsOrganizer,
@@ -51,11 +52,10 @@ const AliasNavigator = () => {
       }
 
       case 'explain_you': {
-        dispatch(setYouExplainer(true))
-        // console.log("-------------------", e);
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
-        navigation.navigate('GameStart')
+        dispatch(setYouExplainer(true))
+        navigation.navigate('GameStart', {fromRes: true})
         break
       }
 
@@ -63,19 +63,20 @@ const AliasNavigator = () => {
         dispatch(setExplainingUser(e.explain_user))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.explain_user_team.name))
-        navigation.navigate('GameStart')
+        navigation.navigate('GameStart', {fromRes: true})
         break
       }
       case 'explain_your_team_user': {
         dispatch(setExplainingUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
-        navigation.navigate('GameStart')
+        navigation.navigate('GameStart', {fromRes: true})
         break
       }
       case 'alias_start': {
         dispatch(setExplainingUser(e.user))
         dispatch(setTime(e?.alias_game_team?.round_time))
-        navigation.navigate('GameStart')
+        dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
+        navigation.navigate('GameStart', {fromRes: true})
         break
       }
       case 'alias_team_confirm': {
@@ -88,7 +89,7 @@ const AliasNavigator = () => {
         // dispatch(setSkips(e.skips))
       }
       case 'pause_or_start': {
-        if (!explainYou) {
+        if (!explainYou && stoping !== e?.data?.stoping) {
           console.log(e?.data?.time);
         // console.log('pause_or_start if')
           dispatch(setStoping(e?.data?.stoping))
@@ -131,6 +132,11 @@ const AliasNavigator = () => {
       socketRef.current?.emit('pause_or_start', { stoping })//time
     }
   }, [stoping, explainYou])
+  useEffect(()=>{
+    if(endRound == true){
+      socketRef.current?.emit("end_time",{})
+    }
+  },[endRound])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>

@@ -9,6 +9,7 @@ const initialState = {
   commands: null,
   explainYou: null,
   complexity: null,
+  staticTime: null,
   aliasGameId: null,
   countOfWords: null,
   explainerTeam: null,
@@ -64,6 +65,9 @@ export const AliasSlice = createSlice({
     },
     setEndRound: (store, action) => {
       return { ...store, endRound: action.payload }
+    },
+    setStaticRoundTime: (store, action) => {
+      return { ...store, staticTime: action.payload }
     },
     setQrImg: (store, action) => {
       return { ...store, qrGameImg: action.payload }
@@ -148,7 +152,6 @@ export const AliasSlice = createSlice({
 
 export const clearAllAliasData = () => (dispatch) => {
   dispatch(setCommands(null))
-  // dispatch(setMinutes(0))
   dispatch(setReservedUsers([]))
   dispatch(setAliasGameId(null))
   dispatch(setTeams([]))
@@ -230,6 +233,7 @@ export const {
   setExplainerTeam,
   setPlayersInGame,
   setExplainingUser,
+  setStaticRoundTime,
   setUserIsOrganizer,
   setParticipateSuccess,
   setCommandsAndPlayers,

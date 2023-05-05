@@ -12,38 +12,28 @@ import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import Timer from '../Components/Timer'
 import Modal from '@/components/modal'
-import { setStoping, startAliasGame } from '@/store/Slices/AliasSlice'
+import { setStoping, startAliasGame, setEndRound } from '@/store/Slices/AliasSlice'
 
 const GameStart = ({ route }) => {
   let props = route?.params
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
   const [secModalVisible, setSecModalVisible] = useState(false)
-  const [userModalVisible, setUserModalVisible] = useState(true)
-  const { stoping, explainYou, explainerTeam, explainingUser,aliasGameId } = useSelector(({ alias }) => alias)
+  const [userModalVisible, setUserModalVisible] = useState(false)
   const { user } = useSelector(({ auth }) => auth)
+  const { stoping, explainYou, explainerTeam, explainingUser,aliasGameId, endRound } = useSelector(({ alias }) => alias)
   const [answers, setAnswers] = useState({
     true: 0,
     false: 0,
   })
-  useEffect(() => {
-    if (secModalVisible == false) {
-      if (props?.fromRes == true) {
-        dispatch(startAliasGame(aliasGameId))
-        setUserModalVisible(true)
-        props.fromRes = null
-      }
-    }
-  }, [secModalVisible, props])
+
 
   const UserModal = () => {
     return (
       <Pressable
         onPress={() => {
-          // if (!explainYou) {
-          //   dispatch(setStoping(false))
-          // }
           setUserModalVisible(false)
         }}
         style={{
@@ -119,7 +109,7 @@ const GameStart = ({ route }) => {
             setSecModalVisible(false),
             navigation.navigate('ResultsOfAnswers', answers)
         }}
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        style={{ height:"100%", width:"100%", justifyContent: 'center', alignItems: 'center' }}
       >
         <Text style={{ ...font('medium', 32, '#F73934') }}>Время истекло!</Text>
       </Pressable>
@@ -127,14 +117,21 @@ const GameStart = ({ route }) => {
   }
   useEffect(() => {
     InteractionManager.runAfterInteractions(() => {
-      if (!userModalVisible && explainYou) {
-        setModalVisible(true)
-      } else if (!userModalVisible && !explainYou) {
-        // dispatch(setStoping(false))
-        setModalVisible(false)
+      if(props?.fromRes == true){
+        setUserModalVisible(true)
+        props.fromRes = null
+      } 
+      else {
+        if (!userModalVisible && explainYou) {
+          setModalVisible(true)
+        } else if (!userModalVisible && !explainYou) {
+          // dispatch(setStoping(false))
+          setModalVisible(false)
+        }
       }
     })
-  }, [userModalVisible])
+  }, [userModalVisible, isFocused, endRound, explainYou, props])
+  
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>
@@ -195,7 +192,7 @@ const GameStart = ({ route }) => {
               <Timer
                 secModalVisible={secModalVisible}
                 userModalVisible={userModalVisible}
-                // timerStart={!props?.fromRes} 
+                fromRes={props?.fromRes}
                 modalVisible={modalVisible}
                 setUserModalVisible={setUserModalVisible}
                 setSecModalVisible={setSecModalVisible}

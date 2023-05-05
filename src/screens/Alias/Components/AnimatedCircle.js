@@ -5,13 +5,14 @@ import { useSelector } from 'react-redux'
 
 const AnimatedCircle = ({  answers, setAnswers }) => {
   const [step, setStep] = useState(0)
-  const { words, stoping } = useSelector(({alias})=> alias)
+  const { words, stoping, explainYou } = useSelector(({alias})=> alias)
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: Animated.event([null, { dy: pan.y }]),
     onPanResponderRelease: (e, gestureState) => {
+      if(explainYou){
       pan.flattenOffset()
       console.log("stoping", stoping);
       if (gestureState.moveY < 233) {
@@ -37,7 +38,8 @@ const AnimatedCircle = ({  answers, setAnswers }) => {
           useNativeDriver: false,
         }).start()
       }
-    },
+    }
+  }
   })
  
   const range = [-140, 0, 155]
@@ -51,7 +53,7 @@ const AnimatedCircle = ({  answers, setAnswers }) => {
     transform: [{ translateY: clampedY }],
   }
   return (
-    <Animated.View style={!stoping ? animatedStyle : {}} {...panResponder.panHandlers}>
+    <Animated.View style={!stoping && explainYou ? animatedStyle : {}} {...panResponder.panHandlers}>
       <TypeButton title={words?.[step]?.name} key={Math.random().toString()} />
     </Animated.View>
   )

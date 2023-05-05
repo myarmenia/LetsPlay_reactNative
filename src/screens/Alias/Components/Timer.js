@@ -12,39 +12,28 @@ import { setEndRound, setStoping, setTime } from '@/store/Slices/AliasSlice'
 const Timer = ({
   modalVisible,
   setModalVisible,
-  // timerStart,
+  fromRes,
   setUserModalVisible,
   userModalVisible,
   secModalVisible,
   setSecModalVisible,
 }) => {
-  const { explainYou, stoping, time } = useSelector(({ alias }) => alias)
-  console.log("time", time)
-  const [selectedTime, setSelectedTime] = useState({ seconds: time })
+  const { explainYou, stoping, time, staticTime } = useSelector(({ alias }) => alias) 
+  const [selectedTime, setSelectedTime] = useState({ seconds: staticTime })
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  // useEffect(() => {
-  //   console.log('timerStart useEffect', timerStart)
-  //   if (timerStart) {
-
-  //     setSelectedTime({ seconds: selectedTime.seconds + 0 })
-  //     dispatch(setStoping(false))
-  //     dispatch(setTime(selectedTime.seconds))
-  //   }
-  // }, [timerStart])
-
+  
+  useEffect(()=>{
+    if(fromRes){
+      setSelectedTime({ seconds: staticTime })
+    }
+  },[fromRes])
   useEffect(() => {
     if (selectedTime.seconds == 0) {
-      // setSelectedTime({ seconds: 0 })
-      // dispatch(setStoping(true))
-      // dispatch(setTime(selectedTime.seconds))
-      dispatch(setEndRound(true))
       setSecModalVisible(true)
+     
     }
-    // else  if (selectedTime.seconds == 0 && !explainYou && endRound) {
-    //   setSecModalVisible(true)
-    // }
   }, [selectedTime.seconds])
   useEffect(() => {
     let timer 
@@ -55,40 +44,28 @@ const Timer = ({
               setSelectedTime({
                 seconds: selectedTime.seconds - 1,
               })
-              // dispatch(setStoping(false))
+             
               dispatch(setTime(selectedTime.seconds - 1))
             } 
             if (!userModalVisible && !explainYou) {
               setSelectedTime({
                 seconds: selectedTime.seconds - 1,
               })
-              // dispatch(setStoping(false))
               dispatch(setTime(selectedTime.seconds -1))
             }
             
           } else if (time == 0) {
-            // setSelectedTime({ seconds: 0 })
-            dispatch(setStoping(true))
             dispatch(setTime(selectedTime.seconds))
-            // dispatch(setStoping(true))
-            // dispatch(setTime(selectedTime.seconds))
-            dispatch(setEndRound(true))
-            // setSecModalVisible(true)
-            // clearInterval(timer)
           }
 
       }, 1000)
   } else {
     console.log("useEffect timer else")
-    // setSelectedTime((prev) => ({ seconds: prev.seconds }))
-    // dispatch(setStoping(false))
-    // dispatch(setTime(selectedTime.seconds))
-    // clearInterval(timer)
   }
 
 
     return () => clearInterval(timer)
-  }, [selectedTime.seconds, stoping, explainYou, userModalVisible])
+  }, [selectedTime.seconds, stoping, explainYou, secModalVisible])
 
   const displayMinutes = Math.floor(selectedTime.seconds / 60)
     .toString()

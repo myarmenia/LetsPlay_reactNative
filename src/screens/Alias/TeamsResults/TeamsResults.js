@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
+import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import { setEndRound, setYouExplainer, explainerTeam, setExplainingUser, setWords, setExplainerTeam} from '@/store/Slices/AliasSlice'
 
 const TeamsResults = () => {
+  const dispatch = useDispatch()
   const navigation = useNavigation()
+  const {endRound} =useSelector(({alias})=>alias)
   return (
     <ScreenMask>
       <View style={styles.container}>
@@ -28,7 +32,15 @@ const TeamsResults = () => {
         <LightButton
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
-          onPress={() => navigation.navigate('GameStart', { fromRes: true })}
+          onPress={() => (
+          navigation.navigate('GameStart', {fromRes: true}),
+          
+          dispatch(setYouExplainer(false)), 
+          dispatch(setWords([])), 
+          dispatch(setExplainingUser(null)),
+          dispatch(setExplainerTeam(null))),
+          dispatch(setEndRound(true))
+          }
         />
       </View>
     </ScreenMask>
