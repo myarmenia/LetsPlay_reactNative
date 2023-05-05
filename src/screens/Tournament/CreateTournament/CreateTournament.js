@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   clearTournamentData,
   setDescription,
-  setGameDescription,
   setTeamTourney,
   setTournamentName,
 } from '@/store/Slices/TournamentSlice'
@@ -63,7 +62,7 @@ const CreateTournament = ({ route }) => {
             style={styles.input}
             placeholderTextColor={ICON}
             value={tourName}
-            onChangeText={e => setTourName(e)}
+            onChangeText={(e) => setTourName(e)}
             placeholder={'Название турнира'}
           />
           <TextInput
@@ -71,7 +70,7 @@ const CreateTournament = ({ route }) => {
             placeholderTextColor={ICON}
             multiline={true}
             // value={description}
-            onChangeText={e => dispatch(setDescription(e))}
+            onChangeText={(e) => dispatch(setDescription(e))}
             placeholder={'Описание турнира (можно использовать ссылку на интернет страничку):'}
           />
         </View>

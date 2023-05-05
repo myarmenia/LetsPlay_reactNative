@@ -36,6 +36,8 @@ const Timer = ({ voteTime, answer, night, setAnswer, mafiaRoleName, setChoosedUs
     if (night && answer == 0) {
       setSeconds(120) // 7
       setChoosedUsers(null)
+    } else if (night && answer == 1) {
+      setSeconds(120)
     } else if (!night) {
       setSeconds(voteTime * 60)
       setChoosedUsers(null)

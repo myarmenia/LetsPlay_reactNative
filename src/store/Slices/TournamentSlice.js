@@ -152,17 +152,16 @@ const TournamentSlice = createSlice({
     },
   },
 })
-export const createTournament = data => dispatch => {
+export const createTournament = (data) => (dispatch) => {
   axiosInstance
     .post('api/tourney/', data)
-    .then(response => {
+    .then((response) => {
       console.log('response -------', JSON.stringify(response))
     })
-    .catch(err => console.log('Error creating tournament', err.request))
+    .catch((err) => console.log('Error creating tournament', err.request))
 }
-export const clearTournamentData = () => dispatch => {
+export const clearTournamentData = () => (dispatch) => {
   dispatch(setTournamentName(''))
-  dispatch(setDescription(''))
   dispatch(setTeamTourney(false))
   dispatch(setTourStartDate(new Date().toLocaleDateString()))
   dispatch(setTourEndDate(new Date().toLocaleDateString()))
