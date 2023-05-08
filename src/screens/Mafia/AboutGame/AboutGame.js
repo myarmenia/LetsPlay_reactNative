@@ -26,7 +26,7 @@ const AboutGame = ({ route }) => {
 
   useEffect(() => {
     if (propsGameId) {
-      dispatch(clearAllDatas())
+      // dispatch(clearAllDatas())
       dispatch(participateToGame(propsGameId))
     }
   }, [propsGameId])

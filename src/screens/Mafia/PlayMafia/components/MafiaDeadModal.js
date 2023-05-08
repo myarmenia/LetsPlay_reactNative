@@ -22,17 +22,49 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible }) => {
       }}
       item={
         Object.keys(deadUser || {}).length ? (
-          <View>
-            <Text
-              style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginBottom: RH(50) }}
-            >
-              Игрок выбыл
-            </Text>
-            <User size={400} user={deadUser} onPressItem={{ onClickFunc: () => {} }} />
-            <Text style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginTop: RH(30) }}>
-              {deadUser?.role}
-            </Text>
-          </View>
+          <>
+            {deadUser?.length == 1 ? (
+              <View>
+                <Text
+                  style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginBottom: RH(50) }}
+                >
+                  Игрок выбыл
+                </Text>
+                <User size={400} user={deadUser[0]} onPressItem={{ onClickFunc: () => {} }} />
+                <Text
+                  style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginTop: RH(30) }}
+                >
+                  {deadUser[0]?.role}
+                </Text>
+              </View>
+            ) : (
+              <View>
+                <Text
+                  style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginBottom: RH(50) }}
+                >
+                  Игроки выбыли
+                </Text>
+                <Row>
+                  {deadUser.map((item) => {
+                    return (
+                      <View>
+                        <User size={200} user={item} onPressItem={{ onClickFunc: () => {} }} />
+                        <Text
+                          style={{
+                            ...font('bold', 24, '#fff'),
+                            alignSelf: 'center',
+                            marginTop: RH(30),
+                          }}
+                        >
+                          {item?.role}
+                        </Text>
+                      </View>
+                    )
+                  })}
+                </Row>
+              </View>
+            )}
+          </>
         ) : (
           <View
             style={{

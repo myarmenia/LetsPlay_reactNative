@@ -8,6 +8,15 @@ import {
   Pressable,
   InteractionManager,
 } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+  InteractionManager,
+} from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import UserBorderSvg from './assets/UserBorderSvg'
@@ -21,6 +30,7 @@ import { _storageUrl } from '@/constants'
 import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
 import {
+  setAnswersCount,
   setLoader,
   setQuestionTruthfulness,
   setSendAnswer,
@@ -39,7 +49,6 @@ const PlayMafia = () => {
   const [choosable, setChoosable] = useState(false)
   const [choosedUsers, setChoosedUsers] = useState(null)
   const [nightQueastions, setNightQueastions] = useState([])
-  const [answersCount, setAnswersCount] = useState(0)
   const [dayQueastions, setDayQueastions] = useState(null)
   const [daysCount, setDaysCount] = useState(1)
 
@@ -57,66 +66,58 @@ const PlayMafia = () => {
     questionTruthfulness,
     winner,
     deadUser,
-    voteTime,
     waitAnswer,
     equalVotes,
     waitNight,
     donVotedPlayers,
     loader,
+    answersCount,
   } = useSelector(({ mafia }) => mafia)
   const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if ((!night && daysCount > 1) || Object.keys(deadUser || {}).length) setDeadModalVisible(true)
-    if (Object.keys(deadUser || {}).length) {
+    if (deadUser?.length) {
       setDeadModalVisible(true)
-      if (deadUser?.user?._id == currentUser?._id) {
-        currentUserDeaded.current = true
-      }
+      deadUser.forEach((deadUserItem) => {
+        console.log('deadUserItem?.user?._id', deadUserItem?.user?._id)
+        if (deadUserItem?.user?._id == currentUser?._id) {
+          currentUserDeaded.current = true
+        }
+      })
     }
-  }, [deadUser, night])
-
-  // useEffect(() => {
-  //   InteractionManager.runAfterInteractions(() => {
-  //     if (!night && daysCount > 1 && !Object.keys(deadUser || {}).length && waitNight == null) {
-  //       setDeadModalVisible(true)
-  //     }
-  //   })
-  // }, [night, daysCount, deadUser, waitNight])
+  }, [deadUser])
 
   useEffect(() => {
-    // InteractionManager.runAfterInteractions(() => {
+    if (!night && daysCount > 1 && waitNight == null) {
+      setDeadModalVisible(true)
+    }
+  }, [night, daysCount, waitNight])
+
+  useEffect(() => {
     setDayQueastions(answerQuestions?.find((item) => !item.night))
-    if (mafiaRole?.name !== 'Дон') {
+    if (mafiaRole.name !== 'Дон') {
       setNightQueastions(answerQuestions?.filter((item) => item.night))
     } else {
       setNightQueastions(
         answerQuestions?.filter((item) => item.night && item.answer_user !== 'Мирный житель'),
       )
     }
-    // })
   }, [answerQuestions])
 
   useEffect(() => {
-    // InteractionManager.runAfterInteractions(() => {
-    setWinnerModal(winner)
-    // })
+    InteractionManager.runAfterInteractions(() => {
+      if (winner) {
+        setModalVisible(false)
+        setDeadModalVisible(false)
+        setWinnerModal(winner)
+      }
+    })
   }, [winner])
 
   useEffect(() => {
-    // console.log(
-    //   'donVotedPlayers.length == mafiasCount - 1',
-    //   Object.keys(donVotedPlayers || {})?.length,
-    // )
-    // console.log('mafiasCount', mafiasCount)
-    if (
-      Object.keys(donVotedPlayers || {})?.length == mafiasCount - 2 &&
-      loader &&
-      mafiaRole?.name == 'Дон'
-    ) {
-      setAnswersCount(1)
-      dispatch(setLoader(false))
+    if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
+      dispatch(setAnswersCount(1))
     }
   }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
 
@@ -171,15 +172,7 @@ const PlayMafia = () => {
             </View>
           </>
         )}
-        <Time
-          voteTime={voteTime}
-          answer={answersCount}
-          night={night}
-          setAnswer={setAnswersCount}
-          endTime={() => {}}
-          mafiaRoleName={mafiaRole?.name}
-          setChoosedUsers={setChoosedUsers}
-        />
+        <Time setChoosedUsers={setChoosedUsers} />
 
         <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
           <View
@@ -331,6 +324,12 @@ const PlayMafia = () => {
                                 }
                               : {
                                   onClickFunc: () => {
+                                    console.log('choosable', choosable)
+                                    console.log(
+                                      'currentUserDeaded.current',
+                                      currentUserDeaded.current,
+                                    )
+                                    console.log(item?.status)
                                     if (choosable && !currentUserDeaded.current && item?.status) {
                                       if (
                                         answersCount == 0 &&
@@ -418,6 +417,7 @@ const PlayMafia = () => {
                   setDaysCount(2)
                   setChoosable(true)
                 } else if (equalVotes?.question_id) {
+                  console.log('if 1 1')
                   console.log('if equalVotes?.question_id', equalVotes?.question_id)
                   dispatch(
                     setSendAnswer({
@@ -440,16 +440,16 @@ const PlayMafia = () => {
                     dispatch(setWaitAnswer(false))
                     setChoosable(true)
                     if (mafiaRole?.name !== 'Дон') {
-                      setAnswersCount(1)
+                      dispatch(setAnswersCount(1))
                     } else {
                       dispatch(setLoader('Ждем голосование мафии'))
                     }
                   } else if (
                     night &&
                     answersCount > 0 &&
-                    Object.keys(donVotedPlayers || {}).length &&
-                    mafiaRole?.name == 'Дон'
+                    Object.keys(donVotedPlayers || {}).length
                   ) {
+                    console.log('if 2')
                     const questionId = answerQuestions?.find(
                       (item) => item.answer_user === 'Мирный житель',
                     )?._id
@@ -465,19 +465,11 @@ const PlayMafia = () => {
                         select_user: choosedUsers,
                       }),
                     )
-                    setAnswersCount(0)
+                    dispatch(setAnswersCount(0))
                     dispatch(setLoader(true))
                     dispatch(setWaitNight(false))
-                    // if (!Object.keys(donVotedPlayers || {}).length && !mafiaRole?.name == 'Дон') {
-
-                    // }
                   } else if (night && answersCount == 1) {
-                    console.log('if 5')
-                    console.log('choosedUsers 2 ' + mafiaRole?.name, {
-                      type: 'answer_question',
-                      question_id: nightQueastions[answersCount]?._id,
-                      select_user: choosedUsers,
-                    })
+                    console.log('if equalVotes?.question_id', equalVotes?.question_id)
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -485,12 +477,19 @@ const PlayMafia = () => {
                         select_user: choosedUsers,
                       }),
                     )
-
-                    setAnswersCount(0)
+                    console.log('if 6')
+                    // dispatch(setAnswersCount(0))
                     dispatch(setLoader(true))
-                    dispatch(setWaitNight(false))
+
+                    // dispatch(setWaitNight(false))
+                  } else if (!night) {
+                    console.log('if 7')
+                    // day
+                    // dispatch(setAnswersCount(0))
+                    dispatch(setLoader(true))
+                    dispatch(setWaitNight(true))
                   } else {
-                    console.log('if 2')
+                    console.log('if 3')
                     console.log('choosedUsers ' + mafiaRole?.name, {
                       type: 'answer_question',
                       question_id: night ? nightQueastions[answersCount]?._id : dayQueastions?._id,
@@ -507,22 +506,14 @@ const PlayMafia = () => {
                     )
 
                     if (waitAnswer) {
-                      console.log('if 3')
+                      console.log('if 4')
                       setChoosable(false)
                     } else {
-                      console.log('if 4')
+                      console.log('if 5')
                       setChoosedUsers(null)
                       setChoosable(true)
-                      setAnswersCount(1)
+                      // dispatch(setAnswersCount(1))
                     }
-                  }
-
-                  if (!night) {
-                    console.log('if 6')
-                    // day
-                    setAnswersCount(0)
-                    dispatch(setLoader(true))
-                    dispatch(setWaitNight(true))
                   }
                 }
               }}
