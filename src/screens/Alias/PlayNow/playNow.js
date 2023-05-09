@@ -12,8 +12,9 @@ import { startAliasGame } from '@/store/Slices/AliasSlice'
 const PlayNow = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const { commands, aliasGameId, playersInGame, commandsAndPlayers } = useSelector(({ alias }) => alias)
-  
+  const { aliasGameId, playersInGame, explainYou, commandsInGame, commandsAndPlayers } =
+    useSelector(({ alias }) => alias)
+
   return (
     <ScreenMask>
       <View style={styles.mainContainer}>
@@ -23,24 +24,24 @@ const PlayNow = () => {
               return (
                 <View key={i}>
                   <Text style={styles.commandName}>{elm?.name}</Text>
-                   
+
                   <View style={styles.eachCommandBox}>
-                   {elm.players.map((player)=>{
-                    return     <View key={Math.random().toString()}>
+                    {elm.players.map((player) => {
+                      return (
+                        <View key={Math.random().toString()}>
                           {/* pass user in User component with pressed user prop */}
                           <User
                             size={70}
                             onPressItem={{
-                              item: <User size={390} pressedUser={player}/>,
+                              item: <User size={390} pressedUser={player} />,
                               modalClose: false,
                               // onClickFunc: handleClick,
                             }}
                             pressedUser={player}
                           />
                         </View>
-
-                   })}
-                    
+                      )
+                    })}
                   </View>
                 </View>
               )

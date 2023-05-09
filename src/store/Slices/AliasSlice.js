@@ -5,16 +5,23 @@ import { setPending } from './AuthSlice'
 
 const initialState = {
   rules: '',
-  isZero: null,
-  commands: null,
+  step: 0,
+
   explainYou: null,
   complexity: null,
   staticTime: null,
   aliasGameId: null,
+  startedAlias: false,
   countOfWords: null,
   explainerTeam: null,
   commandsAndPlayers: null,
   participateSuccess: null,
+  answersInGame: {
+    true: 0,
+    false: 0,
+    trueWords: [],
+    falseWords: [],
+  },
   words: [],
   usersInGame: [],
   playersInGame: [],
@@ -23,20 +30,23 @@ const initialState = {
   qrGameImg: false,
   userIsOrganizer: false,
   stoping: true,
-  time: 0
+  time: 0,
+  commandsInGame: [
+    { command: 1, value: '', members: [], points: 0 },
+    { command: 2, value: '', members: [], points: 0 },
+  ],
 }
-
 
 export const AliasSlice = createSlice({
   name: 'alias',
   initialState,
   reducers: {
-    setCommands: (store, action) => {
-      return { ...store, commands: action.payload }
-    },
     // setMinutes: (store, action) => {
     //   return { ...store, minutesInGame: action.payload }
     // },
+    setCommandsInGame: (store, action) => {
+      return { ...store, commandsInGame: action.payload }
+    },
     setReservedUsers: (store, action) => {
       return { ...store, reservedUsers: action.payload }
     },
@@ -50,14 +60,12 @@ export const AliasSlice = createSlice({
       return { ...store, complexity: action.payload }
     },
     setStoping: (store, action) => {
-      return { ...store, 
-        stoping: action.payload 
-      }
+      return { ...store, stoping: action.payload }
     },
-    setTime: (store, action)=>{
+    setTime: (store, action) => {
       return {
         ...store,
-        time: action.payload
+        time: action.payload,
       }
     },
     setCountWords: (store, action) => {
@@ -84,6 +92,9 @@ export const AliasSlice = createSlice({
     setWords: (store, action) => {
       return { ...store, words: action.payload }
     },
+    setStartedAlias: (store, action) => {
+      return { ...store, startedAlias: action.payload }
+    },
     setUserIsOrganizer: (store, action) => {
       return {
         ...store,
@@ -94,6 +105,18 @@ export const AliasSlice = createSlice({
       return {
         ...store,
         participateSuccess: action.payload,
+      }
+    },
+    setStep: (store, action) => {
+      return {
+        ...store,
+        step: action.payload,
+      }
+    },
+    setAnswersInGame: (store, action) => {
+      return {
+        ...store,
+        answersInGame: action.payload,
       }
     },
     setExplainingUser: (store, action) => {
@@ -114,12 +137,7 @@ export const AliasSlice = createSlice({
         explainYou: action.payload,
       }
     },
-    setIsZero: (store, action) => {
-      return {
-        ...store,
-        isZero: action.payload,
-      }
-    },
+
     // setTrueAnswers: (store, action) => {
     //   return {
     //     ...store,
@@ -151,7 +169,6 @@ export const AliasSlice = createSlice({
 })
 
 export const clearAllAliasData = () => (dispatch) => {
-  dispatch(setCommands(null))
   dispatch(setReservedUsers([]))
   dispatch(setAliasGameId(null))
   dispatch(setTeams([]))
@@ -194,9 +211,8 @@ export const sendAliasGameId = (id) => (dispatch) => {
 export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
-    .then(response => {
+    .then((response) => {
       // console.log('setPlayers response', response.data)
-
     })
     .catch((err) => {
       console.log('err setPlayers : response', err.response)
@@ -215,13 +231,14 @@ export const startAliasGame = (gameId) => (dispatch) => {
 }
 export const {
   setTime,
+  setStep,
   setQrImg,
   setWords,
   setTeams,
-  setIsZero,
   setStoping,
   setEndRound,
-  setCommands,
+  setStartedAlias,
+  setCommandsInGame,
   setCountWords,
   setComplexity,
   setUsersInGame,
@@ -229,6 +246,7 @@ export const {
   setTrueAnswers,
   setYouExplainer,
   setFalseAnswers,
+  setAnswersInGame,
   setReservedUsers,
   setExplainerTeam,
   setPlayersInGame,

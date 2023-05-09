@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
-import { ICON, RED, WHITE } from '@/theme/colors'
+import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import {
   sendAliasGameId,
-  setCommands,
+  setCommandsInGame,
   setParticipateSuccess,
   setPlayers,
   setReservedUsers,
@@ -19,12 +19,13 @@ import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
 import { setPending } from '@/store/Slices/AuthSlice'
-
+import Modal from '@/components/modal'
+import CloseSVG from './Components/CloseSVG'
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const props = route.params
   const {
-    commands,
+    commandsInGame,
     reservedUsers,
     aliasGameId,
     playersInGame,
@@ -34,6 +35,7 @@ const IniviteTeamPlayers = ({ route }) => {
     usersInGame,
   } = useSelector(({ alias }) => alias)
   const [i, setI] = useState(0)
+  const [errorModal, setErrorModal] = useState(false)
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -54,14 +56,14 @@ const IniviteTeamPlayers = ({ route }) => {
     }
     dispatch(setPending(false))
   }, [participateSuccess])
-  const handleClick = elm => {
+  const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
-      if (commands?.[i]?.members?.some(item => item == elm?._id)) {
+      if (commandsInGame?.[i]?.members?.some((item) => item == elm?._id)) {
         dispatch(
-          setCommands(
-            commands?.map(elem => {
+          setCommandsInGame(
+            commandsInGame?.map((elem) => {
               if (elem.members.includes(elm?._id)) {
-                return { ...elem, members: elem.members.filter(item => item !== elm?._id) }
+                return { ...elem, members: elem.members.filter((item) => item !== elm?._id) }
               } else {
                 return elem
               }
@@ -70,8 +72,8 @@ const IniviteTeamPlayers = ({ route }) => {
         )
       } else {
         dispatch(
-          setCommands(
-            commands?.map(item =>
+          setCommandsInGame(
+            commandsInGame?.map((item) =>
               item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
           ),
@@ -81,29 +83,49 @@ const IniviteTeamPlayers = ({ route }) => {
   }
 
   const handleSubmit = async () => {
-    if (commands[i].members.length >= 2) {
+    if (commandsInGame[i].members.length >= 2) {
       setError(false)
-      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commandsInGame[i].members])]))
       dispatch(
         setPlayers({
           alias_id: aliasGameId,
           team_id: teamDatas[i]?._id,
-          players: commands?.[i]?.members,
+          players: commandsInGame?.[i]?.members,
         }),
-        )
-        // dispatch(setUsersInGame(...usersInGame, playersInGame.filter((elm,j) => elm?._id == commands[i].members[j])))
-        // console.log("0000000000", playersInGame.filter((elm,j) => elm?._id == commands[i].members[j]));
-        setI(prev => prev + 1)
-      i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
+      )
+      setI((prev) => prev + 1)
+      i >= commandsInGame.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)
+      setErrorModal(true)
     }
   }
-
-  useEffect(()=>{
-    console.log("usersInGame ========", usersInGame);
-  },[usersInGame])
-
+  const ErrorModal = () => {
+    return (
+      <Pressable
+        style={styles.errorModalBox}
+        onPress={() => {
+          setErrorModal(false)
+        }}
+      >
+        <View
+          style={{
+            height: '90%',
+            width: '80%',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}
+        >
+          <CloseSVG />
+          <Text style={styles.errorModalBoxText}>
+            Не возможно начать игру. Количество игроков не соответствуют минимальному числу игроков
+            для начала игры
+          </Text>
+        </View>
+      </Pressable>
+    )
+  }
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -111,14 +133,14 @@ const IniviteTeamPlayers = ({ route }) => {
           <View style={styles.mainContainer}>
             <Text style={styles.title}>Игроки добавились в игру</Text>
             <Text style={styles.title}>Распределите игроков</Text>
-            <Text style={styles.commandName}>{commands?.[i]?.value}</Text>
+            <Text style={styles.commandName}>{commandsInGame?.[i]?.value}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
                 {playersInGame?.map((elm, j) => {
                   return (
                     <View
                       style={{
-                        //  opacity: commands?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
+                        //  opacity: commandsInGame?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
                         opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1,
                       }}
                       key={j + 10}
@@ -134,7 +156,7 @@ const IniviteTeamPlayers = ({ route }) => {
                         <BorderGradient
                           height={142}
                           width={105}
-                          opacity={commands?.[i]?.members?.includes(elm?._id) ? 1 : 0}
+                          opacity={commandsInGame?.[i]?.members?.includes(elm?._id) ? 1 : 0}
                         />
                         <Pressable
                           style={{
@@ -162,6 +184,7 @@ const IniviteTeamPlayers = ({ route }) => {
             </ScrollView>
           </View>
         </View>
+        <Modal setIsVisible={setErrorModal} modalVisible={errorModal} item={<ErrorModal />} />
 
         {userIsOrganizer ? (
           <View
@@ -174,7 +197,7 @@ const IniviteTeamPlayers = ({ route }) => {
               marginBottom: RH(20),
             }}
           >
-            {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 2</Text>}
+            {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 4</Text>}
             <View style={styles.btnBox}>
               <LightButton
                 label={'Продолжить'}
@@ -199,6 +222,19 @@ const styles = StyleSheet.create({
     ...font('medium', 24, WHITE),
     textAlign: 'center',
     paddingVertical: RH(8),
+  },
+  errorModalBox: {
+    alignSelf: 'center',
+    height: RH(350),
+    width: RW(300),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: BACKGROUND,
+    borderRadius: RW(14),
+  },
+  errorModalBoxText: {
+    ...font('medium', 16, WHITE),
+    textAlign: 'center',
   },
   commandName: {
     ...font('medium', 24, ICON),

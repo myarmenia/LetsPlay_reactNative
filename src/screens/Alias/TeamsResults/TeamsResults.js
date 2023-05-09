@@ -6,26 +6,37 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
-import { setEndRound, setYouExplainer, explainerTeam, setExplainingUser, setWords, setExplainerTeam} from '@/store/Slices/AliasSlice'
+import {
+  setEndRound,
+  setYouExplainer,
+  explainerTeam,
+  setExplainingUser,
+  setWords,
+  setExplainerTeam,
+  setAnswersInGame,
+  setCommandsInGame,
+} from '@/store/Slices/AliasSlice'
 
 const TeamsResults = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const {endRound} =useSelector(({alias})=>alias)
+  const { commandsAndPlayers, commandsInGame } = useSelector(({ alias }) => alias)
   return (
     <ScreenMask>
       <View style={styles.container}>
         <View style={styles.mainContainer}>
-          <View style={styles.commandOne}>
-            <Text style={styles.commandName}>Команда 1</Text>
+          {commandsInGame?.map((elm, i) => {
+            return (
+              <View key={Math.random().toString()}>
+                <View style={styles.commandOne}>
+                  <Text style={styles.commandName}>{elm.value}</Text>
 
-            <Text style={styles.points}>Очки: 13</Text>
-          </View>
-          <View style={styles.line}></View>
-          <View style={styles.commandSec}>
-            <Text style={styles.commandName}>Команда 2</Text>
-            <Text style={styles.points}>Очки: 0</Text>
-          </View>
+                  <Text style={styles.points}>{`Очки: ${commandsInGame[i]?.points}`}</Text>
+                </View>
+                {i !== commandsInGame.length - 1 ? <View style={styles.line}></View> : null}
+              </View>
+            )
+          })}
         </View>
       </View>
       <View style={styles.btnBox}>
@@ -33,14 +44,21 @@ const TeamsResults = () => {
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
           onPress={() => (
-          navigation.navigate('GameStart', {fromRes: true}),
-          
-          dispatch(setYouExplainer(false)), 
-          dispatch(setWords([])), 
-          dispatch(setExplainingUser(null)),
-          dispatch(setExplainerTeam(null))),
-          dispatch(setEndRound(true))
-          }
+            dispatch(setYouExplainer(false)),
+            dispatch(setWords([])),
+            dispatch(setExplainingUser(null)),
+            dispatch(setExplainerTeam(null)),
+            dispatch(setEndRound(true)),
+            dispatch(
+              setAnswersInGame({
+                true: 0,
+                false: 0,
+                trueWords: [],
+                falseWords: [],
+              }),
+            ),
+            navigation.navigate('GameStart', { fromRes: true })
+          )}
         />
       </View>
     </ScreenMask>
@@ -58,6 +76,7 @@ const styles = StyleSheet.create({
   line: {
     width: RW(277),
     height: RH(1.5),
+    top: '30%',
     backgroundColor: ICON,
   },
   commandName: {

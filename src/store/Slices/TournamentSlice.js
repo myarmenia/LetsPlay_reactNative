@@ -126,6 +126,12 @@ const TournamentSlice = createSlice({
         number_of_teams_from: action.payload,
       }
     },
+    setFindedTouney: (store, action) => {
+      return {
+        ...store,
+        findedTourney: action.payload,
+      }
+    },
     setNumberOfTeamsTo: (store, action) => {
       return {
         ...store,
@@ -160,6 +166,45 @@ export const createTournament = (data) => (dispatch) => {
     })
     .catch((err) => console.log('Error creating tournament', err.request))
 }
+
+export const searchTourney = (data, nav, setError, tourney) => async (dispatch) => {
+  let price = data.getAll('price')
+  let game_of_your_choice = data.getAll('game_of_your_choice')
+  let longitude = data.getAll('longitude')
+  let latitude = data.getAll('latitude')
+  let dateFrom = data.getAll('date_from')
+  let dateTo = data.getAll('date_to')
+  let teamTourney = data.getAll('teamTourney')
+  console.log(teamTourney)
+  let place =
+    latitude[0] && longitude[0] ? `&longitude=${longitude[0]}&latatude=${latitude[0]}` : ''
+  let dates = dateFrom && dateTo ? `date_from=${dateFrom}&date_to=${dateTo}` : ''
+  let gameIds = data.getAll('ids')
+  let gameIdsForLink = gameIds[0].map((elm) => `games[]=${elm}&`).join('')
+  let link = `api/tourney?price=${price[0]}game_of_your_choice=${game_of_your_choice}&team_tourney=${teamTourney[0]}${place}${gameIdsForLink}`
+  // price=false&game_of_your_choice=false&team_tourney=false&longitude=43.9722&latitude=44.237623
+
+  console.log(link)
+  axiosInstance
+    .get(link.slice(0, link.length - 1))
+
+    .then((response) => {
+      console.log(JSON.stringify(response?.data?.datas, null, 5))
+      dispatch(setFindedTouney(response?.data?.datas))
+      if (response?.data?.datas.length) {
+        nav.navigate('AllTournaments')
+      } else {
+        setError(true)
+        setTimeout(() => {
+          setError(false)
+        }, 2500)
+      }
+    })
+    .catch((err) => {
+      console.log('Error searching players in this team :', err.request._response)
+    })
+}
+
 export const clearTournamentData = () => (dispatch) => {
   dispatch(setTournamentName(''))
   dispatch(setTeamTourney(false))
@@ -181,6 +226,7 @@ export const {
   setTourEndDate,
   setDescription,
   setTicketPrice,
+  setFindedTouney,
   setPlayersGender,
   setTourStartDate,
   setTournamentName,

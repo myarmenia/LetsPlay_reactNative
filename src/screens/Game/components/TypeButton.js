@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View, Pressable } from 'react-native'
 import {
   Svg,
   Defs,
@@ -17,7 +17,7 @@ import { font, RW } from '@/theme/utils'
 
 const TypeButton = ({ title, size = 207, onPress, wrapper, labelStyle }) => {
   return (
-    <TouchableOpacity
+    <Pressable
       onPress={onPress && onPress}
       activeOpacity={0.7}
       style={{ borderRadius: RW(size / 2) }}
@@ -163,7 +163,7 @@ const TypeButton = ({ title, size = 207, onPress, wrapper, labelStyle }) => {
           </ClipPath>
         </Defs>
       </Svg>
-    </TouchableOpacity>
+    </Pressable>
   )
 }
 

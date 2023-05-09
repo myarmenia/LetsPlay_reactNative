@@ -1,17 +1,25 @@
 import { WHITE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Image, Text, View, StyleSheet } from 'react-native'
 import Button from '@/assets/imgs/Button'
 import ScreenMask from '@/components/wrappers/screen'
+import { useEffect } from 'react'
 
 function Index({ route }) {
   const commandsCount = route?.params
-  const { qrGameImg } = useSelector(({ alias }) => alias)
+  const { qrGameImg, commandsInGame, explainYou } = useSelector(({ alias }) => alias)
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
+  const dispatch = useDispatch()
 
+  useEffect(() => {
+    if (explainYou) {
+      console.log('commandsInGame===', commandsInGame)
+    }
+  }, [isFocused])
   return (
     <ScreenMask>
       <View>

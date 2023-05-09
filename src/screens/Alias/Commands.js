@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { sendAliasSettings, setCommands } from '@/store/Slices/AliasSlice'
+import { sendAliasSettings, setCommandsInGame } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
@@ -13,34 +13,36 @@ import LightButton from '@/assets/imgs/Button'
 const Commands = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { countOfWords, stoping, complexity, time } = useSelector(({ alias }) => alias)
+  const { countOfWords, stoping, complexity, time, commandsInGame } = useSelector(
+    ({ alias }) => alias,
+  )
   const [error, setError] = useState(false)
   const [commandsCount, setCommandsCount] = useState([
-    { command: 1, value: '', members: [] },
-    { command: 2, value: '', members: [] },
+    { command: 1, value: '', members: [], points: 0 },
+    { command: 2, value: '', members: [], points: 0 },
   ])
 
-  const handleSubmit = () => {
-    let empty = 0
+  const handleSubmit = async () => {
     for (let elem of commandsCount) {
       if (!elem.value) {
-        empty++
+        setError(true)
+      } else {
+        setError(false)
       }
     }
-    if (empty !== 0) {
-      setError(true)
-    } else {
+    if (!error) {
       setError(false)
-      dispatch(setCommands(commandsCount)),
-        dispatch(
-          sendAliasSettings({
-            number_of_words: countOfWords,
-            round_time: time,
-            pass_fine: true,
-            type: complexity,
-            teams: commandsCount.map(elm => elm.value),
-          }),
-        )
+      console.log('commandsCount', commandsCount)
+      dispatch(setCommandsInGame(commandsCount))
+      dispatch(
+        sendAliasSettings({
+          number_of_words: countOfWords,
+          round_time: time,
+          pass_fine: true,
+          type: complexity,
+          teams: commandsCount.map((elm) => elm.value),
+        }),
+      )
       navigation.navigate('QrCode', commandsCount)
     }
   }
@@ -62,15 +64,13 @@ const Commands = () => {
                     <TextInput
                       style={styles.priceInputText}
                       placeholder={`Название команды ${elm.command}`}
-                      onChangeText={e =>
+                      onChangeText={(e) => {
                         setCommandsCount([
                           ...commandsCount.map((elm, ind) => {
-                            return i == ind
-                              ? { command: elm.command, value: e, members: [] }
-                              : { ...elm }
+                            return i == ind ? { ...elm, value: e } : { ...elm }
                           }),
                         ])
-                      }
+                      }}
                       placeholderTextColor={ICON}
                       // keyboardType="number-pad"
                     />
@@ -81,10 +81,10 @@ const Commands = () => {
                         commandsCount.length !== 1
                           ? commandsCount.length == 3
                             ? setCommandsCount([
-                                { command: 1, value: '', members: [] },
-                                { command: 2, value: '', members: [] },
+                                { command: 1, value: '', members: [], points: 0 },
+                                { command: 2, value: '', members: [], points: 0 },
                               ])
-                            : setCommandsCount([...commandsCount.filter(elem => elm !== elem)])
+                            : setCommandsCount([...commandsCount.filter((elem) => elm !== elem)])
                           : null
                       }
                     >
@@ -105,6 +105,7 @@ const Commands = () => {
                     command: commandsCount[commandsCount.length - 1].command + 1,
                     value: '',
                     members: [],
+                    points: 0,
                   },
                 ])
               }

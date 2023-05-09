@@ -17,17 +17,20 @@ import { io } from 'socket.io-client'
 import DeviceInfo from 'react-native-device-info'
 
 import {
+  setAnswersInGame,
+  setCommandsInGame,
   setCommandsAndPlayers,
-  setEndRound,
   setExplainerTeam,
   setExplainingUser,
   setPlayersInGame,
   setStaticRoundTime,
+  setStep,
   setStoping,
   setTime,
   setUserIsOrganizer,
   setWords,
   setYouExplainer,
+  setStartedAlias,
 } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 
@@ -37,17 +40,25 @@ const AliasNavigator = () => {
   const socketRef = useRef(null)
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { aliasGameId, endRound, stoping, time, explainYou } = useSelector(({ alias }) => alias)
+  const {
+    aliasGameId,
+    endRound,
+    stoping,
+    answersInGame,
+    explainYou,
+    step,
+    commandsInGame,
+    startedAlias,
+  } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
-    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
+    // console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
       case 'new_user': {
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
-
         break
       }
 
@@ -55,7 +66,7 @@ const AliasNavigator = () => {
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
         dispatch(setYouExplainer(true))
-        navigation.navigate('GameStart', {fromRes: true})
+        navigation.navigate('GameStart', { fromRes: true })
         break
       }
 
@@ -63,20 +74,20 @@ const AliasNavigator = () => {
         dispatch(setExplainingUser(e.explain_user))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.explain_user_team.name))
-        navigation.navigate('GameStart', {fromRes: true})
+        navigation.navigate('GameStart', { fromRes: true })
         break
       }
       case 'explain_your_team_user': {
         dispatch(setExplainingUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
-        navigation.navigate('GameStart', {fromRes: true})
+        navigation.navigate('GameStart', { fromRes: true })
         break
       }
       case 'alias_start': {
         dispatch(setExplainingUser(e.user))
         dispatch(setTime(e?.alias_game_team?.round_time))
         dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
-        navigation.navigate('GameStart', {fromRes: true})
+        navigation.navigate('GameStart', { fromRes: true })
         break
       }
       case 'alias_team_confirm': {
@@ -89,14 +100,25 @@ const AliasNavigator = () => {
         // dispatch(setSkips(e.skips))
       }
       case 'pause_or_start': {
-        if (!explainYou && stoping !== e?.data?.stoping) {
-          console.log(e?.data?.time);
-        // console.log('pause_or_start if')
+        if (!explainYou) {
           dispatch(setStoping(e?.data?.stoping))
-        // } else {
-          // console.log('pause_or_start else')
-          // dispatch(setTime(e?.data?.time))
         }
+        break
+      }
+      case 'message_to_all_players': {
+        console.log(e.data?.commandsInfos)
+        if (!explainYou) {
+          // if (e.data?.close == true) {
+          //   dispatch(setStartedAlias(true))
+          // } else {
+          //   dispatch(setStartedAlias(false))
+          // }
+
+          dispatch(setStep(e.data?.step))
+          dispatch(setAnswersInGame(e.data?.answersInGame))
+          dispatch(setCommandsInGame(e.data?.commandsInfos))
+        }
+        break
       }
     }
   }
@@ -124,19 +146,33 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
-  console.log("stoping ------>",stoping);
 
   useEffect(() => {
-    if(explainYou){
-      console.log('useEffect stop-p--------')
-      socketRef.current?.emit('pause_or_start', { stoping })//time
+    if (explainYou) {
+      socketRef.current?.emit('pause_or_start', { stoping }) //time
     }
   }, [stoping, explainYou])
-  useEffect(()=>{
-    if(endRound == true){
-      socketRef.current?.emit("end_time",{})
+
+  useEffect(() => {
+    if (endRound == true) {
+      socketRef.current?.emit('end_time', {})
     }
-  },[endRound])
+  }, [endRound])
+
+  useEffect(() => {
+    if (explainYou && step > 0) {
+      socketRef.current?.emit('message_to_all_players', {
+        answersInGame: answersInGame,
+        commandsInfos: commandsInGame,
+        step: step,
+      })
+    }
+    // else {
+    //   socketRef.current?.emit('message_to_all_players', {
+    //     close: startedAlias ? true : false,
+    //   })
+    // }
+  }, [step, explainYou])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
