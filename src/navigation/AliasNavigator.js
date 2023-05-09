@@ -31,6 +31,7 @@ import {
   setWords,
   setYouExplainer,
   setStartedAlias,
+  setEndRound,
 } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 
@@ -66,7 +67,17 @@ const AliasNavigator = () => {
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
         dispatch(setYouExplainer(true))
-        navigation.navigate('GameStart', { fromRes: true })
+        dispatch(setExplainingUser(null)),
+          // dispatch(setEndRound(true)),
+          dispatch(
+            setAnswersInGame({
+              true: 0,
+              false: 0,
+              trueWords: [],
+              falseWords: [],
+            }),
+          ),
+          navigation.navigate('GameStart', { fromRes: true })
         break
       }
 
@@ -74,20 +85,53 @@ const AliasNavigator = () => {
         dispatch(setExplainingUser(e.explain_user))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.explain_user_team.name))
-        navigation.navigate('GameStart', { fromRes: true })
+        dispatch(setYouExplainer(false)),
+          // dispatch(setEndRound(true)),
+          dispatch(
+            setAnswersInGame({
+              true: 0,
+              false: 0,
+              trueWords: [],
+              falseWords: [],
+            }),
+          ),
+          navigation.navigate('GameStart', { fromRes: true })
         break
       }
       case 'explain_your_team_user': {
         dispatch(setExplainingUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
-        navigation.navigate('GameStart', { fromRes: true })
+        dispatch(setYouExplainer(false)),
+          dispatch(setWords([])),
+          // dispatch(setEndRound(true)),
+          dispatch(
+            setAnswersInGame({
+              true: 0,
+              false: 0,
+              trueWords: [],
+              falseWords: [],
+            }),
+          ),
+          navigation.navigate('GameStart', { fromRes: true })
         break
       }
       case 'alias_start': {
         dispatch(setExplainingUser(e.user))
         dispatch(setTime(e?.alias_game_team?.round_time))
         dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
-        navigation.navigate('GameStart', { fromRes: true })
+        dispatch(setYouExplainer(false)),
+          dispatch(setWords([])),
+          dispatch(setExplainerTeam(null)),
+          // dispatch(setEndRound(true)),
+          dispatch(
+            setAnswersInGame({
+              true: 0,
+              false: 0,
+              trueWords: [],
+              falseWords: [],
+            }),
+          ),
+          navigation.navigate('GameStart', { fromRes: true })
         break
       }
       case 'alias_team_confirm': {

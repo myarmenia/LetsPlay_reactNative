@@ -43,7 +43,7 @@ const TeamsResults = () => {
         <LightButton
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
-          onPress={() => (
+          onPress={async () => (
             dispatch(setYouExplainer(false)),
             dispatch(setWords([])),
             dispatch(setExplainingUser(null)),

@@ -32,7 +32,6 @@ const IniviteTeamPlayers = ({ route }) => {
     teamDatas,
     participateSuccess,
     userIsOrganizer,
-    usersInGame,
   } = useSelector(({ alias }) => alias)
   const [i, setI] = useState(0)
   const [errorModal, setErrorModal] = useState(false)
@@ -126,6 +125,7 @@ const IniviteTeamPlayers = ({ route }) => {
       </Pressable>
     )
   }
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
