@@ -38,7 +38,7 @@ const Timer = ({ setChoosedUsers }) => {
     if (night && answersCount == 0) {
       setSeconds(120) // 7
       setChoosedUsers(null)
-    } else if (night && answer == 1) {
+    } else if (night && answersCount == 1) {
       setSeconds(120)
     } else if (!night) {
       setSeconds(voteTime * 60)

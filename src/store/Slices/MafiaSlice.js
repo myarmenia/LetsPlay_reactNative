@@ -279,6 +279,10 @@ export const clearAllDatas = () => (dispatch) => {
   dispatch(setPlayersRatings([]))
   dispatch(setWinner(null))
   dispatch(setOrganizer(false))
+  dispatch(setWaitAnswer(false))
+  dispatch(setEqualVotes(null))
+  dispatch(setDonVotedPlayers([]))
+  dispatch(setAnswersCount(0))
 }
 export const resetGame = (mafia_game_id) => (dispatch) => {
   dispatch(setPending(true))

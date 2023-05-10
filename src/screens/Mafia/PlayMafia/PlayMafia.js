@@ -8,15 +8,6 @@ import {
   Pressable,
   InteractionManager,
 } from 'react-native'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Pressable,
-  InteractionManager,
-} from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import UserBorderSvg from './assets/UserBorderSvg'
@@ -469,7 +460,6 @@ const PlayMafia = () => {
                     dispatch(setLoader(true))
                     dispatch(setWaitNight(false))
                   } else if (night && answersCount == 1) {
-                    console.log('if equalVotes?.question_id', equalVotes?.question_id)
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -486,8 +476,17 @@ const PlayMafia = () => {
                     console.log('if 7')
                     // day
                     // dispatch(setAnswersCount(0))
+
+                    dispatch(
+                      setSendAnswer({
+                        type: 'answer_question',
+                        question_id: dayQueastions?._id,
+                        select_user: choosedUsers,
+                      }),
+                    )
                     dispatch(setLoader(true))
                     dispatch(setWaitNight(true))
+                    setChoosedUsers(null)
                   } else {
                     console.log('if 3')
                     console.log('choosedUsers ' + mafiaRole?.name, {

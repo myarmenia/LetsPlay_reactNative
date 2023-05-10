@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NAV_HEADER_OPTION } from '@/constants'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,7 +11,6 @@ import AddPlayers from '@/screens/Mafia/AddPlayers/AddPlayers'
 import AboutGame from '@/screens/Mafia/AboutGame/AboutGame'
 import WaitPlayers from '@/screens/Mafia/WaitPlayers'
 import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
-import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
 import {
   clearAllDatas,
@@ -118,7 +117,8 @@ const MafiaNavigator = () => {
 
         break
       case 'player_out':
-        console.log('type player_out')
+        console.log('type player_out', e)
+
         const deadUser = e.all_players.filter((user) => {
           if (!user.status && !alredyDeadedUsers.current?.find((id) => user?._id == id)) {
             alredyDeadedUsers.current = [...alredyDeadedUsers.current, user._id]
