@@ -106,11 +106,11 @@ const PlayMafia = () => {
     })
   }, [winner])
 
-  useEffect(() => {
-    if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
-      dispatch(setAnswersCount(1))
-    }
-  }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
+  // useEffect(() => {
+  //   if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
+  //     dispatch(setAnswersCount(1))
+  //   }
+  // }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
 
   return (
     <ScreenMask>
@@ -431,7 +431,7 @@ const PlayMafia = () => {
                     dispatch(setWaitAnswer(false))
                     setChoosable(true)
                     if (mafiaRole?.name !== 'Дон') {
-                      dispatch(setAnswersCount(1))
+                      // dispatch(setAnswersCount(1))
                     } else {
                       dispatch(setLoader('Ждем голосование мафии'))
                     }

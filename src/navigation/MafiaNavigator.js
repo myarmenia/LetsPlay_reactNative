@@ -44,10 +44,11 @@ const MafiaNavigator = () => {
   const alredyDeadedUsers = useRef([])
   const questionAnswerState = useRef(0)
   const nightRef = useRef(false)
+  const mafiaRoleName = useRef(null)
 
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { mafiaGameId, sendAnswer, waitNight, answersCount, night } = useSelector(
+  const { mafiaGameId, sendAnswer, waitNight, mafiaRole, answersCount } = useSelector(
     ({ mafia }) => mafia,
   )
   const navigation = useNavigation()
@@ -103,13 +104,13 @@ const MafiaNavigator = () => {
         //   dispatch(setAnswersCount(0))
         // }
         // setQuestionAnswerState(++questionAnswerState)
-
+        console.log('mafiaRoleName', mafiaRoleName)
         if (nightRef.current) {
           if (questionAnswerState.current == 1) {
             dispatch(setWaitNight(false))
             dispatch(setAnswersCount(0))
             questionAnswerState.current = 0
-          } else {
+          } else if (mafiaRoleName.current != 'Дон') {
             dispatch(setAnswersCount(1))
             questionAnswerState.current = 1
           }
@@ -211,10 +212,14 @@ const MafiaNavigator = () => {
     //   dispatch(clearAllDatas())
     // }
   }, [])
-  // useEffect(() => {
-  //   console.log('questionAnswerState useEffect answersCount', answersCount)
 
-  // }, [questionAnswerState.current])
+  useEffect(() => {
+    mafiaRoleName.current = mafiaRole?.name
+  }, [mafiaRole])
+
+  useEffect(() => {
+    questionAnswerState.current = answersCount
+  }, [answersCount])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
