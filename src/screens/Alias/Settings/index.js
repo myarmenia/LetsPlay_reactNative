@@ -34,7 +34,7 @@ function Index({ navigation }) {
       dispatch(setStoping(true))
       dispatch(setTime(timeOfRounds))
       // dispatch(setMinutes(timeOfRounds)),
-        dispatch(setCountWords(countOfWords)),
+      dispatch(setCountWords(countOfWords)),
         // navigation.navigate('GameStart')
         navigation.navigate('SelectComplexity')
     }

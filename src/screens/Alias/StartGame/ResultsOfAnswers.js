@@ -7,31 +7,32 @@ import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 
-const ResultsOfAnswers = ({ route }) => {
+const ResultsOfAnswers = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { answersInGame, explainerTeam, commands, explainYou } = useSelector(({ alias }) => alias)
 
   const handleSubmit = () => {
     navigation.navigate('TeamsResults')
   }
+  const { explainedWords, explainerTeam } = useSelector(({ alias }) => alias)
+  // console.log('explainedWords', explainedWords)
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.commandName}>{explainerTeam}</Text>
         <View style={styles.mainBox}>
           <View style={styles.trueAnswers}>
-            <Text style={styles.title}>Отгадано {answersInGame?.true}</Text>
+            <Text style={styles.title}>Отгадано {explainedWords?.truthy.length}</Text>
             <View style={styles.trueAnswersWrap}>
-              {answersInGame.trueWords?.map((elm, i) => {
+              {explainedWords?.truthy?.map((elm, i) => {
                 return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
               })}
             </View>
           </View>
           <View style={styles.falseAnswers}>
-            <Text style={styles.title}>Пропущено {answersInGame?.false}</Text>
+            <Text style={styles.title}>Пропущено {explainedWords?.falsy.length}</Text>
             <View style={styles.trueAnswersWrap}>
-              {answersInGame.falseWords?.map((elm, i) => {
+              {explainedWords?.falsy?.map((elm, i) => {
                 return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
               })}
             </View>

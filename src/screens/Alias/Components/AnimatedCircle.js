@@ -1,28 +1,31 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
+import React, { memo, useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder, Animated } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAnswersInGame, setCommandsInGame, setStep } from '@/store/Slices/AliasSlice'
+import { setExplainedWords, setStep, setTeams } from '@/store/Slices/AliasSlice'
 import { font } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
 
-const AnimatedCircle = () => {
+const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
   const dispatch = useDispatch()
-  const { words, stoping, explainYou, step, answersInGame, commandsInGame, explainerTeam } =
-    useSelector(({ alias }) => alias)
+  const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords } = useSelector(
+    ({ alias }) => alias,
+  )
+
   let changer = () => {
-    let newArr = commandsInGame?.map((elm) => {
-      if (elm.value == explainerTeam) {
-        let count = elm.points + 1
-        return {
-          ...elm,
-          points: count,
+    if (explainYou) {
+      let newArr = allTeams?.map((elm) => {
+        if (elm.value == explainerTeam) {
+          return {
+            ...elm,
+            points: elm.points + 1,
+          }
+        } else {
+          return { ...elm }
         }
-      } else {
-        return { ...elm }
-      }
-    })
-    dispatch(setCommandsInGame(newArr))
+      })
+      dispatch(setTeams([...newArr]))
+    }
   }
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
@@ -34,28 +37,34 @@ const AnimatedCircle = () => {
         pan.flattenOffset()
         if (gestureState.moveY < 233) {
           dispatch(
-            setAnswersInGame({
-              ...answersInGame,
-              true: ++answersInGame.true,
-              trueWords: [...answersInGame.trueWords, words?.[step]?.name],
+            setExplainedWords({
+              ...explainedWords,
+              truthy: [...explainedWords.truthy, words?.[step]?.name],
             }),
           )
+          setTruthyCount((prev) => {
+            return +prev + 1
+          })
           dispatch(setStep(step + 1))
-          changer()
 
+          changer()
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
             useNativeDriver: false,
           }).start()
         } else if (gestureState.moveY > 555) {
+          // setFalsyCount((prev) => +prev + 1)
           dispatch(
-            setAnswersInGame({
-              ...answersInGame,
-              false: ++answersInGame.false,
-              falseWords: [...answersInGame.falseWords, words?.[step]?.name],
+            setExplainedWords({
+              ...explainedWords,
+              falsy: [...explainedWords.falsy, words?.[step]?.name],
             }),
           )
+
+          setFalsyCount((prev) => {
+            return +prev + 1
+          })
           dispatch(setStep(step + 1))
 
           Animated.timing(pan, {

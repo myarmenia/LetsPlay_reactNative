@@ -27,11 +27,13 @@ const Timer = ({
       setSelectedTime({ seconds: staticTime })
     }
   }, [fromRes])
+
   useEffect(() => {
     if (selectedTime.seconds == 0) {
       setSecModalVisible(true)
     }
   }, [selectedTime.seconds])
+
   useEffect(() => {
     let timer
     if (!stoping) {

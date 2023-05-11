@@ -1,9 +1,16 @@
 import { ICON, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { memo, useEffect, useState } from 'react'
+import { memo, useEffect, useRef, useState } from 'react'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { View, StyleSheet, Text, Pressable, InteractionManager } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  Pressable,
+  InteractionManager,
+  TouchableOpacity,
+} from 'react-native'
 import PlayingInstructionSVG from '../assets/PlayingInstructionSVG'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import AnimatedCircle from '../Components/AnimatedCircle'
@@ -15,35 +22,47 @@ import Modal from '@/components/modal'
 import { setCommandsInGame, setStartedAlias, setStoping } from '@/store/Slices/AliasSlice'
 
 const GameStart = ({ route }) => {
+  const [modalVisible, setModalVisible] = useState(false)
+  const [secModalVisible, setSecModalVisible] = useState(false)
+  const [userModalVisible, setUserModalVisible] = useState(false)
+  const [truthyCount, setTruthyCount] = useState(0)
+  const [falsyCount, setFalsyCount] = useState(0)
+  // const [explainedWords, setExplainedWords] = useState({
+  //   truthy: [],
+  //   falsy: [],
+  // })
+  const { user } = useSelector(({ auth }) => auth)
+  const { stoping } = useSelector(({ alias }) => alias)
+  const { allTeams, explainerUser, explainerTeam, explainYou, step, explainedWords } = useSelector(
+    ({ alias }) => alias,
+  )
   let props = route?.params
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  const [modalVisible, setModalVisible] = useState(false)
-  const [secModalVisible, setSecModalVisible] = useState(false)
-  const [userModalVisible, setUserModalVisible] = useState(false)
-  const { user } = useSelector(({ auth }) => auth)
-  const {
-    stoping,
-    step,
-    explainYou,
-    explainerTeam,
-    explainingUser,
-    answersInGame,
-    endRound,
-    startedAlias,
-    commandsInGame,
-  } = useSelector(({ alias }) => alias)
+
+  // let explainedWords = {
+  //   truthy: [],
+  //   falsy: [],
+  // }
+  const timeOutFunc = () => {
+    setSecModalVisible(false)
+    navigation.navigate('ResultsOfAnswers')
+    // explainedWords = {
+    //   truthy: [],
+    //   falsy: [],
+    // }
+  }
+
   useEffect(() => {
-    if (explainYou) {
-      console.log('in game start ', commandsInGame)
+    console.log('allteams ===', allTeams)
+    if (!explainYou && allTeams[0].members?.length) {
+      const currentExplainTeamPoints = allTeams.find((item) => item.value == explainerTeam)?.points
+      if (typeof currentExplainTeamPoints == 'number') setTruthyCount(currentExplainTeamPoints)
+      if (step > 0 && typeof currentExplainTeamPoints == 'number')
+        setFalsyCount(step - currentExplainTeamPoints)
     }
-  }, [step, commandsInGame])
-  useEffect(() => {
-    if (explainYou) {
-      console.log('in game start firts useeffect', commandsInGame)
-    }
-  }, [])
+  }, [allTeams, step])
 
   const UserModal = () => {
     return (
@@ -63,7 +82,7 @@ const GameStart = ({ route }) => {
           </Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            <User size={380} pressedUser={explainYou ? user : explainingUser} />
+            <User size={380} pressedUser={explainYou ? user : explainerUser} />
           </View>
 
           {!!explainYou && (
@@ -84,12 +103,12 @@ const GameStart = ({ route }) => {
 
   const ModalItem = () => {
     return (
-      <Pressable
-        onPress={() => {
-          setModalVisible(false)
-          dispatch(setStoping(false))
-          // dispatch(setStartedAlias(true))
-        }}
+      <TouchableOpacity
+        // onPress={() => {
+        //   setModalVisible(false)
+        //   dispatch(setStoping(false))
+        //   // dispatch(setStartedAlias(true))
+        // }}
         style={{
           flexDirection: 'column',
           alignItems: 'center',
@@ -117,7 +136,7 @@ const GameStart = ({ route }) => {
             }}
           />
         </View>
-      </Pressable>
+      </TouchableOpacity>
     )
   }
 
@@ -126,8 +145,7 @@ const GameStart = ({ route }) => {
       <Pressable
         onPress={() => {
           setSecModalVisible(false)
-
-          navigation.navigate('ResultsOfAnswers', { fromGame: true })
+          navigation.navigate('ResultsOfAnswers')
         }}
         style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}
       >
@@ -149,19 +167,21 @@ const GameStart = ({ route }) => {
           setModalVisible(false)
         }
       }
+    }, [isFocused, userModalVisible])
 
-      //  else {
-      //   if (!userModalVisible && !modalVisible) {
-      //     // dispatch(setStoping(false))
-      //     // setUserModalVisible(false)
-      //     setModalVisible(false)
-      //   } else {
-      //     // setUserModalVisible(true)
-      //   }
-      // }
-    })
-  }, [userModalVisible, isFocused, endRound, explainYou, props])
-
+    //  else {
+    //   if (!userModalVisible && !modalVisible) {
+    //     // dispatch(setStoping(false))
+    //     // setUserModalVisible(false)
+    //     setModalVisible(false)
+    //   } else {
+    //     // setUserModalVisible(true)
+    //   }
+    // }
+  }, [userModalVisible, isFocused, props, explainYou])
+  useEffect(() => {
+    console.log('explainedWords', explainedWords)
+  }, [explainedWords])
   return (
     <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
       <View style={{ position: 'absolute' }}>
@@ -181,7 +201,12 @@ const GameStart = ({ route }) => {
         />
         {/* ) : null} */}
         {/* {modalVisible ? ( */}
-        <Modal setIsVisible={setModalVisible} modalVisible={modalVisible} item={<ModalItem />} />
+        <Modal
+          setIsVisible={setModalVisible}
+          modalVisible={modalVisible}
+          dontClose={true}
+          item={<ModalItem />}
+        />
         {/* ) : null} */}
       </View>
       <View
@@ -195,15 +220,16 @@ const GameStart = ({ route }) => {
       >
         <View style={styles.answersBox}>
           <Text style={styles.commandName}>{explainerTeam}</Text>
-          <Text style={styles.countOfTrueAnswer}>{answersInGame?.true}</Text>
+
+          <Text style={styles.countOfTrueAnswer}>{truthyCount}</Text>
           <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
         </View>
         <View>
-          <AnimatedCircle stoped={stoping ? true : false} />
+          <AnimatedCircle setTruthyCount={setTruthyCount} setFalsyCount={setFalsyCount} />
         </View>
         <View style={styles.answersBox}>
           <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
-          <Text style={styles.countOfTrueAnswer}>{answersInGame?.false}</Text>
+          <Text style={styles.countOfTrueAnswer}>{falsyCount}</Text>
           <View style={styles.bottomBox}>
             <View style={{ width: '65%' }}>
               {!!explainYou && (
@@ -214,6 +240,8 @@ const GameStart = ({ route }) => {
                 />
               )}
             </View>
+            <Text>{allTeams[0].points}</Text>
+            <Text>{allTeams[1].points}</Text>
             <View style={{ alignItems: 'center', width: '35%' }}>
               <Timer
                 secModalVisible={secModalVisible}

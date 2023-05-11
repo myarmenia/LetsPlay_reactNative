@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import {  View } from 'react-native'
+import { View } from 'react-native'
 import Modal from 'react-native-modal'
 import { useNavigation } from '@react-navigation/native'
 
@@ -7,6 +7,7 @@ function Index({
   item,
   modalClose,
   modalVisible,
+  dontClose = false,
   navigationText,
   setIsVisible,
   navigationParam = null,
@@ -17,19 +18,20 @@ function Index({
     setModalVisible(modalVisible)
   }, [modalVisible])
 
-
   return (
     <View style={{ flex: 1 }}>
       <Modal
         onBackdropPress={() => {
-          if (modalClose) {
-            setIsVisible(true)
-            setModalVisible(true)
-            navigationText ? navigation.navigate(navigationText, navigationParam) : null
-          } else {
-            setIsVisible(false)
-            setModalVisible(false)
-            navigationText ? navigation.navigate(navigationText, navigationParam) : null
+          if (!dontClose) {
+            if (modalClose) {
+              setIsVisible(true)
+              setModalVisible(true)
+              navigationText ? navigation.navigate(navigationText, navigationParam) : null
+            } else {
+              setIsVisible(false)
+              setModalVisible(false)
+              navigationText ? navigation.navigate(navigationText, navigationParam) : null
+            }
           }
         }}
         isVisible={isModalVisible}

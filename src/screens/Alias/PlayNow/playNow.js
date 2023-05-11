@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
@@ -12,35 +12,34 @@ import { startAliasGame } from '@/store/Slices/AliasSlice'
 const PlayNow = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const { aliasGameId, playersInGame, explainYou, commandsInGame, commandsAndPlayers } =
-    useSelector(({ alias }) => alias)
-
+  const { aliasGameId, allTeams, playersInGame } = useSelector(({ alias }) => alias)
   return (
     <ScreenMask>
       <View style={styles.mainContainer}>
         <ScrollView>
           <View style={styles.commandsConatainer}>
-            {commandsAndPlayers?.map((elm, i) => {
+            {allTeams?.map((elm, i) => {
               return (
                 <View key={i}>
-                  <Text style={styles.commandName}>{elm?.name}</Text>
-
+                  <Text style={styles.commandName}>{elm?.value}</Text>
                   <View style={styles.eachCommandBox}>
-                    {elm.players.map((player) => {
-                      return (
-                        <View key={Math.random().toString()}>
-                          {/* pass user in User component with pressed user prop */}
-                          <User
-                            size={70}
-                            onPressItem={{
-                              item: <User size={390} pressedUser={player} />,
-                              modalClose: false,
-                              // onClickFunc: handleClick,
-                            }}
-                            pressedUser={player}
-                          />
-                        </View>
-                      )
+                    {playersInGame.map((player) => {
+                      if (allTeams[i].members.includes(player?._id)) {
+                        return (
+                          <View key={Math.random().toString()}>
+                            {/* pass user in User component with pressed user prop */}
+                            <User
+                              size={70}
+                              onPressItem={{
+                                item: <User size={390} pressedUser={player} />,
+                                modalClose: false,
+                                // onClickFunc: handleClick,
+                              }}
+                              pressedUser={player}
+                            />
+                          </View>
+                        )
+                      }
                     })}
                   </View>
                 </View>
@@ -59,6 +58,7 @@ const PlayNow = () => {
               bgColor={'#4D7CFE'}
               onPress={() => {
                 dispatch(startAliasGame(aliasGameId))
+                navigation.navigate('GameStart')
               }}
             />
           </View>

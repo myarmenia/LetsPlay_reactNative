@@ -7,11 +7,10 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import {
   sendAliasGameId,
-  setCommandsInGame,
   setParticipateSuccess,
   setPlayers,
   setReservedUsers,
-  setUsersInGame,
+  setTeams,
 } from '@/store/Slices/AliasSlice'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
@@ -21,15 +20,15 @@ import ScreenMask from '@/components/wrappers/screen'
 import { setPending } from '@/store/Slices/AuthSlice'
 import Modal from '@/components/modal'
 import CloseSVG from './Components/CloseSVG'
+
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const props = route.params
   const {
-    commandsInGame,
     reservedUsers,
     aliasGameId,
+    allTeams,
     playersInGame,
-    teamDatas,
     participateSuccess,
     userIsOrganizer,
   } = useSelector(({ alias }) => alias)
@@ -43,10 +42,11 @@ const IniviteTeamPlayers = ({ route }) => {
   }, [isFocused])
 
   useEffect(() => {
-    if (props.id) {
-      dispatch(sendAliasGameId(props?.id))
+    if (props?.id) {
+      dispatch(sendAliasGameId(props.id))
     }
   }, [props])
+
   useEffect(() => {
     if (participateSuccess === false) {
       alert('Что-то пошло не так')
@@ -55,12 +55,13 @@ const IniviteTeamPlayers = ({ route }) => {
     }
     dispatch(setPending(false))
   }, [participateSuccess])
+
   const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
-      if (commandsInGame?.[i]?.members?.some((item) => item == elm?._id)) {
+      if (allTeams?.[i]?.members?.some((item) => item == elm?._id)) {
         dispatch(
-          setCommandsInGame(
-            commandsInGame?.map((elem) => {
+          setTeams(
+            allTeams?.map((elem) => {
               if (elem.members.includes(elm?._id)) {
                 return { ...elem, members: elem.members.filter((item) => item !== elm?._id) }
               } else {
@@ -71,8 +72,8 @@ const IniviteTeamPlayers = ({ route }) => {
         )
       } else {
         dispatch(
-          setCommandsInGame(
-            commandsInGame?.map((item) =>
+          setTeams(
+            allTeams?.map((item) =>
               item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
           ),
@@ -82,18 +83,18 @@ const IniviteTeamPlayers = ({ route }) => {
   }
 
   const handleSubmit = async () => {
-    if (commandsInGame[i].members.length >= 2) {
+    if (allTeams[i]?.members.length >= 2) {
       setError(false)
-      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commandsInGame[i].members])]))
+      dispatch(setReservedUsers([...new Set([...reservedUsers, ...allTeams[i].members])]))
       dispatch(
         setPlayers({
           alias_id: aliasGameId,
-          team_id: teamDatas[i]?._id,
-          players: commandsInGame?.[i]?.members,
+          team_id: allTeams[i]?.id,
+          players: allTeams?.[i]?.members,
         }),
       )
       setI((prev) => prev + 1)
-      i >= commandsInGame.length - 1 ? navigation.navigate('PlayNow') : null
+      i >= allTeams.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)
       setErrorModal(true)
@@ -133,14 +134,13 @@ const IniviteTeamPlayers = ({ route }) => {
           <View style={styles.mainContainer}>
             <Text style={styles.title}>Игроки добавились в игру</Text>
             <Text style={styles.title}>Распределите игроков</Text>
-            <Text style={styles.commandName}>{commandsInGame?.[i]?.value}</Text>
+            <Text style={styles.commandName}>{allTeams?.[i]?.value}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
                 {playersInGame?.map((elm, j) => {
                   return (
                     <View
                       style={{
-                        //  opacity: commandsInGame?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
                         opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1,
                       }}
                       key={j + 10}
@@ -149,14 +149,12 @@ const IniviteTeamPlayers = ({ route }) => {
                         style={{
                           alignItems: 'center',
                           justifyContent: 'center',
-
-                          // paddingVertical: RH(6),
                         }}
                       >
                         <BorderGradient
                           height={142}
                           width={105}
-                          opacity={commandsInGame?.[i]?.members?.includes(elm?._id) ? 1 : 0}
+                          opacity={allTeams?.[i]?.members?.includes(elm?._id) ? 1 : 0}
                         />
                         <Pressable
                           style={{
@@ -206,7 +204,11 @@ const IniviteTeamPlayers = ({ route }) => {
               />
             </View>
             <View style={styles.btnBox}>
-              <DarkButton label={'Пригласить игроков'} size={{ width: RW(310), height: RH(50) }} />
+              <DarkButton
+                label={'Пригласить игроков'}
+                size={{ width: RW(310), height: RH(50) }}
+                onPress={() => navigation.goBack()}
+              />
             </View>
           </View>
         ) : null}
@@ -215,7 +217,7 @@ const IniviteTeamPlayers = ({ route }) => {
   )
 }
 
-export default memo(IniviteTeamPlayers)
+export default IniviteTeamPlayers
 
 const styles = StyleSheet.create({
   title: {
