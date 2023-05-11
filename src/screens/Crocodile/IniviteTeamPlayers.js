@@ -34,19 +34,19 @@ const IniviteTeamPlayers = ({ route }) => {
   }, [isFocused])
 
   useEffect(() => {
-    if(props?.id){
-      dispatch(sendCrocodileGameId(props?.id))  
+    if (props?.id) {
+      dispatch(sendCrocodileGameId(props?.id))
     }
   }, [props])
 
-  const handleClick = elm => {
+  const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
-      if (commands?.[i]?.members?.some(item => item == elm?._id)) {
+      if (commands?.[i]?.members?.some((item) => item == elm?._id)) {
         dispatch(
           setCommands(
-            commands?.map(elem => {
+            commands?.map((elem) => {
               if (elem.members.includes(elm?._id)) {
-                return { ...elem, members: elem.members.filter(item => item !== elm?._id) }
+                return { ...elem, members: elem.members.filter((item) => item !== elm?._id) }
               } else {
                 return elem
               }
@@ -56,7 +56,7 @@ const IniviteTeamPlayers = ({ route }) => {
       } else {
         dispatch(
           setCommands(
-            commands?.map(item =>
+            commands?.map((item) =>
               item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
           ),
@@ -76,7 +76,7 @@ const IniviteTeamPlayers = ({ route }) => {
           players: reservedUsers,
         }),
       )
-      setI(prev => prev + 1)
+      setI((prev) => prev + 1)
       i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)
@@ -130,8 +130,6 @@ const IniviteTeamPlayers = ({ route }) => {
                             onPressItem={{
                               item: <User size={390} pressedUser={elm} />,
                               modalClose: false,
-
-                              // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
                               onClickFunc: () => handleClick(elm),
                             }}
                           />

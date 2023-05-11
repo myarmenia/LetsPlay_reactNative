@@ -1,38 +1,39 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { memo, useEffect } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
-import { setEndRound } from '@/store/Slices/AliasSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
-const ResultsOfAnswers = ({route}) => {
-  const navigation = useNavigation()
-  const props = route.params
+const ResultsOfAnswers = () => {
   const dispatch = useDispatch()
-  const handleClick = ()=>{
-     navigation.navigate('TeamsResults')
+  const navigation = useNavigation()
+  const handleSubmit = () => {
+    navigation.navigate('TeamsResults')
   }
+  const { explainedWords, explainerTeam } = useSelector(({ alias }) => alias)
+  // console.log('explainedWords', explainedWords)
+  
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.commandName}>Команда 1</Text>
+        <Text style={styles.commandName}>{explainerTeam}</Text>
         <View style={styles.mainBox}>
           <View style={styles.trueAnswers}>
-            <Text style={styles.title}>Отгадано {props?.true}</Text>
+            <Text style={styles.title}>Отгадано {explainedWords?.truthy.length}</Text>
             <View style={styles.trueAnswersWrap}>
-              {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
-                return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
+              {explainedWords?.truthy?.map((elm, i) => {
+                return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
               })}
             </View>
           </View>
           <View style={styles.falseAnswers}>
-            <Text style={styles.title}>Пропущено {props.false}</Text>
+            <Text style={styles.title}>Пропущено {explainedWords?.falsy.length}</Text>
             <View style={styles.trueAnswersWrap}>
-              {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
-                return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
+              {explainedWords?.falsy?.map((elm, i) => {
+                return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
               })}
             </View>
           </View>
@@ -41,7 +42,8 @@ const ResultsOfAnswers = ({route}) => {
           <LightButton
             label={'Продолжить'}
             size={{ width: 281, height: 48 }}
-            onPress={handleClick}
+            onPress={handleSubmit}
+
           />
         </View>
       </ScrollView>
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
   trueAnswersWrap: {
     flexDirection: 'column',
     flexWrap: 'wrap',
-    height: RH(280),
+    // height: RH(280),
     width: '80%',
   },
   title: {

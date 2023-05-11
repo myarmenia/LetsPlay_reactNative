@@ -40,11 +40,11 @@ export const CrocodileSlice = createSlice({
   },
 })
 
-export const sendCrocodileSettings = data => dispatch => {
+export const sendCrocodileSettings = (data) => (dispatch) => {
   console.log(data)
   axiosInstance
     .post('api/crocodile', data)
-    .then(response => {
+    .then((response) => {
       console.log(response.data.data)
       dispatch(setQrImg(response.data?.data?.qr_link))
       dispatch(setCrocodileGameId(response.data?.data?._id))
@@ -54,26 +54,26 @@ export const sendCrocodileSettings = data => dispatch => {
       console.log('err sending crocodile settings :', err)
     })
 }
-export const sendCrocodileGameId = id => dispatch => {
+export const sendCrocodileGameId = (id) => (dispatch) => {
   axiosInstance
     .post(`api/crocodile/participate/${id}`)
-    .then( response => {
-      console.log("response =", response.data);
+    .then((response) => {
+      console.log('response =', response.data)
       if (response.data?.data?.players) {
         dispatch(setPlayersInGame(response.data.data))
       }
       dispatch(setCrocodileGameId(id))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err sending crocodile game id :', err)
     })
 }
 
-export const setPlayers = teamInfo => dispatch => {
+export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/crocodile/confirm/team`, teamInfo)
-    .then(async response => {})
-    .catch(err => {
+    .then(async (response) => {})
+    .catch((err) => {
       console.log('err setting players :', err)
     })
 }

@@ -11,95 +11,61 @@ import {  setStoping, setTime } from '@/store/Slices/AliasSlice'
 
 const Timer = ({
   modalVisible,
-  setModalVisible,
-  // timerStart,
-  setUserModalVisible,
+  fromRes,
   userModalVisible,
   secModalVisible,
   setSecModalVisible,
 }) => {
-  const { explainYou, stoping, time, staticRoundTime, startAgain } = useSelector(({ alias }) => alias)
-  console.log("time", time)
-  const [selectedTime, setSelectedTime] = useState({ seconds: staticRoundTime })
+  const { explainYou, stoping, time, staticTime } = useSelector(({ alias }) => alias)
+  const [selectedTime, setSelectedTime] = useState({ seconds: staticTime })
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  // useEffect(() => {
-  //   console.log('timerStart useEffect', timerStart)
-  //   if (timerStart) {
 
-  //     setSelectedTime({ seconds: selectedTime.seconds + 0 })
-  //     dispatch(setStoping(false))
-  //     dispatch(setTime(selectedTime.seconds))
-  //   }
-  // }, [timerStart])
-  useEffect(()=>{
-  console.log("startAgain", startAgain);
-    if(selectedTime.seconds == 0 ){
-      setSelectedTime({seconds: staticRoundTime})
+  useEffect(() => {
+    if (fromRes) {
+      setSelectedTime({ seconds: staticTime })
     }
-  },[startAgain])
+  }, [fromRes])
+
   useEffect(() => {
     if (selectedTime.seconds == 0) {
-      // setSelectedTime({ seconds: 0 })
-      // dispatch(setStoping(true))
-      // dispatch(setTime(selectedTime.seconds))
       setSecModalVisible(true)
     }
-    // else  if (selectedTime.seconds == 0 && !explainYou && endRound) {
-    //   setSecModalVisible(true)
-    // }
   }, [selectedTime.seconds])
+
   useEffect(() => {
-    let timer 
+    let timer
     if (!stoping) {
-       timer = setInterval(() => {
-          if (selectedTime.seconds > 0 && selectedTime.seconds !== 0) {
-            if (!modalVisible && !userModalVisible && explainYou) {
-              setSelectedTime({
-                seconds: selectedTime.seconds - 1,
-              })
-              // dispatch(setStoping(false))
-              dispatch(setTime(selectedTime.seconds - 1))
-            } 
-            if (!userModalVisible && !explainYou) {
-              setSelectedTime({
-                seconds: selectedTime.seconds - 1,
-              })
-              // dispatch(setStoping(false))
-              dispatch(setTime(selectedTime.seconds -1))
-            }
-            
-          } else if (time == 0) {
-            // setSelectedTime({ seconds: 0 })
-            dispatch(setStoping(true))
-            dispatch(setTime(selectedTime.seconds))
-            // dispatch(setStoping(true))
-            // dispatch(setTime(selectedTime.seconds))
-            // setSecModalVisible(true)
-            // clearInterval(timer)
+      timer = setInterval(() => {
+        if (selectedTime.seconds > 0 && selectedTime.seconds !== 0) {
+          if (!modalVisible && !userModalVisible && explainYou) {
+            setSelectedTime({
+              seconds: selectedTime.seconds - 1,
+            })
+            dispatch(setTime(selectedTime.seconds - 1))
+
           }
-
+          if (!userModalVisible && !explainYou) {
+            setSelectedTime({
+              seconds: selectedTime.seconds - 1,
+            })
+            dispatch(setTime(selectedTime.seconds - 1))
+          }
+        } else if (time == 0) {
+          dispatch(setTime(selectedTime.seconds))
+        }
       }, 1000)
-  } else {
-    console.log("useEffect timer else")
-    // setSelectedTime((prev) => ({ seconds: prev.seconds }))
-    // dispatch(setStoping(false))
-    // dispatch(setTime(selectedTime.seconds))
-    // clearInterval(timer)
-  }
-
+    }
 
     return () => clearInterval(timer)
-  }, [selectedTime.seconds, stoping, explainYou, userModalVisible])
+  }, [selectedTime.seconds, stoping, explainYou, secModalVisible])
 
   const displayMinutes = Math.floor(selectedTime.seconds / 60)
     .toString()
     .padStart(2, '0')
   const displaySeconds = (selectedTime.seconds % 60).toString().padStart(2, '0')
-useEffect(()=>{
-  console.log("selectedTime.seconds =================", selectedTime.seconds);
-},[selectedTime.seconds])
+
   return (
     <>
       <Text style={styles.timer}>Оставшееся время</Text>

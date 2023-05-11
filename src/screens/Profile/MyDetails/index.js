@@ -58,9 +58,6 @@ function Index() {
   const [phoneState, setPhoneState] = useState(phone_number)
   const [vkUriState, setVkUriState] = useState(vk_uri)
   const [dateState, setDateState] = useState(dob ? new Date(dob) : new Date())
-  {
-    console.log('dateState', dob)
-  }
 
   const [genderState, setGenderState] = useState([
     { text: 'М', checked: gender == 'male', label: 'male' },
@@ -138,8 +135,8 @@ function Index() {
     let formdata = new FormData()
     formdata.append('avatar', {
       name: 'uresPhoto',
-      type: result.assets[0].type,
-      uri: result.assets[0].uri,
+      type: result?.assets?.[0]?.type,
+      uri: result?.assets?.[0]?.uri,
     })
 
     let requestOptions = {

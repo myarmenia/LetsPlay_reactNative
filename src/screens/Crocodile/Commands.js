@@ -15,7 +15,9 @@ const Commands = () => {
   const navigation = useNavigation()
   const { complexity } = useSelector(({ crocodile }) => crocodile)
   const [error, setError] = useState(false)
-  const [commandsCount, setCommandsCount] = useState([{ command: 1, value: '', members: [] }])
+  const [commandsCount, setCommandsCount] = useState([
+    { command: 1, value: '', members: [], points: 0 },
+  ])
 
   const handleSubmit = () => {
     const sendingObj = {
@@ -23,7 +25,7 @@ const Commands = () => {
       round_time: 2,
       team_game: commandsCount.length > 1 ? true : false,
       type: complexity,
-      teams: commandsCount.map(elm => elm.value),
+      teams: commandsCount.map((elm) => elm.value),
     }
     let empty = 0
     for (let elem of commandsCount) {
@@ -57,11 +59,11 @@ const Commands = () => {
                     <TextInput
                       style={styles.priceInputText}
                       placeholder={`Название команды ${elm.command}`}
-                      onChangeText={e =>
+                      onChangeText={(e) =>
                         setCommandsCount([
                           ...commandsCount.map((elm, ind) => {
                             return i == ind
-                              ? { command: elm.command, value: e, members: [] }
+                              ? { command: elm.command, value: e, members: [], points: 0 }
                               : { ...elm }
                           }),
                         ])
@@ -75,8 +77,8 @@ const Commands = () => {
                       onPress={() =>
                         commandsCount.length !== 1
                           ? commandsCount.length == 2
-                            ? setCommandsCount([{ command: 1, value: '', members: [] }])
-                            : setCommandsCount([...commandsCount.filter(elem => elm !== elem)])
+                            ? setCommandsCount([{ command: 1, value: '', members: [], points: 0 }])
+                            : setCommandsCount([...commandsCount.filter((elem) => elm !== elem)])
                           : null
                       }
                     >
@@ -97,6 +99,7 @@ const Commands = () => {
                     command: commandsCount[commandsCount.length - 1].command + 1,
                     value: '',
                     members: [],
+                    points: 0,
                   },
                 ])
               }

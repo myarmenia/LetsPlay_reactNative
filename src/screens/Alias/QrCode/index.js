@@ -7,8 +7,7 @@ import { Image, Text, View, StyleSheet } from 'react-native'
 import Button from '@/assets/imgs/Button'
 import ScreenMask from '@/components/wrappers/screen'
 
-function Index({ route }) {
-  const commandsCount = route?.params
+function Index() {
   const { qrGameImg } = useSelector(({ alias }) => alias)
   const navigation = useNavigation()
 
@@ -21,7 +20,7 @@ function Index({ route }) {
             <Image style={styles.qr} source={{ uri: _storageUrl + qrGameImg }} />
           </View>
           <Button
-            onPress={() => navigation.navigate('InviteTeamPlayers', commandsCount)}
+            onPress={() => navigation.navigate('InviteTeamPlayers')}
             size={styles.btn}
             label={'Продолжить'}
           />

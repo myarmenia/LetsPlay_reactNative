@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { sendAliasSettings, setCommands } from '@/store/Slices/AliasSlice'
+import { sendAliasSettings, setCommandsInGame, setTeams } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
@@ -13,35 +13,34 @@ import LightButton from '@/assets/imgs/Button'
 const Commands = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { countOfWords, stoping, complexity, time } = useSelector(({ alias }) => alias)
+  const { countWords, allTeams, complexity, time } = useSelector(({ alias }) => alias)
   const [error, setError] = useState(false)
-  const [commandsCount, setCommandsCount] = useState([
-    { command: 1, value: '', members: [] },
-    { command: 2, value: '', members: [] },
-  ])
 
-  const handleSubmit = () => {
-    let empty = 0
-    for (let elem of commandsCount) {
+  const handleSubmit = async () => {
+    for (let elem of allTeams) {
       if (!elem.value) {
-        empty++
+        setError(true)
+      } else {
+        setError(false)
       }
     }
-    if (empty !== 0) {
-      setError(true)
-    } else {
+    if (!error) {
       setError(false)
-      dispatch(setCommands(commandsCount)),
-        dispatch(
-          sendAliasSettings({
-            number_of_words: countOfWords,
+      // dispatch(setTeams(allTeams))
+      dispatch(
+        sendAliasSettings(
+          {
+            number_of_words: countWords,
             round_time: time,
             pass_fine: true,
             type: complexity,
-            teams: commandsCount.map(elm => elm.value),
-          }),
-        )
-      navigation.navigate('QrCode', commandsCount)
+            teams: allTeams.map((elm) => elm.value),
+          },
+          allTeams,
+        ),
+      )
+      // console.log(allTeams)
+      navigation.navigate('QrCode')
     }
   }
   return (
@@ -55,38 +54,40 @@ const Commands = () => {
         <View style={styles.mainContainer}>
           <Text style={styles.myCommands}>Мои команды</Text>
           <View>
-            {commandsCount.map((elm, i) => {
+            {allTeams.map((elm, i) => {
               return (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} key={i}>
                   <View style={styles.inputBlock}>
                     <TextInput
                       style={styles.priceInputText}
                       placeholder={`Название команды ${elm.command}`}
-                      onChangeText={e =>
-                        setCommandsCount([
-                          ...commandsCount.map((elm, ind) => {
-                            return i == ind
-                              ? { command: elm.command, value: e, members: [] }
-                              : { ...elm }
-                          }),
-                        ])
-                      }
+                      onChangeText={(e) => {
+                        dispatch(
+                          setTeams(
+                            allTeams.map((elm, ind) => {
+                              return i == ind ? { ...elm, value: e } : elm
+                            }),
+                          ),
+                        )
+                      }}
                       placeholderTextColor={ICON}
                       // keyboardType="number-pad"
                     />
                   </View>
-                  {commandsCount.length !== 2 ? (
+                  {allTeams.length !== 2 ? (
                     <Pressable
-                      onPress={() =>
-                        commandsCount.length !== 1
-                          ? commandsCount.length == 3
-                            ? setCommandsCount([
-                                { command: 1, value: '', members: [] },
-                                { command: 2, value: '', members: [] },
-                              ])
-                            : setCommandsCount([...commandsCount.filter(elem => elm !== elem)])
-                          : null
-                      }
+                    // onPress={() =>
+                    //   allTeams.length !== 1
+                    //     ? allTeams.length == 3
+                    //       ? dispatch(
+                    //           setTeams([
+                    //             { command: 1, value: '', members: [], points: 0 },
+                    //             { command: 2, value: '', members: [], points: 0 },
+                    //           ]),
+                    //         )
+                    //       : dispatch(setTeams([...allTeams.filter((elem) => elm !== elem)]))
+                    //     : null
+                    // }
                     >
                       <DeleteIconSVG />
                     </Pressable>
@@ -95,19 +96,22 @@ const Commands = () => {
               )
             })}
           </View>
-          {commandsCount.length !== 5 ? (
+          {allTeams.length !== 5 ? (
             <Pressable
               style={styles.addCommandBox}
-              onPress={() =>
-                setCommandsCount([
-                  ...commandsCount,
-                  {
-                    command: commandsCount[commandsCount.length - 1].command + 1,
-                    value: '',
-                    members: [],
-                  },
-                ])
-              }
+              // onPress={() =>
+              // dispatch(
+              //   setTeams([
+              //     ...allTeams,
+              //     {
+              //       command: allTeams[allTeams.length - 1].command + 1,
+              //       value: '',
+              //       members: [],
+              //       points: 0,
+              //     },
+              //   ]),
+              // )
+              // }
             >
               <CircleAdd />
               <Text style={styles.addCommandText}>Добавить еще</Text>
@@ -127,7 +131,7 @@ const Commands = () => {
   )
 }
 
-export default Commands
+export default memo(Commands)
 
 const styles = StyleSheet.create({
   myCommands: {
