@@ -10,12 +10,12 @@ import { useDispatch, useSelector } from 'react-redux'
 const ResultsOfAnswers = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-
   const handleSubmit = () => {
     navigation.navigate('TeamsResults')
   }
   const { explainedWords, explainerTeam } = useSelector(({ alias }) => alias)
   // console.log('explainedWords', explainedWords)
+  
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -43,6 +43,7 @@ const ResultsOfAnswers = () => {
             label={'Продолжить'}
             size={{ width: 281, height: 48 }}
             onPress={handleSubmit}
+
           />
         </View>
       </ScrollView>

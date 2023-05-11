@@ -7,7 +7,7 @@ import { font } from '@/theme/utils'
 import { RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { setEndRound, setStoping, setTime } from '@/store/Slices/AliasSlice'
+import {  setStoping, setTime } from '@/store/Slices/AliasSlice'
 
 const Timer = ({
   modalVisible,
@@ -44,6 +44,7 @@ const Timer = ({
               seconds: selectedTime.seconds - 1,
             })
             dispatch(setTime(selectedTime.seconds - 1))
+
           }
           if (!userModalVisible && !explainYou) {
             setSelectedTime({

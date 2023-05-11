@@ -11,9 +11,13 @@ import AddPlayers from '@/screens/Mafia/AddPlayers/AddPlayers'
 import AboutGame from '@/screens/Mafia/AboutGame/AboutGame'
 import WaitPlayers from '@/screens/Mafia/WaitPlayers'
 import PlayMafia from '@/screens/Mafia/PlayMafia/PlayMafia'
-import DeviceInfo from 'react-native-device-info'
 import RatingPlayer from '@/screens/Mafia/RatingPlayer/RatingPlayer'
-import { clearAllDatas, setEqualVotes, setDonVotedPlayers } from '@/store/Slices/MafiaSlice'
+import {
+  clearAllDatas,
+  setEqualVotes,
+  setDonVotedPlayers,
+  setAnswersCount,
+} from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import {
   setNight,
@@ -35,12 +39,18 @@ import {
 
 const Stack = createNativeStackNavigator()
 const MafiaNavigator = () => {
+  // const [questionAnswerState, setQuestionAnswerState] = useState(0)
   const socketRef = useRef(null)
   const alredyDeadedUsers = useRef([])
+  const questionAnswerState = useRef(0)
+  const nightRef = useRef(false)
+  const mafiaRoleName = useRef(null)
 
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { mafiaGameId, sendAnswer, waitNight, waitAnswer } = useSelector(({ mafia }) => mafia)
+  const { mafiaGameId, sendAnswer, waitNight, mafiaRole, answersCount } = useSelector(
+    ({ mafia }) => mafia,
+  )
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
@@ -79,6 +89,7 @@ const MafiaNavigator = () => {
         break
       case 'change_time':
         dispatch(setNight(e.mafia_game.night))
+        nightRef.current = e.mafia_game.night
         dispatch(setVoteTime(e.mafia_game.vote_time))
         dispatch(setLoader(false))
         dispatch(setWaitNight(null))
@@ -87,10 +98,29 @@ const MafiaNavigator = () => {
         break
       case 'question_answer':
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
+        // console.log('question_answer answersCount', answersCount)
+        // if (answersCount == 1) {
+        //   dispatch(setWaitNight(false))
+        //   dispatch(setAnswersCount(0))
+        // }
+        // setQuestionAnswerState(++questionAnswerState)
+        console.log('mafiaRoleName', mafiaRoleName)
+        if (nightRef.current) {
+          if (questionAnswerState.current == 1) {
+            dispatch(setWaitNight(false))
+            dispatch(setAnswersCount(0))
+            questionAnswerState.current = 0
+          } else if (mafiaRoleName.current != 'Дон') {
+            dispatch(setAnswersCount(1))
+            questionAnswerState.current = 1
+          }
+        }
 
         break
       case 'player_out':
-        const deadUser = e.all_players.find((user) => {
+        console.log('type player_out', e)
+
+        const deadUser = e.all_players.filter((user) => {
           if (!user.status && !alredyDeadedUsers.current?.find((id) => user?._id == id)) {
             alredyDeadedUsers.current = [...alredyDeadedUsers.current, user._id]
             return true
@@ -98,16 +128,15 @@ const MafiaNavigator = () => {
             return false
           }
         })
-        // if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
-        //   break
-        // }
-        // console.log('e?.player?.role?.name', e?.player?.role?.name)
-
-        if (e?.players?.[0].role?.name) {
-          dispatch(setDeadUser({ ...deadUser, role: e?.players?.[0].role?.name }))
-        } else {
-          dispatch(setDeadUser({ ...deadUser }))
+        deadUser.forEach((user, index) => {
+          deadUser[index].role = e?.players.find((item) => item._id == user?._id)?.role?.name
+        })
+        if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
+          break
         }
+
+        console.log('deadUser', deadUser)
+        dispatch(setDeadUser(deadUser))
 
         dispatch(setCiviliansCount(e?.roleDatas?.civilian))
         dispatch(setMafiasCount(e?.roleDatas?.mafia))
@@ -177,12 +206,20 @@ const MafiaNavigator = () => {
   }, [mafiaGameId, token])
 
   useEffect(() => {
-    return () => {
-      socketRef?.current?.disconnect()
-      console.log('useEffect clearAllDatas')
-      dispatch(clearAllDatas())
-    }
+    // return () => {
+    //   socketRef?.current?.disconnect()
+    //   console.log('useEffect clearAllDatas')
+    //   dispatch(clearAllDatas())
+    // }
   }, [])
+
+  useEffect(() => {
+    mafiaRoleName.current = mafiaRole?.name
+  }, [mafiaRole])
+
+  useEffect(() => {
+    questionAnswerState.current = answersCount
+  }, [answersCount])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>

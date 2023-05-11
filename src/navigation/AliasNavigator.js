@@ -59,7 +59,6 @@ const AliasNavigator = () => {
         dispatch(setExplainerUser(null))
         navigation.navigate('GameStart', { fromRes: true })
         break
-
       case 'explain_another_team_user':
         dispatch(setExplainYou(false))
         explainYouRef.current = false

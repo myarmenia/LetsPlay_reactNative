@@ -64,6 +64,24 @@ const GameStart = ({ route }) => {
     }
   }, [allTeams, step])
 
+      if(!startAgain){
+        if (!userModalVisible && explainYou) {
+          setModalVisible(true)
+        } else if (!userModalVisible && !explainYou)  {
+          setModalVisible(false)
+        } 
+      } 
+      
+    })
+  }, [isFocused, userModalVisible, startAgain])
+    useEffect(()=>{
+      InteractionManager.runAfterInteractions(()=>{
+        if(!modalVisible && endRound && startAgain){
+          setUserModalVisible(true)
+        } 
+      })
+    },[startAgain, modalVisible, userModalVisible, explainYou])
+  
   const UserModal = () => {
     return (
       <Pressable

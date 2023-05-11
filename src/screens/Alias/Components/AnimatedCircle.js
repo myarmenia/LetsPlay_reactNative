@@ -80,6 +80,7 @@ const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
           }).start()
         }
       }
+    }
     },
   })
 
@@ -95,6 +96,7 @@ const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
   }
 
   return (
+
     <Animated.View
       style={!stoping && explainYou ? animatedStyle : {}}
       {...panResponder.panHandlers}
@@ -108,3 +110,4 @@ const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
   )
 }
 export default memo(AnimatedCircle)
+

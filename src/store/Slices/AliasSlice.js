@@ -69,7 +69,6 @@ export const AliasSlice = createSlice({
     setUsersInGame: (store, action) => {
       return { ...store, usersInGame: action.payload }
     },
-
     setWords: (store, action) => {
       return { ...store, words: action.payload }
     },

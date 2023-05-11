@@ -21,6 +21,7 @@ const TeamsResults = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const { commandsAndPlayers, commandsInGame } = useSelector(({ alias }) => alias)
+
   return (
     <ScreenMask>
       <View style={styles.container}>

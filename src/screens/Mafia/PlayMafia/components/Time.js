@@ -1,12 +1,14 @@
-import { setLoader, setWaitNight } from '@/store/Slices/MafiaSlice'
+import { setAnswersCount, setLoader, setWaitNight } from '@/store/Slices/MafiaSlice'
 import { font } from '@/theme/utils'
 import React, { useState, useEffect } from 'react'
 import { Text } from 'react-native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-const Timer = ({ voteTime, answer, night, setAnswer, mafiaRoleName, setChoosedUsers }) => {
+const Timer = ({ setChoosedUsers }) => {
   const [seconds, setSeconds] = useState(voteTime * 60)
+  const { mafiaRole, night, voteTime, answersCount } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
+  const mafiaRoleName = mafiaRole?.name
 
   useEffect(() => {
     let interval = null
@@ -14,16 +16,16 @@ const Timer = ({ voteTime, answer, night, setAnswer, mafiaRoleName, setChoosedUs
     interval = setInterval(() => {
       if (seconds > 0) {
         setSeconds((seconds) => seconds - 1)
-      } else if (night && answer == 0) {
+      } else if (night && answersCount == 0) {
         setSeconds(120) // 8
-        setAnswer(1)
+        dispatch(setAnswersCount(1))
         setChoosedUsers(null)
         if (mafiaRoleName == 'Дон') {
           dispatch(setLoader(false))
         }
-      } else if (night && answer > 0) {
+      } else if (night && answersCount > 0) {
         dispatch(setLoader(true))
-        dispatch(setWaitNight(false))
+        // dispatch(setWaitNight(false))
         setChoosedUsers(null)
       } else {
         clearInterval(interval)
@@ -31,18 +33,18 @@ const Timer = ({ voteTime, answer, night, setAnswer, mafiaRoleName, setChoosedUs
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [seconds, night, answer])
+  }, [seconds, night, answersCount])
   useEffect(() => {
-    if (night && answer == 0) {
+    if (night && answersCount == 0) {
       setSeconds(120) // 7
       setChoosedUsers(null)
-    } else if (night && answer == 1) {
+    } else if (night && answersCount == 1) {
       setSeconds(120)
     } else if (!night) {
       setSeconds(voteTime * 60)
       setChoosedUsers(null)
     }
-  }, [night, answer])
+  }, [night, answersCount])
 
   let minute =
     Math.floor(seconds / 60).toString().length == 1
