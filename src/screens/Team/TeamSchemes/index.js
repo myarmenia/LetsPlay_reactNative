@@ -16,6 +16,11 @@ const TeamSchemes = ({ route }) => {
     { x: 0, y: 0, small: false, ref: useRef() },
     { x: 0, y: 0, small: false, ref: useRef() },
     { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef() },
   ])
   const [playingPlayers, setPlayingPlayers] = useState([])
   const [dragedUser, setDragedUser] = useState(null)

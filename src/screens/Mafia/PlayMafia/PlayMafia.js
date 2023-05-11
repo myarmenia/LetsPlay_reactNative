@@ -106,11 +106,11 @@ const PlayMafia = () => {
     })
   }, [winner])
 
-  // useEffect(() => {
-  //   if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
-  //     dispatch(setAnswersCount(1))
-  //   }
-  // }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
+  useEffect(() => {
+    if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
+      dispatch(setAnswersCount(1))
+    }
+  }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
 
   return (
     <ScreenMask>

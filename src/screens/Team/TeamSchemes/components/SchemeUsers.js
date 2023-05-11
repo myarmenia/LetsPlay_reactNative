@@ -42,49 +42,49 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
         })
       },
       onPanResponderEnd: (event, gesture) => {
-        // if (
-        //   replacementPlayers[index].moveX >= 95 &&
-        //   replacementPlayers[index].moveX <= 301 &&
-        //   replacementPlayers[index].moveY >= 195 &&
-        //   replacementPlayers[index].moveY <= 500
-        // ) {
-        const currentComponent = replacementPlayers[index]
-        replacementPlayers.forEach((item, i) => {
-          if (item?.moveX && i !== index) {
-            const differenceX = currentComponent.moveX - item.moveX
-            const differenceY = currentComponent.moveY - item.moveY
-            if (differenceX < 25 && differenceX > -25 && differenceY < 25 && differenceY > -25) {
-              setReplacementPlayers((prevplayingPlayers) => {
-                const updatedplayingPlayers = [...prevplayingPlayers]
-                updatedplayingPlayers[i] = {
-                  x: 0,
-                  y: 0,
-                  small: false,
-                }
-                return updatedplayingPlayers
-              })
+        if (
+          replacementPlayers[index].moveX >= 95 &&
+          replacementPlayers[index].moveX <= 301 &&
+          replacementPlayers[index].moveY >= 195 &&
+          replacementPlayers[index].moveY <= 500
+        ) {
+          const currentComponent = replacementPlayers[index]
+          replacementPlayers.forEach((item, i) => {
+            if (item?.moveX && i !== index) {
+              const differenceX = currentComponent.moveX - item.moveX
+              const differenceY = currentComponent.moveY - item.moveY
+              if (differenceX < 25 && differenceX > -25 && differenceY < 25 && differenceY > -25) {
+                setReplacementPlayers((prevplayingPlayers) => {
+                  const updatedplayingPlayers = [...prevplayingPlayers]
+                  updatedplayingPlayers[i] = {
+                    x: 0,
+                    y: 0,
+                    small: false,
+                  }
+                  return updatedplayingPlayers
+                })
+              }
             }
-          }
-        })
-        setReplacementPlayers((prevplayingPlayers) => {
-          const updatedplayingPlayers = [...prevplayingPlayers]
-          updatedplayingPlayers[index] = {
-            ...updatedplayingPlayers[index],
-            small: true,
-          }
-          return updatedplayingPlayers
-        })
-        // } else {
-        //   setReplacementPlayers((prevplayingPlayers) => {
-        //     const updatedplayingPlayers = [...prevplayingPlayers]
-        //     updatedplayingPlayers[index] = {
-        //       x: 0,
-        //       y: 0,
-        //       small: false,
-        //     }
-        //     return updatedplayingPlayers
-        //   })
-        // }
+          })
+          setReplacementPlayers((prevplayingPlayers) => {
+            const updatedplayingPlayers = [...prevplayingPlayers]
+            updatedplayingPlayers[index] = {
+              ...updatedplayingPlayers[index],
+              small: true,
+            }
+            return updatedplayingPlayers
+          })
+        } else {
+          setReplacementPlayers((prevplayingPlayers) => {
+            const updatedplayingPlayers = [...prevplayingPlayers]
+            updatedplayingPlayers[index] = {
+              x: 0,
+              y: 0,
+              small: false,
+            }
+            return updatedplayingPlayers
+          })
+        }
       },
     }),
   )
@@ -172,5 +172,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+    zIndex: 99999999,
   },
 })
