@@ -58,30 +58,11 @@ const GameStart = ({ route }) => {
     console.log('allteams ===', allTeams)
     if (!explainYou && allTeams[0].members?.length) {
       const currentExplainTeamPoints = allTeams.find((item) => item.value == explainerTeam)?.points
-      if (typeof currentExplainTeamPoints == 'number') setTruthyCount(currentExplainTeamPoints)
-      if (step > 0 && typeof currentExplainTeamPoints == 'number')
-        setFalsyCount(step - currentExplainTeamPoints)
+      setTruthyCount(currentExplainTeamPoints)
+      if (step > 0) setFalsyCount(step - currentExplainTeamPoints)
     }
   }, [allTeams, step])
 
-      if(!startAgain){
-        if (!userModalVisible && explainYou) {
-          setModalVisible(true)
-        } else if (!userModalVisible && !explainYou)  {
-          setModalVisible(false)
-        } 
-      } 
-      
-    })
-  }, [isFocused, userModalVisible, startAgain])
-    useEffect(()=>{
-      InteractionManager.runAfterInteractions(()=>{
-        if(!modalVisible && endRound && startAgain){
-          setUserModalVisible(true)
-        } 
-      })
-    },[startAgain, modalVisible, userModalVisible, explainYou])
-  
   const UserModal = () => {
     return (
       <Pressable

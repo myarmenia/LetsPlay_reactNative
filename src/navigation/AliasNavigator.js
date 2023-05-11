@@ -104,7 +104,7 @@ const AliasNavigator = () => {
       }
 
       case 'message_to_all_players':
-        console.log(e.data)
+        console.log(e)
         if (e.data?.type === 'getTeams' && !explainYouRef.current) {
           dispatch(setTeams(e.data?.data))
         } else if (e.data?.type === 'getSteps' && !explainYouRef.current) {
@@ -160,12 +160,12 @@ const AliasNavigator = () => {
     }
   }, [explainYou, allTeams])
   useEffect(() => {
-    if (explainYou) {
-      socketRef.current?.emit('message_to_all_players', {
-        type: 'getSteps',
-        data: step,
-      })
-    }
+    // if (explainYou) {
+    socketRef.current?.emit('message_to_all_players', {
+      type: 'getSteps',
+      data: step,
+    })
+    // }
   }, [explainYou, step])
 
   return (
