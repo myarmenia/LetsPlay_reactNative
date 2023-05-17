@@ -58,7 +58,7 @@ const PlayNow = () => {
               bgColor={'#4D7CFE'}
               onPress={() => {
                 dispatch(startAliasGame(aliasGameId))
-                navigation.navigate('GameStart')
+                navigation.navigate('GameStart', { fromRes: false })
               }}
             />
           </View>

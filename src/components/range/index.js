@@ -4,8 +4,11 @@ import Slider from '@react-native-community/slider'
 import CircleSlide from '@/assets/imgs/CircleSlide.png'
 import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
+import { setCountWords } from '@/store/Slices/AliasSlice'
+import { useDispatch } from 'react-redux'
 
 function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, style = {} }) {
+  const dispatch = useDispatch()
   const renderScaleLabels = () => {
     const labels = () => {
       let newArr = []
@@ -36,7 +39,9 @@ function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, sty
           minimumTrackTintColor="#4d7cfe"
           maximumTrackTintColor="#ccc"
           thumbImage={CircleSlide}
-          onValueChange={newValue => setValue(newValue)}
+          onValueChange={(newValue) => {
+            setValue(newValue), dispatch(setCountWords(newValue))
+          }}
         />
       </View>
       <View style={styles.scaleLabelsContainer}>{renderScaleLabels()}</View>

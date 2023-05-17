@@ -7,9 +7,12 @@ const initialState = {
   step: 0,
   eachWord: null,
   explainYou: false,
+  loader: false,
+  countWords: null,
   complexity: null,
   staticTime: null,
   aliasGameId: null,
+  youGuesser: null,
   explainerTeam: null,
   participateSuccess: null,
   playersInGame: [],
@@ -18,8 +21,8 @@ const initialState = {
   stoping: true,
   time: 0,
   allTeams: [
-    { command: 1, value: '', members: [], points: 0 },
-    { command: 2, value: '', members: [], points: 0 },
+    { command: 1, value: 'Команда 1', members: [], points: 0 },
+    { command: 2, value: 'Команда 2', members: [], points: 0 },
   ],
   explainedWords: {
     truthy: [],
@@ -121,6 +124,12 @@ export const AliasSlice = createSlice({
         explainYou: action.payload,
       }
     },
+    setYouGuesser: (store, action) => {
+      return {
+        ...store,
+        youGuesser: action.payload,
+      }
+    },
     setExplainingUser: (store, action) => {
       return {
         ...store,
@@ -137,6 +146,12 @@ export const AliasSlice = createSlice({
       return {
         ...store,
         explainedWords: action.payload,
+      }
+    },
+    setLoader: (store, action) => {
+      return {
+        ...store,
+        loader: action.payload,
       }
     },
   },
@@ -196,6 +211,17 @@ export const startAliasGame = (gameId) => (dispatch) => {
       console.log('err startAliasGame esponse', err)
     })
 }
+export const sendUserPoints = (data) => (dispatch) => {
+  console.log('data for send', data)
+  axiosInstance
+    .post('api/alias/user_points', data)
+    .then((response) => {
+      console.log('sendUserPoints pesponse', response.data)
+    })
+    .catch((err) => {
+      console.log('err sending user points', err)
+    })
+}
 export const {
   setTime,
   setStep,
@@ -203,7 +229,10 @@ export const {
   setTeams,
   setWords,
   setExplainYou,
+  setEndRound,
+  setYouGuesser,
   setComplexity,
+  setLoader,
   setStaticTeamsData,
   setExplainerUser,
   setCountWords,

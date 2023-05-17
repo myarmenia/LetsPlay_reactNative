@@ -30,14 +30,9 @@ function Index({ navigation }) {
     } else {
       setError(false)
     }
-    if (!error) {
-      dispatch(setStoping(true))
-      dispatch(setTime(timeOfRounds))
-      // dispatch(setMinutes(timeOfRounds)),
-      dispatch(setCountWords(countOfWords)),
-        // navigation.navigate('GameStart')
-        navigation.navigate('SelectComplexity')
-    }
+    dispatch(setStoping(true))
+    dispatch(setTime(timeOfRounds))
+    navigation.navigate('SelectComplexity')
   }
   return (
     <ScreenMask>

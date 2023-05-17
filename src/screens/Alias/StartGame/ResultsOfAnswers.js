@@ -4,25 +4,47 @@ import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
+import { sendUserPoints, setExplainedWords } from '@/store/Slices/AliasSlice'
 
-const ResultsOfAnswers = () => {
+const ResultsOfAnswers = ({ route }) => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
+
   const handleSubmit = () => {
     navigation.navigate('TeamsResults')
   }
-  const { explainedWords, explainerTeam } = useSelector(({ alias }) => alias)
-  // console.log('explainedWords', explainedWords)
-  
+  const { user } = useSelector(({ auth }) => auth)
+  const { explainedWords, explainerTeam, explainYou, explainerUser } = useSelector(
+    ({ alias }) => alias,
+  )
+  let data = route.params
+  useEffect(() => {
+    data.player = explainYou ? user : explainerUser
+    if (isFocused && explainYou) {
+      dispatch(sendUserPoints(data))
+    }
+
+    if (!isFocused) {
+      setTimeout(() => {
+        dispatch(
+          setExplainedWords({
+            truthy: [],
+            falsy: [],
+          }),
+        )
+      }, 1500)
+    }
+  }, [isFocused])
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.commandName}>{explainerTeam}</Text>
         <View style={styles.mainBox}>
           <View style={styles.trueAnswers}>
-            <Text style={styles.title}>Отгадано {explainedWords?.truthy.length}</Text>
+            <Text style={styles.title}>Отгадано {explainedWords?.truthy?.length}</Text>
             <View style={styles.trueAnswersWrap}>
               {explainedWords?.truthy?.map((elm, i) => {
                 return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
@@ -30,7 +52,7 @@ const ResultsOfAnswers = () => {
             </View>
           </View>
           <View style={styles.falseAnswers}>
-            <Text style={styles.title}>Пропущено {explainedWords?.falsy.length}</Text>
+            <Text style={styles.title}>Пропущено {explainedWords?.falsy?.length}</Text>
             <View style={styles.trueAnswersWrap}>
               {explainedWords?.falsy?.map((elm, i) => {
                 return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
@@ -43,7 +65,6 @@ const ResultsOfAnswers = () => {
             label={'Продолжить'}
             size={{ width: 281, height: 48 }}
             onPress={handleSubmit}
-
           />
         </View>
       </ScrollView>
