@@ -249,6 +249,20 @@ export const startGame = (mafia_game_id) => (dispatch) => {
     })
   dispatch(setPending(false))
 }
+export const resetGame = (mafia_game_id) => (dispatch) => {
+  dispatch(setPending(true))
+  axiosInstance
+    .post(`/api/game/mafia/reset/${mafia_game_id}`)
+    .then((e) => {
+      console.log('reset mafia', e)
+      dispatch(clearAllDatas())
+    })
+    .catch((err) => {
+      dispatch(setAddPlayersError(true))
+      console.log('err request startGame', err.request._response)
+    })
+  dispatch(setPending(false))
+}
 export const clearAllDatas = () => (dispatch) => {
   dispatch(setAddPlayersError(null))
   dispatch(setQrGame(false))
@@ -272,20 +286,6 @@ export const clearAllDatas = () => (dispatch) => {
   dispatch(setPlayersRatings([]))
   dispatch(setWinner(null))
   dispatch(setOrganizer(false))
-}
-export const resetGame = (mafia_game_id) => (dispatch) => {
-  dispatch(setPending(true))
-  axiosInstance
-    .post(`/api/game/mafia/reset/${mafia_game_id}`)
-    .then((e) => {
-      console.log('reset mafia', e)
-      dispatch(clearAllDatas())
-    })
-    .catch((err) => {
-      dispatch(setAddPlayersError(true))
-      console.log('err request startGame', err.request._response)
-    })
-  dispatch(setPending(false))
 }
 
 export const {

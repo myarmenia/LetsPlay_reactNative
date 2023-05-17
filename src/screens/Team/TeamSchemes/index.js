@@ -6,19 +6,22 @@ import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import User from '@/components/User/user'
-import DraggableComponent from './components/DraggableComponent'
 import SchemeUsers from './components/SchemeUsers'
+import SchemeUsers2 from './components/SchemeUsers2'
 
 const TeamSchemes = ({ route }) => {
   const [replacementPlayers, setReplacementPlayers] = useState([
-    { x: 0, y: 0, small: false, ref: useRef() },
-    { x: 0, y: 0, small: false, ref: useRef() },
-    { x: 0, y: 0, small: false, ref: useRef() },
-    { x: 0, y: 0, small: false, ref: useRef() },
-    { x: 0, y: 0, small: false, ref: useRef() },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
   ])
-  const [playingPlayers, setPlayingPlayers] = useState([])
-  const [dragedUser, setDragedUser] = useState(null)
 
   // const data = route.params
   const data = {
@@ -53,14 +56,14 @@ const TeamSchemes = ({ route }) => {
           source={{ uri: _storageUrl + data?.schemaImg }}
         />
       </View>
-      <View style={{ zIndex: 99999 }}>
+      <View style={{ zIndex: 999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
         <SchemeUsers
           replacementPlayers={replacementPlayers}
           setReplacementPlayers={setReplacementPlayers}
           // dragUser={(user) => {
           //   setReplacementPlayers((prevState) => {
-          //     const updatedState = prevState.filter((item) => item != user)
+          //     c`onst updatedState = prevState.filter((item) => item != user)
           //     return updatedState
           //   })
 
