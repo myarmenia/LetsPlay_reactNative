@@ -6,31 +6,28 @@ import { memo } from 'react'
 import { font } from '@/theme/utils'
 import { RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import {  setStoping, setTime } from '@/store/Slices/AliasSlice'
+import { useIsFocused, useNavigation, useLayoutEffect } from '@react-navigation/native'
+import { setStoping, setTime } from '@/store/Slices/AliasSlice'
 
-const Timer = ({
-  modalVisible,
-  fromRes,
-  userModalVisible,
-  secModalVisible,
-  setSecModalVisible,
-}) => {
+const Timer = ({ modalState, timeIsFinished, setTimeIsFinished }) => {
   const { explainYou, stoping, time, staticTime } = useSelector(({ alias }) => alias)
-  const [selectedTime, setSelectedTime] = useState({ seconds: staticTime })
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
+  const [selectedTime, setSelectedTime] = useState({ seconds: staticTime })
 
   useEffect(() => {
-    if (fromRes) {
-      setSelectedTime({ seconds: staticTime })
+    if (!isFocused && selectedTime.seconds == 0) {
+      dispatch(setStoping(true))
+    } else {
+      setSelectedTime({ seconds: staticTime + 1 })
+      // setSelectedTime({ seconds: staticTime })
     }
-  }, [fromRes])
+  }, [stoping, staticTime, isFocused])
 
   useEffect(() => {
     if (selectedTime.seconds == 0) {
-      setSecModalVisible(true)
+      setTimeIsFinished('timeFinish')
     }
   }, [selectedTime.seconds])
 
@@ -39,27 +36,26 @@ const Timer = ({
     if (!stoping) {
       timer = setInterval(() => {
         if (selectedTime.seconds > 0 && selectedTime.seconds !== 0) {
-          if (!modalVisible && !userModalVisible && explainYou) {
+          if (!modalState?.state && explainYou) {
             setSelectedTime({
               seconds: selectedTime.seconds - 1,
             })
             dispatch(setTime(selectedTime.seconds - 1))
-
           }
-          if (!userModalVisible && !explainYou) {
+          if (!explainYou && !stoping) {
             setSelectedTime({
               seconds: selectedTime.seconds - 1,
             })
             dispatch(setTime(selectedTime.seconds - 1))
           }
         } else if (time == 0) {
-          dispatch(setTime(selectedTime.seconds))
+          dispatch(setTime(selectedTime.seconds - 1))
         }
       }, 1000)
     }
 
     return () => clearInterval(timer)
-  }, [selectedTime.seconds, stoping, explainYou, secModalVisible])
+  }, [selectedTime.seconds, stoping, explainYou, timeIsFinished])
 
   const displayMinutes = Math.floor(selectedTime.seconds / 60)
     .toString()
@@ -70,7 +66,7 @@ const Timer = ({
     <>
       <Text style={styles.timer}>Оставшееся время</Text>
       <Text style={[styles.timerClock, { color: selectedTime.seconds > 5 ? WHITE : RED }]}>
-        {time}
+        {time < 0 ? 0 : time}
       </Text>
     </>
   )

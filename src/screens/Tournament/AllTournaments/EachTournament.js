@@ -1,5 +1,5 @@
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
@@ -19,7 +19,7 @@ import {
 } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { createTournament } from '@/store/Slices/TournamentSlice'
+import { createTournament, setTournamentImagePath } from '@/store/Slices/TournamentSlice'
 import { joinGame } from '@/store/Slices/TeamSlice'
 const EachTournament = ({ route }) => {
   const props = route.params
@@ -35,15 +35,13 @@ const EachTournament = ({ route }) => {
           <Image
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
             source={{
-              uri: _storageUrl + (props?.data?.data ? props?.data?.data?.game?.img : props?.img),
+              uri: _storageUrl + (props?.data?.data ? initialState?.imagePath : props?.img),
             }}
           />
         </View>
         <View>
           <Text style={styles.eachInfo}>Тип турнира :</Text>
-          <Text style={styles.eachInfoTwo}>
-            {props?.data?.data ? props?.data?.data?.game?.name : ''}
-          </Text>
+          <Text style={styles.eachInfoTwo}>{initialState.tournamentGameType}</Text>
           <Text style={styles.eachInfo}>Название турнира: </Text>
           <Text style={styles.eachInfoTwo}>{initialState?.name ? initialState?.name : ''}</Text>
           <Text style={styles.eachInfo}>Описание турнира: </Text>
@@ -56,19 +54,11 @@ const EachTournament = ({ route }) => {
           </Text>
           <Text style={styles.eachInfo}>Дата турнира:</Text>
           <Text style={styles.eachInfoTwo}>
-            {props?.data?.data?.data?.start_date
-              .split('/')
-              .reverse()
-              .join('-')
-              .slice(0, 10)}
+            {props?.data?.data?.data?.start_date.split('/').reverse().join('-').slice(0, 10)}
           </Text>
           <Text style={styles.eachInfo}>Время:</Text>
           <Text style={styles.eachInfoTwo}>
-            {initialState?.start_date
-              ?.split('/')
-              .reverse()
-              .join('-')
-              .slice(10)}
+            {initialState?.start_date?.split('/').reverse().join('-').slice(10)}
             {/* {new Date(props?.start_date).toLocaleTimeString().slice(0, 5)}  */}
           </Text>
           <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>

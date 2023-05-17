@@ -7,7 +7,7 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
 } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
@@ -35,6 +35,8 @@ import {
   setTournamentFund,
   setTournamentName,
   setPlayersGender,
+  setTournamentImagePath,
+  setTournamentGameType,
 } from '@/store/Slices/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 
@@ -43,7 +45,10 @@ const CreateTournamentInfoIndividual = ({ route }) => {
   const navigation = useNavigation()
   const initialState = useSelector(({ tournament }) => tournament)
   const response = route?.params
-
+  useEffect(() => {
+    dispatch(setTournamentImagePath(response?.img))
+    dispatch(setTournamentGameType(response?.name))
+  }, [])
   // ================== states ==================
 
   const [price, setPrice] = useState('')
@@ -122,12 +127,9 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     .concat(' ' + timeFormat(endDate))
 
   const handleSubmit = () => {
-    if (!addressName && !response?.address_name) {
+    if (!initialState.address_name) {
       setAddressNameError(true)
     } else {
-      dispatch(setLatitude(response?.latitude || addressName.lat))
-      dispatch(setLongitude(response?.longitude || addressName.lng))
-      dispatch(setAddressNameTour(response?.address_name || addressName.address_name))
       setAddressNameError(false)
     }
     if (startDate.date <= endDate.date) {
@@ -147,22 +149,28 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     }
     if (
       initialState.age_restrictions_from == undefined ||
-      initialState.age_restrictions_to == undefined
+      !initialState.age_restrictions_from ||
+      initialState.age_restrictions_to == undefined ||
+      initialState.age_restrictions_to
     ) {
       setAgeError('Обязательное поле для заполнения')
+    } else {
+      console.log(initialState.age_restrictions_from, initialState.age_restrictions_to)
+      setAgeError(null)
     }
     if (initialState.age_restrictions_from > initialState.age_restrictions_to) {
       setAgeError('Введите корректную возраст')
-    } else {
-      setAgeError('')
     }
-    if (!initialState.number_of_participants_from || !initialState.number_of_participants_to) {
+    if (
+      initialState.number_of_participants_from == undefined ||
+      !initialState.number_of_participants_to == undefined
+    ) {
       setCountError('Обязательное поле для заполнения')
     }
+    console.log(ageError)
     if (initialState.number_of_participants_from > initialState.number_of_participants_to) {
       setCountError('Введите корректную количество')
     } else {
-      console.log(initialState.number_of_participants_from, initialState.number_of_participants_to)
       setCountError('')
     }
     if (priceExist[1].checked && !price) {
@@ -182,17 +190,26 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     }
     dispatch(setTournamentFund(priceFond[0].checked ? true : false))
     if (
-      !priceError &&
+      !priceExist[1].checked &&
+      !price &&
       initialState.number_of_participants_from < initialState.number_of_participants_to &&
       initialState.age_restrictions_from < initialState.age_restrictions_to &&
       !endDateError &&
       !startDateError &&
-      !addressNameError
+      initialState.address_name
     ) {
       setModalVisible(true)
     }
   }
-
+  useEffect(() => {
+    dispatch(setLatitude(response?.latitude ? response?.latitude : addressName?.lat))
+    dispatch(setLongitude(response?.longitude ? response?.longitude : addressName?.lng))
+    dispatch(
+      setAddressNameTour(
+        response?.address_name ? response?.address_name : addressName?.address_name,
+      ),
+    )
+  }, [response, addressName])
   return (
     <ScreenMask>
       {/* <KeyboardAvoidingView
@@ -275,7 +292,7 @@ const CreateTournamentInfoIndividual = ({ route }) => {
             />
           </View>
         </View>
-        {!!ageError && <Text style={styles.error}>{ageError}</Text>}
+        {ageError?.length ? <Text style={styles.error}>{ageError}</Text> : null}
         <RadioBlock
           onChange={(e) => {
             dispatch(setPlayersGender(e))
@@ -365,7 +382,7 @@ const CreateTournamentInfoIndividual = ({ route }) => {
       {/* </KeyboardAvoidingView> */}
 
       <Modal
-        navigationText={''}
+        // navigationText={''}
         item={
           <View style={styles.modal}>
             <Text style={styles.successTeam}>Хотите, чтобы Ваш турнир был в ТОП турнирах ?</Text>
@@ -454,7 +471,7 @@ const styles = StyleSheet.create({
   error: {
     ...font('regular', 18, RED),
     left: '6%',
-    paddingTop: '5%',
+    marginTop: '4%',
   },
   priceInput: {
     height: '100%',

@@ -1,40 +1,39 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import {
   setEndRound,
-  setYouExplainer,
-  explainerTeam,
+  setExplainYou,
   setExplainingUser,
   setWords,
   setExplainerTeam,
-  setAnswersInGame,
-  setCommandsInGame,
+  setExplainedWords,
 } from '@/store/Slices/AliasSlice'
 
 const TeamsResults = () => {
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
-  const { commandsAndPlayers, commandsInGame } = useSelector(({ alias }) => alias)
+  const { allTeams, countWords } = useSelector(({ alias }) => alias)
 
   return (
     <ScreenMask>
       <View style={styles.container}>
         <View style={styles.mainContainer}>
-          {commandsInGame?.map((elm, i) => {
+          {allTeams?.map((elm, i) => {
             return (
               <View key={Math.random().toString()}>
                 <View style={styles.commandOne}>
                   <Text style={styles.commandName}>{elm.value}</Text>
 
-                  <Text style={styles.points}>{`Очки: ${commandsInGame[i]?.points}`}</Text>
+                  <Text style={styles.points}>{`Очки: ${allTeams[i]?.points}`}</Text>
                 </View>
-                {i !== commandsInGame.length - 1 ? <View style={styles.line}></View> : null}
+                {i !== allTeams.length - 1 ? <View style={styles.line}></View> : null}
               </View>
             )
           })}
@@ -44,22 +43,27 @@ const TeamsResults = () => {
         <LightButton
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
-          onPress={async () => (
-            dispatch(setYouExplainer(false)),
-            dispatch(setWords([])),
-            dispatch(setExplainingUser(null)),
-            dispatch(setExplainerTeam(null)),
-            dispatch(setEndRound(true)),
-            dispatch(
-              setAnswersInGame({
-                true: 0,
-                false: 0,
-                trueWords: [],
-                falseWords: [],
-              }),
-            ),
-            navigation.navigate('GameStart', { fromRes: true })
-          )}
+          onPress={async () => {
+            console.log(countWords, Math.max(...allTeams.map((item) => item.points)))
+            dispatch(setExplainYou(false)), dispatch(setWords([])), dispatch(setExplainerTeam(null))
+            if (
+              countWords !== null &&
+              countWords <= Math.max(...allTeams.map((item) => item.points))
+            ) {
+              navigation.navigate('WinnerTeamMessage')
+            } else {
+              dispatch(setExplainYou(false)),
+                dispatch(setWords([])),
+                dispatch(setExplainerTeam(null))
+              dispatch(setEndRound(true)), navigation.navigate('GameStart', { fromRes: true })
+            }
+
+            // setExplainYou,
+            // setWords,
+            // setExplainingUser,
+            // setExplainerTeam,
+            // setEndRound,
+          }}
         />
       </View>
     </ScreenMask>

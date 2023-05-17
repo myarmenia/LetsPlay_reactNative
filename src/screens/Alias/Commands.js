@@ -15,6 +15,7 @@ const Commands = () => {
   const navigation = useNavigation()
   const { countWords, allTeams, complexity, time } = useSelector(({ alias }) => alias)
   const [error, setError] = useState(false)
+  // const [input, setInput] = useState(`Команда ${elm.command}`)
 
   const handleSubmit = async () => {
     for (let elem of allTeams) {
@@ -60,7 +61,8 @@ const Commands = () => {
                   <View style={styles.inputBlock}>
                     <TextInput
                       style={styles.priceInputText}
-                      placeholder={`Название команды ${elm.command}`}
+                      placeholder={`Команда ${elm.command}`}
+                      // value={`Команда ${elm.command}`}
                       onChangeText={(e) => {
                         dispatch(
                           setTeams(
@@ -76,18 +78,18 @@ const Commands = () => {
                   </View>
                   {allTeams.length !== 2 ? (
                     <Pressable
-                    // onPress={() =>
-                    //   allTeams.length !== 1
-                    //     ? allTeams.length == 3
-                    //       ? dispatch(
-                    //           setTeams([
-                    //             { command: 1, value: '', members: [], points: 0 },
-                    //             { command: 2, value: '', members: [], points: 0 },
-                    //           ]),
-                    //         )
-                    //       : dispatch(setTeams([...allTeams.filter((elem) => elm !== elem)]))
-                    //     : null
-                    // }
+                      onPress={() =>
+                        allTeams.length !== 1
+                          ? allTeams.length == 3
+                            ? dispatch(
+                                setTeams([
+                                  { command: 1, value: 'Команда 1', members: [], points: 0 },
+                                  { command: 2, value: 'Команда 2', members: [], points: 0 },
+                                ]),
+                              )
+                            : dispatch(setTeams([...allTeams.filter((elem) => elm !== elem)]))
+                          : null
+                      }
                     >
                       <DeleteIconSVG />
                     </Pressable>
@@ -99,19 +101,19 @@ const Commands = () => {
           {allTeams.length !== 5 ? (
             <Pressable
               style={styles.addCommandBox}
-              // onPress={() =>
-              // dispatch(
-              //   setTeams([
-              //     ...allTeams,
-              //     {
-              //       command: allTeams[allTeams.length - 1].command + 1,
-              //       value: '',
-              //       members: [],
-              //       points: 0,
-              //     },
-              //   ]),
-              // )
-              // }
+              onPress={() =>
+                dispatch(
+                  setTeams([
+                    ...allTeams,
+                    {
+                      command: allTeams[allTeams.length - 1].command + 1,
+                      value: `Команда ${allTeams[allTeams.length - 1].command + 1}`,
+                      members: [],
+                      points: 0,
+                    },
+                  ]),
+                )
+              }
             >
               <CircleAdd />
               <Text style={styles.addCommandText}>Добавить еще</Text>

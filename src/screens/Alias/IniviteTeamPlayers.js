@@ -55,7 +55,10 @@ const IniviteTeamPlayers = ({ route }) => {
     }
     dispatch(setPending(false))
   }, [participateSuccess])
-
+  // useEffect(() => {
+  //   dispatch(setReservedUsers([]))
+  //   dispatch(setTeams(allTeams.map((elm) => ({ ...elm, memebers: [] }))))
+  // }, [isFocused])
   const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
       if (allTeams?.[i]?.members?.some((item) => item == elm?._id)) {
@@ -161,7 +164,7 @@ const IniviteTeamPlayers = ({ route }) => {
                             position: 'absolute',
                             zIndex: 65,
                           }}
-                          onPress={() => handleClick(elm)}
+                          onPress={() => (userIsOrganizer ? handleClick(elm) : null)}
                         >
                           <User
                             size={100}
@@ -170,7 +173,7 @@ const IniviteTeamPlayers = ({ route }) => {
                             onPressItem={{
                               item: <User size={390} pressedUser={elm} />,
                               modalClose: false,
-                              onClickFunc: () => handleClick(elm),
+                              onClickFunc: () => (userIsOrganizer ? handleClick(elm) : null),
                             }}
                           />
                         </Pressable>

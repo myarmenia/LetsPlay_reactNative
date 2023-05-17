@@ -34,10 +34,12 @@ export default StyleSheet.create({
   },
   name: {
     ...font('bold', 24, ICON, 28),
+    width: '88%',
   },
   id: {
     ...font('regular', 16, ICON, 19),
     marginTop: RH(8),
+    width: '88%',
   },
   linkText: {
     ...font('regular', 16, WHITE, 19),

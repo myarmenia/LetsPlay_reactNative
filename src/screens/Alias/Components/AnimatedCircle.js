@@ -1,17 +1,24 @@
-import React, { memo, useRef } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder, Animated } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setExplainedWords, setStep, setTeams } from '@/store/Slices/AliasSlice'
 import { font } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
+import { useIsFocused } from '@react-navigation/native'
 
-const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
+const AnimatedCircle = ({
+  userExplainedWordsCount,
+  setUserExplainedWordsCount,
+  setTruthyCount,
+  falsyCount,
+  truthyCount,
+  setFalsyCount,
+}) => {
   const dispatch = useDispatch()
-  const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords } = useSelector(
-    ({ alias }) => alias,
-  )
-
+  const isFocused = useIsFocused()
+  const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords, youGuesser } =
+    useSelector(({ alias }) => alias)
   let changer = () => {
     if (explainYou) {
       let newArr = allTeams?.map((elm) => {
@@ -27,6 +34,7 @@ const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
       dispatch(setTeams([...newArr]))
     }
   }
+
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = PanResponder.create({
@@ -42,26 +50,41 @@ const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
               truthy: [...explainedWords.truthy, words?.[step]?.name],
             }),
           )
+          if (explainYou) {
+            setUserExplainedWordsCount({
+              ...userExplainedWordsCount,
+              points: ++userExplainedWordsCount.points,
+            })
+          }
           setTruthyCount((prev) => {
             return +prev + 1
           })
           dispatch(setStep(step + 1))
 
-          changer()
+          let newArr = allTeams?.map((elm) => {
+            if (elm.value == explainerTeam) {
+              return {
+                ...elm,
+                points: elm.points + 1,
+              }
+            } else {
+              return { ...elm }
+            }
+          })
+          dispatch(setTeams([...newArr]))
+
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
             useNativeDriver: false,
           }).start()
         } else if (gestureState.moveY > 555) {
-          // setFalsyCount((prev) => +prev + 1)
           dispatch(
             setExplainedWords({
               ...explainedWords,
               falsy: [...explainedWords.falsy, words?.[step]?.name],
             }),
           )
-
           setFalsyCount((prev) => {
             return +prev + 1
           })
@@ -100,7 +123,7 @@ const AnimatedCircle = ({ setTruthyCount, setFalsyCount }) => {
       {...panResponder.panHandlers}
     >
       <TypeButton
-        labelStyle={{ ...font('bold', 22, LIGHT_LABEL, 24) }}
+        labelStyle={{ ...font('bold', 21, LIGHT_LABEL, 21) }}
         title={words?.[step]?.name}
         key={Math.random().toString()}
       />

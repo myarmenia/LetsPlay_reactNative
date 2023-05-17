@@ -28,8 +28,15 @@ import {
   setUserIsOrganizer,
   setStep,
   setTeams,
+  setExplainedWords,
+  setEndRound,
+  setComplexity,
+  setCountWords,
+  setYouGuesser,
 } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
+import WinnerTeamMessage from '@/screens/Alias/WinnerTeamMessage/WinnerTeamMessage'
+import PlayersRatings from '@/screens/Alias/WinnerTeamMessage/PlayersRatings'
 
 const Stack = createNativeStackNavigator()
 
@@ -37,23 +44,39 @@ const AliasNavigator = () => {
   const socketRef = useRef(null)
   const token = useSelector(({ auth }) => auth.token)
   const dispatch = useDispatch()
-  const { aliasGameId, stoping, explainYou, allTeams, step } = useSelector(({ alias }) => alias)
+  const {
+    aliasGameId,
+    stoping,
+    userIsOrganizer,
+    explainYou,
+    countWords,
+    staticTime,
+    complexity,
+    allTeams,
+    step,
+    endRound,
+    time,
+    explainedWords,
+  } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
   const explainYouRef = useRef(false)
 
   const callBackFunc = async (e) => {
-    // console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
+    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
       case 'new_user':
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
+        if (userIsOrganizer && countWords) {
+          socketRef.current?.emit('message_to_all_players', countWords)
+        }
         break
 
       case 'explain_you':
-        dispatch(setExplainYou(true))
         explainYouRef.current = true
+        dispatch(setExplainYou(true))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
         dispatch(setExplainerUser(null))
@@ -70,6 +93,7 @@ const AliasNavigator = () => {
 
       case 'explain_your_team_user':
         dispatch(setExplainYou(false))
+        dispatch(setYouGuesser(true))
         explainYouRef.current = false
         dispatch(setExplainerUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
@@ -77,21 +101,14 @@ const AliasNavigator = () => {
         break
 
       case 'alias_start':
-        console.log('alias_start explainYou', explainYouRef.current)
-        console.log('alias_start e?.alias_game_team?.teams', e?.alias_game_team?.teams)
-        // dispatch(setExplainerUser(e.user))
         dispatch(setTime(e?.alias_game_team?.round_time))
         dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
-        // if (!explainYouRef.current) {
-        //   setTeams(e?.alias_game_team?.teams)
-        // }
         // navigation.navigate('GameStart', { fromRes: true })
         break
 
       case 'alias_team_confirm':
         dispatch(setTime(e?.alias?.round_time))
         break
-
       // case 'explain_results': {
       // }
       // case 'all_teams_resaults': {
@@ -100,19 +117,29 @@ const AliasNavigator = () => {
         if (!explainYouRef.current) {
           dispatch(setStoping(e?.data?.stoping))
         }
+        if (!userIsOrganizer) {
+          dispatch(setCountWords(e.data.countWords))
+        }
         break
       }
 
       case 'message_to_all_players':
-        console.log(e)
         if (e.data?.type === 'getTeams' && !explainYouRef.current) {
           dispatch(setTeams(e.data?.data))
-        } else if (e.data?.type === 'getSteps' && !explainYouRef.current) {
-          dispatch(setStep(e.data?.data))
-        }
-        // if (!explainYouRef.current) {
+        } else if (e.data?.type === 'getSteps' && !explainYouRef.current && e.data.data !== step) {
+          dispatch(setStep(e.data?.data.step))
 
-        //   dispatch(setStep(e.data?.step))
+          dispatch(setExplainedWords(e?.data?.data.words))
+        } else if (e.data?.type === 'getAnswers' && !explainYouRef.current) {
+          dispatch(setExplainedWords(e.data.words))
+        } else if (e.data?.type === 'getGameSettings' && !explainYouRef.current) {
+          dispatch(setComplexity(e.data.settings.complexity))
+        } else if (e.data.countWords && !explainYou) {
+          dispatch(setCountWords(e.data.countWords))
+        }
+        // else if (e.data?.type === 'endTimeCleanData' && !explainYouRef.current) {
+        // dispatch(setExplainedWords(e.data.words))
+        // dispatch(setStep(e.data?.step))
         // }
         break
     }
@@ -141,33 +168,79 @@ const AliasNavigator = () => {
 
   useEffect(() => {
     if (explainYou) {
-      socketRef.current?.emit('pause_or_start', { stoping }) //time
+      socketRef.current?.emit('pause_or_start', {
+        stoping,
+      })
     }
-  }, [stoping, explainYou])
-  // useEffect(() => {
-  //   if (explainYou && !allTeams[0]?.members?.length) {
-
-  //     socketRef.current?.emit('message_to_all_players', { allTeams: allTeams, step: step })
-  //   }
-  // }, [explainYou, allTeams, step])
+  }, [stoping, explainYou, countWords])
 
   useEffect(() => {
-    if (explainYou) {
+    if (explainYou && !endRound) {
       socketRef.current?.emit('message_to_all_players', {
         type: 'getTeams',
         data: allTeams,
       })
     }
   }, [explainYou, allTeams])
-  useEffect(() => {
-    // if (explainYou) {
-    socketRef.current?.emit('message_to_all_players', {
-      type: 'getSteps',
-      data: step,
-    })
-    // }
-  }, [explainYou, step])
 
+  useEffect(() => {
+    if (explainYouRef.current && endRound) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getGameSettings',
+        settings: {
+          complexity: complexity,
+        },
+      })
+    }
+  }, [endRound, countWords, complexity])
+  useEffect(() => {
+    if (explainYouRef.current) {
+      console.log('xxxxxxxxx=======', countWords)
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getSteps',
+        data: {
+          step: step,
+          countWords: countWords,
+          words: explainedWords,
+        },
+      })
+    }
+  }, [step, countWords])
+  useEffect(() => {
+    if (explainYou && time == 0) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getAnswers',
+        words: explainedWords,
+        countWords: countWords,
+      })
+    }
+  }, [time, explainedWords])
+
+  // useEffect(() => {
+  //   if (explainYouRef.current && time == 0) {
+  //     socketRef.current?.emit('message_to_all_players', {
+  //       type: 'getGameSettings',
+  //       settings: {
+  //         countWords: countWords,
+  //         staticTime: staticTime,
+  //         complexity: complexity,
+  //       },
+  //     })
+  //   }
+  // }, [time, explainedWords, endRound])
+
+  useEffect(() => {
+    if (endRound == true) {
+      // dispatch(setExplainYou(null))
+      // dispatch(setExplainerUser(null))
+      // dispatch(setExplainerTeam(null))
+      // dispatch(setWords([]))
+      // dispatch(setTeams([]))
+      // dispatch(setExplainedWords([]))
+      socketRef.current?.emit('end_time', {})
+      dispatch(setEndRound(false))
+    }
+  }, [endRound])
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />
@@ -178,8 +251,14 @@ const AliasNavigator = () => {
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
       <Stack.Screen name="GameStart" component={GameStart} />
-      <Stack.Screen name="ResultsOfAnswers" component={ResultsOfAnswers} />
+      <Stack.Screen
+        name="ResultsOfAnswers"
+        component={ResultsOfAnswers}
+        options={{ gestureEnabled: false }}
+      />
       <Stack.Screen name="TeamsResults" component={TeamsResults} />
+      <Stack.Screen name="WinnerTeamMessage" component={WinnerTeamMessage} />
+      <Stack.Screen name="PlayersRatings" component={PlayersRatings} />
     </Stack.Navigator>
   )
 }
