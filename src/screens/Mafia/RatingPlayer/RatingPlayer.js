@@ -41,7 +41,7 @@ const RatingPlayer = () => {
                 labelStyle={styles.invitePlayers}
                 label={'Завершить игру'}
                 onPress={() => {
-                  dispatch(clearAllDatas())
+                  // dispatch(clearAllDatas())
                   navigation.navigate('TabNavigator', { screen: 'Home' })
                 }}
               />
@@ -53,7 +53,7 @@ const RatingPlayer = () => {
                   labelStyle={styles.invitePlayers}
                   label={'Играть заново'}
                   onPress={() => {
-                    dispatch(clearAllDatas())
+                    // dispatch(clearAllDatas())
                     navigation.navigate('Settings')
                   }}
                 />

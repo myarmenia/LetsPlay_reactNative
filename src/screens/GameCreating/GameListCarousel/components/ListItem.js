@@ -35,8 +35,9 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
-              dispatch(clearAllAliasData())
-              dispatch(clearAllDatas())
+              // dispatch(clearAllAliasData())
+
+              // dispatch(clearAllDatas())
               !savedTeam?.id && qrGame
                 ? navigation.navigate(
                     game?.name == 'Мафия'

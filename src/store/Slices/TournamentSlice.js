@@ -48,6 +48,12 @@ const TournamentSlice = createSlice({
         game_name: action.payload,
       }
     },
+    setTournamentImagePath: (store, action) => {
+      return {
+        ...store,
+        imagePath: action.payload,
+      }
+    },
     setGameDescription: (store, action) => {
       return {
         ...store,
@@ -58,6 +64,12 @@ const TournamentSlice = createSlice({
       return {
         ...store,
         team_tourney: action.payload,
+      }
+    },
+    setTournamentGameType: (store, action) => {
+      return {
+        ...store,
+        tournamentGameType: action.payload,
       }
     },
     setTourStartDate: (store, action) => {
@@ -159,6 +171,7 @@ const TournamentSlice = createSlice({
   },
 })
 export const createTournament = (data) => (dispatch) => {
+  console.log(data)
   axiosInstance
     .post('api/tourney/', data)
     .then((response) => {
@@ -175,13 +188,15 @@ export const searchTourney = (data, nav, setError, tourney) => async (dispatch) 
   let dateFrom = data.getAll('date_from')
   let dateTo = data.getAll('date_to')
   let teamTourney = data.getAll('teamTourney')
-  console.log(teamTourney)
+  console.log('teamTourney', teamTourney)
+  console.log('price ==', price[0])
+  console.log('game_of_your_choice', game_of_your_choice)
   let place =
     latitude[0] && longitude[0] ? `&longitude=${longitude[0]}&latatude=${latitude[0]}` : ''
   let dates = dateFrom && dateTo ? `date_from=${dateFrom}&date_to=${dateTo}` : ''
   let gameIds = data.getAll('ids')
   let gameIdsForLink = gameIds[0].map((elm) => `games[]=${elm}&`).join('')
-  let link = `api/tourney?price=${price[0]}game_of_your_choice=${game_of_your_choice}&team_tourney=${teamTourney[0]}${place}${gameIdsForLink}`
+  let link = `api/tourney?price=${price[0]}&game_of_your_choice=${game_of_your_choice}&team_tourney=${teamTourney[0]}${place}${gameIdsForLink}`
   // price=false&game_of_your_choice=false&team_tourney=false&longitude=43.9722&latitude=44.237623
 
   console.log(link)
@@ -237,6 +252,8 @@ export const {
   setAddressNameTour,
   setNumberOfTeamsFrom,
   setAgeRestrictionsTo,
+  setTournamentGameType,
+  setTournamentImagePath,
   setAgeRestrictionsFrom,
   setNumberOfParticipantsTo,
   setNumberOfParticipantsFrom,

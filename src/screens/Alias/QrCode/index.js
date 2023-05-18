@@ -1,25 +1,15 @@
 import { WHITE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { Image, Text, View, StyleSheet } from 'react-native'
 import Button from '@/assets/imgs/Button'
 import ScreenMask from '@/components/wrappers/screen'
-import { useEffect } from 'react'
 
-function Index({ route }) {
-  const commandsCount = route?.params
-  const { qrGameImg, commandsInGame, explainYou } = useSelector(({ alias }) => alias)
+function Index() {
+  const { qrGameImg, countWords } = useSelector(({ alias }) => alias)
   const navigation = useNavigation()
-  const isFocused = useIsFocused()
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    if (explainYou) {
-      console.log('commandsInGame===', commandsInGame)
-    }
-  }, [isFocused])
   return (
     <ScreenMask>
       <View>
@@ -29,7 +19,7 @@ function Index({ route }) {
             <Image style={styles.qr} source={{ uri: _storageUrl + qrGameImg }} />
           </View>
           <Button
-            onPress={() => navigation.navigate('InviteTeamPlayers', commandsCount)}
+            onPress={() => navigation.navigate('InviteTeamPlayers')}
             size={styles.btn}
             label={'Продолжить'}
           />

@@ -30,6 +30,7 @@ const initialState = {
   waitAnswer: false,
   equalVotes: null,
   donVotedPlayers: [],
+  answersCount: 0,
 }
 
 export const MafiaSlice = createSlice({
@@ -201,6 +202,12 @@ export const MafiaSlice = createSlice({
         donVotedPlayers: action.payload,
       }
     },
+    setAnswersCount: (store, action) => {
+      return {
+        ...store,
+        answersCount: action.payload,
+      }
+    },
   },
 })
 
@@ -286,6 +293,24 @@ export const clearAllDatas = () => (dispatch) => {
   dispatch(setPlayersRatings([]))
   dispatch(setWinner(null))
   dispatch(setOrganizer(false))
+  dispatch(setWaitAnswer(false))
+  dispatch(setEqualVotes(null))
+  dispatch(setDonVotedPlayers([]))
+  dispatch(setAnswersCount(0))
+}
+export const resetGame = (mafia_game_id) => (dispatch) => {
+  dispatch(setPending(true))
+  axiosInstance
+    .post(`/api/game/mafia/reset/${mafia_game_id}`)
+    .then((e) => {
+      console.log('reset mafia', e)
+      // dispatch(clearAllDatas())
+    })
+    .catch((err) => {
+      dispatch(setAddPlayersError(true))
+      console.log('err request startGame', err.request._response)
+    })
+  dispatch(setPending(false))
 }
 
 export const {
@@ -316,5 +341,6 @@ export const {
   setWaitAnswer,
   setEqualVotes,
   setDonVotedPlayers,
+  setAnswersCount,
 } = MafiaSlice.actions
 export default MafiaSlice.reducer

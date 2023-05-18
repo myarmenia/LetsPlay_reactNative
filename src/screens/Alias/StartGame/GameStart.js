@@ -1,233 +1,128 @@
 import { ICON, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { font, RH, RW } from '@/theme/utils'
-import { memo, useEffect, useState } from 'react'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { View, StyleSheet, Text, Pressable, InteractionManager } from 'react-native'
-import PlayingInstructionSVG from '../assets/PlayingInstructionSVG'
-import TypeButton from '@/screens/Game/components/TypeButton'
+import { font, RH } from '@/theme/utils'
+import { memo, useEffect, useLayoutEffect, useState } from 'react'
+import { useIsFocused } from '@react-navigation/native'
+import { View, StyleSheet, Text } from 'react-native'
 import AnimatedCircle from '../Components/AnimatedCircle'
 import AliasBackground from '../assets/Background'
 import LightButton from '@/assets/imgs/Button'
-import User from '@/components/User/user'
 import Timer from '../Components/Timer'
-import Modal from '@/components/modal'
-import { setCommandsInGame, setStartedAlias, setStoping } from '@/store/Slices/AliasSlice'
+import { setExplainYou, setExplainedWords, setStep, setStoping } from '@/store/Slices/AliasSlice'
+import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
+import TimeFinishModal from '../Modals/TimeFinishModal'
 
 const GameStart = ({ route }) => {
-  let props = route?.params
-  const dispatch = useDispatch()
-  const isFocused = useIsFocused()
-  const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const [secModalVisible, setSecModalVisible] = useState(false)
-  const [userModalVisible, setUserModalVisible] = useState(false)
+  const [userModalVisible, setUserModalVisible] = useState(true)
+  const [timeIsFinished, setTimeIsFinished] = useState('timeDontFinished')
+  const [falsyCount, setFalsyCount] = useState(0)
+  const [truthyCount, setTruthyCount] = useState(0)
+  const [modalState, setModalState] = useState({ state: 'user' })
+
+  // const [explainedWords, setExplainedWords] = useState({
+  //   truthy: [],
+  //   falsy: [],
+  // })
+  const { stoping } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const {
-    stoping,
-    step,
-    explainYou,
+    allTeams,
     explainerTeam,
-    explainingUser,
-    answersInGame,
-    endRound,
-    startedAlias,
-    commandsInGame,
+    explainYou,
+    step,
+    time,
+    staticTime,
+    countWords,
+    explainedWords,
+    aliasGameId,
+    explainerUser,
   } = useSelector(({ alias }) => alias)
+  const [userExplainedWordsCount, setUserExplainedWordsCount] = useState({
+    points: 0,
+    aliasGameId,
+  })
+  let pointsPrevCurrent = allTeams.find((item) => item.value == explainerTeam)?.points
+
+  const dispatch = useDispatch()
+  const isFocused = useIsFocused()
+
   useEffect(() => {
-    if (explainYou) {
-      console.log('in game start ', commandsInGame)
+    dispatch(setExplainYou(explainYou))
+  }, [explainYou])
+
+  useEffect(() => {
+    if (!isFocused) {
+      dispatch(setStep(0))
+      setTruthyCount(0)
+      setFalsyCount(0)
     }
-  }, [step, commandsInGame])
+  }, [isFocused])
   useEffect(() => {
-    if (explainYou) {
-      console.log('in game start firts useeffect', commandsInGame)
+    if (!explainYou) {
+      setTruthyCount(step - explainedWords.falsy?.length)
+      setFalsyCount(step - explainedWords.truthy?.length)
     }
-  }, [])
-
-  const UserModal = () => {
-    return (
-      <Pressable
-        onPress={() => {
-          setUserModalVisible(false)
-        }}
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-evenly',
-        }}
-      >
-        <View style={[styles.userModalBox]}>
-          <Text style={[styles.commandName, { position: 'absolute', top: RH(40) }]}>
-            {explainerTeam}
-          </Text>
-          <View style={{ alignItems: 'center' }}>
-            <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            <User size={380} pressedUser={explainYou ? user : explainingUser} />
-          </View>
-
-          {!!explainYou && (
-            <View style={{ position: 'absolute', bottom: RH(20) }}>
-              <LightButton
-                label={'Начать'}
-                size={{ width: 281, height: 48 }}
-                onPress={() => {
-                  setUserModalVisible(false)
-                }}
-              />
-            </View>
-          )}
-        </View>
-      </Pressable>
-    )
-  }
-
-  const ModalItem = () => {
-    return (
-      <Pressable
-        onPress={() => {
-          setModalVisible(false)
-          dispatch(setStoping(false))
-          // dispatch(setStartedAlias(true))
-        }}
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          position: 'absolute',
-        }}
-      >
-        <View style={styles.modalBox}>
-          <View style={styles.instructionTextBox}>
-            <Text style={styles.instruction}>
-              После того как ваша команда отгадает слово переместите его вверх
-            </Text>
-            <Text style={styles.instruction}>Для пропуска слова переместите его вниз</Text>
-          </View>
-          <PlayingInstructionSVG />
-        </View>
-        <View style={{ top: '7%' }}>
-          <TypeButton
-            size={60}
-            title={'OK'}
-            onPress={() => {
-              setModalVisible(false)
-              dispatch(setStoping(false))
-              // dispatch(setStartedAlias(true))
-            }}
-          />
-        </View>
-      </Pressable>
-    )
-  }
-
-  const TimeIsFinished = () => {
-    return (
-      <Pressable
-        onPress={() => {
-          setSecModalVisible(false)
-
-          navigation.navigate('ResultsOfAnswers', { fromGame: true })
-        }}
-        style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <Text style={{ ...font('medium', 32, '#F73934') }}>Время истекло!</Text>
-      </Pressable>
-    )
-  }
-
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      if (props?.fromRes == true) {
-        setUserModalVisible(true)
-        props.fromRes = null
-      } else {
-        if (!userModalVisible && explainYou) {
-          setModalVisible(true)
-        } else if (!userModalVisible && !explainYou) {
-          // dispatch(setStoping(false))
-          setModalVisible(false)
-        }
-      }
-
-      //  else {
-      //   if (!userModalVisible && !modalVisible) {
-      //     // dispatch(setStoping(false))
-      //     // setUserModalVisible(false)
-      //     setModalVisible(false)
-      //   } else {
-      //     // setUserModalVisible(true)
-      //   }
-      // }
-    })
-  }, [userModalVisible, isFocused, endRound, explainYou, props])
-
+  }, [explainedWords, explainYou, step, falsyCount])
   return (
-    <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
-      <View style={{ position: 'absolute' }}>
-        {/* {secModalVisible && !userModalVisible ? ( */}
-        <Modal
-          setIsVisible={setSecModalVisible}
-          modalVisible={secModalVisible}
-          item={<TimeIsFinished />}
+    <>
+      <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
+        <SomeSampleScreen modalState={modalState} setModalState={setModalState} />
+        <TimeFinishModal
+          timeIsFinished={timeIsFinished}
+          setTimeIsFinished={setTimeIsFinished}
+          userExplainedWordsCount={userExplainedWordsCount}
         />
-        {/* ) : null} */}
-        {/* {userModalVisible ? ( */}
-        <Modal
-          setIsVisible={setUserModalVisible}
-          modalVisible={userModalVisible}
-          navigationText={''}
-          item={<UserModal />}
-        />
-        {/* ) : null} */}
-        {/* {modalVisible ? ( */}
-        <Modal setIsVisible={setModalVisible} modalVisible={modalVisible} item={<ModalItem />} />
-        {/* ) : null} */}
-      </View>
-      <View
-        style={{
-          height: '95%',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          alignContent: 'center',
-        }}
-      >
-        <View style={styles.answersBox}>
-          <Text style={styles.commandName}>{explainerTeam}</Text>
-          <Text style={styles.countOfTrueAnswer}>{answersInGame?.true}</Text>
-          <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
-        </View>
-        <View>
-          <AnimatedCircle stoped={stoping ? true : false} />
-        </View>
-        <View style={styles.answersBox}>
-          <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
-          <Text style={styles.countOfTrueAnswer}>{answersInGame?.false}</Text>
-          <View style={styles.bottomBox}>
-            <View style={{ width: '65%' }}>
-              {!!explainYou && (
-                <LightButton
-                  label={!stoping ? 'Стоп' : 'Продолжить'}
-                  size={{ width: !stoping ? 100 : null, height: 36 }}
-                  onPress={() => dispatch(setStoping(!stoping))}
+        <View style={{ position: 'absolute' }}></View>
+        <View
+          style={{
+            height: '95%',
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            alignContent: 'center',
+          }}
+        >
+          <View style={styles.answersBox}>
+            <Text style={styles.commandName}>{explainerTeam}</Text>
+
+            <Text style={styles.countOfTrueAnswer}>{truthyCount}</Text>
+            <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
+          </View>
+          <View>
+            <AnimatedCircle
+              setTruthyCount={setTruthyCount}
+              setFalsyCount={setFalsyCount}
+              userExplainedWordsCount={userExplainedWordsCount}
+              setUserExplainedWordsCount={setUserExplainedWordsCount}
+            />
+          </View>
+          <View style={styles.answersBox}>
+            <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
+            <Text style={styles.countOfTrueAnswer}>{falsyCount}</Text>
+            <View style={styles.bottomBox}>
+              <View style={{ width: '65%' }}>
+                {!!explainYou && (
+                  <LightButton
+                    label={!stoping ? 'Стоп' : 'Продолжить'}
+                    size={{ width: !stoping ? 100 : null, height: 36 }}
+                    onPress={() => dispatch(setStoping(!stoping))}
+                  />
+                )}
+              </View>
+              <View style={{ alignItems: 'center', width: '35%' }}>
+                <Timer
+                  timeIsFinished={timeIsFinished}
+                  fromRes={route?.params?.fromRes}
+                  modalState={modalState}
+                  setTimeIsFinished={setTimeIsFinished}
                 />
-              )}
-            </View>
-            <View style={{ alignItems: 'center', width: '35%' }}>
-              <Timer
-                secModalVisible={secModalVisible}
-                userModalVisible={userModalVisible}
-                fromRes={props?.fromRes}
-                modalVisible={modalVisible}
-                setUserModalVisible={setUserModalVisible}
-                setSecModalVisible={setSecModalVisible}
-              />
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </AliasBackground>
+      </AliasBackground>
+    </>
   )
 }
 

@@ -1,29 +1,40 @@
-import React, { memo, useEffect, useRef, useState } from 'react'
+import React, { memo, useEffect, useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder, Animated } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setAnswersInGame, setCommandsInGame, setStep } from '@/store/Slices/AliasSlice'
+import { setExplainedWords, setStep, setTeams } from '@/store/Slices/AliasSlice'
 import { font } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
+import { useIsFocused } from '@react-navigation/native'
 
-const AnimatedCircle = () => {
+const AnimatedCircle = ({
+  userExplainedWordsCount,
+  setUserExplainedWordsCount,
+  setTruthyCount,
+  falsyCount,
+  truthyCount,
+  setFalsyCount,
+}) => {
   const dispatch = useDispatch()
-  const { words, stoping, explainYou, step, answersInGame, commandsInGame, explainerTeam } =
+  const isFocused = useIsFocused()
+  const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords, youGuesser } =
     useSelector(({ alias }) => alias)
   let changer = () => {
-    let newArr = commandsInGame?.map((elm) => {
-      if (elm.value == explainerTeam) {
-        let count = elm.points + 1
-        return {
-          ...elm,
-          points: count,
+    if (explainYou) {
+      let newArr = allTeams?.map((elm) => {
+        if (elm.value == explainerTeam) {
+          return {
+            ...elm,
+            points: elm.points + 1,
+          }
+        } else {
+          return { ...elm }
         }
-      } else {
-        return { ...elm }
-      }
-    })
-    dispatch(setCommandsInGame(newArr))
+      })
+      dispatch(setTeams([...newArr]))
+    }
   }
+
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = PanResponder.create({
@@ -34,14 +45,33 @@ const AnimatedCircle = () => {
         pan.flattenOffset()
         if (gestureState.moveY < 233) {
           dispatch(
-            setAnswersInGame({
-              ...answersInGame,
-              true: ++answersInGame.true,
-              trueWords: [...answersInGame.trueWords, words?.[step]?.name],
+            setExplainedWords({
+              ...explainedWords,
+              truthy: [...explainedWords.truthy, words?.[step]?.name],
             }),
           )
+          if (explainYou) {
+            setUserExplainedWordsCount({
+              ...userExplainedWordsCount,
+              points: ++userExplainedWordsCount.points,
+            })
+          }
+          setTruthyCount((prev) => {
+            return +prev + 1
+          })
           dispatch(setStep(step + 1))
-          changer()
+
+          let newArr = allTeams?.map((elm) => {
+            if (elm.value == explainerTeam) {
+              return {
+                ...elm,
+                points: elm.points + 1,
+              }
+            } else {
+              return { ...elm }
+            }
+          })
+          dispatch(setTeams([...newArr]))
 
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
@@ -50,12 +80,14 @@ const AnimatedCircle = () => {
           }).start()
         } else if (gestureState.moveY > 555) {
           dispatch(
-            setAnswersInGame({
-              ...answersInGame,
-              false: ++answersInGame.false,
-              falseWords: [...answersInGame.falseWords, words?.[step]?.name],
+            setExplainedWords({
+              ...explainedWords,
+              falsy: [...explainedWords.falsy, words?.[step]?.name],
             }),
           )
+          setFalsyCount((prev) => {
+            return +prev + 1
+          })
           dispatch(setStep(step + 1))
 
           Animated.timing(pan, {
@@ -91,7 +123,7 @@ const AnimatedCircle = () => {
       {...panResponder.panHandlers}
     >
       <TypeButton
-        labelStyle={{ ...font('bold', 22, LIGHT_LABEL, 24) }}
+        labelStyle={{ ...font('bold', 21, LIGHT_LABEL, 21) }}
         title={words?.[step]?.name}
         key={Math.random().toString()}
       />

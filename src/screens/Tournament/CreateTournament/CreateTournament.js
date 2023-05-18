@@ -51,9 +51,7 @@ const CreateTournament = ({ route }) => {
   useEffect(() => {
     dispatch(clearTournamentData())
   }, [])
-  useEffect(() => {
-    console.log('initialState --->', initialState)
-  }, [initialState])
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>

@@ -1,78 +1,66 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
-import { useSelector } from 'react-redux'
 import { setPending } from './AuthSlice'
-
+import { useSelector } from 'react-redux'
 const initialState = {
   rules: '',
   step: 0,
-
-  explainYou: null,
+  eachWord: null,
+  explainYou: false,
+  loader: false,
+  countWords: null,
   complexity: null,
   staticTime: null,
   aliasGameId: null,
-  startedAlias: false,
-  countOfWords: null,
+  youGuesser: null,
   explainerTeam: null,
-  commandsAndPlayers: null,
   participateSuccess: null,
-  answersInGame: {
-    true: 0,
-    false: 0,
-    trueWords: [],
-    falseWords: [],
-  },
-  words: [],
-  usersInGame: [],
   playersInGame: [],
   reservedUsers: [],
-  endRound: false,
   qrGameImg: false,
-  userIsOrganizer: false,
   stoping: true,
   time: 0,
-  commandsInGame: [
-    { command: 1, value: '', members: [], points: 0 },
-    { command: 2, value: '', members: [], points: 0 },
+  allTeams: [
+    { command: 1, value: 'Команда 1', members: [], points: 0 },
+    { command: 2, value: 'Команда 2', members: [], points: 0 },
   ],
+  explainedWords: {
+    truthy: [],
+    falsy: [],
+  },
 }
 
 export const AliasSlice = createSlice({
   name: 'alias',
   initialState,
   reducers: {
-    // setMinutes: (store, action) => {
-    //   return { ...store, minutesInGame: action.payload }
-    // },
-    setCommandsInGame: (store, action) => {
-      return { ...store, commandsInGame: action.payload }
-    },
-    setReservedUsers: (store, action) => {
-      return { ...store, reservedUsers: action.payload }
+    setRules: (store, action) => {
+      return { ...store, rules: action.payload }
     },
     setAliasGameId: (store, action) => {
       return { ...store, aliasGameId: action.payload }
     },
-    setTeams: (store, action) => {
-      return { ...store, teamDatas: action.payload }
+    setStoping: (store, action) => {
+      return { ...store, stoping: action.payload }
     },
     setComplexity: (store, action) => {
       return { ...store, complexity: action.payload }
     },
-    setStoping: (store, action) => {
-      return { ...store, stoping: action.payload }
-    },
+
     setTime: (store, action) => {
       return {
         ...store,
         time: action.payload,
       }
     },
-    setCountWords: (store, action) => {
-      return { ...store, countOfWords: action.payload }
+    setExplainerUser: (store, action) => {
+      return { ...store, explainerUser: action.payload }
     },
     setEndRound: (store, action) => {
       return { ...store, endRound: action.payload }
+    },
+    setPlayersInGame: (store, action) => {
+      return { ...store, playersInGame: action.payload }
     },
     setStaticRoundTime: (store, action) => {
       return { ...store, staticTime: action.payload }
@@ -80,25 +68,24 @@ export const AliasSlice = createSlice({
     setQrImg: (store, action) => {
       return { ...store, qrGameImg: action.payload }
     },
-    setPlayersInGame: (store, action) => {
-      return { ...store, playersInGame: action.payload }
-    },
+
     setUsersInGame: (store, action) => {
       return { ...store, usersInGame: action.payload }
-    },
-    setCommandsAndPlayers: (store, action) => {
-      return { ...store, commandsAndPlayers: action.payload }
     },
     setWords: (store, action) => {
       return { ...store, words: action.payload }
     },
-    setStartedAlias: (store, action) => {
-      return { ...store, startedAlias: action.payload }
-    },
+
     setUserIsOrganizer: (store, action) => {
       return {
         ...store,
         userIsOrganizer: action.payload,
+      }
+    },
+    setReservedUsers: (store, action) => {
+      return {
+        ...store,
+        reservedUsers: action.payload,
       }
     },
     setParticipateSuccess: (store, action) => {
@@ -113,10 +100,34 @@ export const AliasSlice = createSlice({
         step: action.payload,
       }
     },
-    setAnswersInGame: (store, action) => {
+    setTeams: (store, action) => {
       return {
         ...store,
-        answersInGame: action.payload,
+        allTeams: [...action.payload],
+      }
+    },
+    setStaticTeamsData: (store, action) => {
+      return {
+        ...store,
+        staticTeamsData: action.payload,
+      }
+    },
+    setCountWords: (store, action) => {
+      return {
+        ...store,
+        countWords: action.payload,
+      }
+    },
+    setExplainYou: (store, action) => {
+      return {
+        ...store,
+        explainYou: action.payload,
+      }
+    },
+    setYouGuesser: (store, action) => {
+      return {
+        ...store,
+        youGuesser: action.payload,
       }
     },
     setExplainingUser: (store, action) => {
@@ -131,83 +142,20 @@ export const AliasSlice = createSlice({
         explainerTeam: action.payload,
       }
     },
-    setYouExplainer: (store, action) => {
+    setExplainedWords: (store, action) => {
       return {
         ...store,
-        explainYou: action.payload,
+        explainedWords: action.payload,
       }
     },
-
-    // setTrueAnswers: (store, action) => {
-    //   return {
-    //     ...store,
-    //     answers: {
-    //       ...answers,
-    //       truthy: answers.truthy + 1,
-    //     },
-    //   }
-    // },
-    // setFalseAnswers: (store, action) => {
-    //   return {
-    //     ...store,
-    //     answers: {
-    //       ...answers,
-    //       falsy: answers.falsy + 1,
-    //     },
-    //   }
-    // },
-    // setResetAnswers: (store, action) => {
-    //   return {
-    //     ...store,
-    //     answers:{
-    //       truthy:0,
-    //       falsy:0
-    //     }
-    //   }
-    // }
+    setLoader: (store, action) => {
+      return {
+        ...store,
+        loader: action.payload,
+      }
+    },
   },
 })
-
-export const clearAllAliasData = () => (dispatch) => {
-  dispatch(setReservedUsers([]))
-  dispatch(setAliasGameId(null))
-  dispatch(setTeams([]))
-  dispatch(setComplexity(null))
-  dispatch(setCountWords(null))
-  dispatch(setQrImg(null))
-  dispatch(setPlayersInGame(null))
-}
-
-export const sendAliasSettings = (data) => (dispatch) => {
-  axiosInstance
-    .post('api/game/alias', data)
-    .then((response) => {
-      if (response.data?.data) {
-        dispatch(setQrImg(response.data?.data?.qr_link))
-        dispatch(setAliasGameId(response.data?.data?._id))
-        dispatch(setTeams(response.data.data.teams))
-      }
-    })
-    .catch((err) => {
-      console.log('err sending alias settings :', err)
-    })
-}
-export const sendAliasGameId = (id) => (dispatch) => {
-  dispatch(setPending(true))
-  axiosInstance
-    .post(`api/game/alias/participate/${id}`)
-    .then(async (response) => {
-      if (response.data?.data?.players) {
-        dispatch(setPlayersInGame(response.data.data.players))
-      }
-      dispatch(setAliasGameId(id))
-      dispatch(setParticipateSuccess(true))
-    })
-    .catch((err) => {
-      dispatch(setParticipateSuccess(false))
-      console.log('err sending alias game id :', err)
-    })
-}
 export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
@@ -218,42 +166,85 @@ export const setPlayers = (teamInfo) => (dispatch) => {
       console.log('err setPlayers : response', err.response)
     })
 }
+export const sendAliasSettings = (data, allTeams) => (dispatch) => {
+  axiosInstance
+    .post('api/game/alias', data)
+    .then((response) => {
+      if (response.data?.data) {
+        dispatch(setQrImg(response.data?.data?.qr_link))
+        dispatch(setAliasGameId(response.data?.data?._id))
+        // dispatch(setStaticTeamsData(allTeams))
+        dispatch(
+          setTeams(allTeams.map((elm, i) => ({ ...elm, id: response.data.data.teams[i]._id }))),
+        )
+      }
+    })
+    .catch((err) => {
+      console.log('err sending alias settings :', err)
+    })
+}
+
+export const sendAliasGameId = (id) => (dispatch) => {
+  dispatch(setPending(true))
+  axiosInstance
+    .post(`api/game/alias/participate/${id}`)
+    .then(async (response) => {
+      if (response.data?.data?.players) {
+        dispatch(setPlayersInGame(response.data.data.players))
+      }
+      console.log('sendAliasGameId', id)
+      dispatch(setAliasGameId(id))
+      dispatch(setParticipateSuccess(true))
+    })
+    .catch((err) => {
+      dispatch(setParticipateSuccess(false))
+      console.log('err sending alias game id :', err)
+    })
+}
 export const startAliasGame = (gameId) => (dispatch) => {
-  console.log('gameId', gameId)
   axiosInstance
     .post(`api/game/alias/start/${gameId}`)
     .then((response) => {
-      console.log('startAliasGame response', response.data)
+      // dispatch(setExplainYou(true))
     })
     .catch((err) => {
-      console.log('err startAliasGame esponse', err.response)
+      console.log('err startAliasGame esponse', err)
+    })
+}
+export const sendUserPoints = (data) => (dispatch) => {
+  console.log('data for send', data)
+  axiosInstance
+    .post('api/alias/user_points', data)
+    .then((response) => {
+      console.log('sendUserPoints pesponse', response.data)
+    })
+    .catch((err) => {
+      console.log('err sending user points', err)
     })
 }
 export const {
   setTime,
   setStep,
   setQrImg,
-  setWords,
   setTeams,
-  setStoping,
+  setWords,
+  setExplainYou,
   setEndRound,
-  setStartedAlias,
-  setCommandsInGame,
-  setCountWords,
+  setYouGuesser,
   setComplexity,
-  setUsersInGame,
+  setLoader,
+  setStaticTeamsData,
+  setExplainerUser,
+  setCountWords,
+  setStoping,
+  setRules,
   setAliasGameId,
-  setTrueAnswers,
-  setYouExplainer,
-  setFalseAnswers,
-  setAnswersInGame,
+  setUserIsOrganizer,
   setReservedUsers,
   setExplainerTeam,
   setPlayersInGame,
-  setExplainingUser,
   setStaticRoundTime,
-  setUserIsOrganizer,
   setParticipateSuccess,
-  setCommandsAndPlayers,
+  setExplainedWords,
 } = AliasSlice.actions
 export default AliasSlice.reducer

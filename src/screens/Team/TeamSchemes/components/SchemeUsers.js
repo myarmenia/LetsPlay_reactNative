@@ -12,7 +12,7 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
   const scrollRef = useRef(null)
   const componentWidth = useRef(0)
 
-  const panResponders = replacementPlayers?.map((ref, index) =>
+  const panResponders = replacementPlayers?.map((item, index) =>
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
 
@@ -253,5 +253,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+    zIndex: 99999999,
   },
 })

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { memo, useEffect, useMemo, useRef } from 'react'
 import { NAV_HEADER_OPTION } from '@/constants'
 import { useGameSocketHelper } from './helpers'
 import { useDispatch, useSelector } from 'react-redux'
@@ -17,23 +17,26 @@ import { io } from 'socket.io-client'
 import DeviceInfo from 'react-native-device-info'
 
 import {
-  setAnswersInGame,
-  setCommandsInGame,
-  setCommandsAndPlayers,
+  setExplainYou,
   setExplainerTeam,
-  setExplainingUser,
+  setExplainerUser,
   setPlayersInGame,
   setStaticRoundTime,
-  setStep,
   setStoping,
+  setWords,
   setTime,
   setUserIsOrganizer,
-  setWords,
-  setYouExplainer,
-  setStartedAlias,
+  setStep,
+  setTeams,
+  setExplainedWords,
   setEndRound,
+  setComplexity,
+  setCountWords,
+  setYouGuesser,
 } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
+import WinnerTeamMessage from '@/screens/Alias/WinnerTeamMessage/WinnerTeamMessage'
+import PlayersRatings from '@/screens/Alias/WinnerTeamMessage/PlayersRatings'
 
 const Stack = createNativeStackNavigator()
 
@@ -43,127 +46,102 @@ const AliasNavigator = () => {
   const dispatch = useDispatch()
   const {
     aliasGameId,
-    endRound,
     stoping,
-    answersInGame,
+    userIsOrganizer,
     explainYou,
+    countWords,
+    staticTime,
+    complexity,
+    allTeams,
     step,
-    commandsInGame,
-    startedAlias,
+    endRound,
+    time,
+    explainedWords,
   } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
+  const explainYouRef = useRef(false)
+
   const callBackFunc = async (e) => {
-    // console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
+    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
-      case 'new_user': {
+      case 'new_user':
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
+        if (userIsOrganizer && countWords) {
+          socketRef.current?.emit('message_to_all_players', countWords)
+        }
         break
-      }
 
-      case 'explain_you': {
+      case 'explain_you':
+        explainYouRef.current = true
+        dispatch(setExplainYou(true))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
-        dispatch(setYouExplainer(true))
-        dispatch(setExplainingUser(null)),
-          // dispatch(setEndRound(true)),
-          dispatch(
-            setAnswersInGame({
-              true: 0,
-              false: 0,
-              trueWords: [],
-              falseWords: [],
-            }),
-          ),
-          navigation.navigate('GameStart', { fromRes: true })
+        dispatch(setExplainerUser(null))
+        navigation.navigate('GameStart', { fromRes: true })
         break
-      }
-
-      case 'explain_another_team_user': {
-        dispatch(setExplainingUser(e.explain_user))
+      case 'explain_another_team_user':
+        dispatch(setExplainYou(false))
+        explainYouRef.current = false
         dispatch(setWords(e.words))
+        dispatch(setExplainerUser(e.explain_user))
         dispatch(setExplainerTeam(e.explain_user_team.name))
-        dispatch(setYouExplainer(false)),
-          // dispatch(setEndRound(true)),
-          dispatch(
-            setAnswersInGame({
-              true: 0,
-              false: 0,
-              trueWords: [],
-              falseWords: [],
-            }),
-          ),
-          navigation.navigate('GameStart', { fromRes: true })
+        navigation.navigate('GameStart', { fromRes: true })
         break
-      }
-      case 'explain_your_team_user': {
-        dispatch(setExplainingUser(e.user))
+
+      case 'explain_your_team_user':
+        dispatch(setExplainYou(false))
+        dispatch(setYouGuesser(true))
+        explainYouRef.current = false
+        dispatch(setExplainerUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
-        dispatch(setYouExplainer(false)),
-          dispatch(setWords([])),
-          // dispatch(setEndRound(true)),
-          dispatch(
-            setAnswersInGame({
-              true: 0,
-              false: 0,
-              trueWords: [],
-              falseWords: [],
-            }),
-          ),
-          navigation.navigate('GameStart', { fromRes: true })
+        navigation.navigate('GameStart', { fromRes: true })
         break
-      }
-      case 'alias_start': {
-        dispatch(setExplainingUser(e.user))
+
+      case 'alias_start':
         dispatch(setTime(e?.alias_game_team?.round_time))
         dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
-        dispatch(setYouExplainer(false)),
-          dispatch(setWords([])),
-          dispatch(setExplainerTeam(null)),
-          // dispatch(setEndRound(true)),
-          dispatch(
-            setAnswersInGame({
-              true: 0,
-              false: 0,
-              trueWords: [],
-              falseWords: [],
-            }),
-          ),
-          navigation.navigate('GameStart', { fromRes: true })
+        // navigation.navigate('GameStart', { fromRes: true })
         break
-      }
-      case 'alias_team_confirm': {
+
+      case 'alias_team_confirm':
         dispatch(setTime(e?.alias?.round_time))
-        dispatch(setCommandsAndPlayers(e.alias.teams))
         break
-      }
-      case 'explain_results': {
-        // dispatch(setExplains(e.explains))
-        // dispatch(setSkips(e.skips))
-      }
+      // case 'explain_results': {
+      // }
+      // case 'all_teams_resaults': {
+      // }
       case 'pause_or_start': {
-        if (!explainYou) {
+        if (!explainYouRef.current) {
           dispatch(setStoping(e?.data?.stoping))
         }
-        break
-      }
-      case 'message_to_all_players': {
-        console.log(e.data?.commandsInfos)
-        if (!explainYou) {
-          // if (e.data?.close == true) {
-          //   dispatch(setStartedAlias(true))
-          // } else {
-          //   dispatch(setStartedAlias(false))
-          // }
-
-          dispatch(setStep(e.data?.step))
-          dispatch(setAnswersInGame(e.data?.answersInGame))
-          dispatch(setCommandsInGame(e.data?.commandsInfos))
+        if (!userIsOrganizer) {
+          dispatch(setCountWords(e.data.countWords))
         }
         break
       }
+
+      case 'message_to_all_players':
+        if (e.data?.type === 'getTeams' && !explainYouRef.current) {
+          dispatch(setTeams(e.data?.data))
+        } else if (e.data?.type === 'getSteps' && !explainYouRef.current && e.data.data !== step) {
+          dispatch(setStep(e.data?.data.step))
+
+          dispatch(setExplainedWords(e?.data?.data.words))
+        } else if (e.data?.type === 'getAnswers' && !explainYouRef.current) {
+          dispatch(setExplainedWords(e.data.words))
+        } else if (e.data?.type === 'getGameSettings' && !explainYouRef.current) {
+          dispatch(setComplexity(e.data.settings.complexity))
+        } else if (e.data.countWords && !explainYou) {
+          dispatch(setCountWords(e.data.countWords))
+        }
+        // else if (e.data?.type === 'endTimeCleanData' && !explainYouRef.current) {
+        // dispatch(setExplainedWords(e.data.words))
+        // dispatch(setStep(e.data?.step))
+        // }
+        break
     }
   }
 
@@ -172,9 +150,6 @@ const AliasNavigator = () => {
 
   useEffect(() => {
     console.log('aliasGameId -' + DeviceInfo.getDeviceId(), aliasGameId)
-    // if (!aliasGameId && socketRef.current) {
-    //   socketRef.current = null
-    // }
     if (socketRef.current || !aliasGameId) return
 
     socketRef.current = io(
@@ -193,31 +168,79 @@ const AliasNavigator = () => {
 
   useEffect(() => {
     if (explainYou) {
-      socketRef.current?.emit('pause_or_start', { stoping }) //time
+      socketRef.current?.emit('pause_or_start', {
+        stoping,
+      })
     }
-  }, [stoping, explainYou])
+  }, [stoping, explainYou, countWords])
+
+  useEffect(() => {
+    if (explainYou && !endRound) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getTeams',
+        data: allTeams,
+      })
+    }
+  }, [explainYou, allTeams])
+
+  useEffect(() => {
+    if (explainYouRef.current && endRound) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getGameSettings',
+        settings: {
+          complexity: complexity,
+        },
+      })
+    }
+  }, [endRound, countWords, complexity])
+  useEffect(() => {
+    if (explainYouRef.current) {
+      console.log('xxxxxxxxx=======', countWords)
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getSteps',
+        data: {
+          step: step,
+          countWords: countWords,
+          words: explainedWords,
+        },
+      })
+    }
+  }, [step, countWords])
+  useEffect(() => {
+    if (explainYou && time == 0) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getAnswers',
+        words: explainedWords,
+        countWords: countWords,
+      })
+    }
+  }, [time, explainedWords])
+
+  // useEffect(() => {
+  //   if (explainYouRef.current && time == 0) {
+  //     socketRef.current?.emit('message_to_all_players', {
+  //       type: 'getGameSettings',
+  //       settings: {
+  //         countWords: countWords,
+  //         staticTime: staticTime,
+  //         complexity: complexity,
+  //       },
+  //     })
+  //   }
+  // }, [time, explainedWords, endRound])
 
   useEffect(() => {
     if (endRound == true) {
+      // dispatch(setExplainYou(null))
+      // dispatch(setExplainerUser(null))
+      // dispatch(setExplainerTeam(null))
+      // dispatch(setWords([]))
+      // dispatch(setTeams([]))
+      // dispatch(setExplainedWords([]))
       socketRef.current?.emit('end_time', {})
+      dispatch(setEndRound(false))
     }
   }, [endRound])
-
-  useEffect(() => {
-    if (explainYou && step > 0) {
-      socketRef.current?.emit('message_to_all_players', {
-        answersInGame: answersInGame,
-        commandsInfos: commandsInGame,
-        step: step,
-      })
-    }
-    // else {
-    //   socketRef.current?.emit('message_to_all_players', {
-    //     close: startedAlias ? true : false,
-    //   })
-    // }
-  }, [step, explainYou])
-
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />
@@ -228,9 +251,15 @@ const AliasNavigator = () => {
       <Stack.Screen name="PlayNow" component={PlayNow} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
       <Stack.Screen name="GameStart" component={GameStart} />
-      <Stack.Screen name="ResultsOfAnswers" component={ResultsOfAnswers} />
+      <Stack.Screen
+        name="ResultsOfAnswers"
+        component={ResultsOfAnswers}
+        options={{ gestureEnabled: false }}
+      />
       <Stack.Screen name="TeamsResults" component={TeamsResults} />
+      <Stack.Screen name="WinnerTeamMessage" component={WinnerTeamMessage} />
+      <Stack.Screen name="PlayersRatings" component={PlayersRatings} />
     </Stack.Navigator>
   )
 }
-export default AliasNavigator
+export default memo(AliasNavigator)
