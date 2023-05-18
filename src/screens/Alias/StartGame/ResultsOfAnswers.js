@@ -6,7 +6,7 @@ import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { sendUserPoints, setExplainedWords } from '@/store/Slices/AliasSlice'
+import { sendUserPoints, setCountWords, setExplainedWords } from '@/store/Slices/AliasSlice'
 
 const ResultsOfAnswers = ({ route }) => {
   const dispatch = useDispatch()
@@ -28,14 +28,12 @@ const ResultsOfAnswers = ({ route }) => {
     }
 
     if (!isFocused) {
-      setTimeout(() => {
-        dispatch(
-          setExplainedWords({
-            truthy: [],
-            falsy: [],
-          }),
-        )
-      }, 1500)
+      dispatch(
+        setExplainedWords({
+          truthy: [],
+          falsy: [],
+        }),
+      )
     }
   }, [isFocused])
   return (

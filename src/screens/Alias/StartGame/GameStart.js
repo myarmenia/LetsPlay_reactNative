@@ -51,19 +51,36 @@ const GameStart = ({ route }) => {
     dispatch(setExplainYou(explainYou))
   }, [explainYou])
 
+  // useEffect(() => {
+  //   // if (modalState.state == 'user' && !explainYou) {
+  //   dispatch(setStep(0))
+  //   setTruthyCount(0)
+  //   setFalsyCount(0)
+  //   // }
+  // }, [isFocused, modalState])
   useEffect(() => {
-    if (!isFocused) {
-      dispatch(setStep(0))
-      setTruthyCount(0)
-      setFalsyCount(0)
+    if (isFocused) {
+      dispatch(
+        setExplainedWords({
+          truthy: [],
+          falsy: [],
+        }),
+      )
     }
   }, [isFocused])
   useEffect(() => {
     if (!explainYou) {
+      console.log(explainedWords)
       setTruthyCount(step - explainedWords.falsy?.length)
       setFalsyCount(step - explainedWords.truthy?.length)
     }
-  }, [explainedWords, explainYou, step, falsyCount])
+    // raundic heto vor minus er etum dzelu masy
+    if (modalState.state == 'user' && !explainYou) {
+      dispatch(setStep(0))
+      setTruthyCount(0)
+      setFalsyCount(0)
+    }
+  }, [explainedWords, explainYou, step, falsyCount, modalState])
   return (
     <>
       <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>

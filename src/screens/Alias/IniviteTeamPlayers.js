@@ -7,6 +7,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import {
   sendAliasGameId,
+  setCountWords,
   setParticipateSuccess,
   setPlayers,
   setReservedUsers,
@@ -29,6 +30,7 @@ const IniviteTeamPlayers = ({ route }) => {
     aliasGameId,
     allTeams,
     playersInGame,
+    countWords,
     participateSuccess,
     userIsOrganizer,
   } = useSelector(({ alias }) => alias)
@@ -39,6 +41,7 @@ const IniviteTeamPlayers = ({ route }) => {
   const isFocused = useIsFocused()
   useEffect(() => {
     setI(0)
+    dispatch(setCountWords(countWords))
   }, [isFocused])
 
   useEffect(() => {

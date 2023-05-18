@@ -8,7 +8,7 @@ import LightButton from '@/assets/imgs/Button'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
-import { setLoader } from '@/store/Slices/AliasSlice'
+import { cleanDataAndPlayAgain, setLoader } from '@/store/Slices/AliasSlice'
 import AliasLoader from '../Components/AliasLoader'
 
 const PlayersRatings = () => {
@@ -22,9 +22,7 @@ const PlayersRatings = () => {
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.headerBox}>
-          <View style={{ width: '10%' }}></View>
           <Text style={styles.ratingText}>Рейтинги игроков</Text>
-          <InfoSvg />
         </View>
         <View>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((elm) => {
@@ -67,17 +65,7 @@ const PlayersRatings = () => {
               label={'Играть заново'}
               size={{ width: 370, height: 48 }}
               onPress={() => {
-                // dispatch(setLoader(true))
-                // if (!explaingYou) {
-                //   console.log(
-                //     'countWords',
-                //     countWords,
-                //     'staticTime',
-                //     staticTime,
-                //     'complexity',
-                //     complexity,
-                //   )
-                // }
+                dispatch(cleanDataAndPlayAgain())
                 navigation.navigate('QrCode')
               }}
             />
@@ -99,6 +87,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     ...font('bold', 24, ICON),
+    paddingVertical: RH(5),
   },
   headerBox: {
     width: '100%',

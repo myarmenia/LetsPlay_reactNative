@@ -47,7 +47,6 @@ const AliasNavigator = () => {
   const {
     aliasGameId,
     stoping,
-    userIsOrganizer,
     explainYou,
     countWords,
     staticTime,
@@ -57,6 +56,7 @@ const AliasNavigator = () => {
     endRound,
     time,
     explainedWords,
+    userIsOrganizer,
   } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
@@ -69,9 +69,6 @@ const AliasNavigator = () => {
       case 'new_user':
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
-        if (userIsOrganizer && countWords) {
-          socketRef.current?.emit('message_to_all_players', countWords)
-        }
         break
 
       case 'explain_you':
@@ -117,9 +114,6 @@ const AliasNavigator = () => {
         if (!explainYouRef.current) {
           dispatch(setStoping(e?.data?.stoping))
         }
-        if (!userIsOrganizer) {
-          dispatch(setCountWords(e.data.countWords))
-        }
         break
       }
 
@@ -128,13 +122,12 @@ const AliasNavigator = () => {
           dispatch(setTeams(e.data?.data))
         } else if (e.data?.type === 'getSteps' && !explainYouRef.current && e.data.data !== step) {
           dispatch(setStep(e.data?.data.step))
-
           dispatch(setExplainedWords(e?.data?.data.words))
         } else if (e.data?.type === 'getAnswers' && !explainYouRef.current) {
           dispatch(setExplainedWords(e.data.words))
         } else if (e.data?.type === 'getGameSettings' && !explainYouRef.current) {
           dispatch(setComplexity(e.data.settings.complexity))
-        } else if (e.data.countWords && !explainYou) {
+        } else if (e.data?.type === 'getCountOfWords' && !explainYouRef.current) {
           dispatch(setCountWords(e.data.countWords))
         }
         // else if (e.data?.type === 'endTimeCleanData' && !explainYouRef.current) {
@@ -168,11 +161,9 @@ const AliasNavigator = () => {
 
   useEffect(() => {
     if (explainYou) {
-      socketRef.current?.emit('pause_or_start', {
-        stoping,
-      })
+      socketRef.current?.emit('pause_or_start', { stoping })
     }
-  }, [stoping, explainYou, countWords])
+  }, [stoping, explainYou])
 
   useEffect(() => {
     if (explainYou && !endRound) {
@@ -192,26 +183,31 @@ const AliasNavigator = () => {
         },
       })
     }
-  }, [endRound, countWords, complexity])
+  }, [endRound, complexity])
+  useEffect(() => {
+    if (userIsOrganizer && countWords && time == staticTime - 2) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getCountOfWords',
+        countWords,
+      })
+    }
+  }, [countWords, explainYou, time, staticTime])
   useEffect(() => {
     if (explainYouRef.current) {
-      console.log('xxxxxxxxx=======', countWords)
       socketRef.current?.emit('message_to_all_players', {
         type: 'getSteps',
         data: {
           step: step,
-          countWords: countWords,
           words: explainedWords,
         },
       })
     }
-  }, [step, countWords])
+  }, [step])
   useEffect(() => {
     if (explainYou && time == 0) {
       socketRef.current?.emit('message_to_all_players', {
         type: 'getAnswers',
         words: explainedWords,
-        countWords: countWords,
       })
     }
   }, [time, explainedWords])

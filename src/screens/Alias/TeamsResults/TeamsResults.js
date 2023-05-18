@@ -6,14 +6,7 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import {
-  setEndRound,
-  setExplainYou,
-  setExplainingUser,
-  setWords,
-  setExplainerTeam,
-  setExplainedWords,
-} from '@/store/Slices/AliasSlice'
+import { setEndRound, setExplainYou, setWords, setExplainerTeam } from '@/store/Slices/AliasSlice'
 
 const TeamsResults = () => {
   const dispatch = useDispatch()

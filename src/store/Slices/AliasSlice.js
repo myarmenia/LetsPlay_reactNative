@@ -68,10 +68,6 @@ export const AliasSlice = createSlice({
     setQrImg: (store, action) => {
       return { ...store, qrGameImg: action.payload }
     },
-
-    setUsersInGame: (store, action) => {
-      return { ...store, usersInGame: action.payload }
-    },
     setWords: (store, action) => {
       return { ...store, words: action.payload }
     },
@@ -106,12 +102,7 @@ export const AliasSlice = createSlice({
         allTeams: [...action.payload],
       }
     },
-    setStaticTeamsData: (store, action) => {
-      return {
-        ...store,
-        staticTeamsData: action.payload,
-      }
-    },
+
     setCountWords: (store, action) => {
       return {
         ...store,
@@ -173,7 +164,6 @@ export const sendAliasSettings = (data, allTeams) => (dispatch) => {
       if (response.data?.data) {
         dispatch(setQrImg(response.data?.data?.qr_link))
         dispatch(setAliasGameId(response.data?.data?._id))
-        // dispatch(setStaticTeamsData(allTeams))
         dispatch(
           setTeams(allTeams.map((elm, i) => ({ ...elm, id: response.data.data.teams[i]._id }))),
         )
@@ -222,6 +212,22 @@ export const sendUserPoints = (data) => (dispatch) => {
       console.log('err sending user points', err)
     })
 }
+export const cleanDataAndPlayAgain = (data) => (dispatch) => {
+  dispatch(
+    setTeams([
+      { command: 1, value: 'Команда 1', members: [], points: 0 },
+      { command: 2, value: 'Команда 2', members: [], points: 0 },
+    ]),
+  )
+  dispatch(setWords([]))
+  dispatch(setYouGuesser(null))
+  dispatch(setExplainYou(null))
+  dispatch(setPlayersInGame([]))
+  dispatch(setReservedUsers([]))
+  dispatch(setExplainerTeam(null))
+  dispatch(setExplainerUser(null))
+  dispatch(setParticipateSuccess(null))
+}
 export const {
   setTime,
   setStep,
@@ -233,7 +239,6 @@ export const {
   setYouGuesser,
   setComplexity,
   setLoader,
-  setStaticTeamsData,
   setExplainerUser,
   setCountWords,
   setStoping,

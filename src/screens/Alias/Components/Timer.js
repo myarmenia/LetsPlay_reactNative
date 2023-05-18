@@ -18,7 +18,9 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished }) => {
 
   useEffect(() => {
     if (!isFocused && selectedTime.seconds == 0) {
-      dispatch(setStoping(true))
+      setTimeout(() => {
+        dispatch(setStoping(true))
+      }, 2000)
     } else {
       setSelectedTime({ seconds: staticTime + 1 })
       // setSelectedTime({ seconds: staticTime })
