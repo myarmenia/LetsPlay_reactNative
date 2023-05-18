@@ -1,26 +1,24 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import User from '@/components/User/user'
 import SchemeUsers from './components/SchemeUsers'
-import SchemeUsers2 from './components/SchemeUsers2'
 
 const TeamSchemes = ({ route }) => {
   const [replacementPlayers, setReplacementPlayers] = useState([
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
   ])
 
   // const data = route.params
@@ -31,52 +29,21 @@ const TeamSchemes = ({ route }) => {
     teamName: 'Test2',
   }
 
-  //
-  // let containerLayout, imgLayout
-  // const [containerLayout, setContainerLayout] = useState()
-  // const [imageLayout, setImageLayout] = useState()
-
   return (
     <ScreenMask>
       <Row wrapper={styles.teamNameRow}>
         <Image style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
         <Text style={styles.teamName}>{data?.teamName}</Text>
       </Row>
-      <View
-        style={styles.schemaImgContainer}
-        // onLayout={(e) => {
-        //   setContainerLayout(e.nativeEvent.layout)
-        // }}
-      >
-        <Image
-          // onLayout={(e) => {
-          //   setImageLayout(e.nativeEvent.layout)
-          // }}
-          style={styles.schemaImg}
-          source={{ uri: _storageUrl + data?.schemaImg }}
-        />
+      <View style={styles.schemaImgContainer}>
+        <Image style={styles.schemaImg} source={{ uri: _storageUrl + data?.schemaImg }} />
       </View>
       <View style={{ zIndex: 999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
         <SchemeUsers
           replacementPlayers={replacementPlayers}
           setReplacementPlayers={setReplacementPlayers}
-          // dragUser={(user) => {
-          //   setReplacementPlayers((prevState) => {
-          //     c`onst updatedState = prevState.filter((item) => item != user)
-          //     return updatedState
-          //   })
-
-          //   setDragedUser(user)
-          //   setPlayingPlayers([...playingPlayers, user])
-          // }}
         />
-
-        {/* <DraggableComponent
-          dragedUser={dragedUser}
-          playingPlayers={playingPlayers}
-          setPlayingPlayers={setPlayingPlayers}
-        /> */}
       </View>
     </ScreenMask>
   )

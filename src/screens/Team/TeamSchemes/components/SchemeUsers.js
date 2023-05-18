@@ -3,13 +3,11 @@ import React, { useRef, useState } from 'react'
 import { View, PanResponder, Pressable, StyleSheet, Animated } from 'react-native'
 import User from '@/components/User/user'
 import ArrowSvg from './assets/ArrowSvg'
-import { BACKGROUND, ICON } from '@/theme/colors'
+import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 
 const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
-  const [scrollViewWidth, setScrollViewWidth] = useState(288)
   const [screenX, setScreenX] = useState(0)
-  const scrollRef = useRef(null)
   const componentWidth = useRef(0)
 
   const panResponders = replacementPlayers?.map((item, index) =>
@@ -17,37 +15,18 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
       onMoveShouldSetPanResponder: () => true,
 
       onPanResponderMove: (event, gesture) => {
-        // console.log('prevplayingPlayers[index].moveX', replacementPlayers[index].moveX)
-        // if (replacementPlayers[index].moveX == 0 || replacementPlayers[index].moveY == 0) {
-        //   console.log('if')
-        //   console.log('gesture.moveX', gesture.moveX)
-
-        //   setReplacementPlayers((prevplayingPlayers) => {
-        //     const updatedplayingPlayers = [...prevplayingPlayers]
-        //     updatedplayingPlayers[index] = {
-        //       small: false,
-        //       inGame: false,
-        //       x: prevplayingPlayers[index].x + gesture.moveX,
-        //       y: prevplayingPlayers[index].y + gesture.moveY,
-        //       moveX: prevplayingPlayers[index].moveX,
-        //       moveY: prevplayingPlayers[index].moveY,
-        //     }
-        //     return updatedplayingPlayers
-        //   })
-        // }
-        // console.log('gesture', gesture)
-
         const { dx, dy } = gesture
 
         setReplacementPlayers((prevplayingPlayers) => {
           const updatedplayingPlayers = [...prevplayingPlayers]
+
           updatedplayingPlayers[index] = {
             small: false,
             inGame: true,
             x:
               prevplayingPlayers[index].x +
               dx +
-              (updatedplayingPlayers[index].x == 0 ? gesture.moveX - RW(45) : 0),
+              (updatedplayingPlayers[index].x == 0 ? gesture.moveX - RW(90) : 0),
             y: prevplayingPlayers[index].y + dy,
             moveX: gesture.moveX,
             moveY: gesture.moveY,
@@ -55,7 +34,11 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
           return updatedplayingPlayers
         })
       },
+
       onPanResponderEnd: (event, gesture) => {
+        console.log('x%: ' + (replacementPlayers[index].moveX - 95) / ((301 - 95) / 100) + '%')
+        console.log('x%: ' + (replacementPlayers[index].moveY - 195) / ((500 - 195) / 100) + '%')
+
         if (
           replacementPlayers[index].moveX >= 95 &&
           replacementPlayers[index].moveX <= 301 &&
@@ -107,25 +90,12 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
       },
     }),
   )
-  console.log(screenX)
   return (
     <Row wrapper={styles.container}>
-      <View
-        style={[
-          styles.btnContainer,
-          // { borderBottomLeftRadius: RW(10), borderTopLeftRadius: RW(10) },
-        ]}
-      >
+      <View style={[styles.btnContainer]}>
         <Pressable
           style={styles.arrowContainer}
           onPress={() => {
-            // if (scrollRef.current && screenX > scrollViewWidth) {
-            //   scrollRef.current.scrollTo({
-            //     x: screenX - scrollViewWidth,
-            //     // animated: true,
-            //   })
-            //   setScreenX(screenX - scrollViewWidth)
-            // }
             if (screenX > componentWidth.current * 4) {
               setScreenX(0)
             } else if (screenX > 0) {
@@ -140,19 +110,12 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
       <View
         style={{
           width: '80%',
-          // width: screenX + RW(92) * 4,
-          // height: '100%',
           overflow: 'visible',
-          // backgroundColor: '#415590',
-          backgroundColor: BACKGROUND,
         }}
       >
         <Row
           wrapper={{
             height: RW(100),
-            // alignSelf: 'flex-start',
-            // justifyContent: 'flex-start',
-            backgroundColor: 'blue',
           }}
         >
           {replacementPlayers?.map((user, index) => (
@@ -168,7 +131,7 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
                   position: user.inGame ? 'absolute' : 'relative',
                   paddingVertical: user.small ? RW(21.05) : 0,
                   paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
-                  backgroundColor: index % 2 ? 'red' : 'green',
+                  // backgroundColor: index % 2 ? 'red' : 'green',
                 },
                 user.inGame
                   ? {
@@ -186,28 +149,15 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
         </Row>
       </View>
 
-      <View
-        style={[
-          styles.btnContainer,
-          // { borderBottomRightRadius: RW(10), borderTopRightRadius: RW(10) },
-        ]}
-      >
+      <View style={[styles.btnContainer]}>
         <Pressable
           style={[styles.arrowContainer, { transform: [{ rotate: '180deg' }] }]}
           onPress={() => {
             let outGamePlayers = replacementPlayers.filter((item) => !item.inGame)
-            console.log(
-              'componentWidth.current % 4',
-              outGamePlayers.length % 4 ? componentWidth.current * 4 : 0,
-            )
-            // console.log(
-            //   'Math.floor(outGamePlayers.length / 4)',
-            //   Math.floor(outGamePlayers.length / 4) * componentWidth.current * 4,
-            // )
             if (
               screenX <
               Math.floor(outGamePlayers.length / 4) * componentWidth.current * 4 -
-                (!outGamePlayers.length % 4 ? componentWidth.current * 4 : 0)
+                (outGamePlayers.length % 4 == 0 ? componentWidth.current * 4 : 0)
             ) {
               setScreenX(screenX + componentWidth.current * 4)
             }
@@ -227,7 +177,6 @@ const styles = StyleSheet.create({
     height: RW(100),
     backgroundColor: BACKGROUND,
     justifyContent: 'space-between',
-    // borderRadius: RW(10),
     width: RW(428),
     left: -RW(16),
   },
@@ -246,7 +195,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: RW(5),
   },
   arrowContainer: {
-    // backgroundColor: ICON,
     width: RW(40),
     height: RW(40),
     borderRadius: RW(20),
