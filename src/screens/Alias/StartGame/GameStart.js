@@ -8,7 +8,13 @@ import AnimatedCircle from '../Components/AnimatedCircle'
 import AliasBackground from '../assets/Background'
 import LightButton from '@/assets/imgs/Button'
 import Timer from '../Components/Timer'
-import { setExplainYou, setExplainedWords, setStep, setStoping } from '@/store/Slices/AliasSlice'
+import {
+  setExplainYou,
+  setExplainedWords,
+  setStart,
+  setStep,
+  setStoping,
+} from '@/store/Slices/AliasSlice'
 import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
 import TimeFinishModal from '../Modals/TimeFinishModal'
 
@@ -66,6 +72,8 @@ const GameStart = ({ route }) => {
           falsy: [],
         }),
       )
+    } else if (!isFocused) {
+      dispatch(setStart(false))
     }
   }, [isFocused])
   useEffect(() => {

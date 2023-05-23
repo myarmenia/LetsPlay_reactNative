@@ -7,17 +7,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import LightButton from '@/assets/imgs/Button'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import { useNavigation } from '@react-navigation/native'
-import { cleanDataAndPlayAgain, setLoader } from '@/store/Slices/AliasSlice'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { cleanDataAndPlayAgain, setLoader, setStoping, setTeams } from '@/store/Slices/AliasSlice'
 import AliasLoader from '../Components/AliasLoader'
 
 const PlayersRatings = () => {
   const { user } = useSelector(({ auth }) => auth)
-  const { explaingYou, countWords, staticTime, complexity, userIsOrganizer } = useSelector(
-    ({ alias }) => alias,
-  )
+  const { allTeams, userIsOrganizer } = useSelector(({ alias }) => alias)
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
+  // useEffect(() => {
+  //   if (isFocused) {
+  //     dispatch(setStoping(true))
+  //   }
+  // }, [isFocused])
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -66,6 +70,7 @@ const PlayersRatings = () => {
               size={{ width: 370, height: 48 }}
               onPress={() => {
                 dispatch(cleanDataAndPlayAgain())
+                dispatch(setTeams([...allTeams.map((elm) => ({ ...elm, members: [] }))]))
                 navigation.navigate('QrCode')
               }}
             />

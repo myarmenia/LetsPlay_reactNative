@@ -27,7 +27,7 @@ const Commands = () => {
     }
     if (!error) {
       setError(false)
-      // dispatch(setTeams(allTeams))
+      dispatch(setTeams(allTeams))
       dispatch(
         sendAliasSettings(
           {
@@ -65,11 +65,11 @@ const Commands = () => {
                       // value={`Команда ${elm.command}`}
                       onChangeText={(e) => {
                         dispatch(
-                          setTeams(
-                            allTeams.map((elm, ind) => {
+                          setTeams([
+                            ...allTeams.map((elm, ind) => {
                               return i == ind ? { ...elm, value: e } : elm
                             }),
-                          ),
+                          ]),
                         )
                       }}
                       placeholderTextColor={ICON}

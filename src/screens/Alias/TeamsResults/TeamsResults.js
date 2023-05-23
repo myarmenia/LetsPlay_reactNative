@@ -12,7 +12,7 @@ const TeamsResults = () => {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  const { allTeams, countWords } = useSelector(({ alias }) => alias)
+  const { allTeams, countWords, userIsOrganizer } = useSelector(({ alias }) => alias)
 
   return (
     <ScreenMask>
@@ -48,7 +48,8 @@ const TeamsResults = () => {
               dispatch(setExplainYou(false)),
                 dispatch(setWords([])),
                 dispatch(setExplainerTeam(null))
-              dispatch(setEndRound(true)), navigation.navigate('GameStart', { fromRes: true })
+              userIsOrganizer ? dispatch(setEndRound(true)) : null,
+                navigation.navigate('GameStart', { fromRes: true })
             }
 
             // setExplainYou,

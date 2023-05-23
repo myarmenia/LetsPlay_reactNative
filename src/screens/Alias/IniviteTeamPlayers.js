@@ -140,7 +140,7 @@ const IniviteTeamPlayers = ({ route }) => {
           <View style={styles.mainContainer}>
             <Text style={styles.title}>Игроки добавились в игру</Text>
             <Text style={styles.title}>Распределите игроков</Text>
-            <Text style={styles.commandName}>{allTeams?.[i]?.value}</Text>
+            <Text style={styles.commandName}>{userIsOrganizer ? allTeams?.[i]?.value : ''}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
                 {playersInGame?.map((elm, j) => {
@@ -160,7 +160,9 @@ const IniviteTeamPlayers = ({ route }) => {
                         <BorderGradient
                           height={142}
                           width={105}
-                          opacity={allTeams?.[i]?.members?.includes(elm?._id) ? 1 : 0}
+                          opacity={
+                            allTeams?.[i]?.members?.includes(elm?._id) && userIsOrganizer ? 1 : 0
+                          }
                         />
                         <Pressable
                           style={{

@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useRef } from 'react'
+import { memo, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
 import { NAV_HEADER_OPTION } from '@/constants'
 import { useGameSocketHelper } from './helpers'
 import { useDispatch, useSelector } from 'react-redux'
@@ -51,6 +51,7 @@ const AliasNavigator = () => {
     countWords,
     staticTime,
     complexity,
+    start,
     allTeams,
     step,
     endRound,
@@ -62,6 +63,7 @@ const AliasNavigator = () => {
   const navigation = useNavigation()
 
   const explainYouRef = useRef(false)
+  const userIsOrganizerRef = useRef(false)
 
   const callBackFunc = async (e) => {
     console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
@@ -69,6 +71,7 @@ const AliasNavigator = () => {
       case 'new_user':
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
+        userIsOrganizerRef.current = e?.alias_game?.user?._id === user?._id
         break
 
       case 'explain_you':
@@ -118,9 +121,13 @@ const AliasNavigator = () => {
       }
 
       case 'message_to_all_players':
-        if (e.data?.type === 'getTeams' && !explainYouRef.current) {
+        if (e.data?.type === 'getTeams' && !explainYouRef.current && e.data.data !== allTeams) {
           dispatch(setTeams(e.data?.data))
-        } else if (e.data?.type === 'getSteps' && !explainYouRef.current && e.data.data !== step) {
+        } else if (
+          e.data?.type === 'getSteps' &&
+          !explainYouRef.current &&
+          e.data.data.step !== step
+        ) {
           dispatch(setStep(e.data?.data.step))
           dispatch(setExplainedWords(e?.data?.data.words))
         } else if (e.data?.type === 'getAnswers' && !explainYouRef.current) {
@@ -130,10 +137,6 @@ const AliasNavigator = () => {
         } else if (e.data?.type === 'getCountOfWords' && !explainYouRef.current) {
           dispatch(setCountWords(e.data.countWords))
         }
-        // else if (e.data?.type === 'endTimeCleanData' && !explainYouRef.current) {
-        // dispatch(setExplainedWords(e.data.words))
-        // dispatch(setStep(e.data?.step))
-        // }
         break
     }
   }
@@ -160,19 +163,10 @@ const AliasNavigator = () => {
   }, [aliasGameId, token])
 
   useEffect(() => {
-    if (explainYou) {
+    if (explainYou && stoping !== 'withoutSocket') {
       socketRef.current?.emit('pause_or_start', { stoping })
     }
   }, [stoping, explainYou])
-
-  useEffect(() => {
-    if (explainYou && !endRound) {
-      socketRef.current?.emit('message_to_all_players', {
-        type: 'getTeams',
-        data: allTeams,
-      })
-    }
-  }, [explainYou, allTeams])
 
   useEffect(() => {
     if (explainYouRef.current && endRound) {
@@ -185,7 +179,7 @@ const AliasNavigator = () => {
     }
   }, [endRound, complexity])
   useEffect(() => {
-    if (userIsOrganizer && countWords && time == staticTime - 2) {
+    if (userIsOrganizerRef.current && countWords && time == staticTime - 2) {
       socketRef.current?.emit('message_to_all_players', {
         type: 'getCountOfWords',
         countWords,
@@ -224,7 +218,8 @@ const AliasNavigator = () => {
   //     })
   //   }
   // }, [time, explainedWords, endRound])
-
+  let pointsData = allTeams[0].points
+  let membersData = allTeams.map((elm) => elm.members)
   useEffect(() => {
     if (endRound == true) {
       // dispatch(setExplainYou(null))
@@ -237,6 +232,22 @@ const AliasNavigator = () => {
       dispatch(setEndRound(false))
     }
   }, [endRound])
+  useEffect(() => {
+    if (start == true && userIsOrganizer) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getTeams',
+        data: allTeams,
+      })
+    }
+  }, [userIsOrganizer, allTeams, start])
+  useEffect(() => {
+    if (explainYouRef.current) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getTeams',
+        data: allTeams,
+      })
+    }
+  }, [step, allTeams])
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />

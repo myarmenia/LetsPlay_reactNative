@@ -8,6 +8,7 @@ const initialState = {
   eachWord: null,
   explainYou: false,
   loader: false,
+  start: false,
   countWords: null,
   complexity: null,
   staticTime: null,
@@ -100,6 +101,12 @@ export const AliasSlice = createSlice({
       return {
         ...store,
         allTeams: [...action.payload],
+      }
+    },
+    setStart: (store, action) => {
+      return {
+        ...store,
+        start: action.payload,
       }
     },
 
@@ -195,6 +202,8 @@ export const startAliasGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/start/${gameId}`)
     .then((response) => {
+      console.log('response ------', response)
+
       // dispatch(setExplainYou(true))
     })
     .catch((err) => {
@@ -213,12 +222,6 @@ export const sendUserPoints = (data) => (dispatch) => {
     })
 }
 export const cleanDataAndPlayAgain = (data) => (dispatch) => {
-  dispatch(
-    setTeams([
-      { command: 1, value: 'Команда 1', members: [], points: 0 },
-      { command: 2, value: 'Команда 2', members: [], points: 0 },
-    ]),
-  )
   dispatch(setWords([]))
   dispatch(setYouGuesser(null))
   dispatch(setExplainYou(null))
@@ -236,6 +239,7 @@ export const {
   setWords,
   setExplainYou,
   setEndRound,
+  setStart,
   setYouGuesser,
   setComplexity,
   setLoader,
