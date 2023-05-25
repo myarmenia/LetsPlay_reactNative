@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 const initialState = {
   rules: '',
   step: 0,
-  eachWord: null,
   explainYou: false,
   loader: false,
   start: false,

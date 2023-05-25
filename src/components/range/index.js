@@ -7,7 +7,15 @@ import { WHITE } from '@/theme/colors'
 import { setCountWords } from '@/store/Slices/AliasSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
-function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, style = {} }) {
+function Index({
+  maxValue = 90,
+  minValue = 10,
+  count,
+  step,
+  value,
+  setValue,
+  containerStyle = {},
+}) {
   const dispatch = useDispatch()
   const { countWords } = useSelector(({ alias }) => alias)
   const renderScaleLabels = () => {
@@ -21,7 +29,11 @@ function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, sty
     return labels().map((label, index) => (
       <Text
         key={index}
-        style={[styles.scaleLabel, { left: label == 80 && index == 1 ? '-45%' : 0 }, style]}
+        style={[
+          styles.scaleLabel,
+          { left: label == 80 && index == 1 ? '-45%' : 0 },
+          containerStyle,
+        ]}
       >
         {label}
       </Text>

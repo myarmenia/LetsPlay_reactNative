@@ -12,15 +12,14 @@ import { useNavigation } from '@react-navigation/native'
 
 const SelectMembers = ({ route }) => {
   const props = route?.params
-  console.log('xxxxxx ------>', props)
   const navigation = useNavigation()
   const test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const [reservedUsers, setReservedUsers] = useState([])
-  const handleClick = user => {
+  const handleClick = (user) => {
     if (!reservedUsers.includes(user)) {
       setReservedUsers([...reservedUsers, user])
     } else {
-      setReservedUsers(reservedUsers.filter(elm => elm !== user))
+      setReservedUsers(reservedUsers.filter((elm) => elm !== user))
     }
   }
   const handleSubmit = () => {

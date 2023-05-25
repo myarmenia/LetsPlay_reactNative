@@ -21,13 +21,12 @@ const SelectComplexity = () => {
   const navigation = useNavigation()
   const [btns, setBtns] = useState(btnsData)
   const [error, setError] = useState(false)
-  const { complexity } = useSelector(({ alias }) => alias)
   const handleSubmit = () => {
-    if (!btns.filter(elm => elm.check)?.length) {
+    if (!btns.filter((elm) => elm.check)?.length) {
       setError(true)
     } else {
       setError(false)
-      dispatch(setComplexity(btns.filter(elm => elm.check)[0]?.type))
+      dispatch(setComplexity(btns.filter((elm) => elm.check)[0]?.type))
       navigation.navigate('Commands')
     }
   }

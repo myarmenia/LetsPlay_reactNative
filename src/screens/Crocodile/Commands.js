@@ -1,44 +1,47 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
+import { sendCrocodileSettings, setTeams } from '@/store/Slices/CrocodileSlice'
 import { useNavigation } from '@react-navigation/native'
 import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
 import CircleAdd from '@/components/buttons/circleAdd'
 import ScreenMask from '@/components/wrappers/screen'
 import LightButton from '@/assets/imgs/Button'
-import { sendCrocodileSettings, setCommands } from '@/store/Slices/CrocodileSlice'
 
 const Commands = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { complexity } = useSelector(({ crocodile }) => crocodile)
+  const { countWords, allTeams, complexity, time } = useSelector(({ crocodile }) => crocodile)
   const [error, setError] = useState(false)
-  const [commandsCount, setCommandsCount] = useState([
-    { command: 1, value: '', members: [], points: 0 },
-  ])
+  // const [input, setInput] = useState(`Команда ${elm.command}`)
 
-  const handleSubmit = () => {
-    const sendingObj = {
-      number_of_words: 30,
-      round_time: 2,
-      team_game: commandsCount.length > 1 ? true : false,
-      type: complexity,
-      teams: commandsCount.map((elm) => elm.value),
-    }
-    let empty = 0
-    for (let elem of commandsCount) {
+  const handleSubmit = async () => {
+    for (let elem of allTeams) {
       if (!elem.value) {
-        empty++
+        setError(true)
+      } else {
+        setError(false)
       }
     }
-    if (empty !== 0) {
-      setError(true)
-    } else {
+    if (!error) {
       setError(false)
-      dispatch(setCommands(commandsCount)), dispatch(sendCrocodileSettings(sendingObj))
-      navigation.navigate('QrCode', commandsCount)
+      dispatch(setTeams(allTeams))
+      dispatch(
+        sendCrocodileSettings(
+          {
+            number_of_words: countWords,
+            round_time: time,
+            team_game: allTeams.length > 1 ? true : false,
+            type: complexity,
+            teams: allTeams.map((elm) => elm.value),
+          },
+          allTeams,
+        ),
+      )
+      // console.log(allTeams)
+      navigation.navigate('QrCode')
     }
   }
   return (
@@ -52,61 +55,70 @@ const Commands = () => {
         <View style={styles.mainContainer}>
           <Text style={styles.myCommands}>Мои команды</Text>
           <View>
-            {commandsCount.map((elm, i) => {
+            {allTeams.map((elm, i) => {
               return (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }} key={i}>
                   <View style={styles.inputBlock}>
                     <TextInput
                       style={styles.priceInputText}
-                      placeholder={`Название команды ${elm.command}`}
-                      onChangeText={(e) =>
-                        setCommandsCount([
-                          ...commandsCount.map((elm, ind) => {
-                            return i == ind
-                              ? { command: elm.command, value: e, members: [], points: 0 }
-                              : { ...elm }
-                          }),
-                        ])
-                      }
+                      placeholder={`Команда ${elm.command}`}
+                      // value={`Команда ${elm.command}`}
+                      onChangeText={(e) => {
+                        dispatch(
+                          setTeams([
+                            ...allTeams.map((elm, ind) => {
+                              return i == ind ? { ...elm, value: e } : elm
+                            }),
+                          ]),
+                        )
+                      }}
                       placeholderTextColor={ICON}
                       // keyboardType="number-pad"
                     />
                   </View>
-                  {commandsCount.length !== 1 ? (
-                    <Pressable
+                  {allTeams.length !== 1 ? (
+                    <TouchableOpacity
+                      style={{ width: RW(25), height: RH(24) }}
                       onPress={() =>
-                        commandsCount.length !== 1
-                          ? commandsCount.length == 2
-                            ? setCommandsCount([{ command: 1, value: '', members: [], points: 0 }])
-                            : setCommandsCount([...commandsCount.filter((elem) => elm !== elem)])
+                        allTeams.length !== 1
+                          ? allTeams.length == 2
+                            ? dispatch(
+                                setTeams([
+                                  { command: 1, value: 'Команда 1', members: [], points: 0 },
+                                  // { command: 2, value: 'Команда 2', members: [], points: 0 },
+                                ]),
+                              )
+                            : dispatch(setTeams([...allTeams.filter((elem) => elm !== elem)]))
                           : null
                       }
                     >
                       <DeleteIconSVG />
-                    </Pressable>
+                    </TouchableOpacity>
                   ) : null}
                 </View>
               )
             })}
           </View>
-          {commandsCount.length !== 5 ? (
-            <Pressable
+          {allTeams.length !== 5 ? (
+            <TouchableOpacity
               style={styles.addCommandBox}
               onPress={() =>
-                setCommandsCount([
-                  ...commandsCount,
-                  {
-                    command: commandsCount[commandsCount.length - 1].command + 1,
-                    value: '',
-                    members: [],
-                    points: 0,
-                  },
-                ])
+                dispatch(
+                  setTeams([
+                    ...allTeams,
+                    {
+                      command: allTeams[allTeams.length - 1].command + 1,
+                      value: `Команда ${allTeams[allTeams.length - 1].command}`,
+                      members: [],
+                      points: 0,
+                    },
+                  ]),
+                )
               }
             >
               <CircleAdd />
               <Text style={styles.addCommandText}>Добавить еще</Text>
-            </Pressable>
+            </TouchableOpacity>
           ) : null}
           {error && <Text style={styles.errorText}>Заполните все поля</Text>}
           <View style={{ paddingTop: RH(30) }}>
@@ -122,7 +134,7 @@ const Commands = () => {
   )
 }
 
-export default Commands
+export default memo(Commands)
 
 const styles = StyleSheet.create({
   myCommands: {
