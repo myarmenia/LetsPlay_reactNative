@@ -73,8 +73,7 @@ const SchemeUsers = ({
             const updatedplayingPlayers = [...prevplayingPlayers]
             updatedplayingPlayers[index] = {
               ...updatedplayingPlayers[index],
-              xPercent: replacementPlayers[index].moveX - initialCordinates.x, // / (fieldSize.width / 100)
-              yPercent: replacementPlayers[index].moveY - initialCordinates.y - 50, /// (fieldSize.height / 100)
+
               small: true,
               inGame: true,
             }
@@ -96,6 +95,22 @@ const SchemeUsers = ({
       },
     }),
   )
+  replacementPlayers?.map((user, index) => {
+    user.ref.current?.measure((fx, fy, width, height, px, py) => {
+      if (px !== replacementPlayers[index].pageX && py !== replacementPlayers[index].pageY)
+        setReplacementPlayers((prevplayingPlayers) => {
+          const updatedplayingPlayers = [...prevplayingPlayers]
+          updatedplayingPlayers[index] = {
+            ...updatedplayingPlayers[index],
+            pageX: px,
+            pageY: py,
+            xPercent: px - initialCordinates.x, // / (fieldSize.width / 100)
+            yPercent: py - initialCordinates.y, // - 50 / (fieldSize.height / 100)
+          }
+          return updatedplayingPlayers
+        })
+    })
+  })
   return (
     <Row wrapper={styles.container}>
       <View style={[styles.btnContainer]}>

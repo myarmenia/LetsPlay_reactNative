@@ -11,8 +11,8 @@ import User from '@/components/User/user'
 const ViewSchemes = ({ route }) => {
   const [replacementPlayers, setReplacementPlayers] = useState([
     {
-      xPercent: 152.0899919128418,
-      yPercent: 340.105,
+      xPercent: 149.0899919128418,
+      yPercent: 264.77165649414064,
     },
   ])
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y: 0 })
@@ -26,9 +26,9 @@ const ViewSchemes = ({ route }) => {
   }
   const fieldSize = useRef()
 
-  useEffect(() => {
-    setReplacementPlayers([{ xPercent: props[0].xPercent, yPercent: props[0].yPercent }])
-  }, [props])
+  // useEffect(() => {
+  //   setReplacementPlayers([{ xPercent: props[0].xPercent, yPercent: props[0].yPercent }])
+  // }, [props])
   return (
     <ScreenMask>
       <Row wrapper={styles.teamNameRow}>
@@ -58,11 +58,8 @@ const ViewSchemes = ({ route }) => {
             }
 
             setInitialCordinates({
-              x: e.nativeEvent.layout.x + (e.nativeEvent.layout.width / 100) * 10.25,
-              y:
-                initialCordinates.y +
-                e.nativeEvent.layout.y +
-                (e.nativeEvent.layout.height / 100) * 7.85,
+              x: e.nativeEvent.layout.x,
+              y: e.nativeEvent.layout.y,
             })
           }}
           style={styles.schemaImg}
@@ -78,14 +75,14 @@ const ViewSchemes = ({ route }) => {
                   // backgroundColor: 'red',
                   // left: user.xPercent, // * (fieldSize.current?.width / 100)
                   // top: user.yPercent, //* (fieldSize.current?.height / 100)
-                  // transform: [
-                  //   {
-                  //     translateX: user.xPercent + initialCordinates.x,
-                  //   },
-                  //   {
-                  //     translateY: user.yPercent + initialCordinates.y,
-                  //   },
-                  // ],
+                  transform: [
+                    {
+                      translateX: user.xPercent + initialCordinates.x,
+                    },
+                    {
+                      translateY: user.yPercent + initialCordinates.y,
+                    },
+                  ],
                 }}
               >
                 <User size={RW(45)} />

@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
 
 const baseURL = IS_IOS ? 'https://to-play.ru/' : 'http://to-play.ru/'
+// const baseURL = 'http://192.168.10.23/'
 
 const axiosInstance = axios.create()
 axiosInstance.interceptors.request.use(

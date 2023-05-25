@@ -191,6 +191,7 @@ const MafiaNavigator = () => {
 
     console.log('mafiaGameId -', mafiaGameId)
     socketRef.current = io(
+      // `http://192.168.10.23/mafia?room=${mafiaGameId}`,
       `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
       // `https://6870-37-252-94-159.eu.ngrok.io/mafia?room=${mafiaGameId}`,
       {

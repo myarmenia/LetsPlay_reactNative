@@ -11,20 +11,20 @@ import { useNavigation } from '@react-navigation/native'
 const TeamSchemes = ({ route }) => {
   const [replacementPlayers, setReplacementPlayers] = useState([
     { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
-    { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
+    // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
   ])
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y: 0 })
-
+  console.log(replacementPlayers)
   const fieldSize = useRef()
   const data = {
     players: ['64219136e3a868ee5e71a799'],
