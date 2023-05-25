@@ -28,6 +28,7 @@ import TeamInfo from '@/screens/Team/CommandLeadNotCreate/TeamInfo'
 import EditTeamPlayers from '@/screens/Team/CommandLeadNotCreate/EditTeamPlayers'
 import CommandLeadCreate from '@/screens/Team/CommandLeadCreate/CreateGameInTeam'
 import TeamSchemes from '@/screens/Team/TeamSchemes'
+import ViewSchemes from '@/screens/Team/ViewSchemes'
 const Stack = createNativeStackNavigator()
 
 function Index() {
@@ -61,6 +62,7 @@ function Index() {
       <Stack.Screen name="TeamInfo" component={TeamInfo} />
       <Stack.Screen name="EditTeamPlayers" component={EditTeamPlayers} />
       <Stack.Screen name="TeamSchemes" component={TeamSchemes} />
+      <Stack.Screen name="ViewSchemes" component={ViewSchemes} />
     </Stack.Navigator>
   )
 }

@@ -1,39 +1,38 @@
 import { RW } from '@/theme/utils'
-import React, { useEffect, useRef, useState } from 'react'
-import { View, PanResponder, Animated, Dimensions, Pressable, StyleSheet } from 'react-native'
+import React, { useRef, useState } from 'react'
+import { View, PanResponder, Pressable, StyleSheet, Animated } from 'react-native'
 import User from '@/components/User/user'
 import ArrowSvg from './assets/ArrowSvg'
-import { ICON } from '@/theme/colors'
+import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 
-const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
-  const [scrollViewWidth, setScrollViewWidth] = useState(288)
-  const [screenX, setScreenX] = useState(scrollViewWidth)
-  const scrollRef = useRef(null)
-
-  // const panResponders = users?.map((ref, index) =>
-  //   PanResponder.create({
-  //     onMoveShouldSetPanResponder: () => true,
-  //     onPanResponderGrant: (event, gesture) => {
-  //       dragUser(users[index])
-  //     },
-  //   }),
-  // )
+const SchemeUsers = ({
+  replacementPlayers,
+  setReplacementPlayers,
+  fieldSize,
+  initialCordinates,
+}) => {
+  const [screenX, setScreenX] = useState(0)
+  const componentWidth = useRef(0)
 
   const panResponders = replacementPlayers?.map((item, index) =>
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-      onPanResponderStart: () => {
-        console.log('onPanResponderStart')
-      },
+      onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: (event, gesture) => {
-        console.log('onPanResponderMove')
         const { dx, dy } = gesture
+
         setReplacementPlayers((prevplayingPlayers) => {
           const updatedplayingPlayers = [...prevplayingPlayers]
+
           updatedplayingPlayers[index] = {
+            ...updatedplayingPlayers[index],
             small: false,
-            x: prevplayingPlayers[index].x + dx,
+            inGame: true,
+            x:
+              prevplayingPlayers[index].x +
+              dx +
+              (updatedplayingPlayers[index].x == 0 ? gesture.moveX - RW(90) : 0),
             y: prevplayingPlayers[index].y + dy,
             moveX: gesture.moveX,
             moveY: gesture.moveY,
@@ -41,6 +40,7 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
           return updatedplayingPlayers
         })
       },
+
       onPanResponderEnd: (event, gesture) => {
         if (
           replacementPlayers[index].moveX >= 95 &&
@@ -57,20 +57,26 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
                 setReplacementPlayers((prevplayingPlayers) => {
                   const updatedplayingPlayers = [...prevplayingPlayers]
                   updatedplayingPlayers[i] = {
+                    ...updatedplayingPlayers[i],
                     x: 0,
                     y: 0,
                     small: false,
+                    inGame: false,
                   }
                   return updatedplayingPlayers
                 })
               }
             }
           })
+
           setReplacementPlayers((prevplayingPlayers) => {
             const updatedplayingPlayers = [...prevplayingPlayers]
             updatedplayingPlayers[index] = {
               ...updatedplayingPlayers[index],
+              xPercent: replacementPlayers[index].moveX - initialCordinates.x, // / (fieldSize.width / 100)
+              yPercent: replacementPlayers[index].moveY - initialCordinates.y - 50, /// (fieldSize.height / 100)
               small: true,
+              inGame: true,
             }
             return updatedplayingPlayers
           })
@@ -78,9 +84,11 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
           setReplacementPlayers((prevplayingPlayers) => {
             const updatedplayingPlayers = [...prevplayingPlayers]
             updatedplayingPlayers[index] = {
+              ...updatedplayingPlayers[index],
               x: 0,
               y: 0,
               small: false,
+              inGame: false,
             }
             return updatedplayingPlayers
           })
@@ -90,68 +98,77 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
   )
   return (
     <Row wrapper={styles.container}>
-      <Pressable
-        style={styles.arrowContainer}
-        onPress={() => {
-          if (scrollRef.current && screenX > scrollViewWidth) {
-            scrollRef.current.scrollTo({
-              x: screenX - scrollViewWidth,
-              animated: true,
-            })
-            setScreenX(screenX - scrollViewWidth)
-          }
+      <View style={[styles.btnContainer]}>
+        <Pressable
+          style={styles.arrowContainer}
+          onPress={() => {
+            if (screenX > componentWidth.current * 4) {
+              setScreenX(0)
+            } else if (screenX > 0) {
+              setScreenX(screenX - componentWidth.current * 4)
+            }
+          }}
+        >
+          <ArrowSvg />
+        </Pressable>
+      </View>
+
+      <View
+        style={{
+          width: '80%',
+          overflow: 'visible',
         }}
       >
-        <ArrowSvg />
-      </Pressable>
-      <Animated.ScrollView
-        ref={scrollRef}
-        horizontal
-        snapToInterval={scrollViewWidth}
-        decelerationRate="fast"
-        showsHorizontalScrollIndicator={false}
-        bounces={false}
-        scrollEventThrottle={1}
-        style={{ zIndex: 999999, overflow: 'visible' }}
-        onLayout={(e) => {
-          setScrollViewWidth(e.nativeEvent.layout.width)
-        }}
-        scrollEnabled={false}
-        contentContainerStyle={{ zIndex: 999999, overflow: 'visible' }}
-      >
-        {replacementPlayers?.map((user, index) => (
-          <View
-            key={index}
-            ref={user.ref}
-            style={[
-              {
-                paddingVertical: user.small ? RW(28) : 0,
-                paddingHorizontal: user.small ? RW(22) : 0,
-                zIndex: user.small ? 9 : 99,
-                position: user.small ? 'absolute' : 'relative',
-              },
-              { transform: [{ translateX: user.x }, { translateY: user.y }] },
-            ]}
-            {...panResponders[index]?.panHandlers}
-          >
-            <User size={user.small ? RW(40) : RW(90)} />
-          </View>
-        ))}
-      </Animated.ScrollView>
-      <Pressable
-        style={[styles.arrowContainer, { transform: [{ rotate: '180deg' }] }]}
-        onPress={() => {
-          if (scrollRef.current && screenX < replacementPlayers.length * RW(90) - scrollViewWidth) {
-            setScreenX(screenX + scrollViewWidth)
-            scrollRef.current.scrollTo({
-              x: screenX + scrollViewWidth,
-              animated: true,
-            })
-          }
-        }}
-      >
-        <ArrowSvg />
-      </Pressable>
+        <Row
+          wrapper={{
+            height: RW(100),
+          }}
+        >
+          {replacementPlayers?.map((user, index) => (
+            <Animated.View
+              key={index}
+              ref={user.ref}
+              style={[
+                {
+                  zIndex: user.small ? 9 : user?.inGame ? 999 : 99,
+                  position: user.inGame ? 'absolute' : 'relative',
+                  paddingVertical: user.small ? RW(21.05) : 0,
+                  paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
+                  backgroundColor: 'red',
+                },
+                user.inGame
+                  ? {
+                      transform: [{ translateX: user.x }, { translateY: user.y }],
+                    }
+                  : {
+                      transform: [{ translateX: -screenX }],
+                    },
+              ]}
+              {...panResponders[index]?.panHandlers}
+            >
+              <User size={user.small ? RW(45) : RW(90)} />
+            </Animated.View>
+          ))}
+        </Row>
+      </View>
+
+      <View style={[styles.btnContainer]}>
+        <Pressable
+          style={[styles.arrowContainer, { transform: [{ rotate: '180deg' }] }]}
+          onPress={() => {
+            let outGamePlayers = replacementPlayers.filter((item) => !item.inGame)
+            if (
+              screenX <
+              Math.floor(outGamePlayers.length / 4) * componentWidth.current * 4 -
+                (outGamePlayers.length % 4 == 0 ? componentWidth.current * 4 : 0)
+            ) {
+              setScreenX(screenX + componentWidth.current * 4)
+            }
+          }}
+        >
+          <ArrowSvg />
+        </Pressable>
+      </View>
     </Row>
   )
 }
@@ -159,13 +176,28 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
 export default SchemeUsers
 
 const styles = StyleSheet.create({
-  container: {},
-  // scrollContainer: {
-  //   flex: 1,
-  //   width: '100%',
-  // },
+  container: {
+    height: RW(100),
+    backgroundColor: BACKGROUND,
+    justifyContent: 'space-between',
+    width: RW(428),
+    left: -RW(16),
+  },
+  scrollContainer: {
+    flex: 1,
+    width: '100%',
+    overflow: 'scroll',
+    zIndex: 9999,
+  },
+  btnContainer: {
+    backgroundColor: BACKGROUND,
+    width: '10%',
+    height: '100%',
+    justifyContent: 'center',
+    zIndex: 9999,
+    paddingHorizontal: RW(5),
+  },
   arrowContainer: {
-    backgroundColor: ICON,
     width: RW(40),
     height: RW(40),
     borderRadius: RW(20),

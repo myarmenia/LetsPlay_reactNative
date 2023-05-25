@@ -15,6 +15,7 @@ import {
   setStep,
   setStoping,
 } from '@/store/Slices/AliasSlice'
+
 import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
 import TimeFinishModal from '../Modals/TimeFinishModal'
 
@@ -74,6 +75,7 @@ const GameStart = ({ route }) => {
       )
     } else if (!isFocused) {
       dispatch(setStart(false))
+
     }
   }, [isFocused])
   useEffect(() => {
@@ -89,6 +91,7 @@ const GameStart = ({ route }) => {
       setFalsyCount(0)
     }
   }, [explainedWords, explainYou, step, falsyCount, modalState])
+
   return (
     <>
       <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>

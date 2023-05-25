@@ -53,7 +53,7 @@ function Index({
           maximumTrackTintColor="#ccc"
           thumbImage={CircleSlide}
           onValueChange={(newValue) => {
-            setValue(newValue)
+          setValue(newValue), dispatch(setCountWords(newValue))
           }}
         />
       </View>

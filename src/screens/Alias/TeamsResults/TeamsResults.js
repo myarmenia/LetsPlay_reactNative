@@ -8,6 +8,7 @@ import LightButton from '@/assets/imgs/Button'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { setEndRound, setExplainYou, setWords, setExplainerTeam } from '@/store/Slices/AliasSlice'
 
+
 const TeamsResults = () => {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -52,11 +53,6 @@ const TeamsResults = () => {
                 navigation.navigate('GameStart', { fromRes: true })
             }
 
-            // setExplainYou,
-            // setWords,
-            // setExplainingUser,
-            // setExplainerTeam,
-            // setEndRound,
           }}
         />
       </View>

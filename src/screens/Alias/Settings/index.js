@@ -36,6 +36,7 @@ function Index({ navigation }) {
       dispatch(setTime(timeOfRounds))
       navigation.navigate('SelectComplexity')
     }
+
   }
   return (
     <ScreenMask>

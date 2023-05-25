@@ -17,16 +17,13 @@ const PlayersRatings = () => {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  // useEffect(() => {
-  //   if (isFocused) {
-  //     dispatch(setStoping(true))
-  //   }
-  // }, [isFocused])
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.headerBox}>
           <Text style={styles.ratingText}>Рейтинги игроков</Text>
+
         </View>
         <View>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((elm) => {

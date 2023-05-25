@@ -230,6 +230,7 @@ export const cleanDataAndPlayAgain = (data) => (dispatch) => {
   dispatch(setExplainerUser(null))
   dispatch(setParticipateSuccess(null))
 }
+
 export const {
   setTime,
   setStep,

@@ -47,6 +47,7 @@ const AliasNavigator = () => {
   const {
     aliasGameId,
     stoping,
+    userIsOrganizer,
     explainYou,
     countWords,
     staticTime,
@@ -57,7 +58,6 @@ const AliasNavigator = () => {
     endRound,
     time,
     explainedWords,
-    userIsOrganizer,
   } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
@@ -72,6 +72,9 @@ const AliasNavigator = () => {
         dispatch(setPlayersInGame(e?.alias_game?.players))
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
         userIsOrganizerRef.current = e?.alias_game?.user?._id === user?._id
+        if (userIsOrganizer && countWords) {
+          socketRef.current?.emit('message_to_all_players', countWords)
+        }
         break
 
       case 'explain_you':
@@ -117,6 +120,9 @@ const AliasNavigator = () => {
         if (!explainYouRef.current) {
           dispatch(setStoping(e?.data?.stoping))
         }
+        if (!userIsOrganizer) {
+          dispatch(setCountWords(e.data.countWords))
+        }
         break
       }
 
@@ -129,6 +135,7 @@ const AliasNavigator = () => {
           e.data.data.step !== step
         ) {
           dispatch(setStep(e.data?.data.step))
+
           dispatch(setExplainedWords(e?.data?.data.words))
         } else if (e.data?.type === 'getAnswers' && !explainYouRef.current) {
           dispatch(setExplainedWords(e.data.words))
@@ -234,6 +241,7 @@ const AliasNavigator = () => {
   }, [endRound])
   useEffect(() => {
     if (start == true && userIsOrganizer) {
+
       socketRef.current?.emit('message_to_all_players', {
         type: 'getTeams',
         data: allTeams,
@@ -248,6 +256,65 @@ const AliasNavigator = () => {
       })
     }
   }, [step, allTeams])
+  }, [explainYou, allTeams])
+
+  useEffect(() => {
+    if (explainYouRef.current && endRound) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getGameSettings',
+        settings: {
+          complexity: complexity,
+        },
+      })
+    }
+  }, [endRound, countWords, complexity])
+  useEffect(() => {
+    if (explainYouRef.current) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getSteps',
+        data: {
+          step: step,
+          countWords: countWords,
+          words: explainedWords,
+        },
+      })
+    }
+  }, [step, countWords])
+  useEffect(() => {
+    if (explainYou && time == 0) {
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'getAnswers',
+        words: explainedWords,
+        countWords: countWords,
+      })
+    }
+  }, [time, explainedWords])
+
+  // useEffect(() => {
+  //   if (explainYouRef.current && time == 0) {
+  //     socketRef.current?.emit('message_to_all_players', {
+  //       type: 'getGameSettings',
+  //       settings: {
+  //         countWords: countWords,
+  //         staticTime: staticTime,
+  //         complexity: complexity,
+  //       },
+  //     })
+  //   }
+  // }, [time, explainedWords, endRound])
+
+  useEffect(() => {
+    if (endRound == true) {
+      // dispatch(setExplainYou(null))
+      // dispatch(setExplainerUser(null))
+      // dispatch(setExplainerTeam(null))
+      // dispatch(setWords([]))
+      // dispatch(setTeams([]))
+      // dispatch(setExplainedWords([]))
+      socketRef.current?.emit('end_time', {})
+      dispatch(setEndRound(false))
+    }
+  }, [endRound])
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />

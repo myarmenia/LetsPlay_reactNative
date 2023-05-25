@@ -19,6 +19,7 @@ const AnimatedCircle = ({
   const isFocused = useIsFocused()
   const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords, youGuesser } =
     useSelector(({ alias }) => alias)
+ 
 
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
@@ -35,14 +36,12 @@ const AnimatedCircle = ({
               truthy: [...explainedWords.truthy, words?.[step]?.name],
             }),
           )
-
           if (explainYou) {
             setUserExplainedWordsCount({
               ...userExplainedWordsCount,
               points: ++userExplainedWordsCount.points,
             })
           }
-
           setTruthyCount((prev) => {
             return +prev + 1
           })
@@ -60,6 +59,7 @@ const AnimatedCircle = ({
             ]),
           )
 
+     
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
@@ -72,7 +72,6 @@ const AnimatedCircle = ({
               falsy: [...explainedWords.falsy, words?.[step]?.name],
             }),
           )
-
           setFalsyCount((prev) => {
             return +prev + 1
           })
