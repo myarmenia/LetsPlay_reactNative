@@ -134,7 +134,6 @@ const SchemeUsers = ({
                   position: user.inGame ? 'absolute' : 'relative',
                   paddingVertical: user.small ? RW(21.05) : 0,
                   paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
-                  backgroundColor: 'red',
                 },
                 user.inGame
                   ? {

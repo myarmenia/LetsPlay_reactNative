@@ -13,12 +13,17 @@ export default StyleSheet.create({
     ...font('bold', 24, WHITE, 24),
     marginBottom: RW(15),
   },
+  imageBlock: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   image: {
     width: 87,
     height: 87,
     borderRadius: 43.5,
     resizeMode: 'cover',
     marginRight: RW(18),
+    alignSelf: 'center',
   },
 
   infoBlock: {
@@ -39,7 +44,7 @@ export default StyleSheet.create({
   id: {
     ...font('regular', 16, ICON, 19),
     marginTop: RH(8),
-    width: '88%',
+    width: '87%',
   },
   linkText: {
     ...font('regular', 16, WHITE, 19),
