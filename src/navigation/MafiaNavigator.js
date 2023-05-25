@@ -54,7 +54,7 @@ const MafiaNavigator = () => {
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
-    // console.log(`${DeviceInfo.getDeviceId()} message`, JSON.stringify(e, null, 4))
+    console.log(`socket message`, JSON.stringify(e, null, 4))
     switch (e?.type) {
       case 'new_user':
         dispatch(setPlayers(e.mafia_game.players))
@@ -135,7 +135,6 @@ const MafiaNavigator = () => {
           break
         }
 
-        console.log('deadUser', deadUser)
         dispatch(setDeadUser(deadUser))
 
         dispatch(setCiviliansCount(e?.roleDatas?.civilian))
@@ -193,6 +192,7 @@ const MafiaNavigator = () => {
     console.log('mafiaGameId -', mafiaGameId)
     socketRef.current = io(
       `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+      // `https://6870-37-252-94-159.eu.ngrok.io/mafia?room=${mafiaGameId}`,
       {
         transportOptions: {
           polling: {

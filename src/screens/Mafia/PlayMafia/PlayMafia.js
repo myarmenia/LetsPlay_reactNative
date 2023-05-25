@@ -258,7 +258,7 @@ const PlayMafia = () => {
             ) : (
               <>
                 {players?.map((item, i) => {
-                  if (item?.user?._id !== currentUser._id && item?._id !== currentUser?._id) {
+                  if (item?.user?._id !== currentUser?._id && item?._id !== currentUser?._id) {
                     return (
                       <View
                         style={{

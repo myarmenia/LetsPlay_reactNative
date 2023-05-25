@@ -6,14 +6,19 @@ import ArrowSvg from './assets/ArrowSvg'
 import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 
-const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
+const SchemeUsers = ({
+  replacementPlayers,
+  setReplacementPlayers,
+  fieldSize,
+  initialCordinates,
+}) => {
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
 
   const panResponders = replacementPlayers?.map((item, index) =>
     PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
-
+      onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: (event, gesture) => {
         const { dx, dy } = gesture
 
@@ -21,6 +26,7 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
           const updatedplayingPlayers = [...prevplayingPlayers]
 
           updatedplayingPlayers[index] = {
+            ...updatedplayingPlayers[index],
             small: false,
             inGame: true,
             x:
@@ -36,9 +42,6 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
       },
 
       onPanResponderEnd: (event, gesture) => {
-        console.log('x%: ' + (replacementPlayers[index].moveX - 95) / ((301 - 95) / 100) + '%')
-        console.log('x%: ' + (replacementPlayers[index].moveY - 195) / ((500 - 195) / 100) + '%')
-
         if (
           replacementPlayers[index].moveX >= 95 &&
           replacementPlayers[index].moveX <= 301 &&
@@ -54,6 +57,7 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
                 setReplacementPlayers((prevplayingPlayers) => {
                   const updatedplayingPlayers = [...prevplayingPlayers]
                   updatedplayingPlayers[i] = {
+                    ...updatedplayingPlayers[i],
                     x: 0,
                     y: 0,
                     small: false,
@@ -64,11 +68,13 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
               }
             }
           })
+
           setReplacementPlayers((prevplayingPlayers) => {
             const updatedplayingPlayers = [...prevplayingPlayers]
             updatedplayingPlayers[index] = {
               ...updatedplayingPlayers[index],
-
+              xPercent: replacementPlayers[index].moveX - initialCordinates.x, // / (fieldSize.width / 100)
+              yPercent: replacementPlayers[index].moveY - initialCordinates.y - 50, /// (fieldSize.height / 100)
               small: true,
               inGame: true,
             }
@@ -122,16 +128,13 @@ const SchemeUsers = ({ replacementPlayers, setReplacementPlayers }) => {
             <Animated.View
               key={index}
               ref={user.ref}
-              onLayout={(e) => {
-                if (!componentWidth.current) componentWidth.current = e.nativeEvent.layout.width
-              }}
               style={[
                 {
                   zIndex: user.small ? 9 : user?.inGame ? 999 : 99,
                   position: user.inGame ? 'absolute' : 'relative',
                   paddingVertical: user.small ? RW(21.05) : 0,
                   paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
-                  // backgroundColor: index % 2 ? 'red' : 'green',
+                  backgroundColor: 'red',
                 },
                 user.inGame
                   ? {
