@@ -78,7 +78,6 @@ const GameStart = ({ route }) => {
   }, [isFocused])
   useEffect(() => {
     if (!explainYou) {
-      console.log(explainedWords)
       setTruthyCount(step - explainedWords.falsy?.length)
       setFalsyCount(step - explainedWords.truthy?.length)
     }

@@ -8,7 +8,6 @@ import LightButton from '@/assets/imgs/Button'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { setEndRound, setExplainYou, setWords, setExplainerTeam } from '@/store/Slices/AliasSlice'
 
-
 const TeamsResults = () => {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -38,7 +37,6 @@ const TeamsResults = () => {
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
           onPress={async () => {
-            console.log(countWords, Math.max(...allTeams.map((item) => item.points)))
             dispatch(setExplainYou(false)), dispatch(setWords([])), dispatch(setExplainerTeam(null))
             if (
               countWords !== null &&
@@ -53,6 +51,11 @@ const TeamsResults = () => {
                 navigation.navigate('GameStart', { fromRes: true })
             }
 
+            // setExplainYou,
+            // setWords,
+            // setExplainingUser,
+            // setExplainerTeam,
+            // setEndRound,
           }}
         />
       </View>
