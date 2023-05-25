@@ -30,9 +30,13 @@ function Index({ navigation }) {
     } else {
       setError(false)
     }
-    dispatch(setStoping(true))
-    dispatch(setTime(timeOfRounds))
-    navigation.navigate('SelectComplexity')
+    if (countOfWords !== 0 || timeOfRounds !== 0) {
+      dispatch(setCountWords(countOfWords))
+      dispatch(setStoping(true))
+      dispatch(setTime(timeOfRounds))
+      navigation.navigate('SelectComplexity')
+    }
+
   }
   return (
     <ScreenMask>

@@ -6,20 +6,14 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import {
-  setEndRound,
-  setExplainYou,
-  setExplainingUser,
-  setWords,
-  setExplainerTeam,
-  setExplainedWords,
-} from '@/store/Slices/AliasSlice'
+import { setEndRound, setExplainYou, setWords, setExplainerTeam } from '@/store/Slices/AliasSlice'
+
 
 const TeamsResults = () => {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
-  const { allTeams, countWords } = useSelector(({ alias }) => alias)
+  const { allTeams, countWords, userIsOrganizer } = useSelector(({ alias }) => alias)
 
   return (
     <ScreenMask>
@@ -55,14 +49,10 @@ const TeamsResults = () => {
               dispatch(setExplainYou(false)),
                 dispatch(setWords([])),
                 dispatch(setExplainerTeam(null))
-              dispatch(setEndRound(true)), navigation.navigate('GameStart', { fromRes: true })
+              userIsOrganizer ? dispatch(setEndRound(true)) : null,
+                navigation.navigate('GameStart', { fromRes: true })
             }
 
-            // setExplainYou,
-            // setWords,
-            // setExplainingUser,
-            // setExplainerTeam,
-            // setEndRound,
           }}
         />
       </View>

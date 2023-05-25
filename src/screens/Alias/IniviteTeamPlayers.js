@@ -7,6 +7,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import {
   sendAliasGameId,
+  setCountWords,
   setParticipateSuccess,
   setPlayers,
   setReservedUsers,
@@ -29,6 +30,7 @@ const IniviteTeamPlayers = ({ route }) => {
     aliasGameId,
     allTeams,
     playersInGame,
+    countWords,
     participateSuccess,
     userIsOrganizer,
   } = useSelector(({ alias }) => alias)
@@ -39,6 +41,7 @@ const IniviteTeamPlayers = ({ route }) => {
   const isFocused = useIsFocused()
   useEffect(() => {
     setI(0)
+    dispatch(setCountWords(countWords))
   }, [isFocused])
 
   useEffect(() => {
@@ -137,7 +140,7 @@ const IniviteTeamPlayers = ({ route }) => {
           <View style={styles.mainContainer}>
             <Text style={styles.title}>Игроки добавились в игру</Text>
             <Text style={styles.title}>Распределите игроков</Text>
-            <Text style={styles.commandName}>{allTeams?.[i]?.value}</Text>
+            <Text style={styles.commandName}>{userIsOrganizer ? allTeams?.[i]?.value : ''}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
                 {playersInGame?.map((elm, j) => {
@@ -157,7 +160,9 @@ const IniviteTeamPlayers = ({ route }) => {
                         <BorderGradient
                           height={142}
                           width={105}
-                          opacity={allTeams?.[i]?.members?.includes(elm?._id) ? 1 : 0}
+                          opacity={
+                            allTeams?.[i]?.members?.includes(elm?._id) && userIsOrganizer ? 1 : 0
+                          }
                         />
                         <Pressable
                           style={{

@@ -7,7 +7,7 @@ import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import User from '@/components/User/user'
 import { useDispatch, useSelector } from 'react-redux'
-import { startAliasGame } from '@/store/Slices/AliasSlice'
+import { setStart, startAliasGame } from '@/store/Slices/AliasSlice'
 
 const PlayNow = () => {
   const navigation = useNavigation()
@@ -58,6 +58,7 @@ const PlayNow = () => {
               bgColor={'#4D7CFE'}
               onPress={() => {
                 dispatch(startAliasGame(aliasGameId))
+                dispatch(setStart(true))
                 navigation.navigate('GameStart', { fromRes: false })
               }}
             />

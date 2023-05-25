@@ -5,9 +5,9 @@ import { useSelector } from 'react-redux'
 const initialState = {
   rules: '',
   step: 0,
-  eachWord: null,
   explainYou: false,
   loader: false,
+  start: false,
   countWords: null,
   complexity: null,
   staticTime: null,
@@ -68,10 +68,6 @@ export const AliasSlice = createSlice({
     setQrImg: (store, action) => {
       return { ...store, qrGameImg: action.payload }
     },
-
-    setUsersInGame: (store, action) => {
-      return { ...store, usersInGame: action.payload }
-    },
     setWords: (store, action) => {
       return { ...store, words: action.payload }
     },
@@ -106,12 +102,13 @@ export const AliasSlice = createSlice({
         allTeams: [...action.payload],
       }
     },
-    setStaticTeamsData: (store, action) => {
+    setStart: (store, action) => {
       return {
         ...store,
-        staticTeamsData: action.payload,
+        start: action.payload,
       }
     },
+
     setCountWords: (store, action) => {
       return {
         ...store,
@@ -173,7 +170,6 @@ export const sendAliasSettings = (data, allTeams) => (dispatch) => {
       if (response.data?.data) {
         dispatch(setQrImg(response.data?.data?.qr_link))
         dispatch(setAliasGameId(response.data?.data?._id))
-        // dispatch(setStaticTeamsData(allTeams))
         dispatch(
           setTeams(allTeams.map((elm, i) => ({ ...elm, id: response.data.data.teams[i]._id }))),
         )
@@ -205,6 +201,8 @@ export const startAliasGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/start/${gameId}`)
     .then((response) => {
+      console.log('response ------', response)
+
       // dispatch(setExplainYou(true))
     })
     .catch((err) => {
@@ -222,6 +220,17 @@ export const sendUserPoints = (data) => (dispatch) => {
       console.log('err sending user points', err)
     })
 }
+export const cleanDataAndPlayAgain = (data) => (dispatch) => {
+  dispatch(setWords([]))
+  dispatch(setYouGuesser(null))
+  dispatch(setExplainYou(null))
+  dispatch(setPlayersInGame([]))
+  dispatch(setReservedUsers([]))
+  dispatch(setExplainerTeam(null))
+  dispatch(setExplainerUser(null))
+  dispatch(setParticipateSuccess(null))
+}
+
 export const {
   setTime,
   setStep,
@@ -230,10 +239,10 @@ export const {
   setWords,
   setExplainYou,
   setEndRound,
+  setStart,
   setYouGuesser,
   setComplexity,
   setLoader,
-  setStaticTeamsData,
   setExplainerUser,
   setCountWords,
   setStoping,

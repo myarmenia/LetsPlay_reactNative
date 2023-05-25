@@ -19,21 +19,7 @@ const AnimatedCircle = ({
   const isFocused = useIsFocused()
   const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords, youGuesser } =
     useSelector(({ alias }) => alias)
-  let changer = () => {
-    if (explainYou) {
-      let newArr = allTeams?.map((elm) => {
-        if (elm.value == explainerTeam) {
-          return {
-            ...elm,
-            points: elm.points + 1,
-          }
-        } else {
-          return { ...elm }
-        }
-      })
-      dispatch(setTeams([...newArr]))
-    }
-  }
+ 
 
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
@@ -60,19 +46,20 @@ const AnimatedCircle = ({
             return +prev + 1
           })
           dispatch(setStep(step + 1))
+          dispatch(
+            setTeams([
+              ...allTeams?.map((elm) => {
+                if (elm.value == explainerTeam) {
+                  return {
+                    ...elm,
+                    points: ++elm.points,
+                  }
+                } else return elm
+              }),
+            ]),
+          )
 
-          let newArr = allTeams?.map((elm) => {
-            if (elm.value == explainerTeam) {
-              return {
-                ...elm,
-                points: elm.points + 1,
-              }
-            } else {
-              return { ...elm }
-            }
-          })
-          dispatch(setTeams([...newArr]))
-
+     
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
@@ -88,6 +75,7 @@ const AnimatedCircle = ({
           setFalsyCount((prev) => {
             return +prev + 1
           })
+
           dispatch(setStep(step + 1))
 
           Animated.timing(pan, {

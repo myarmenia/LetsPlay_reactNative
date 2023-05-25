@@ -8,7 +8,14 @@ import AnimatedCircle from '../Components/AnimatedCircle'
 import AliasBackground from '../assets/Background'
 import LightButton from '@/assets/imgs/Button'
 import Timer from '../Components/Timer'
-import { setExplainYou, setExplainedWords, setStep, setStoping } from '@/store/Slices/AliasSlice'
+import {
+  setExplainYou,
+  setExplainedWords,
+  setStart,
+  setStep,
+  setStoping,
+} from '@/store/Slices/AliasSlice'
+
 import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
 import TimeFinishModal from '../Modals/TimeFinishModal'
 
@@ -51,19 +58,40 @@ const GameStart = ({ route }) => {
     dispatch(setExplainYou(explainYou))
   }, [explainYou])
 
+  // useEffect(() => {
+  //   // if (modalState.state == 'user' && !explainYou) {
+  //   dispatch(setStep(0))
+  //   setTruthyCount(0)
+  //   setFalsyCount(0)
+  //   // }
+  // }, [isFocused, modalState])
   useEffect(() => {
-    if (!isFocused) {
-      dispatch(setStep(0))
-      setTruthyCount(0)
-      setFalsyCount(0)
+    if (isFocused) {
+      dispatch(
+        setExplainedWords({
+          truthy: [],
+          falsy: [],
+        }),
+      )
+    } else if (!isFocused) {
+      dispatch(setStart(false))
+
     }
   }, [isFocused])
   useEffect(() => {
     if (!explainYou) {
+      console.log(explainedWords)
       setTruthyCount(step - explainedWords.falsy?.length)
       setFalsyCount(step - explainedWords.truthy?.length)
     }
-  }, [explainedWords, explainYou, step, falsyCount])
+    // raundic heto vor minus er etum dzelu masy
+    if (modalState.state == 'user' && !explainYou) {
+      dispatch(setStep(0))
+      setTruthyCount(0)
+      setFalsyCount(0)
+    }
+  }, [explainedWords, explainYou, step, falsyCount, modalState])
+
   return (
     <>
       <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>

@@ -1,50 +1,73 @@
 import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { memo, useState } from 'react'
-import { ICON, RED, WHITE } from '@/theme/colors'
+import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  sendCrocodileGameId,
+  setCountWords,
+  setParticipateSuccess,
+  setPlayers,
+  setReservedUsers,
+  setTeams,
+} from '@/store/Slices/CrocodileSlice'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
-import {
-  sendCrocodileGameId,
-  setCommands,
-  setPlayers,
-  setReservedUsers,
-} from '@/store/Slices/CrocodileSlice'
+import { setPending } from '@/store/Slices/AuthSlice'
+import Modal from '@/components/modal'
+import CloseSVG from '../Alias/Components/CloseSVG'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
   const props = route.params
-  const { commands, reservedUsers, playersInGame, crocodileGameId, teamDatas } = useSelector(
-    ({ crocodile }) => crocodile,
-  )
-  const { _id } = useSelector(({ auth }) => auth.user)
+  const {
+    reservedUsers,
+    crocodileGameId,
+    allTeams,
+    playersInGame,
+    countWords,
+    participateSuccess,
+    userIsOrganizer,
+  } = useSelector(({ crocodile }) => crocodile)
   const [i, setI] = useState(0)
+  const [errorModal, setErrorModal] = useState(false)
   const [error, setError] = useState(false)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
-  let authedUserId = _id
   useEffect(() => {
     setI(0)
+    dispatch(setCountWords(countWords))
   }, [isFocused])
 
   useEffect(() => {
     if (props?.id) {
-      dispatch(sendCrocodileGameId(props?.id))
+      dispatch(sendCrocodileGameId(props.id))
     }
   }, [props])
 
+  useEffect(() => {
+    if (participateSuccess === false) {
+      alert('Что-то пошло не так')
+      // navigation.navigate('Home')
+      dispatch(setParticipateSuccess(null))
+    }
+    dispatch(setPending(false))
+  }, [participateSuccess])
+  // useEffect(() => {
+  //   dispatch(setReservedUsers([]))
+  //   dispatch(setTeams(allTeams.map((elm) => ({ ...elm, memebers: [] }))))
+  // }, [isFocused])
   const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
-      if (commands?.[i]?.members?.some((item) => item == elm?._id)) {
+      if (allTeams?.[i]?.members?.some((item) => item == elm?._id)) {
         dispatch(
-          setCommands(
-            commands?.map((elem) => {
+          setTeams(
+            allTeams?.map((elem) => {
               if (elem.members.includes(elm?._id)) {
                 return { ...elem, members: elem.members.filter((item) => item !== elm?._id) }
               } else {
@@ -55,8 +78,8 @@ const IniviteTeamPlayers = ({ route }) => {
         )
       } else {
         dispatch(
-          setCommands(
-            commands?.map((item) =>
+          setTeams(
+            allTeams?.map((item) =>
               item.command - 1 == i ? { ...item, members: [...item.members, elm?._id] } : item,
             ),
           ),
@@ -66,21 +89,48 @@ const IniviteTeamPlayers = ({ route }) => {
   }
 
   const handleSubmit = async () => {
-    if (commands[i].members.length >= 2) {
+    if (allTeams[i]?.members.length >= 2) {
       setError(false)
-      dispatch(setReservedUsers([...new Set([...reservedUsers, ...commands[i].members])]))
+      dispatch(setReservedUsers([...new Set([...reservedUsers, ...allTeams[i].members])]))
       dispatch(
         setPlayers({
-          alias_id: crocodileGameId,
-          team_id: teamDatas[i]?._id,
-          players: reservedUsers,
+          crocodile_id: crocodileGameId,
+          team_id: allTeams[i]?.id,
+          players: allTeams?.[i]?.members,
         }),
       )
       setI((prev) => prev + 1)
-      i >= commands.length - 1 ? navigation.navigate('PlayNow') : null
+      i >= allTeams.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
       setError(true)
+      setErrorModal(true)
     }
+  }
+  const ErrorModal = () => {
+    return (
+      <Pressable
+        style={styles.errorModalBox}
+        onPress={() => {
+          setErrorModal(false)
+        }}
+      >
+        <View
+          style={{
+            height: '90%',
+            width: '80%',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}
+        >
+          <CloseSVG />
+          <Text style={styles.errorModalBoxText}>
+            Не возможно начать игру. Количество игроков не соответствуют минимальному числу игроков
+            для начала игры
+          </Text>
+        </View>
+      </Pressable>
+    )
   }
 
   return (
@@ -90,14 +140,13 @@ const IniviteTeamPlayers = ({ route }) => {
           <View style={styles.mainContainer}>
             <Text style={styles.title}>Игроки добавились в игру</Text>
             <Text style={styles.title}>Распределите игроков</Text>
-            <Text style={styles.commandName}>{commands?.[i]?.value}</Text>
+            <Text style={styles.commandName}>{userIsOrganizer ? allTeams?.[i]?.value : ''}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
-                {playersInGame?.players?.map((elm, j) => {
+                {playersInGame?.map((elm, j) => {
                   return (
                     <View
                       style={{
-                        //  opacity: commands?.[i]?.members?.includes(elm.id) ? 0.5 : 1,
                         opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1,
                       }}
                       key={j + 10}
@@ -106,23 +155,22 @@ const IniviteTeamPlayers = ({ route }) => {
                         style={{
                           alignItems: 'center',
                           justifyContent: 'center',
-
-                          // paddingVertical: RH(6),
                         }}
                       >
                         <BorderGradient
                           height={142}
                           width={105}
-                          opacity={commands?.[i]?.members?.includes(elm?._id) ? 1 : 0}
+                          opacity={
+                            allTeams?.[i]?.members?.includes(elm?._id) && userIsOrganizer ? 1 : 0
+                          }
                         />
                         <Pressable
                           style={{
                             position: 'absolute',
                             zIndex: 65,
                           }}
-                          onPress={() => handleClick(elm)}
+                          onPress={() => (userIsOrganizer ? handleClick(elm) : null)}
                         >
-                          {/* {elm._id !== authedUserId ? ( */}
                           <User
                             size={100}
                             pressedUser={elm}
@@ -130,10 +178,9 @@ const IniviteTeamPlayers = ({ route }) => {
                             onPressItem={{
                               item: <User size={390} pressedUser={elm} />,
                               modalClose: false,
-                              onClickFunc: () => handleClick(elm),
+                              onClickFunc: () => (userIsOrganizer ? handleClick(elm) : null),
                             }}
                           />
-                          {/* ) : null} */}
                         </Pressable>
                       </View>
                     </View>
@@ -143,45 +190,61 @@ const IniviteTeamPlayers = ({ route }) => {
             </ScrollView>
           </View>
         </View>
+        <Modal setIsVisible={setErrorModal} modalVisible={errorModal} item={<ErrorModal />} />
 
-        <View
-          style={{
-            width: '100%',
-            alignSelf: 'center',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: RH(80),
-            marginBottom: RH(20),
-          }}
-        >
-          {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 2</Text>}
-          <View style={styles.btnBox}>
-            <LightButton
-              label={'Продолжить'}
-              size={{ width: RW(310), height: RH(50) }}
-              onPress={handleSubmit}
-            />
+        {userIsOrganizer ? (
+          <View
+            style={{
+              width: '100%',
+              alignSelf: 'center',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginTop: RH(80),
+              marginBottom: RH(20),
+            }}
+          >
+            {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 4</Text>}
+            <View style={styles.btnBox}>
+              <LightButton
+                label={'Продолжить'}
+                size={{ width: RW(310), height: RH(50) }}
+                onPress={handleSubmit}
+              />
+            </View>
+            <View style={styles.btnBox}>
+              <DarkButton
+                label={'Пригласить игроков'}
+                size={{ width: RW(310), height: RH(50) }}
+                onPress={() => navigation.goBack()}
+              />
+            </View>
           </View>
-          <View style={styles.btnBox}>
-            <DarkButton
-              label={'Пригласить игроков'}
-              size={{ width: RW(310), height: RH(50) }}
-              onPress={() => navigation.goBack()}
-            />
-          </View>
-        </View>
+        ) : null}
       </ScrollView>
     </ScreenMask>
   )
 }
 
-export default memo(IniviteTeamPlayers)
+export default IniviteTeamPlayers
 
 const styles = StyleSheet.create({
   title: {
     ...font('medium', 24, WHITE),
     textAlign: 'center',
     paddingVertical: RH(8),
+  },
+  errorModalBox: {
+    alignSelf: 'center',
+    height: RH(350),
+    width: RW(300),
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: BACKGROUND,
+    borderRadius: RW(14),
+  },
+  errorModalBoxText: {
+    ...font('medium', 16, WHITE),
+    textAlign: 'center',
   },
   commandName: {
     ...font('medium', 24, ICON),

@@ -5,10 +5,19 @@ import CircleSlide from '@/assets/imgs/CircleSlide.png'
 import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { setCountWords } from '@/store/Slices/AliasSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, style = {} }) {
+function Index({
+  maxValue = 90,
+  minValue = 10,
+  count,
+  step,
+  value,
+  setValue,
+  containerStyle = {},
+}) {
   const dispatch = useDispatch()
+  const { countWords } = useSelector(({ alias }) => alias)
   const renderScaleLabels = () => {
     const labels = () => {
       let newArr = []
@@ -20,7 +29,11 @@ function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, sty
     return labels().map((label, index) => (
       <Text
         key={index}
-        style={[styles.scaleLabel, { left: label == 80 && index == 1 ? '-45%' : 0 }, style]}
+        style={[
+          styles.scaleLabel,
+          { left: label == 80 && index == 1 ? '-45%' : 0 },
+          containerStyle,
+        ]}
       >
         {label}
       </Text>
@@ -40,7 +53,7 @@ function Index({ maxValue = 90, minValue = 10, count, step, value, setValue, sty
           maximumTrackTintColor="#ccc"
           thumbImage={CircleSlide}
           onValueChange={(newValue) => {
-            setValue(newValue), dispatch(setCountWords(newValue))
+          setValue(newValue), dispatch(setCountWords(newValue))
           }}
         />
       </View>

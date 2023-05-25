@@ -7,24 +7,23 @@ import { useDispatch, useSelector } from 'react-redux'
 import LightButton from '@/assets/imgs/Button'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import { useNavigation } from '@react-navigation/native'
-import { setLoader } from '@/store/Slices/AliasSlice'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { cleanDataAndPlayAgain, setLoader, setStoping, setTeams } from '@/store/Slices/AliasSlice'
 import AliasLoader from '../Components/AliasLoader'
 
 const PlayersRatings = () => {
   const { user } = useSelector(({ auth }) => auth)
-  const { explaingYou, countWords, staticTime, complexity, userIsOrganizer } = useSelector(
-    ({ alias }) => alias,
-  )
+  const { allTeams, userIsOrganizer } = useSelector(({ alias }) => alias)
   const dispatch = useDispatch()
+  const isFocused = useIsFocused()
   const navigation = useNavigation()
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.headerBox}>
-          <View style={{ width: '10%' }}></View>
           <Text style={styles.ratingText}>Рейтинги игроков</Text>
-          <InfoSvg />
+
         </View>
         <View>
           {[1, 2, 3, 4, 5, 6, 7, 8].map((elm) => {
@@ -67,17 +66,8 @@ const PlayersRatings = () => {
               label={'Играть заново'}
               size={{ width: 370, height: 48 }}
               onPress={() => {
-                // dispatch(setLoader(true))
-                // if (!explaingYou) {
-                //   console.log(
-                //     'countWords',
-                //     countWords,
-                //     'staticTime',
-                //     staticTime,
-                //     'complexity',
-                //     complexity,
-                //   )
-                // }
+                dispatch(cleanDataAndPlayAgain())
+                dispatch(setTeams([...allTeams.map((elm) => ({ ...elm, members: [] }))]))
                 navigation.navigate('QrCode')
               }}
             />
@@ -99,6 +89,7 @@ const styles = StyleSheet.create({
   },
   ratingText: {
     ...font('bold', 24, ICON),
+    paddingVertical: RH(5),
   },
   headerBox: {
     width: '100%',
