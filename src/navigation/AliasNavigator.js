@@ -239,7 +239,7 @@ const AliasNavigator = () => {
         data: allTeams,
       })
     }
-  }, [userIsOrganizer, allTeams, start])
+  }, [userIsOrganizer, JSON.stringify(allTeams), start])
   useEffect(() => {
     if (explainYouRef.current) {
       socketRef.current?.emit('message_to_all_players', {
@@ -247,7 +247,7 @@ const AliasNavigator = () => {
         data: allTeams,
       })
     }
-  }, [step, allTeams])
+  }, [step, JSON.stringify(allTeams)])
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />
