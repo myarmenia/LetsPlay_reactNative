@@ -23,8 +23,7 @@ const TeamSchemes = ({ route }) => {
     // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
     // { x: 0, y: 0, moveX: 0, moveY: 0, small: false, ref: useRef(), inGame: false },
   ])
-  const [initialCordinates, setInitialCordinates] = useState({ x: 0, y: 0 })
-  console.log(replacementPlayers)
+  const [initialCordinates, setInitialCordinates] = useState({ x: 0, y1: 0, y2: 0 })
   const fieldSize = useRef()
   const data = {
     players: ['64219136e3a868ee5e71a799'],
@@ -33,18 +32,22 @@ const TeamSchemes = ({ route }) => {
     teamName: 'Test2',
   }
   const navigation = useNavigation()
+
   return (
     <ScreenMask>
-      <View style={styles.teamNameRow}>
+      <View
+        onLayout={(e) => {
+          setInitialCordinates({
+            ...initialCordinates,
+            y1: e.nativeEvent.layout.height + RH(40), // height + marginTop
+          })
+        }}
+        style={styles.teamNameRow}
+      >
         <Image style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
         <Text style={styles.teamName}>{data?.teamName}</Text>
       </View>
-      <View
-        onLayout={(e) => {
-          // console.log(e.nativeEvent.layout)
-        }}
-        style={[styles.schemaImgContainer]}
-      >
+      <View style={[styles.schemaImgContainer]}>
         <Image
           onLayout={(e) => {
             fieldSize.current = {
@@ -52,17 +55,16 @@ const TeamSchemes = ({ route }) => {
               height: (e.nativeEvent.layout.height / 100) * 85.1,
             }
             setInitialCordinates({
-              x: e.nativeEvent.layout.x + (e.nativeEvent.layout.width / 100) * 10.25,
-              y:
-                initialCordinates.y +
-                e.nativeEvent.layout.y +
-                (e.nativeEvent.layout.height / 100) * 7.85,
+              ...initialCordinates,
+              x: e.nativeEvent.layout.x + (e.nativeEvent.layout.width / 100) * 9.25,
+              y2: e.nativeEvent.layout.y + (e.nativeEvent.layout.height / 100) * 7.45,
             })
           }}
           style={styles.schemaImg}
           source={{ uri: _storageUrl + data?.schemaImg }}
         />
       </View>
+
       <View style={{ zIndex: 999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
         <SchemeUsers

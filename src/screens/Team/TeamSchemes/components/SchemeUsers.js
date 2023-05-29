@@ -1,10 +1,11 @@
 import { RW } from '@/theme/utils'
 import React, { useRef, useState } from 'react'
-import { View, PanResponder, Pressable, StyleSheet, Animated } from 'react-native'
+import { View, PanResponder, Pressable, StyleSheet, Animated, NativeModules } from 'react-native'
 import User from '@/components/User/user'
 import ArrowSvg from './assets/ArrowSvg'
 import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
+const StatusBarHeight = NativeModules.StatusBarManager?.HEIGHT
 
 const SchemeUsers = ({
   replacementPlayers,
@@ -15,8 +16,8 @@ const SchemeUsers = ({
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
 
-  const panResponders = replacementPlayers?.map((item, index) =>
-    PanResponder.create({
+  const panResponders = replacementPlayers?.map((item, index) => {
+    return PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: (event, gesture) => {
@@ -42,75 +43,77 @@ const SchemeUsers = ({
       },
 
       onPanResponderEnd: (event, gesture) => {
-        if (
-          replacementPlayers[index].moveX >= 95 &&
-          replacementPlayers[index].moveX <= 301 &&
-          replacementPlayers[index].moveY >= 195 &&
-          replacementPlayers[index].moveY <= 500
-        ) {
-          const currentComponent = replacementPlayers[index]
-          replacementPlayers.forEach((item, i) => {
-            if (item?.moveX && i !== index) {
-              const differenceX = currentComponent.moveX - item.moveX
-              const differenceY = currentComponent.moveY - item.moveY
-              if (differenceX < 25 && differenceX > -25 && differenceY < 25 && differenceY > -25) {
-                setReplacementPlayers((prevplayingPlayers) => {
-                  const updatedplayingPlayers = [...prevplayingPlayers]
-                  updatedplayingPlayers[i] = {
-                    ...updatedplayingPlayers[i],
-                    x: 0,
-                    y: 0,
-                    small: false,
-                    inGame: false,
-                  }
-                  return updatedplayingPlayers
-                })
+        replacementPlayers[index].ref.current.measure((x, y, width, height, px, py) => {
+          if (
+            px - initialCordinates.x >= 0 &&
+            px - initialCordinates.x <= fieldSize?.width - RW(38) &&
+            py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05) >= 0 &&
+            py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05) <=
+              fieldSize?.height - RW(56)
+          ) {
+            const currentComponent = replacementPlayers[index]
+
+            replacementPlayers.forEach((item, i) => {
+              if (item?.moveX && i !== index) {
+                const differenceX = currentComponent.moveX - item.moveX
+                const differenceY = currentComponent.moveY - item.moveY
+                if (
+                  differenceX < 25 &&
+                  differenceX > -25 &&
+                  differenceY < 25 &&
+                  differenceY > -25
+                ) {
+                  setReplacementPlayers((prevplayingPlayers) => {
+                    const updatedplayingPlayers = [...prevplayingPlayers]
+                    updatedplayingPlayers[i] = {
+                      ...updatedplayingPlayers[i],
+                      x: 0,
+                      y: 0,
+                      small: false,
+                      inGame: false,
+                    }
+                    return updatedplayingPlayers
+                  })
+                }
               }
-            }
-          })
+            })
+            setReplacementPlayers((prevplayingPlayers) => {
+              const updatedplayingPlayers = [...prevplayingPlayers]
+              updatedplayingPlayers[index] = {
+                ...updatedplayingPlayers[index],
 
-          setReplacementPlayers((prevplayingPlayers) => {
-            const updatedplayingPlayers = [...prevplayingPlayers]
-            updatedplayingPlayers[index] = {
-              ...updatedplayingPlayers[index],
-
-              small: true,
-              inGame: true,
-            }
-            return updatedplayingPlayers
-          })
-        } else {
-          setReplacementPlayers((prevplayingPlayers) => {
-            const updatedplayingPlayers = [...prevplayingPlayers]
-            updatedplayingPlayers[index] = {
-              ...updatedplayingPlayers[index],
-              x: 0,
-              y: 0,
-              small: false,
-              inGame: false,
-            }
-            return updatedplayingPlayers
-          })
-        }
-      },
-    }),
-  )
-  replacementPlayers?.map((user, index) => {
-    user.ref.current?.measure((fx, fy, width, height, px, py) => {
-      if (px !== replacementPlayers[index].pageX && py !== replacementPlayers[index].pageY)
-        setReplacementPlayers((prevplayingPlayers) => {
-          const updatedplayingPlayers = [...prevplayingPlayers]
-          updatedplayingPlayers[index] = {
-            ...updatedplayingPlayers[index],
-            pageX: px,
-            pageY: py,
-            xPercent: px - initialCordinates.x, // / (fieldSize.width / 100)
-            yPercent: py - initialCordinates.y, // - 50 / (fieldSize.height / 100)
+                pageX: ((px - initialCordinates.x) * 100) / fieldSize?.width,
+                pageY:
+                  ((py -
+                    initialCordinates.y1 -
+                    initialCordinates.y2 -
+                    StatusBarHeight +
+                    RW(21.05)) *
+                    100) /
+                  fieldSize?.height,
+                small: true,
+                inGame: true,
+              }
+              return updatedplayingPlayers
+            })
+          } else {
+            setReplacementPlayers((prevplayingPlayers) => {
+              const updatedplayingPlayers = [...prevplayingPlayers]
+              updatedplayingPlayers[index] = {
+                ...updatedplayingPlayers[index],
+                x: 0,
+                y: 0,
+                small: false,
+                inGame: false,
+              }
+              return updatedplayingPlayers
+            })
           }
-          return updatedplayingPlayers
         })
+      },
     })
   })
+
   return (
     <Row wrapper={styles.container}>
       <View style={[styles.btnContainer]}>
@@ -127,7 +130,15 @@ const SchemeUsers = ({
           <ArrowSvg />
         </Pressable>
       </View>
-
+      {/* <View
+        style={{
+          width: fieldSize?.width - RW(45),
+          height: 500,
+          backgroundColor: 'red',
+          position: 'absolute',
+          left: 61,
+        }}
+      /> */}
       <View
         style={{
           width: '80%',
@@ -149,6 +160,7 @@ const SchemeUsers = ({
                   position: user.inGame ? 'absolute' : 'relative',
                   paddingVertical: user.small ? RW(21.05) : 0,
                   paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
+                  // backgroundColor: 'red',
                 },
                 user.inGame
                   ? {

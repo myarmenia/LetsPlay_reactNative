@@ -1,20 +1,15 @@
-import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import SchemeUsers from './components/SchemeUsers'
 import User from '@/components/User/user'
 
 const ViewSchemes = ({ route }) => {
-  const [replacementPlayers, setReplacementPlayers] = useState([
-    {
-      xPercent: 149.0899919128418,
-      yPercent: 264.77165649414064,
-    },
-  ])
+  const [replacementPlayers, setReplacementPlayers] = useState([{ pageX: 0, pageY: 0 }])
+
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y: 0 })
   const props = route.params.replacementPlayers
 
@@ -24,11 +19,14 @@ const ViewSchemes = ({ route }) => {
     teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
     teamName: 'Test2',
   }
-  const fieldSize = useRef()
-
-  // useEffect(() => {
-  //   setReplacementPlayers([{ xPercent: props[0].xPercent, yPercent: props[0].yPercent }])
-  // }, [props])
+  const fieldSize = useRef({
+    width: 0,
+    height: 0,
+  })
+  useEffect(() => {
+    // console.log(props[0])
+    setReplacementPlayers([{ pageX: props[0].pageX, pageY: props[0].pageY }])
+  }, [props])
   return (
     <ScreenMask>
       <Row wrapper={styles.teamNameRow}>
@@ -36,64 +34,40 @@ const ViewSchemes = ({ route }) => {
         <Text style={styles.teamName}>{data?.teamName}</Text>
       </Row>
       <View style={styles.schemaImgContainer}>
-        {/* <Image
+        <Image
           onLayout={(e) => {
-            // console.log('e width', (e.nativeEvent.layout.width / 100) * 81.5)
-            // console.log('e height', (e.nativeEvent.layout.height / 100) * 85.1)
             fieldSize.current = {
               width: (e.nativeEvent.layout.width / 100) * 81.5,
               height: (e.nativeEvent.layout.height / 100) * 85.1,
             }
-          }}
-          style={styles.schemaImg}
-          source={{ uri: _storageUrl + data?.schemaImg }}
-        /> */}
-        <ImageBackground
-          onLayout={(e) => {
-            // console.log('e width', (e.nativeEvent.layout.width / 100) * 81.5)
-            // console.log('e height', (e.nativeEvent.layout.height / 100) * 85.1)
-            fieldSize.current = {
-              width: (e.nativeEvent?.layout?.width / 100) * 81.5,
-              height: (e.nativeEvent?.layout?.height / 100) * 85.1,
-            }
 
             setInitialCordinates({
-              x: e.nativeEvent.layout.x,
-              y: e.nativeEvent.layout.y,
+              x: (e.nativeEvent.layout.width / 100) * 9.25 + e.nativeEvent.layout.x,
+              y: (e.nativeEvent.layout.height / 100) * 7.45 + e.nativeEvent.layout.y,
             })
           }}
           style={styles.schemaImg}
           source={{ uri: _storageUrl + data?.schemaImg }}
-        >
-          {replacementPlayers.map((user) => {
-            return (
-              <View
-                style={{
-                  paddingVertical: RW(21.05),
-                  paddingHorizontal: RW(20.15),
-                  position: 'absolute',
-                  // backgroundColor: 'red',
-                  // left: user.xPercent, // * (fieldSize.current?.width / 100)
-                  // top: user.yPercent, //* (fieldSize.current?.height / 100)
-                  transform: [
-                    {
-                      translateX: user.xPercent + initialCordinates.x,
-                    },
-                    {
-                      translateY: user.yPercent + initialCordinates.y,
-                    },
-                  ],
-                }}
-              >
-                <User size={RW(45)} />
-              </View>
-            )
-          })}
-        </ImageBackground>
+        />
+
+        {replacementPlayers.map((user, index) => {
+          return (
+            <View
+              key={index}
+              style={{
+                paddingHorizontal: 0,
+                position: 'absolute',
+                left: user.pageX * (fieldSize.current?.width / 100) + initialCordinates.x,
+                top: user.pageY * (fieldSize.current?.height / 100) + initialCordinates.y,
+              }}
+            >
+              <User size={RW(45)} />
+            </View>
+          )
+        })}
       </View>
       <View style={{ zIndex: 999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
-        {/* <SchemeUsers fieldSize={fieldSize.current} replacementPlayers={replacementPlayers} /> */}
       </View>
     </ScreenMask>
   )

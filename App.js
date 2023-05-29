@@ -12,6 +12,7 @@ LogBox.ignoreLogs([
   'Possible Unhandled Promise Rejection (id: 1): Error: Player is already running.',
   'Animated.event now requires a second argument for options',
 ])
+
 const App = () => {
   return (
     <NavigationContainer linking={LinkingConfig}>
