@@ -24,8 +24,9 @@ const ViewSchemes = ({ route }) => {
     height: 0,
   })
   useEffect(() => {
+    setReplacementPlayers([{ pageX: 83.94505592598874, pageY: 5.677478100659756 }])
     // console.log(props[0])
-    setReplacementPlayers([{ pageX: props[0].pageX, pageY: props[0].pageY }])
+    // setReplacementPlayers([{ pageX: props[0].pageX, pageY: props[0].pageY }])
   }, [props])
   return (
     <ScreenMask>

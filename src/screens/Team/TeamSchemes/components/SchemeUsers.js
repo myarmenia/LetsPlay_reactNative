@@ -1,11 +1,19 @@
 import { RW } from '@/theme/utils'
 import React, { useRef, useState } from 'react'
-import { View, PanResponder, Pressable, StyleSheet, Animated, NativeModules } from 'react-native'
+import {
+  View,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  Animated,
+  NativeModules,
+  Platform,
+} from 'react-native'
 import User from '@/components/User/user'
 import ArrowSvg from './assets/ArrowSvg'
 import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
-const StatusBarHeight = NativeModules.StatusBarManager?.HEIGHT
+const StatusBarHeight = Platform.OS == 'ios' ? NativeModules.StatusBarManager?.HEIGHT : 0
 
 const SchemeUsers = ({
   replacementPlayers,
@@ -69,6 +77,7 @@ const SchemeUsers = ({
                       ...updatedplayingPlayers[i],
                       x: 0,
                       y: 0,
+
                       small: false,
                       inGame: false,
                     }
@@ -103,6 +112,7 @@ const SchemeUsers = ({
                 ...updatedplayingPlayers[index],
                 x: 0,
                 y: 0,
+
                 small: false,
                 inGame: false,
               }
@@ -130,15 +140,6 @@ const SchemeUsers = ({
           <ArrowSvg />
         </Pressable>
       </View>
-      {/* <View
-        style={{
-          width: fieldSize?.width - RW(45),
-          height: 500,
-          backgroundColor: 'red',
-          position: 'absolute',
-          left: 61,
-        }}
-      /> */}
       <View
         style={{
           width: '80%',
@@ -160,7 +161,6 @@ const SchemeUsers = ({
                   position: user.inGame ? 'absolute' : 'relative',
                   paddingVertical: user.small ? RW(21.05) : 0,
                   paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
-                  // backgroundColor: 'red',
                 },
                 user.inGame
                   ? {
