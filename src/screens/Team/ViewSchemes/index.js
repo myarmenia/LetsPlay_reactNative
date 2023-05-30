@@ -24,9 +24,7 @@ const ViewSchemes = ({ route }) => {
     height: 0,
   })
   useEffect(() => {
-    setReplacementPlayers([{ pageX: 83.94505592598874, pageY: 5.677478100659756 }])
-    // console.log(props[0])
-    // setReplacementPlayers([{ pageX: props[0].pageX, pageY: props[0].pageY }])
+    setReplacementPlayers(props)
   }, [props])
   return (
     <ScreenMask>
@@ -52,19 +50,20 @@ const ViewSchemes = ({ route }) => {
         />
 
         {replacementPlayers.map((user, index) => {
-          return (
-            <View
-              key={index}
-              style={{
-                paddingHorizontal: 0,
-                position: 'absolute',
-                left: user.pageX * (fieldSize.current?.width / 100) + initialCordinates.x,
-                top: user.pageY * (fieldSize.current?.height / 100) + initialCordinates.y,
-              }}
-            >
-              <User size={RW(45)} />
-            </View>
-          )
+          if (user.inGame)
+            return (
+              <View
+                key={index}
+                style={{
+                  paddingHorizontal: 0,
+                  position: 'absolute',
+                  left: user.pageX * (fieldSize.current?.width / 100) + initialCordinates.x,
+                  top: user.pageY * (fieldSize.current?.height / 100) + initialCordinates.y,
+                }}
+              >
+                <User size={RW(45)} />
+              </View>
+            )
         })}
       </View>
       <View style={{ zIndex: 999 }}>
