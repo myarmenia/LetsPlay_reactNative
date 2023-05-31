@@ -14,6 +14,8 @@ const initialState = {
   game: '',
   address_name: '',
   gameCreatedSuccessful: null,
+  game_name: '',
+  game_description: '',
 }
 
 export const GameCreatingSlice = createSlice({
@@ -92,6 +94,18 @@ export const GameCreatingSlice = createSlice({
         ticket_price: action.payload,
       }
     },
+    setGameDescription: (store, action) => {
+      return {
+        ...store,
+        game_description: action.payload,
+      }
+    },
+    setGameName: (store, action) => {
+      return {
+        ...store,
+        game_name: action.payload,
+      }
+    },
     setGame: (store, action) => {
       return {
         ...store,
@@ -117,29 +131,10 @@ export const createGame = (data, nav) => (dispatch) => {
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))
         nav()
-        // console.log('JSON', JSON.stringify(nav))
-        // nav()
-        // dispatch(
-        //   setInitialState({
-        //     number_of_players_from: 0,
-        //     number_of_players_to: 0,
-        //     age_restrictions_from: 0,
-        //     age_restrictions_to: 0,
-        //     players_gender: 'm/f',
-        //     latitude: 0,
-        //     longitude: 0,
-        //     organizer_in_the_game: true,
-        //     ticket_price: 0,
-        //     game: '',
-        //     address_name: '',
-        //     gameCreatedSuccessful: null,
-        //   }),
-        // )
       }
     })
     .catch((err) => {
       console.log('ERROR :', err)
-      // console.log('gameData :', data), console.log(err)
     })
 }
 
@@ -153,9 +148,11 @@ export const {
   setLatitude,
   setLongitude,
   setPlaceName,
+  setGameName,
   setEnd_Date,
   setOrganizer_in_the_game,
   setTicket_price,
+  setGameDescription,
   setGame,
   setInitialState,
   setGameCreatedSuccessful,

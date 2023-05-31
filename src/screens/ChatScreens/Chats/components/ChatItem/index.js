@@ -10,7 +10,7 @@ import {
 } from 'react-native'
 import style from '../../style'
 import { useNavigation } from '@react-navigation/native'
-import {  RW } from '@/theme/utils'
+import { RW } from '@/theme/utils'
 import Modal from '@/components/modal'
 import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
@@ -74,7 +74,7 @@ function Index({ id, item, type }) {
           justifyContent: 'flex-end',
           flexDirection: 'row',
           width: RW(372),
-          zIndex: -22,
+          zIndex: -33,
         }}
       >
         <View style={{ width: '80%' }}></View>

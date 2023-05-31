@@ -114,7 +114,7 @@ const AliasNavigator = () => {
       // case 'all_teams_resaults': {
       // }
       case 'pause_or_start': {
-        if (!explainYouRef.current) {
+        if (explainYouRef.current == false) {
           dispatch(setStoping(e?.data?.stoping))
         }
         break
@@ -163,10 +163,10 @@ const AliasNavigator = () => {
   }, [aliasGameId, token])
 
   useEffect(() => {
-    if (explainYou && stoping !== 'withoutSocket') {
+    if (explainYouRef.current == true && stoping !== 'withoutSocket') {
       socketRef.current?.emit('pause_or_start', { stoping })
     }
-  }, [stoping, explainYou])
+  }, [stoping, explainYouRef.current])
 
   useEffect(() => {
     if (explainYouRef.current && endRound) {
@@ -206,28 +206,8 @@ const AliasNavigator = () => {
     }
   }, [time, explainedWords])
 
-  // useEffect(() => {
-  //   if (explainYouRef.current && time == 0) {
-  //     socketRef.current?.emit('message_to_all_players', {
-  //       type: 'getGameSettings',
-  //       settings: {
-  //         countWords: countWords,
-  //         staticTime: staticTime,
-  //         complexity: complexity,
-  //       },
-  //     })
-  //   }
-  // }, [time, explainedWords, endRound])
-  let pointsData = allTeams[0].points
-  let membersData = allTeams.map((elm) => elm.members)
   useEffect(() => {
     if (endRound == true) {
-      // dispatch(setExplainYou(null))
-      // dispatch(setExplainerUser(null))
-      // dispatch(setExplainerTeam(null))
-      // dispatch(setWords([]))
-      // dispatch(setTeams([]))
-      // dispatch(setExplainedWords([]))
       socketRef.current?.emit('end_time', {})
       dispatch(setEndRound(false))
     }

@@ -46,7 +46,7 @@ const EachTournament = ({ route }) => {
           <Text style={styles.eachInfoTwo}>{initialState?.name ? initialState?.name : ''}</Text>
           <Text style={styles.eachInfo}>Описание турнира: </Text>
           <Text style={styles.eachInfoTwo}>
-            {initialState?.game_description ? initialState.game_description : ''}
+            {initialState?.game_description ? initialState.game_description : 'Нету'}
           </Text>
           <Text style={styles.eachInfo}>Количество команд:</Text>
           <Text style={styles.eachInfoTwo}>

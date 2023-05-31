@@ -11,6 +11,8 @@ import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLea
 import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
 import TeamInfo from '@/screens/Team/CommandLeadNotCreate/TeamInfo'
 import EditTeamPlayers from '@/screens/Team/CommandLeadNotCreate/EditTeamPlayers'
+import OwnGame from '@/screens/GameCreating/OwnGame/OwnGameName'
+import OwnGameName from '@/screens/GameCreating/OwnGame/OwnGameName'
 
 const Stack = createNativeStackNavigator()
 
@@ -19,6 +21,7 @@ const CreateGameNavigator = () => {
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name={'ChooseGameType'} component={ChooseGameType} />
       <Stack.Screen name={'GameListCarousel'} component={GameListCarousel} />
+      <Stack.Screen name={'OwnGameName'} component={OwnGameName} />
       <Stack.Screen name={'CommandLeadCreate'} component={CommandLeadCreate} />
       <Stack.Screen name={'CommandLeadNotCreate'} component={CommandLeadNotCreate} />
       <Stack.Screen name={'EditTeamPlayers'} component={EditTeamPlayers} />

@@ -5,7 +5,7 @@ import { font, RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
 // import { Shadow } from 'react-native-shadow-2'
 
-const LightButton = ({ onPress, label, labelStyle, wrapper, size }) => {
+const LightButton = ({ onPress, label, labelStyle, wrapper, size, style = {} }) => {
   const width = RW(size?.width) || RW(172)
   let height = RH(size?.height) || RH(36)
   if (Dimensions.get('screen').height < 670) {
@@ -18,9 +18,12 @@ const LightButton = ({ onPress, label, labelStyle, wrapper, size }) => {
       disabled={false}
       activeOpacity={0.5}
       onPress={onPress && onPress}
-      style={{
-        backgroundColor: 'transparent',
-      }}
+      style={[
+        {
+          backgroundColor: 'transparent',
+        },
+        style,
+      ]}
     >
       <Svg
         width={width}

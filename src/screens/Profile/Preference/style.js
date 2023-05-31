@@ -90,7 +90,8 @@ export default StyleSheet.create({
   },
   submitBtn: {
     position: 'absolute',
-    bottom: RH(25),
+    bottom: RH(45),
+    zIndex: 11,
     right: RW(5),
   },
 })

@@ -24,7 +24,7 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
     }
     Animated.timing(animatedValue, {
       toValue: 0,
-      duration: 220,
+      duration: 230,
       useNativeDriver: true,
     }).start()
   }, [isFocused])

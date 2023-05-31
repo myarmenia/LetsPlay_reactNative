@@ -74,7 +74,7 @@ const EachCommand = ({ command, i, data }) => {
         <View style={style.imageBlock}>
           <Image
             style={style.image}
-            source={{ uri: _storageUrl + command.img }}
+            source={{ uri: _storageUrl + data.data.img }}
             resizeMode="cover"
           />
         </View>

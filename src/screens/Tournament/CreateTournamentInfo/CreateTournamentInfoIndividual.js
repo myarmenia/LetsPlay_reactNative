@@ -149,26 +149,27 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     }
     if (
       initialState.age_restrictions_from == undefined ||
-      !initialState.age_restrictions_from ||
       initialState.age_restrictions_to == undefined ||
-      initialState.age_restrictions_to
+      !initialState.age_restrictions_from.length ||
+      !initialState.age_restrictions_to
     ) {
       setAgeError('Обязательное поле для заполнения')
+    } else if (+initialState.age_restrictions_from > +initialState.age_restrictions_to) {
+      console.log(initialState.age_restrictions_from, typeof initialState.age_restrictions_to)
+      setAgeError('Введите корректную возраст')
     } else {
-      console.log(initialState.age_restrictions_from, initialState.age_restrictions_to)
       setAgeError(null)
     }
-    if (initialState.age_restrictions_from > initialState.age_restrictions_to) {
-      setAgeError('Введите корректную возраст')
-    }
+
     if (
       initialState.number_of_participants_from == undefined ||
-      !initialState.number_of_participants_to == undefined
+      initialState.number_of_participants_to == undefined ||
+      !initialState.number_of_participants_from.length ||
+      !initialState.number_of_participants_to.length
     ) {
       setCountError('Обязательное поле для заполнения')
     }
-    console.log(ageError)
-    if (initialState.number_of_participants_from > initialState.number_of_participants_to) {
+    if (+initialState.number_of_participants_from > +initialState.number_of_participants_to) {
       setCountError('Введите корректную количество')
     } else {
       setCountError('')

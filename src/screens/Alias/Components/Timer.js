@@ -9,22 +9,31 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation, useLayoutEffect } from '@react-navigation/native'
 import { setStoping, setTime } from '@/store/Slices/AliasSlice'
 
-const Timer = ({ modalState, timeIsFinished, setTimeIsFinished }) => {
-  const { explainYou, stoping, time, staticTime } = useSelector(({ alias }) => alias)
+const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, fromRes }) => {
+  const { explainYou, stoping, time, staticTime, userIsOrganizer } = useSelector(
+    ({ alias }) => alias,
+  )
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
   const [selectedTime, setSelectedTime] = useState({ seconds: staticTime })
+  // console.log(
+  //   'selectedTime.seconds',
+  //   selectedTime.seconds,
+  //   'explainyou',
+  //   explainYou,
+  //   'userisorganizer',
+  //   userIsOrganizer,
+  // )
 
   useEffect(() => {
     if (!isFocused && selectedTime.seconds == 0) {
-      // setTimeout(() => {
       dispatch(setStoping('withoutSocket'))
-      // }, 0)
+
     } else if (selectedTime.seconds > 0 && selectedTime.seconds < staticTime) {
       setSelectedTime((prev) => ({ seconds: prev.seconds }))
     } else {
-      setSelectedTime({ seconds: staticTime + 1 })
+      setSelectedTime({ seconds: staticTime })
     }
   }, [stoping, staticTime, isFocused])
 
@@ -33,7 +42,6 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished }) => {
       setTimeIsFinished('timeFinish')
     }
   }, [selectedTime.seconds])
-
   useEffect(() => {
     let timer
     if (!stoping) {
@@ -59,17 +67,17 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished }) => {
 
     return () => clearInterval(timer)
   }, [selectedTime.seconds, stoping, explainYou, timeIsFinished])
-
   const displayMinutes = Math.floor(selectedTime.seconds / 60)
     .toString()
-    .padStart(2, '0')
+    .padStart(1, '0')
   const displaySeconds = (selectedTime.seconds % 60).toString().padStart(2, '0')
-
   return (
     <>
       <Text style={styles.timer}>Оставшееся время</Text>
       <Text style={[styles.timerClock, { color: selectedTime.seconds > 5 ? WHITE : RED }]}>
-        {time < 0 ? 0 : time}
+        {selectedTime.seconds < 0
+          ? 0
+          : [displayMinutes > 0 ? displayMinutes + ':' : '', displaySeconds]}
       </Text>
     </>
   )
