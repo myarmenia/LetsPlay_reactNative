@@ -1,10 +1,19 @@
 import { RW } from '@/theme/utils'
-import React, { useRef, useState } from 'react'
-import { View, PanResponder, Pressable, StyleSheet, Animated } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import {
+  View,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  Animated,
+  NativeModules,
+  Platform,
+} from 'react-native'
 import User from '@/components/User/user'
 import ArrowSvg from './assets/ArrowSvg'
 import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
+const StatusBarHeight = Platform.OS == 'ios' ? NativeModules.StatusBarManager?.HEIGHT : 0
 
 const SchemeUsers = ({
   replacementPlayers,
@@ -15,8 +24,19 @@ const SchemeUsers = ({
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
 
-  const panResponders = replacementPlayers?.map((item, index) =>
-    PanResponder.create({
+  const animatedScrollX = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    const val = -screenX
+    Animated.timing(animatedScrollX, {
+      toValue: val,
+      duration: 600,
+      useNativeDriver: true,
+    }).start()
+  }, [screenX])
+
+  const panResponders = replacementPlayers?.map((item, index) => {
+    return PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: (event, gesture) => {
@@ -42,67 +62,86 @@ const SchemeUsers = ({
       },
 
       onPanResponderEnd: (event, gesture) => {
-        if (
-          replacementPlayers[index].moveX >= 95 &&
-          replacementPlayers[index].moveX <= 301 &&
-          replacementPlayers[index].moveY >= 195 &&
-          replacementPlayers[index].moveY <= 500
-        ) {
-          const currentComponent = replacementPlayers[index]
-          replacementPlayers.forEach((item, i) => {
-            if (item?.moveX && i !== index) {
-              const differenceX = currentComponent.moveX - item.moveX
-              const differenceY = currentComponent.moveY - item.moveY
-              if (differenceX < 25 && differenceX > -25 && differenceY < 25 && differenceY > -25) {
-                setReplacementPlayers((prevplayingPlayers) => {
-                  const updatedplayingPlayers = [...prevplayingPlayers]
-                  updatedplayingPlayers[i] = {
-                    ...updatedplayingPlayers[i],
-                    x: 0,
-                    y: 0,
-                    small: false,
-                    inGame: false,
-                  }
-                  return updatedplayingPlayers
-                })
-              }
-            }
-          })
+        replacementPlayers[index].ref.current.measure((x, y, width, height, px, py) => {
+          if (
+            px - initialCordinates.x >= 0 &&
+            px - initialCordinates.x <= fieldSize?.width - RW(38) &&
+            py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05) >= 0 &&
+            py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05) <=
+              fieldSize?.height - RW(56)
+          ) {
+            const currentComponent = replacementPlayers[index]
 
-          setReplacementPlayers((prevplayingPlayers) => {
-            const updatedplayingPlayers = [...prevplayingPlayers]
-            updatedplayingPlayers[index] = {
-              ...updatedplayingPlayers[index],
-              xPercent: replacementPlayers[index].moveX - initialCordinates.x, // / (fieldSize.width / 100)
-              yPercent: replacementPlayers[index].moveY - initialCordinates.y - 50, /// (fieldSize.height / 100)
-              small: true,
-              inGame: true,
-            }
-            return updatedplayingPlayers
-          })
-        } else {
-          setReplacementPlayers((prevplayingPlayers) => {
-            const updatedplayingPlayers = [...prevplayingPlayers]
-            updatedplayingPlayers[index] = {
-              ...updatedplayingPlayers[index],
-              x: 0,
-              y: 0,
-              small: false,
-              inGame: false,
-            }
-            return updatedplayingPlayers
-          })
-        }
+            replacementPlayers.forEach((item, i) => {
+              if (item?.moveX && i !== index) {
+                const differenceX = currentComponent.moveX - item.moveX
+                const differenceY = currentComponent.moveY - item.moveY
+                if (
+                  differenceX < 25 &&
+                  differenceX > -25 &&
+                  differenceY < 25 &&
+                  differenceY > -25
+                ) {
+                  setReplacementPlayers((prevplayingPlayers) => {
+                    const updatedplayingPlayers = [...prevplayingPlayers]
+                    updatedplayingPlayers[i] = {
+                      ...updatedplayingPlayers[i],
+                      x: 0,
+                      y: 0,
+
+                      small: false,
+                      inGame: false,
+                    }
+                    return updatedplayingPlayers
+                  })
+                }
+              }
+            })
+            setReplacementPlayers((prevplayingPlayers) => {
+              const updatedplayingPlayers = [...prevplayingPlayers]
+              updatedplayingPlayers[index] = {
+                ...updatedplayingPlayers[index],
+
+                pageX: ((px - initialCordinates.x) * 100) / fieldSize?.width,
+                pageY:
+                  ((py -
+                    initialCordinates.y1 -
+                    initialCordinates.y2 -
+                    StatusBarHeight +
+                    RW(21.05)) *
+                    100) /
+                  fieldSize?.height,
+                small: true,
+                inGame: true,
+              }
+              return updatedplayingPlayers
+            })
+          } else {
+            setReplacementPlayers((prevplayingPlayers) => {
+              const updatedplayingPlayers = [...prevplayingPlayers]
+              updatedplayingPlayers[index] = {
+                ...updatedplayingPlayers[index],
+                x: 0,
+                y: 0,
+
+                small: false,
+                inGame: false,
+              }
+              return updatedplayingPlayers
+            })
+          }
+        })
       },
-    }),
-  )
+    })
+  })
+
   return (
     <Row wrapper={styles.container}>
       <View style={[styles.btnContainer]}>
         <Pressable
           style={styles.arrowContainer}
           onPress={() => {
-            if (screenX > componentWidth.current * 4) {
+            if (screenX < componentWidth.current * 4) {
               setScreenX(0)
             } else if (screenX > 0) {
               setScreenX(screenX - componentWidth.current * 4)
@@ -112,7 +151,6 @@ const SchemeUsers = ({
           <ArrowSvg />
         </Pressable>
       </View>
-
       <View
         style={{
           width: '80%',
@@ -128,6 +166,9 @@ const SchemeUsers = ({
             <Animated.View
               key={index}
               ref={user.ref}
+              onLayout={(e) => {
+                if (!componentWidth.current) componentWidth.current = e.nativeEvent.layout.width
+              }}
               style={[
                 {
                   zIndex: user.small ? 9 : user?.inGame ? 999 : 99,
@@ -140,7 +181,11 @@ const SchemeUsers = ({
                       transform: [{ translateX: user.x }, { translateY: user.y }],
                     }
                   : {
-                      transform: [{ translateX: -screenX }],
+                      transform: [
+                        {
+                          translateX: animatedScrollX,
+                        },
+                      ],
                     },
               ]}
               {...panResponders[index]?.panHandlers}

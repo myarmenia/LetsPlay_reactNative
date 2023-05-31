@@ -29,6 +29,7 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, fromRes }) => {
   useEffect(() => {
     if (!isFocused && selectedTime.seconds == 0) {
       dispatch(setStoping('withoutSocket'))
+
     } else if (selectedTime.seconds > 0 && selectedTime.seconds < staticTime) {
       setSelectedTime((prev) => ({ seconds: prev.seconds }))
     } else {
