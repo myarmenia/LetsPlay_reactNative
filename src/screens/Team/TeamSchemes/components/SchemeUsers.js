@@ -1,5 +1,5 @@
 import { RW } from '@/theme/utils'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import {
   View,
   PanResponder,
@@ -23,6 +23,17 @@ const SchemeUsers = ({
 }) => {
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
+
+  const animatedScrollX = useRef(new Animated.Value(0)).current
+
+  useEffect(() => {
+    const val = -screenX
+    Animated.timing(animatedScrollX, {
+      toValue: val,
+      duration: 600,
+      useNativeDriver: true,
+    }).start()
+  }, [screenX])
 
   const panResponders = replacementPlayers?.map((item, index) => {
     return PanResponder.create({
@@ -130,7 +141,7 @@ const SchemeUsers = ({
         <Pressable
           style={styles.arrowContainer}
           onPress={() => {
-            if (screenX > componentWidth.current * 4) {
+            if (screenX < componentWidth.current * 4) {
               setScreenX(0)
             } else if (screenX > 0) {
               setScreenX(screenX - componentWidth.current * 4)
@@ -155,6 +166,9 @@ const SchemeUsers = ({
             <Animated.View
               key={index}
               ref={user.ref}
+              onLayout={(e) => {
+                if (!componentWidth.current) componentWidth.current = e.nativeEvent.layout.width
+              }}
               style={[
                 {
                   zIndex: user.small ? 9 : user?.inGame ? 999 : 99,
@@ -167,7 +181,11 @@ const SchemeUsers = ({
                       transform: [{ translateX: user.x }, { translateY: user.y }],
                     }
                   : {
-                      transform: [{ translateX: -screenX }],
+                      transform: [
+                        {
+                          translateX: animatedScrollX,
+                        },
+                      ],
                     },
               ]}
               {...panResponders[index]?.panHandlers}

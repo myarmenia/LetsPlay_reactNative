@@ -34,7 +34,7 @@ import WinnerModal from './components/WinnerModal'
 import Row from '@/components/wrappers/row'
 
 const PlayMafia = () => {
-  const [modalVisible, setModalVisible] = useState(true) //true
+  const [modalVisible, setModalVisible] = useState(true)
   const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [winnerModal, setWinnerModal] = useState(false)
   const [choosable, setChoosable] = useState(false)
@@ -417,7 +417,6 @@ const PlayMafia = () => {
                       select_user: choosedUsers,
                     }),
                   )
-                  console.log('dispatch(setWaitNight(true)) ' + night, waitNight)
                   dispatch(setWaitNight(true))
                   setChoosedUsers(null)
                   dispatch(setLoader(true))

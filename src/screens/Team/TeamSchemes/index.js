@@ -120,23 +120,18 @@ const TeamSchemes = ({ route }) => {
       pageX: 0,
       pageY: 0,
     },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
   ])
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y1: 0, y2: 0 })
   const fieldSize = useRef()
   const data = {
     players: ['64219136e3a868ee5e71a799'],
     schemaImg: '/game_schema_img/Group 1805.png',
+    footbal: {
+      fieldSizePracnt: {
+        width: 81.5,
+        height: 85.1,
+      },
+    },
     teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
     teamName: 'Test2',
   }
