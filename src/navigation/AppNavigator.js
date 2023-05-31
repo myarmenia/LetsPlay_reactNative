@@ -42,7 +42,7 @@ const TabNavigator = () => {
     <>
       <Tab.Navigator
         initialRouteName="Home"
-        tabBar={props => <TabBarButton {...props} setIsHome={setIsHome} />}
+        tabBar={(props) => <TabBarButton {...props} setIsHome={setIsHome} />}
         screenOptions={{
           headerShown: false,
           tabBarVisible: false,
@@ -52,7 +52,7 @@ const TabNavigator = () => {
           tabBarInactiveTintColor: ICON,
         }}
       >
-        <Tab.Screen name={'Home'} component={HomeScreen} />
+        <Tab.Screen name={'Home'} component={HomeScreen} options={{ gestureEnabled: false }} />
         <Tab.Screen name={'Chat'} component={ChatScreen} />
         <Tab.Screen name={'Profile'} component={ProfileScreen} />
         {/* <Tab.Screen name={'NotificationNavigator'} component={NotificationNavigator} /> */}

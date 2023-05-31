@@ -23,8 +23,9 @@ import {
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 
-const GameCreating = (props) => {
-  const { game, response } = props.route?.params?.params
+const GameCreating = ({ route }) => {
+  console.log(route)
+  const { game, response } = route?.params?.params
   const navigation = useNavigation()
 
   //states

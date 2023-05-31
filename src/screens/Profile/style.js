@@ -63,7 +63,7 @@ export default StyleSheet.create({
     paddingLeft: RW(44),
   },
   galleryText: {
-    ...font('regular', 20, WHITE, 25),
+    ...font('regular', 18, WHITE, 25),
     textAlign: 'center',
     marginTop: RH(40),
   },

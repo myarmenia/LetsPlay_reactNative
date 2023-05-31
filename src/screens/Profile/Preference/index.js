@@ -13,7 +13,7 @@ import Modal from '@/components/modal'
 import { useIsFocused } from '@react-navigation/native'
 function Index() {
   const dispatch = useDispatch()
-  const { nameOfGames } = useSelector(gameSlice => gameSlice.games)
+  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   const { preferences } = useSelector(({ auth }) => auth.user)
   const { token } = useSelector(({ auth }) => auth)
 
@@ -22,7 +22,12 @@ function Index() {
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    nameOfGames.length ? nameOfGames : dispatch(getGamesOnlyNames())
+    if (isFocused) {
+      console.log('preferences', preferences)
+      console.log('names', nameOfGames)
+
+      dispatch(getGamesOnlyNames())
+    }
   }, [isFocused])
 
   // useEffect(() => {
@@ -41,20 +46,18 @@ function Index() {
   //   )
   // }, [nameOfGames.length])
 
-  const checkItem = useCallback(
-    id => {
-      dispatch(
-        setNames([
-          ...nameOfGames.map(elm => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
-        ]),
-      )
-    },
-    [nameOfGames],
-  )
+  const checkItem = (id) => {
+    dispatch(
+      setNames([
+        ...nameOfGames.map((elm) => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
+      ]),
+    )
+  }
+
   const savePreferences = () => {
     dispatch(
       changeUserPreferences(
-        nameOfGames.filter(elm => elm.checked).map(el => el.id),
+        nameOfGames.filter((elm) => elm.checked).map((el) => el.id),
         token,
       ),
       setModalVisible(true),
@@ -68,7 +71,8 @@ function Index() {
           <Text style={style.gameNamesTitle}>Предпочтения в играх</Text>
           <Text style={style.gameNamesTitle}>Настольные игры</Text>
           <View style={style.gamesBox}>
-            {nameOfGames?.slice(7, nameOfGames.length).map(elm => {
+            {nameOfGames?.slice(7, nameOfGames.length).map((elm, i) => {
+              console.log(preferences[i] == elm.id)
               return (
                 <TouchableOpacity
                   key={elm?.id}
@@ -76,7 +80,7 @@ function Index() {
                   style={[
                     style.gameBtn,
                     {
-                      backgroundColor: elm.checked ? ACTIVE : INACTIVE,
+                      backgroundColor: elm.checked || preferences[i] == elm.id ? ACTIVE : INACTIVE,
                     },
                   ]}
                 >
@@ -87,7 +91,7 @@ function Index() {
           </View>
           <Text style={style.gameNamesTitle}>Активные игры</Text>
           <View style={style.gamesBox}>
-            {nameOfGames?.slice(0, 7).map(elm => {
+            {nameOfGames?.slice(0, 7).map((elm, i) => {
               return (
                 <TouchableOpacity
                   key={elm.id}
@@ -95,7 +99,7 @@ function Index() {
                   style={[
                     style.gameBtn,
                     {
-                      backgroundColor: elm.checked ? ACTIVE : INACTIVE,
+                      backgroundColor: elm.checked || preferences[i] == elm.id ? ACTIVE : INACTIVE,
                     },
                   ]}
                 >
@@ -111,9 +115,11 @@ function Index() {
           {/* здесь будут подписки пользавательей */}
         </View>
       </View>
-      <View style={style.submitBtn}>
-        <LightButton label={token ? 'Сохранить' : 'Продолжить'} onPress={savePreferences} />
-      </View>
+      <LightButton
+        label={token ? 'Сохранить' : 'Продолжить'}
+        onPress={savePreferences}
+        style={style.submitBtn}
+      />
       <Modal
         item={
           <View style={style.modal}>
