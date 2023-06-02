@@ -198,7 +198,7 @@ const GameCreating = ({ route }) => {
               alignSelf: 'center',
             }}
             rowStyle={{
-              justifyContent: 'space-around',
+              justifyContent: 'flex-start',
             }}
             dateValue={startDate.date}
             timeValue={startDate.time}
@@ -237,7 +237,7 @@ const GameCreating = ({ route }) => {
               alignSelf: 'center',
             }}
             rowStyle={{
-              justifyContent: 'space-around',
+              justifyContent: 'flex-start',
             }}
             dateValue={endDate.date}
             timeValue={endDate.time}

@@ -37,18 +37,24 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
         height: '120%',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 999,
+        zIndex: 99999,
         backgroundColor: timeIsFinished && 'rgba(0,0,0,0.8)',
         position: 'absolute',
       }}
     >
       <Pressable
         onPress={() => {
+          console.log('click')
           setTimeIsFinished('timeDontFinished')
           dispatch(setYouGuesser(null))
           navigation.navigate('ResultsOfAnswers', userExplainedWordsCount)
         }}
-        style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+        style={{
+          height: '100%',
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Text style={{ ...font('medium', 32, '#F73934') }}>Время истекло!</Text>
       </Pressable>

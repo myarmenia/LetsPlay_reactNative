@@ -1,6 +1,5 @@
-import { getAsyncStorage } from '@/helpers/asyncStore'
 import { createSlice } from '@reduxjs/toolkit'
-import axiosInstance, { getDefualtHeaders } from '../Api'
+import axiosInstance from '../Api'
 
 const initialState = {
   games: [],
@@ -31,13 +30,14 @@ export const getGames = (data) => async (dispatch) => {
     .get(`api/game/${data}`)
 
     .then((response) => {
+      console.log(response.data)
       dispatch(setGames(response.data.datas))
     })
     .catch((err) => {
       console.log('err request', err.request._response)
     })
 }
-export const getGamesOnlyNames = () => async dispatch => {
+export const getGamesOnlyNames = () => async (dispatch) => {
   axiosInstance
     .get('api/game')
 

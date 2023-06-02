@@ -1,12 +1,4 @@
-import {
-  Text,
-  View,
-  Platform,
-  TextInput,
-  ScrollView,
-  StyleSheet,
-  KeyboardAvoidingView,
-} from 'react-native'
+import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,10 +11,8 @@ import LightButton from '@/assets/imgs/Button'
 import Modal from '@/components/modal'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import {
-  createTournament,
   setAgeRestrictionsFrom,
   setAgeRestrictionsTo,
-  setGameName,
   setLatitude,
   setLongitude,
   setNumberOfParticipantsFrom,
@@ -33,7 +23,6 @@ import {
   setAddressNameTour,
   setTourStartDate,
   setTournamentFund,
-  setTournamentName,
   setPlayersGender,
   setTournamentImagePath,
   setTournamentGameType,

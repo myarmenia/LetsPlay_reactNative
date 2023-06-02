@@ -1,9 +1,8 @@
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { BACKGROUND, ICON, RED } from '@/theme/colors'
 import { RH, RW, font } from '@/theme/utils'
-import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -75,7 +74,8 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     color: ICON,
-    paddingLeft: RW(24),
+    paddingHorizontal: RW(24),
+    paddingTop: RW(14),
     paddingBottom: RH(150),
   },
   inputsContainer: { height: RH(350), justifyContent: 'space-around', marginTop: RH(70) },

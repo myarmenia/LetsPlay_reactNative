@@ -1,13 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Pressable,
-  InteractionManager,
-} from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image, Pressable } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import UserBorderSvg from './assets/UserBorderSvg'
@@ -68,7 +60,12 @@ const PlayMafia = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (deadUser?.length) {
+    if (winner) {
+      console.log('winner', winner)
+      setModalVisible(false)
+      setDeadModalVisible(false)
+      setWinnerModal(winner)
+    } else if (deadUser?.length) {
       setDeadModalVisible(true)
       deadUser.forEach((deadUserItem) => {
         console.log('deadUserItem?.user?._id', deadUserItem?.user?._id)
@@ -80,10 +77,15 @@ const PlayMafia = () => {
   }, [deadUser])
 
   useEffect(() => {
-    if (!night && daysCount > 1 && waitNight == null) {
+    if (winner) {
+      console.log('winner', winner)
+      setModalVisible(false)
+      setDeadModalVisible(false)
+      setWinnerModal(winner)
+    } else if (!night && daysCount > 1 && waitNight == null) {
       setDeadModalVisible(true)
     }
-  }, [night, daysCount, waitNight])
+  }, [night, daysCount, waitNight, winner])
 
   useEffect(() => {
     setDayQueastions(answerQuestions?.find((item) => !item.night))
@@ -95,16 +97,6 @@ const PlayMafia = () => {
       )
     }
   }, [answerQuestions])
-
-  useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      if (winner) {
-        setModalVisible(false)
-        setDeadModalVisible(false)
-        setWinnerModal(winner)
-      }
-    })
-  }, [winner])
 
   useEffect(() => {
     if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
@@ -519,9 +511,9 @@ const PlayMafia = () => {
           ) : null}
         </View>
       </View>
+      <WinnerModal modalVisible={winnerModal} setModalVisible={setWinnerModal} />
       <MafiaModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
       <MafiaDeadModal modalVisible={deadModalVisible} setModalVisible={setDeadModalVisible} />
-      <WinnerModal modalVisible={winnerModal} setModalVisible={setWinnerModal} />
     </ScreenMask>
   )
 }

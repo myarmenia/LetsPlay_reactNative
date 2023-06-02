@@ -55,12 +55,12 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
       style={{
         transform: [{ translateY: animatedValue }],
         width: '100%',
-        display: !modalState.state && 'none',
+        display: !modalState.state ? 'none' : 'flex',
         height: '120%',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 999,
-        backgroundColor: modalState.state && 'rgba(0,0,0,0.8)',
+        zIndex: 99999,
+        backgroundColor: modalState.state ? 'rgba(0,0,0,0.8)' : 'transparent',
         position: 'absolute',
       }}
     >

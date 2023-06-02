@@ -191,8 +191,8 @@ const MafiaNavigator = () => {
 
     console.log('mafiaGameId -', mafiaGameId)
     socketRef.current = io(
-      `https://48e1-37-252-94-159.eu.ngrok.io/mafia?room=${mafiaGameId}`,
-      // `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+      // `https://74a5-37-252-82-211.eu.ngrok.io/mafia?room=${mafiaGameId}`,
+      `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
       {
         transportOptions: {
           polling: {
@@ -206,11 +206,11 @@ const MafiaNavigator = () => {
   }, [mafiaGameId, token])
 
   useEffect(() => {
-    // return () => {
-    //   socketRef?.current?.disconnect()
-    //   console.log('useEffect clearAllDatas')
-    //   dispatch(clearAllDatas())
-    // }
+    return () => {
+      socketRef?.current?.disconnect()
+      console.log('useEffect clearAllDatas')
+      dispatch(clearAllDatas())
+    }
   }, [])
 
   useEffect(() => {
