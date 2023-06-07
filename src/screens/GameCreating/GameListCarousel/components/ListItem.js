@@ -111,7 +111,6 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
           <BgGamesLiner />
         </View>
         <View style={styles.title}>
-          {console.log(_storageUrl, game?.img)}
           <Image source={{ uri: _storageUrl + game?.img }} style={styles.image} />
         </View>
         <View style={styles.btn}>

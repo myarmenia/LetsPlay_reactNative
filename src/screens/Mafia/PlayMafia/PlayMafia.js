@@ -1,5 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image, Pressable } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Pressable,
+  InteractionManager,
+  Platform,
+} from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import UserBorderSvg from './assets/UserBorderSvg'
@@ -14,6 +23,7 @@ import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
 import {
   setAnswersCount,
+  setEqualVotes,
   setLoader,
   setQuestionTruthfulness,
   setSendAnswer,
@@ -26,7 +36,7 @@ import WinnerModal from './components/WinnerModal'
 import Row from '@/components/wrappers/row'
 
 const PlayMafia = () => {
-  const [modalVisible, setModalVisible] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
   const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [winnerModal, setWinnerModal] = useState(false)
   const [choosable, setChoosable] = useState(false)
@@ -60,15 +70,9 @@ const PlayMafia = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (winner) {
-      console.log('winner', winner)
-      setModalVisible(false)
-      setDeadModalVisible(false)
-      setWinnerModal(winner)
-    } else if (deadUser?.length) {
+    if (deadUser?.length) {
       setDeadModalVisible(true)
       deadUser.forEach((deadUserItem) => {
-        console.log('deadUserItem?.user?._id', deadUserItem?.user?._id)
         if (deadUserItem?.user?._id == currentUser?._id) {
           currentUserDeaded.current = true
         }
@@ -77,15 +81,10 @@ const PlayMafia = () => {
   }, [deadUser])
 
   useEffect(() => {
-    if (winner) {
-      console.log('winner', winner)
-      setModalVisible(false)
-      setDeadModalVisible(false)
-      setWinnerModal(winner)
-    } else if (!night && daysCount > 1 && waitNight == null) {
+    if (!night && daysCount > 1 && waitNight == null && !Object.keys(equalVotes || {}).length) {
       setDeadModalVisible(true)
     }
-  }, [night, daysCount, waitNight, winner])
+  }, [night, daysCount, waitNight])
 
   useEffect(() => {
     setDayQueastions(answerQuestions?.find((item) => !item.night))
@@ -103,6 +102,9 @@ const PlayMafia = () => {
       dispatch(setAnswersCount(1))
     }
   }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
+  useEffect(() => {
+    setModalVisible(true)
+  }, [])
 
   return (
     <ScreenMask>
@@ -307,12 +309,6 @@ const PlayMafia = () => {
                                 }
                               : {
                                   onClickFunc: () => {
-                                    console.log('choosable', choosable)
-                                    console.log(
-                                      'currentUserDeaded.current',
-                                      currentUserDeaded.current,
-                                    )
-                                    console.log(item?.status)
                                     if (choosable && !currentUserDeaded.current && item?.status) {
                                       if (
                                         answersCount == 0 &&
@@ -402,6 +398,8 @@ const PlayMafia = () => {
                 } else if (equalVotes?.question_id) {
                   console.log('if 1 1')
                   console.log('if equalVotes?.question_id', equalVotes?.question_id)
+                  console.log('if equalVotes?.question_id choosedUsers', choosedUsers)
+
                   dispatch(
                     setSendAnswer({
                       type: 'answer_question',
@@ -409,9 +407,11 @@ const PlayMafia = () => {
                       select_user: choosedUsers,
                     }),
                   )
-                  dispatch(setWaitNight(true))
+                  dispatch(setEqualVotes(null))
                   setChoosedUsers(null)
                   dispatch(setLoader(true))
+                  console.log('setWaitNight')
+                  dispatch(setWaitNight(true))
                 } else if (choosedUsers) {
                   console.log('if')
 
@@ -462,7 +462,7 @@ const PlayMafia = () => {
                     // dispatch(setAnswersCount(0))
                     dispatch(setLoader(true))
 
-                    // dispatch(setWaitNight(false))
+                    dispatch(setWaitNight(false))
                   } else if (!night) {
                     console.log('if 7')
                     // day
@@ -476,7 +476,7 @@ const PlayMafia = () => {
                       }),
                     )
                     dispatch(setLoader(true))
-                    dispatch(setWaitNight(true))
+                    // dispatch(setWaitNight(true))
                     setChoosedUsers(null)
                   } else {
                     console.log('if 3')
@@ -513,7 +513,22 @@ const PlayMafia = () => {
       </View>
       <WinnerModal modalVisible={winnerModal} setModalVisible={setWinnerModal} />
       <MafiaModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
-      <MafiaDeadModal modalVisible={deadModalVisible} setModalVisible={setDeadModalVisible} />
+      <MafiaDeadModal
+        modalVisible={deadModalVisible}
+        setModalVisible={(e) => {
+          setDeadModalVisible(e)
+          if (winner && Platform.OS == 'android') {
+            setTimeout(() => {
+              setWinnerModal(winner)
+            }, 1000)
+          }
+        }}
+        onDismiss={() => {
+          if (winner) {
+            setWinnerModal(winner)
+          }
+        }}
+      />
     </ScreenMask>
   )
 }

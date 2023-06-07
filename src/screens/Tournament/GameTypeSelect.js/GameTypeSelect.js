@@ -1,74 +1,14 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { memo, useEffect, useState } from 'react'
+import { StyleSheet, View } from 'react-native'
+import React, { memo } from 'react'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import { font, RH, RW } from '@/theme/utils'
-import { BACKGROUND, BLACK, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
+import { BACKGROUND, BLACK, ICON, RADIO_TEXT, WHITE } from '@/theme/colors'
 import ScreenMask from '@/components/wrappers/screen'
-import Modal from '@/components/modal'
-import Row from '@/components/wrappers/row'
-import DarkButton from '@/assets/imgs/DarkButton'
-import CloseSvg from '@/assets/svgs/closeSvg'
+
 const GameTypeSelect = () => {
   const navigation = useNavigation()
-  const [modalVisible, setModalVisible] = useState(false)
-  const ModalItem = ({ onPressYes, onPressNo }) => {
-    return (
-      <View
-        style={{
-          position: 'absolute',
-          zIndex: 999,
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-          flex: 1,
-        }}
-      >
-        <View
-          style={{
-            backgroundColor: LIGHT_LABEL,
-            paddingVertical: RH(22),
-            paddingHorizontal: RW(44),
-            borderRadius: RW(20),
-            maxWidth: RW(306),
-          }}
-        >
-          <Row wrapper={{ justifyContent: 'flex-end', marginBottom: RH(5), right: -20 }}>
-            <Pressable onPress={() => setModalVisible(false)}>
-              <CloseSvg width={24} height={24} />
-            </Pressable>
-          </Row>
 
-          <Text style={{ ...font('regular', 16, '#fff', 25), textAlign: 'center' }}>
-            Если Вы хотите сыграть прямо сейчас и у Вас уже собраны игроки для игры, но нет игровых
-            атрибутов (карточек), то используйте игровой алгоритм через свой гаджет. Играть с
-            помощью гаджета ?
-          </Text>
-          <Row wrapper={{ justifyContent: 'space-between', marginTop: RH(30) }}>
-            <LightButton
-              label="Да"
-              size={{ width: 100 }}
-              onPress={() => {
-                setModalVisible(false)
-                onPressYes()
-              }}
-            />
-            <DarkButton
-              label="Нет"
-              size={{ width: 100 }}
-              onPress={() => {
-                setModalVisible(false)
-                onPressNo()
-              }}
-            />
-          </Row>
-        </View>
-      </View>
-    )
-  }
   return (
     <>
       <ScreenMask>
@@ -88,34 +28,15 @@ const GameTypeSelect = () => {
           <View>
             <LightButton
               onPress={() => {
-                setModalVisible(true)
+                navigation.navigate('CreateGameNavigator', {
+                  screen: 'GameListCarousel',
+                  params: { list: 'desktop' },
+                })
               }}
               label={'Настольные игры'}
               size={{ width: 281, height: 50 }}
             />
           </View>
-          {modalVisible ? (
-            <Modal
-              modalVisible={modalVisible}
-              setModalVisible={setModalVisible}
-              item={
-                <ModalItem
-                  onPressYes={() => {
-                    navigation.navigate('CreateGameNavigator', {
-                      screen: 'GameListCarousel',
-                      params: { list: 'qr' },
-                    })
-                  }}
-                  onPressNo={() => {
-                    navigation.navigate('CreateGameNavigator', {
-                      screen: 'GameListCarousel',
-                      params: { list: 'desktop' },
-                    })
-                  }}
-                />
-              }
-            />
-          ) : null}
         </View>
       </ScreenMask>
     </>

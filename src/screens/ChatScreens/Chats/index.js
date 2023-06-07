@@ -11,7 +11,7 @@ import { getChats } from '@/store/Slices/ChatsSlice'
 const ChatScreen = () => {
   const { user } = useSelector(({ auth }) => auth)
   const { teamChatsList } = useSelector(({ teams }) => teams)
-console.log(teamChatsList);
+
   const dispatch = useDispatch()
 
   const isFocused = useIsFocused()

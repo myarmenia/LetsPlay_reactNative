@@ -68,7 +68,7 @@ const JoinTournament = ({ route }) => {
       }
       formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
       formData.append('longitude', props?.fromMap ? props.longitude : addressName?.lng)
-      console.log('formats===', formats)
+
       formData.append('teamTourney', formats[0].checked ? false : true)
       formData.append(
         'address_name',

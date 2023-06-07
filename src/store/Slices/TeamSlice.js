@@ -130,7 +130,6 @@ export const searchTeam =
     axiosInstance
       .get(`api/team?id_or_name=${teamId}`)
       .then(async (response) => {
-        console.log(response.data)
         if (response?.data?.datas?.length) {
           await dispatch(setFindedTeam(response.data?.datas))
           nav.navigate(navText, sendingData ? sendingData : null)
@@ -244,7 +243,6 @@ export const createTeamGame = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .post('api/team/create/game', data)
     .then((response) => {
-      console.log('response :', response)
       setModalVisible([true, 'ok'])
     })
     .catch((err) => {

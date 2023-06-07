@@ -19,7 +19,7 @@ import { setPending } from '@/store/Slices/AuthSlice'
 
 const AboutGame = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(true)
-  const { roles, participateSuccess } = useSelector(({ mafia }) => mafia)
+  const { roles, participateSuccess, mafiaRole } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const propsGameId = route.params?.id
@@ -30,6 +30,11 @@ const AboutGame = ({ route }) => {
       dispatch(participateToGame(propsGameId))
     }
   }, [propsGameId])
+  useEffect(() => {
+    if (mafiaRole) {
+      setModalVisible(false)
+    }
+  }, [mafiaRole])
 
   useEffect(() => {
     if (participateSuccess === false) {

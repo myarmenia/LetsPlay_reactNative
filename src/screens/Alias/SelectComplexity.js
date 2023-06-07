@@ -10,24 +10,21 @@ import LinearGradient from 'react-native-linear-gradient'
 import LightButton from '@/assets/imgs/Button'
 
 const SelectComplexity = () => {
-  const btnsData = [
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const [btns, setBtns] = useState([
     { id: 1, name: 'Быстрая игра', complexity: 'Легкий', type: 'easy', check: false },
     { id: 2, name: 'Оптимус', complexity: 'Средний', type: 'average', check: false },
     { id: 3, name: 'Мозговой штурм', complexity: 'Сложный', type: 'difficult', check: false },
     { id: 4, name: 'Рулетка', complexity: 'От простого до сложного', type: 'random', check: false },
-  ]
-
-  const dispatch = useDispatch()
-  const navigation = useNavigation()
-  const [btns, setBtns] = useState(btnsData)
+  ])
   const [error, setError] = useState(false)
-  const { complexity } = useSelector(({ alias }) => alias)
   const handleSubmit = () => {
-    if (!btns.filter(elm => elm.check)?.length) {
+    if (!btns.filter((elm) => elm.check)?.length) {
       setError(true)
     } else {
       setError(false)
-      dispatch(setComplexity(btns.filter(elm => elm.check)[0]?.type))
+      dispatch(setComplexity(btns.filter((elm) => elm.check)[0]?.type))
       navigation.navigate('Commands')
     }
   }

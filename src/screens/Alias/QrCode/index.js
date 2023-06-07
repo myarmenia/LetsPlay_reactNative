@@ -8,7 +8,7 @@ import Button from '@/assets/imgs/Button'
 import ScreenMask from '@/components/wrappers/screen'
 
 function Index() {
-  const { qrGameImg, countWords } = useSelector(({ alias }) => alias)
+  const { qrGameImg } = useSelector(({ alias }) => alias)
   const navigation = useNavigation()
   return (
     <ScreenMask>

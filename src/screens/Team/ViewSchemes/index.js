@@ -61,7 +61,10 @@ const ViewSchemes = ({ route }) => {
                   top: user.pageY * (fieldSize.current?.height / 100) + initialCordinates.y,
                 }}
               >
-                <User size={RW(45)} />
+                <User
+                  size={RW(45)}
+                  onPressItem={{ item: <User size={390} />, modalClose: false }}
+                />
               </View>
             )
         })}

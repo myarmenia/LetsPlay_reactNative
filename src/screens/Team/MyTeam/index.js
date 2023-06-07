@@ -14,11 +14,10 @@ import EachCommand from './EachCommand'
 
 function Index({ route }) {
   const props = route.params
-  console.log('jjjjjjjjjjjjjjj', props)
+
   const isFocused = useIsFocused()
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const [back, setBack] = useState(false)
   const { teamChatsList } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
 

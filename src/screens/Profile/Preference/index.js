@@ -23,9 +23,6 @@ function Index() {
 
   useEffect(() => {
     if (isFocused) {
-      console.log('preferences', preferences)
-      console.log('names', nameOfGames)
-
       dispatch(getGamesOnlyNames())
     }
   }, [isFocused])
@@ -72,7 +69,6 @@ function Index() {
           <Text style={style.gameNamesTitle}>Настольные игры</Text>
           <View style={style.gamesBox}>
             {nameOfGames?.slice(7, nameOfGames.length).map((elm, i) => {
-              console.log(preferences[i] == elm.id)
               return (
                 <TouchableOpacity
                   key={elm?.id}

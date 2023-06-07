@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'

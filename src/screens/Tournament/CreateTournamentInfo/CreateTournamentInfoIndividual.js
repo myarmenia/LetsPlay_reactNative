@@ -144,7 +144,6 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     ) {
       setAgeError('Обязательное поле для заполнения')
     } else if (+initialState.age_restrictions_from > +initialState.age_restrictions_to) {
-      console.log(initialState.age_restrictions_from, typeof initialState.age_restrictions_to)
       setAgeError('Введите корректную возраст')
     } else {
       setAgeError(null)

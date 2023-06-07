@@ -20,7 +20,7 @@ const EditTeamPlayers = ({ route }) => {
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  console.log(sendingData)
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Platform } from 'react-native'
 
 const baseURL = Platform.OS == 'ios' ? 'https://to-play.ru/' : 'http://to-play.ru/'
-// const baseURL = 'https://74a5-37-252-82-211.eu.ngrok.io'
+// const baseURL = 'https://2dff-37-252-82-211.eu.ngrok.io'
 
 const axiosInstance = axios.create()
 axiosInstance.interceptors.request.use(

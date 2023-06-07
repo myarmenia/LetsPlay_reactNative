@@ -6,7 +6,7 @@ import { RH, RW, font } from '@/theme/utils'
 import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   clearTournamentData,
   setDescription,
@@ -47,7 +47,6 @@ const CreateTournament = ({ route }) => {
       setError(true)
     }
   }
-  const initialState = useSelector(({ tournament }) => tournament)
   useEffect(() => {
     dispatch(clearTournamentData())
   }, [])

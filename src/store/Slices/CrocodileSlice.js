@@ -164,7 +164,6 @@ export const setPlayers = (teamInfo) => (dispatch) => {
     })
 }
 export const sendCrocodileSettings = (data, allTeams) => (dispatch) => {
-  console.log(data)
   axiosInstance
     .post('api/crocodile', data)
     .then((response) => {
@@ -201,8 +200,6 @@ export const startCrocodileGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/crocodile/start/${gameId}`)
     .then((response) => {
-      console.log('response ------', response)
-
       // dispatch(setExplainYou(true))
     })
     .catch((err) => {
@@ -210,12 +207,9 @@ export const startCrocodileGame = (gameId) => (dispatch) => {
     })
 }
 export const sendUserPoints = (data) => (dispatch) => {
-  console.log('data for send', data)
   axiosInstance
     .post('api/crocodile/user_points', data)
-    .then((response) => {
-      console.log('sendUserPoints pesponse', response.data)
-    })
+    .then((response) => {})
     .catch((err) => {
       console.log('error - sending user points', err)
     })

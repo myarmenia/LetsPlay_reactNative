@@ -64,7 +64,10 @@ const MafiaNavigator = () => {
         dispatch(setVoteTime(e?.vote_time))
         dispatch(setAnswerQuestions(e?.data?.role?.answer_question))
         dispatch(setLoader(false))
-        navigation.navigate('PlayMafia')
+        setTimeout(() => {
+          navigation.navigate('PlayMafia')
+        }, 500)
+
         break
       case 'questions':
         dispatch(setAnswerQuestions(e?.questions))
@@ -114,11 +117,13 @@ const MafiaNavigator = () => {
             dispatch(setAnswersCount(1))
             questionAnswerState.current = 1
           }
+        } else {
+          dispatch(setWaitNight(true))
         }
 
         break
       case 'player_out':
-        console.log('type player_out', e)
+        console.log('type player_out')
 
         const deadUser = e.all_players.filter((user) => {
           if (!user.status && !alredyDeadedUsers.current?.find((id) => user?._id == id)) {
@@ -131,9 +136,9 @@ const MafiaNavigator = () => {
         deadUser.forEach((user, index) => {
           deadUser[index].role = e?.players.find((item) => item._id == user?._id)?.role?.name
         })
-        if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
-          break
-        }
+        // if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
+        //   break
+        // }
 
         dispatch(setDeadUser(deadUser))
 
@@ -142,11 +147,12 @@ const MafiaNavigator = () => {
         break
       case 'equal_votes':
         dispatch(setLoader(false))
+        dispatch(setWaitNight(null))
         dispatch(
           setEqualVotes({
             question_id: e?.question_id,
-            first_player: e?.first_player?.user,
-            second_player: e?.second_player?.user,
+            first_player: { ...e?.first_player?.user, _id: e?.first_player?._id },
+            second_player: { ...e?.second_player?.user, _id: e?.second_player?._id },
           }),
         )
         break
@@ -191,7 +197,7 @@ const MafiaNavigator = () => {
 
     console.log('mafiaGameId -', mafiaGameId)
     socketRef.current = io(
-      // `https://74a5-37-252-82-211.eu.ngrok.io/mafia?room=${mafiaGameId}`,
+      // `https://2dff-37-252-82-211.eu.ngrok.io/mafia?room=${mafiaGameId}`,
       `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
       {
         transportOptions: {
@@ -207,9 +213,9 @@ const MafiaNavigator = () => {
 
   useEffect(() => {
     return () => {
-      socketRef?.current?.disconnect()
-      console.log('useEffect clearAllDatas')
-      dispatch(clearAllDatas())
+      // socketRef?.current?.disconnect()
+      // console.log('useEffect clearAllDatas')
+      // dispatch(clearAllDatas())
     }
   }, [])
 

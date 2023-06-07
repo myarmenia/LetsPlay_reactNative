@@ -30,7 +30,6 @@ export const getGames = (data) => async (dispatch) => {
     .get(`api/game/${data}`)
 
     .then((response) => {
-      console.log(response.data)
       dispatch(setGames(response.data.datas))
     })
     .catch((err) => {

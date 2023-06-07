@@ -39,7 +39,6 @@ function Index({ id, item, type }) {
       },
 
       onPanResponderMove: (evt, gestureState) => {
-        console.log(gestureState.dx)
         if (gestureState.dx > 86) {
           setSwipeDirection('right')
         } else {

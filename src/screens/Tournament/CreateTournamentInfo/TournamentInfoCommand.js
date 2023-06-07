@@ -21,7 +21,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 const TournamentInfoCommand = ({ route }) => {
   const props = route.params
-  console.log('props', props)
+
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
   const initialState = useSelector(({ tournament }) => tournament)

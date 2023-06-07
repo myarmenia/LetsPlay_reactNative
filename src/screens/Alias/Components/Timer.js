@@ -1,35 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { memo } from 'react'
+
 import { font } from '@/theme/utils'
 import { RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { useIsFocused, useNavigation, useLayoutEffect } from '@react-navigation/native'
-import { setStoping, setTime } from '@/store/Slices/AliasSlice'
+import { useIsFocused } from '@react-navigation/native'
+import { setExplainerUser, setStoping, setTime } from '@/store/Slices/AliasSlice'
 
-const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, fromRes }) => {
-  const { explainYou, stoping, time, staticTime, userIsOrganizer } = useSelector(
-    ({ alias }) => alias,
-  )
+const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, setModalState }) => {
+  const { explainYou, stoping, time, staticTime } = useSelector(({ alias }) => alias)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
-  const navigation = useNavigation()
   const [selectedTime, setSelectedTime] = useState({ seconds: staticTime })
-  // console.log(
-  //   'selectedTime.seconds',
-  //   selectedTime.seconds,
-  //   'explainyou',
-  //   explainYou,
-  //   'userisorganizer',
-  //   userIsOrganizer,
-  // )
 
   useEffect(() => {
     if (!isFocused && selectedTime.seconds == 0) {
       dispatch(setStoping('withoutSocket'))
-
     } else if (selectedTime.seconds > 0 && selectedTime.seconds < staticTime) {
       setSelectedTime((prev) => ({ seconds: prev.seconds }))
     } else {
@@ -40,6 +28,8 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, fromRes }) => {
   useEffect(() => {
     if (selectedTime.seconds == 0) {
       setTimeIsFinished('timeFinish')
+      dispatch(setExplainerUser(null))
+      setModalState({})
     }
   }, [selectedTime.seconds])
   useEffect(() => {

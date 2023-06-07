@@ -24,7 +24,6 @@ import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 
 const GameCreating = ({ route }) => {
-  console.log(route)
   const { game, response } = route?.params?.params
   const navigation = useNavigation()
 

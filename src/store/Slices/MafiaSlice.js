@@ -261,7 +261,6 @@ export const resetGame = (mafia_game_id) => (dispatch) => {
   axiosInstance
     .post(`/api/game/mafia/reset/${mafia_game_id}`)
     .then((e) => {
-      console.log('reset mafia', e)
       dispatch(clearAllDatas())
     })
     .catch((err) => {

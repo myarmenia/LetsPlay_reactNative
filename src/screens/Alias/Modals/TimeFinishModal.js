@@ -44,7 +44,6 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
     >
       <Pressable
         onPress={() => {
-          console.log('click')
           setTimeIsFinished('timeDontFinished')
           dispatch(setYouGuesser(null))
           navigation.navigate('ResultsOfAnswers', userExplainedWordsCount)

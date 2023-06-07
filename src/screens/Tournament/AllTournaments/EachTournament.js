@@ -69,7 +69,6 @@ const EachTournament = ({ route }) => {
           </Text>
           <Text style={styles.eachInfo}>Плата за участие: </Text>
           <Text style={styles.eachInfoTwo}>
-            {console.log(initialState)}
             {initialState?.ticket_price ? initialState?.ticket_price : '0 р.'}
             {/* {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'} */}
           </Text>
@@ -120,7 +119,6 @@ const EachTournament = ({ route }) => {
             label={'Готово'}
             size={{ width: 120, height: 40 }}
             onPress={() => {
-              console.log(initialState)
               initialState.team_tourney == true
                 ? (dispatch(createTournament(initialState)), setModalVisible(true))
                 : null

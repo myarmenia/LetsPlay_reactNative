@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Modal, TouchableNativeFeedback } from 'react-native'
+import { Pressable, Text, View, Modal } from 'react-native'
 import React from 'react'
 import { RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
@@ -7,14 +7,70 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import Row from '@/components/wrappers/row'
 import { font } from '@/theme/utils'
 import CloseSvg from '../../../assets/svgs/closeSvg'
+import CustomModal from '@/components/CustomModal'
 
-const CustomModal = ({ modalVisible, setModalVisible, onPressYes, onPressNo }) => {
+const ChooseGameTypeModal = ({ modalVisible, setModalVisible, onPressYes, onPressNo }) => {
   return (
+    // <CustomModal
+    //   modalVisible={modalVisible}
+    //   setModalVisible={setModalVisible}
+    //   item={
+    //     <View
+    //       style={{
+    //         backgroundColor: LIGHT_LABEL,
+    //         paddingVertical: RH(22),
+    //         paddingHorizontal: RW(44),
+    //         borderRadius: RW(20),
+    //         maxWidth: RW(306),
+    //       }}
+    //     >
+    //       <Row wrapper={{ justifyContent: 'flex-end', marginBottom: RH(5), right: -20 }}>
+    //         <Pressable
+    //           onPress={() => {
+    //             setModalVisible(false)
+    //             setTimeout(() => {
+    //               setModalVisible(true)
+    //             }, 1000)
+    //           }}
+    //         >
+    //           <CloseSvg width={24} height={24} />
+    //         </Pressable>
+    //       </Row>
+
+    //       <Text style={{ ...font('regular', 16, '#fff', 25), textAlign: 'center' }}>
+    //         Если Вы хотите сыграть прямо сейчас и у Вас уже собраны игроки для игры, но нет игровых
+    //         атрибутов (карточек), то используйте игровой алгоритм через свой гаджет. Играть с
+    //         помощью гаджета ?
+    //       </Text>
+    //       <Row wrapper={{ justifyContent: 'space-between', marginTop: RH(30) }}>
+    //         <LightButton
+    //           label="Да"
+    //           size={{ width: 100 }}
+    //           onPress={() => {
+    //             setModalVisible(false)
+    //             onPressYes()
+    //           }}
+    //         />
+    //         <DarkButton
+    //           label="Нет"
+    //           size={{ width: 100 }}
+    //           onPress={() => {
+    //             setModalVisible(false)
+    //             onPressNo()
+    //           }}
+    //         />
+    //       </Row>
+    //     </View>
+    //   }
+    // />
+
     <Modal
       animationType="slide"
       transparent={true}
       visible={modalVisible}
-      onBackdropPress={() => setModalVisible(false)}
+      onBackdropPress={() => {
+        setModalVisible(false)
+      }}
     >
       <View
         style={{
@@ -73,6 +129,4 @@ const CustomModal = ({ modalVisible, setModalVisible, onPressYes, onPressNo }) =
   )
 }
 
-export default CustomModal
-
-const styles = StyleSheet.create({})
+export default ChooseGameTypeModal

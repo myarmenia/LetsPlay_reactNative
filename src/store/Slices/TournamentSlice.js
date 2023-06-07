@@ -171,12 +171,9 @@ const TournamentSlice = createSlice({
   },
 })
 export const createTournament = (data) => (dispatch) => {
-  console.log(data)
   axiosInstance
     .post('api/tourney/', data)
-    .then((response) => {
-      console.log('response -------', JSON.stringify(response))
-    })
+    .then((response) => {})
     .catch((err) => console.log('Error creating tournament', err.request))
 }
 
@@ -188,9 +185,7 @@ export const searchTourney = (data, nav, setError, tourney) => async (dispatch) 
   let dateFrom = data.getAll('date_from')
   let dateTo = data.getAll('date_to')
   let teamTourney = data.getAll('teamTourney')
-  console.log('teamTourney', teamTourney)
-  console.log('price ==', price[0])
-  console.log('game_of_your_choice', game_of_your_choice)
+
   let place =
     latitude[0] && longitude[0] ? `&longitude=${longitude[0]}&latatude=${latitude[0]}` : ''
   let dates = dateFrom && dateTo ? `date_from=${dateFrom}&date_to=${dateTo}` : ''
@@ -199,12 +194,10 @@ export const searchTourney = (data, nav, setError, tourney) => async (dispatch) 
   let link = `api/tourney?price=${price[0]}&game_of_your_choice=${game_of_your_choice}&team_tourney=${teamTourney[0]}${place}${gameIdsForLink}`
   // price=false&game_of_your_choice=false&team_tourney=false&longitude=43.9722&latitude=44.237623
 
-  console.log(link)
   axiosInstance
     .get(link.slice(0, link.length - 1))
 
     .then((response) => {
-      console.log(JSON.stringify(response?.data?.datas, null, 5))
       dispatch(setFindedTouney(response?.data?.datas))
       if (response?.data?.datas.length) {
         nav.navigate('AllTournaments')

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
-import { memo, useState } from 'react'
+import { useState } from 'react'
 import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
@@ -138,8 +138,19 @@ const IniviteTeamPlayers = ({ route }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ justifyContent: 'center' }}>
           <View style={styles.mainContainer}>
-            <Text style={styles.title}>Игроки добавились в игру</Text>
-            <Text style={styles.title}>Распределите игроков</Text>
+            {userIsOrganizer ? (
+              playersInGame.length >= 4 ? (
+                <>
+                  <Text style={styles.title}>Игроки добавились в игру</Text>
+                  <Text style={styles.title}>Распределите игроков</Text>
+                </>
+              ) : (
+                <Text style={styles.title}>Ждем добавление игроков</Text>
+              )
+            ) : (
+              <Text style={styles.title}>Ждете пока организатор распределит команды игроков</Text>
+            )}
+
             <Text style={styles.commandName}>{userIsOrganizer ? allTeams?.[i]?.value : ''}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>

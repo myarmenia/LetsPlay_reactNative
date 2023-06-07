@@ -11,7 +11,7 @@ import Modal from '@/components/modal'
 import ModalRules from '../QrCode/ModalRules'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setCountWords, setStoping, setTime } from '@/store/Slices/AliasSlice'
+import { setCountWords, setStoping, setTime, setUserIsOrganizer } from '@/store/Slices/AliasSlice'
 
 function Index({ navigation }) {
   //===================states=====================
@@ -34,6 +34,7 @@ function Index({ navigation }) {
       dispatch(setCountWords(countOfWords))
       dispatch(setStoping(true))
       dispatch(setTime(timeOfRounds))
+      dispatch(setUserIsOrganizer(true))
       navigation.navigate('SelectComplexity')
     }
   }

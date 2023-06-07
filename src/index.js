@@ -10,11 +10,8 @@ import { setToken } from '@/store/Slices/AuthSlice'
 
 const MyApp = () => {
   const userId = useSelector(({ auth }) => auth?.user?._id)
-
   const token = useSelector(({ auth }) => auth.token)
-
   const dispatch = useDispatch()
-
   const myFunc = useCallback(async () => {
     let tokenWithAsync = await AsyncStorage.getItem('token')
     dispatch(setToken(tokenWithAsync))

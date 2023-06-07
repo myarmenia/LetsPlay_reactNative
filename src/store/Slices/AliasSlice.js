@@ -201,8 +201,6 @@ export const startAliasGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/start/${gameId}`)
     .then((response) => {
-      console.log('response ------', response)
-
       // dispatch(setExplainYou(true))
     })
     .catch((err) => {
@@ -210,12 +208,9 @@ export const startAliasGame = (gameId) => (dispatch) => {
     })
 }
 export const sendUserPoints = (data) => (dispatch) => {
-  console.log('data for send', data)
   axiosInstance
     .post('api/alias/user_points', data)
-    .then((response) => {
-      console.log('sendUserPoints pesponse', response.data)
-    })
+    .then((response) => {})
     .catch((err) => {
       console.log('err sending user points', err)
     })

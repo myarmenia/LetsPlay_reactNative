@@ -11,6 +11,7 @@ function Index({
   navigationText,
   setIsVisible,
   navigationParam = null,
+  onDismiss = () => {},
 }) {
   const [isModalVisible, setModalVisible] = useState(true)
   const navigation = useNavigation()
@@ -34,7 +35,8 @@ function Index({
             }
           }
         }}
-        isVisible={isModalVisible}
+        isVisible={!!isModalVisible}
+        onDismiss={onDismiss}
       >
         {item}
       </Modal>

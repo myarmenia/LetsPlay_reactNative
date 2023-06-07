@@ -1,7 +1,7 @@
 import { ICON, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH } from '@/theme/utils'
-import { memo, useEffect, useLayoutEffect, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import { View, StyleSheet, Text } from 'react-native'
 import AnimatedCircle from '../Components/AnimatedCircle'
@@ -19,51 +19,33 @@ import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
 import TimeFinishModal from '../Modals/TimeFinishModal'
 
 const GameStart = ({ route }) => {
-  const [modalVisible, setModalVisible] = useState(false)
-  const [userModalVisible, setUserModalVisible] = useState(true)
   const [timeIsFinished, setTimeIsFinished] = useState('timeDontFinished')
   const [falsyCount, setFalsyCount] = useState(0)
   const [truthyCount, setTruthyCount] = useState(0)
   const [modalState, setModalState] = useState({ state: 'user' })
 
-  // const [explainedWords, setExplainedWords] = useState({
-  //   truthy: [],
-  //   falsy: [],
-  // })
   const { stoping } = useSelector(({ alias }) => alias)
-  const { user } = useSelector(({ auth }) => auth)
+
   const {
-    allTeams,
     explainerTeam,
     explainYou,
     step,
-    time,
-    staticTime,
-    countWords,
+
     explainedWords,
     aliasGameId,
-    explainerUser,
   } = useSelector(({ alias }) => alias)
   const [userExplainedWordsCount, setUserExplainedWordsCount] = useState({
     points: 0,
     aliasGameId,
   })
-  let pointsPrevCurrent = allTeams.find((item) => item.value == explainerTeam)?.points
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
-  useEffect(() => {
-    dispatch(setExplainYou(explainYou))
-  }, [explainYou])
-
   // useEffect(() => {
-  //   // if (modalState.state == 'user' && !explainYou) {
-  //   dispatch(setStep(0))
-  //   setTruthyCount(0)
-  //   setFalsyCount(0)
-  //   // }
-  // }, [isFocused, modalState])
+  //   dispatch(setExplainYou(explainYou))
+  // }, [explainYou])
+
   useEffect(() => {
     if (isFocused) {
       dispatch(
@@ -139,6 +121,7 @@ const GameStart = ({ route }) => {
                   timeIsFinished={timeIsFinished}
                   fromRes={route?.params?.fromRes}
                   modalState={modalState}
+                  setModalState={setModalState}
                   setTimeIsFinished={setTimeIsFinished}
                 />
               </View>

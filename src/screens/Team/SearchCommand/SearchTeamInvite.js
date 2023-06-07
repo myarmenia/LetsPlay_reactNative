@@ -17,7 +17,6 @@ function SearchTeamInvite() {
     <ScreenMask>
       <Text style={styles.title}>Результат поиска</Text>
       <ScrollView style={{ flex: 1 }}>
-        {console.log('findedTeam', findedTeam)}
         {findedTeam.length
           ? findedTeam?.map((item, i) => {
               return (

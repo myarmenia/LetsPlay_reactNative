@@ -43,7 +43,7 @@ import { useNavigation } from '@react-navigation/native'
 const CreateTournamentInfoCommand = ({ route }) => {
   const dispatch = useDispatch()
   const response = route?.params
-  console.log('response =>>>>>>>>>>>>>>>>>>>>>>>>>>>', response)
+
   const navigation = useNavigation()
   const initialState = useSelector(({ tournament }) => tournament)
   // ================== states ==================
@@ -129,14 +129,12 @@ const CreateTournamentInfoCommand = ({ route }) => {
     }
 
     if (startDate.date <= endDate.date) {
-      console.log('startDate', startDate, 'endDate', endDate)
       setEndDateError(true)
     } else {
       setEndDateError(false)
       setStartDateError(false)
     }
     if (startDate && endDate) {
-      console.log(startDate, endDate)
       dispatch(setTourStartDate(changedStartDate))
       dispatch(setTourEndDate(changedEndDate))
     }
@@ -149,7 +147,6 @@ const CreateTournamentInfoCommand = ({ route }) => {
     if (!initialState.number_of_teams_from || !initialState.number_of_teams_to) {
       setCountError('Обязательное поле для заполнения')
     } else if (initialState.number_of_teams_from <= initialState.number_of_teams_to) {
-      console.log(initialState.number_of_teams_from, initialState.number_of_teams_to)
       setCountError('Введите корректную количество')
     } else {
       setCountError(false)
