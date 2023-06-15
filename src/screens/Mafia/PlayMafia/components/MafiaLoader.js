@@ -1,40 +1,18 @@
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import { Text, View } from 'react-native'
+import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import LoaderSvg from '../assets/LoaderSvg'
-import { RH } from '@/theme/utils'
+import LottieView from 'lottie-react-native'
+import { font } from '@/theme/utils'
 
 const MafiaLoader = ({ background = true }) => {
   const { loader } = useSelector(({ mafia }) => mafia)
-  const rotateAnimation = new Animated.Value(0)
-  const startImageRotateFunction = () => {
-    rotateAnimation.setValue(0)
-    Animated.timing(rotateAnimation, {
-      toValue: 1,
-      duration: 3000,
-      easing: Easing.linear,
-      useNativeDriver: false,
-    }).start(() => {
-      if (loader) {
-        startImageRotateFunction()
-      }
-    })
-  }
-
-  const interpolateRotating = rotateAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-  })
-
-  const animatedStyle = {
-    transform: [
-      {
-        rotate: interpolateRotating,
-      },
-    ],
-  }
+  const animationRef = useRef(null)
   useEffect(() => {
-    startImageRotateFunction()
+    if (loader) {
+      animationRef.current?.play()
+    } else {
+      animationRef.current?.pause()
+    }
   }, [loader])
   if (!loader) {
     return null
@@ -55,17 +33,29 @@ const MafiaLoader = ({ background = true }) => {
         backgroundColor: background ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0)',
       }}
     >
-      <Animated.View style={animatedStyle}>
-        <LoaderSvg />
-      </Animated.View>
+      <View
+        style={{
+          width: 100,
+          height: 100,
 
-      <Text style={{ color: '#fff', fontSize: 20, textAlign: 'center', marginTop: RH(20) }}>
-        {typeof loader == 'string' ? loader : 'Не все игроки готовы. Ждем остальных!'}
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <LottieView
+          ref={animationRef}
+          source={require('../assets/loader.json')}
+          loop
+          resizeMode="contain"
+          style={{ position: 'absolute', width: 200, height: 200 }}
+        />
+      </View>
+
+      <Text style={{ textAlign: 'center', ...font('bold', 24, '#fff', 44) }}>
+        {typeof loader == 'string' ? loader : 'Не все игроки готовы.\n Ждем остальных!'}
       </Text>
     </View>
   )
 }
 
 export default MafiaLoader
-
-const styles = StyleSheet.create({})

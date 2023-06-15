@@ -1,30 +1,44 @@
 import React from 'react'
-import { ImageBackground, SafeAreaView, View } from 'react-native'
+import { Image, View } from 'react-native'
 import MafiaLoader from '../PlayMafia/components/MafiaLoader'
-import { IS_IOS } from '@/constants'
-import { SCREEN_BACKGROUND } from '@/theme/colors'
-import { RW } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
+import ScreenMask from '@/components/wrappers/screen'
 
 const WaitPlayers = () => {
   return (
-    <ImageBackground
-      source={require('./assets/bg.jpg')}
-      imageStyle={{
-        // top: IS_IOS ? RH(-35) : RH(-15),
-        position: 'absolute',
-      }}
-      style={{
-        flex: 1,
-        paddingHorizontal: RW(16),
-        backgroundColor: SCREEN_BACKGROUND,
-      }}
-    >
-      <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <MafiaLoader background={false} />
-        </View>
-      </SafeAreaView>
-    </ImageBackground>
+    <ScreenMask>
+      <View
+        style={{
+          flex: 1,
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <Image
+          style={{ width: '80%', resizeMode: 'contain', position: 'absolute' }}
+          source={require('./assets/bgLogo.png')}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          width: RW(448),
+          height: RH(946),
+          left: RW(-20),
+          right: RW(-20),
+          top: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+        }}
+      >
+        <MafiaLoader background={false} />
+      </View>
+    </ScreenMask>
   )
 }
 export default WaitPlayers
