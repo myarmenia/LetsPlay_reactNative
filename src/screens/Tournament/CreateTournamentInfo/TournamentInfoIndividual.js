@@ -5,18 +5,10 @@ import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import Modal from '@/components/modal'
 import User from '@/components/User/user'
-import { Players } from '@/assets/TestData'
+
 import LightButton from '@/assets/imgs/Button'
 import { FONT_INTER_BOLD, FONT_INTER_MEDIUM } from '@/theme/fonts'
-import {
-  BACKGROUND,
-  DARK_BLUE,
-  ICON,
-  LIGHT_LABEL,
-  LIGHT_RED,
-  RADIO_TEXT,
-  WHITE,
-} from '@/theme/colors'
+import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import Row from '@/components/wrappers/row'
@@ -32,9 +24,12 @@ const TournamentInfoIndividual = ({ route }) => {
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
+          {console.log('props', props)}
           <Image
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
-            source={{ uri: _storageUrl + (props?.game?.img ? props?.game?.img : props?.img) }}
+            source={{
+              uri: _storageUrl + (props?.game?.img ? props?.game?.img : props?.data?.imagePath),
+            }}
           />
         </View>
         <View>
@@ -108,9 +103,8 @@ const TournamentInfoIndividual = ({ route }) => {
             justifyContent: 'space-around',
             flexDirection: 'row',
             alignItems: 'center',
-            marginTop: 'auto',
             marginBottom: RH(30),
-            marginTop: RH(100),
+            marginTop: RH(30),
           }}
         >
           <LightButton

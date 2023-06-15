@@ -4,12 +4,11 @@ import Modal from '@/components/modal'
 import { font, RH, RW } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
-import User from '@/components/User/user'
 import { setDeadUser } from '@/store/Slices/MafiaSlice'
 import { SCREEN_BACKGROUND } from '@/theme/colors'
 import NotDeadedPlayerSvg from '../assets/NotDeadedPlayerSvg'
 import Row from '@/components/wrappers/row'
-
+import DeadedUser from '@/components/DeadedUser/user'
 const MafiaDeadModal = ({ modalVisible, setModalVisible, onDismiss }) => {
   const { deadUser } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
@@ -37,7 +36,12 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible, onDismiss }) => {
                   >
                     Игрок выбыл
                   </Text>
-                  <User size={400} user={deadUser[0]} onPressItem={{ onClickFunc: () => {} }} />
+                  <DeadedUser
+                    size={400}
+                    user={deadUser[0]}
+                    onPressItem={{ onClickFunc: () => {} }}
+                  />
+
                   <Text
                     style={{ ...font('bold', 24, '#fff'), alignSelf: 'center', marginTop: RH(30) }}
                   >
@@ -59,7 +63,12 @@ const MafiaDeadModal = ({ modalVisible, setModalVisible, onDismiss }) => {
                     {deadUser.map((item, key) => {
                       return (
                         <View key={key}>
-                          <User size={200} user={item} onPressItem={{ onClickFunc: () => {} }} />
+                          <DeadedUser
+                            size={200}
+                            user={item}
+                            onPressItem={{ onClickFunc: () => {} }}
+                          />
+
                           <Text
                             style={{
                               ...font('bold', 24, '#fff'),

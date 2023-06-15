@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
@@ -6,16 +6,14 @@ import CalendarIcon from '@/assets/imgs/calendar'
 import { RH } from '@/theme/utils'
 
 import User from '@/components/User/user'
+
 import LogoSvg from '@/assets/LogoSvg'
 import { useNavigation } from '@react-navigation/native'
-import { SomeSampleScreen } from '../Alias/Modals/UserAndInfoModal'
 
 const HomeScreen = () => {
   const navigation = useNavigation()
-  const [modalState, setModalState] = useState({ state: 'user' })
   return (
     <ScreenMask>
-      {/* <SomeSampleScreen modalState={modalState} setModalState={setModalState} /> */}
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {

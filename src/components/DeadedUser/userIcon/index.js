@@ -8,8 +8,9 @@ import { WHITE } from '@/theme/colors'
 import style from './styles'
 import UserLine from '../userLine'
 import UserCircle from '../userCircle'
-import Vk from '@/assets/imgs/vk'
+import Vk from './vk'
 import Modal from '@/components/modal'
+import { Grayscale } from 'react-native-color-matrix-image-filters'
 
 function Index({ size, size2, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
@@ -20,11 +21,11 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
   if (user?.user) {
     user = user.user
   }
-  const { name, surname, vk_id, avatar, vk_uri } = user || {}
+  const { name, surname, avatar } = user || {}
   const fontSizeTitle = size > 150 ? size / RW(33) : size / RW(50)
   const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
   const [modalVisible, setModalVisible] = useState(false)
-  const navigation = useNavigation()
+
   const screenWidth = Dimensions.get('screen').width
 
   const sizing = {
@@ -33,9 +34,6 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
     width: size < 40 ? size / RW(3) : size / RW(4.3),
   }
 
-  const ImagePressableComponent = !onPressImg ? View : Pressable
-  const VkPressableComponent = size < 100 ? View : Pressable
-
   return (
     <View
       style={{
@@ -43,15 +41,9 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
         alignItems: 'center',
       }}
     >
-      <ImagePressableComponent
-        onPress={
-          onPressImg
-            ? () => {
-                navigation.navigate('ProfileNavigator', { screen: 'Gallery' })
-              }
-            : null
-        }
+      <View
         style={{
+          flex: 1,
           width: size / 2.8,
           height: size / 2.8,
           resizeMode: 'cover',
@@ -61,27 +53,29 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
           top: size2 == 150 ? 13 : 8,
         }}
       >
-        <Image
-          style={[
-            {
-              ...style.image,
-              borderRadius: size / RW(3),
-              top: size > 150 ? '0%' : size < 40 ? '-45%' : '-20%',
-              left: RW(0.1),
-            },
-            { resizeMode: 'cover' },
-          ]}
-          source={
-            !avatar
-              ? require('../../../assets/defualtUser.png')
-              : avatar.startsWith('https://')
-              ? { uri: avatar }
-              : {
-                  uri: _storageUrl + avatar, //userNow.avatar
-                }
-          }
-        />
-      </ImagePressableComponent>
+        <Grayscale style={{ flex: 1 }}>
+          <Image
+            style={[
+              {
+                ...style.image,
+                borderRadius: size / RW(3),
+                top: size > 150 ? '0%' : size < 40 ? '-45%' : '-20%',
+                left: RW(0.1),
+              },
+              { resizeMode: 'cover' },
+            ]}
+            source={
+              !avatar
+                ? require('../../../assets/defualtUser.png')
+                : avatar.startsWith('https://')
+                ? { uri: avatar }
+                : {
+                    uri: _storageUrl + avatar, //userNow.avatar
+                  }
+            }
+          />
+        </Grayscale>
+      </View>
       <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(10) }]}>
         <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
           {name ? name : 'Имя'}
@@ -159,24 +153,9 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
         setIsVisible={setModalVisible}
         // navigationText={'Home'}
       />
-      <VkPressableComponent
-        onPress={() => {
-          if (vk_uri) {
-            Linking.openURL(vk_uri)
-          } else if (vk_id) {
-            Linking.canOpenURL(`https://vk.com/id${vk_id}`).then((e) => {
-              if (e) {
-                Linking.openURL(`https://vk.com/id${vk_id}`)
-              }
-            })
-          } else {
-            setModalVisible(true)
-          }
-        }}
-        style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}
-      >
+      <View style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}>
         <Vk size={size / RH(12)} />
-      </VkPressableComponent>
+      </View>
     </View>
   )
 }

@@ -68,9 +68,9 @@ function Index() {
         value={valWord}
         style={{ marginHorizontal: RW(85), left: RW(3) }}
       />
-      <Text style={styles.playersDescription}>Дополнительные персoнажы участвующие в игре</Text>
+      {/* <Text style={styles.playersDescription}>Дополнительные персoнажы участвующие в игре</Text> */}
 
-      <Row
+      {/* <Row
         wrapper={{
           justifyContent: 'space-between',
           marginTop: RH(30),
@@ -89,7 +89,7 @@ function Index() {
         >
           <ToggleSwitch isOn={spyDon} setIsOn={setSpyDon} />
         </View>
-      </Row>
+      </Row> */}
       <View style={styles.btnContainer}>
         <Button
           onPress={() => {

@@ -1,34 +1,19 @@
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
 import DateComponent from '@/components/DateComponent'
-import SecondBlock from '@/components/forms/secondBlock'
+
 import RadioBlock from '@/components/RadioBlock'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/assets/imgs/Button'
-import Price from '@/components/inputs/price'
-import Modal from '@/components/modal'
+
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import {
-  createTournament,
   setAddressNameTour,
-  setAgeRestrictionsFrom,
-  setAgeRestrictionsTo,
-  setGameName,
   setLatitude,
   setLongitude,
-  setNumberOfParticipantsFrom,
-  setNumberOfParticipantsTo,
   setNumberOfTeamsFrom,
   setNumberOfTeamsTo,
   setOrganizerStatus,
@@ -36,7 +21,6 @@ import {
   setTourEndDate,
   setTourStartDate,
   setTournamentFund,
-  setTournamentName,
 } from '@/store/Slices/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 
@@ -47,7 +31,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
   const navigation = useNavigation()
   const initialState = useSelector(({ tournament }) => tournament)
   // ================== states ==================
-  const [modalVisible, setModalVisible] = useState(false)
+
   const [addressName, setAddressName] = useState()
   const [price, setPrice] = useState('')
   const [startDate, setStartDate] = useState({
@@ -73,12 +57,12 @@ const CreateTournamentInfoCommand = ({ route }) => {
   // ================== states end ==================
 
   //errors
-  const [ageError, setAgeError] = useState(false)
+
   const [startDateError, setStartDateError] = useState(false)
   const [countError, setCountError] = useState(false)
   const [priceError, setPriceError] = useState(false)
   const [endDateError, setEndDateError] = useState(false)
-  const [playersCountError, setPlayersCountError] = useState(false)
+
   const [addressNameError, setAddressNameError] = useState(false)
 
   const timeFormat = (date) => {
@@ -146,7 +130,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
 
     if (!initialState.number_of_teams_from || !initialState.number_of_teams_to) {
       setCountError('Обязательное поле для заполнения')
-    } else if (initialState.number_of_teams_from <= initialState.number_of_teams_to) {
+    } else if (initialState.number_of_teams_from >= initialState.number_of_teams_to) {
       setCountError('Введите корректную количество')
     } else {
       setCountError(false)
@@ -167,6 +151,8 @@ const CreateTournamentInfoCommand = ({ route }) => {
       !addressNameError
     ) {
       // dispatch(createTournament(initialState))
+      // console.log('response', response)
+      // console.log('initialState', initialState)
       navigation.navigate('TeamNavigator', {
         screen: 'MyTeam',
         params: { data: initialState, game: response, fromTournament: true },
@@ -232,7 +218,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
         {countError && <Text style={styles.error}>{countError}</Text>}
         <View style={{ paddingVertical: RH(15) }}></View>
         <SearchAddresses
-          navigateTo="CreateTournamentInfo"
+          navigateTo="CreateTournamentInfoCommand"
           setAddressName={setAddressName}
           addressName={addressName}
           show={false}

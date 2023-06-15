@@ -140,6 +140,18 @@ const Map = ({ route }) => {
                       },
                     })
                   : null
+                navigateTo == 'CreateTournamentInfoCommand'
+                  ? navigation.navigate('TournamentNavigator', {
+                      screen: 'CreateTournamentInfoCommand',
+                      params: {
+                        address_name: response,
+                        latitude: s.results[0].geometry.location.lat,
+                        longitude: s.results[0].geometry.location.lng,
+                        fromMap: true,
+                      },
+                    })
+                  : null
+
                 navigateTo == 'CommandLeadNotCreate'
                   ? navigation.navigate(navigateTo, {
                       address_name: response,

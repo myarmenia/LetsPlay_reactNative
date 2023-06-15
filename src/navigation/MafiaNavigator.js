@@ -39,7 +39,6 @@ import {
 
 const Stack = createNativeStackNavigator()
 const MafiaNavigator = () => {
-  // const [questionAnswerState, setQuestionAnswerState] = useState(0)
   const socketRef = useRef(null)
   const alredyDeadedUsers = useRef([])
   const questionAnswerState = useRef(0)
@@ -101,12 +100,7 @@ const MafiaNavigator = () => {
         break
       case 'question_answer':
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
-        // console.log('question_answer answersCount', answersCount)
-        // if (answersCount == 1) {
-        //   dispatch(setWaitNight(false))
-        //   dispatch(setAnswersCount(0))
-        // }
-        // setQuestionAnswerState(++questionAnswerState)
+
         console.log('mafiaRoleName', mafiaRoleName)
         if (nightRef.current) {
           if (questionAnswerState.current == 1) {
@@ -136,9 +130,6 @@ const MafiaNavigator = () => {
         deadUser.forEach((user, index) => {
           deadUser[index].role = e?.players.find((item) => item._id == user?._id)?.role?.name
         })
-        // if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
-        //   break
-        // }
 
         dispatch(setDeadUser(deadUser))
 

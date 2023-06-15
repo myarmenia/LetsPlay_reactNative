@@ -29,6 +29,7 @@ const TournamentInfoCommand = ({ route }) => {
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
+          {console.log('props', props)}
           <Image
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
             source={{ uri: _storageUrl + (props.game.img ? props.game.img : props?.img) }}

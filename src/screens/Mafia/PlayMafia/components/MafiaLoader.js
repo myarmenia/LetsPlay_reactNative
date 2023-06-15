@@ -6,7 +6,6 @@ import { RH } from '@/theme/utils'
 
 const MafiaLoader = ({ background = true }) => {
   const { loader } = useSelector(({ mafia }) => mafia)
-
   const rotateAnimation = new Animated.Value(0)
   const startImageRotateFunction = () => {
     rotateAnimation.setValue(0)
@@ -56,7 +55,6 @@ const MafiaLoader = ({ background = true }) => {
         backgroundColor: background ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0)',
       }}
     >
-      {/* <ActivityIndicator size="large" color={'#fff'} /> */}
       <Animated.View style={animatedStyle}>
         <LoaderSvg />
       </Animated.View>

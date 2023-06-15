@@ -1,14 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Pressable,
-  InteractionManager,
-  Platform,
-} from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Image, Pressable, Platform } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import UserBorderSvg from './assets/UserBorderSvg'
@@ -71,6 +62,7 @@ const PlayMafia = () => {
 
   useEffect(() => {
     if (deadUser?.length) {
+      dispatch(setEqualVotes(null))
       setDeadModalVisible(true)
       deadUser.forEach((deadUserItem) => {
         if (deadUserItem?.user?._id == currentUser?._id) {
@@ -81,10 +73,11 @@ const PlayMafia = () => {
   }, [deadUser])
 
   useEffect(() => {
-    if (!night && daysCount > 1 && waitNight == null && !Object.keys(equalVotes || {}).length) {
+    console.log('Object.values(equalVotes || {}).length', Object.values(equalVotes || {}).length)
+    if (!Object.values(equalVotes || {}).length && !night && daysCount > 1 && waitNight == null) {
       setDeadModalVisible(true)
     }
-  }, [night, daysCount, waitNight])
+  }, [equalVotes, night, daysCount, waitNight])
 
   useEffect(() => {
     setDayQueastions(answerQuestions?.find((item) => !item.night))
@@ -98,10 +91,22 @@ const PlayMafia = () => {
   }, [answerQuestions])
 
   useEffect(() => {
-    if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
+    console.log(
+      'Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0)',
+      Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0),
+    )
+    console.log('mafiasCount - 2', mafiasCount - 2)
+    if (
+      Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0) != 0 &&
+      Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0) ==
+        mafiasCount - 2 &&
+      mafiaRole.name == 'Дон' &&
+      loader
+    ) {
+      dispatch(setLoader(false))
       dispatch(setAnswersCount(1))
     }
-  }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
+  }, [donVotedPlayers, loader, answersCount, mafiasCount, mafiaRole])
   useEffect(() => {
     setModalVisible(true)
   }, [])
@@ -126,9 +131,11 @@ const PlayMafia = () => {
               </Pressable>
             </View>
             <Text style={styles.morningText}>Утро</Text>
-            {daysCount > 1 && !Object.keys(equalVotes || {}).length ? (
+            {daysCount > 1 && Object.keys(equalVotes || {}).length ? (
               <View>
-                <Text style={styles.question}>{dayQueastions?.question}</Text>
+                <Text style={styles.question}>
+                  Игроки набрали равное количество голосов. Голосуем между ними.
+                </Text>
               </View>
             ) : null}
           </>
@@ -137,7 +144,9 @@ const PlayMafia = () => {
             <Text style={[styles.morningText, { color: ICON }]}>Ночь</Text>
             <Pressable
               style={{ position: 'absolute', right: RW(10), top: RH(2) }}
-              onPress={() => setModalVisible(true)}
+              onPress={() => {
+                setModalVisible(true)
+              }}
             >
               <VectorIcon />
             </Pressable>
@@ -409,21 +418,19 @@ const PlayMafia = () => {
                   )
                   dispatch(setEqualVotes(null))
                   setChoosedUsers(null)
+                  dispatch(setAnswersCount(0))
                   dispatch(setLoader(true))
-                  console.log('setWaitNight')
                   dispatch(setWaitNight(true))
                 } else if (choosedUsers) {
-                  console.log('if')
+                  console.log('if choosedUsers')
 
                   if (waitAnswer && Object.keys(questionTruthfulness || {}).length) {
-                    console.log('if 1')
+                    console.log('if questionTruthfulness')
                     dispatch(setQuestionTruthfulness(null))
                     setChoosedUsers(null)
                     dispatch(setWaitAnswer(false))
                     setChoosable(true)
-                    if (mafiaRole?.name !== 'Дон') {
-                      // dispatch(setAnswersCount(1))
-                    } else {
+                    if (mafiaRole?.name === 'Дон') {
                       dispatch(setLoader('Ждем голосование мафии'))
                     }
                   } else if (
@@ -447,9 +454,10 @@ const PlayMafia = () => {
                         select_user: choosedUsers,
                       }),
                     )
-                    dispatch(setAnswersCount(0))
+
                     dispatch(setLoader(true))
                     dispatch(setWaitNight(false))
+                    dispatch(setAnswersCount(0))
                   } else if (night && answersCount == 1) {
                     dispatch(
                       setSendAnswer({
@@ -459,14 +467,14 @@ const PlayMafia = () => {
                       }),
                     )
                     console.log('if 6')
-                    // dispatch(setAnswersCount(0))
+                    dispatch(setAnswersCount(0))
                     dispatch(setLoader(true))
 
                     dispatch(setWaitNight(false))
                   } else if (!night) {
                     console.log('if 7')
                     // day
-                    // dispatch(setAnswersCount(0))
+                    dispatch(setAnswersCount(0))
 
                     dispatch(
                       setSendAnswer({
@@ -532,6 +540,7 @@ const PlayMafia = () => {
     </ScreenMask>
   )
 }
+
 const styles = StyleSheet.create({
   item: {
     padding: RW(3),
