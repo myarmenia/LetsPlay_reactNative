@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import GameItemBgSvg from '../assets/GameItemBgSvg'
 import { RH, RW, font } from '@/theme/utils'
@@ -11,17 +11,24 @@ const CalendarGameItem = ({ img, name, startDate, onPress }) => {
   return (
     <Pressable
       onPress={onPress}
-      style={{ height: RH(58), width: '90%', alignSelf: 'center', marginVertical: RH(5) }}
+      style={{
+        height: RH(58),
+        width: '100%',
+        alignSelf: 'center',
+        marginVertical: RH(5),
+      }}
     >
       <View style={{ width: '100%', height: '100%', position: 'absolute' }}>
         <GameItemBgSvg />
       </View>
       <Row
         wrapper={{
-          width: '100%',
+          width: '80%',
           height: '100%',
-          paddingHorizontal: RW(20),
+          paddingHorizontal: Platform.OS == 'android' ? RW(10) : 0,
           justifyContent: 'space-between',
+          position: 'absolute',
+          alignSelf: 'center',
         }}
       >
         <Row>

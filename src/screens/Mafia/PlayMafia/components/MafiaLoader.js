@@ -2,10 +2,11 @@ import { Text, View } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import LottieView from 'lottie-react-native'
-import { font } from '@/theme/utils'
+import { RH, font } from '@/theme/utils'
 
 const MafiaLoader = ({ background = true }) => {
   const { loader } = useSelector(({ mafia }) => mafia)
+
   const animationRef = useRef(null)
   useEffect(() => {
     if (loader) {
@@ -51,7 +52,7 @@ const MafiaLoader = ({ background = true }) => {
         />
       </View>
 
-      <Text style={{ textAlign: 'center', ...font('bold', 24, '#fff', 44) }}>
+      <Text style={{ textAlign: 'center', ...font('bold', 24, '#fff', 44), marginTop: RH(40) }}>
         {typeof loader == 'string' ? loader : 'Не все игроки готовы.\n Ждем остальных!'}
       </Text>
     </View>

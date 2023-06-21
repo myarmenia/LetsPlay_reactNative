@@ -96,14 +96,18 @@ const MafiaNavigator = () => {
         dispatch(setLoader(false))
         dispatch(setWaitNight(null))
         dispatch(setPlayers(e?.all_players))
+        dispatch(setAnswersCount(0))
+        questionAnswerState.current = 0
 
         break
       case 'question_answer':
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
 
         console.log('mafiaRoleName', mafiaRoleName)
+
         if (nightRef.current) {
-          if (questionAnswerState.current == 1) {
+          console.log('questionAnswerState.current', questionAnswerState.current)
+          if (questionAnswerState.current == 1 || answersCount == 1) {
             dispatch(setWaitNight(false))
             dispatch(setAnswersCount(0))
             questionAnswerState.current = 0
@@ -130,7 +134,8 @@ const MafiaNavigator = () => {
         deadUser.forEach((user, index) => {
           deadUser[index].role = e?.players.find((item) => item._id == user?._id)?.role?.name
         })
-
+        dispatch(setAnswersCount(0))
+        questionAnswerState.current = 0
         dispatch(setDeadUser(deadUser))
 
         dispatch(setCiviliansCount(e?.roleDatas?.civilian))
@@ -213,10 +218,6 @@ const MafiaNavigator = () => {
   useEffect(() => {
     mafiaRoleName.current = mafiaRole?.name
   }, [mafiaRole])
-
-  useEffect(() => {
-    questionAnswerState.current = answersCount
-  }, [answersCount])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>

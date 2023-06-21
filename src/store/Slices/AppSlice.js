@@ -75,6 +75,7 @@ export const deleteAllNotifications = () => (dispatch) => {
 }
 
 export const getCalendarGames = (data) => (dispatch) => {
+  console.log(data)
   axiosInstance
     .get(`api/create/game/by_date?date_from=${data.date_from}&date_to=${data.date_to}`)
     .then((response) => {

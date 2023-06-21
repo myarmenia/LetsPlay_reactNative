@@ -4,7 +4,7 @@ import { ICON } from '@/theme/colors'
 import { BACKGROUND } from '@/theme/colors'
 import { RH, RW, font } from '@/theme/utils'
 import * as React from 'react'
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import ArrowSvg from '../assets/ArrowSvg'
 import CircleSvg from '../assets/CircleSvg'
 import { getCalendarGames } from '@/store/Slices/AppSlice'
@@ -127,22 +127,27 @@ class Calendar extends React.Component {
             key={colIndex}
             onPress={() => this._onPress(item)}
             style={{
-              height: RH(30),
+              height: RH(40),
               minWidth: RW(20),
               justifyContent: 'center',
               alignItems: 'center',
 
-              paddingBottom: rowIndex == 0 ? 0 : RH(15),
+              // paddingBottom: rowIndex == 0 ? 0 : RH(20),
             }}
           >
-            <View style={{ position: 'absolute', top: 0, bottom: 0 }}>
+            <View
+              style={{
+                position: 'absolute',
+                top: (RH(40) - 25) / 2,
+                bottom: (RH(40) - 25) / 2,
+              }}
+            >
               {item == this.state.choosedDate?.getDate() ? <CircleSvg /> : null}
             </View>
             <Text
               style={{
                 textAlign: 'center',
-                bottom: rowIndex == 0 ? 0 : -RH(4.5),
-                color: rowIndex == 0 ? ICON : currentDay ? ICON : '#fff',
+                ...font('regular', 15, rowIndex == 0 ? ICON : currentDay ? ICON : '#fff', 25),
               }}
             >
               {item != -1 ? item : ''}
@@ -197,7 +202,7 @@ class Calendar extends React.Component {
     ]
 
     return (
-      <ScrollView>
+      <ScrollView style={{ paddingTop: RH(10) }}>
         {this.state.showYaersDropDown ? (
           <CalendarDropDown
             showYearsArray={showYearsArray}

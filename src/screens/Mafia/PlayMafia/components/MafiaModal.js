@@ -34,8 +34,8 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
-                paddingVertical: RW(20),
-                paddingHorizontal: RH(10),
+                paddingVertical: RW(40),
+                paddingHorizontal: RH(100),
                 // height: RH(420),
               }}
             >
@@ -48,11 +48,12 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
                   textAlign: 'center',
                   ...font('bold', 25, '#000'),
                   marginTop: RH(10),
+                  // marginHorizontal: RW(100),
                 }}
               >
                 {mafiaRole?.name}
               </Text>
-              <Text
+              {/* <Text
                 style={{
                   textAlign: 'center',
                   ...font('bold', 16, '#000'),
@@ -61,7 +62,7 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
                 }}
               >
                 {description}
-              </Text>
+              </Text> */}
             </ImageBackground>
           </>
         }

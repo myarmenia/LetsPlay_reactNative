@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import VectorIcon from '@/assets/svgs/vectorSvg'
 import { font, RH, RW } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
@@ -14,6 +13,18 @@ const RatingPlayer = () => {
   const { playersRatings, organizer } = useSelector(({ mafia }) => mafia)
   const dispatch = useDispatch()
   const navigation = useNavigation()
+
+  const sortedPlayersRatings = playersRatings?.sort((a, b) => {
+    let ratting1 = a?.rating?.split('/')[0]
+    let ratting2 = b?.rating?.split('/')[0]
+
+    if (ratting1 < ratting2) {
+      return 1
+    } else if (ratting1 > ratting2) {
+      return -1
+    }
+    return 0
+  })
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -22,14 +33,16 @@ const RatingPlayer = () => {
             <Text style={styles.ratingsText}> Рейтинги игроков</Text>
           </View>
           <View style={styles.ratingsCommon}>
-            {playersRatings?.map((item, id) => (
+            {sortedPlayersRatings?.map((item, id) => (
               <View style={styles.ratingsPlayers} key={id}>
                 <View>
                   <User size={90} user={item?.user} />
                 </View>
                 <View style={styles.definedView}>
                   <Text style={styles.definedText}>Определил персонажей</Text>
-                  <Text style={styles.RatingsText}>{item.rating}</Text>
+                  <Text style={styles.RatingsText}>
+                    {item.rating.split('/')[0] + ' из ' + item.rating.split('/')[1]}
+                  </Text>
                 </View>
               </View>
             ))}
@@ -41,7 +54,7 @@ const RatingPlayer = () => {
                 labelStyle={styles.invitePlayers}
                 label={'Завершить игру'}
                 onPress={() => {
-                  // dispatch(clearAllDatas())
+                  dispatch(clearAllDatas())
                   navigation.navigate('TabNavigator', { screen: 'Home' })
                 }}
               />
@@ -53,7 +66,7 @@ const RatingPlayer = () => {
                   labelStyle={styles.invitePlayers}
                   label={'Играть заново'}
                   onPress={() => {
-                    // dispatch(clearAllDatas())
+                    dispatch(clearAllDatas())
                     navigation.navigate('Settings')
                   }}
                 />

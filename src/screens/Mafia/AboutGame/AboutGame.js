@@ -12,13 +12,12 @@ import {
   clearAllDatas,
   participateToGame,
   setLoader,
-  setMafiaSocketOn,
   setParticipateSuccess,
 } from '../../../store/Slices/MafiaSlice'
 import { setPending } from '@/store/Slices/AuthSlice'
 
 const AboutGame = ({ route }) => {
-  const [modalVisible, setModalVisible] = useState(true)
+  const [modalVisible, setModalVisible] = useState(false)
   const { roles, participateSuccess, mafiaRole } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -26,12 +25,12 @@ const AboutGame = ({ route }) => {
 
   useEffect(() => {
     if (propsGameId) {
-      // dispatch(clearAllDatas())
+      dispatch(clearAllDatas())
       dispatch(participateToGame(propsGameId))
     }
   }, [propsGameId])
   useEffect(() => {
-    if (mafiaRole) {
+    if (mafiaRole && propsGameId) {
       setModalVisible(false)
     }
   }, [mafiaRole])
@@ -87,13 +86,17 @@ const AboutGame = ({ route }) => {
             <LightButton
               size={{ width: 281, height: 48 }}
               labelStyle={styles.countinue}
-              label={'Продолжить'}
+              label={propsGameId ? 'Продолжить' : 'Вернутся'}
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
               onPress={() => {
-                navigation.navigate('WaitPlayers')
-                dispatch(setLoader(true))
+                if (propsGameId) {
+                  navigation.navigate('WaitPlayers')
+                  dispatch(setLoader(true))
+                } else {
+                  navigation.navigate('playMafia')
+                }
               }}
             />
           </View>

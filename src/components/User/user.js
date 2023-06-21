@@ -6,16 +6,7 @@ import { Pressable, View } from 'react-native'
 import Modal from '@/components/modal'
 import { useState } from 'react'
 
-function SvgComponent({
-  setVisibleBorder = () => {},
-  visibleBorder = false,
-  onPressItem = () => {},
-  size = RW(100),
-  pressedUser,
-  onPressImg,
-  zoom,
-  user,
-}) {
+function SvgComponent({ onPressItem = () => {}, size = RW(100), pressedUser, onPressImg, user }) {
   const width = RW(size < 40 ? 40 : size)
   const [modalVisible, setModalVisible] = useState(false)
   const item = (
