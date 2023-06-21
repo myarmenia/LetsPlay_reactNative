@@ -6,8 +6,11 @@ import { Pressable, View } from 'react-native'
 import Modal from '@/components/modal'
 import { useState } from 'react'
 
-function SvgComponent({ onPressItem = () => {}, size = RW(100), pressedUser, onPressImg, user }) {
-  const width = RW(size < 40 ? 40 : size)
+function SvgComponent({ onPressItem = () => {}, size, pressedUser, onPressImg, user }) {
+  // size 390, 370, 150, 90, 80, 45, 30
+  const width = RW(size)
+  const height = width + RH(25)
+
   const [modalVisible, setModalVisible] = useState(false)
   const item = (
     <View
@@ -18,7 +21,7 @@ function SvgComponent({ onPressItem = () => {}, size = RW(100), pressedUser, onP
     >
       <Svg
         width={width}
-        height={width + RH(size < 200 ? 15 : 25)}
+        height={height}
         viewBox="0 0 271 414"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -101,13 +104,7 @@ function SvgComponent({ onPressItem = () => {}, size = RW(100), pressedUser, onP
           position: 'absolute',
         }}
       >
-        <User
-          size={width}
-          size2={size}
-          onPressImg={onPressImg}
-          pressedUser={pressedUser}
-          userProps={user}
-        />
+        <User size={width} onPressImg={onPressImg} pressedUser={pressedUser} userProps={user} />
       </View>
     </View>
   )

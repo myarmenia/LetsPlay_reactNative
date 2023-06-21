@@ -38,7 +38,7 @@ function Index({ navigation, route }) {
         <View style={{ alignItems: 'center' }}>
           <Text style={style.textTeam}>Организатор команды:</Text>
           <TouchableOpacity onPress={() => setModal(true)}>
-            <User user={Players[1]} pressedUser={Players[1]} />
+            <User user={Players[1]} pressedUser={Players[1]} size={90} />
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: 'center', marginTop: RH(10) }}>
@@ -56,9 +56,9 @@ function Index({ navigation, route }) {
                 onClickFunc: () => {},
               }}
             />
-            <User user={Players[2]} size={60} pressedUser={Players[1]} />
-            <User user={Players[3]} size={60} pressedUser={Players[1]} />
-            <User user={Players[4]} size={60} pressedUser={Players[1]} />
+            <User user={Players[2]} size={45} pressedUser={Players[1]} />
+            <User user={Players[3]} size={45} pressedUser={Players[1]} />
+            <User user={Players[4]} size={45} pressedUser={Players[1]} />
           </View>
         </View>
       </View>

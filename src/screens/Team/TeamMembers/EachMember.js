@@ -57,7 +57,7 @@ const EachMember = ({ route }) => {
             style={styles.commandImg}
           ></Image>
         </View>
-        <User size={430} />
+        <User size={390} />
         <View style={styles.btnsBox}>
           <LightButton
             label={'Сделать администратором'}

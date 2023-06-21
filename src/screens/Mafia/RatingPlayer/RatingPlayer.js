@@ -36,7 +36,7 @@ const RatingPlayer = () => {
             {sortedPlayersRatings?.map((item, id) => (
               <View style={styles.ratingsPlayers} key={id}>
                 <View>
-                  <User size={90} user={item?.user} />
+                  <User size={80} user={item?.user} />
                 </View>
                 <View style={styles.definedView}>
                   <Text style={styles.definedText}>Определил персонажей</Text>

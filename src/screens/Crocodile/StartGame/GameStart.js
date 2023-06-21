@@ -94,7 +94,7 @@ const GameStart = ({ route }) => {
           <Text style={styles.commandName}>{/* Команда 1 */}</Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(50) }]}>Показывает</Text>
-            <User size={380} />
+            <User size={390} />
           </View>
           <LightButton
             label={'Начать'}

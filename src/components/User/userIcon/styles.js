@@ -13,7 +13,6 @@ export default StyleSheet.create({
     alignItems: 'center',
     padding: RH(5),
     marginTop: RH(4),
-
     flexDirection: 'column',
     justifyContent: 'center',
   },
@@ -36,7 +35,6 @@ export default StyleSheet.create({
     resizeMode: 'contain',
     alignItems: 'center',
     justifyContent: 'center',
-    left: -0.7,
   },
   modal: {
     width: RW(306),

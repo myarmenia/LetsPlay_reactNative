@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/calendar'
-import { RH } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 
 import User from '@/components/User/user'
 

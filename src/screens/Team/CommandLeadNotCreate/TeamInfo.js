@@ -35,7 +35,7 @@ const TeamInfo = ({ route }) => {
           </Text>
           <View style={{ flexDirection: 'row', width: '35%', alignItems: 'center' }}>
             <Text style={styles.text}>Организатор игры:</Text>
-            <User size={10} />
+            <User size={30} />
           </View>
         </View>
         <View style={styles.rowBox}>

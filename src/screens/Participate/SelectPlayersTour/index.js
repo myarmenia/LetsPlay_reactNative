@@ -50,7 +50,7 @@ function Index({ route, navigation }) {
               key={i}
               style={user.includes(item.id) ? styles.activeItem : styles.item}
             >
-              <User user={item} />
+              <User user={item} size={90} />
             </TouchableOpacity>
           ))}
         </View>

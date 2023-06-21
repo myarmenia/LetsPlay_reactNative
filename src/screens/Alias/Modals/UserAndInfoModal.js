@@ -86,7 +86,7 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
           </Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            <User size={380} pressedUser={explainYou ? user : explainerUser} />
+            <User size={370} pressedUser={explainYou ? user : explainerUser} />
           </View>
 
           {!!explainYou && (

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Svg, { Rect, Defs, Stop, LinearGradient } from 'react-native-svg'
 import { Text, View } from 'react-native'
-import { font, RW } from '@/theme/utils'
+import { font, RH, RW } from '@/theme/utils'
 import { BLACK } from '@/theme/colors'
 function SvgComponent({ status, size }) {
   const width = size * RW(0.5)
@@ -30,47 +30,42 @@ function SvgComponent({ status, size }) {
           height: '100%',
           alignItems: 'center',
           flexDirection: 'row',
-          // justifyContent: 'center',
           justifyContent: 'space-between',
-          paddingHorizontal: RW(10),
+          paddingHorizontal: size > 100 ? RW(10) : RW(3),
         }}
       >
-        <Text
-          style={{
-            ...font('bold', size > 220 ? 8 : 2, BLACK),
-            // width: '42%',
-            // left: size / -RW(100),
-          }}
-        >
-          ОРГАНИЗАТОР
-        </Text>
-        <Text
-          style={{
-            ...font('bold', size > 220 ? 9 : 4, BLACK),
-            // width: '3%',
-            // alignSelf: 'center',
-            // right: size / RW(100),
-            // position: 'absolute',
-          }}
-        >
-          |
-        </Text>
-        <Text
-          style={{
-            ...font('bold', size > 220 ? 8.5 : 2, BLACK),
-            // width: '35%', left: '23%'
-          }}
-        >
-          УЧАСТНИК
-        </Text>
+        {size > RW(45) ? (
+          <>
+            <Text
+              style={{
+                ...font('bold', size < 50 ? 1 : size > 220 ? 8 : 2, BLACK),
+                top: size < 100 ? RH(0.5) : 0,
+              }}
+            >
+              ОРГАНИЗАТОР
+            </Text>
+            <Text
+              style={{
+                ...font('bold', size < 50 ? 1 : size > 220 ? 9 : size < 100 ? 2 : 3, BLACK),
+                top: size < 100 ? RH(0.5) : 0,
+              }}
+            >
+              |
+            </Text>
+            <Text
+              style={{
+                ...font('bold', size < 50 ? 1 : size > 220 ? 8.5 : 2, BLACK),
+                top: size < 100 ? RH(0.5) : 0,
+              }}
+            >
+              УЧАСТНИК
+            </Text>
+          </>
+        ) : null}
       </View>
       <Defs>
         <LinearGradient
           id="gold"
-          // x1={0.048}
-          // y1={70.048}
-          // x2={269.494}
-          // y2={70.048}
           x1={0}
           y1={0}
           x2={width}

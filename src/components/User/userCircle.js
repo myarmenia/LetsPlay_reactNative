@@ -7,6 +7,7 @@ import { BLACK } from '@/theme/colors'
 function SvgComponent({ count, status, size }) {
   const width = size / RW(12)
   const height = size / RW(20)
+
   return (
     <Svg
       width={width}
@@ -19,15 +20,18 @@ function SvgComponent({ count, status, size }) {
       <View
         style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center' }}
       >
-        <Text
-          style={{
-            ...font('exo_bold', size > 150 ? 11 : 2, BLACK),
-            fontWeight: '600',
-            textAlign: 'center',
-          }}
-        >
-          {count}
-        </Text>
+        {size > RW(45) ? (
+          <Text
+            style={{
+              ...font('exo_bold', size < 50 ? 1 : size > 150 ? 11 : size < 100 ? 2.5 : 4, BLACK),
+              fontWeight: '600',
+              textAlign: 'center',
+              top: size < 100 ? RH(0.1) : 0,
+            }}
+          >
+            {count}
+          </Text>
+        ) : null}
       </View>
       <Defs>
         <LinearGradient id="gold" x1={0} y1={0} x2={width} y2={0} gradientUnits="userSpaceOnUse">
@@ -47,18 +51,7 @@ function SvgComponent({ count, status, size }) {
           <Stop offset={0.792} stopColor="#CECECE" />
           <Stop offset={1} stopColor="#797979" />
         </LinearGradient>
-        <LinearGradient
-          id="bronze"
-          // x1={-8.993}
-          // y1={70.048}
-          // x2={278.372}
-          // y2={70.048}
-          x1={0}
-          y1={0}
-          x2={width}
-          y2={0}
-          gradientUnits="userSpaceOnUse"
-        >
+        <LinearGradient id="bronze" x1={0} y1={0} x2={width} y2={0} gradientUnits="userSpaceOnUse">
           <Stop stopColor="#873B23" />
           <Stop offset={0.058} stopColor="#A66842" />
           <Stop offset={0.276} stopColor="#E5BA8C" />

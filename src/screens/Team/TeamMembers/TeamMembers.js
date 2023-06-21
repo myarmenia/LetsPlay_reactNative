@@ -25,7 +25,7 @@ const TeamMembers = ({ route }) => {
   const { findedPlayers, findedTeam } = useSelector(({ teams }) => teams)
   const [list, setList] = useState(btnsList)
   const [value, setValue] = useState('')
-  const radioValue = list.find(elm => elm.checked).text
+  const radioValue = list.find((elm) => elm.checked).text
 
   const EachUser = ({ member }) => {
     const [back, setBack] = useState(false)
@@ -85,7 +85,7 @@ const TeamMembers = ({ route }) => {
           }}
         >
           <View style={{ marginLeft: RW(15) }}>
-            <User size={70} pressedUser={member} />
+            <User size={90} pressedUser={member} />
           </View>
           <Text style={styles.userID}>ID{member?.id}</Text>
         </View>
@@ -136,11 +136,11 @@ const TeamMembers = ({ route }) => {
           left={0}
         />
         <TextInput
-          placeholder={list.find(e => e?.checked)?.text}
+          placeholder={list.find((e) => e?.checked)?.text}
           placeholderTextColor={ICON}
           style={styles.input}
           value
-          onChangeText={e => setValue(e)}
+          onChangeText={(e) => setValue(e)}
         />
         <View style={{ alignSelf: 'center', paddingVertical: RH(10) }}>
           <LightButton

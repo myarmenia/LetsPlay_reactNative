@@ -11,7 +11,7 @@ import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
 
-function Index({ size, size2, onPressImg, userProps, pressedUser }) {
+function Index({ size, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
   let user = pressedUser ? pressedUser : authedUser
   if (userProps) {
@@ -21,8 +21,10 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
     user = user.user
   }
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
-  const fontSizeTitle = size > 150 ? size / RW(33) : size / RW(50)
-  const fontSizeCount = size > 150 ? size / RW(22) : size / RW(30)
+  const fontSizeTitle = size < RW(50) ? RW(1.5) : size > 100 ? size / RW(33) : size / RW(50)
+  const fontSizeCount = size < RW(50) ? RW(1) : size > 100 ? size / RW(22) : size / RW(30)
+  // const fontSizeTitle = size / RW(33)
+  // const fontSizeCount = size / RW(22)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('screen').width
@@ -33,7 +35,7 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
     width: size < 40 ? size / RW(3) : size / RW(4.3),
   }
 
-  const ImagePressableComponent = !onPressImg ? View : Pressable
+  const ImagePressableComponent = !onPressImg || size < 100 ? View : Pressable
   const VkPressableComponent = size < 100 ? View : Pressable
 
   return (
@@ -52,13 +54,12 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
             : null
         }
         style={{
-          width: size / 2.8,
-          height: size / 2.8,
+          width: size < 50 ? size / 2.25 : size < 100 ? size / 2.5 : size / 2.8,
+          height: size < 50 ? size / 2.25 : size < 100 ? size / 2.5 : size / 2.8,
           resizeMode: 'cover',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          top: size2 == 150 ? 13 : 8,
         }}
       >
         <Image
@@ -66,8 +67,16 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
             {
               ...style.image,
               borderRadius: size / RW(3),
-              top: size > 150 ? '0%' : size < 40 ? '-45%' : '-20%',
-              left: RW(0.1),
+              top:
+                size <= RW(30)
+                  ? screenWidth >= 380
+                    ? size / 4.5
+                    : size / 7.5
+                  : size < 50
+                  ? size / 18
+                  : size < 100
+                  ? size / 25
+                  : size / 40,
             },
             { resizeMode: 'cover' },
           ]}
@@ -82,7 +91,7 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
           }
         />
       </ImagePressableComponent>
-      <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(10) }]}>
+      <View style={[style.nameBlock, { marginTop: size < 50 ? RH(10) : RH(10) }]}>
         <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
           {name ? name : 'Имя'}
         </Text>
@@ -95,59 +104,63 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
           ...style.statusBlock,
           width: screenWidth >= 420 ? size / RW(1.6) : size / RW(1.75),
           overflow: 'visible',
-          marginTop: size > 150 ? size / RH(70) : size / RH(80),
+          marginTop: size > 150 ? size / RH(70) : size < 100 ? size / RH(40) : size / RH(80),
         }}
       >
         <UserCircle
-          size={size > 150 ? size + RW(25) : size - RW(25)}
+          size={screenWidth >= 420 ? size / 1.05 : size}
           count={user?.create_games?.length}
           status={user?.status}
         />
         <UserLine size={screenWidth >= 420 ? size / 1.05 : size} status={user?.status} />
         <UserCircle
-          size={size > 150 ? size + RW(25) : size - RW(25)}
+          size={screenWidth >= 420 ? size / 1.05 : size}
           count={user?.took_part_games?.length}
           status={user?.status}
         />
       </View>
-      <View
-        style={{
-          ...style.titleBigBloc,
-          height: size < 40 ? size / RH(2.9) : size / RW(8.4),
-          marginTop: size > 150 ? size / RH(55) : size / RH(90),
-          width: size < 40 ? size / RW(1.5) : size / RW(2.1),
-          justifyContent: 'space-evenly',
-        }}
-      >
-        <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
-            Создано игр
-          </Text>
-          <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
+
+      {size > RW(50) ? (
+        <View
+          style={{
+            ...style.titleBigBloc,
+            height: size <= RW(45) ? size / RH(3.5) : size < 100 ? size / RH(7) : size / RW(8.4),
+            marginTop: size <= RW(45) ? RH(1) : size > 150 ? size / RH(55) : size / RH(90),
+            width: size <= RW(45) ? size / RW(1.5) : size / RW(2.1),
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <View style={[style.titleBloc, sizing]}>
+            <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
+              Создано игр
+            </Text>
+            <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
+          </View>
+          <View style={[style.titleBloc, sizing]}>
+            <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
+              Принято игр
+            </Text>
+            <Text style={font('exo_bold', fontSizeCount, WHITE)}>
+              {user?.took_part_games?.length}
+            </Text>
+          </View>
+          <View style={[style.titleBloc, sizing]}>
+            <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
+              Отменено игр
+            </Text>
+            <Text style={{ ...font('exo_bold', fontSizeCount, WHITE) }}>
+              {user?.destroy_the_game}
+            </Text>
+          </View>
+          <View style={[style.titleBloc, sizing]}>
+            <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
+              Отклонено игр
+            </Text>
+            <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.exit_the_game}</Text>
+          </View>
         </View>
-        <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
-            Принято игр
-          </Text>
-          <Text style={font('exo_bold', fontSizeCount, WHITE)}>
-            {user?.took_part_games?.length}
-          </Text>
-        </View>
-        <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
-            Отменено игр
-          </Text>
-          <Text style={{ ...font('exo_bold', fontSizeCount, WHITE) }}>
-            {user?.destroy_the_game}
-          </Text>
-        </View>
-        <View style={[style.titleBloc, sizing]}>
-          <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
-            Отклонено игр
-          </Text>
-          <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.exit_the_game}</Text>
-        </View>
-      </View>
+      ) : null}
+
       {/* need detect user have a vk account and show it overwise show some text */}
       <Modal
         item={
@@ -173,9 +186,29 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
             setModalVisible(true)
           }
         }}
-        style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}
+        style={{
+          ...style.soc,
+          marginTop:
+            size <= RW(50)
+              ? screenWidth > 400
+                ? size / RH(2.5)
+                : screenWidth > 380
+                ? size / RH(2.5)
+                : size / RH(4)
+              : size > 100
+              ? screenWidth > 400
+                ? size / RH(5.5)
+                : screenWidth > 380
+                ? size / RH(7.5)
+                : size / RH(10)
+              : screenWidth > 400
+              ? size / RH(4)
+              : screenWidth > 380
+              ? size / RH(4.5)
+              : size / RH(10),
+        }}
       >
-        <Vk size={size / RH(12)} />
+        <Vk size={size / (screenWidth <= 375 ? RH(15) : RH(12))} />
       </VkPressableComponent>
     </View>
   )
