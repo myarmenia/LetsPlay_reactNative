@@ -269,7 +269,7 @@ export const resetGame = (mafia_game_id) => (dispatch) => {
     })
   dispatch(setPending(false))
 }
-export const clearAllDatas = () => (dispatch) => {
+export const clearAllDatas = (navigation) => (dispatch) => {
   dispatch(setAddPlayersError(null))
   dispatch(setQrGame(false))
   dispatch(setQrLink(false))
@@ -296,6 +296,7 @@ export const clearAllDatas = () => (dispatch) => {
   dispatch(setEqualVotes(null))
   dispatch(setDonVotedPlayers([]))
   dispatch(setAnswersCount(0))
+  navigation.navigate('TabNavigator', { screen: 'Home' })
 }
 
 export const {

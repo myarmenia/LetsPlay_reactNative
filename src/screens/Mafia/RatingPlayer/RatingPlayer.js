@@ -14,13 +14,13 @@ const RatingPlayer = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
-  const sortedPlayersRatings = playersRatings?.sort((a, b) => {
-    let ratting1 = a?.rating?.split('/')[0]
-    let ratting2 = b?.rating?.split('/')[0]
+  let sortedPlayersRatings = [...playersRatings]?.sort((item1, item2) => {
+    let ratting1 = typeof item1?.rating == 'string' ? item1?.rating?.split('/')[0] : 0
+    let ratting2 = typeof item2?.rating == 'string' ? item2?.rating?.split('/')[0] : 0
 
-    if (ratting1 < ratting2) {
+    if (+ratting1 > +ratting2) {
       return 1
-    } else if (ratting1 > ratting2) {
+    } else if (+ratting1 < +ratting2) {
       return -1
     }
     return 0
@@ -33,7 +33,7 @@ const RatingPlayer = () => {
             <Text style={styles.ratingsText}> Рейтинги игроков</Text>
           </View>
           <View style={styles.ratingsCommon}>
-            {sortedPlayersRatings?.map((item, id) => (
+            {sortedPlayersRatings?.reverse()?.map((item, id) => (
               <View style={styles.ratingsPlayers} key={id}>
                 <View>
                   <User size={80} user={item?.user} />
@@ -54,8 +54,7 @@ const RatingPlayer = () => {
                 labelStyle={styles.invitePlayers}
                 label={'Завершить игру'}
                 onPress={() => {
-                  dispatch(clearAllDatas())
-                  navigation.navigate('TabNavigator', { screen: 'Home' })
+                  dispatch(clearAllDatas(navigation))
                 }}
               />
             </View>

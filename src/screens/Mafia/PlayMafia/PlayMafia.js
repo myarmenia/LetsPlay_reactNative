@@ -75,7 +75,6 @@ const PlayMafia = () => {
   }, [deadUser])
 
   useEffect(() => {
-    console.log('Object.values(equalVotes || {}).length', Object.keys(equalVotes || {}).length)
     if (
       !Object.keys(equalVotes || {}).length &&
       !night &&

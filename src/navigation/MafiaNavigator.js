@@ -104,6 +104,7 @@ const MafiaNavigator = () => {
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
 
         console.log('mafiaRoleName', mafiaRoleName)
+        console.log('nightRef.current', nightRef.current)
 
         if (nightRef.current) {
           console.log('questionAnswerState.current', questionAnswerState.current)
