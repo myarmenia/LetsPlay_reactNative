@@ -6,7 +6,7 @@ export default {
     screens: {
       MafiaNavigator: {
         screens: {
-          AboutGame: {
+          WaitPlayers: {
             path: 'playMafia/:id',
           },
         },

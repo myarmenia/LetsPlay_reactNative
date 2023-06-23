@@ -17,6 +17,7 @@ import {
   setEqualVotes,
   setDonVotedPlayers,
   setAnswersCount,
+  setRoles,
 } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import {
@@ -68,6 +69,10 @@ const MafiaNavigator = () => {
         }, 500)
 
         break
+      case 'dictionaries':
+        navigation.navigate('AboutGame')
+        dispatch(setRoles(e.data))
+        break
       case 'questions':
         dispatch(setAnswerQuestions(e?.questions))
         break
@@ -108,7 +113,8 @@ const MafiaNavigator = () => {
 
         if (nightRef.current) {
           console.log('questionAnswerState.current', questionAnswerState.current)
-          if (questionAnswerState.current == 1 || answersCount == 1) {
+          if (questionAnswerState.current == 1) {
+            // || answersCount == 1
             dispatch(setWaitNight(false))
             dispatch(setAnswersCount(0))
             questionAnswerState.current = 0
@@ -227,7 +233,7 @@ const MafiaNavigator = () => {
       <Stack.Screen name="AddPlayers" component={AddPlayers} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
       <Stack.Screen name="WaitPlayers" component={WaitPlayers} />
-      <Stack.Screen name="PlayMafia" component={PlayMafia} options={{ gestureEnabled: false }} />
+      <Stack.Screen name="PlayMafia" component={PlayMafia} />
       <Stack.Screen name="RatingPlayer" component={RatingPlayer} />
     </Stack.Navigator>
   )

@@ -48,6 +48,7 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
                   textAlign: 'center',
                   ...font('bold', 25, '#000'),
                   marginTop: RH(10),
+                  maxWidth: '90%',
                   // marginHorizontal: RW(100),
                 }}
               >

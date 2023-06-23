@@ -90,7 +90,7 @@ const PlayMafia = () => {
 
   useEffect(() => {
     setDayQueastions(answerQuestions?.find((item) => !item.night))
-    if (mafiaRole.name !== 'Дон') {
+    if (mafiaRole?.name !== 'Дон') {
       setNightQueastions(answerQuestions?.filter((item) => item.night))
     } else {
       setNightQueastions(
@@ -104,7 +104,7 @@ const PlayMafia = () => {
       Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0) != 0 &&
       Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0) ==
         mafiasCount - 2 &&
-      mafiaRole.name == 'Дон' &&
+      mafiaRole?.name == 'Дон' &&
       loader
     ) {
       dispatch(setLoader(false))
@@ -132,7 +132,7 @@ const PlayMafia = () => {
                 <Text style={styles.text}>Мафия {mafiasCount}</Text>
                 <Text style={styles.text}>Мирные жители {civiliansCount}</Text>
               </View>
-              <Pressable onPress={() => setModalVisible(true)}>
+              <Pressable onPress={() => navigation.navigate('AboutGame', { gameIsStarted: true })}>
                 {/* navigation.navigate('AboutGame') */}
                 <VectorIcon />
               </Pressable>
@@ -153,7 +153,7 @@ const PlayMafia = () => {
               style={{ position: 'absolute', right: RW(10), top: RH(2) }}
               onPress={() => {
                 // setModalVisible(true)
-                navigation.navigate('AboutGame')
+                navigation.navigate('AboutGame', { gameIsStarted: true })
               }}
             >
               <VectorIcon />
@@ -210,9 +210,9 @@ const PlayMafia = () => {
                         uri:
                           _storageUrl +
                           (mafiaUsersId?.find((elm) => elm?.id == equalVotes?.first_player?._id)
-                            ?.name == 'Дон' && mafiaRole.name !== 'Шпион'
-                            ? roles?.find((item) => item.name == 'Дон')?.img
-                            : roles?.find((item) => item.name == 'Мафия')?.img),
+                            ?.name == 'Дон' && mafiaRole?.name !== 'Шпион'
+                            ? roles?.find((item) => item?.name == 'Дон')?.img
+                            : roles?.find((item) => item?.name == 'Мафия')?.img),
                       }}
                     />
                   ) : null}
@@ -312,8 +312,8 @@ const PlayMafia = () => {
                                 (mafiaUsersId?.find(
                                   (elm) => elm?.id == equalVotes?.first_player?._id,
                                 )?.name == 'Дон' && mafiaRole?.name !== 'Шпион'
-                                  ? roles?.find((item) => item.name == 'Дон')?.img
-                                  : roles?.find((item) => item.name == 'Мафия')?.img),
+                                  ? roles?.find((item) => item?.name == 'Дон')?.img
+                                  : roles?.find((item) => item?.name == 'Мафия')?.img),
                             }}
                           />
                         ) : null}
@@ -428,7 +428,7 @@ const PlayMafia = () => {
                   setChoosedUsers(null)
                   // dispatch(setAnswersCount(0))
                   dispatch(setLoader(true))
-                  dispatch(setWaitNight(true))
+                  // dispatch(setWaitNight(true))
                 } else if (choosedUsers) {
                   console.log('if choosedUsers', choosedUsers)
 

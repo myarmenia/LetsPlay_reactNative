@@ -71,12 +71,15 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
                 size <= RW(30)
                   ? screenWidth >= 380
                     ? size / 4.5
+                    : Platform.OS == 'android'
+                    ? size * 1.5
                     : size / 7.5
                   : size < 50
                   ? size / 18
                   : size < 100
                   ? size / 25
                   : size / 40,
+              left: Platform.OS == 'android' && size <= RW(30) ? RW(-0.2) : 0,
             },
             { resizeMode: 'cover' },
           ]}
@@ -193,7 +196,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
               ? screenWidth > 400
                 ? size / RH(2.5)
                 : screenWidth > 380
-                ? size / RH(2.5)
+                ? size / RH(3)
                 : size / RH(4)
               : size > 100
               ? screenWidth > 400
@@ -204,7 +207,9 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
               : screenWidth > 400
               ? size / RH(4)
               : screenWidth > 380
-              ? size / RH(4.5)
+              ? Platform.OS == 'ios'
+                ? size / RH(4.5)
+                : size / RH(6.5)
               : size / RH(10),
         }}
       >

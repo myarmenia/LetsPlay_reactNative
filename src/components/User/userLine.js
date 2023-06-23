@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Svg, { Rect, Defs, Stop, LinearGradient } from 'react-native-svg'
-import { Text, View } from 'react-native'
+import { Platform, Text, View } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import { BLACK } from '@/theme/colors'
 function SvgComponent({ status, size }) {
@@ -39,7 +39,7 @@ function SvgComponent({ status, size }) {
             <Text
               style={{
                 ...font('bold', size < 50 ? 1 : size > 220 ? 8 : 2, BLACK),
-                top: size < 100 ? RH(0.5) : 0,
+                top: size < 100 && Platform.OS == 'ios' ? RH(0.5) : 0,
               }}
             >
               ОРГАНИЗАТОР
@@ -47,7 +47,7 @@ function SvgComponent({ status, size }) {
             <Text
               style={{
                 ...font('bold', size < 50 ? 1 : size > 220 ? 9 : size < 100 ? 2 : 3, BLACK),
-                top: size < 100 ? RH(0.5) : 0,
+                top: size < 100 && Platform.OS == 'ios' ? RH(0.5) : 0,
               }}
             >
               |
@@ -55,7 +55,7 @@ function SvgComponent({ status, size }) {
             <Text
               style={{
                 ...font('bold', size < 50 ? 1 : size > 220 ? 8.5 : 2, BLACK),
-                top: size < 100 ? RH(0.5) : 0,
+                top: size < 100 && Platform.OS == 'ios' ? RH(0.5) : 0,
               }}
             >
               УЧАСТНИК

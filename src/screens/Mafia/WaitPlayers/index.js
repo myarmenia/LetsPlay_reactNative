@@ -1,10 +1,43 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, View } from 'react-native'
 import MafiaLoader from '../PlayMafia/components/MafiaLoader'
 import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  clearAllDatas,
+  participateToGame,
+  setLoader,
+  setParticipateSuccess,
+} from '@/store/Slices/MafiaSlice'
+import { useNavigation } from '@react-navigation/native'
+import { setPending } from '@/store/Slices/AuthSlice'
 
-const WaitPlayers = () => {
+const WaitPlayers = ({ route }) => {
+  const propsGameId = route.params?.id
+  const { participateSuccess } = useSelector(({ mafia }) => mafia)
+
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    if (propsGameId) {
+      console.log('setLoader(true)')
+
+      dispatch(clearAllDatas())
+      dispatch(participateToGame(propsGameId))
+    }
+  }, [propsGameId])
+
+  useEffect(() => {
+    if (participateSuccess === false) {
+      alert('Что-то пошло не так')
+      navigation.navigate('Home')
+      dispatch(setParticipateSuccess(null))
+    }
+    dispatch(setPending(false))
+    dispatch(setLoader(true))
+  }, [participateSuccess])
   return (
     <ScreenMask>
       <View

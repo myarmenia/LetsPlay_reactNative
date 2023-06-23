@@ -229,11 +229,25 @@ export const postSettings = (data) => (dispatch) => {
       dispatch(setPending(false))
     })
 }
+export const getDictonary = (mafia_game_id) => (dispatch) => {
+  dispatch(setPending(true))
+  axiosInstance
+    .get(`/api/game/mafia/dictonary/${mafia_game_id}`)
+    .then((response) => {
+      console.log('getDictonary', response.data)
+    })
+    .catch((err) => {
+      dispatch(setParticipateSuccess(false))
+      console.log('err request participateToGame', err.request._response)
+    })
+  dispatch(setPending(false))
+}
 export const participateToGame = (mafia_game_id) => (dispatch) => {
   dispatch(setPending(true))
   axiosInstance
     .post(`/api/game/mafia/participate/${mafia_game_id}`)
     .then((response) => {
+      console.log('participateToGame', response.data)
       dispatch(setRoles(response.data?.all_roles))
       dispatch(setMafiaGameId(mafia_game_id))
       dispatch(setParticipateSuccess(true))
@@ -270,6 +284,9 @@ export const resetGame = (mafia_game_id) => (dispatch) => {
   dispatch(setPending(false))
 }
 export const clearAllDatas = (navigation) => (dispatch) => {
+  if (navigation) {
+    navigation?.navigate('TabNavigator', { screen: 'Home' })
+  }
   dispatch(setAddPlayersError(null))
   dispatch(setQrGame(false))
   dispatch(setQrLink(false))
@@ -296,7 +313,6 @@ export const clearAllDatas = (navigation) => (dispatch) => {
   dispatch(setEqualVotes(null))
   dispatch(setDonVotedPlayers([]))
   dispatch(setAnswersCount(0))
-  navigation.navigate('TabNavigator', { screen: 'Home' })
 }
 
 export const {

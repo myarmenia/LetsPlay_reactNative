@@ -7,7 +7,7 @@ import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
 import DarkButton from '@/assets/imgs/DarkButton'
 import PlayerList from './componnets/PlayerList'
-import { setAddPlayersError, startGame } from '@/store/Slices/MafiaSlice'
+import { getDictonary, setAddPlayersError, startGame } from '@/store/Slices/MafiaSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import ErrorModal from './componnets/ErrorModal'
 
@@ -44,7 +44,7 @@ const AddPlayers = () => {
               bgColor={'#4D7CFE'}
               onPress={() => {
                 console.log('startGame mafiaGameId', mafiaGameId)
-                dispatch(startGame(mafiaGameId))
+                dispatch(getDictonary(mafiaGameId))
               }}
             />
           </View>

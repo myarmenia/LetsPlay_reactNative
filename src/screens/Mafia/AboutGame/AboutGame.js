@@ -13,15 +13,17 @@ import {
   participateToGame,
   setLoader,
   setParticipateSuccess,
+  startGame,
 } from '../../../store/Slices/MafiaSlice'
 import { setPending } from '@/store/Slices/AuthSlice'
 
 const AboutGame = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const { roles, participateSuccess, mafiaRole } = useSelector(({ mafia }) => mafia)
+  const { roles, participateSuccess, mafiaRole, mafiaGameId } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const propsGameId = route.params?.id
+  let gameIsStarted = route.params?.gameIsStarted
 
   useEffect(() => {
     if (propsGameId) {
@@ -35,14 +37,6 @@ const AboutGame = ({ route }) => {
     }
   }, [mafiaRole])
 
-  useEffect(() => {
-    if (participateSuccess === false) {
-      alert('Что-то пошло не так')
-      navigation.navigate('Home')
-      dispatch(setParticipateSuccess(null))
-    }
-    dispatch(setPending(false))
-  }, [participateSuccess])
   return (
     <ScreenMask>
       <View style={styles.container}>
@@ -86,16 +80,18 @@ const AboutGame = ({ route }) => {
             <LightButton
               size={{ width: 281, height: 48 }}
               labelStyle={styles.countinue}
-              label={propsGameId ? 'Продолжить' : 'Вернутся'}
+              label={!gameIsStarted ? 'Продолжить' : 'Вернутся'}
+              // label={'Продолжить'}
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
               onPress={() => {
-                if (propsGameId) {
+                if (!gameIsStarted) {
                   navigation.navigate('WaitPlayers')
+                  dispatch(startGame(mafiaGameId))
                   dispatch(setLoader(true))
                 } else {
-                  navigation.navigate('playMafia')
+                  navigation.navigate('PlayMafia')
                 }
               }}
             />

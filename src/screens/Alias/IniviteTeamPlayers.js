@@ -187,7 +187,7 @@ const IniviteTeamPlayers = ({ route }) => {
                             pressedUser={elm}
                             zoom={true}
                             onPressItem={{
-                              item: <User size={390} pressedUser={elm} />,
+                              item: <User size={150} pressedUser={elm} />,
                               modalClose: false,
                               onClickFunc: () => (userIsOrganizer ? handleClick(elm) : null),
                             }}
