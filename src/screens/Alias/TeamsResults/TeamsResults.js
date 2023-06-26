@@ -6,7 +6,13 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { setEndRound, setExplainYou, setWords, setExplainerTeam } from '@/store/Slices/AliasSlice'
+import {
+  setExplainYou,
+  setWords,
+  setExplainerTeam,
+  setWaitEndRound,
+  setLoader,
+} from '@/store/Slices/AliasSlice'
 
 const TeamsResults = () => {
   const dispatch = useDispatch()
@@ -21,7 +27,7 @@ const TeamsResults = () => {
           {allTeams?.map((elm, i) => {
             return (
               <View key={Math.random().toString()}>
-                <View style={styles.commandOne}>
+                <View>
                   <Text style={styles.commandName}>{elm.value}</Text>
 
                   <Text style={styles.points}>{`Очки: ${allTeams[i]?.points}`}</Text>
@@ -36,26 +42,20 @@ const TeamsResults = () => {
         <LightButton
           label={'Продолжить'}
           size={{ width: 288, height: 48 }}
-          onPress={async () => {
-            dispatch(setExplainYou(false)), dispatch(setWords([])), dispatch(setExplainerTeam(null))
+          onPress={() => {
+            dispatch(setExplainYou(false))
+            dispatch(setWords([]))
+            dispatch(setExplainerTeam(null))
             if (
               countWords !== null &&
               countWords <= Math.max(...allTeams.map((item) => item.points))
             ) {
               navigation.navigate('WinnerTeamMessage')
             } else {
-              dispatch(setExplainYou(false)),
-                dispatch(setWords([])),
-                dispatch(setExplainerTeam(null))
-              userIsOrganizer ? dispatch(setEndRound(true)) : null,
-                navigation.navigate('GameStart', { fromRes: true })
+              dispatch(setWaitEndRound(true))
+              dispatch(setLoader(true))
+              navigation.navigate('WaitPlayers')
             }
-
-            // setExplainYou,
-            // setWords,
-            // setExplainingUser,
-            // setExplainerTeam,
-            // setEndRound,
           }}
         />
       </View>

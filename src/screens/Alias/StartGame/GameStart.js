@@ -8,32 +8,19 @@ import AnimatedCircle from '../Components/AnimatedCircle'
 import AliasBackground from '../assets/Background'
 import LightButton from '@/assets/imgs/Button'
 import Timer from '../Components/Timer'
-import {
-  setExplainYou,
-  setExplainedWords,
-  setStart,
-  setStep,
-  setStoping,
-} from '@/store/Slices/AliasSlice'
+import { setExplainedWords, setStart, setStep, setStoping } from '@/store/Slices/AliasSlice'
 import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
 import TimeFinishModal from '../Modals/TimeFinishModal'
 
-const GameStart = ({ route }) => {
+const GameStart = () => {
   const [timeIsFinished, setTimeIsFinished] = useState('timeDontFinished')
   const [falsyCount, setFalsyCount] = useState(0)
   const [truthyCount, setTruthyCount] = useState(0)
   const [modalState, setModalState] = useState({ state: 'user' })
 
-  const { stoping } = useSelector(({ alias }) => alias)
-
-  const {
-    explainerTeam,
-    explainYou,
-    step,
-
-    explainedWords,
-    aliasGameId,
-  } = useSelector(({ alias }) => alias)
+  const { explainerTeam, explainYou, step, explainedWords, aliasGameId, stoping } = useSelector(
+    ({ alias }) => alias,
+  )
   const [userExplainedWordsCount, setUserExplainedWordsCount] = useState({
     points: 0,
     aliasGameId,
@@ -41,10 +28,6 @@ const GameStart = ({ route }) => {
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
-
-  // useEffect(() => {
-  //   dispatch(setExplainYou(explainYou))
-  // }, [explainYou])
 
   useEffect(() => {
     if (isFocused) {
@@ -54,22 +37,27 @@ const GameStart = ({ route }) => {
           falsy: [],
         }),
       )
-    } else if (!isFocused) {
+    } else {
+      dispatch(setStart(false))
+    }
+    return () => {
       dispatch(setStart(false))
     }
   }, [isFocused])
   useEffect(() => {
+    console.log('modalState', modalState)
     if (!explainYou) {
       setTruthyCount(step - explainedWords.falsy?.length)
       setFalsyCount(step - explainedWords.truthy?.length)
     }
     // raundic heto vor minus er etum dzelu masy
-    if (modalState.state == 'user' && !explainYou) {
+    if (modalState?.state == 'user' && !explainYou) {
       dispatch(setStep(0))
       setTruthyCount(0)
       setFalsyCount(0)
     }
   }, [explainedWords, explainYou, step, falsyCount, modalState])
+
   return (
     <>
       <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -78,8 +66,8 @@ const GameStart = ({ route }) => {
           timeIsFinished={timeIsFinished}
           setTimeIsFinished={setTimeIsFinished}
           userExplainedWordsCount={userExplainedWordsCount}
+          setModalState={setModalState}
         />
-        <View style={{ position: 'absolute' }}></View>
         <View
           style={{
             height: '95%',
@@ -103,7 +91,7 @@ const GameStart = ({ route }) => {
               setUserExplainedWordsCount={setUserExplainedWordsCount}
             />
           </View>
-          <View style={styles.answersBox}>
+          <View style={[styles.answersBox, { bottom: -20 }]}>
             <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
             <Text style={styles.countOfTrueAnswer}>{falsyCount}</Text>
             <View style={styles.bottomBox}>
@@ -119,7 +107,6 @@ const GameStart = ({ route }) => {
               <View style={{ alignItems: 'center', width: '35%' }}>
                 <Timer
                   timeIsFinished={timeIsFinished}
-                  fromRes={route?.params?.fromRes}
                   modalState={modalState}
                   setModalState={setModalState}
                   setTimeIsFinished={setTimeIsFinished}

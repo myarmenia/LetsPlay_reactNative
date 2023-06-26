@@ -9,7 +9,7 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { cleanDataAndPlayAgain, setLoader, setStoping, setTeams } from '@/store/Slices/AliasSlice'
-import AliasLoader from '../Components/AliasLoader'
+import AliasLoader from '../Components/AliasLoader2'
 
 const PlayersRatings = () => {
   const { user } = useSelector(({ auth }) => auth)

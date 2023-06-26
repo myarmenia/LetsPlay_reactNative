@@ -28,6 +28,7 @@ const initialState = {
     truthy: [],
     falsy: [],
   },
+  waitEndRound: false,
 }
 
 export const AliasSlice = createSlice({
@@ -55,9 +56,6 @@ export const AliasSlice = createSlice({
     },
     setExplainerUser: (store, action) => {
       return { ...store, explainerUser: action.payload }
-    },
-    setEndRound: (store, action) => {
-      return { ...store, endRound: action.payload }
     },
     setPlayersInGame: (store, action) => {
       return { ...store, playersInGame: action.payload }
@@ -151,14 +149,18 @@ export const AliasSlice = createSlice({
         loader: action.payload,
       }
     },
+    setWaitEndRound: (store, action) => {
+      return {
+        ...store,
+        waitEndRound: action.payload,
+      }
+    },
   },
 })
 export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
-    .then((response) => {
-      // console.log('setPlayers response', response.data)
-    })
+
     .catch((err) => {
       console.log('err setPlayers : response', err.response)
     })
@@ -200,21 +202,12 @@ export const sendAliasGameId = (id) => (dispatch) => {
 export const startAliasGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/start/${gameId}`)
-    .then((response) => {
-      // dispatch(setExplainYou(true))
-    })
+
     .catch((err) => {
       console.log('err startAliasGame esponse', err)
     })
 }
-export const sendUserPoints = (data) => (dispatch) => {
-  axiosInstance
-    .post('api/alias/user_points', data)
-    .then((response) => {})
-    .catch((err) => {
-      console.log('err sending user points', err)
-    })
-}
+
 export const cleanDataAndPlayAgain = (data) => (dispatch) => {
   dispatch(setWords([]))
   dispatch(setYouGuesser(null))
@@ -233,7 +226,7 @@ export const {
   setTeams,
   setWords,
   setExplainYou,
-  setEndRound,
+  setWaitEndRound,
   setStart,
   setYouGuesser,
   setComplexity,

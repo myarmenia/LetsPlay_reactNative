@@ -29,14 +29,16 @@ import {
   setStep,
   setTeams,
   setExplainedWords,
-  setEndRound,
   setComplexity,
   setCountWords,
   setYouGuesser,
+  setWaitEndRound,
+  setLoader,
 } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 import WinnerTeamMessage from '@/screens/Alias/WinnerTeamMessage/WinnerTeamMessage'
 import PlayersRatings from '@/screens/Alias/WinnerTeamMessage/PlayersRatings'
+import WaitPlayers from '@/screens/Alias/WaitPlayers'
 
 const Stack = createNativeStackNavigator()
 
@@ -54,65 +56,70 @@ const AliasNavigator = () => {
     start,
     allTeams,
     step,
-    endRound,
+
     time,
     explainedWords,
     userIsOrganizer,
+    waitEndRound,
   } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
   const explainYouRef = useRef(false)
   const userIsOrganizerRef = useRef(false)
+  const waitEndRoundPlayersRef = useRef([])
+  const allPlayersLengthRef = useRef(0)
 
   const callBackFunc = async (e) => {
     console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
       case 'new_user':
         dispatch(setPlayersInGame(e?.alias_game?.players))
+        allPlayersLengthRef.current = e?.alias_game?.players.length
         dispatch(setUserIsOrganizer(e?.alias_game?.user?._id == user?._id))
         userIsOrganizerRef.current = e?.alias_game?.user?._id === user?._id
         break
 
       case 'explain_you':
+        dispatch(setLoader(false))
         explainYouRef.current = true
+
         dispatch(setExplainYou(true))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
         dispatch(setExplainerUser(null))
-        navigation.navigate('GameStart', { fromRes: true })
+        navigation.navigate('GameStart')
         break
       case 'explain_another_team_user':
+        dispatch(setLoader(false))
         dispatch(setExplainYou(false))
         explainYouRef.current = false
         dispatch(setWords(e.words))
         dispatch(setExplainerUser(e.explain_user))
         dispatch(setExplainerTeam(e.explain_user_team.name))
-        navigation.navigate('GameStart', { fromRes: true })
+        navigation.navigate('GameStart')
         break
 
       case 'explain_your_team_user':
+        dispatch(setLoader(false))
         dispatch(setExplainYou(false))
         dispatch(setYouGuesser(true))
         explainYouRef.current = false
         dispatch(setExplainerUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
-        navigation.navigate('GameStart', { fromRes: true })
+        navigation.navigate('GameStart')
         break
 
       case 'alias_start':
         dispatch(setTime(e?.alias_game_team?.round_time))
         dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
-        // navigation.navigate('GameStart', { fromRes: true })
+
         break
 
       case 'alias_team_confirm':
         dispatch(setTime(e?.alias?.round_time))
         break
-      // case 'explain_results': {
-      // }
-      // case 'all_teams_resaults': {
-      // }
+
       case 'pause_or_start': {
         if (explainYouRef.current == false) {
           dispatch(setStoping(e?.data?.stoping))
@@ -121,7 +128,11 @@ const AliasNavigator = () => {
       }
 
       case 'message_to_all_players':
-        if (e.data?.type === 'getTeams' && !explainYouRef.current && e.data.data !== allTeams) {
+        if (
+          e.data?.type === 'getTeams' &&
+          !explainYouRef.current &&
+          JSON.stringify(e.data.data) !== JSON.stringify(allTeams)
+        ) {
           dispatch(setTeams(e.data?.data))
         } else if (
           e.data?.type === 'getSteps' &&
@@ -136,6 +147,13 @@ const AliasNavigator = () => {
           dispatch(setComplexity(e.data.settings.complexity))
         } else if (e.data?.type === 'getCountOfWords' && !explainYouRef.current) {
           dispatch(setCountWords(e.data.countWords))
+        } else if (e.data?.type === 'waitEndRound') {
+          if (allPlayersLengthRef.current == e.data?.waitPlayers.length) {
+            waitEndRoundPlayersRef.current = []
+            socketRef.current?.emit('end_time', {})
+          } else {
+            waitEndRoundPlayersRef.current = e.data?.waitPlayers
+          }
         }
         break
     }
@@ -168,16 +186,16 @@ const AliasNavigator = () => {
     }
   }, [stoping, explainYouRef.current])
 
-  useEffect(() => {
-    if (explainYouRef.current && endRound) {
-      socketRef.current?.emit('message_to_all_players', {
-        type: 'getGameSettings',
-        settings: {
-          complexity: complexity,
-        },
-      })
-    }
-  }, [endRound, complexity])
+  // useEffect(() => {
+  //   if (explainYouRef.current && endRound) {
+  //     socketRef.current?.emit('message_to_all_players', {
+  //       type: 'getGameSettings',
+  //       settings: {
+  //         complexity: complexity,
+  //       },
+  //     })
+  //   }
+  // }, [endRound, complexity])
   useEffect(() => {
     if (userIsOrganizerRef.current && countWords && time == staticTime - 2) {
       socketRef.current?.emit('message_to_all_players', {
@@ -207,12 +225,6 @@ const AliasNavigator = () => {
   }, [time, explainedWords])
 
   useEffect(() => {
-    if (endRound == true) {
-      socketRef.current?.emit('end_time', {})
-      dispatch(setEndRound(false))
-    }
-  }, [endRound])
-  useEffect(() => {
     if (start == true && userIsOrganizer) {
       socketRef.current?.emit('message_to_all_players', {
         type: 'getTeams',
@@ -228,6 +240,18 @@ const AliasNavigator = () => {
       })
     }
   }, [step, JSON.stringify(allTeams)])
+
+  useEffect(() => {
+    if (waitEndRound && !waitEndRoundPlayersRef.current.includes(user?._id)) {
+      let waitPlayers = [...waitEndRoundPlayersRef.current, user?._id]
+      socketRef.current?.emit('message_to_all_players', {
+        type: 'waitEndRound',
+        waitPlayers,
+      })
+      dispatch(setWaitEndRound(false))
+    }
+  }, [waitEndRound])
+
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
       <Stack.Screen name="Settings" component={Settings} />
@@ -246,6 +270,7 @@ const AliasNavigator = () => {
       <Stack.Screen name="TeamsResults" component={TeamsResults} />
       <Stack.Screen name="WinnerTeamMessage" component={WinnerTeamMessage} />
       <Stack.Screen name="PlayersRatings" component={PlayersRatings} />
+      <Stack.Screen name="WaitPlayers" component={WaitPlayers} />
     </Stack.Navigator>
   )
 }

@@ -29,7 +29,7 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, setModalState })
     if (selectedTime.seconds == 0) {
       setTimeIsFinished('timeFinish')
       dispatch(setExplainerUser(null))
-      setModalState({})
+      // setModalState({})
     }
   }, [selectedTime.seconds])
   useEffect(() => {

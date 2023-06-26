@@ -23,17 +23,15 @@ const PlayNow = () => {
                 <View key={i}>
                   <Text style={styles.commandName}>{elm?.value}</Text>
                   <View style={styles.eachCommandBox}>
-                    {playersInGame.map((player) => {
+                    {playersInGame.map((player, id) => {
                       if (allTeams[i].members.includes(player?._id)) {
                         return (
-                          <View key={Math.random().toString()}>
-                            {/* pass user in User component with pressed user prop */}
+                          <View key={id}>
                             <User
                               size={70}
                               onPressItem={{
                                 item: <User size={390} pressedUser={player} />,
                                 modalClose: false,
-                                // onClickFunc: handleClick,
                               }}
                               pressedUser={player}
                             />
@@ -51,7 +49,6 @@ const PlayNow = () => {
           <View style={{ position: 'absolute', bottom: RH(50), alignSelf: 'center' }}>
             <LightButton
               size={{ width: 281, height: 48 }}
-              // labelStyle={styles.countinue}
               label={'Продолжить'}
               white={'white'}
               background={'#7DCE8A'}
@@ -59,7 +56,7 @@ const PlayNow = () => {
               onPress={() => {
                 dispatch(startAliasGame(aliasGameId))
                 dispatch(setStart(true))
-                navigation.navigate('GameStart', { fromRes: false })
+                navigation.navigate('GameStart')
               }}
             />
           </View>

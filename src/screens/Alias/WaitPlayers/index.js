@@ -1,0 +1,17 @@
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import AliasBackground from '../assets/Background'
+import AliasLoader from '../Components/AliasLoader'
+import ScreenMask from '@/components/wrappers/screen'
+
+const WaitPlayers = () => {
+  return (
+    <ScreenMask>
+      <AliasLoader />
+    </ScreenMask>
+  )
+}
+
+export default WaitPlayers
+
+const styles = StyleSheet.create({})

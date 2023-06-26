@@ -45,7 +45,7 @@ const MafiaLoader = ({ background = true }) => {
       >
         <LottieView
           ref={animationRef}
-          source={require('../assets/loader.json')}
+          source={require('../../../../assets/loader.json')}
           loop
           resizeMode="contain"
           style={{ position: 'absolute', width: 200, height: 200 }}

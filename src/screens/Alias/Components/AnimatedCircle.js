@@ -1,22 +1,19 @@
-import React, { memo, useEffect, useRef } from 'react'
+import React, { memo, useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder, Animated } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setExplainedWords, setStep, setTeams } from '@/store/Slices/AliasSlice'
 import { font } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
-import { useIsFocused } from '@react-navigation/native'
 
 const AnimatedCircle = ({
   userExplainedWordsCount,
   setUserExplainedWordsCount,
   setTruthyCount,
-  falsyCount,
-  truthyCount,
+
   setFalsyCount,
 }) => {
   const dispatch = useDispatch()
-  const isFocused = useIsFocused()
   const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords, youGuesser } =
     useSelector(({ alias }) => alias)
 
@@ -108,7 +105,7 @@ const AnimatedCircle = ({
 
   return (
     <Animated.View
-      style={!stoping && explainYou ? animatedStyle : {}}
+      style={[!stoping && explainYou ? animatedStyle : {}, { zIndex: 99999999 }]}
       {...panResponder.panHandlers}
     >
       <TypeButton

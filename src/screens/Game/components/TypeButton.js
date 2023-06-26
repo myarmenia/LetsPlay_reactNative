@@ -14,6 +14,7 @@ import {
 
 import { LIGHT_LABEL } from '@/theme/colors'
 import { font, RW } from '@/theme/utils'
+import QuestionSvg from './QuestionSvg'
 
 const TypeButton = ({ title, size = 207, onPress, wrapper, labelStyle }) => {
   return (
@@ -80,7 +81,7 @@ const TypeButton = ({ title, size = 207, onPress, wrapper, labelStyle }) => {
           />
         </G>
         <View style={[styles.root, wrapper]}>
-          <Text style={[styles.labelStyle, labelStyle]}>{title}</Text>
+          {title ? <Text style={[styles.labelStyle, labelStyle]}>{title}</Text> : <QuestionSvg />}
         </View>
         <Defs>
           <LinearGradient

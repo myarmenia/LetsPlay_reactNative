@@ -1,11 +1,16 @@
-import { Animated, Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Animated, Dimensions, Pressable, Text } from 'react-native'
 import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { font } from '@/theme/utils'
-import { setYouGuesser } from '@/store/Slices/AliasSlice'
+import { setExplainYou, setExplainerUser, setYouGuesser } from '@/store/Slices/AliasSlice'
 
-const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWordsCount }) => {
+const TimeFinishModal = ({
+  timeIsFinished,
+  setTimeIsFinished,
+  userExplainedWordsCount,
+  setModalState,
+}) => {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
@@ -46,6 +51,9 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
         onPress={() => {
           setTimeIsFinished('timeDontFinished')
           dispatch(setYouGuesser(null))
+          setModalState({})
+          dispatch(setExplainYou(null))
+          dispatch(setExplainerUser(null))
           navigation.navigate('ResultsOfAnswers', userExplainedWordsCount)
         }}
         style={{
@@ -62,5 +70,3 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
 }
 
 export default TimeFinishModal
-
-const styles = StyleSheet.create({})

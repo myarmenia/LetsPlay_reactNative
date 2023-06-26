@@ -9,9 +9,14 @@ import { RED, WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import Modal from '@/components/modal'
 import ModalRules from '../QrCode/ModalRules'
-import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setCountWords, setStoping, setTime, setUserIsOrganizer } from '@/store/Slices/AliasSlice'
+import {
+  setCountWords,
+  setPlayersInGame,
+  setStoping,
+  setTime,
+  setUserIsOrganizer,
+} from '@/store/Slices/AliasSlice'
 
 function Index({ navigation }) {
   //===================states=====================
