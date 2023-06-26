@@ -104,6 +104,7 @@ const AliasNavigator = () => {
         dispatch(setLoader(false))
         dispatch(setExplainYou(false))
         dispatch(setYouGuesser(true))
+        dispatch(setWords([]))
         explainYouRef.current = false
         dispatch(setExplainerUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
@@ -148,12 +149,7 @@ const AliasNavigator = () => {
         } else if (e.data?.type === 'getCountOfWords' && !explainYouRef.current) {
           dispatch(setCountWords(e.data.countWords))
         } else if (e.data?.type === 'waitEndRound') {
-          if (allPlayersLengthRef.current == e.data?.waitPlayers.length) {
-            waitEndRoundPlayersRef.current = []
-            socketRef.current?.emit('end_time', {})
-          } else {
-            waitEndRoundPlayersRef.current = e.data?.waitPlayers
-          }
+          waitEndRoundPlayersRef.current = e.data?.waitPlayers
         }
         break
     }
@@ -244,11 +240,17 @@ const AliasNavigator = () => {
   useEffect(() => {
     if (waitEndRound && !waitEndRoundPlayersRef.current.includes(user?._id)) {
       let waitPlayers = [...waitEndRoundPlayersRef.current, user?._id]
-      socketRef.current?.emit('message_to_all_players', {
-        type: 'waitEndRound',
-        waitPlayers,
-      })
-      dispatch(setWaitEndRound(false))
+      if (allPlayersLengthRef.current == waitPlayers.length) {
+        waitEndRoundPlayersRef.current = []
+        console.log('end_time emit')
+        socketRef.current?.emit('end_time', {})
+      } else {
+        socketRef.current?.emit('message_to_all_players', {
+          type: 'waitEndRound',
+          waitPlayers,
+        })
+        dispatch(setWaitEndRound(false))
+      }
     }
   }, [waitEndRound])
 
