@@ -18,14 +18,14 @@ const TimeFinishModal = ({
   const animatedValue = useRef(new Animated.Value(height)).current
 
   useEffect(() => {
-    setTimeIsFinished('timeDontFinished')
+    setTimeIsFinished(false)
   }, [isFocused])
   useLayoutEffect(() => {
     if (!isFocused) {
       setTimeout(() => {
         animatedValue.setValue(height)
       }, 1000)
-      setTimeIsFinished('timeDontFinished')
+      setTimeIsFinished(false)
     }
     Animated.timing(animatedValue, {
       toValue: 0,
@@ -38,7 +38,7 @@ const TimeFinishModal = ({
       style={{
         transform: [{ translateY: animatedValue }],
         width: '100%',
-        display: timeIsFinished == 'timeFinish' ? 'flex' : 'none',
+        display: timeIsFinished ? 'flex' : 'none',
         height: '120%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -49,7 +49,7 @@ const TimeFinishModal = ({
     >
       <Pressable
         onPress={() => {
-          setTimeIsFinished('timeDontFinished')
+          setTimeIsFinished(false)
           dispatch(setYouGuesser(null))
           setModalState({})
           dispatch(setExplainYou(null))

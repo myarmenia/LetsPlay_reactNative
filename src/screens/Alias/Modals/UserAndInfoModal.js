@@ -21,12 +21,8 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    console.log('explainYou', explainYou)
-    console.log('explainerUser', explainerUser)
-
     if (explainYou || explainerUser) {
       setModalState({ state: 'user' })
-    } else {
     }
   }, [isFocused, explainYou, explainerUser])
   useLayoutEffect(() => {
@@ -86,7 +82,15 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
           </Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            <User size={370} pressedUser={explainYou ? user : explainerUser} />
+            {console.log('explainerUser2', explainerUser)}
+            {console.log('explainYou2', explainYou)}
+
+            {explainYou !== null || explainerUser !== null ? (
+              <User
+                size={370}
+                pressedUser={explainYou ? user : explainerUser !== null ? explainerUser : null}
+              />
+            ) : null}
           </View>
 
           {!!explainYou && (

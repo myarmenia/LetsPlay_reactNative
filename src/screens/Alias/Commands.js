@@ -13,7 +13,7 @@ import LightButton from '@/assets/imgs/Button'
 const Commands = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { countWords, allTeams, complexity, time } = useSelector(({ alias }) => alias)
+  const { countWords, allTeams, complexity, time, penalty } = useSelector(({ alias }) => alias)
   const [error, setError] = useState(false)
   // const [input, setInput] = useState(`Команда ${elm.command}`)
 
@@ -34,7 +34,7 @@ const Commands = () => {
           {
             number_of_words: countWords,
             round_time: time,
-            pass_fine: true,
+            pass_fee: penalty,
             type: complexity,
             teams: allTeams.map((elm) => elm.value),
           },

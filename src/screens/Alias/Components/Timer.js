@@ -7,9 +7,9 @@ import { font } from '@/theme/utils'
 import { RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
-import { setExplainerUser, setStoping, setTime } from '@/store/Slices/AliasSlice'
+import { setStoping, setTime } from '@/store/Slices/AliasSlice'
 
-const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, setModalState }) => {
+const Timer = ({ modalState, setTimeIsFinished }) => {
   const { explainYou, stoping, time, staticTime } = useSelector(({ alias }) => alias)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
@@ -26,16 +26,11 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, setModalState })
   }, [stoping, staticTime, isFocused])
 
   useEffect(() => {
-    if (selectedTime.seconds == 0) {
-      setTimeIsFinished('timeFinish')
-      dispatch(setExplainerUser(null))
-      // setModalState({})
-    }
-  }, [selectedTime.seconds])
-  useEffect(() => {
     let timer
     if (!stoping) {
       timer = setInterval(() => {
+        if (selectedTime.seconds == 0) setTimeIsFinished(true)
+
         if (selectedTime.seconds > 0 && selectedTime.seconds !== 0) {
           if (!modalState?.state && explainYou) {
             setSelectedTime({
@@ -56,7 +51,7 @@ const Timer = ({ modalState, timeIsFinished, setTimeIsFinished, setModalState })
     }
 
     return () => clearInterval(timer)
-  }, [selectedTime.seconds, stoping, explainYou, timeIsFinished])
+  }, [selectedTime.seconds, stoping, explainYou])
   const displayMinutes = Math.floor(selectedTime.seconds / 60)
     .toString()
     .padStart(1, '0')

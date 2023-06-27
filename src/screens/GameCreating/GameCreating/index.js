@@ -16,7 +16,6 @@ import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setGame,
-  setGameCreatedSuccessful,
   setOrganizer_in_the_game,
   setPlayers_gender,
 } from '@/store/Slices/GameCreatingSlice'
@@ -104,11 +103,15 @@ const GameCreating = ({ route }) => {
   const handleClick = () => {
     if (!startDate) {
       setStartDateError('Обязательное поле для заполнения')
+    } else {
+      setStartDateError(null)
     }
     if (!endDate) {
       setEndDateError('Обязательное поле для заполнения')
     } else if (startDate.date <= endDate.date) {
       setEndDateError('Введите корректную дату')
+    } else {
+      setEndDateError(null)
     }
     if (!initialState.age_restrictions_from || !initialState?.age_restrictions_to) {
       setAgeError('Обязательное поле для заполнения')
@@ -117,6 +120,8 @@ const GameCreating = ({ route }) => {
       +initialState?.age_restrictions_from > +initialState?.age_restrictions_to
     ) {
       setAgeError('Введите корректную возраст')
+    } else {
+      setAgeError(null)
     }
 
     if (!initialState.number_of_players_from || !initialState?.number_of_players_to) {
@@ -126,44 +131,24 @@ const GameCreating = ({ route }) => {
       +initialState?.number_of_players_from > +initialState?.number_of_players_to
     ) {
       setPlayersCuntError('Введите корректную число')
+    } else {
+      setPlayersCuntError(null)
     }
-    if (!initialState?.latitude || !initialState?.longitude) {
+    if (!initialState?.latitude || !initialState?.longitude || !initialState.address_name) {
       setAddressError('Обязательное поле для заполнения')
+    } else {
+      setAddressError(null)
     }
-
     if (
-      (startDate && endDate && addressName?.lat) ||
-      (initialState.latitude && addressName?.lng) ||
-      (initialState.longitude && addressName?.address_name) ||
-      (initialState.address_name &&
-        +initialState?.age_restrictions_from > 0 &&
-        +initialState?.age_restrictions_from < +initialState?.age_restrictions_to &&
-        +initialState?.number_of_players_from > 0 &&
-        +initialState?.number_of_players_from < +initialState?.number_of_players_to)
+      startDate &&
+      endDate &&
+      startDate.date > endDate.date &&
+      initialState.age_restrictions_from &&
+      initialState?.age_restrictions_to &&
+      +initialState?.number_of_players_from > 0 &&
+      +initialState?.number_of_players_from < +initialState?.number_of_players_to &&
+      ((initialState?.latitude && initialState?.longitude) || initialState.address_name)
     ) {
-      dispatch(setGameCreatedSuccessful(true))
-      // dispatch(
-      //   createGame(
-      //     {
-      //       ...initialState,
-      //       start_date: changedStartDate,
-      //       end_date: changedEndDate,
-      //     },
-      //     setError,
-      //   ),
-      // )
-
-      setModalOpen(true)
-      setIsVisible(false)
-    }
-  }
-  useEffect(() => {
-    dispatch(setGame(game._id))
-    setIsVisible(true)
-  }, [])
-
-  useEffect(() => {
-    if (initialState.gameCreatedSuccessful) {
       navigation.navigate('GameTicket', {
         params: {
           initialState,
@@ -172,9 +157,12 @@ const GameCreating = ({ route }) => {
           dates: [changedStartDate, changedEndDate],
         },
       })
-      dispatch(setGameCreatedSuccessful(null))
     }
-  }, [initialState.gameCreatedSuccessful])
+  }
+  useEffect(() => {
+    dispatch(setGame(game._id))
+    setIsVisible(true)
+  }, [])
 
   return (
     <ScreenMask>
@@ -218,7 +206,7 @@ const GameCreating = ({ route }) => {
             }}
             title="Половой признак игрока"
             list={genderList}
-            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
+            titleStyle={{ ...styles.titles, marginBottom: RW(10) }}
           />
           <SearchAddresses
             game={game}

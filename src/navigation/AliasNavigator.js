@@ -34,6 +34,7 @@ import {
   setYouGuesser,
   setWaitEndRound,
   setLoader,
+  setPenalty,
 } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 import WinnerTeamMessage from '@/screens/Alias/WinnerTeamMessage/WinnerTeamMessage'
@@ -52,15 +53,14 @@ const AliasNavigator = () => {
     explainYou,
     countWords,
     staticTime,
-    complexity,
     start,
     allTeams,
     step,
-
     time,
     explainedWords,
     userIsOrganizer,
     waitEndRound,
+    explainerUser,
   } = useSelector(({ alias }) => alias)
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
@@ -83,21 +83,25 @@ const AliasNavigator = () => {
       case 'explain_you':
         dispatch(setLoader(false))
         explainYouRef.current = true
-
+        waitEndRoundPlayersRef.current = []
+        dispatch(setStep(0))
         dispatch(setExplainYou(true))
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
-        dispatch(setExplainerUser(null))
-        navigation.navigate('GameStart')
+        dispatch(setExplainerUser(undefined))
+        // navigation.navigate('GameStart')
         break
       case 'explain_another_team_user':
         dispatch(setLoader(false))
         dispatch(setExplainYou(false))
         explainYouRef.current = false
+        waitEndRoundPlayersRef.current = []
+        dispatch(setStep(0))
         dispatch(setWords(e.words))
         dispatch(setExplainerUser(e.explain_user))
         dispatch(setExplainerTeam(e.explain_user_team.name))
-        navigation.navigate('GameStart')
+
+        // navigation.navigate('GameStart')
         break
 
       case 'explain_your_team_user':
@@ -105,16 +109,18 @@ const AliasNavigator = () => {
         dispatch(setExplainYou(false))
         dispatch(setYouGuesser(true))
         dispatch(setWords([]))
+        dispatch(setStep(0))
         explainYouRef.current = false
+        waitEndRoundPlayersRef.current = []
         dispatch(setExplainerUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
-        navigation.navigate('GameStart')
+        // navigation.navigate('GameStart')
         break
 
       case 'alias_start':
         dispatch(setTime(e?.alias_game_team?.round_time))
         dispatch(setStaticRoundTime(e?.alias_game_team?.round_time))
-
+        dispatch(setPenalty(e?.alias_game_team?.pass_fee))
         break
 
       case 'alias_team_confirm':
@@ -175,23 +181,11 @@ const AliasNavigator = () => {
       },
     )
   }, [aliasGameId, token])
-
   useEffect(() => {
     if (explainYouRef.current == true && stoping !== 'withoutSocket') {
       socketRef.current?.emit('pause_or_start', { stoping })
     }
   }, [stoping, explainYouRef.current])
-
-  // useEffect(() => {
-  //   if (explainYouRef.current && endRound) {
-  //     socketRef.current?.emit('message_to_all_players', {
-  //       type: 'getGameSettings',
-  //       settings: {
-  //         complexity: complexity,
-  //       },
-  //     })
-  //   }
-  // }, [endRound, complexity])
   useEffect(() => {
     if (userIsOrganizerRef.current && countWords && time == staticTime - 2) {
       socketRef.current?.emit('message_to_all_players', {
@@ -219,7 +213,6 @@ const AliasNavigator = () => {
       })
     }
   }, [time, explainedWords])
-
   useEffect(() => {
     if (start == true && userIsOrganizer) {
       socketRef.current?.emit('message_to_all_players', {
@@ -235,7 +228,14 @@ const AliasNavigator = () => {
         data: allTeams,
       })
     }
-  }, [step, JSON.stringify(allTeams)])
+  }, [JSON.stringify(allTeams)]) //step,
+
+  useEffect(() => {
+    if (explainerUser !== null && explainYou !== null) {
+      console.log('navigate to GameStart')
+      navigation.navigate('GameStart')
+    }
+  }, [explainerUser, explainYou])
 
   useEffect(() => {
     if (waitEndRound && !waitEndRoundPlayersRef.current.includes(user?._id)) {
@@ -243,13 +243,14 @@ const AliasNavigator = () => {
       if (allPlayersLengthRef.current == waitPlayers.length) {
         waitEndRoundPlayersRef.current = []
         console.log('end_time emit')
+        dispatch(setWaitEndRound(null))
         socketRef.current?.emit('end_time', {})
       } else {
         socketRef.current?.emit('message_to_all_players', {
           type: 'waitEndRound',
           waitPlayers,
         })
-        dispatch(setWaitEndRound(false))
+        dispatch(setWaitEndRound(null))
       }
     }
   }, [waitEndRound])

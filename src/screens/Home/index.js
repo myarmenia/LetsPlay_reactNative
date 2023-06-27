@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native'
 
 const HomeScreen = () => {
   const navigation = useNavigation()
+
   return (
     <ScreenMask>
       <View style={styles.header}>

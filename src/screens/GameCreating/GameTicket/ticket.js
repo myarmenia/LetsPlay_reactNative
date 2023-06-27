@@ -1,17 +1,15 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { ICON, WHITE } from '@/theme/colors'
-import { useSelector } from 'react-redux'
-
 import Row from '@/components/wrappers/row'
 import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
+
 function Ticket({ game, initialState, name, dates }) {
-  const { avatar } = useSelector(({ auth }) => auth.user)
   return (
-    <View style={{}}>
+    <ScrollView contentContainerStyle={{ paddingBottom: RH(50) }}>
       <View style={styles.ticketImgBlock}>
         <Image style={styles.ticketImg} source={{ uri: _storageUrl + game?.img }} />
       </View>
@@ -70,7 +68,7 @@ function Ticket({ game, initialState, name, dates }) {
           <Text style={styles.ticketText}>Организатор игры:</Text>
           <View style={{ width: RW(60), top: '-2%', marginLeft: RW(20) }}>
             <User
-              size={40}
+              size={45}
               user={Players[8]}
               onPressItem={{
                 item: <User user={Players[8]} size={390} />,
@@ -80,14 +78,13 @@ function Ticket({ game, initialState, name, dates }) {
           </View>
         </Row>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
   ticketImgBlock: {
     alignItems: 'center',
-    top: '4%',
   },
   ticketTextBlock: {
     marginBottom: RH(16),

@@ -6,7 +6,6 @@ import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
-import { getChats } from '@/store/Slices/ChatsSlice'
 
 const ChatScreen = () => {
   const { user } = useSelector(({ auth }) => auth)

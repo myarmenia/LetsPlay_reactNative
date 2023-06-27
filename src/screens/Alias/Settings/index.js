@@ -12,7 +12,7 @@ import ModalRules from '../QrCode/ModalRules'
 import { useDispatch } from 'react-redux'
 import {
   setCountWords,
-  setPlayersInGame,
+  setPenalty,
   setStoping,
   setTime,
   setUserIsOrganizer,
@@ -40,6 +40,7 @@ function Index({ navigation }) {
       dispatch(setStoping(true))
       dispatch(setTime(timeOfRounds))
       dispatch(setUserIsOrganizer(true))
+      dispatch(setPenalty(isOn))
       navigation.navigate('SelectComplexity')
     }
   }

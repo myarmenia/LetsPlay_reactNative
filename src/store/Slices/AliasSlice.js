@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 import { setPending } from './AuthSlice'
-import { useSelector } from 'react-redux'
+
 const initialState = {
   rules: '',
   step: 0,
-  explainYou: false,
+  explainYou: null,
   loader: false,
   start: false,
   countWords: null,
@@ -29,6 +29,8 @@ const initialState = {
     falsy: [],
   },
   waitEndRound: false,
+  penalty: false,
+  explainerUser: null,
 }
 
 export const AliasSlice = createSlice({
@@ -97,7 +99,7 @@ export const AliasSlice = createSlice({
     setTeams: (store, action) => {
       return {
         ...store,
-        allTeams: [...action.payload],
+        allTeams: action.payload,
       }
     },
     setStart: (store, action) => {
@@ -153,6 +155,12 @@ export const AliasSlice = createSlice({
       return {
         ...store,
         waitEndRound: action.payload,
+      }
+    },
+    setPenalty: (store, action) => {
+      return {
+        ...store,
+        penalty: action.payload,
       }
     },
   },
@@ -243,5 +251,6 @@ export const {
   setStaticRoundTime,
   setParticipateSuccess,
   setExplainedWords,
+  setPenalty,
 } = AliasSlice.actions
 export default AliasSlice.reducer

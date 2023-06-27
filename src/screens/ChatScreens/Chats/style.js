@@ -80,6 +80,7 @@ export default StyleSheet.create({
     width: RW(42),
     height: RH(43),
     borderRadius: RH(22),
+    resizeMode: 'contain',
   },
   chatItemBlock: {
     backgroundColor: ICON,

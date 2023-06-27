@@ -202,7 +202,7 @@ export const searchGame = (data, nav, setError) => async (dispatch) => {
     .get(link.slice(0, link.length - 1))
 
     .then((response) => {
-      // console.log(JSON.stringify(response?.data?.datas, null, 5))
+      console.log(JSON.stringify(response?.data, null, 5))
       dispatch(setFindedGames(response?.data?.datas))
       if (response?.data?.datas.length) {
         nav.navigate('GameList')

@@ -2,20 +2,13 @@ import React, { memo, useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
 import { PanResponder, Animated } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setExplainedWords, setStep, setTeams } from '@/store/Slices/AliasSlice'
+import { setExplainedWords, setStep } from '@/store/Slices/AliasSlice'
 import { font } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
 
-const AnimatedCircle = ({
-  userExplainedWordsCount,
-  setUserExplainedWordsCount,
-  setTruthyCount,
-
-  setFalsyCount,
-}) => {
+const AnimatedCircle = ({ userExplainedWordsCount, setUserExplainedWordsCount }) => {
   const dispatch = useDispatch()
-  const { explainYou, stoping, step, allTeams, words, explainerTeam, explainedWords, youGuesser } =
-    useSelector(({ alias }) => alias)
+  const { explainYou, stoping, step, words, explainedWords } = useSelector(({ alias }) => alias)
 
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
@@ -32,7 +25,6 @@ const AnimatedCircle = ({
               truthy: [...explainedWords.truthy, words?.[step]?.name],
             }),
           )
-
           if (explainYou) {
             setUserExplainedWordsCount({
               ...userExplainedWordsCount,
@@ -40,22 +32,7 @@ const AnimatedCircle = ({
             })
           }
 
-          setTruthyCount((prev) => {
-            return +prev + 1
-          })
           dispatch(setStep(step + 1))
-          dispatch(
-            setTeams([
-              ...allTeams?.map((elm) => {
-                if (elm.value == explainerTeam) {
-                  return {
-                    ...elm,
-                    points: ++elm.points,
-                  }
-                } else return elm
-              }),
-            ]),
-          )
 
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
@@ -69,10 +46,6 @@ const AnimatedCircle = ({
               falsy: [...explainedWords.falsy, words?.[step]?.name],
             }),
           )
-
-          setFalsyCount((prev) => {
-            return +prev + 1
-          })
 
           dispatch(setStep(step + 1))
 
@@ -105,7 +78,7 @@ const AnimatedCircle = ({
 
   return (
     <Animated.View
-      style={[!stoping && explainYou ? animatedStyle : {}, { zIndex: 99999999 }]}
+      style={[!stoping && explainYou ? animatedStyle : {}]}
       {...panResponder.panHandlers}
     >
       <TypeButton
