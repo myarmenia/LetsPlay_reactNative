@@ -66,10 +66,10 @@ function GameItem({ route }) {
             {new Date(item?.end_date).toLocaleDateString()},{' '}
             {new Date(item?.end_date).toLocaleTimeString().slice(0, 5)}
           </Text>
-          <Text style={styles.eachInfo}>Стоимость входного билета на игру: Бесплатно</Text>
+          {/* <Text style={styles.eachInfo}>Стоимость входного билета на игру: Бесплатно</Text>
           <Text style={styles.eachInfoTwo}>
             {item?.ticket_price ? `${item?.ticket_price} руб.` : 'Бесплатно'}
-          </Text>
+          </Text> */}
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <Text style={styles.eachInfo}>Организатор игры:</Text>
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>

@@ -19,10 +19,10 @@ const JoinGame = ({ route }) => {
   const dispatch = useDispatch()
   const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
 
-  const freeOrPaid = [
-    { id: 4, text: 'Бесплатно', checked: true },
-    { id: 5, text: 'Платно', checked: false },
-  ]
+  // const freeOrPaid = [
+  //   { id: 4, text: 'Бесплатно', checked: true },
+  //   { id: 5, text: 'Платно', checked: false },
+  // ]
   const chooseGameType = [
     { id: 1, text: 'Игры из Ваших предпочтений', checked: true },
     { id: 2, text: 'Все игры', checked: false },
@@ -36,7 +36,7 @@ const JoinGame = ({ route }) => {
   const [price, setPrice] = useState('')
   const [gameTypes, setGameTypes] = useState(nameOfGames)
   const [list, setList] = useState(chooseGameType)
-  const [free, setFree] = useState(freeOrPaid)
+  // const [free, setFree] = useState(freeOrPaid)
   //datesState
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
@@ -60,17 +60,17 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
-    if (!price.length && Boolean(free.find((el) => el.checked).text == 'Платно')) {
-      setPriceError(true)
-    } else {
-      setPriceError(false)
-    }
+    // if (!price.length && Boolean(free.find((el) => el.checked).text == 'Платно')) {
+    //   setPriceError(true)
+    // } else {
+    //   setPriceError(false)
+    // }
     if (!priceError && !errorMessage) {
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = new FormData()
-      if (!free[0].checked) {
-        formData.append('price', true)
-      }
+      // if (!free[0].checked) {
+      //   formData.append('price', true)
+      // }
       formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
       formData.append('longitude', props?.fromMap ? props.longitude : addressName?.lng)
       formData.append(
@@ -139,7 +139,7 @@ const JoinGame = ({ route }) => {
             addressName={addressName}
             show={false}
           />
-          <View style={{ top: '-3%' }}>
+          {/* <View style={{ top: '-3%' }}>
             <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
             <RadioBlock list={free} onChange={setFree} />
             {free.find((el) => el.checked).text === 'Платно' ? (
@@ -156,7 +156,7 @@ const JoinGame = ({ route }) => {
                 {priceError && <Text style={styles.errorText}>Обязательное поле</Text>}
               </>
             ) : null}
-          </View>
+          </View> */}
         </View>
       </ScrollView>
       {error ? <Text style={styles.errorText}>Не найденно</Text> : null}

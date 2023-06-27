@@ -76,13 +76,13 @@ const TournamentInfoIndividual = ({ route }) => {
             <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
             <Text style={styles.eachInfoTwo}>{initialState.address_name}</Text>
           </Row>
-          <Row>
+          {/* <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Плата за участие: </Text>
             <Text style={styles.eachInfoTwo}>
               {initialState?.ticket_price ? `${initialState?.ticket_price} руб.` : 'Бесплатно'}
             </Text>
-          </Row>
+          </Row> */}
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
             <Text style={styles.eachInfo}>Организатор турнира:</Text>
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>

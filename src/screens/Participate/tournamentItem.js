@@ -24,7 +24,7 @@ function GameItem({ route, navigation }) {
             Дата и время подтверждения заявки на {'\n'} игру (не позднее):{' '}
             {[item?.date, item?.time]}
           </Text>
-          <Text style={styles.eachInfoRegular}>Стоимость входного билета на игру: Бесплатно</Text>
+          {/* <Text style={styles.eachInfoRegular}>Стоимость входного билета на игру: Бесплатно</Text> */}
           <Text style={styles.eachInfoRegular}>
             Организатор игры:{' '}
             <Image

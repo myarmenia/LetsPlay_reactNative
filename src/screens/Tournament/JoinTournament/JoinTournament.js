@@ -27,15 +27,15 @@ const JoinTournament = ({ route }) => {
     { id: 2, text: 'Командный', checked: false },
   ]
 
-  const freeOrPaid = [
-    { id: 4, text: 'Бесплатно', checked: true },
-    { id: 5, text: 'Платно', checked: false },
-  ]
+  // const freeOrPaid = [
+  //   { id: 4, text: 'Бесплатно', checked: true },
+  //   { id: 5, text: 'Платно', checked: false },
+  // ]
   const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   //states
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
-  const [free, setFree] = useState(freeOrPaid)
+  // const [free, setFree] = useState(freeOrPaid)
   const [list, setList] = useState(chooseGameType)
   const [gameTypes, setGameTypes] = useState(nameOfGames)
   const [showGameTypes, setShowGameTypes] = useState(false)
@@ -61,11 +61,11 @@ const JoinTournament = ({ route }) => {
     if (!errorMessage) {
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = new FormData()
-      if (!free[0].checked) {
-        formData.append('price', true)
-      } else {
-        formData.append('price', false)
-      }
+      // if (!free[0].checked) {
+      //   formData.append('price', true)
+      // } else {
+      //   formData.append('price', false)
+      // }
       formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
       formData.append('longitude', props?.fromMap ? props.longitude : addressName?.lng)
 
@@ -142,14 +142,14 @@ const JoinTournament = ({ route }) => {
             command={null}
           />
         </View>
-        <View style={styles.priceBox}>
+        {/* <View style={styles.priceBox}>
           <RadioBlock
             list={free}
             onChange={setFree}
             title="Стоимость входного билета в игру"
             titleStyle={styles.radioTitle}
           />
-        </View>
+        </View> */}
       </View>
       <View style={styles.bottomBox}>
         <LightButton label={'Готово'} onPress={showHideError} />

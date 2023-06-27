@@ -16,17 +16,17 @@ import { createGame } from '@/store/Slices/GameCreatingSlice'
 function Index({ route }) {
   const navigation = useNavigation()
   const { flag, game, data, initialState, name, dates } = route.params.params
-  const [isVisible, setIsVisible] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [modalClose, setModalClose] = useState(true)
+  // const [isVisible, setIsVisible] = useState(false)
+  // const [success, setSuccess] = useState(false)
+  // const [modalClose, setModalClose] = useState(true)
   const dispatch = useDispatch()
-  useEffect(() => {
-    if (flag) {
-      setIsVisible(true)
-    } else {
-      setIsVisible(false)
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (flag) {
+  //     setIsVisible(true)
+  //   } else {
+  //     setIsVisible(false)
+  //   }
+  // }, [])
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View>
@@ -60,7 +60,7 @@ function Index({ route }) {
           <CheckedCheckbox />
         </TouchableOpacity>
       </View>
-      <View style={{ position: 'absolute' }}>
+      {/* <View style={{ position: 'absolute' }}>
         <Modal
           modalClose={modalClose}
           modalVisible={isVisible}
@@ -92,7 +92,7 @@ function Index({ route }) {
             )
           }
         />
-      </View>
+      </View> */}
     </ScreenMask>
   )
 }

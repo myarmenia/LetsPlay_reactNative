@@ -56,9 +56,9 @@ function TournamentTicket(props) {
             <Text style={styles.ticketText}>Адрес проведения турнира:</Text>
           </View>
 
-          <View style={styles.ticketTextBlock}>
+          {/* <View style={styles.ticketTextBlock}>
             <Text style={styles.ticketText}>Плата за участие: 500 руб.</Text>
-          </View>
+          </View> */}
           <View
             style={[
               styles.ticketTextBlock,

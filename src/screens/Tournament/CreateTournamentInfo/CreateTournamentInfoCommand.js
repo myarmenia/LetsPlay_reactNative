@@ -50,17 +50,17 @@ const CreateTournamentInfoCommand = ({ route }) => {
     { id: 1, text: 'Участвует', checked: true },
     { id: 2, text: 'Не Участвует', checled: false },
   ])
-  const [priceExist, setPriceExist] = useState([
-    { id: 1, text: 'Бесплатно', checked: true },
-    { id: 2, text: 'Палатно', checled: false },
-  ])
+  // const [priceExist, setPriceExist] = useState([
+  //   { id: 1, text: 'Бесплатно', checked: true },
+  //   { id: 2, text: 'Палатно', checled: false },
+  // ])
   // ================== states end ==================
 
   //errors
 
   const [startDateError, setStartDateError] = useState(false)
   const [countError, setCountError] = useState(false)
-  const [priceError, setPriceError] = useState(false)
+  // const [priceError, setPriceError] = useState(false)
   const [endDateError, setEndDateError] = useState(false)
 
   const [addressNameError, setAddressNameError] = useState(false)
@@ -135,16 +135,16 @@ const CreateTournamentInfoCommand = ({ route }) => {
     } else {
       setCountError(false)
     }
-    if (priceExist[1].checked && !price) {
-      dispatch(setTournamentFund(true))
-      setPriceError('Введите сумму')
-    } else {
-      dispatch(setTournamentFund(false))
-      dispatch(setTicketPrice(price ? price : 0))
-      setPriceError('')
-    }
+    // if (priceExist[1].checked && !price) {
+    //   dispatch(setTournamentFund(true))
+    //   setPriceError('Введите сумму')
+    // } else {
+    //   dispatch(setTournamentFund(false))
+    //   dispatch(setTicketPrice(price ? price : 0))
+    //   setPriceError('')
+    // }
     if (
-      !priceError &&
+      // !priceError &&
       initialState.number_of_teams_from <= initialState.number_of_teams_to &&
       !endDateError &&
       !startDateError &&
@@ -262,7 +262,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
         </View>
-        <View style={{ paddingTop: '2%', left: '2%' }}>
+        {/* <View style={{ paddingTop: '2%', left: '2%' }}>
           <RadioBlock
             onChange={(priceExist) => {
               setPriceExist(priceExist)
@@ -271,8 +271,8 @@ const CreateTournamentInfoCommand = ({ route }) => {
             list={priceExist}
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
-        </View>
-        {!!priceExist[1].checked && (
+        </View> */}
+        {/* {!!priceExist[1].checked && (
           <View style={{ width: RW(200), left: '5%' }}>
             <Text style={styles.titles}>Сумма оплаты</Text>
             <View style={styles.priceBlock}>
@@ -289,7 +289,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
             </View>
             {!!priceError && <Text style={styles.error}>Введите сумму</Text>}
           </View>
-        )}
+        )} */}
         <View style={{ alignItems: 'flex-end', padding: RH(15) }}>
           <LightButton label={'Готово'} onPress={handleSubmit} />
         </View>

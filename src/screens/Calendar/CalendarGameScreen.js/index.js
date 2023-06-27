@@ -77,14 +77,14 @@ const CalendarGameScreen = (props) => {
             Адрес проведения игры: <Text style={styles.text2}>{gameData?.address_name}</Text>
           </Text>
         </Row>
-        <Row wrapper={styles.row}>
+        {/* <Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Плата за участие:{' '}
             <Text style={styles.text2}>
               {gameData?.ticket_price != 0 ? gameData?.ticket_price : 'Бесплатно'}
             </Text>
           </Text>
-        </Row>
+        </Row> */}
         <Row wrapper={styles.row}>
           <Text style={[styles.text1, { marginRight: RW(15) }]}>Организатор игры:</Text>
           <User

@@ -18,18 +18,18 @@ const CommandLeadCreate = ({ route }) => {
   useEffect(() => {
     setGameId(props?._id)
   }, [])
-  const priceList = [
-    {
-      id: 1,
-      text: 'Бесплатно',
-      checked: true,
-    },
-    {
-      id: 2,
-      text: 'Платно',
-      checked: false,
-    },
-  ]
+  // const priceList = [
+  //   {
+  //     id: 1,
+  //     text: 'Бесплатно',
+  //     checked: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     text: 'Платно',
+  //     checked: false,
+  //   },
+  // ]
   const playersChoose = [
     {
       id: 1,
@@ -44,7 +44,7 @@ const CommandLeadCreate = ({ route }) => {
   ]
   // states
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
-  const [radioPrice, setRadioPrice] = useState(priceList)
+  // const [radioPrice, setRadioPrice] = useState(priceList)
   const [radioPlayers, setRadioPlayers] = useState(playersChoose)
   const [gameId, setGameId] = useState()
   const [addressName, setAddressName] = useState('')
@@ -53,47 +53,33 @@ const CommandLeadCreate = ({ route }) => {
   // states end
   // errors
   const [mapError, setMapError] = useState(false)
-  const [priceError, setPriceError] = useState(false)
+  // const [priceError, setPriceError] = useState(false)
   // errors end
 
   const dispatch = useDispatch()
   const { betweenPlayers, savedTeam } = useSelector(({ teams }) => teams)
 
-  const timeFormat = date => {
+  const timeFormat = (date) => {
     if (
       date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
       +date.time.toLocaleTimeString().slice(0, 2) != 12
     ) {
       return (
-        +date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        +date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         12 +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
-    } else if (
-      date.time
-        .toLocaleTimeString()
-        .split(' ')[0]
-        .split(':')[0].length == 1
-    ) {
+    } else if (date.time.toLocaleTimeString().split(' ')[0].split(':')[0].length == 1) {
       return (
         '0' +
-        date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
     } else {
       return (
-        date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
@@ -131,12 +117,13 @@ const CommandLeadCreate = ({ route }) => {
       if (props.latitude) {
         setMapError(false)
       }
-      if (priceList.find(elm => elm.checked).text == 'Платно' && !price.length) {
-        setPriceError(true)
-      } else {
-        setPriceError(false)
-      }
-      if (!mapError && !priceError) {
+      // if (priceList.find(elm => elm.checked).text == 'Платно' && !price.length) {
+      //   setPriceError(true)
+      // } else {
+      //   setPriceError(false)
+      // }
+      if (!mapError) {
+        //&& !priceError
         dispatch(createTeamGame(sendingData, setModalVisible))
       } else {
         return null
@@ -159,18 +146,18 @@ const CommandLeadCreate = ({ route }) => {
         </View>
         {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
 
-        <RadioBlock
+        {/* <RadioBlock
           list={radioPrice}
           onChange={setRadioPrice}
           titleStyle={{ color: ICON, left: '3%', paddingVertical: RH(10) }}
           title="Стоимость входного билета в игру"
-        />
-        {!!radioPrice[1].checked && (
+        /> */}
+        {/* {!!radioPrice[1].checked && (
           <View style={styles.priceInput}>
-            <TextInput value={price} onChangeText={e => setPrice(e)} style={styles.price} />
+            <TextInput value={price} onChangeText={(e) => setPrice(e)} style={styles.price} />
           </View>
-        )}
-        {!!priceError && <Text style={styles.errorText}>Обязательное поле</Text>}
+        )} */}
+        {/* {!!priceError && <Text style={styles.errorText}>Обязательное поле</Text>} */}
 
         <RadioBlock
           list={radioPlayers}

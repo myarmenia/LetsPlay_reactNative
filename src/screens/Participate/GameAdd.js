@@ -49,11 +49,11 @@ function Index({ navigation }) {
   ]
   const [list, setList] = useState(chooseGameType)
 
-  const freeOrPaid = [
-    { id: 4, text: 'Бесплатно', checked: true },
-    { id: 5, text: 'Платно', checked: false },
-  ]
-  const [free, setFree] = useState(freeOrPaid)
+  // const freeOrPaid = [
+  //   { id: 4, text: 'Бесплатно', checked: true },
+  //   { id: 5, text: 'Платно', checked: false },
+  // ]
+  // const [free, setFree] = useState(freeOrPaid)
   const checkChecks = gameTypes.some((elm) => elm.checked === true)
   const [errorMessage, setErrorMessage] = useState(false)
   const showHideError = () => {
@@ -147,12 +147,12 @@ function Index({ navigation }) {
               <Map placeholder={'Геолокация игры'} width={367} availablePress={false} />
             </View>
           </View>
-          <View>
+          {/* <View>
             <Text style={{ ...styles.someTitle, marginBottom: RH(15) }}>
               Стоимость входного билета в игру
             </Text>
             <View style={{ ...styles.gameTypesContainer, marginLeft: RW(30) }}>
-              {/* <Radio
+               <Radio
                 flag={flag}
                 setFlag={setFlag}
                 data={data}
@@ -162,9 +162,9 @@ function Index({ navigation }) {
                 setFree={setFree}
                 type={'priceView'}
                 typeFunc={'paid'}
-              /> */}
+              /> 
             </View>
-            {flag ? (
+           {flag ? (
               <View style={{ marginLeft: RW(18) }}>
                 <Price
                   data={data}
@@ -176,8 +176,8 @@ function Index({ navigation }) {
                   placeholder={'Сумма оплаты 200р.'}
                 />
               </View>
-            ) : null}
-          </View>
+            ) : null} 
+          </View> */}
         </View>
       </ScrollView>
       <View style={styles.bottomButton}>

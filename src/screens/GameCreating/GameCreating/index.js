@@ -54,10 +54,10 @@ const GameCreating = ({ route }) => {
     { id: 1, text: 'Участвует', checked: true },
     { id: 2, text: 'Не участвует', checked: false },
   ])
-  const [priceList, setPriceList] = useState([
-    { id: 1, text: 'Бесплатно', checked: true },
-    { id: 2, text: 'Платно', checked: false },
-  ])
+  // const [priceList, setPriceList] = useState([
+  //   { id: 1, text: 'Бесплатно', checked: true },
+  //   { id: 2, text: 'Платно', checked: false },
+  // ])
   const [genderList, setGenderList] = useState([
     { id: 1, text: 'М', checked: false, label: 'm' },
     { id: 2, text: 'Ж', checled: false, label: 'f' },
@@ -242,7 +242,7 @@ const GameCreating = ({ route }) => {
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
 
-          <RadioBlock
+          {/* <RadioBlock
             onChange={(list) => {
               setPriceList(list)
               list.find((e) => e.checked).text == 'Платно' ? setFlag(true) : setFlag(false)
@@ -250,9 +250,9 @@ const GameCreating = ({ route }) => {
             title="Стоимость входного билета на игру"
             list={priceList}
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
-          />
+          /> */}
 
-          {flag && (
+          {/* {flag && (
             <View style={styles.price}>
               <Price
                 initialState={initialState}
@@ -263,10 +263,10 @@ const GameCreating = ({ route }) => {
                 placeholder={'Сумма оплаты 200р.'}
               />
             </View>
-          )}
-          {!initialState?.ticket_price && flag ? (
+          )} */}
+          {/* {!initialState?.ticket_price && flag ? (
             <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-          ) : null}
+          ) : null} */}
           <View style={{ position: 'absolute' }}>
             {!response && (
               <Modal

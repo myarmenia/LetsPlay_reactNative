@@ -24,11 +24,11 @@ const Radio = (props) => {
     setChecked(false)
     setValue(ev.id)
     if (data) {
-      if (ev.text === 'Платно' && type === 'priceView') {
-        setFlag(true)
-      } else if (ev.text === 'Бесплатно' && type === 'priceView') {
-        setFlag(false)
-      }
+      // if (ev.text === 'Платно' && type === 'priceView') {
+      //   setFlag(true)
+      // } else if (ev.text === 'Бесплатно' && type === 'priceView') {
+      //   setFlag(false)
+      // }
       if (type === 'gender') {
         if (ev.text === 'М') {
           dispatch(setPlayers_gender('m'))

@@ -60,10 +60,10 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     { id: 1, text: 'Участвует', checked: true },
     { id: 2, text: 'Не Участвует', checked: false },
   ])
-  const [priceExist, setPriceExist] = useState([
-    { id: 1, text: 'Бесплатно', checked: true },
-    { id: 2, text: 'Платно', checked: false },
-  ])
+  // const [priceExist, setPriceExist] = useState([
+  //   { id: 1, text: 'Бесплатно', checked: true },
+  //   { id: 2, text: 'Платно', checked: false },
+  // ])
   const [priceFond, setPriceFond] = useState([
     { id: 1, text: 'Да', checked: false },
     { id: 2, text: 'Нет', checked: true },
@@ -74,7 +74,7 @@ const CreateTournamentInfoIndividual = ({ route }) => {
   //errors
   const [ageError, setAgeError] = useState(false)
   const [countError, setCountError] = useState(false)
-  const [priceError, setPriceError] = useState(false)
+  // const [priceError, setPriceError] = useState(false)
   const [endDateError, setEndDateError] = useState(false)
   const [startDateError, setStartDateError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
@@ -162,14 +162,14 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     } else {
       setCountError('')
     }
-    if (priceExist[1].checked && !price) {
-      // dispatch(setTournamentFund(true))
-      setPriceError('Введите сумму')
-    } else {
-      // dispatch(setTournamentFund(false))
-      dispatch(setTicketPrice(price ? price : 0))
-      setPriceError('')
-    }
+    // if (priceExist[1].checked && !price) {
+    //   // dispatch(setTournamentFund(true))
+    //   setPriceError('Введите сумму')
+    // } else {
+    //   // dispatch(setTournamentFund(false))
+    //   dispatch(setTicketPrice(price ? price : 0))
+    //   setPriceError('')
+    // }
     if (genderList.find((e) => e.checked).text == 'М') {
       dispatch(setPlayersGender('m'))
     } else if (genderList.find((e) => e.checked).text == 'Ж') {
@@ -179,8 +179,8 @@ const CreateTournamentInfoIndividual = ({ route }) => {
     }
     dispatch(setTournamentFund(priceFond[0].checked ? true : false))
     if (
-      !priceExist[1].checked &&
-      !price &&
+      // !priceExist[1].checked &&
+      // !price &&
       initialState.number_of_participants_from < initialState.number_of_participants_to &&
       initialState.age_restrictions_from < initialState.age_restrictions_to &&
       !endDateError &&
@@ -337,7 +337,7 @@ const CreateTournamentInfoIndividual = ({ route }) => {
             titleStyle={{ ...styles.titles, marginBottom: RW(5) }}
           />
         </View>
-        <View style={{ paddingTop: '5%', left: '2%' }}>
+        {/* <View style={{ paddingTop: '5%', left: '2%' }}>
           <RadioBlock
             onChange={(priceExist) => {
               setPriceExist(priceExist)
@@ -346,8 +346,8 @@ const CreateTournamentInfoIndividual = ({ route }) => {
             list={priceExist}
             titleStyle={{ ...styles.titles, marginBottom: RW(5) }}
           />
-        </View>
-        {!!priceExist[1].checked && (
+        </View> */}
+        {/* {!!priceExist[1].checked && (
           <View style={{ width: RW(200), left: '5%' }}>
             <Text style={styles.titles}>Сумма оплаты</Text>
             <View style={styles.priceBlock}>
@@ -363,7 +363,7 @@ const CreateTournamentInfoIndividual = ({ route }) => {
             </View>
             {!!priceError && <Text style={styles.error}>Введите сумму</Text>}
           </View>
-        )}
+        )} */}
         <View style={{ alignItems: 'flex-end', padding: RH(15) }}>
           <LightButton label={'Готово'} onPress={handleSubmit} />
         </View>

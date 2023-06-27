@@ -67,11 +67,11 @@ const EachTournament = ({ route }) => {
             {/* {new Date(props?.end_date).toLocaleDateString()},{' '}
             {new Date(props?.end_date).toLocaleTimeString().slice(0, 5)} */}
           </Text>
-          <Text style={styles.eachInfo}>Плата за участие: </Text>
-          <Text style={styles.eachInfoTwo}>
-            {initialState?.ticket_price ? initialState?.ticket_price : '0 р.'}
-            {/* {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'} */}
-          </Text>
+          {/* <Text style={styles.eachInfo}>Плата за участие: </Text> */}
+          {/* <Text style={styles.eachInfoTwo}>
+            {initialState?.ticket_price ? initialState?.ticket_price : '0 р.'} */}
+          {/* {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'} */}
+          {/* </Text> */}
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
             <Text style={styles.eachInfo}>Организатор турнира:</Text>
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>

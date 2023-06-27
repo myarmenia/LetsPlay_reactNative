@@ -49,16 +49,16 @@ const CommandLeadNotCreate = ({ route }) => {
       return { id: i, text: elm, checked: false }
     }),
   )
-  const [priceList, setPriceList] = useState([
-    { id: 1, text: 'Бесплатно', checked: true },
-    { id: 2, text: 'Платно', checked: false },
-  ])
+  // const [priceList, setPriceList] = useState([
+  //   { id: 1, text: 'Бесплатно', checked: true },
+  //   { id: 2, text: 'Платно', checked: false },
+  // ])
   // states end ================================
   // error states =============================
   const [enemyTeamError, setEnemyTeamError] = useState(false)
-  const [formatError, setFormatError] = useState(false)
+  // const [formatError, setFormatError] = useState(false)
   const [mapError, setMapError] = useState(false)
-  const [priceError, setPriceError] = useState(false)
+  // const [priceError, setPriceError] = useState(false)
   // error states end =========================
   const timeFormat = (date) => {
     if (
@@ -125,11 +125,11 @@ const CommandLeadNotCreate = ({ route }) => {
     if (item?.latitude) {
       setMapError(false)
     }
-    if (priceList?.find((elm) => elm?.checked)?.text == 'Платно' && !price?.length) {
-      setPriceError(true)
-    } else {
-      setPriceError(false)
-    }
+    // if (priceList?.find((elm) => elm?.checked)?.text == 'Платно' && !price?.length) {
+    //   setPriceError(true)
+    // } else {
+    //   setPriceError(false)
+    // }
     if (
       Boolean(
         addresName?.address_name || item?.latitude,
@@ -221,7 +221,7 @@ const CommandLeadNotCreate = ({ route }) => {
           />
           {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
         </View>
-        {priceList?.length ? (
+        {/* {priceList?.length ? (
           <RadioBlock
             title={'Стоимость входного билета в игру'}
             list={priceList}
@@ -237,7 +237,7 @@ const CommandLeadNotCreate = ({ route }) => {
         )}
         {!!priceError && !!priceList[1].checked && (
           <Text style={styles.errorText}>Заполните поле</Text>
-        )}
+        )} */}
       </ScrollView>
       <View style={{ right: RW(10), bottom: RH(20), position: 'absolute' }}>
         <LightButton label={'Готово'} onPress={handleSubmit} />
