@@ -13,7 +13,7 @@ const index = () => {
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
     { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
     { id: 3, text: 'Мои предпочтения', navigateTo: 'Preference' },
-    { id: 4, text: 'Мой кошелек', navigateTo: 'Wallet' },
+    // { id: 4, text: 'Мой кошелек', navigateTo: 'Wallet' },
     { id: 5, text: 'Условия использования' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
