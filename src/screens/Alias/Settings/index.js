@@ -8,7 +8,6 @@ import ToggleSwitch from '@/components/ToggleSwitch'
 import { RED, WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import Modal from '@/components/modal'
-import ModalRules from '../QrCode/ModalRules'
 import { useDispatch } from 'react-redux'
 import {
   setCountWords,
@@ -17,6 +16,7 @@ import {
   setTime,
   setUserIsOrganizer,
 } from '@/store/Slices/AliasSlice'
+import ModalRules from '../QrCode/ModalRules'
 
 function Index({ navigation }) {
   //===================states=====================

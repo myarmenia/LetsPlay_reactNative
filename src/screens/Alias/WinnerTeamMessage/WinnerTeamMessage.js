@@ -22,7 +22,6 @@ const WinnerTeamMessage = () => {
     }
   }
   const winnerName = maxPointsTeam.value
-  console.log('winnerName', winnerName)
 
   return (
     <ScreenMask>

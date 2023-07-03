@@ -16,10 +16,10 @@ const screenWidth = Dimensions.get('screen').width
 
 const audioRecorderPlayer = new AudioRecorderPlayer()
 audioRecorderPlayer.setSubscriptionDuration(0.05)
-const InputPlayer = ({ voicePath, onPressDelete }) => {
+const InputPlayer = ({ voicePath, onPressDelete, stop, setStop }) => {
   const [playTime, setPlayTime] = useState('00:00:00')
-
   const [playWidth, setPlayWidth] = useState(0)
+  const [stoped, setStoped] = useState(true)
 
   const dispatch = useDispatch()
   const { playMessageId, pausedMessageId, voiceDuration } = useSelector(({ chats }) => chats)
@@ -31,18 +31,28 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
       if (e.currentPosition == e.duration) {
         audioRecorderPlayer.removePlayBackListener()
         dispatch(setPlayMessageId(null))
-        await audioRecorderPlayer.stopPlayer()
+
+        if (!stoped) {
+          await audioRecorderPlayer.stopPlayer()
+          setStoped(true)
+        }
       }
     })
   }, [voicePath])
 
   const onStartPlay = async () => {
     if (pausedMessageId == 'input') {
+      setStop(false)
       await audioRecorderPlayer.resumePlayer()
       dispatch(setPausedMessageId(null))
     } else {
-      await audioRecorderPlayer.stopPlayer()
+      if (!stoped) {
+        await audioRecorderPlayer.stopPlayer()
+        setStoped(true)
+      }
       dispatch(setPlayMessageId('input'))
+      setPlayWidth(0)
+      setStop(false)
       await audioRecorderPlayer.startPlayer(voicePath)
 
       try {
@@ -52,7 +62,11 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
           if (e.currentPosition == e.duration) {
             audioRecorderPlayer.removePlayBackListener()
             dispatch(setPlayMessageId(null))
-            await audioRecorderPlayer.stopPlayer()
+
+            if (!stoped) {
+              await audioRecorderPlayer.stopPlayer()
+              setStoped(true)
+            }
           }
         })
       } catch (err) {
@@ -62,11 +76,14 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
   }
 
   const onStopPlay = async () => {
+    setStoped(true)
     await audioRecorderPlayer.pausePlayer()
     dispatch(setPausedMessageId('input'))
     dispatch(setPlayMessageId('input'))
   }
   const onPressDeleteFunc = () => {
+    onStopPlay()
+    setStoped(true)
     onPressDelete()
     dispatch(setPlayMessageId(null))
     dispatch(setPausedMessageId(null))
@@ -97,6 +114,14 @@ const InputPlayer = ({ voicePath, onPressDelete }) => {
       return minutes + ':' + seconds + ':' + splitNums[1]
     }
   }
+
+  useEffect(() => {
+    console.log('stop', stop)
+    if (stop) {
+      onStopPlay()
+      setStop(false)
+    }
+  }, [stop])
 
   return (
     <Row wrapper={styles.container}>

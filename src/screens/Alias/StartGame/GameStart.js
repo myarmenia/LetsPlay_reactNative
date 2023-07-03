@@ -1,13 +1,13 @@
 import { ICON, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH } from '@/theme/utils'
-import { memo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import { View, StyleSheet, Text } from 'react-native'
-import AnimatedCircle from '../Components/AnimatedCircle'
+import AnimatedCircle from '../components/AnimatedCircle'
 import AliasBackground from '../assets/Background'
 import LightButton from '@/assets/imgs/Button'
-import Timer from '../Components/Timer'
+import Timer from '../components/Timer'
 import {
   setExplainYou,
   setExplainedWords,
@@ -17,14 +17,14 @@ import {
   setStoping,
   setTeams,
 } from '@/store/Slices/AliasSlice'
-import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
+import SomeSampleScreen from '../Modals/UserAndInfoModal'
 import TimeFinishModal from '../Modals/TimeFinishModal'
 
 const GameStart = () => {
   const [timeIsFinished, setTimeIsFinished] = useState(false)
   const [falsyCount, setFalsyCount] = useState(0)
   const [truthyCount, setTruthyCount] = useState(0)
-  const [modalState, setModalState] = useState({ state: 'user' })
+  const [modalState, setModalState] = useState() //{ state: 'user' }
 
   const {
     explainerTeam,
@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
     ...font('regular', 18, WHITE),
   },
   modalBox: {
-    // height: '100%',
     width: '95%',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -206,4 +205,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(GameStart)
+export default GameStart

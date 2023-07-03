@@ -1,5 +1,5 @@
 import { Animated, Dimensions, Pressable, Text } from 'react-native'
-import React, { useEffect, useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, memo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { font } from '@/theme/utils'
@@ -69,4 +69,4 @@ const TimeFinishModal = ({
   )
 }
 
-export default TimeFinishModal
+export default memo(TimeFinishModal)

@@ -20,7 +20,8 @@ import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
 import { setPending } from '@/store/Slices/AuthSlice'
 import Modal from '@/components/modal'
-import CloseSVG from './Components/CloseSVG'
+import CloseSVG from './components/CloseSVG'
+// import CloseSVG from './components/CloseSVG'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()

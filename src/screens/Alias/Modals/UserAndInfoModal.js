@@ -1,7 +1,7 @@
 import LightButton from '@/assets/imgs/Button'
 import { RH, font } from '@/theme/utils'
 import { useIsFocused } from '@react-navigation/native'
-import { useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef, memo } from 'react'
 import { Pressable, Text, View, StyleSheet, Animated, Dimensions } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import PlayingInstructionSVG from '../assets/PlayingInstructionSVG'
@@ -10,7 +10,9 @@ import User from '@/components/User/user'
 import { ICON, WHITE } from '@/theme/colors'
 import { setStoping } from '@/store/Slices/AliasSlice'
 
-export const SomeSampleScreen = ({ modalState, setModalState }) => {
+// have render problem
+
+const SomeSampleScreen = ({ modalState, setModalState }) => {
   const isFocused = useIsFocused()
   const { user } = useSelector(({ auth }) => auth)
   const { explainYou, explainerTeam, explainerUser } = useSelector(({ alias }) => alias)
@@ -21,7 +23,7 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (explainYou || explainerUser) {
+    if (explainYou == true || explainerUser !== null) {
       setModalState({ state: 'user' })
     }
   }, [isFocused, explainYou, explainerUser])
@@ -70,9 +72,7 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
           display: modalState?.state == 'user' ? 'flex' : 'none',
           flexDirection: 'column',
           alignItems: 'center',
-
           height: '87%',
-
           justifyContent: 'space-evenly',
         }}
       >
@@ -82,10 +82,7 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
           </Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            {console.log('explainerUser2', explainerUser)}
-            {console.log('explainYou2', explainYou)}
-
-            {explainYou !== null || explainerUser !== null ? (
+            {explainYou == true || explainerUser !== null ? (
               <User
                 size={370}
                 pressedUser={explainYou ? user : explainerUser !== null ? explainerUser : null}
@@ -154,7 +151,6 @@ const styles = StyleSheet.create({
     ...font('regular', 18, WHITE),
   },
   modalBox: {
-    // height: '100%',
     width: '95%',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -194,3 +190,4 @@ const styles = StyleSheet.create({
     paddingVertical: RH(5),
   },
 })
+export default memo(SomeSampleScreen)

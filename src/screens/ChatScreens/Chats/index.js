@@ -6,6 +6,7 @@ import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
+import { getProfileInfo } from '@/store/Slices/AuthSlice'
 
 const ChatScreen = () => {
   const { user } = useSelector(({ auth }) => auth)
@@ -17,6 +18,7 @@ const ChatScreen = () => {
 
   useEffect(() => {
     dispatch(getTeams())
+    dispatch(getProfileInfo())
   }, [isFocused])
   return (
     <ScreenMask>

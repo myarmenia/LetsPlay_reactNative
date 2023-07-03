@@ -20,10 +20,12 @@ const index = ({
 }) => {
   const [speak, setSpeak] = React.useState(false)
   const [text, setText] = React.useState('')
+  const [stop, setStop] = React.useState(false)
 
   const dispatch = useDispatch()
 
   const send = () => {
+    setStop(true)
     if (voiceMessage) {
       dispatch(setPlayMessageId(null))
       dispatch(setPausedMessageId(null))
@@ -46,6 +48,8 @@ const index = ({
           onPressDelete={() => {
             setVoiceMessage(null)
           }}
+          stop={stop}
+          setStop={setStop}
         />
       ) : (
         <TextInput
@@ -68,10 +72,12 @@ const index = ({
           onStartSpeak={() => {
             setSpeak(true)
             dispatch(setPlayMessageId(null))
+            setStop(true)
           }}
           voicePath={(path) => {
             setSpeak(false)
             setVoiceMessage(path)
+            setStop(true)
           }}
         />
       )}

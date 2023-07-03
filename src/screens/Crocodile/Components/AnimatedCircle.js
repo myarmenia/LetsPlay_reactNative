@@ -1,47 +1,56 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { memo, useRef } from 'react'
 import TypeButton from '@/screens/Game/components/TypeButton'
-import { PanResponder } from 'react-native'
-import { Animated } from 'react-native'
-import { useSelector } from 'react-redux'
+import { PanResponder, Animated } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { setExplainedWords, setStep } from '@/store/Slices/CrocodileSlice'
+import { font } from '@/theme/utils'
+import { LIGHT_LABEL } from '@/theme/colors'
 
-const AnimatedCircle = ({
-  word,
-  answers,
-  setAnswers,
-  stoped,
-  setStoped,
-  setInstructionModal,
-  setAnswerVisible,
-}) => {
-  const increment = e => {
-    if (!stoped && e) {
-      setAnswers({ false: answers.false, true: ++answers.true })
-    } else if (!stoped && !e) {
-      setAnswers({ true: answers.true, false: ++answers.false })
-    }
-  }
-  const { explainYou } = useSelector(({ alias }) => alias)
+const AnimatedCircle = ({ userExplainedWordsCount, setUserExplainedWordsCount }) => {
+  const dispatch = useDispatch()
+  const { explainYou, stoping, step, words, explainedWords } = useSelector(
+    ({ crocodile }) => crocodile,
+  )
+
   //animation =====================================
   const pan = useRef(new Animated.ValueXY()).current
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     onPanResponderMove: Animated.event([null, { dy: pan.y }]),
     onPanResponderRelease: (e, gestureState) => {
-      if (explainYou) {
+      if (explainYou && !stoping) {
         pan.flattenOffset()
         if (gestureState.moveY < 233) {
-          increment(true)
-          setAnswerVisible({ visible: true, answerTruthy: true })
+          dispatch(
+            setExplainedWords({
+              ...explainedWords,
+              truthy: [...explainedWords.truthy, words?.[step]?.name],
+            }),
+          )
+          if (explainYou) {
+            setUserExplainedWordsCount({
+              ...userExplainedWordsCount,
+              points: ++userExplainedWordsCount.points,
+            })
+          }
+
+          dispatch(setStep(step + 1))
+
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
             useNativeDriver: false,
           }).start()
         } else if (gestureState.moveY > 555) {
-          increment(false)
-          setAnswerVisible({ visible: true, answerTruthy: false })
+          dispatch(
+            setExplainedWords({
+              ...explainedWords,
+              falsy: [...explainedWords.falsy, words?.[step]?.name],
+            }),
+          )
+
+          dispatch(setStep(step + 1))
+
           Animated.timing(pan, {
             toValue: { x: 0, y: 0 },
             duration: 300,
@@ -66,20 +75,20 @@ const AnimatedCircle = ({
   })
 
   const animatedStyle = {
-    transform: [{ translateY: stoped == false ? clampedY : 0 }],
+    transform: [{ translateY: clampedY }],
   }
 
   return (
-    <Animated.View style={explainYou ? animatedStyle : {}} {...panResponder.panHandlers}>
+    <Animated.View
+      style={[!stoping && explainYou ? animatedStyle : {}]}
+      {...panResponder.panHandlers}
+    >
       <TypeButton
-        title={word}
+        labelStyle={{ ...font('bold', 21, LIGHT_LABEL, 21) }}
+        title={words?.[step]?.name}
         key={Math.random().toString()}
-        onPress={() => {
-          setInstructionModal(true), setStoped(true)
-        }}
       />
     </Animated.View>
   )
 }
-
 export default memo(AnimatedCircle)

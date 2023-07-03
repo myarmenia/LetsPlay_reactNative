@@ -1,73 +1,68 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import { memo } from 'react'
+
 import { font } from '@/theme/utils'
-import { WHITE } from '@/theme/colors'
-import { useSelector } from 'react-redux'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { RED, WHITE } from '@/theme/colors'
+import { useDispatch, useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
+import { setStoping, setTime } from '@/store/Slices/CrocodileSlice'
 
-const Timer = ({
-  stoped,
-  modalVisible,
-  setModalVisible,
-  timerStart,
-  setUserModalVisible,
-  userModalVisible,
-  secModalVisible,
-  setSecModalVisible,
-}) => {
+const Timer = ({ modalState, setTimeIsFinished }) => {
+  const { explainYou, stoping, time, staticTime } = useSelector(({ crocodile }) => crocodile)
+  const dispatch = useDispatch()
   const isFocused = useIsFocused()
-  const navigation = useNavigation()
-  const {time} = useSelector(({alias})=>alias)
-  const [selectedTime, setSelectedTime] = useState({ seconds: 20 })
-  useEffect(() => {
-    if (timerStart) {
-      setSelectedTime({ seconds: 20 + 0 })
-    }
-  }, [timerStart])
+  const [selectedTime, setSelectedTime] = useState({ seconds: staticTime - 20 })
 
   useEffect(() => {
-    if (selectedTime.seconds == 0 && !userModalVisible) {
-      setSelectedTime({ seconds: 0 })
-      setSecModalVisible(true)
+    if (!isFocused && selectedTime.seconds == 0) {
+      dispatch(setStoping('withoutSocket'))
+    } else if (selectedTime.seconds > 0 && selectedTime.seconds < staticTime - 20) {
+      setSelectedTime((prev) => ({ seconds: prev.seconds }))
+    } else {
+      setSelectedTime({ seconds: staticTime - 20 })
     }
-  }, [selectedTime.seconds])
+  }, [stoping, staticTime, isFocused])
+
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (!stoped) {
-        if (selectedTime.seconds !== 0) {
-          if (selectedTime.seconds > 0 && !modalVisible && !userModalVisible) {
-            setSelectedTime(prev => ({
+    let timer
+    if (!stoping) {
+      timer = setInterval(() => {
+        if (selectedTime.seconds == 0) setTimeIsFinished(true)
+
+        if (selectedTime.seconds > 0 && selectedTime.seconds !== 0) {
+          if (!modalState?.state && explainYou) {
+            setSelectedTime({
               seconds: selectedTime.seconds - 1,
-            }))
+            })
+            dispatch(setTime(selectedTime.seconds - 1))
           }
-          if (selectedTime.seconds == 1) {
-            // console.log('end')
-            setSelectedTime({ seconds: 0 })
-            setSecModalVisible(true)
-            clearInterval(timer)
+          if (!explainYou && !stoping) {
+            setSelectedTime({
+              seconds: selectedTime.seconds - 1,
+            })
+            dispatch(setTime(selectedTime.seconds - 1))
           }
+        } else if (time == 0) {
+          dispatch(setTime(selectedTime.seconds - 1))
         }
-      } else {
-        setSelectedTime(prev => ({ ...prev, seconds: prev.seconds }))
-      }
-    }, 1000)
+      }, 1000)
+    }
 
     return () => clearInterval(timer)
-  }, [selectedTime.seconds, modalVisible || stoped])
-
-  const displayMinutes = Math.floor(time / 60)
+  }, [selectedTime.seconds, stoping, explainYou])
+  const displayMinutes = Math.floor(selectedTime.seconds / 60)
     .toString()
-    .padStart(2, '0')
-  const displaySeconds = (time % 60).toString().padStart(2, '0')
-
+    .padStart(1, '0')
+  const displaySeconds = (selectedTime.seconds % 60).toString().padStart(2, '0')
   return (
     <>
       <Text style={styles.timer}>Оставшееся время</Text>
-      <Text style={styles.timerClock}>
-        {displayMinutes}:{displaySeconds}
+      <Text style={[styles.timerClock, { color: selectedTime.seconds > 5 ? WHITE : RED }]}>
+        {selectedTime.seconds < 0
+          ? 0
+          : [displayMinutes > 0 ? displayMinutes + ':' : '', displaySeconds]}
       </Text>
     </>
   )

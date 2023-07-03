@@ -24,7 +24,6 @@ const TeamsResults = () => {
       <View style={styles.container}>
         <View style={styles.mainContainer}>
           {allTeams?.map((elm, i) => {
-            console.log('elmelm', elm)
             return (
               <View key={Math.random().toString()}>
                 <View>

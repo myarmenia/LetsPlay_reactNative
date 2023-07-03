@@ -1,11 +1,11 @@
 import React from 'react'
-import { ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import User from '@/components/User/user'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 
 function PlayerList({ players, isSelected = false, activePlayers = [], setActivePlayers }) {
-  const handlerActiveUser = id => {
+  const handlerActiveUser = (id) => {
     if (isSelected) {
       if (activePlayers.includes(id)) {
         const temp = activePlayers.filter((item, i) => item !== id)
@@ -77,7 +77,6 @@ export const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     width: '100%',
-    // justifyContent: 'space-evenly',
     flexWrap: 'wrap',
   },
 

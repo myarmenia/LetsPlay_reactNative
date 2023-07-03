@@ -18,7 +18,6 @@ function Index(props) {
 
   const { user, token } = useSelector(({ auth }) => auth)
   const { voiceDuration, chats } = useSelector(({ chats }) => chats)
-  const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
@@ -123,11 +122,10 @@ function Index(props) {
         item={item}
         key={index}
         id={item._id || item.id}
-        myMessage={item?.user?._id == userId || item?.user == userId || item.user_id}
+        myMessage={item?.user?._id == user._id} //|| item?.user == user._id || item.user_id
       />
     )
   }
-
   return (
     <ScreenMask>
       <KeyboardAvoidingView

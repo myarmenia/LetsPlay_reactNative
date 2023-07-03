@@ -1,4 +1,4 @@
-import { memo, useEffect, useLayoutEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { NAV_HEADER_OPTION } from '@/constants'
 import { useGameSocketHelper } from './helpers'
 import { useDispatch, useSelector } from 'react-redux'
@@ -89,7 +89,6 @@ const AliasNavigator = () => {
         dispatch(setWords(e.words))
         dispatch(setExplainerTeam(e.team.name))
         dispatch(setExplainerUser(undefined))
-        // navigation.navigate('GameStart')
         break
       case 'explain_another_team_user':
         dispatch(setLoader(false))
@@ -100,8 +99,6 @@ const AliasNavigator = () => {
         dispatch(setWords(e.words))
         dispatch(setExplainerUser(e.explain_user))
         dispatch(setExplainerTeam(e.explain_user_team.name))
-
-        // navigation.navigate('GameStart')
         break
 
       case 'explain_your_team_user':
@@ -114,7 +111,6 @@ const AliasNavigator = () => {
         waitEndRoundPlayersRef.current = []
         dispatch(setExplainerUser(e.user))
         dispatch(setExplainerTeam(e.team.name))
-        // navigation.navigate('GameStart')
         break
 
       case 'alias_start':
@@ -155,7 +151,17 @@ const AliasNavigator = () => {
         } else if (e.data?.type === 'getCountOfWords' && !explainYouRef.current) {
           dispatch(setCountWords(e.data.countWords))
         } else if (e.data?.type === 'waitEndRound') {
-          waitEndRoundPlayersRef.current = e.data?.waitPlayers
+          if (e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length) {
+            waitEndRoundPlayersRef.current = e.data?.waitPlayers
+          } else if (
+            e.data?.waitPlayers.length == allPlayersLengthRef.current &&
+            allPlayersLengthRef.current > 0
+          ) {
+            waitEndRoundPlayersRef.current = []
+            console.log('end_time emit')
+            dispatch(setWaitEndRound(null))
+            socketRef.current?.emit('end_time', {})
+          }
         }
         break
     }
@@ -231,13 +237,14 @@ const AliasNavigator = () => {
   }, [JSON.stringify(allTeams)]) //step,
 
   useEffect(() => {
-    if (explainerUser !== null && explainYou !== null) {
+    if (explainYou == true || explainerUser !== null) {
       console.log('navigate to GameStart')
       navigation.navigate('GameStart')
     }
   }, [explainerUser, explainYou])
 
   useEffect(() => {
+    console.log('waitEndRound', user?._id)
     if (waitEndRound && !waitEndRoundPlayersRef.current.includes(user?._id)) {
       let waitPlayers = [...waitEndRoundPlayersRef.current, user?._id]
       if (allPlayersLengthRef.current == waitPlayers.length) {
@@ -246,6 +253,7 @@ const AliasNavigator = () => {
         dispatch(setWaitEndRound(null))
         socketRef.current?.emit('end_time', {})
       } else {
+        console.log('message_to_all_players waitEndRound')
         socketRef.current?.emit('message_to_all_players', {
           type: 'waitEndRound',
           waitPlayers,
@@ -277,4 +285,4 @@ const AliasNavigator = () => {
     </Stack.Navigator>
   )
 }
-export default memo(AliasNavigator)
+export default AliasNavigator

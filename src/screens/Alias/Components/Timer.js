@@ -13,15 +13,15 @@ const Timer = ({ modalState, setTimeIsFinished }) => {
   const { explainYou, stoping, time, staticTime } = useSelector(({ alias }) => alias)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
-  const [selectedTime, setSelectedTime] = useState({ seconds: staticTime })
+  const [selectedTime, setSelectedTime] = useState({ seconds: staticTime - 20 })
 
   useEffect(() => {
     if (!isFocused && selectedTime.seconds == 0) {
       dispatch(setStoping('withoutSocket'))
-    } else if (selectedTime.seconds > 0 && selectedTime.seconds < staticTime) {
+    } else if (selectedTime.seconds > 0 && selectedTime.seconds < staticTime - 20) {
       setSelectedTime((prev) => ({ seconds: prev.seconds }))
     } else {
-      setSelectedTime({ seconds: staticTime })
+      setSelectedTime({ seconds: staticTime - 20 })
     }
   }, [stoping, staticTime, isFocused])
 

@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 import { setPending } from './AuthSlice'
-import { useSelector } from 'react-redux'
+
 const initialState = {
   rules: '',
   step: 0,
-  explainYou: false,
+  explainYou: null,
   loader: false,
   start: false,
   countWords: null,
@@ -20,14 +20,14 @@ const initialState = {
   qrGameImg: false,
   stoping: true,
   time: 0,
-  allTeams: [
-    { command: 1, value: 'Команда 1', members: [], points: 0 },
-    // { command: 2, value: 'Команда 2', members: [], points: 0 },
-  ],
+  allTeams: [{ command: 1, value: 'Команда 1', members: [], points: 0 }],
   explainedWords: {
     truthy: [],
     falsy: [],
   },
+  waitEndRound: false,
+  penalty: false,
+  explainerUser: null,
 }
 
 export const CrocodileSlice = createSlice({
@@ -55,9 +55,6 @@ export const CrocodileSlice = createSlice({
     },
     setExplainerUser: (store, action) => {
       return { ...store, explainerUser: action.payload }
-    },
-    setEndRound: (store, action) => {
-      return { ...store, endRound: action.payload }
     },
     setPlayersInGame: (store, action) => {
       return { ...store, playersInGame: action.payload }
@@ -99,7 +96,7 @@ export const CrocodileSlice = createSlice({
     setTeams: (store, action) => {
       return {
         ...store,
-        allTeams: [...action.payload],
+        allTeams: action.payload,
       }
     },
     setStart: (store, action) => {
@@ -151,19 +148,30 @@ export const CrocodileSlice = createSlice({
         loader: action.payload,
       }
     },
+    setWaitEndRound: (store, action) => {
+      return {
+        ...store,
+        waitEndRound: action.payload,
+      }
+    },
+    setPenalty: (store, action) => {
+      return {
+        ...store,
+        penalty: action.payload,
+      }
+    },
   },
 })
 export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/crocodile/confirm/team`, teamInfo)
-    .then((response) => {
-      // console.log('setPlayers response', response.data)
-    })
+
     .catch((err) => {
       console.log('err setPlayers : response', err.response)
     })
 }
 export const sendCrocodileSettings = (data, allTeams) => (dispatch) => {
+  console.log('sendCrocodileSettings data', data)
   axiosInstance
     .post('api/crocodile', data)
     .then((response) => {
@@ -181,6 +189,7 @@ export const sendCrocodileSettings = (data, allTeams) => (dispatch) => {
 }
 
 export const sendCrocodileGameId = (id) => (dispatch) => {
+  dispatch(setPending(true))
   axiosInstance
     .post(`api/crocodile/participate/${id}`)
     .then(async (response) => {
@@ -193,27 +202,18 @@ export const sendCrocodileGameId = (id) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
-      console.log('error - sending crocodile game id :', err)
+      console.log('err sending crocodile game id :', err)
     })
 }
 export const startCrocodileGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/crocodile/start/${gameId}`)
-    .then((response) => {
-      // dispatch(setExplainYou(true))
-    })
+
     .catch((err) => {
-      console.log('error - start crocodile', err)
+      console.log('err startCrocodileGame esponse', err)
     })
 }
-export const sendUserPoints = (data) => (dispatch) => {
-  axiosInstance
-    .post('api/crocodile/user_points', data)
-    .then((response) => {})
-    .catch((err) => {
-      console.log('error - sending user points', err)
-    })
-}
+
 export const cleanDataAndPlayAgain = (data) => (dispatch) => {
   dispatch(setWords([]))
   dispatch(setYouGuesser(null))
@@ -224,6 +224,7 @@ export const cleanDataAndPlayAgain = (data) => (dispatch) => {
   dispatch(setExplainerUser(null))
   dispatch(setParticipateSuccess(null))
 }
+
 export const {
   setTime,
   setStep,
@@ -231,7 +232,7 @@ export const {
   setTeams,
   setWords,
   setExplainYou,
-  setEndRound,
+  setWaitEndRound,
   setStart,
   setYouGuesser,
   setComplexity,
@@ -248,5 +249,6 @@ export const {
   setStaticRoundTime,
   setParticipateSuccess,
   setExplainedWords,
+  setPenalty,
 } = CrocodileSlice.actions
 export default CrocodileSlice.reducer
