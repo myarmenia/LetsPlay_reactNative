@@ -87,7 +87,7 @@ const GameStart = () => {
             if (elm.value == explainerTeam) {
               return {
                 ...elm,
-                points: truthyCount,
+                points: !elm.points ? elm.points + truthyCount : elm.points,
               }
             } else return elm
           }),

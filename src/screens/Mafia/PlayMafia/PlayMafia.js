@@ -428,7 +428,7 @@ const PlayMafia = () => {
                   setChoosedUsers(null)
                   // dispatch(setAnswersCount(0))
                   dispatch(setLoader(true))
-                  // dispatch(setWaitNight(true))
+                  dispatch(setWaitNight(true))
                 } else if (choosedUsers) {
                   console.log('if choosedUsers', choosedUsers)
 

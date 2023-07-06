@@ -1,13 +1,12 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import InfoSvg from '@/assets/svgs/infoSvg'
 import User from '@/components/User/user'
 import { useDispatch, useSelector } from 'react-redux'
 import LightButton from '@/assets/imgs/Button'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { cleanDataAndPlayAgain, setTeams } from '@/store/Slices/CrocodileSlice'
 
 const PlayersRatings = () => {

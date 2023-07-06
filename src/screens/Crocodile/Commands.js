@@ -15,7 +15,6 @@ const Commands = () => {
   const navigation = useNavigation()
   const { countWords, allTeams, complexity, time } = useSelector(({ crocodile }) => crocodile)
   const [error, setError] = useState(false)
-  // const [input, setInput] = useState(`Команда ${elm.command}`)
 
   const handleSubmit = async () => {
     for (let elem of allTeams) {
@@ -27,7 +26,6 @@ const Commands = () => {
     }
     if (!error) {
       setError(false)
-      dispatch(setTeams(allTeams))
       dispatch(
         sendCrocodileSettings(
           {
@@ -40,7 +38,6 @@ const Commands = () => {
           allTeams,
         ),
       )
-      // console.log(allTeams)
       navigation.navigate('QrCode')
     }
   }
@@ -62,7 +59,6 @@ const Commands = () => {
                     <TextInput
                       style={styles.priceInputText}
                       placeholder={`Команда ${elm.command}`}
-                      // value={`Команда ${elm.command}`}
                       onChangeText={(e) => {
                         dispatch(
                           setTeams([
@@ -73,7 +69,6 @@ const Commands = () => {
                         )
                       }}
                       placeholderTextColor={ICON}
-                      // keyboardType="number-pad"
                     />
                   </View>
                   {allTeams.length !== 1 ? (
@@ -85,7 +80,6 @@ const Commands = () => {
                             ? dispatch(
                                 setTeams([
                                   { command: 1, value: 'Команда 1', members: [], points: 0 },
-                                  // { command: 2, value: 'Команда 2', members: [], points: 0 },
                                 ]),
                               )
                             : dispatch(setTeams([...allTeams.filter((elem) => elm !== elem)]))
@@ -108,7 +102,7 @@ const Commands = () => {
                     ...allTeams,
                     {
                       command: allTeams[allTeams.length - 1].command + 1,
-                      value: `Команда ${allTeams[allTeams.length - 1].command}`,
+                      value: `Команда ${allTeams[allTeams.length - 1].command + 1}`,
                       members: [],
                       points: 0,
                     },

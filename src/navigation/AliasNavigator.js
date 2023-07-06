@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import Commands from '@/screens/Alias/Commands'
 import IniviteTeamPlayers from '@/screens/Alias/IniviteTeamPlayers'
-import AboutGame from '@/screens/Alias/AboutGame/AboutGame'
+// import AboutGame from '@/screens/Alias/AboutGame/AboutGame'
 import PlayNow from '@/screens/Alias/PlayNow/playNow'
 import QrCode from '@/screens/Alias/QrCode'
 import Settings from '@/screens/Alias/Settings'
@@ -271,7 +271,7 @@ const AliasNavigator = () => {
       <Stack.Screen name="QrCode" component={QrCode} />
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
-      <Stack.Screen name="AboutGame" component={AboutGame} />
+      {/* <Stack.Screen name="AboutGame" component={AboutGame} /> */}
       <Stack.Screen name="GameStart" component={GameStart} />
       <Stack.Screen
         name="ResultsOfAnswers"

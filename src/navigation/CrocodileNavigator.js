@@ -8,14 +8,14 @@ import { NAV_HEADER_OPTION } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
 import Commands from '@/screens/Crocodile/Commands'
 import IniviteTeamPlayers from '@/screens/Crocodile/IniviteTeamPlayers'
-import AboutGame from '@/screens/Crocodile/AboutGame/AboutGame'
+// import AboutGame from '@/screens/Crocodile/AboutGame/AboutGame'
 import PlayNow from '@/screens/Crocodile/PlayNow/playNow'
 import QrCode from '@/screens/Crocodile/QrCode'
 import Settings from '@/screens/Crocodile/Settings'
 import SelectComplexity from '@/screens/Crocodile/SelectComplexity'
 import GameStart from '@/screens/Crocodile/StartGame/GameStart'
 import ResultsOfAnswers from '@/screens/Crocodile/StartGame/ResultsOfAnswers'
-// import TeamsResults from '@/screens/Crocodile/TeamsResults/TeamsResults'
+import TeamsResults from '@/screens/Crocodile/TeamsResults/TeamsResults'
 import {
   setExplainYou,
   setExplainerTeam,
@@ -36,9 +36,9 @@ import {
   setLoader,
   setPenalty,
 } from '@/store/Slices/CrocodileSlice'
-// import WinnerTeamMessage from '@/screens/Crocodile/WinnerTeamMessage/WinnerTeamMessage'
-// import PlayersRatings from '@/screens/Crocodile/WinnerTeamMessage/PlayersRatings'
-// import WaitPlayers from '@/screens/Crocodile/WaitPlayers'
+import WinnerTeamMessage from '@/screens/Crocodile/WinnerTeamMessage/WinnerTeamMessage'
+import PlayersRatings from '@/screens/Crocodile/WinnerTeamMessage/PlayersRatings'
+import WaitPlayers from '@/screens/Crocodile/WaitPlayers'
 
 const Stack = createNativeStackNavigator()
 
@@ -51,7 +51,6 @@ const CrocodileNavigator = () => {
     stoping,
     explainYou,
     countWords,
-    staticTime,
     start,
     allTeams,
     step,
@@ -74,7 +73,10 @@ const CrocodileNavigator = () => {
     switch (e.type) {
       case 'new_user':
         dispatch(setPlayersInGame(e?.crocodile_game?.players))
-        allPlayersLengthRef.current = e?.crocodile_game?.players.length
+        console.log('e?.crocodile_game?.players.length', e?.crocodile_game?.players?.length)
+        allPlayersLengthRef.current = e?.crocodile_game?.players?.length
+        console.log('allPlayersLengthRef.current aaaaa', allPlayersLengthRef.current)
+
         dispatch(setUserIsOrganizer(e?.crocodile_game?.user?._id == user?._id))
         userIsOrganizerRef.current = e?.crocodile_game?.user?._id === user?._id
         break
@@ -136,6 +138,7 @@ const CrocodileNavigator = () => {
           JSON.stringify(e.data.data) !== JSON.stringify(allTeams)
         ) {
           dispatch(setTeams(e.data?.data))
+          dispatch(setCountWords(e?.crocodile?.number_of_words))
         } else if (
           e.data?.type === 'getSteps' &&
           !explainYouRef.current &&
@@ -150,9 +153,19 @@ const CrocodileNavigator = () => {
         } else if (e.data?.type === 'getCountOfWords' && !explainYouRef.current) {
           dispatch(setCountWords(e.data.countWords))
         } else if (e.data?.type === 'waitEndRound') {
-          if (e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length) {
-            waitEndRoundPlayersRef.current = e.data?.waitPlayers
-          } else if (
+          console.log('allPlayersLengthRef.current', allPlayersLengthRef.current)
+          console.log('e.data?.waitPlayers.length', e.data?.waitPlayers.length)
+          console.log(
+            'e.data?.waitPlayers.length == allPlayersLengthRef.current && allPlayersLengthRef.current > 0',
+            e.data?.waitPlayers.length == allPlayersLengthRef.current &&
+              allPlayersLengthRef.current > 0,
+          )
+          console.log(
+            'e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length',
+            e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length,
+          )
+
+          if (
             e.data?.waitPlayers.length == allPlayersLengthRef.current &&
             allPlayersLengthRef.current > 0
           ) {
@@ -160,6 +173,8 @@ const CrocodileNavigator = () => {
             console.log('end_time emit')
             dispatch(setWaitEndRound(null))
             socketRef.current?.emit('end_time', {})
+          } else if (e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length) {
+            waitEndRoundPlayersRef.current = e.data?.waitPlayers
           }
         }
         break
@@ -192,13 +207,13 @@ const CrocodileNavigator = () => {
     }
   }, [stoping, explainYouRef.current])
   useEffect(() => {
-    if (userIsOrganizerRef.current && countWords && time == staticTime - 2) {
+    if (explainYouRef.current && countWords) {
       socketRef.current?.emit('message_to_all_players', {
         type: 'getCountOfWords',
         countWords,
       })
     }
-  }, [countWords, explainYou, time, staticTime])
+  }, [countWords, explainYouRef])
   useEffect(() => {
     if (explainYouRef.current) {
       socketRef.current?.emit('message_to_all_players', {
@@ -236,6 +251,10 @@ const CrocodileNavigator = () => {
   }, [JSON.stringify(allTeams)]) //step,
 
   useEffect(() => {
+    console.log(
+      'DeviceInfo.getDeviceId() - ' + DeviceInfo.getDeviceId(),
+      'explainYou - ' + explainYou + ' explainerUser - ' + explainerUser,
+    )
     if (explainYou == true || explainerUser !== null) {
       console.log('navigate to GameStart')
       navigation.navigate('GameStart')
@@ -243,16 +262,14 @@ const CrocodileNavigator = () => {
   }, [explainerUser, explainYou])
 
   useEffect(() => {
-    console.log('waitEndRound', user?._id)
     if (waitEndRound && !waitEndRoundPlayersRef.current.includes(user?._id)) {
       let waitPlayers = [...waitEndRoundPlayersRef.current, user?._id]
       if (allPlayersLengthRef.current == waitPlayers.length) {
         waitEndRoundPlayersRef.current = []
-        console.log('end_time emit')
+        console.log('send end_time emit')
         dispatch(setWaitEndRound(null))
         socketRef.current?.emit('end_time', {})
       } else {
-        console.log('message_to_all_players waitEndRound')
         socketRef.current?.emit('message_to_all_players', {
           type: 'waitEndRound',
           waitPlayers,
@@ -270,17 +287,17 @@ const CrocodileNavigator = () => {
       <Stack.Screen name="QrCode" component={QrCode} />
       <Stack.Screen name="InviteTeamPlayers" component={IniviteTeamPlayers} />
       <Stack.Screen name="PlayNow" component={PlayNow} />
-      {/* <Stack.Screen name="AboutGame" component={AboutGame} /> */}
+      {/* <Stack.Screen ame="AboutGame" component={AboutGame} /> */}
       <Stack.Screen name="GameStart" component={GameStart} />
       <Stack.Screen
         name="ResultsOfAnswers"
         component={ResultsOfAnswers}
         options={{ gestureEnabled: false }}
       />
-      {/* <Stack.Screen name="TeamsResults" component={TeamsResults} /> */}
-      {/* <Stack.Screen name="WinnerTeamMessage" component={WinnerTeamMessage} />
+      <Stack.Screen name="TeamsResults" component={TeamsResults} />
+      <Stack.Screen name="WinnerTeamMessage" component={WinnerTeamMessage} />
       <Stack.Screen name="PlayersRatings" component={PlayersRatings} />
-      <Stack.Screen name="WaitPlayers" component={WaitPlayers} /> */}
+      <Stack.Screen name="WaitPlayers" component={WaitPlayers} />
     </Stack.Navigator>
   )
 }
