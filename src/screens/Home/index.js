@@ -9,6 +9,7 @@ import User from '@/components/User/user'
 
 import LogoSvg from '@/assets/LogoSvg'
 import { useNavigation } from '@react-navigation/native'
+import AnimatedCircle from '../Crocodile/components/AnimatedCircle'
 
 const HomeScreen = () => {
   const navigation = useNavigation()

@@ -30,7 +30,7 @@ const GameTypeSelect = () => {
               onPress={() => {
                 navigation.navigate('CreateGameNavigator', {
                   screen: 'GameListCarousel',
-                  params: { list: 'desktop' },
+                  params: { list: 'desktop', fromTournament: true },
                 })
               }}
               label={'Настольные игры'}

@@ -6,7 +6,7 @@ import { RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
 
-const EachCommand = ({ command, i, data }) => {
+const EachCommand = ({ command, data }) => {
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
   return (
@@ -16,15 +16,15 @@ const EachCommand = ({ command, i, data }) => {
         setBack(true)
       }}
       onPressOut={() => {
-        if (data.fromTournament) {
-          navigation.navigate('TournamentNavigator', {
+        if (data?.fromTournament) {
+          navigation.replace('TournamentNavigator', {
             screen: 'SelectMembers',
             params: { command: command, data: data },
           })
           setBack(false)
         } else {
           setBack(false)
-          navigation.navigate('MyTeamInfo', { command, data })
+          navigation.navigate('MyTeamInfo', { command })
         }
       }}
     >
@@ -74,7 +74,7 @@ const EachCommand = ({ command, i, data }) => {
         <View style={style.imageBlock}>
           <Image
             style={style.image}
-            source={{ uri: _storageUrl + data.data.img }}
+            source={{ uri: _storageUrl + command?.img }}
             resizeMode="cover"
           />
         </View>

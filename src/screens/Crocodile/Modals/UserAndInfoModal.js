@@ -50,7 +50,7 @@ const SomeSampleScreen = ({ modalState, setModalState }) => {
         height: '120%',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 99999,
+        zIndex: 9999999,
         backgroundColor: modalState?.state ? 'rgba(0,0,0,0.8)' : 'transparent',
         position: 'absolute',
       }}

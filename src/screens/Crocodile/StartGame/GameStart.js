@@ -96,6 +96,12 @@ const GameStart = () => {
     }
   }, [timeIsFinished])
 
+  useEffect(() => {
+    if (!stoping && modalState?.state === 'user' && !explainYou) {
+      setModalState({})
+    }
+  }, [stoping, modalState, explainYou])
+
   return (
     <>
       <CrocodileBackground style={{ justifyContent: 'center', alignItems: 'center' }}>

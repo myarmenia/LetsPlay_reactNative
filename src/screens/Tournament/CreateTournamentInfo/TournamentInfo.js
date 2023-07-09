@@ -5,7 +5,6 @@ import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import Modal from '@/components/modal'
 import User from '@/components/User/user'
-
 import LightButton from '@/assets/imgs/Button'
 import { FONT_INTER_BOLD, FONT_INTER_MEDIUM } from '@/theme/fonts'
 import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
@@ -13,22 +12,23 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import Row from '@/components/wrappers/row'
 import { createTournament } from '@/store/Slices/TournamentSlice'
-const TournamentInfoIndividual = ({ route }) => {
-  const props = route.params
+const TournamentInfo = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
   const initialState = useSelector(({ tournament }) => tournament)
   const { user } = useSelector(({ auth }) => auth)
+
+  const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
-          {console.log('props', props)}
           <Image
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
             source={{
-              uri: _storageUrl + (props?.game?.img ? props?.game?.img : props?.data?.imagePath),
+              uri: _storageUrl + initialState?.imagePath,
             }}
           />
         </View>
@@ -38,7 +38,7 @@ const TournamentInfoIndividual = ({ route }) => {
             <Text style={styles.eachInfo}>Тип турнира :</Text>
             <Text style={styles.eachInfoTwo}>
               {/* Своя игра */}
-              {props?.game?.name}
+              {initialState?.name}
             </Text>
           </Row>
           <Row>
@@ -55,16 +55,35 @@ const TournamentInfoIndividual = ({ route }) => {
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
-            <Text style={styles.eachInfo}>Количество игроков</Text>
+            <Text style={styles.eachInfo}>
+              Количество {initialState.team_tourney ? 'команд' : 'участников'}:
+            </Text>
             <Text style={styles.eachInfoTwo}>
-              от {initialState.number_of_participants_from} до{' '}
-              {initialState.number_of_participants_to}
+              от {initialState?.number_of_participants_from} до{' '}
+              {initialState?.number_of_participants_to}
             </Text>
           </Row>
+          {initialState.team_tourney ? null : (
+            <>
+              <Row>
+                <View style={{ paddingVertical: RH(20) }}></View>
+                <Text style={styles.eachInfo}>Возраст участников:</Text>
+                <Text style={styles.eachInfoTwo}>
+                  от {initialState?.age_restrictions_from} до {initialState?.age_restrictions_to}
+                </Text>
+              </Row>
+              <Row>
+                <View style={{ paddingVertical: RH(20) }}></View>
+                <Text style={styles.eachInfo}> Пол участников:</Text>
+                <Text style={styles.eachInfoTwo}>{genders[initialState?.players_gender]}</Text>
+              </Row>
+            </>
+          )}
+
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Дата турнира:</Text>
-            <Text style={styles.eachInfoTwo}>{initialState.start_date.slice(0, 10)}</Text>
+            <Text style={styles.eachInfoTwo}>{initialState?.start_date.slice(0, 10)}</Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
@@ -74,15 +93,9 @@ const TournamentInfoIndividual = ({ route }) => {
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
-            <Text style={styles.eachInfoTwo}>{initialState.address_name}</Text>
+            <Text style={styles.eachInfoTwo}>{initialState?.address_name}</Text>
           </Row>
-          {/* <Row>
-            <View style={{ paddingVertical: RH(20) }}></View>
-            <Text style={styles.eachInfo}>Плата за участие: </Text>
-            <Text style={styles.eachInfoTwo}>
-              {initialState?.ticket_price ? `${initialState?.ticket_price} руб.` : 'Бесплатно'}
-            </Text>
-          </Row> */}
+
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
             <Text style={styles.eachInfo}>Организатор турнира:</Text>
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>
@@ -91,7 +104,6 @@ const TournamentInfoIndividual = ({ route }) => {
                 onPressItem={{
                   item: <User size={390} pressedUser={user} />,
                   modalClose: false,
-                  // onClickFunc: handleClick,
                 }}
                 pressedUser={user}
               />
@@ -111,17 +123,14 @@ const TournamentInfoIndividual = ({ route }) => {
             label={'Редактировать'}
             size={{ width: 220, height: 40 }}
             onPress={() => {
-              navigation.navigate('CreateTournamentInfoIndividual')
-              //   dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
+              navigation.navigate('CreateTournamentInfo')
             }}
           />
           <LightButton
             label={'Готово'}
             size={{ width: 120, height: 40 }}
             onPress={() => {
-              setModalVisible(true)
-              dispatch(createTournament(initialState))
-              // dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
+              dispatch(createTournament(initialState, setModalVisible))
             }}
           />
         </View>
@@ -129,7 +138,11 @@ const TournamentInfoIndividual = ({ route }) => {
         <Modal
           item={
             <View style={styles.modal}>
-              <Text style={styles.modalText}>Вы успешно создали турнир!</Text>
+              <Text style={styles.modalText}>
+                {modalVisible === true
+                  ? 'Вы успешно создали турнир!'
+                  : 'Что-то произошло не так, трнир не создань!'}
+              </Text>
             </View>
           }
           modalVisible={modalVisible}
@@ -141,7 +154,7 @@ const TournamentInfoIndividual = ({ route }) => {
   )
 }
 
-export default TournamentInfoIndividual
+export default TournamentInfo
 
 export const styles = StyleSheet.create({
   gameItemContainer: {

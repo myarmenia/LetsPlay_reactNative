@@ -24,7 +24,7 @@ function Index({ route }) {
   useEffect(() => {
     dispatch(getTeams(setModalVisible))
     dispatch(saveTeamDataForCreating({}))
-  }, [isFocused])
+  }, [])
   const ModalItem = () => {
     return (
       <View style={style.modalContainer}>
@@ -40,24 +40,24 @@ function Index({ route }) {
           <LightButton
             label={'Да'}
             size={{ width: 100 }}
-            onPress={() => navigation.navigate('CreateTeamTitle')}
+            onPress={() => {
+              setModalVisible(false)
+              navigation.navigate('CreateTeamTitle')
+            }}
           ></LightButton>
           <DarkButton
             label={'Нет'}
             size={{ width: 100 }}
-            onPress={() => navigation.navigate('teamStart')}
+            onPress={() => {
+              setModalVisible(false)
+              navigation.navigate('Home')
+            }}
           ></DarkButton>
         </View>
       </View>
     )
   }
 
-  // useEffect(() => {
-  //   !teamChatsList.length ? setModalVisible(true) : setModalVisible(false)
-  // }, [teamChatsList])
-  //==========================//
-  // need detect in map user is member other command or cammand is his
-  //==========================//
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
@@ -72,9 +72,7 @@ function Index({ route }) {
           />
         )}
         {teamChatsList?.length ? (
-          teamChatsList?.map((command, i) => (
-            <EachCommand data={props} command={command} i={i} key={i} />
-          ))
+          teamChatsList?.map((command, i) => <EachCommand data={props} command={command} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
             <Text style={style.text}>Загрузка...</Text>

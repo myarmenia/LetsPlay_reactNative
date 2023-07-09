@@ -30,6 +30,7 @@ const getFcmToken = async () => {
 
 const notificationListener = async () => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
+    // messaging().setBackgroundMessageHandler(() => {})
     console.log(
       'Notification caused app to open from background state:',
       remoteMessage.notification,

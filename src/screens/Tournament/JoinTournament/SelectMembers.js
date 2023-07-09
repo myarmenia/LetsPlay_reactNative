@@ -56,13 +56,14 @@ const SelectMembers = ({ route }) => {
       </View>
     )
   }
+  console.log(props.command)
   return (
     <ScreenMask>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View style={styles.header}>
           <View style={styles.headerChild}>
             <Image
-              source={{ uri: _storageUrl + (props?.img || props?.command?.img) }}
+              source={{ uri: _storageUrl + props?.command?.img }}
               style={styles.commandImg}
               resizeMode="cover"
             />

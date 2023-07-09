@@ -11,7 +11,7 @@ import UserEditSvg from '@/assets/svgs/userEdit'
 import style from './style'
 
 function Index({ route }) {
-  const command = route.params
+  const { command } = route.params
   const navigation = useNavigation()
   const dispatch = useDispatch()
   return (
@@ -32,6 +32,7 @@ function Index({ route }) {
           resizeMode="cover"
         />
       </View>
+      {console.log('command', command)}
       <Text style={style.text}>Адрес нахождения команды</Text>
       <Text style={style.textLined}>{command?.address_name}</Text>
       <View style={style.btns}>

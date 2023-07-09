@@ -1,39 +1,39 @@
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useState } from 'react'
+import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
 import DateComponent from '@/components/DateComponent'
-
+import SecondBlock from '@/components/forms/secondBlock'
 import RadioBlock from '@/components/RadioBlock'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/assets/imgs/Button'
-
+import Modal from '@/components/modal'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import {
-  setAddressNameTour,
+  setAgeRestrictionsFrom,
+  setAgeRestrictionsTo,
   setLatitude,
   setLongitude,
-  setNumberOfTeamsFrom,
-  setNumberOfTeamsTo,
+  setNumberOfParticipantsFrom,
+  setNumberOfParticipantsTo,
   setOrganizerStatus,
-  setTicketPrice,
   setTourEndDate,
+  setAddressNameTour,
   setTourStartDate,
   setTournamentFund,
+  setPlayersGender,
 } from '@/store/Slices/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 
-const CreateTournamentInfoCommand = ({ route }) => {
+const CreateTournamentInfo = ({ route }) => {
   const dispatch = useDispatch()
-  const response = route?.params
-
   const navigation = useNavigation()
   const initialState = useSelector(({ tournament }) => tournament)
+  const response = route?.params
   // ================== states ==================
 
-  const [addressName, setAddressName] = useState()
-  const [price, setPrice] = useState('')
+  const [addressName, setAddressName] = useState(null)
   const [startDate, setStartDate] = useState({
     date: new Date(),
     time: new Date(),
@@ -42,27 +42,27 @@ const CreateTournamentInfoCommand = ({ route }) => {
     date: new Date(new Date().setDate(startDate.date.getDate() - 1)),
     time: new Date(),
   })
+  const [genderList, setGenderList] = useState([
+    { id: 1, text: 'М', checked: false, label: 'm' },
+    { id: 2, text: 'Ж', checked: false, label: 'f' },
+    { id: 3, text: 'Без ограничений', checked: true, label: 'm/f' },
+  ])
+  const [organizerJoin, setOrganizerJoin] = useState([
+    { id: 1, text: 'Участвует', checked: true },
+    { id: 2, text: 'Не Участвует', checked: false },
+  ])
   const [priceFond, setPriceFond] = useState([
     { id: 1, text: 'Да', checked: false },
     { id: 2, text: 'Нет', checked: true },
   ])
-  const [organizerJoin, setOrganizerJoin] = useState([
-    { id: 1, text: 'Участвует', checked: true },
-    { id: 2, text: 'Не Участвует', checled: false },
-  ])
-  // const [priceExist, setPriceExist] = useState([
-  //   { id: 1, text: 'Бесплатно', checked: true },
-  //   { id: 2, text: 'Палатно', checled: false },
-  // ])
+
   // ================== states end ==================
 
   //errors
-
-  const [startDateError, setStartDateError] = useState(false)
+  const [ageError, setAgeError] = useState(false)
   const [countError, setCountError] = useState(false)
-  // const [priceError, setPriceError] = useState(false)
   const [endDateError, setEndDateError] = useState(false)
-
+  const [startDateError, setStartDateError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
 
   const timeFormat = (date) => {
@@ -96,22 +96,17 @@ const CreateTournamentInfoCommand = ({ route }) => {
     .toISOString()
     .substring(0, 10)
     .concat(' ' + timeFormat(startDate))
-
   const changedEndDate = endDate.date
     .toISOString()
     .substring(0, 10)
     .concat(' ' + timeFormat(endDate))
 
   const handleSubmit = () => {
-    if (!addressName && !response?.address_name) {
+    if (!initialState.address_name) {
       setAddressNameError(true)
     } else {
-      dispatch(setLatitude(response?.latitude || addressName.lat))
-      dispatch(setLongitude(response?.longitude || addressName.lng))
-      dispatch(setAddressNameTour(addressName ? addressName?.address_name : response?.address_name))
       setAddressNameError(false)
     }
-
     if (startDate.date <= endDate.date) {
       setEndDateError(true)
     } else {
@@ -127,39 +122,65 @@ const CreateTournamentInfoCommand = ({ route }) => {
     } else {
       dispatch(setOrganizerStatus(false))
     }
-
-    if (!initialState.number_of_teams_from || !initialState.number_of_teams_to) {
+    if (!initialState.team_tourney) {
+      if (
+        initialState.age_restrictions_from == undefined ||
+        initialState.age_restrictions_to == undefined ||
+        !initialState.age_restrictions_from.length ||
+        !initialState.age_restrictions_to
+      ) {
+        setAgeError('Обязательное поле для заполнения')
+      } else if (+initialState.age_restrictions_from > +initialState.age_restrictions_to) {
+        setAgeError('Введите корректную возраст')
+      } else {
+        setAgeError(null)
+      }
+      dispatch(setPlayersGender(genderList.find((e) => e.checked).label))
+    }
+    if (
+      !initialState.number_of_participants_from?.length ||
+      !initialState.number_of_participants_to?.length
+    ) {
       setCountError('Обязательное поле для заполнения')
-    } else if (initialState.number_of_teams_from >= initialState.number_of_teams_to) {
+    } else if (
+      +initialState.number_of_participants_from > +initialState.number_of_participants_to
+    ) {
       setCountError('Введите корректную количество')
     } else {
-      setCountError(false)
+      setCountError('')
     }
-    // if (priceExist[1].checked && !price) {
-    //   dispatch(setTournamentFund(true))
-    //   setPriceError('Введите сумму')
-    // } else {
-    //   dispatch(setTournamentFund(false))
-    //   dispatch(setTicketPrice(price ? price : 0))
-    //   setPriceError('')
-    // }
+
+    dispatch(setTournamentFund(priceFond[0].checked ? true : false))
+    console.log('if', initialState.team_tourney)
     if (
-      // !priceError &&
-      initialState.number_of_teams_from <= initialState.number_of_teams_to &&
+      initialState.number_of_participants_from < initialState.number_of_participants_to &&
       !endDateError &&
       !startDateError &&
-      !addressNameError
+      initialState.address_name &&
+      ((!initialState.team_tourney &&
+        initialState.age_restrictions_from < initialState.age_restrictions_to) ||
+        initialState.team_tourney)
     ) {
-      // dispatch(createTournament(initialState))
-      // console.log('response', response)
-      // console.log('initialState', initialState)
-      navigation.navigate('TeamNavigator', {
-        screen: 'MyTeam',
-        params: { data: initialState, game: response, fromTournament: true },
-      })
+      if (initialState.team_tourney) {
+        navigation.navigate('TeamNavigator', {
+          screen: 'MyTeam',
+          params: { data: initialState, game: response, fromTournament: true },
+        })
+      } else {
+        navigation.navigate('TournamentInfo')
+      }
     }
   }
-
+  useEffect(() => {
+    console.log(response)
+    dispatch(setLatitude(response?.latitude ? response?.latitude : addressName?.lat))
+    dispatch(setLongitude(response?.longitude ? response?.longitude : addressName?.lng))
+    dispatch(
+      setAddressNameTour(
+        response?.address_name ? response?.address_name : addressName?.address_name,
+      ),
+    )
+  }, [response, addressName])
   return (
     <ScreenMask>
       {/* <KeyboardAvoidingView
@@ -188,14 +209,16 @@ const CreateTournamentInfoCommand = ({ route }) => {
           setDate={(date) => setStartDate({ ...startDate, date })}
           setTime={(time) => setStartDate({ ...startDate, time })}
         />
-        {startDateError && <Text style={styles.error}>Введите корректную дату</Text>}
+        {!!startDateError && <Text style={styles.error}>Введите корректную дату</Text>}
         <View>
-          <Text style={styles.titles}>Количество команд</Text>
+          <Text style={styles.titles}>
+            Количество {!initialState.team_tourney ? 'участников' : 'команд'}
+          </Text>
           <View style={styles.countBlock}>
             <TextInput
               // value={value}
-              onChangeText={(n) => {
-                dispatch(setNumberOfTeamsFrom(n))
+              onChangeText={(number) => {
+                dispatch(setNumberOfParticipantsFrom(number))
               }}
               keyboardType={'numeric'}
               style={styles.countInput}
@@ -206,7 +229,7 @@ const CreateTournamentInfoCommand = ({ route }) => {
             <TextInput
               // value={value}
               onChangeText={(e) => {
-                dispatch(setNumberOfTeamsTo(e))
+                dispatch(setNumberOfParticipantsTo(e))
               }}
               keyboardType={'numeric'}
               style={styles.countInput}
@@ -215,17 +238,57 @@ const CreateTournamentInfoCommand = ({ route }) => {
             />
           </View>
         </View>
-        {countError && <Text style={styles.error}>{countError}</Text>}
-        <View style={{ paddingVertical: RH(15) }}></View>
+        {countError ? <Text style={styles.error}>{countError}</Text> : null}
+        {!initialState.team_tourney ? (
+          <>
+            <View>
+              <Text style={styles.titles}>Возрастные ограничения</Text>
+              <View style={styles.countBlock}>
+                <TextInput
+                  // value={value}
+                  onChangeText={(number) => {
+                    dispatch(setAgeRestrictionsFrom(number))
+                  }}
+                  keyboardType={'numeric'}
+                  style={styles.countInput}
+                  placeholder={'От'}
+                  placeholderTextColor={ICON}
+                />
+                <View style={styles.dash}></View>
+                <TextInput
+                  // value={value}
+                  onChangeText={(number) => {
+                    dispatch(setAgeRestrictionsTo(number))
+                  }}
+                  keyboardType={'numeric'}
+                  style={styles.countInput}
+                  placeholder={'До'}
+                  placeholderTextColor={ICON}
+                />
+              </View>
+            </View>
+            {ageError?.length ? <Text style={styles.error}>{ageError}</Text> : null}
+            <RadioBlock
+              onChange={(e) => {
+                dispatch(setPlayersGender(e))
+                setGenderList(e)
+              }}
+              title="Половой признак участника"
+              list={genderList}
+              titleStyle={{ ...styles.titles, marginTop: RW(23) }}
+            />
+          </>
+        ) : null}
+        <View style={{ marginTop: initialState.team_tourney ? RH(20) : 0 }} />
         <SearchAddresses
-          navigateTo="CreateTournamentInfoCommand"
+          navigateTo="CreateTournamentInfo"
           setAddressName={setAddressName}
           addressName={addressName}
           show={false}
         />
         {addressNameError ? <Text style={styles.error}>Выберите аддрес</Text> : null}
         <DateComponent
-          title="Дата и время окончания поиска команд"
+          title="Дата и время окончания поиска участников"
           containerStyle={{
             width: RW(380),
             marginTop: RH(24),
@@ -240,80 +303,40 @@ const CreateTournamentInfoCommand = ({ route }) => {
           setTime={(time) => setEndDate({ ...endDate, time })}
         />
         {endDateError && <Text style={styles.error}>Введите корректную дату</Text>}
-        <View style={{ paddingTop: '3%', left: '2%' }}>
+
+        <View style={{ paddingTop: '5%', left: '2%' }}>
           <RadioBlock
             onChange={(priceFond) => {
               setPriceFond(priceFond)
             }}
             title="Призовой фонд"
             list={priceFond}
-            // containerStyle={{ paddingTop: '4%' }}
+            containerStyle={{ paddingTop: '4%' }}
             titleStyle={{ ...styles.titles, marginBottom: RW(5) }}
           />
         </View>
-        <View style={{ paddingTop: '2%', left: '2%' }}>
+        <View style={{ paddingTop: '5%', left: '2%' }}>
           <RadioBlock
             onChange={(organizerJoin) => {
               setOrganizerJoin(organizerJoin)
             }}
             title="Статус организатора в турнире"
             list={organizerJoin}
-            // containerStyle={{ paddingTop: '4%' }}
-            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
+            containerStyle={{ paddingTop: '4%' }}
+            titleStyle={{ ...styles.titles, marginBottom: RW(5) }}
           />
         </View>
-        {/* <View style={{ paddingTop: '2%', left: '2%' }}>
-          <RadioBlock
-            onChange={(priceExist) => {
-              setPriceExist(priceExist)
-            }}
-            title="Стоимость входного билета на турнир"
-            list={priceExist}
-            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
-          />
-        </View> */}
-        {/* {!!priceExist[1].checked && (
-          <View style={{ width: RW(200), left: '5%' }}>
-            <Text style={styles.titles}>Сумма оплаты</Text>
-            <View style={styles.priceBlock}>
-              <TextInput
-                style={styles.priceInput}
-                placeholder={'Сумма оплаты 200р.'}
-                placeholderTextColor={ICON}
-                onChangeText={(ev) => {
-                  setPrice(+ev)
-                  dispatch(setTicketPrice(+ev))
-                }}
-                keyboardType={'numeric'}
-              />
-            </View>
-            {!!priceError && <Text style={styles.error}>Введите сумму</Text>}
-          </View>
-        )} */}
+
         <View style={{ alignItems: 'flex-end', padding: RH(15) }}>
           <LightButton label={'Готово'} onPress={handleSubmit} />
         </View>
       </ScrollView>
-      {/* <Modal
-          navigationText={''}
-          item={
-            <View style={styles.modal}>
-              <Text style={styles.successTeam}>Хотите, чтобы Ваш турнир был в ТОП турнирах ?</Text>
-              <View style={{ width: '95%', justifyContent: 'space-around', flexDirection: 'row' }}>
-                <LightButton label={'Да'} size={{ width: 100 }} onPress={handleSubmit} />
-                <LightButton label={'Нет'} size={{ width: 100 }} onPress={handleSubmit} />
-              </View>
-            </View>
-          }
-          modalVisible={modalVisible}
-          setIsVisible={setModalVisible}
-        /> */}
       {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }
 
-export default CreateTournamentInfoCommand
+export default CreateTournamentInfo
 
 const styles = StyleSheet.create({
   modal: {
@@ -340,7 +363,7 @@ const styles = StyleSheet.create({
   countBlock: {
     flexDirection: 'row',
     alignItems: 'center',
-    left: '15%',
+    left: '35%',
   },
   titles: {
     ...font('regular', 16, ICON, 24),
@@ -365,7 +388,7 @@ const styles = StyleSheet.create({
   error: {
     ...font('regular', 18, RED),
     left: '6%',
-    paddingTop: '5%',
+    marginTop: '4%',
   },
   priceInput: {
     height: '100%',

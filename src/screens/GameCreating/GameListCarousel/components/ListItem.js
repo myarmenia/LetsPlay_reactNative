@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Image, StyleSheet, Text, View, Animated, Pressable } from 'react-native'
-// import { styles } from '@/screens/GameCreatingScreens/GameListCarousel/components/style'
 import BgGamesLiner from '@/assets/imgs/games/BgGamesLiner'
 import Border from '@/assets/imgs/games/Border'
 import { useNavigation } from '@react-navigation/native'
@@ -9,15 +8,14 @@ import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearAllDatas, setQrGame, setRules } from '@/store/Slices/MafiaSlice'
+import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 import Modal from '@/components/modal'
 import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
-import { clearAllAliasData } from '@/store/Slices/AliasSlice'
-function ListItem({ game, pressable, qrGame, fromTournament }) {
-  const [active, setActive] = useState(false)
+import { setTournamentGameType, setTournamentImagePath } from '@/store/Slices/TournamentSlice'
 
+function ListItem({ game, pressable, qrGame, fromTournament }) {
   const [modalVisible, setModalVisible] = useState(false)
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
@@ -29,15 +27,11 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
       <Pressable
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
-        onPress={async () => {
+        onPress={() => {
           if (pressable) {
-            // setActive(true)
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
-              // dispatch(clearAllAliasData())
-
-              // dispatch(clearAllDatas())
               !savedTeam?.id && qrGame
                 ? navigation.navigate(
                     game?.name == 'Мафия'
@@ -49,20 +43,19 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
                       : '',
                   )
                 : navigation.navigate('CommandLeadCreate')
+            } else if (fromTournament) {
+              dispatch(setTournamentGameType(game.name))
+              dispatch(setTournamentImagePath(game.img))
+              navigation.replace('TournamentNavigator', {
+                screen: 'CreateTournament',
+              })
             } else {
               savedTeam?.id
                 ? setModalVisible(true)
-                : fromTournament
-                ? navigation.navigate('TournamentNavigator', {
-                    screen: 'CreateTournament',
-                    params: game,
-                  })
                 : game?.name == 'Своя игра'
                 ? navigation.navigate('OwnGameName', { params: { game } })
                 : navigation.navigate('GameCreating', { params: { game } })
             }
-
-            // setActive(false)
           }
         }}
         style={styles.bgFon}
@@ -177,7 +170,6 @@ const styles = StyleSheet.create({
   bgFon: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    // marginTop: RH(40),
     width: RW(335),
     height: RH(707),
     borderWidth: RW(2),

@@ -47,7 +47,7 @@ function GameItem({ route }) {
           </Text>
           <Text style={styles.eachInfo}>Возраст игроков:</Text>
           <Text style={styles.eachInfoTwo}>
-            {item?.age_restrictions_to}-{item?.age_restrictions_from}
+            {item?.age_restrictions_from}-{item?.age_restrictions_to}
           </Text>
           <Text style={styles.eachInfo}>Половой признак игроков:</Text>
           <Text style={styles.eachInfoTwo}>

@@ -65,24 +65,22 @@ export const TeamSlice = createSlice({
     },
   },
 })
-export const getTeams =
-  (setModalVisible = () => {}) =>
-  (dispatch) => {
-    axiosInstance
-      .get('api/team/')
-      .then((response) => {
-        if (response?.data?.datas?.length) {
-          dispatch(setTeamChats(response?.data?.datas))
-          setModalVisible && setModalVisible(false)
-        } else {
-          setModalVisible && setModalVisible(true)
-        }
-      })
-      .catch((err) => {
+export const getTeams = (setModalVisible) => (dispatch) => {
+  axiosInstance
+    .get('api/team/')
+    .then((response) => {
+      if (response?.data?.datas?.length) {
+        dispatch(setTeamChats(response?.data?.datas))
+        setModalVisible && setModalVisible(false)
+      } else {
         setModalVisible && setModalVisible(true)
-        console.log('Error getting team chats', err)
-      })
-  }
+      }
+    })
+    .catch((err) => {
+      setModalVisible && setModalVisible(true)
+      console.log('Error getting team chats', err)
+    })
+}
 export const searchPlayer = (url) => (dispatch) => {
   axiosInstance
     .get(`/api/team/find/user/?${url}`)

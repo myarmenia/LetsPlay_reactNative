@@ -131,18 +131,7 @@ const Map = ({ route }) => {
                   : null
                 navigateTo == 'CreateTournamentInfo'
                   ? navigation.navigate('TournamentNavigator', {
-                      screen: 'CreateTournamentInfoIndividual',
-                      params: {
-                        address_name: response,
-                        latitude: s.results[0].geometry.location.lat,
-                        longitude: s.results[0].geometry.location.lng,
-                        fromMap: true,
-                      },
-                    })
-                  : null
-                navigateTo == 'CreateTournamentInfoCommand'
-                  ? navigation.navigate('TournamentNavigator', {
-                      screen: 'CreateTournamentInfoCommand',
+                      screen: 'CreateTournamentInfo',
                       params: {
                         address_name: response,
                         latitude: s.results[0].geometry.location.lat,

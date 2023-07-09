@@ -1,28 +1,4 @@
-// if (addressName && teamName) {
-//   formdata.append('name', teamName)
-//   formdata.append('address_name', addressName?.address_name)
-//   formdata.append('latitude', addressName.lat)
-//   formdata.append('longitude', addressName.lng)
-//   formdata.append('image', {
-//     name: avatar?.assets?.[0].fileName,
-//     type: avatar?.assets?.[0].type,
-//     uri: avatar?.assets?.[0].uri,
-//   })
-
-//   createTeam(formdata, token, setModalVisible)
-// } else {
-//   if (!addressName) {
-//     setAddressNameError(true)
-//   } else {
-//     setAddressNameError(false)
-//   }
-//   if (!teamName) {
-//     setTeamNameError(true)
-//   } else {
-//     setTeamNameError(false)
-//   }
-// }
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState, memo } from 'react'
 import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
