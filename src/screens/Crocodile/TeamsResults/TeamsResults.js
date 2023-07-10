@@ -45,7 +45,6 @@ const TeamsResults = () => {
             dispatch(setExplainYou(false))
             dispatch(setWords([]))
             dispatch(setExplainerTeam(null))
-            console.log(' Продолжить countWords', countWords)
             if (
               countWords !== null &&
               countWords <= Math.max(...allTeams.map((item) => item.points))

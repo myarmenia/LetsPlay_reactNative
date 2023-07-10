@@ -224,7 +224,6 @@ export const postSettings = (data) => (dispatch) => {
     })
     .catch((err) => {
       console.log('err', err)
-      console.log('err request', err?.request?._response)
 
       dispatch(setPending(false))
     })
@@ -233,9 +232,7 @@ export const getDictonary = (mafia_game_id) => (dispatch) => {
   dispatch(setPending(true))
   axiosInstance
     .get(`/api/game/mafia/dictonary/${mafia_game_id}`)
-    .then((response) => {
-      console.log('getDictonary', response.data)
-    })
+
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
       console.log('err request participateToGame', err.request._response)
@@ -247,7 +244,6 @@ export const participateToGame = (mafia_game_id) => (dispatch) => {
   axiosInstance
     .post(`/api/game/mafia/participate/${mafia_game_id}`)
     .then((response) => {
-      console.log('participateToGame', response.data)
       dispatch(setRoles(response.data?.all_roles))
       dispatch(setMafiaGameId(mafia_game_id))
       dispatch(setParticipateSuccess(true))

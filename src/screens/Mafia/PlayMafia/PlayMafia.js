@@ -27,7 +27,7 @@ import WinnerModal from './components/WinnerModal'
 import Row from '@/components/wrappers/row'
 import { useNavigation } from '@react-navigation/native'
 
-const PlayMafia = () => {
+const PlayMafia = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [winnerModal, setWinnerModal] = useState(false)
@@ -36,7 +36,7 @@ const PlayMafia = () => {
   const [nightQueastions, setNightQueastions] = useState([])
   const [dayQueastions, setDayQueastions] = useState(null)
   const [daysCount, setDaysCount] = useState(1)
-
+  const daysCountProps = route.params?.daysCount
   const currentUserDeaded = useRef(false)
 
   const {
@@ -116,6 +116,11 @@ const PlayMafia = () => {
       setModalVisible(true)
     }
   }, [])
+  useEffect(() => {
+    if (daysCountProps) {
+      setDaysCount(daysCountProps)
+    }
+  }, [daysCountProps])
 
   return (
     <ScreenMask>
@@ -132,8 +137,11 @@ const PlayMafia = () => {
                 <Text style={styles.text}>Мафия {mafiasCount}</Text>
                 <Text style={styles.text}>Мирные жители {civiliansCount}</Text>
               </View>
-              <Pressable onPress={() => navigation.navigate('AboutGame', { gameIsStarted: true })}>
-                {/* navigation.navigate('AboutGame') */}
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('AboutGame', { gameIsStarted: true, daysCount: daysCount })
+                }
+              >
                 <VectorIcon />
               </Pressable>
             </View>
@@ -153,7 +161,7 @@ const PlayMafia = () => {
               style={{ position: 'absolute', right: RW(10), top: RH(2) }}
               onPress={() => {
                 // setModalVisible(true)
-                navigation.navigate('AboutGame', { gameIsStarted: true })
+                navigation.navigate('AboutGame', { gameIsStarted: true, daysCount: daysCount })
               }}
             >
               <VectorIcon />
@@ -407,16 +415,11 @@ const PlayMafia = () => {
               bgColor={'#4D7CFE'}
               onPress={() => {
                 if (daysCount == 1) {
-                  console.log('if 1')
                   dispatch(setLoader(true))
                   dispatch(setWaitNight(true))
                   setDaysCount(2)
                   setChoosable(true)
                 } else if (equalVotes?.question_id) {
-                  console.log('if 1 1')
-                  console.log('if equalVotes?.question_id', equalVotes?.question_id)
-                  console.log('if equalVotes?.question_id choosedUsers', choosedUsers)
-
                   dispatch(
                     setSendAnswer({
                       type: 'answer_question',
@@ -426,14 +429,11 @@ const PlayMafia = () => {
                   )
                   dispatch(setEqualVotes(null))
                   setChoosedUsers(null)
-                  // dispatch(setAnswersCount(0))
+
                   dispatch(setLoader(true))
                   dispatch(setWaitNight(true))
                 } else if (choosedUsers) {
-                  console.log('if choosedUsers', choosedUsers)
-
                   if (waitAnswer && Object.keys(questionTruthfulness || {}).length) {
-                    console.log('if questionTruthfulness')
                     dispatch(setQuestionTruthfulness(null))
                     setChoosedUsers(null)
                     dispatch(setWaitAnswer(false))
@@ -441,21 +441,15 @@ const PlayMafia = () => {
                     if (mafiaRole?.name === 'Дон') {
                       dispatch(setLoader('Ждем голосование мафии'))
                     }
-                    // dispatch(setAnswersCount(1))
                   } else if (
                     night &&
                     answersCount > 0 &&
                     Object.keys(donVotedPlayers || {}).length
                   ) {
-                    console.log('if 2')
                     const questionId = answerQuestions?.find(
                       (item) => item.answer_user === 'Мирный житель',
                     )?._id
-                    console.log('answer_question DON', {
-                      type: 'answer_question',
-                      question_id: questionId,
-                      select_user: choosedUsers,
-                    })
+
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -475,16 +469,10 @@ const PlayMafia = () => {
                         select_user: choosedUsers,
                       }),
                     )
-                    console.log('if 6')
-                    // dispatch(setAnswersCount(0))
                     dispatch(setLoader(true))
 
                     dispatch(setWaitNight(false))
                   } else if (!night) {
-                    console.log('if 7')
-                    // day
-                    // dispatch(setAnswersCount(0))
-
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -493,15 +481,9 @@ const PlayMafia = () => {
                       }),
                     )
                     dispatch(setLoader(true))
-                    // dispatch(setWaitNight(true))
+
                     setChoosedUsers(null)
                   } else {
-                    console.log('if 3')
-                    console.log('choosedUsers ' + mafiaRole?.name, {
-                      type: 'answer_question',
-                      question_id: night ? nightQueastions[answersCount]?._id : dayQueastions?._id,
-                      select_user: choosedUsers,
-                    })
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -513,13 +495,10 @@ const PlayMafia = () => {
                     )
 
                     if (waitAnswer) {
-                      console.log('if 4')
                       setChoosable(false)
                     } else {
-                      console.log('if 5')
                       setChoosedUsers(null)
                       setChoosable(true)
-                      // dispatch(setAnswersCount(1))
                     }
                   }
                 }

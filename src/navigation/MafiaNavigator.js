@@ -108,11 +108,7 @@ const MafiaNavigator = () => {
       case 'question_answer':
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
 
-        console.log('mafiaRoleName', mafiaRoleName)
-        console.log('nightRef.current', nightRef.current)
-
         if (nightRef.current) {
-          console.log('questionAnswerState.current', questionAnswerState.current)
           if (questionAnswerState.current == 1) {
             // || answersCount == 1
             dispatch(setWaitNight(false))
@@ -128,8 +124,6 @@ const MafiaNavigator = () => {
 
         break
       case 'player_out':
-        console.log('type player_out')
-
         const deadUser = e.all_players.filter((user) => {
           if (!user.status && !alredyDeadedUsers.current?.find((id) => user?._id == id)) {
             alredyDeadedUsers.current = [...alredyDeadedUsers.current, user._id]
@@ -177,7 +171,6 @@ const MafiaNavigator = () => {
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {
-    console.log('waitNight', waitNight)
     if (waitNight === null) return
     socketRef.current?.send({
       type: 'end_time_vote',
@@ -216,9 +209,9 @@ const MafiaNavigator = () => {
 
   useEffect(() => {
     return () => {
-      // socketRef?.current?.disconnect()
-      // console.log('useEffect clearAllDatas')
-      // dispatch(clearAllDatas())
+      socketRef?.current?.disconnect()
+      console.log('useEffect clearAllDatas')
+      dispatch(clearAllDatas())
     }
   }, [])
 

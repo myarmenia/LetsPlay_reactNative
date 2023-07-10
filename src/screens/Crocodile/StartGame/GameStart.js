@@ -81,18 +81,20 @@ const GameStart = () => {
     if (timeIsFinished) {
       dispatch(setExplainerUser(null))
       dispatch(setExplainYou(null))
-      dispatch(
-        setTeams([
-          ...allTeams?.map((elm) => {
-            if (elm.value == explainerTeam) {
-              return {
-                ...elm,
-                points: !elm.points ? elm.points + truthyCount : elm.points,
-              }
-            } else return elm
-          }),
-        ]),
-      )
+      if (explainYou) {
+        dispatch(
+          setTeams([
+            ...allTeams?.map((elm) => {
+              if (elm.value == explainerTeam) {
+                return {
+                  ...elm,
+                  points: elm.points + truthyCount,
+                }
+              } else return elm
+            }),
+          ]),
+        )
+      }
     }
   }, [timeIsFinished])
 

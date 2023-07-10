@@ -33,15 +33,6 @@ export const notificationSettings = (e) => (dispatch) => {
       .catch((err) => {
         console.log('err request notification', err)
       })
-  } else {
-    // axiosInstance
-    //   .delete('api/profile/notification', JSON.stringify({ name: e?.label }))
-    //   .then((response) => {
-    //     console.log(response.data)
-    //   })
-    //   .catch((err) => {
-    //     console.log('err request notification', err)
-    //   })
   }
 }
 
@@ -75,7 +66,6 @@ export const deleteAllNotifications = () => (dispatch) => {
 }
 
 export const getCalendarGames = (data) => (dispatch) => {
-  console.log(data)
   axiosInstance
     .get(`api/create/game/by_date?date_from=${data.date_from}&date_to=${data.date_to}`)
     .then((response) => {

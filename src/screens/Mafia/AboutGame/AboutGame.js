@@ -12,14 +12,12 @@ import {
   clearAllDatas,
   participateToGame,
   setLoader,
-  setParticipateSuccess,
   startGame,
 } from '../../../store/Slices/MafiaSlice'
-import { setPending } from '@/store/Slices/AuthSlice'
 
 const AboutGame = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const { roles, participateSuccess, mafiaRole, mafiaGameId } = useSelector(({ mafia }) => mafia)
+  const { roles, mafiaRole, mafiaGameId } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const propsGameId = route.params?.id
@@ -91,7 +89,7 @@ const AboutGame = ({ route }) => {
                   dispatch(startGame(mafiaGameId))
                   dispatch(setLoader(true))
                 } else {
-                  navigation.navigate('PlayMafia')
+                  navigation.navigate('PlayMafia', { daysCount: route.params?.daysCount })
                 }
               }}
             />

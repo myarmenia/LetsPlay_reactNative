@@ -1,7 +1,7 @@
-import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
-import { RH, RW } from '@/theme/utils'
+import { RW } from '@/theme/utils'
 import { FONT_INTER_REGULAR } from '@/theme/fonts'
 import ArrowRight from '@/assets/svgs/ArrowRight'
 import InfoSvg from '@/assets/svgs/infoSvg'
@@ -10,9 +10,6 @@ import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 
 const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
-  // const teamInfo = useSelector(({ auth }) => auth.user)
-  // console.log(teamInfo)
-
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
   const gameDate = new Date(gameInfo?.start_date)?.toLocaleDateString().split('/').join('.')

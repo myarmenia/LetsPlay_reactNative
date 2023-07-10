@@ -73,9 +73,7 @@ const CrocodileNavigator = () => {
     switch (e.type) {
       case 'new_user':
         dispatch(setPlayersInGame(e?.crocodile_game?.players))
-        console.log('e?.crocodile_game?.players.length', e?.crocodile_game?.players?.length)
         allPlayersLengthRef.current = e?.crocodile_game?.players?.length
-        console.log('allPlayersLengthRef.current aaaaa', allPlayersLengthRef.current)
 
         dispatch(setUserIsOrganizer(e?.crocodile_game?.user?._id == user?._id))
         userIsOrganizerRef.current = e?.crocodile_game?.user?._id === user?._id
@@ -153,18 +151,6 @@ const CrocodileNavigator = () => {
         } else if (e.data?.type === 'getCountOfWords' && !explainYouRef.current) {
           dispatch(setCountWords(e.data.countWords))
         } else if (e.data?.type === 'waitEndRound') {
-          console.log('allPlayersLengthRef.current', allPlayersLengthRef.current)
-          console.log('e.data?.waitPlayers.length', e.data?.waitPlayers.length)
-          console.log(
-            'e.data?.waitPlayers.length == allPlayersLengthRef.current && allPlayersLengthRef.current > 0',
-            e.data?.waitPlayers.length == allPlayersLengthRef.current &&
-              allPlayersLengthRef.current > 0,
-          )
-          console.log(
-            'e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length',
-            e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length,
-          )
-
           if (
             e.data?.waitPlayers.length == allPlayersLengthRef.current &&
             allPlayersLengthRef.current > 0
@@ -251,10 +237,6 @@ const CrocodileNavigator = () => {
   }, [JSON.stringify(allTeams)]) //step,
 
   useEffect(() => {
-    console.log(
-      'DeviceInfo.getDeviceId() - ' + DeviceInfo.getDeviceId(),
-      'explainYou - ' + explainYou + ' explainerUser - ' + explainerUser,
-    )
     if (explainYou == true || explainerUser !== null) {
       console.log('navigate to GameStart')
       navigation.navigate('GameStart')

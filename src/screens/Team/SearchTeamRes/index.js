@@ -52,7 +52,6 @@ function Index({ navigation, route }) {
                 item: <User size={390} pressedUser={Players[1]} />,
                 modalClose: false,
 
-                // onClickFunc: selecteds.some(el => el == elm) ? handleClick : console.log(selecteds),
                 onClickFunc: () => {},
               }}
             />

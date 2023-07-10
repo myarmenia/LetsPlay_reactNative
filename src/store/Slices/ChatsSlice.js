@@ -60,14 +60,9 @@ export const getTeamChats = (data) => (dispatch) => {
     })
 }
 export const sendMessage = (data) => (dispatch) => {
-  axiosInstance
-    .post(`/api/create/game/chat/`, data)
-    .then((response) => {
-      // console.log(response.data)
-    })
-    .catch((err) => {
-      console.log('err request', err.request._response)
-    })
+  axiosInstance.post(`/api/create/game/chat/`, data).catch((err) => {
+    console.log('err request', err.request._response)
+  })
 }
 export const sendTeamMessage = (data) => (dispatch) => {
   axiosInstance
@@ -88,7 +83,6 @@ export const deleteMemberChat = (chatId, setDeleting) => (dispatch) => {
     })
 }
 export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
-  // console.log(chatId)
   axiosInstance
     .delete(`/api/create/game/${chatId}`)
     .then((response) => {

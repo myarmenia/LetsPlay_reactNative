@@ -116,7 +116,6 @@ const InputPlayer = ({ voicePath, onPressDelete, stop, setStop }) => {
   }
 
   useEffect(() => {
-    console.log('stop', stop)
     if (stop) {
       onStopPlay()
       setStop(false)

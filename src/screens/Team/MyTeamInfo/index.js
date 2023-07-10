@@ -32,7 +32,7 @@ function Index({ route }) {
           resizeMode="cover"
         />
       </View>
-      {console.log('command', command)}
+
       <Text style={style.text}>Адрес нахождения команды</Text>
       <Text style={style.textLined}>{command?.address_name}</Text>
       <View style={style.btns}>

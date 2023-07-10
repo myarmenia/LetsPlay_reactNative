@@ -171,12 +171,10 @@ const TournamentSlice = createSlice({
   },
 })
 export const createTournament = (data, setModalVisible) => (dispatch) => {
-  console.log('createTournament', data)
   axiosInstance
     .post('api/tourney/', data)
     .then((response) => {
       setModalVisible(true)
-      console.log(response.data)
     })
     .catch((err) => {
       setModalVisible('error')
@@ -191,7 +189,6 @@ export const searchTourney = (data, nav, setNotFoundError) => async (dispatch) =
     })
 
     .then((response) => {
-      console.log(response.data)
       dispatch(setFindedTouney(response?.data?.datas))
       if (response?.data?.datas.length) {
         setNotFoundError(false)

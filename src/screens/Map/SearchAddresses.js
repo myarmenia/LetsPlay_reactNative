@@ -143,44 +143,6 @@ const SearchAddresses = ({
         </Pressable>
       )}
     </View>
-
-    // <GooglePlacesAutocomplete
-    //   suppressDefaultStyles={true}
-    //   enablePoweredByContainer={false}
-    //   nearbyPlacesAPI="GooglePlacesSearch"
-    //   placeholder="Поиск"
-    //   currentLocation={false}
-    //   textInputProps={{
-    //     placeholderTextColor: WHITE,
-    //   }}
-    //   styles={{
-    //     textInputContainer: styles.container,
-    //     textInput: styles.input,
-    //     predefinedPlacesDescription: {
-    //       color: '#1faadb',
-    //     },
-    //   }}
-    //   renderRightButton={() => {
-    //     return (
-    //       <View style={styles.searchIcon}>
-    //         <SearchSvg />
-    //       </View>
-    //     )
-    //   }}
-    //   autoFillOnNotFound={true}
-    //   enableHighAccuracyLocation={true}
-    //   fetchDetails={true}
-    //   onFail={err => {
-    //     console.log(err)
-    //   }}
-    //   onPress={(data, details = null) => {
-    //     console.log(data, details)
-    //   }}
-    //   query={{
-    //     key: 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc',
-    //     language: 'en',
-    //   }}
-    // />
   )
 }
 

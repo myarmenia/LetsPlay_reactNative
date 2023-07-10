@@ -198,7 +198,7 @@ export const sendAliasGameId = (id) => (dispatch) => {
       if (response.data?.data?.players) {
         dispatch(setPlayersInGame(response.data.data.players))
       }
-      console.log('sendAliasGameId', id)
+      // console.log('sendAliasGameId', id)
       dispatch(setAliasGameId(id))
       dispatch(setParticipateSuccess(true))
     })

@@ -36,18 +36,12 @@ const JoinTournament = ({ route }) => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const handleSubmit = () => {
-    console.log(
-      props,
-      (props?.fromMap && (!props?.latitude || !props?.longitude || !props?.address_name)) ||
-        (!props?.fromMap && (!addressName?.lat || !addressName?.lng || !addressName?.address_name)),
-    )
     if (
       (props?.fromMap && (!props?.latitude || !props?.longitude || !props?.address_name)) ||
       (!props?.fromMap && (!addressName?.lat || !addressName?.lng || !addressName?.address_name))
     ) {
       setAddressError(true)
     } else {
-      console.log('else')
       setAddressError(false)
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = {
@@ -106,7 +100,6 @@ const JoinTournament = ({ route }) => {
         <View style={styles.mapBox}>
           <SearchAddresses
             navigateTo="JoinTournament"
-            // game={game}
             setAddressName={setAddressName}
             addressName={addressName}
             command={null}

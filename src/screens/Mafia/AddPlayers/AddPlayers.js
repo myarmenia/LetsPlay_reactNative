@@ -43,7 +43,6 @@ const AddPlayers = () => {
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
               onPress={() => {
-                console.log('startGame mafiaGameId', mafiaGameId)
                 dispatch(getDictonary(mafiaGameId))
               }}
             />

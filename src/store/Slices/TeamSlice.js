@@ -85,7 +85,6 @@ export const searchPlayer = (url) => (dispatch) => {
   axiosInstance
     .get(`/api/team/find/user/?${url}`)
     .then((response) => {
-      // console.log(response.data)
       dispatch(setFindedPlayers(response.data.users))
     })
 
@@ -96,22 +95,15 @@ export const searchPlayer = (url) => (dispatch) => {
 export const inviteUserToTeam = (data) => (dispatch) => {
   axiosInstance
     .patch('/api/team/invite', data)
-    .then((response) => {
-      // console.log(response.data)
-    })
+
     .catch((err) => {
       console.log('Error inviting player :', err)
     })
 }
 export const setPlayerAdmin = (data) => (dispatch) => {
-  axiosInstance
-    .patch('/api/team/become_admin', data)
-    .then((response) => {
-      // console.log(response.data)
-    })
-    .catch((err) => {
-      console.log('Error set user admin :', err)
-    })
+  axiosInstance.patch('/api/team/become_admin', data).catch((err) => {
+    console.log('Error set user admin :', err)
+  })
 }
 export const deletePlayerFromTeam = (data) => (dispatch) => {
   console.log('data :', data)
@@ -143,15 +135,9 @@ export const searchTeam =
       })
   }
 export const getMembersList = (teamId) => async (dispatch) => {
-  axiosInstance
-    .get(`api/team/players/${teamId}`)
-    .then((response) => {
-      console.log('getMembersList', response?.data?.datas)
-      // dispatch(setMembersInTeam(response.data.datas))
-    })
-    .catch((err) => {
-      console.log('Error searching players in this team :', err)
-    })
+  axiosInstance.get(`api/team/players/${teamId}`).catch((err) => {
+    console.log('Error searching players in this team :', err)
+  })
 }
 export const joinGame = (gameId, nav, setError, setModalVisible) => async (dispatch) => {
   axiosInstance
@@ -172,8 +158,6 @@ export const joinInTeam = (teamId, setModalVisible) => async (dispatch) => {
   axiosInstance
     .post(`api/team/players/${teamId}`)
     .then((response) => {
-      // console.log('response :', response)
-
       setModalVisible(true)
     })
     .catch((err) => {
@@ -200,7 +184,6 @@ export const searchGame = (data, nav, setError) => async (dispatch) => {
     .get(link.slice(0, link.length - 1))
 
     .then((response) => {
-      console.log(JSON.stringify(response?.data, null, 5))
       dispatch(setFindedGames(response?.data?.datas))
       if (response?.data?.datas.length) {
         nav.navigate('GameList')
@@ -217,7 +200,6 @@ export const searchGame = (data, nav, setError) => async (dispatch) => {
 }
 
 export const createTeam = (data, token, setModalVisible = () => {}) => {
-  // console.log(data, token)
   let myHeaders = new Headers()
   myHeaders.append('Content-Type', 'multipart/form-data')
   myHeaders.append('Authorization', `Bearer ${token}`)
@@ -231,7 +213,6 @@ export const createTeam = (data, token, setModalVisible = () => {}) => {
   fetch(`${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api/team`, requestOptions)
     .then((response) => {
       setModalVisible(true)
-      // console.log(response)
     })
     .catch((err) => {
       console.log('Error creating team :', err)

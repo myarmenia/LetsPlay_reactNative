@@ -153,15 +153,15 @@ export const AuthSlice = createSlice({
   },
 })
 
-export const signIn = data => dispatch => {
+export const signIn = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/sign_in', data)
 
-    .then(response => {
+    .then((response) => {
       dispatch(setExpiredToken(response.data.expired_token))
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request', err.request._response)
 
       dispatch(
@@ -173,15 +173,15 @@ export const signIn = data => dispatch => {
       )
     })
 }
-export const signIn2 = data => dispatch => {
+export const signIn2 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/sign_in/second_step', data)
-    .then(response => {
+    .then((response) => {
       dispatch(setUser(response.data.user))
       dispatch(setToken(response.data.token.access_token))
       addAsyncStorage('token', response.data.token.access_token)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request', err.request?._response)
       dispatch(
         setSignInError(
@@ -192,47 +192,47 @@ export const signIn2 = data => dispatch => {
       )
     })
 }
-export const forgitPassword = data => dispatch => {
+export const forgitPassword = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/password_reset', data)
-    .then(response => {})
-    .catch(err => {
+    .then((response) => {})
+    .catch((err) => {
       console.log('err request forgitPassword', err.request?._response)
     })
 }
-export const forgitPassword2 = data => dispatch => {
+export const forgitPassword2 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/password_reset_second_step', data)
-    .then(response => {
+    .then((response) => {
       dispatch(setSignInStep('FORGOT_PASSWORD_SUCCESS'))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request forgitPassword2', err.request?._response)
     })
 }
 
-export const forgitPassword3 = data => dispatch => {
+export const forgitPassword3 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/password_reset_third_step', data)
-    .then(response => {
+    .then((response) => {
       setTimeout(() => {
         dispatch(setToken(response.data?.expired_token?.access_token))
         addAsyncStorage('token', response.data?.expired_token?.access_token)
       }, 1500)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request forgitPassword3', err.request?._response)
     })
 }
-export const signUp = data => dispatch => {
+export const signUp = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/first_step', data)
-    .then(response => {
+    .then((response) => {
       dispatch(setExpiredToken(response.data?.expired_token))
       dispatch(setSignUpStep('EMAIL_CODE'))
     })
 
-    .catch(err => {
+    .catch((err) => {
       console.log('err request response', err.request._response)
       dispatch(
         setSignUpError(
@@ -244,14 +244,14 @@ export const signUp = data => dispatch => {
     })
 }
 
-export const signUp2 = data => dispatch => {
+export const signUp2 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/second_step', data)
-    .then(response => {
+    .then((response) => {
       dispatch(setExpiredToken(response.data?.expired_token))
       dispatch(setSignUpStep('EMAIL_CODE_SUCCESS'))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request response', err.request._response)
       dispatch(
         setSignUpError(
@@ -262,14 +262,14 @@ export const signUp2 = data => dispatch => {
       )
     })
 }
-export const signUp3 = data => dispatch => {
+export const signUp3 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/third_step', data)
 
     .then(() => {
       dispatch(getDocumentRules())
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request response', err.request._response)
       dispatch(
         setSignUpError(
@@ -280,15 +280,15 @@ export const signUp3 = data => dispatch => {
       )
     })
 }
-export const signUp4 = data => dispatch => {
+export const signUp4 = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/signup/fourth_step', data)
-    .then(response => {
+    .then((response) => {
       setUser(response.data.user)
       dispatch(setSignUpStep('SIGN_UP_SUCCESSFULED'))
       dispatch(setExpiredToken(response.data.token.access_token))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request response', err.request._response)
       dispatch(
         setSignUpError(
@@ -299,12 +299,12 @@ export const signUp4 = data => dispatch => {
       )
     })
 }
-export const changeUserPreferences = (data, token) => async dispatch => {
+export const changeUserPreferences = (data, token) => async (dispatch) => {
   const myHeaders = new Headers()
   myHeaders.append('Authorization', `Bearer ${token}`)
   myHeaders.append('Accept', 'application/json')
   const formdata = new FormData()
-  data.forEach(elm => {
+  data.forEach((elm) => {
     formdata.append('preferences[]', elm)
   })
   let requestOptions = {
@@ -319,37 +319,35 @@ export const changeUserPreferences = (data, token) => async dispatch => {
       : 'http://to-play.ru/api/user/preferences',
     requestOptions,
   )
-    .then(response => {
+    .then((response) => {
       dispatch(setUserPreferences(data))
       return response.json()
     })
-    .then(res => {
-      // console.log(res)
-    })
-    .catch(err => {
+
+    .catch((err) => {
       console.log('error changing preferences : ', err)
     })
 }
-export const getDocumentRules = () => dispatch => {
+export const getDocumentRules = () => (dispatch) => {
   axiosInstance
     .get('api/document-rules')
-    .then(response => {
+    .then((response) => {
       dispatch(setDocumentRules(response.data?.datas))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request response', err.request._response)
     })
 }
 
-export const vkAuth = data => dispatch => {
+export const vkAuth = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/vk', data)
-    .then(response => {
+    .then((response) => {
       dispatch(setUser(response.data?.user))
       dispatch(setToken(response.data?.token))
       addAsyncStorage('token', response.data?.token)
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('Vk auth err request response - ', err.request?._response)
     })
 }
@@ -367,24 +365,21 @@ export const vkAuth = data => dispatch => {
 //     })
 // }
 //641d5ea7dc0442228123212
-export const editProfile = data => dispatch => {
+export const editProfile = (data) => (dispatch) => {
   axiosInstance
     .put('api/profile', data)
-    .then(response => {
-      // console.log('editProfile response', response.data)
-    })
-    .catch(err => {
+
+    .catch((err) => {
       console.log('err request _response', err.request._response)
     })
 }
-export const getProfileInfo = data => dispatch => {
+export const getProfileInfo = (data) => (dispatch) => {
   axiosInstance
     .get('api/profile')
-    .then(response => {
-      // console.log('getProfileInfo ', response.data)
+    .then((response) => {
       dispatch(setUser(response.data?.user))
     })
-    .catch(err => {
+    .catch((err) => {
       console.log('err request _response', err.request._response)
     })
 }

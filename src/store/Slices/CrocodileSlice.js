@@ -171,7 +171,6 @@ export const setPlayers = (teamInfo) => (dispatch) => {
     })
 }
 export const sendCrocodileSettings = (data, allTeams) => (dispatch) => {
-  console.log('sendCrocodileSettings data', data)
   axiosInstance
     .post('api/crocodile', data)
     .then((response) => {
@@ -196,7 +195,7 @@ export const sendCrocodileGameId = (id) => (dispatch) => {
       if (response.data?.data?.players) {
         dispatch(setPlayersInGame(response.data.data.players))
       }
-      console.log('sendCrocodileGameId', id)
+      // console.log('sendCrocodileGameId', id)
       dispatch(setCrocodileGameId(id))
       dispatch(setParticipateSuccess(true))
     })

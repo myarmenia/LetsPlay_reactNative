@@ -22,8 +22,6 @@ const WaitPlayers = ({ route }) => {
 
   useEffect(() => {
     if (propsGameId) {
-      console.log('setLoader(true)')
-
       dispatch(clearAllDatas())
       dispatch(participateToGame(propsGameId))
     }

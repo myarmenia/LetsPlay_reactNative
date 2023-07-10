@@ -140,8 +140,6 @@ const CommandLeadNotCreate = ({ route }) => {
     ) {
       sendingData.enemy_team_name = enemyTeam
       navigation.navigate('TeamInfo', { sendingData, gameId })
-    } else {
-      console.log('else')
     }
   }
   useEffect(() => {

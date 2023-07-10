@@ -151,7 +151,6 @@ const CreateTournamentInfo = ({ route }) => {
     }
 
     dispatch(setTournamentFund(priceFond[0].checked ? true : false))
-    console.log('if', initialState.team_tourney)
     if (
       initialState.number_of_participants_from < initialState.number_of_participants_to &&
       !endDateError &&
@@ -172,7 +171,6 @@ const CreateTournamentInfo = ({ route }) => {
     }
   }
   useEffect(() => {
-    console.log(response)
     dispatch(setLatitude(response?.latitude ? response?.latitude : addressName?.lat))
     dispatch(setLongitude(response?.longitude ? response?.longitude : addressName?.lng))
     dispatch(
