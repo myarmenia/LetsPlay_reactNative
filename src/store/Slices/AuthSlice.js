@@ -1,6 +1,8 @@
 import { addAsyncStorage } from '@/helpers/asyncStore'
 import { createSlice } from '@reduxjs/toolkit'
+import { getUniqueId } from 'react-native-device-info'
 import axiosInstance from '../Api'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const initialState = {
   user: {
@@ -173,7 +175,15 @@ export const signIn = (data) => (dispatch) => {
       )
     })
 }
-export const signIn2 = (data) => (dispatch) => {
+export const signIn2 = (data) => async (dispatch) => {
+  const deviceId = await getUniqueId()
+  const fcmToken = await AsyncStorage.getItem('fcmToken')
+  console.log('deviceId', deviceId)
+  console.log('fcmToken', fcmToken)
+  if (deviceId && fcmToken) {
+    data.device_id = deviceId
+    data.fcm_token = fcmToken
+  }
   axiosInstance
     .post('api/auth/sign_in/second_step', data)
     .then((response) => {
@@ -351,20 +361,6 @@ export const vkAuth = (data) => (dispatch) => {
       console.log('Vk auth err request response - ', err.request?._response)
     })
 }
-// export const connectVK = data => dispatch => {
-//   axiosInstance
-//     .post('api/auth/vk', data)
-//     .then(response => {
-//       console.log(response.data.user.vk_uri)
-//       dispatch(setVkId(response.data.user.vk_uri))
-//       // dispatch(setToken(response.data?.token))
-//       // addAsyncStorage('token', response.data?.token)
-//     })
-//     .catch(err => {
-//       console.log('Vk auth err request response - ', err)
-//     })
-// }
-//641d5ea7dc0442228123212
 export const editProfile = (data) => (dispatch) => {
   axiosInstance
     .put('api/profile', data)
@@ -373,7 +369,7 @@ export const editProfile = (data) => (dispatch) => {
       console.log('err request _response', err.request._response)
     })
 }
-export const getProfileInfo = (data) => (dispatch) => {
+export const getProfileInfo = () => (dispatch) => {
   axiosInstance
     .get('api/profile')
     .then((response) => {

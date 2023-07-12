@@ -24,6 +24,7 @@ const getFcmToken = async () => {
       }
     } catch (error) {
       console.log('Error rasied in fcmToken', error)
+      alert('Error in notification service')
     }
   }
 }
@@ -31,10 +32,7 @@ const getFcmToken = async () => {
 const notificationListener = async () => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
     // messaging().setBackgroundMessageHandler(() => {})
-    console.log(
-      'Notification caused app to open from background state:',
-      remoteMessage.notification,
-    )
+    console.log('Notification caused app to open from background state:', remoteMessage)
   })
   messaging().onMessage(async (remoteMessage) => {
     console.log('Recived in foreground', remoteMessage)

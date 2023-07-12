@@ -638,6 +638,7 @@
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GA254X58JF;
 				ENABLE_BITCODE = NO;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				INFOPLIST_FILE = gameOrganizing/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Game Organizing";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
@@ -668,6 +669,7 @@
 				CODE_SIGN_ENTITLEMENTS = gameOrganizing/gameOrganizing.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = GA254X58JF;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "i386 arm64";
 				INFOPLIST_FILE = gameOrganizing/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Game Organizing";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";

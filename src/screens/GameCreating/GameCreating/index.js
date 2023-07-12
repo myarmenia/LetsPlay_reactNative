@@ -280,29 +280,30 @@ const GameCreating = ({ route }) => {
                       <Text style={styles.textTwo}>{game?.rules}</Text>
                     </View>
                   ) : (
-                    <View style={styles.topBlock}>
-                      <Text style={styles.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
-                      <View
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          width: RW(220),
-                        }}
-                      >
-                        <Button
-                          light={true}
-                          onPress={handleSubmit}
-                          size={{ width: 100, height: 36 }}
-                          label={'Да'}
-                        />
-                        <DarkButton
-                          light={false}
-                          onPress={handleSubmit}
-                          size={{ width: 100, height: 36 }}
-                          label={'Нет'}
-                        />
-                      </View>
-                    </View>
+                    <></>
+                    // <View style={styles.topBlock}>
+                    //   <Text style={styles.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
+                    //   <View
+                    //     style={{
+                    //       flexDirection: 'row',
+                    //       justifyContent: 'space-between',
+                    //       width: RW(220),
+                    //     }}
+                    //   >
+                    //     <Button
+                    //       light={true}
+                    //       onPress={handleSubmit}
+                    //       size={{ width: 100, height: 36 }}
+                    //       label={'Да'}
+                    //     />
+                    //     <DarkButton
+                    //       light={false}
+                    //       onPress={handleSubmit}
+                    //       size={{ width: 100, height: 36 }}
+                    //       label={'Нет'}
+                    //     />
+                    //   </View>
+                    // </View>
                   )
                 }
               />
