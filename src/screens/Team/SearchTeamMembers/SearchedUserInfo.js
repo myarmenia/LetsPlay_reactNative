@@ -41,6 +41,7 @@ const SearchedUserInfo = ({ route }) => {
       >
         <User
           size={430}
+          user={props.member}
           // pressedUser={userInfo}
         />
       </Pressable>
@@ -55,11 +56,11 @@ const SearchedUserInfo = ({ route }) => {
         <Modal
           modalVisible={modalVisible}
           setIsVisible={setModalVisible}
-          navigationText={'TeamMembers'}
+          navigationText={'SearchTeamMembers'}
           item={
             <View style={styles.modalContainer}>
               <Text style={styles.playerMessage}>
-                Игроку отправлен запрос на участие в команде. Ждем подтверждения!
+                Игроку отправлен запрос на участие в команде.{'\n'} Ждем подтверждения!
               </Text>
             </View>
           }

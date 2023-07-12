@@ -11,10 +11,10 @@ import LightButton from '@/assets/imgs/Button'
 import RadioBlock from '@/components/RadioBlock'
 import User from '@/components/User/user'
 import LinearGradient from 'react-native-linear-gradient'
-const TeamMembers = ({ route }) => {
+const SearchTeamMembers = ({ route }) => {
   const command = route.params
   const btnsList = [
-    { id: 1, text: 'По ID карточки', checked: true },
+    { id: 1, text: 'По ID игрока', checked: true },
     { id: 2, text: 'По ФИО / Логин', checked: false },
     { id: 3, text: 'По номеру телефона / e-mail', checked: false },
     { id: 4, text: 'По страничке “Вконтакте”', checked: false },
@@ -96,7 +96,7 @@ const TeamMembers = ({ route }) => {
   let url = ''
   const handleSearch = async () => {
     switch (radioValue) {
-      case 'По ID карточки': {
+      case 'По ID игрока': {
         url = `id=${value}`
         break
       }
@@ -159,7 +159,7 @@ const TeamMembers = ({ route }) => {
   )
 }
 
-export default TeamMembers
+export default SearchTeamMembers
 
 const styles = StyleSheet.create({
   rowBox: {

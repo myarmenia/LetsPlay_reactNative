@@ -12,14 +12,13 @@ import SearchTeamRes from '@/screens/Team/SearchTeamRes'
 import SelectPlayersRival from '@/screens/Team/SelectPlayersRival'
 import TeamModalSearch from '@/screens/Team/GameCategory/ModalItem'
 import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
-import TeamMembers from '@/screens/Team/TeamMembers/TeamMembers'
+import SearchTeamMembers from '@/screens/Team/SearchTeamMembers/SearchTeamMembers'
 import SearchInput from '@/screens/Team/SearchInput'
 import JoinTeam from '@/screens/Team/TeamInfo'
 import Map from '@/screens/Map/Map'
-import SearchUserResult from '@/screens/Team/SearchUserResult/SearchUserResult'
 import MembersInTeam from '@/screens/Team/TeamMembers/MembersInTeam'
 import EachMember from '@/screens/Team/TeamMembers/EachMember'
-import SearchedUserInfo from '@/screens/Team/SearchUserResult/SearchedUserInfo'
+import SearchedUserInfo from '@/screens/Team/SearchTeamMembers/SearchedUserInfo'
 import { NAV_HEADER_OPTION } from '@/constants'
 import SearchedTeamSubmit from '@/screens/Team/SearchCommand/SearchedTeamSubmit'
 import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLeadNotCreate'
@@ -41,7 +40,6 @@ function Index() {
       <Stack.Screen name="Map" component={Map} />
       <Stack.Screen name="TeamSelectGameCategory" component={TeamSelectCategoryComponent} />
       <Stack.Screen name="SelectTeam" component={SelectTeam} />
-      <Stack.Screen name="SearchUserResult" component={SearchUserResult} />
       <Stack.Screen name="SearchedUserInfo" component={SearchedUserInfo} />
       <Stack.Screen name="SearchTeamInvite" component={SearchTeamInvite} />
       <Stack.Screen name="SearchedTeamSubmit" component={SearchedTeamSubmit} />
@@ -54,7 +52,7 @@ function Index() {
       <Stack.Screen name="SearchTeamRes" component={SearchTeamRes} />
       <Stack.Screen name="SelectPlayersRival" component={SelectPlayersRival} />
       <Stack.Screen name="TeamModalSearch" component={TeamModalSearch} />
-      <Stack.Screen name="TeamMembers" component={TeamMembers} />
+      <Stack.Screen name="SearchTeamMembers" component={SearchTeamMembers} />
       <Stack.Screen name="EachMember" component={EachMember} />
       <Stack.Screen name="MembersInTeam" component={MembersInTeam} />
       <Stack.Screen name="SearchTeam" component={SearchInput} />

@@ -108,7 +108,7 @@ const MembersInTeam = ({ route }) => {
           <LightButton
             label={'Пригласить игрока'}
             size={{ width: 380, height: 45 }}
-            onPress={() => navigation.navigate('TeamMembers', command)}
+            onPress={() => navigation.navigate('SearchTeamMembers', command)}
           />
         </View>
       </ScrollView>

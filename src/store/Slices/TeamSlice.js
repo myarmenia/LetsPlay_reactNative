@@ -95,6 +95,9 @@ export const searchPlayer = (url) => (dispatch) => {
 export const inviteUserToTeam = (data) => (dispatch) => {
   axiosInstance
     .patch('/api/team/invite', data)
+    .then((e) => {
+      console.log('inviteUserToTeam', e)
+    })
 
     .catch((err) => {
       console.log('Error inviting player :', err)

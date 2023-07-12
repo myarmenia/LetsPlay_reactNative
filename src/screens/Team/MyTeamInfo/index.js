@@ -14,6 +14,7 @@ function Index({ route }) {
   const { command } = route.params
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  console.log(command)
   return (
     <ScreenMask>
       <View style={style.rowBox}>
@@ -39,9 +40,9 @@ function Index({ route }) {
         <View style={style.btn}>
           <Button
             onPress={() =>
-              !command?.invited_players?.length
+              command?.invited_players?.length
                 ? navigation.navigate('MembersInTeam', command)
-                : navigation.navigate('TeamMembers', command)
+                : navigation.navigate('SearchTeamMembers', command)
             }
             size={{ width: 265, height: 48 }}
             label={'Состав'}

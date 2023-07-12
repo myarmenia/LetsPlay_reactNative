@@ -3,7 +3,7 @@ import { _storageUrl } from '@/constants'
 import { useEffect, useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { getTeams, saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
@@ -15,7 +15,6 @@ import EachCommand from './EachCommand'
 function Index({ route }) {
   const props = route.params
 
-  const isFocused = useIsFocused()
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
   const { teamChatsList } = useSelector(({ teams }) => teams)
@@ -78,7 +77,6 @@ function Index({ route }) {
             <Text style={style.text}>Загрузка...</Text>
           </View>
         )}
-        {/* <Text style={style.title}>Участник команды</Text> */}
       </ScrollView>
     </ScreenMask>
   )
