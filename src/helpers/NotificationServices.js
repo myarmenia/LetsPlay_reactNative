@@ -47,4 +47,4 @@ const notificationListener = async () => {
     })
 }
 
-export { requestUserPermission, notificationListener }
+export { requestUserPermission, notificationListener, getFcmToken }

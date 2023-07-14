@@ -290,7 +290,15 @@ export const signUp3 = (data) => (dispatch) => {
       )
     })
 }
-export const signUp4 = (data) => (dispatch) => {
+export const signUp4 = (data) => async (dispatch) => {
+  const deviceId = await getUniqueId()
+  const fcmToken = await AsyncStorage.getItem('fcmToken')
+  console.log('deviceId', deviceId)
+  console.log('fcmToken', fcmToken)
+  if (deviceId && fcmToken) {
+    data.device_id = deviceId
+    data.fcm_token = fcmToken
+  }
   axiosInstance
     .post('api/auth/signup/fourth_step', data)
     .then((response) => {
@@ -349,7 +357,14 @@ export const getDocumentRules = () => (dispatch) => {
     })
 }
 
-export const vkAuth = (data) => (dispatch) => {
+export const vkAuth = (data) => async (dispatch) => {
+  const deviceId = await getUniqueId()
+  const fcmToken = await AsyncStorage.getItem('fcmToken')
+  if (deviceId && fcmToken) {
+    data.device_id = deviceId
+    data.fcm_token = fcmToken
+  }
+  console.log('vkAuth', data)
   axiosInstance
     .post('api/auth/vk', data)
     .then((response) => {

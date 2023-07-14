@@ -3,7 +3,7 @@ import { Players } from '@/assets/TestData'
 import { useState } from 'react'
 import { joinInTeam } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
 import { Image, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
@@ -16,6 +16,7 @@ function Index({ route }) {
   const item = route.params
 
   const [modalVisible, setModalVisible] = useState(false)
+  const userId = useSelector(({ auth }) => auth?.user?._id)
 
   const dispatch = useDispatch()
   const handleJoin = () => {
@@ -58,26 +59,28 @@ function Index({ route }) {
           />
         </View>
       </View>
-      <View style={style.btn}>
-        <Button
-          onPress={handleJoin}
-          size={{ width: RW(360), height: RH(48) }}
-          label={'Присоединиться к команде'}
-          labelStyle={font('bold', 18, BLACK)}
-        />
-        {modalVisible && (
-          <Modal
-            navigationText={'Home'}
-            item={
-              <View style={style.modal}>
-                <Text style={style.successTeam}>Вы успешно присоединились к команду!</Text>
-              </View>
-            }
-            modalVisible={modalVisible}
-            setIsVisible={setModalVisible}
+      {userId !== item.user && !item.invited_players?.includes(userId) ? (
+        <View style={style.btn}>
+          <Button
+            onPress={handleJoin}
+            size={{ width: RW(360), height: RH(48) }}
+            label={'Присоединиться к команде'}
+            labelStyle={font('bold', 18, BLACK)}
           />
-        )}
-      </View>
+          {modalVisible && (
+            <Modal
+              navigationText={'Home'}
+              item={
+                <View style={style.modal}>
+                  <Text style={style.successTeam}>{modalVisible}</Text>
+                </View>
+              }
+              modalVisible={modalVisible}
+              setIsVisible={setModalVisible}
+            />
+          )}
+        </View>
+      ) : null}
     </ScreenMask>
   )
 }

@@ -13,7 +13,7 @@ import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
 const EditTeamInfo = ({ route }) => {
   const command = route.params
   const [addresName, setAddressName] = useState('')
-  const [name, setName] = useState('')
+  const [name, setName] = useState(command?.name)
   const [photo, setPhoto] = useState(_storageUrl + command?.img)
   const navigation = useNavigation()
   const uploadPhoto = async () => {
@@ -23,38 +23,6 @@ const EditTeamInfo = ({ route }) => {
       includeBase64: true,
     })
     setPhoto(result.assets[0].uri)
-    // dispatch(setPending(true))
-    // setEditable(false)
-    // let myHeaders = new Headers()
-    // myHeaders.append('Content-Type', 'multipart/form-data')
-    // myHeaders.append('Authorization', `Bearer ${token}`)
-    // myHeaders.append('Accept', 'application/json')
-
-    // let formdata = new FormData()
-    // formdata.append('avatar', {
-    //   name: 'uresPhoto',
-    //   type: result.assets[0].type,
-    //   uri: result.assets[0].uri,
-    // })
-
-    // let requestOptions = {
-    //   method: 'PATCH',
-    //   headers: myHeaders,
-    //   body: formdata,
-    //   redirect: 'follow',
-    // }
-    // fetch(
-    //   Platform.OS == 'ios'
-    //     ? 'https://to-play.ru/api/profile/avatar'
-    //     : 'http://to-play.ru/api/profile/avatar',
-    //   requestOptions,
-    // )
-    //   .then((response) => response.text())
-    //   .then((result) => {
-    //     dispatch(setImage(JSON.parse(result).avatar))
-    //   })
-    //   .catch((error) => console.log('error', error))
-    //   .finally(() => dispatch(setPending(false)), setEditable(false))
   }
   //command is initial coming state from navigation and from map after changing location
   return (
@@ -70,7 +38,7 @@ const EditTeamInfo = ({ route }) => {
             <UploadIcon />
           </Pressable>
         </ImageBackground>
-        <TextInput style={styles.input} value={command?.name} onChangeText={e => setName(e)} />
+        <TextInput style={styles.input} value={name} onChangeText={(e) => setName(e)} />
       </View>
       <View style={styles.colBox}>
         <Text style={styles.text}>Адрес нахождения команды:</Text>

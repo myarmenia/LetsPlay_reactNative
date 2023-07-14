@@ -10,6 +10,7 @@ const initialState = {
   savedTeam: null,
   betweenPlayers: false,
   choosedTeamGame: null,
+  searchPending: false,
 }
 export const TeamSlice = createSlice({
   name: 'teamSlice',
@@ -63,6 +64,12 @@ export const TeamSlice = createSlice({
         choosedTeamGame: action.payload,
       }
     },
+    setSearchPending: (store, action) => {
+      return {
+        ...store,
+        searchPending: action.payload,
+      }
+    },
   },
 })
 export const getTeams = (setModalVisible) => (dispatch) => {
@@ -81,15 +88,18 @@ export const getTeams = (setModalVisible) => (dispatch) => {
       console.log('Error getting team chats', err)
     })
 }
-export const searchPlayer = (url) => (dispatch) => {
+export const searchPlayer = (data) => (dispatch) => {
+  dispatch(setSearchPending(true))
   axiosInstance
-    .get(`/api/team/find/user/?${url}`)
+    .get(`/api/team/find/user/`, { params: data })
     .then((response) => {
       dispatch(setFindedPlayers(response.data.users))
+      dispatch(setSearchPending(false))
     })
 
     .catch((err) => {
       console.log('Error finding player :', err)
+      dispatch(setSearchPending(false))
     })
 }
 export const inviteUserToTeam = (data) => (dispatch) => {
@@ -159,9 +169,9 @@ export const joinGame = (gameId, nav, setError, setModalVisible) => async (dispa
 }
 export const joinInTeam = (teamId, setModalVisible) => async (dispatch) => {
   axiosInstance
-    .post(`api/team/players/${teamId}`)
+    .put(`api/team/join_player`, { team_id: teamId })
     .then((response) => {
-      setModalVisible(true)
+      setModalVisible(response.data.message)
     })
     .catch((err) => {
       console.log('Error joining to team :', err)
@@ -232,6 +242,17 @@ export const createTeamGame = (data, setModalVisible) => (dispatch) => {
       console.log('Error creating game with team :', err.request)
     })
 }
+export const getMyTeams = (setModalVisible) => (dispatch) => {
+  axiosInstance.get('/api/team/my_teams').then((response) => {
+    if (response?.data?.datas?.length) {
+      dispatch(setTeamChats(response?.data?.datas))
+      setModalVisible && setModalVisible(false)
+    } else {
+      setModalVisible && setModalVisible(true)
+    }
+  })
+}
+
 export const {
   setTeamChats,
   saveTeamDataForCreating,
@@ -241,5 +262,6 @@ export const {
   setFindedPlayers,
   setBetweenPlayers,
   setChoosedTeamGame,
+  setSearchPending,
 } = TeamSlice.actions
 export default TeamSlice.reducer

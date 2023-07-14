@@ -28,6 +28,7 @@ const MyApp = () => {
   }, [token, userId])
 
   console.log('Token - ', token)
+  // console.log('userId - ', userId)
 
   return (
     <>

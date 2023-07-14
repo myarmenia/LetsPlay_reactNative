@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, StyleSheet, Text, TextInput, View, Pressable } from 'react-native'
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Pressable,
+  ActivityIndicator,
+} from 'react-native'
 import { _storageUrl } from '@/constants'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
@@ -11,21 +20,20 @@ import LightButton from '@/assets/imgs/Button'
 import RadioBlock from '@/components/RadioBlock'
 import User from '@/components/User/user'
 import LinearGradient from 'react-native-linear-gradient'
+import Loader from '@/components/loader/Loader'
 const SearchTeamMembers = ({ route }) => {
   const command = route.params
-  const btnsList = [
-    { id: 1, text: 'По ID игрока', checked: true },
-    { id: 2, text: 'По ФИО / Логин', checked: false },
-    { id: 3, text: 'По номеру телефона / e-mail', checked: false },
-    { id: 4, text: 'По страничке “Вконтакте”', checked: false },
-  ]
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { findedPlayers, findedTeam } = useSelector(({ teams }) => teams)
-  const [list, setList] = useState(btnsList)
+  const { findedPlayers, searchPending } = useSelector(({ teams }) => teams)
+  const [list, setList] = useState([
+    { id: 1, text: 'По ID игрока', checked: true, label: 'user_id' },
+    { id: 2, text: 'По ФИО', checked: false, label: 'fullname' },
+    { id: 3, text: 'Логин', checked: false, label: 'email' },
+    { id: 4, text: 'По страничке “Вконтакте”', checked: false, label: 'vk_id' },
+  ])
   const [value, setValue] = useState('')
-  const radioValue = list.find((elm) => elm.checked).text
 
   const EachUser = ({ member }) => {
     const [back, setBack] = useState(false)
@@ -93,27 +101,14 @@ const SearchTeamMembers = ({ route }) => {
     )
   }
 
-  let url = ''
   const handleSearch = async () => {
-    switch (radioValue) {
-      case 'По ID игрока': {
-        url = `id=${value}`
-        break
-      }
-      case 'По ФИО / Логин': {
-        url = `name=${value}`
-        break
-      }
-      case 'По номеру телефона / e-mail': {
-        url = `userId=${value}`
-        break
-      }
-      case 'По страничке “Вконтакте”': {
-        url = `vkId=${value}`
-        break
-      }
-    }
-    dispatch(searchPlayer(url))
+    const radioValue = list.find((elm) => elm.checked).label
+    dispatch(setFindedPlayers([]))
+    dispatch(
+      searchPlayer({
+        [radioValue]: value,
+      }),
+    )
   }
 
   useEffect(() => {
@@ -124,8 +119,8 @@ const SearchTeamMembers = ({ route }) => {
   return (
     <ScreenMask>
       <View style={styles.rowBox}>
-        <Text style={styles.text}>{command?.name}</Text>
         <Image source={{ uri: _storageUrl + command?.img }} style={styles.img} resizeMode="cover" />
+        <Text style={styles.text}>{command?.name}</Text>
       </View>
       <View style={styles.midBlock}>
         <RadioBlock
@@ -150,11 +145,22 @@ const SearchTeamMembers = ({ route }) => {
           />
         </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-        {findedPlayers?.map((member, i) => {
-          return <EachUser member={member} key={i} />
-        })}
-      </ScrollView>
+      {searchPending ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+          }}
+        >
+          <ActivityIndicator size="large" color={WHITE} />
+        </View>
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
+          {findedPlayers?.map((member, i) => {
+            return <EachUser member={member} key={i} />
+          })}
+        </ScrollView>
+      )}
     </ScreenMask>
   )
 }
@@ -171,9 +177,9 @@ const styles = StyleSheet.create({
     marginVertical: RH(15),
   },
   img: {
-    width: RW(40),
-    height: RH(41),
-    borderRadius: RW(20),
+    width: RW(30),
+    height: RW(30),
+    borderRadius: RW(15),
     borderWidth: 1,
     borderColor: WHITE,
   },
@@ -183,7 +189,6 @@ const styles = StyleSheet.create({
     marginVertical: RH(15),
   },
   searchText: {
-    // textAlign: 'center',
     ...font('regular', 16, ICON),
     marginVertical: RH(15),
   },

@@ -41,6 +41,7 @@ import { useNavigation } from '@react-navigation/native'
 import { io } from 'socket.io-client'
 import DateComponent from '@/components/DateComponent'
 import VKIcon from '@/assets/imgs/vk'
+import { requestUserPermission } from '@/helpers/NotificationServices'
 
 function Index() {
   const [isVisible, setIsVisible] = useState(false)
@@ -293,10 +294,11 @@ function Index() {
                     }}
                   >
                     <Button
-                      onPress={() => {
+                      onPress={async () => {
                         dispatch(setToken(null))
                         dispatch(setExpiredToken(null))
-                        clearAsyncStorage()
+                        await clearAsyncStorage()
+                        requestUserPermission()
                       }}
                       light={true}
                       size={{ width: 100, height: 36 }}

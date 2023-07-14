@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { ScrollView, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { getTeams, saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
+import { getMyTeams, getTeams, saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
 import style from './style'
@@ -21,7 +21,7 @@ function Index({ route }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getTeams(setModalVisible))
+    dispatch(getMyTeams(setModalVisible))
     dispatch(saveTeamDataForCreating({}))
   }, [])
   const ModalItem = () => {
