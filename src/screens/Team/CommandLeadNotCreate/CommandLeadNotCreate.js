@@ -1,13 +1,4 @@
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BACKGROUND, ICON } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
@@ -18,13 +9,8 @@ import DateComponent from '@/components/DateComponent'
 import ScreenMask from '@/components/wrappers/screen'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/assets/imgs/Button'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import {
-  getMembersList,
-  searchTeam,
-  setFindedPlayers,
-  setFindedTeam,
-} from '@/store/Slices/TeamSlice'
+import { useNavigation } from '@react-navigation/native'
+import { getMembersList, searchTeam, setFindedTeam } from '@/store/Slices/TeamSlice'
 
 const CommandLeadNotCreate = ({ route }) => {
   const item = route.params
@@ -41,9 +27,7 @@ const CommandLeadNotCreate = ({ route }) => {
   const [enemyTeam, setEnemyTeam] = useState('')
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
   const [addresName, setAddressName] = useState('')
-  const [valOne, setValOne] = useState('')
-  const [valSec, setValSec] = useState('')
-  const [price, setPrice] = useState('')
+  // const [price, setPrice] = useState('')
   const [formats, setFormats] = useState(
     game?.formats?.map((elm, i) => {
       return { id: i, text: elm, checked: false }
@@ -97,7 +81,7 @@ const CommandLeadNotCreate = ({ route }) => {
     longitude: item?.fromMap ? item?.longitude : addresName?.lng,
     between_players: betweenPlayers,
     all_players: false,
-    ticket_price: price ? price : 0,
+    ticket_price: 0, //price ? price : 0
     team: savedTeam?._id,
     // gtac team i id
     //  enemy_team: findedTeam?._id
@@ -133,7 +117,7 @@ const CommandLeadNotCreate = ({ route }) => {
     if (
       Boolean(
         addresName?.address_name || item?.latitude,
-        price,
+        0, //price
         enemyTeam,
         formats?.filter((elm) => elm?.checked)?.length,
       )

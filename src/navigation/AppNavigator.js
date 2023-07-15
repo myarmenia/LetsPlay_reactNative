@@ -1,10 +1,10 @@
-import { ICON } from '@/theme/colors'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CircleButton from '@/components/buttons/circle'
 import TabBarButton from '@/components/buttons/tabs'
 import { NAV_HEADER_OPTION } from '@/constants'
+import { ICON } from '@/theme/colors'
 
 // TAB SCREENS
 import ProfileScreen from '@/screens/Profile'

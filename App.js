@@ -7,6 +7,8 @@ import Loader from '@/components/loader/Loader'
 import { LogBox } from 'react-native'
 import LinkingConfig from '@/navigation/LinkingConfig'
 import { notificationListener, requestUserPermission } from '@/helpers/NotificationServices'
+import { SheetProvider } from 'react-native-actions-sheet'
+import '@/components/sheets'
 
 LogBox.ignoreLogs([
   'Sending `rn-recordback` with no listeners registered.',
@@ -23,7 +25,9 @@ const App = () => {
     <NavigationContainer linking={LinkingConfig}>
       <Provider store={store}>
         <Loader>
-          <MyApp />
+          <SheetProvider>
+            <MyApp />
+          </SheetProvider>
         </Loader>
       </Provider>
     </NavigationContainer>

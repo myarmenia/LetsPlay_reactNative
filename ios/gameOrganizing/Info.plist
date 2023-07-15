@@ -50,7 +50,7 @@
 	<key>NSCalendarsUsageDescription</key>
 	<string>NSCalendarsUsageDescription</string>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your Camera.</string>
+	<string>GameOrganizing запрашивает доступ к камере. Это позволит вам создавать события с фотографиями.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>NSContactsUsageDescription</string>
 	<key>NSFaceIDUsageDescription</key>
