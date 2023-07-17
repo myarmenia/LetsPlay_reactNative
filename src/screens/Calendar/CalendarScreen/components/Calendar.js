@@ -265,6 +265,7 @@ class Calendar extends React.Component {
           <View style={styles.line} />
 
           <View style={styles.agentaContainer}>
+            {console.log(JSON.stringify(this.props?.calendarGames, null, 4))}
             {Object.keys(this.props?.calendarGames || {})?.map((date, i) => {
               let dateString = new Date(date)
               return (
@@ -277,6 +278,7 @@ class Calendar extends React.Component {
                       {this.months2[dateString.getMonth()]}
                     </Text>
                   </Row>
+
                   {this.props?.calendarGames[date].map((item) => {
                     return (
                       <CalendarGameItem

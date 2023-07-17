@@ -10,7 +10,6 @@ function Index(props) {
     <ScreenMask>
       <Pressable
         onPress={() => {
-          console.log('SheetManager.show')
           SheetManager.show('selectMedia')
         }}
         style={{ ...style.container, marginTop: RH(16) }}

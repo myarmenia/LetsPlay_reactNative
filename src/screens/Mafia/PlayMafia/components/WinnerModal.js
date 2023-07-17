@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import React from 'react'
 import Modal from '@/components/modal'
 import { font, RH, RW } from '@/theme/utils'
@@ -8,24 +8,14 @@ import { _storageUrl } from '@/constants'
 import { SCREEN_BACKGROUND } from '@/theme/colors'
 import LightButton from '@/assets/imgs/Button'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const WinnerModal = ({ modalVisible, setModalVisible }) => {
   const { roles } = useSelector(({ mafia }) => mafia)
   const imgPath = _storageUrl + roles?.find((item) => item.type == modalVisible)?.img
   const navigation = useNavigation()
 
-  // if (!modalVisible) return null
-
   return (
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     position: 'absolute',
-    //     // backgroundColor: 'red',
-    //     width: '100%',
-    //     height: '100%',
-    //   }}
-    // >
     <Modal
       modalVisible={modalVisible}
       setIsVisible={(e) => {
@@ -34,7 +24,7 @@ const WinnerModal = ({ modalVisible, setModalVisible }) => {
       }}
       item={
         <View style={styles.container}>
-          <Image style={styles.img} source={{ uri: imgPath }} />
+          <FastImage style={styles.img} source={{ uri: imgPath }} />
           <Text style={styles.text}>
             {modalVisible == 'мафия'
               ? 'Игра окончена. Победила мафия.'

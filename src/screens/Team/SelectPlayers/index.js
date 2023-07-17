@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
 import ModalItem from '@/screens/Team/SelectTeam/ModalItem'
 import { styles } from '@/screens/Team/SelectPlayers/style'
 import { Players } from '@/assets/TestData'
-import User from '@/components/User/user'
 import Button from '@/assets/imgs/Button'
 import PlayerList from '@/screens/Mafia/AddPlayers/componnets/PlayerList'
+import FastImage from 'react-native-fast-image'
 
 function Index({ route, navigation }) {
   const [modal, setModal] = useState(false)
@@ -41,7 +41,7 @@ function Index({ route, navigation }) {
     <ScreenMask>
       <View style={styles.titleBlock}>
         <View style={styles.imageBlock}>
-          <Image style={styles.image} source={{ uri: data.game.image }} />
+          <FastImage style={styles.image} source={{ uri: data.game.image }} />
         </View>
         <Text style={styles.title}>{data.game.name}</Text>
       </View>

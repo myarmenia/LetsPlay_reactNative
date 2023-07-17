@@ -1,7 +1,7 @@
 import ScreenMask from '@/components/wrappers/screen'
 import React, { useRef, useState } from 'react'
 import { styles } from './styles'
-import { ScrollView, View, Text, Image, Pressable } from 'react-native'
+import { ScrollView, View, Text, Pressable } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
@@ -9,6 +9,7 @@ import { _storageUrl } from '@/constants'
 import Wave from '@/assets/svgs/wave'
 import LinearGradient from 'react-native-linear-gradient'
 import LightButton from '@/assets/imgs/Button'
+import FastImage from 'react-native-fast-image'
 
 function GamesList() {
   const navigation = useNavigation()
@@ -79,7 +80,7 @@ function GamesList() {
           ></LinearGradient>
         )}
         <View style={styles.image}>
-          <Image
+          <FastImage
             style={{
               width: RW(50),
               height: RH(50),

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
 import { styles } from '@/screens/Team/SelectPlayers/style'
@@ -8,6 +8,7 @@ import User from '@/components/User/user'
 import Button from '@/assets/imgs/Button'
 import { RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
+import FastImage from 'react-native-fast-image'
 
 function Index({ route, navigation }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -38,7 +39,7 @@ function Index({ route, navigation }) {
     <ScreenMask>
       <View style={styles.titleBlock}>
         <View style={styles.imageBlock}>
-          <Image style={styles.image} source={{ uri: item.image }} />
+          <FastImage style={styles.image} source={{ uri: item.image }} />
         </View>
         <Text style={styles.title}>{item.name}</Text>
       </View>

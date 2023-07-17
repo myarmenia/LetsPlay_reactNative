@@ -11,6 +11,7 @@ import LightButton from '@/assets/imgs/Button'
 import { createTeamGame } from '@/store/Slices/TeamSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const EditTeamPlayers = ({ route }) => {
   const { gameId, sendingData } = route.params
@@ -28,7 +29,7 @@ const EditTeamPlayers = ({ route }) => {
           <Text style={styles.topTitle}>
             {sendingData?.enemy_team_name ? sendingData?.enemy_team_name : sendingData?.enemy_team}
           </Text>
-          <Image
+          <FastImage
             style={styles.commandImg}
             source={{ uri: _storageUrl + gameId?.img }}
             resizeMode="cover"

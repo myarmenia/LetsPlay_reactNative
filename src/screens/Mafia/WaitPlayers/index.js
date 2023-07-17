@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Image, View } from 'react-native'
+import { View } from 'react-native'
 import MafiaLoader from '../PlayMafia/components/MafiaLoader'
 import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
@@ -12,6 +12,7 @@ import {
 } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import { setPending } from '@/store/Slices/AuthSlice'
+import FastImage from 'react-native-fast-image'
 
 const WaitPlayers = ({ route }) => {
   const propsGameId = route.params?.id
@@ -47,7 +48,7 @@ const WaitPlayers = ({ route }) => {
           alignItems: 'center',
         }}
       >
-        <Image
+        <FastImage
           style={{ width: '80%', resizeMode: 'contain', position: 'absolute' }}
           source={require('./assets/bgLogo.png')}
         />

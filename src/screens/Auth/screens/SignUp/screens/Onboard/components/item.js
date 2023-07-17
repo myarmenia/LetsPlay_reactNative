@@ -1,8 +1,9 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 
-import { font, RH, RW, shadow } from '@/theme/utils'
+import { font, RH, RW } from '@/theme/utils'
 import { ICON } from '@/theme/colors'
+import FastImage from 'react-native-fast-image'
 
 const OnBoardingItem = ({ item }) => {
   return (
@@ -22,7 +23,7 @@ const OnBoardingItem = ({ item }) => {
         </View>
       ) : (
         <>
-          <Image source={item.image} style={styles.image} />
+          <FastImage source={item.image} style={styles.image} />
           <Text style={[styles.description]}>{item.description}</Text>
         </>
       )}

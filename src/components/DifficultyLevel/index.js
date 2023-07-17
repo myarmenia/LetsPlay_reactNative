@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
-// import styles from '@/screens/Elias/DifficultyLevel/styles'
+import React from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 function Index({ navigation, levels, selectLevel, setSelectLevel }) {

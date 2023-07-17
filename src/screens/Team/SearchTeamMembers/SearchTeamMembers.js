@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -20,7 +19,7 @@ import LightButton from '@/assets/imgs/Button'
 import RadioBlock from '@/components/RadioBlock'
 import User from '@/components/User/user'
 import LinearGradient from 'react-native-linear-gradient'
-import Loader from '@/components/loader/Loader'
+import FastImage from 'react-native-fast-image'
 const SearchTeamMembers = ({ route }) => {
   const command = route.params
 
@@ -119,7 +118,11 @@ const SearchTeamMembers = ({ route }) => {
   return (
     <ScreenMask>
       <View style={styles.rowBox}>
-        <Image source={{ uri: _storageUrl + command?.img }} style={styles.img} resizeMode="cover" />
+        <FastImage
+          source={{ uri: _storageUrl + command?.img }}
+          style={styles.img}
+          resizeMode="cover"
+        />
         <Text style={styles.text}>{command?.name}</Text>
       </View>
       <View style={styles.midBlock}>

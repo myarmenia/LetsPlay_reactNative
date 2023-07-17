@@ -1,10 +1,11 @@
-import { Text, View, Image, ImageBackground } from 'react-native'
+import { Text, View, ImageBackground } from 'react-native'
 import React from 'react'
 import Modal from '@/components/modal'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
+import FastImage from 'react-native-fast-image'
 
 const MafiaModal = ({ modalVisible, setModalVisible }) => {
   const { mafiaRole, roles } = useSelector(({ mafia }) => mafia)
@@ -39,7 +40,7 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
                 // height: RH(420),
               }}
             >
-              <Image
+              <FastImage
                 source={{ uri: _storageUrl + mafiaRole?.img }}
                 style={{ height: RH(150), width: RH(120), resizeMode: 'contain' }}
               />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, ImageBackground } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
@@ -14,6 +14,7 @@ import {
   setLoader,
   startGame,
 } from '../../../store/Slices/MafiaSlice'
+import FastImage from 'react-native-fast-image'
 
 const AboutGame = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -57,7 +58,7 @@ const AboutGame = ({ route }) => {
                   margin: RW(15),
                 }}
               >
-                <Image
+                <FastImage
                   style={{ resizeMode: 'contain', width: '100%', height: 125 }}
                   source={{ uri: _storageUrl + item.img }}
                 />

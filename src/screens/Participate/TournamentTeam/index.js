@@ -3,6 +3,7 @@ import { Image, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import style from './style'
 import BgMyTem from '@/assets/bgMyTem'
+import FastImage from 'react-native-fast-image'
 
 const myTeam = [
   {
@@ -33,7 +34,7 @@ function Index(props) {
         <View style={style.homeBlock}>
           <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
             <View style={style.imageBlock}>
-              <Image style={style.image} source={{ uri: item.image }} />
+              <FastImage style={style.image} source={{ uri: item.image }} />
             </View>
             <View style={style.textBlock}>
               <Text style={style.text}>{item.name}</Text>

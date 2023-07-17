@@ -22,7 +22,7 @@ const SelectMediaSheet = (props) => {
               })
             } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
               console.log('result', result)
-              alert(JSON.stringify(result))
+              // alert(JSON.stringify(result))
             } else {
               console.log('else result', result)
             }
@@ -51,7 +51,7 @@ const SelectMediaSheet = (props) => {
               })
             } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
               console.log('result', result)
-              alert(JSON.stringify(result))
+              // alert(JSON.stringify(result))
             } else {
               console.log('else result', result)
             }

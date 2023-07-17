@@ -1,10 +1,11 @@
-import { Image, Pressable, Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import style from './style'
 import { RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const EachCommand = ({ command, data }) => {
   const [back, setBack] = useState(false)
@@ -72,7 +73,7 @@ const EachCommand = ({ command, data }) => {
         }}
       >
         <View style={style.imageBlock}>
-          <Image
+          <FastImage
             style={style.image}
             source={{ uri: _storageUrl + command?.img }}
             resizeMode="cover"

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { WHITE } from '@/theme/colors'
@@ -8,6 +8,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
+import FastImage from 'react-native-fast-image'
 
 const TeamInfo = ({ route }) => {
   const { sendingData, gameId } = route.params
@@ -18,7 +19,7 @@ const TeamInfo = ({ route }) => {
     <ScreenMask>
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Image
+          <FastImage
             source={{ uri: _storageUrl + choosedTeamGame?.img }}
             resizeMode="contain"
             style={styles.img}

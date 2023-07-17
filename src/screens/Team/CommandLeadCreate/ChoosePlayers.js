@@ -10,6 +10,7 @@ import LightButton from '@/assets/imgs/Button'
 import Modal from '@/components/modal'
 import { useDispatch } from 'react-redux'
 import { createTeamGame } from '@/store/Slices/TeamSlice'
+import FastImage from 'react-native-fast-image'
 const ChoosePlayers = ({ route }) => {
   const { savedTeam, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
@@ -49,7 +50,7 @@ const ChoosePlayers = ({ route }) => {
         <View>
           <View style={styles.rowBox}>
             <Text style={styles.topTitle}>{savedTeam?.name}</Text>
-            <Image
+            <FastImage
               style={styles.commandImg}
               source={{ uri: _storageUrl + savedTeam?.img }}
               resizeMode="cover"

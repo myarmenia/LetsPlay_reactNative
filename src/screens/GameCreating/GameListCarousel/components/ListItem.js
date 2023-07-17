@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Image, StyleSheet, Text, View, Animated, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Animated, Pressable } from 'react-native'
 import BgGamesLiner from '@/assets/imgs/games/BgGamesLiner'
 import Border from '@/assets/imgs/games/Border'
 import { useNavigation } from '@react-navigation/native'
@@ -14,6 +14,7 @@ import LightButton from '@/assets/imgs/Button'
 import DarkButton from '@/assets/imgs/DarkButton'
 import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
 import { setTournamentGameType, setTournamentImagePath } from '@/store/Slices/TournamentSlice'
+import FastImage from 'react-native-fast-image'
 
 function ListItem({ game, pressable, qrGame, fromTournament }) {
   const [modalVisible, setModalVisible] = useState(false)
@@ -104,7 +105,7 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
           <BgGamesLiner />
         </View>
         <View style={styles.title}>
-          <Image source={{ uri: _storageUrl + game?.img }} style={styles.image} />
+          <FastImage source={{ uri: _storageUrl + game?.img }} style={styles.image} />
         </View>
         <View style={styles.btn}>
           <LinearGradient

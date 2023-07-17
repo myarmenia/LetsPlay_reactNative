@@ -11,6 +11,7 @@ import UserCircle from '../userCircle'
 import Vk from './vk'
 import Modal from '@/components/modal'
 import { Grayscale } from 'react-native-color-matrix-image-filters'
+import FastImage from 'react-native-fast-image'
 
 function Index({ size, size2, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
@@ -54,7 +55,7 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
         }}
       >
         <Grayscale style={{ flex: 1 }}>
-          <Image
+          <FastImage
             style={[
               {
                 ...style.image,

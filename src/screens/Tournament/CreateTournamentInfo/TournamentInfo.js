@@ -1,4 +1,4 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import Row from '@/components/wrappers/row'
 import { createTournament } from '@/store/Slices/TournamentSlice'
+import FastImage from 'react-native-fast-image'
 const TournamentInfo = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ const TournamentInfo = () => {
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
-          <Image
+          <FastImage
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
             source={{
               uri: _storageUrl + initialState?.imagePath,

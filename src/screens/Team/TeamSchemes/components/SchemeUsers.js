@@ -221,7 +221,7 @@ export default SchemeUsers
 
 const styles = StyleSheet.create({
   container: {
-    height: RW(100),
+    height: RW(110),
     backgroundColor: BACKGROUND,
     justifyContent: 'space-between',
     width: RW(428),

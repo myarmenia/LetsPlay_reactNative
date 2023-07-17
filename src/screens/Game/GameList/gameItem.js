@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import { styles } from './styles'
 import { RH, RW } from '@/theme/utils'
 import { Players } from '@/assets/TestData'
@@ -11,6 +11,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import User from '@/components/User/user'
 import Button from '@/assets/imgs/Button'
 import Modal from '@/components/modal'
+import FastImage from 'react-native-fast-image'
 
 function GameItem({ route }) {
   const { item } = route.params
@@ -27,7 +28,7 @@ function GameItem({ route }) {
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.itemWrapper}>
         <View style={styles.bigIcon}>
-          <Image
+          <FastImage
             style={{ width: RW(260), height: RW(260), resizeMode: 'contain' }}
             source={{ uri: _storageUrl + item?.game?.img }}
           />

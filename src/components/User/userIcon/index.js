@@ -10,6 +10,7 @@ import UserLine from '../userLine'
 import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
+import FastImage from 'react-native-fast-image'
 
 function Index({ size, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
@@ -62,7 +63,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
           alignItems: 'center',
         }}
       >
-        <Image
+        <FastImage
           style={[
             {
               ...style.image,
@@ -75,7 +76,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
                     ? size * 1.5
                     : size / 7.5
                   : size < 50
-                  ? size / 18
+                  ? size / 10
                   : size < 100
                   ? size / 25
                   : size / 40,

@@ -1,17 +1,17 @@
 import React, { useState } from 'react'
 import { _storageUrl } from '@/constants'
-import { BACKGROUND, WHITE } from '@/theme/colors'
+import { WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch } from 'react-redux'
 import { deletePlayerFromTeam, setPlayerAdmin } from '@/store/Slices/TeamSlice'
+import FastImage from 'react-native-fast-image'
 
 const EachMember = ({ route }) => {
-  const [back, setBack] = useState(false)
-  const [modalVisible, setModalVisible] = useState(false)
+  // const [modalVisible, setModalVisible] = useState(false)
   const commandName = route?.params?.command.name
   const commandImg = route?.params?.command.img
   const dispatch = useDispatch()
@@ -36,9 +36,7 @@ const EachMember = ({ route }) => {
   return (
     <ScreenMask>
       <Pressable
-        onPressIn={() => setBack(true)}
-        onPressOut={() => setBack(false)}
-        onPress={() => setModalVisible(true)}
+        // onPress={() => setModalVisible(true)}
         style={{
           width: '100%',
           alignSelf: 'center',
@@ -51,11 +49,11 @@ const EachMember = ({ route }) => {
       >
         <View style={styles.rowBox}>
           <Text style={styles.topTitle}>{commandName}</Text>
-          <Image
+          <FastImage
             source={{ uri: _storageUrl + commandImg }}
             resizeMode="cover"
             style={styles.commandImg}
-          ></Image>
+          />
         </View>
         <User size={390} />
         <View style={styles.btnsBox}>
@@ -80,8 +78,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     alignSelf: 'center',
-    // position: 'absolute',
-    // bottom: RH(40),
     height: '12%',
     justifyContent: 'space-between',
   },

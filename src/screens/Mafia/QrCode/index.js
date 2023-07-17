@@ -1,14 +1,12 @@
-import React, { useState } from 'react'
-import { Image, Text, View, StyleSheet } from 'react-native'
-import Modal from '@/components/modal'
+import React from 'react'
+import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Rules from './ModalRules'
-import QrTest from '@/assets/imgs/qrTest.jpg'
 import Button from '@/assets/imgs/Button'
 import { RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
+import FastImage from 'react-native-fast-image'
 
 function Index({ navigation }) {
   const qrLink = useSelector(({ mafia }) => mafia.qrLink)
@@ -19,11 +17,11 @@ function Index({ navigation }) {
         <View style={styles.body}>
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
-            <Image
+            <FastImage
               style={styles.qr}
               source={{ uri: _storageUrl + qrLink }}
-              onLoadStart={e => {}}
-              onLoadEnd={e => {}}
+              onLoadStart={(e) => {}}
+              onLoadEnd={(e) => {}}
             />
           </View>
           <Button

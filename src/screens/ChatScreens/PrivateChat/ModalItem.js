@@ -1,9 +1,10 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import style from '@/screens/ChatScreens/Chats/style'
 import ArrowRight from '@/assets/svgs/ArrowRight'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import { RH, RW } from '@/theme/utils'
+import FastImage from 'react-native-fast-image'
 const ModalItem = () => {
   return (
     <View style={style.regulationBlock}>
@@ -24,7 +25,7 @@ const ModalItem = () => {
         {/* <Text style={style.title}>Стоимость входного билета на игру: 500 руб.</Text> */}
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Text style={style.titlee}>Организатор игры:</Text>
-          <Image
+          <FastImage
             source={require('../../../assets/imgs/detail.png')}
             resizeMode={'contain'}
             style={{ height: RH(30), width: RW(20), paddingLeft: RW(50) }}

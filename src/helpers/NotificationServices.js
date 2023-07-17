@@ -36,7 +36,8 @@ const notificationListener = async () => {
   })
   messaging().onMessage(async (remoteMessage) => {
     console.log('Recived in foreground', remoteMessage)
-    alert(remoteMessage?.notification?.title)
+
+    // alert(remoteMessage?.notification?.title)
   })
   messaging()
     .getInitialNotification()

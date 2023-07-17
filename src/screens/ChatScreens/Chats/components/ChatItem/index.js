@@ -1,13 +1,5 @@
 import React, { useRef, useState } from 'react'
-import {
-  Animated,
-  Image,
-  PanResponder,
-  Pressable,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { Animated, PanResponder, Pressable, Text, TouchableOpacity, View } from 'react-native'
 import style from '../../style'
 import { useNavigation } from '@react-navigation/native'
 import { RW } from '@/theme/utils'
@@ -21,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setTookPartGames } from '@/store/Slices/AuthSlice'
 import { setTeamChats } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
+import FastImage from 'react-native-fast-image'
 
 function Index({ id, item, type }) {
   const navigation = useNavigation()
@@ -143,7 +136,7 @@ function Index({ id, item, type }) {
             ></LinearGradient>
           )}
 
-          <Image
+          <FastImage
             style={style.chatItemImg}
             source={{ uri: _storageUrl + (item?.img || item?.game?.img) }}
           />
@@ -173,7 +166,6 @@ function Index({ id, item, type }) {
                 }}
               >
                 <LightButton
-                  light={true}
                   onPress={() => {
                     type == 'Участник'
                       ? dispatch(deleteMemberChat(item?._id, setDeleting))
@@ -192,7 +184,6 @@ function Index({ id, item, type }) {
                   label={'Да'}
                 />
                 <DarkButton
-                  light={false}
                   onPress={() => setDeleting(false)}
                   size={{ width: 100, height: 36 }}
                   label={'Нет'}

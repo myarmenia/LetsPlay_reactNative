@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, Pressable, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
@@ -9,6 +9,7 @@ import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import { Players } from '@/assets/TestData'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const SelectMembers = ({ route }) => {
   const props = route?.params
@@ -62,7 +63,7 @@ const SelectMembers = ({ route }) => {
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View style={styles.header}>
           <View style={styles.headerChild}>
-            <Image
+            <FastImage
               source={{ uri: _storageUrl + props?.command?.img }}
               style={styles.commandImg}
               resizeMode="cover"

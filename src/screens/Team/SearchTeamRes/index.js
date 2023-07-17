@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import style from './style'
-import BgMyTem from '@/assets/bgMyTem'
 import Button from '@/assets/imgs/Button'
 import { BLACK, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import User from '@/components/User/user'
 import { Players } from '@/assets/TestData'
 import Modal from '@/components/modal'
+import FastImage from 'react-native-fast-image'
 
 function Index({ navigation, route }) {
   const { item, data } = route.params
@@ -18,7 +18,7 @@ function Index({ navigation, route }) {
     <ScreenMask>
       <Text style={style.team}>{team?.name}</Text>
       <View style={style.imageBlock}>
-        <Image style={style.image} source={{ uri: team?.image }} />
+        <FastImage style={style.image} source={{ uri: team?.image }} />
       </View>
       <Text style={style.text}>Адрес нахождения команды</Text>
       <Text

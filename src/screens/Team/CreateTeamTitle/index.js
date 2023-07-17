@@ -1,5 +1,5 @@
 import React, { useState, memo } from 'react'
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
+import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, RED, WHITE } from '@/theme/colors'
@@ -10,6 +10,7 @@ import Index from '@/components/modal'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
+import FastImage from 'react-native-fast-image'
 
 const CreateTeamTitle = (props) => {
   const [avatar, setAvatar] = useState('')
@@ -22,7 +23,7 @@ const CreateTeamTitle = (props) => {
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
   const handleCreate = () => {
-    if (!addressName && !response.latitude) {
+    if (!addressName && !response?.latitude) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
@@ -95,7 +96,7 @@ const CreateTeamTitle = (props) => {
               </View>
             ) : (
               <View style={styles.imgBox}>
-                <Image
+                <FastImage
                   source={{ uri: avatar?.assets?.[0].uri }}
                   resizeMode={'cover'}
                   style={styles.img}

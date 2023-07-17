@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import Row from '@/components/wrappers/row'
@@ -6,6 +6,7 @@ import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import User from '@/components/User/user'
+import FastImage from 'react-native-fast-image'
 
 const ViewSchemes = ({ route }) => {
   const [replacementPlayers, setReplacementPlayers] = useState([{ pageX: 0, pageY: 0 }])
@@ -29,11 +30,11 @@ const ViewSchemes = ({ route }) => {
   return (
     <ScreenMask>
       <Row wrapper={styles.teamNameRow}>
-        <Image style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
+        <FastImage style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
         <Text style={styles.teamName}>{data?.teamName}</Text>
       </Row>
       <View style={styles.schemaImgContainer}>
-        <Image
+        <FastImage
           onLayout={(e) => {
             fieldSize.current = {
               width: (e.nativeEvent.layout.width / 100) * 81.5,

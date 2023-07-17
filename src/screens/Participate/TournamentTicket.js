@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
 import OrganizerSvg from '@/assets/svgs/OrganizerSvg'
 import LightButton from '@/assets/imgs/Button'
 import Modal from '@/components/modal'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
+import FastImage from 'react-native-fast-image'
 
 function TournamentTicket(props) {
   const { navigation, route } = props
@@ -15,7 +16,7 @@ function TournamentTicket(props) {
     <ScreenMask>
       <View style={{ height: '100%' }}>
         <View style={styles.svg}>
-          <Image
+          <FastImage
             style={{ width: RW(220), height: RW(220) }}
             source={require('@/assets/imgs/games/soccer.png')}
           />

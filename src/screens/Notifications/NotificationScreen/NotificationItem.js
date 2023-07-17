@@ -8,12 +8,14 @@ import CloseSvg from '@/assets/svgs/closeSvg'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteNotification, setNotifications } from '@/store/Slices/AppSlice'
+import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 
-const NotificationItem = ({ elm }) => {
+const NotificationItem = ({ elm, setModalVisible }) => {
   const { notifications } = useSelector(({ app }) => app)
   const dispatch = useDispatch()
   const notificationText = elm.text
   const updated = new Date(elm.createdAt).toLocaleTimeString().substring(0, 4)
+  if (!notificationText) return null
   return (
     <View style={styles.mainContainer}>
       <View style={styles.line} />
@@ -23,11 +25,23 @@ const NotificationItem = ({ elm }) => {
           {elm?.readed ? <View style={{ width: 26 }} /> : <DotSvg />}
           <View>
             <Text style={styles.notificationText}>{notificationText}</Text>
-            <LightButton
-              label={'Прикрепить'}
-              size={{ width: 144, height: 36 }}
-              labelStyle={{ ...font('bold', 17, '#001034') }}
-            />
+            {elm.type == 'team_inite' ? (
+              <LightButton
+                onPress={() => {
+                  dispatch(
+                    joinPlayerTeam(
+                      {
+                        team_id: elm.team,
+                      },
+                      setModalVisible,
+                    ),
+                  )
+                }}
+                label={'Присоединиться'}
+                // size={{ width: 144, height: 36 }}
+                labelStyle={{ ...font('bold', 17, '#001034') }}
+              />
+            ) : null}
           </View>
         </Row>
 

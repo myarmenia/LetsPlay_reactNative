@@ -3,18 +3,18 @@ import { BLACK } from '@/theme/colors'
 import { useDispatch } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
 import UserEditSvg from '@/assets/svgs/userEdit'
 import style from './style'
+import FastImage from 'react-native-fast-image'
 
 function Index({ route }) {
   const { command } = route.params
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  console.log(command)
   return (
     <ScreenMask>
       <View style={style.rowBox}>
@@ -27,7 +27,7 @@ function Index({ route }) {
         </TouchableOpacity>
       </View>
       <View style={style.imageBlock}>
-        <Image
+        <FastImage
           style={style.image}
           source={{ uri: _storageUrl + command?.img }}
           resizeMode="cover"

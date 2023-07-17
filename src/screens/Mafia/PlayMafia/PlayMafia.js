@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image, Pressable, Platform } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Pressable, Platform } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import UserBorderSvg from './assets/UserBorderSvg'
@@ -26,6 +26,7 @@ import MafiaDeadModal from './components/MafiaDeadModal'
 import WinnerModal from './components/WinnerModal'
 import Row from '@/components/wrappers/row'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const PlayMafia = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -130,7 +131,7 @@ const PlayMafia = ({ route }) => {
           <>
             <View style={styles.youPlaceMen}>
               <View>
-                <Image source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
+                <FastImage source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
               </View>
               <View style={styles.infoMafia}>
                 <Text style={styles.textPlaceMen}>Вы {mafiaRole?.name?.toLowerCase()}</Text>
@@ -212,7 +213,7 @@ const PlayMafia = ({ route }) => {
                   ) : null}
 
                   {mafiaUsersId?.find((elm) => elm.id == equalVotes?.first_player?._id) ? (
-                    <Image
+                    <FastImage
                       style={styles.mafiaImg}
                       source={{
                         uri:
@@ -250,7 +251,7 @@ const PlayMafia = ({ route }) => {
                     </View>
                   ) : null}
                   {mafiaUsersId?.find((elm) => elm.id == equalVotes?.second_player?._id) ? (
-                    <Image
+                    <FastImage
                       style={styles.mafiaImg}
                       source={{
                         uri:
@@ -312,7 +313,7 @@ const PlayMafia = ({ route }) => {
                           </View>
                         ) : null}
                         {mafiaUsersId?.find((elm) => elm.id == item?._id) ? (
-                          <Image
+                          <FastImage
                             style={styles.mafiaImg}
                             source={{
                               uri:

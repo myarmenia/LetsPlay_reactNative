@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react'
-import { FlatList, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Row from '@/components/wrappers/row'
 import FilterSvg from '@/assets/svgs/FilterSvg'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteAllNotifications, getNotifications } from '@/store/Slices/AppSlice'
-
-import { ICON, WHITE } from '@/theme/colors'
+import Modal from '@/components/modal'
+import { ICON, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import NotificationItem from './NotificationItem'
 
 function NotificationScreen() {
+  const [modalVisible, setModalVisible] = useState(false)
   const { notifications } = useSelector(({ app }) => app)
 
   const navigation = useNavigation()
@@ -35,15 +36,29 @@ function NotificationScreen() {
             <Text style={styles.deleteAllText}>Очистить все</Text>
           </Pressable>
         </Row>
-
         <FlatList
-          contentContainerStyle={{ paddingBottom: RH(90) }}
+          contentContainerStyle={{ flex: 1, justifyContent: 'flex-end', paddingTop: RH(90) }}
           horizontal={false}
           showsVerticalScrollIndicator={false}
+          inverted={true}
           data={notifications}
-          renderItem={(elm) => <NotificationItem elm={elm?.item} />}
+          renderItem={(elm) => (
+            <NotificationItem elm={elm?.item} setModalVisible={setModalVisible} />
+          )}
         />
       </View>
+      {modalVisible ? (
+        <Modal
+          modalVisible={modalVisible}
+          setIsVisible={setModalVisible}
+          item={
+            <View style={styles.modal}>
+              {console.log(modalVisible)}
+              <Text style={styles.successTeam}>{modalVisible}</Text>
+            </View>
+          }
+        />
+      ) : null}
     </ScreenMask>
   )
 }
@@ -82,6 +97,19 @@ const styles = StyleSheet.create({
   deleteAllText: {
     ...font('bold', 14, ICON, 17),
     textDecorationLine: 'underline',
+  },
+  modal: {
+    width: RW(285),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    alignSelf: 'center',
+    padding: RW(40),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 17, WHITE, 20),
+    textAlign: 'center',
+    lineHeight: RH(28),
   },
 })
 

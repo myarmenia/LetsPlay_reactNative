@@ -13,6 +13,7 @@ import Modal from '@/components/modal'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchTeam } from '@/store/Slices/TeamSlice'
 import OrganizerSvg from '@/assets/svgs/OrganizatorSvg'
+import FastImage from 'react-native-fast-image'
 const MembersInTeam = ({ route }) => {
   const command = route.params
   const navigation = useNavigation()
@@ -84,19 +85,11 @@ const MembersInTeam = ({ route }) => {
     <ScreenMask>
       <View style={styles.rowBox}>
         <Text style={styles.topTitle}>{command?.name}</Text>
-        <Image
+        <FastImage
           style={styles.commandImg}
           source={{ uri: _storageUrl + command?.img }}
           resizeMode="cover"
         />
-        {/* <View style={styles.rowBox}>
-          <Text style={styles.topTitle}>{command?.name}</Text>
-          <Image
-            source={{ uri: _storageUrl + commandImg }}
-            resizeMode="cover"
-            style={styles.commandImg}
-          ></Image>
-        </View> */}
       </View>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.membersBox}>

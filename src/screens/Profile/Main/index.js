@@ -5,6 +5,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
+import FastImage from 'react-native-fast-image'
 
 const index = () => {
   const navigation = useNavigation()
@@ -39,7 +40,7 @@ const index = () => {
         <Text style={style.title}>Мой кабинет</Text>
         <View style={style.infoBlock}>
           <View style={style.imageBlock}>
-            <Image
+            <FastImage
               style={[style.image]}
               source={
                 !avatar

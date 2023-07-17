@@ -39,40 +39,22 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>NSAppleMusicUsageDescription</string>
-	<key>NSUserNotificationsUsageDescription</key>
-	<string>NSUserNotificationsUsageDescription</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>NSBluetoothAlwaysUsageDescription</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>NSBluetoothPeripheralUsageDescription</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>NSCalendarsUsageDescription</string>
 	<key>NSCameraUsageDescription</key>
-	<string>GameOrganizing запрашивает доступ к камере. Это позволит вам создавать события с фотографиями.</string>
-	<key>NSContactsUsageDescription</key>
-	<string>NSContactsUsageDescription</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>NSFaceIDUsageDescription</string>
+	<string>"Играем" запрашивает доступ к камере. Это позволит вам создавать события с фотографиями.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Ваше местоположение необходимо для определения ближайших к вам событий.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>NSLocationAlwaysUsageDescription</string>
+	<string>Ваше местоположение необходимо для определения ближайших к вам событий.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app requires access to the location.</string>
+	<string>Ваше местоположение необходимо для определения ближайших к вам событий.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Включение Face ID обеспечивает вам быстрый и безопасный доступ к вашей учетной записи.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Give $(PRODUCT_NAME) permission to use your microphone. Your record wont be shared without your permission.</string>
-	<key>NSMotionUsageDescription</key>
-	<string>NSMotionUsageDescription</string>
+	<string>Нам нужно разрешение на передачу звука через микрофон, например, во время прямой трансляции.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
+	<string>Нам нужно разрешение на доступ к библиотеке фотографий, чтобы изменить изображение профиля, загружать и сохранять фотографии из записей в библиотеку фотографий.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the photo library.</string>
-	<key>NSRemindersUsageDescription</key>
-	<string>NSRemindersUsageDescription</string>
-	<key>NSSiriUsageDescription</key>
-	<string>NSSiriUsageDescription</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>NSSpeechRecognitionUsageDescription</string>
+	<string>Нам нужно разрешение на доступ к библиотеке фотографий, чтобы изменить изображение профиля, загружать и сохранять фотографии из записей в библиотеку фотографий.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Black.ttf</string>

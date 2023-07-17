@@ -5,12 +5,13 @@ import { joinInTeam } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { Image, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import Modal from '@/components/modal'
 import style from './styles'
+import FastImage from 'react-native-fast-image'
 
 function Index({ route }) {
   const item = route.params
@@ -27,7 +28,7 @@ function Index({ route }) {
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>
       <View style={style.imageBlock}>
-        <Image style={style.image} source={{ uri: _storageUrl + item?.img }} />
+        <FastImage style={style.image} source={{ uri: _storageUrl + item?.img }} />
       </View>
       <View style={{ alignItems: 'center' }}>
         <Text style={style.text}>Адрес нахождения команды</Text>

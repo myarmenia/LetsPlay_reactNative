@@ -1,12 +1,15 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native'
+import { StyleSheet, TouchableOpacity, View, Text, Dimensions } from 'react-native'
 import { Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 
 const DarkButton = ({ onPress, label, labelStyle, wrapper, size, containerStyle = {} }) => {
   const width = RW(size?.width) || RW(172)
-  const height = RH(size?.height) || RH(36)
+  let height = RH(size?.height) || RH(36)
+  if (Dimensions.get('screen').height < 670) {
+    height = height * 1.5
+  }
 
   return (
     <TouchableOpacity activeOpacity={0.7} style={containerStyle} onPress={onPress && onPress}>
@@ -96,7 +99,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   labelStyle: {
-    // fontWeight: '700',
     ...font('bold', 16, WHITE),
   },
 })

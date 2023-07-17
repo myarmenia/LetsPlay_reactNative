@@ -7,6 +7,8 @@ import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import SchemeUsers from './components/SchemeUsers'
 import { useNavigation } from '@react-navigation/native'
+import LightButton from '@/assets/imgs/Button'
+import FastImage from 'react-native-fast-image'
 
 const TeamSchemes = ({ route }) => {
   const [replacementPlayers, setReplacementPlayers] = useState([
@@ -125,16 +127,28 @@ const TeamSchemes = ({ route }) => {
   const fieldSize = useRef()
   const data = {
     players: ['64219136e3a868ee5e71a799'],
-    schemaImg: '/game_schema_img/Group 1805.png',
     footbal: {
+      schemaImg: '/game_schema_img/Group 1805.png',
       fieldSizePracnt: {
         width: 81.5,
         height: 85.1,
+        x: 9.25,
+        y: 7.45,
+      },
+    },
+    basketball: {
+      schemaImg: '/game_schema_img/Group 1808.png',
+      fieldSizePracnt: {
+        width: 87,
+        height: 91,
+        x: 6.5,
+        y: 4.5,
       },
     },
     teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
     teamName: 'Test2',
   }
+  const gameName = 'basketball'
   const navigation = useNavigation()
 
   return (
@@ -148,25 +162,40 @@ const TeamSchemes = ({ route }) => {
         }}
         style={styles.teamNameRow}
       >
-        <Image style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
+        <FastImage style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
         <Text style={styles.teamName}>{data?.teamName}</Text>
       </View>
       <View style={[styles.schemaImgContainer]}>
-        <Image
+        <FastImage
           onLayout={(e) => {
+            console.log(e.nativeEvent.layout.height)
             fieldSize.current = {
-              width: (e.nativeEvent.layout.width / 100) * 81.5,
-              height: (e.nativeEvent.layout.height / 100) * 85.1,
+              width: (e.nativeEvent.layout.width / 100) * data?.[gameName]?.fieldSizePracnt.width,
+              height:
+                (e.nativeEvent.layout.height / 100) * data?.[gameName]?.fieldSizePracnt.height,
             }
             setInitialCordinates({
               ...initialCordinates,
-              x: e.nativeEvent.layout.x + (e.nativeEvent.layout.width / 100) * 9.25,
-              y2: e.nativeEvent.layout.y + (e.nativeEvent.layout.height / 100) * 7.45,
+              x:
+                e.nativeEvent.layout.x +
+                (e.nativeEvent.layout.width / 100) * data?.[gameName]?.fieldSizePracnt.x,
+              y2:
+                e.nativeEvent.layout.y +
+                (e.nativeEvent.layout.height / 100) * data?.[gameName]?.fieldSizePracnt.y,
             })
           }}
           style={styles.schemaImg}
-          source={{ uri: _storageUrl + data?.schemaImg }}
+          source={{ uri: _storageUrl + data?.[gameName]?.schemaImg }}
         />
+        {/* <View
+          style={{
+            backgroundColor: 'red',
+            width: (337.33331298828125 / 100) * data?.[gameName]?.fieldSizePracnt.width,
+            height: (470 / 100) * data?.[gameName]?.fieldSizePracnt.height,
+            position: 'absolute',
+            alignSelf: 'center',
+          }}
+        /> */}
       </View>
 
       <View style={{ zIndex: 999 }}>
@@ -178,15 +207,13 @@ const TeamSchemes = ({ route }) => {
           setReplacementPlayers={setReplacementPlayers}
         />
       </View>
-      <Pressable
+      <LightButton
         onPress={() => {
           navigation.navigate('ViewSchemes', { replacementPlayers })
         }}
-      >
-        <Text style={{ fontSize: 20, color: '#fff', alignSelf: 'center', marginTop: 50 }}>
-          View Schemes
-        </Text>
-      </Pressable>
+        style={{ alignSelf: 'flex-end', position: 'absolute', bottom: RH(30) }}
+        label="Сохранить"
+      />
     </ScreenMask>
   )
 }

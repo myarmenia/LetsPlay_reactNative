@@ -1,9 +1,10 @@
 import { styles } from '../gamesList/style'
 import ScreenMask from '@/components/wrappers/screen'
 import React from 'react'
-import { View, Text, Image } from 'react-native'
+import { View, Text } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import Button from '@/assets/imgs/Button'
+import FastImage from 'react-native-fast-image'
 
 function GameItem({ route, navigation }) {
   const { item } = route.params
@@ -27,7 +28,7 @@ function GameItem({ route, navigation }) {
           {/* <Text style={styles.eachInfoRegular}>Стоимость входного билета на игру: Бесплатно</Text> */}
           <Text style={styles.eachInfoRegular}>
             Организатор игры:{' '}
-            <Image
+            <FastImage
               source={require('../../../assets/imgs/detail.png')}
               resizeMode="center"
               style={{ width: RW(21), height: RH(31) }}

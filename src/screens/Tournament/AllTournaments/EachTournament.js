@@ -1,26 +1,17 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import Modal from '@/components/modal'
 import User from '@/components/User/user'
-import { Players } from '@/assets/TestData'
 import LightButton from '@/assets/imgs/Button'
 import { FONT_INTER_BOLD, FONT_INTER_MEDIUM } from '@/theme/fonts'
-import {
-  BACKGROUND,
-  DARK_BLUE,
-  ICON,
-  LIGHT_LABEL,
-  LIGHT_RED,
-  RADIO_TEXT,
-  WHITE,
-} from '@/theme/colors'
+import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { createTournament, setTournamentImagePath } from '@/store/Slices/TournamentSlice'
-import { joinGame } from '@/store/Slices/TeamSlice'
+import { createTournament } from '@/store/Slices/TournamentSlice'
+import FastImage from 'react-native-fast-image'
 const EachTournament = ({ route }) => {
   const props = route.params
   const dispatch = useDispatch()
@@ -32,7 +23,7 @@ const EachTournament = ({ route }) => {
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
-          <Image
+          <FastImage
             style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
             source={{
               uri: _storageUrl + (props?.data?.data ? initialState?.imagePath : props?.img),

@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import Row from '@/components/wrappers/row'
 import User from '@/components/User/user'
+import FastImage from 'react-native-fast-image'
 
 const CalendarGameScreen = (props) => {
   const gameData = props.route.params.game
@@ -14,7 +15,7 @@ const CalendarGameScreen = (props) => {
 
   return (
     <ScreenMask>
-      <Image style={styles.img} source={{ uri: _storageUrl + gameData.game.img }} />
+      <FastImage style={styles.img} source={{ uri: _storageUrl + gameData.game.img }} />
       <View style={styles.main}>
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
