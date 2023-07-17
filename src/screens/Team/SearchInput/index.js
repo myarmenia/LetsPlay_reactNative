@@ -7,7 +7,7 @@ import { font, RW } from '@/theme/utils'
 import { ICON, RED } from '@/theme/colors'
 import { RH } from '@/theme/utils'
 import { searchTeam } from '@/store/Slices/TeamSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 
 function Index() {

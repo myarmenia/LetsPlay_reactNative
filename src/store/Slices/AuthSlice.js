@@ -178,8 +178,6 @@ export const signIn = (data) => (dispatch) => {
 export const signIn2 = (data) => async (dispatch) => {
   const deviceId = await getUniqueId()
   const fcmToken = await AsyncStorage.getItem('fcmToken')
-  console.log('deviceId', deviceId)
-  console.log('fcmToken', fcmToken)
   if (deviceId && fcmToken) {
     data.device_id = deviceId
     data.fcm_token = fcmToken
@@ -293,8 +291,6 @@ export const signUp3 = (data) => (dispatch) => {
 export const signUp4 = (data) => async (dispatch) => {
   const deviceId = await getUniqueId()
   const fcmToken = await AsyncStorage.getItem('fcmToken')
-  console.log('deviceId', deviceId)
-  console.log('fcmToken', fcmToken)
   if (deviceId && fcmToken) {
     data.device_id = deviceId
     data.fcm_token = fcmToken
@@ -364,7 +360,6 @@ export const vkAuth = (data) => async (dispatch) => {
     data.device_id = deviceId
     data.fcm_token = fcmToken
   }
-  console.log('vkAuth', data)
   axiosInstance
     .post('api/auth/vk', data)
     .then((response) => {

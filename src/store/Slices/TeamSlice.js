@@ -125,16 +125,22 @@ export const joinPlayerTeam = (data, setModalVisible) => (dispatch) => {
     })
 }
 
-export const setPlayerAdmin = (data) => (dispatch) => {
-  axiosInstance.patch('/api/team/become_admin', data).catch((err) => {
-    console.log('Error set user admin :', err)
-  })
+export const setPlayerAdmin = (data, setModalVisible) => (dispatch) => {
+  axiosInstance
+    .patch('/api/team/become_admin', data)
+    .then((response) => {
+      if (response.data.message) setModalVisible(response.data.message)
+    })
+    .catch((err) => {
+      console.log('Error set user admin :', err)
+    })
 }
 export const deletePlayerFromTeam = (data) => (dispatch) => {
-  console.log('data :', data)
   axiosInstance
     .delete('/api/team/players', data)
-    .then((response) => {})
+    .then((response) => {
+      console.log(response.data)
+    })
     .catch((err) => {
       console.log('Error delete user from team :', err)
     })
@@ -247,9 +253,6 @@ export const createTeamGame = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .post('api/team/create/game', data)
     .then((response) => {
-      console.log('====================================')
-      console.log(response.data)
-      console.log('====================================')
       setModalVisible([true, 'ok'])
     })
     .catch((err) => {
@@ -259,7 +262,6 @@ export const createTeamGame = (data, setModalVisible) => (dispatch) => {
 }
 export const getMyTeams = (setModalVisible) => (dispatch) => {
   axiosInstance.get('/api/team/my_teams').then((response) => {
-    console.log(response?.data?.datas)
     if (response?.data?.datas?.length) {
       dispatch(setTeamChats(response?.data?.datas))
       setModalVisible && setModalVisible(false)

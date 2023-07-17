@@ -4,7 +4,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import style from '@/screens/ChatScreens/Chats/style'
 import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
-import { getTeams } from '@/store/Slices/TeamSlice'
+import { getMyTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
 import { getProfileInfo } from '@/store/Slices/AuthSlice'
 
@@ -17,7 +17,7 @@ const ChatScreen = () => {
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    dispatch(getTeams())
+    dispatch(getMyTeams())
     dispatch(getProfileInfo())
   }, [isFocused])
   return (
@@ -31,9 +31,9 @@ const ChatScreen = () => {
                 {teamChatsList?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Организатор" />
                 })}
-                {user?.inside_teams?.map((eachChat) => {
+                {/* {user?.inside_teams?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Участник" />
-                })}
+                })} */}
               </View>
               <View>
                 {user?.took_part_games?.map((eachChat) => {

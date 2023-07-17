@@ -1,6 +1,5 @@
-import { Dimensions, Image, Linking, Platform, Pressable, Text, View } from 'react-native'
+import { Dimensions, Platform, Text, View } from 'react-native'
 import { useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'

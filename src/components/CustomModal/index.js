@@ -13,8 +13,6 @@ import {
 import { ICON, WHITE } from '@/theme/colors'
 
 const CustomModal = ({ modalVisible, setModalVisible, item }) => {
-  //   const { modal } = useSelector(({ app }) => app)
-  //   const [modalVisible, setModalVisible] = useState(false)
   const height = Dimensions.get('window').height
   const animatedValue = useRef(new Animated.Value(height)).current
 
@@ -58,7 +56,6 @@ const styles = StyleSheet.create({
     ...font('regular', 18, WHITE),
   },
   modalBox: {
-    // height: '100%',
     width: '95%',
     alignSelf: 'center',
     justifyContent: 'space-between',

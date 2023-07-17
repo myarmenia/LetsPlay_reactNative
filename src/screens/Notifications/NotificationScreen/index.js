@@ -36,6 +36,7 @@ function NotificationScreen() {
             <Text style={styles.deleteAllText}>Очистить все</Text>
           </Pressable>
         </Row>
+        {/* {console.log('notifications', notifications)} */}
         <FlatList
           contentContainerStyle={{ flex: 1, justifyContent: 'flex-end', paddingTop: RH(90) }}
           horizontal={false}

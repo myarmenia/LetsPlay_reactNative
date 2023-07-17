@@ -117,12 +117,14 @@ function Index(props) {
     scrollViewRef?.current?.scrollToOffset({ animated: true, offset: 0 })
   }, [messageState?.length])
   const memoRenderItem = ({ item, index }) => {
+    console.log('memoRenderItem chat', item)
+    console.log('user._id', user._id)
     return (
       <Message
         item={item}
         key={index}
         id={item._id || item.id}
-        myMessage={item?.user?._id == user._id} //|| item?.user == user._id || item.user_id
+        myMessage={item?.user?._id == user._id || item?.user == user._id} //|| item.user_id
       />
     )
   }
