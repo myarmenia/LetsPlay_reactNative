@@ -17,11 +17,10 @@ const EditTeamPlayers = ({ route }) => {
   const { gameId, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
   const [acceptedPlayers, setAcceptedPlayers] = useState([1])
-  const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
+  const {choosedTeamGame, savedTeam} = useSelector(({ teams }) => teams)
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
-
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -36,7 +35,7 @@ const EditTeamPlayers = ({ route }) => {
           />
         </View>
         <View style={styles.gridBox}>
-          {[1].map((elm, i) => {
+          {savedTeam.players.map((elm, i) => {
             return (
               <EachUser
                 elm={elm}
@@ -63,7 +62,7 @@ const EditTeamPlayers = ({ route }) => {
               size={{ width: 284, height: 48 }}
               onPress={() => {
                 navigation.navigate('TeamSchemes', {
-                  players: sendingData?.players,
+                  players: savedTeam?.players,
                   schemaImg: choosedTeamGame?.schema_img,
                   teamImg: gameId?.img,
                   teamName: sendingData?.enemy_team_name,
@@ -96,14 +95,12 @@ const EditTeamPlayers = ({ route }) => {
 
 export default EditTeamPlayers
 
-const EachUser = React.memo(({ elm, acceptedPlayers, setAcceptedPlayers }) => {
+const EachUser = ({ elm, acceptedPlayers, setAcceptedPlayers }) => {
   const [visible, setVisible] = useState(false)
-  const handleClick = useCallback(
-    (elm) => {
-      setVisible(!visible), setAcceptedPlayers(acceptedPlayers.concat(elm))
-    },
-    [acceptedPlayers],
-  )
+  const handleClick = (elm) => {
+      setVisible(!visible);
+      setAcceptedPlayers(acceptedPlayers.concat(elm))
+    }
   return (
     <Pressable
       style={{ alignItems: 'center', justifyContent: 'center', padding: RH(3) }}
@@ -115,12 +112,12 @@ const EachUser = React.memo(({ elm, acceptedPlayers, setAcceptedPlayers }) => {
       <View style={{ position: 'absolute' }}>
         <User
           size={120}
-          // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
+          user={elm}
         />
       </View>
     </Pressable>
   )
-})
+}
 
 const styles = StyleSheet.create({
   topTitle: {

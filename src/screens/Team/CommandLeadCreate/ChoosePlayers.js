@@ -25,18 +25,17 @@ const ChoosePlayers = ({ route }) => {
         <Pressable
           style={styles.eachUser}
           onPress={() => {
-            // setData({...data, players: ['64219136e3a868ee5e71a799']}),
+
             setVisible(!visible)
           }}
         >
-          {/* //need detect user accept invite or not and set opacity and don't navigate another show modal */}
-          {/* // <View style={{ opacity: 0.6 }}> */}
+  
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
             <View style={{ position: 'absolute' }}>
               <User
                 size={110}
-                // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
+    
               />
             </View>
           </View>
@@ -57,7 +56,6 @@ const ChoosePlayers = ({ route }) => {
             />
           </View>
           <View style={styles.playersContainer}>
-            {/* map in players in team */}
             {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((elm, i) => {
               return <UserItem key={i} />
             })}

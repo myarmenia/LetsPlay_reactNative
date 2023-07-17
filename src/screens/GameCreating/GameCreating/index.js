@@ -26,6 +26,8 @@ const GameCreating = ({ route }) => {
   const { game, response } = route?.params?.params
   const navigation = useNavigation()
 
+  console.log(response)
+
   //states
   const initialState = useSelector((state) => state.game)
   const [flag, setFlag] = useState(false)
@@ -189,7 +191,10 @@ const GameCreating = ({ route }) => {
             }}
             dateValue={startDate.date}
             timeValue={startDate.time}
-            setDate={(date) => setStartDate({ ...startDate, date })}
+            setDate={(date) => {
+              console.log("setDate",new Date(date).toLocaleDateString())
+              setStartDate({ ...startDate, date })
+            }}
             setTime={(time) => setStartDate({ ...startDate, time })}
           />
           {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}

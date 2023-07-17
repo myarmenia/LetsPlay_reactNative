@@ -5,7 +5,6 @@ import { getGames } from '@/store/Slices/GamesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import ListItem from './components/ListItem'
 import { _storageUrl } from '@/constants'
-import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 const Index = ({ route }) => {
   const { list, fromTournament = null } = route.params
   const { width } = Dimensions.get('window')
@@ -14,7 +13,6 @@ const Index = ({ route }) => {
 
   useEffect(() => {
     dispatch(getGames(list))
-    // dispatch(saveTeamDataForCreating(null))
   }, [list])
 
   return (

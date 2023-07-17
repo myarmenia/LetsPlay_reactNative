@@ -60,30 +60,18 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
-    // if (!price.length && Boolean(free.find((el) => el.checked).text == 'Платно')) {
-    //   setPriceError(true)
-    // } else {
-    //   setPriceError(false)
-    // }
+ 
     if (!priceError && !errorMessage) {
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
-      const formData = new FormData()
-      // if (!free[0].checked) {
-      //   formData.append('price', true)
-      // }
-      formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
-      formData.append('longitude', props?.fromMap ? props.longitude : addressName?.lng)
-      formData.append(
-        'address_name',
-        props?.fromMap ? props?.address_name : addressName?.address_name,
-      )
-      if (!list[1].checked) {
-        formData.append('game_of_your_choice', true)
+      const formData = {
+        latitude: props?.fromMap ? props?.latitude : addressName?.lat,
+        longitude: props?.fromMap ? props.longitude : addressName?.lng,
+        address_name: props?.fromMap ? props?.address_name : addressName?.address_name,
+        game_of_your_choice: !list[1].checked,
+        date_from: startDate.toISOString().substring(0, 10),
+        data_to: endDate.toISOString().substring(0, 10),
+        games: ids,
       }
-
-      formData.append('date_from', startDate.toISOString().substring(0, 10))
-      formData.append('date_to', endDate.toISOString().substring(0, 10))
-      formData.append('ids', ids)
       dispatch(searchGame(formData, navigation, setError))
     } else {
       console.log('error')

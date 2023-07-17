@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import messaging from '@react-native-firebase/messaging'
+import { Platform } from 'react-native'
 
 const requestUserPermission = async () => {
   const authStatus = await messaging().requestPermission()
@@ -36,7 +37,9 @@ const notificationListener = async () => {
   })
   messaging().onMessage(async (remoteMessage) => {
     console.log('Recived in foreground', remoteMessage)
-
+    if(Platform.OS == "android") {
+      alert(remoteMessage.notification.title + "\n" + remoteMessage.notification.body)
+    }
     // alert(remoteMessage?.notification?.title)
   })
   messaging()

@@ -30,10 +30,10 @@ const TeamInfo = ({ route }) => {
           </Text>
           <Text style={styles.text}>Дата и время игры: {sendingData?.start_date}</Text>
           <Text style={styles.text}>Адрес проведения игры: {sendingData?.address_name} </Text>
-          <Text style={styles.text}>
+          {/* <Text style={styles.text}>
             Стоимость входного билета на игру:{' '}
             {sendingData?.ticket_price ? sendingData?.ticket_price : 0}
-          </Text>
+          </Text> */}
           <View style={{ flexDirection: 'row', width: '35%', alignItems: 'center' }}>
             <Text style={styles.text}>Организатор игры:</Text>
             <User size={30} />

@@ -61,7 +61,7 @@ function Index(props) {
                         <View style={style.feedbackModal}>
                             <Text style={style.modalText}>
                                 Спасибо за ваше сообщение. В ближайшее время с вами свяжется менеджер приложения
-                                «Играем?».
+                                «Играем».
                             </Text>
                         </View>
                     }

@@ -15,18 +15,17 @@ import { createGame } from '@/store/Slices/GameCreatingSlice'
 
 function Index({ route }) {
   const navigation = useNavigation()
-  const { flag, game, data, initialState, name, dates } = route.params.params
-  // const [isVisible, setIsVisible] = useState(false)
-  // const [success, setSuccess] = useState(false)
-  // const [modalClose, setModalClose] = useState(true)
+  const {  game, data, initialState, name, dates } = route.params.params
   const dispatch = useDispatch()
-  // useEffect(() => {
-  //   if (flag) {
-  //     setIsVisible(true)
-  //   } else {
-  //     setIsVisible(false)
-  //   }
-  // }, [])
+
+  const dateFotmat = (date) => {
+    const datesArray = new Date().toLocaleDateString().split("/");
+    const date1 = [ datesArray[1].length == 1 ? "0" + datesArray[1] : datesArray[1], datesArray[0].length == 1 ? "0" + datesArray[0] :datesArray[0], datesArray[2]].join(".");
+    const timesArray = new Date(date).toLocaleTimeString().split(":");
+    const time1 = [timesArray[0], timesArray[1]].join(":")
+    return `${date1}, ${time1}`
+  }
+
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View>
@@ -60,39 +59,7 @@ function Index({ route }) {
           <CheckedCheckbox />
         </TouchableOpacity>
       </View>
-      {/* <View style={{ position: 'absolute' }}>
-        <Modal
-          modalClose={modalClose}
-          modalVisible={isVisible}
-          setIsVisible={setIsVisible}
-          btnClose={false}
-          item={
-            !success ? (
-              <View style={styles.firstTicketModalBlock}>
-                <Text style={{ ...styles.text, width: RW(209), marginBottom: 0 }}>
-                  Для завершения необходимо оплатить стоимость комиссий за организацию платной игры.
-                </Text>
-                <Text style={{ ...styles.text, marginTop: 0, marginBottom: RH(42) }}>
-                  {' '}
-                  Стоимость: 100 р
-                </Text>
-                <Button
-                  onPress={() => {
-                    setSuccess(true)
-                    setModalClose(false)
-                  }}
-                  size={{ width: 144, height: 36 }}
-                  label={'Оплатить'}
-                />
-              </View>
-            ) : (
-              <View style={styles.secondTicketModalBlock}>
-                <Text style={styles.text}>Оплата прошла успешна. Вы успешно создали игру!</Text>
-              </View>
-            )
-          }
-        />
-      </View> */}
+      
     </ScreenMask>
   )
 }

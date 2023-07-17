@@ -7,8 +7,18 @@ import Row from '@/components/wrappers/row'
 import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
 import FastImage from 'react-native-fast-image'
+import { useSelector } from 'react-redux'
 
 function Ticket({ game, initialState, name, dates }) {
+  const { game_name, game_description } = useSelector((state) => state.game)
+
+  const dateFotmat = (date) => {
+    const datesArray = new Date().toLocaleDateString().split("/");
+    const date1 = [ datesArray[1].length == 1 ? "0" + datesArray[1] : datesArray[1], datesArray[0].length == 1 ? "0" + datesArray[0] :datesArray[0], datesArray[2]].join(".");
+    const timesArray = new Date(date).toLocaleTimeString().split(":");
+    const time1 = [timesArray[0], timesArray[1]].join(":")
+    return `${date1}, ${time1}`
+  }
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: RH(50) }}>
       <View style={styles.ticketImgBlock}>
@@ -19,11 +29,20 @@ function Ticket({ game, initialState, name, dates }) {
           <Text style={styles.ticketText}>Тип игры:</Text>
           <Text style={styles.ticketTextTwo}>{name}</Text>
         </View>
+        {name == "Своя игра" ?<>
+        <View style={styles.firstTextBlock}>
+          <Text style={styles.ticketText}>Название игры:</Text>
+          <Text style={styles.ticketTextTwo}>{game_name}</Text>
+        </View>
+        <View style={styles.firstTextBlock}>
+          <Text style={styles.ticketText}>Описание игры:</Text>
+          <Text style={styles.ticketTextTwo}>{game_description}</Text>
+        </View>
+        </> : null}
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время игры:</Text>
           <Text style={styles.ticketTextTwo}>
-            {dates[0].substr(0, 10).split('-').reverse().join('-') +
-              dates[0].substr(10, dates[1].length)}
+            {dateFotmat(dates[0])}
           </Text>
         </View>
         <View style={styles.ticketTextBlock}>
@@ -55,8 +74,7 @@ function Ticket({ game, initialState, name, dates }) {
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>
           <Text style={styles.ticketTextTwo}>
-            {dates[1].substr(0, 10).split('-').reverse().join('-') +
-              dates[1].substr(10, dates[1].length)}
+            {dateFotmat(dates[1])}
           </Text>
         </View>
         <View style={styles.ticketTextBlock}>

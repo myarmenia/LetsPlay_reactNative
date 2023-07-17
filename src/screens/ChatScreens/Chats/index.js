@@ -32,7 +32,6 @@ const ChatScreen = () => {
                 {myTeams?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Командный" />
                 })}
-                {console.log(myJoinedTeams)}
                 {myJoinedTeams?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Командный" />
                 })}

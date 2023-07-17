@@ -15,6 +15,7 @@ const OwnGameName = ({ route }) => {
   const [error, setError] = useState(false)
   const { game_name, game_description } = useSelector((state) => state.game)
   const handleClick = () => {
+
     if (game_name?.length) {
       setError(false)
       navigation.navigate('GameCreating', route?.params)

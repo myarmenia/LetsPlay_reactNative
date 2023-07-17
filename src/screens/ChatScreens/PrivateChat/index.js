@@ -104,8 +104,13 @@ function Index(props) {
   socket.on('message', memoSocketFunc)
 
   useEffect(() => {
-    dispatch(getChats(gameID))
-    dispatch(getTeamChats(gameID))
+    if(type == 'Командный') {
+      dispatch(getTeamChats(gameID))
+    } else {
+      dispatch(getChats(gameID))
+    }
+
+
     return () => {
       console.log('chat socket disconnect')
       socket.disconnect()

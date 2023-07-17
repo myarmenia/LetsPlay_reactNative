@@ -107,6 +107,7 @@ export default StyleSheet.create({
   time: {
     ...font('regular', 14, WHITE, 20),
     marginBottom: RH(20),
+    marginRight: RW(10)
   },
   chatInput: {
     width: RW(399),

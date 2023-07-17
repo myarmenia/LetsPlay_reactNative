@@ -211,23 +211,11 @@ export const joinInTeam = (teamId, setModalVisible) => async (dispatch) => {
     })
 }
 export const searchGame = (data, nav, setError) => async (dispatch) => {
-  let price = data.getAll('price')
-  let game_of_your_choice = data.getAll('game_of_your_choice')
-  let longitude = data.getAll('longitude')
-  let latitude = data.getAll('latitude')
-  let dateFrom = data.getAll('date_from')
-  let dateTo = data.getAll('date_to')
-  let place =
-    latitude[0] && longitude[0] ? `&longitude=${longitude[0]}&latatude=${latitude[0]}` : ''
-  let dates = dateFrom && dateTo ? `date_from=${dateFrom}&date_to=${dateTo}` : ''
-  let gameIds = data.getAll('ids')
-  let gameIdsForLink = gameIds[0].map((elm) => `games[]=${elm}&`).join('')
-  let link = `api/create/game/?${dates}${price.length ? '&price=' + price[0] : ''}${
-    game_of_your_choice.length ? '&game_of_your_choice=' + game_of_your_choice[0] : ''
-  }${place}/${gameIdsForLink}`
 
   axiosInstance
-    .get(link.slice(0, link.length - 1))
+    .get('api/create/game/', {
+      params: data
+    })
 
     .then((response) => {
       dispatch(setFindedGames(response?.data?.datas))

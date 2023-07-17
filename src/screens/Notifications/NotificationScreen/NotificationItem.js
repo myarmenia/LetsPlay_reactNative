@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { RH, font } from '@/theme/utils'
+import { RH, RW, font } from '@/theme/utils'
 import DotSvg from './assets/DotSvg'
 import Row from '@/components/wrappers/row'
 import LightButton from '@/assets/imgs/Button'
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   notificationText: {
     maxWidth: '95%',
     marginBottom: RH(10),
+    marginLeft: RW(10),
     ...font('medium', 14, WHITE),
   },
   time: {

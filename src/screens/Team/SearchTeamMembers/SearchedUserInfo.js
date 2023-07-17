@@ -11,9 +11,9 @@ import { inviteUserToTeam } from '@/store/Slices/TeamSlice'
 
 const SearchedUserInfo = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const [back, setBack] = useState(false)
   const props = route.params
   const dispatch = useDispatch()
+  console.log("props.command",props.command)
   const handleInvite = () => {
     console.log({
       team_id: props.command,
@@ -32,11 +32,7 @@ const SearchedUserInfo = ({ route }) => {
   return (
     <ScreenMask>
       <Pressable
-        onPressIn={() => setBack(true)}
-        onPressOut={() => setBack(false)}
-        onPress={() => setModalVisible(true)}
         style={{
-          width: '100%',
           alignSelf: 'center',
           alignItems: 'center',
           flexDirection: 'column',
@@ -48,7 +44,6 @@ const SearchedUserInfo = ({ route }) => {
         <User
           size={430}
           user={props.member}
-          // pressedUser={userInfo}
         />
       </Pressable>
       <View style={styles.btnBox}>

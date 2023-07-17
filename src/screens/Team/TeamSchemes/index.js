@@ -1,7 +1,6 @@
-import { Image, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useRef, useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
@@ -9,124 +8,26 @@ import SchemeUsers from './components/SchemeUsers'
 import { useNavigation } from '@react-navigation/native'
 import LightButton from '@/assets/imgs/Button'
 import FastImage from 'react-native-fast-image'
+import { useCreateArrayPlayers } from './useCreate'
 
 const TeamSchemes = ({ route }) => {
-  const [replacementPlayers, setReplacementPlayers] = useState([
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-  ])
+  const players = route.params.players
+  const [replacementPlayers, setReplacementPlayers] = useState(new Array(players?.length).fill( {
+    x: 0,
+    y: 0,
+    moveX: 0,
+    moveY: 0,
+    small: false,
+    ref: useRef(),
+    inGame: false,
+    pageX: 0,
+    pageY: 0,
+
+  }))
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y1: 0, y2: 0 })
   const fieldSize = useRef()
   const data = {
-    players: ['64219136e3a868ee5e71a799'],
+    players: players,
     footbal: {
       schemaImg: '/game_schema_img/Group 1805.png',
       fieldSizePracnt: {
@@ -148,9 +49,10 @@ const TeamSchemes = ({ route }) => {
     teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
     teamName: 'Test2',
   }
-  const gameName = 'basketball'
+  const gameName = 'footbal'
   const navigation = useNavigation()
 
+ 
   return (
     <ScreenMask>
       <View
@@ -206,6 +108,7 @@ const TeamSchemes = ({ route }) => {
           fieldSize={fieldSize.current}
           replacementPlayers={replacementPlayers}
           setReplacementPlayers={setReplacementPlayers}
+          players={players}
         />
       </View>
       <LightButton
