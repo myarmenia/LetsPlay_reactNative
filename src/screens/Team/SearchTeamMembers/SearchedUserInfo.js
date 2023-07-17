@@ -15,13 +15,19 @@ const SearchedUserInfo = ({ route }) => {
   const props = route.params
   const dispatch = useDispatch()
   const handleInvite = () => {
+    console.log({
+      team_id: props.command,
+      user_id: props.member._id,
+    })
     dispatch(
-      inviteUserToTeam({
-        team_id: props.command,
-        user_id: props.member,
-      }),
+      inviteUserToTeam(
+        {
+          team_id: props.command,
+          user_id: props.member._id,
+        },
+        setModalVisible,
+      ),
     )
-    setModalVisible(true)
   }
   return (
     <ScreenMask>

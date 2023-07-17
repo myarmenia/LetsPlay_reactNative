@@ -27,7 +27,7 @@ function SearchTeamInvite() {
                   <View style={styles.homeBlock}>
                     <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
                       <View style={styles.imageBlock}>
-                        <FastImage style={styles.image} source={{ uri: _storageUrl + item?.img }} />
+                        <FastImage resizeMode='contain' style={styles.image} source={{ uri: _storageUrl + item?.img }} />
                       </View>
                       <View style={styles.textBlock}>
                         <Text style={styles.text}>{item?.name}</Text>
@@ -85,7 +85,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   text: {
     marginVertical: RH(3),

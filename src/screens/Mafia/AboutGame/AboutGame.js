@@ -59,7 +59,8 @@ const AboutGame = ({ route }) => {
                 }}
               >
                 <FastImage
-                  style={{ resizeMode: 'contain', width: '100%', height: 125 }}
+                resizeMode='contain'
+                  style={{  width: '100%', height: 125 }}
                   source={{ uri: _storageUrl + item.img }}
                 />
               </View>

@@ -25,7 +25,7 @@ function Index() {
               <View style={style.homeBlock}>
                 <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
                   <View style={style.imageBlock}>
-                    <FastImage style={style.image} source={{ uri: _storageUrl + item?.img }} />
+                    <FastImage resizeMode='contain' style={style.image} source={{ uri: _storageUrl + item?.img }} />
                   </View>
                   <View style={style.textBlock}>
                     <Text style={style.text}>{item?.name}</Text>

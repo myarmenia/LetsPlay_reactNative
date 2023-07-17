@@ -84,9 +84,10 @@ function GamesList() {
             style={{
               width: RW(50),
               height: RH(50),
-              resizeMode: 'contain',
+              
               borderRadius: RW(30),
             }}
+            resizeMode='contain'
             source={{ uri: _storageUrl + elm.game?.img }}
           />
         </View>

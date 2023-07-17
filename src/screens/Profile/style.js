@@ -21,7 +21,6 @@ export default StyleSheet.create({
     width: 87,
     height: 87,
     borderRadius: 43.5,
-    resizeMode: 'cover',
     marginRight: RW(18),
     alignSelf: 'center',
   },

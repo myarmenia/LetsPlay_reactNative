@@ -41,8 +41,9 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
               }}
             >
               <FastImage
+              resizeMode='contain'
                 source={{ uri: _storageUrl + mafiaRole?.img }}
-                style={{ height: RH(150), width: RH(120), resizeMode: 'contain' }}
+                style={{ height: RH(150), width: RH(120) }}
               />
               <Text
                 style={{

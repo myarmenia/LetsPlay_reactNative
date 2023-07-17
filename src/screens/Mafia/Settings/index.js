@@ -14,7 +14,7 @@ import ModalRules from '../QrCode/ModalRules'
 import Modal from '@/components/modal'
 
 function Index() {
-  const [spyDon, setSpyDon] = useState(false)
+  // const [spyDon, setSpyDon] = useState(false)
   const [valWord, setValWord] = useState(5)
   const [modalRules, setModalRules] = useState(true)
   const { qrLink } = useSelector(({ mafia }) => mafia)
@@ -27,13 +27,7 @@ function Index() {
       dispatch(setMafiaSocketOn(true))
     }
   }, [qrLink])
-  useEffect(() => {
-    if (spyDon) {
-      setValWord(7)
-    } else {
-      setValWord(5)
-    }
-  }, [spyDon])
+
 
   return (
     <ScreenMask>
@@ -96,7 +90,7 @@ function Index() {
             dispatch(
               postSettings({
                 vote_time: valWord,
-                spy_and_don: spyDon,
+                // spy_and_don: spyDon,
               }),
             )
             dispatch(setOrganizer(true))

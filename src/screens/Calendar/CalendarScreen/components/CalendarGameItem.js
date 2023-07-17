@@ -1,4 +1,4 @@
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Platform, Pressable, Text, View } from 'react-native'
 import React from 'react'
 import GameItemBgSvg from '../assets/GameItemBgSvg'
 import { RH, RW, font } from '@/theme/utils'
@@ -8,6 +8,8 @@ import { WHITE } from '@/theme/colors'
 import FastImage from 'react-native-fast-image'
 
 const CalendarGameItem = ({ img, name, startDate, onPress }) => {
+
+  console.log("CalendarGameItem", name)
   const dateTime = new Date(startDate).toTimeString().substring(0, 5)
   return (
     <Pressable
@@ -34,8 +36,9 @@ const CalendarGameItem = ({ img, name, startDate, onPress }) => {
       >
         <Row>
           <FastImage
-            style={{ height: RW(30), width: RW(30), resizeMode: 'contain', marginRight: RW(20) }}
+            style={{ height: RW(30), width: RW(30), marginRight: RW(20) }}
             source={{ uri: _storageUrl + img }}
+            resizeMode='contain'
           />
           <Text style={{ ...font('bold', 16, WHITE) }}>{name}</Text>
         </Row>
@@ -47,4 +50,3 @@ const CalendarGameItem = ({ img, name, startDate, onPress }) => {
 
 export default CalendarGameItem
 
-const styles = StyleSheet.create({})

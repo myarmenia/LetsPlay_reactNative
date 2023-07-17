@@ -20,8 +20,7 @@ function Index({ navigation }) {
             <FastImage
               style={styles.qr}
               source={{ uri: _storageUrl + qrLink }}
-              onLoadStart={(e) => {}}
-              onLoadEnd={(e) => {}}
+              resizeMode='contain'
             />
           </View>
           <Button
@@ -55,7 +54,6 @@ const styles = StyleSheet.create({
   qr: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   btn: {
     width: 281,

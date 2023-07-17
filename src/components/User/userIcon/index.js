@@ -82,8 +82,8 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
                   : size / 40,
               left: Platform.OS == 'android' && size <= RW(30) ? RW(-0.2) : 0,
             },
-            { resizeMode: 'cover' },
           ]}
+          resizeMode='cover'
           source={
             !avatar
               ? require('../../../assets/defualtUser.png')

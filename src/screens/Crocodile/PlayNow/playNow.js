@@ -67,23 +67,6 @@ const PlayNow = () => {
 }
 
 const styles = StyleSheet.create({
-  titleBlock: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageBlock: {
-    width: RW(50),
-    height: RW(50),
-    borderRadius: RW(50),
-    marginRight: RW(15),
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-    borderRadius: RW(50),
-  },
   title: {
     textAlign: 'center',
     ...font('bold', 24, WHITE),

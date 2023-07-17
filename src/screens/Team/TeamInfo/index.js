@@ -28,7 +28,7 @@ function Index({ route }) {
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>
       <View style={style.imageBlock}>
-        <FastImage style={style.image} source={{ uri: _storageUrl + item?.img }} />
+        <FastImage resizeMode='contain' style={style.image} source={{ uri: _storageUrl + item?.img }} />
       </View>
       <View style={{ alignItems: 'center' }}>
         <Text style={style.text}>Адрес нахождения команды</Text>

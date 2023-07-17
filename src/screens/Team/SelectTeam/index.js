@@ -1,16 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { Image, ScrollView, Text, LogBox, View } from 'react-native'
-import style from './style'
-import { font, RH, RW } from '@/theme/utils'
+import React, {  useState } from 'react'
+import {  LogBox, View } from 'react-native'
+import { RH, RW } from '@/theme/utils'
 import Map from '@/components/inputs/map'
 import Button from '@/assets/imgs/Button'
-import Price from '@/components/inputs/price'
-import Modal from '@/components/modal'
 import FirstBlock from '@/components/forms/firstBlock'
-import SecondBlock from '@/components/forms/secondBlock'
 import ThirdBlock from '@/components/forms/thirdBlock'
 import ScreenMask from '@/components/wrappers/screen'
-import DarkButton from '@/assets/imgs/DarkButton'
 
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state'])
 

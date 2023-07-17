@@ -79,7 +79,7 @@ export const deleteMemberChat = (chatId, setDeleting) => (dispatch) => {
       setDeleting(false)
     })
     .catch((err) => {
-      console.log('err deleting chat', err)
+      console.log('err deleting chat deleteMemberChat', err)
     })
 }
 export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
@@ -89,7 +89,7 @@ export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
       setDeleting(false)
     })
     .catch((err) => {
-      console.log('err deleting chat', err)
+      console.log('err deleting chat deleteOrganizerChat', err)
     })
 }
 

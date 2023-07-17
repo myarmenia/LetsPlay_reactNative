@@ -15,7 +15,7 @@ const CalendarGameScreen = (props) => {
 
   return (
     <ScreenMask>
-      <FastImage style={styles.img} source={{ uri: _storageUrl + gameData.game.img }} />
+      <FastImage resizeMode='contain' style={styles.img} source={{ uri: _storageUrl + gameData.game.img }} />
       <View style={styles.main}>
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
@@ -32,25 +32,26 @@ const CalendarGameScreen = (props) => {
         </Row>
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
-            Описание игры: <Text style={styles.text2}>{gameData?.game?.description}</Text>
+            Описание игры: <Text style={styles.text2}>{gameData?.game?.description ? gameData?.game?.description : "Нету"}</Text>
           </Text>
         </Row>
-        <Row wrapper={styles.row}>
+        {gameData?.number_of_players_from && gameData?.number_of_players_to ? (<Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Количество участников:{' '}
             <Text style={styles.text2}>
               {gameData?.number_of_players_from} до {gameData?.number_of_players_to}
             </Text>
           </Text>
-        </Row>
-        <Row wrapper={styles.row}>
+        </Row>) : null}
+        {gameData?.age_restrictions_from && gameData?.age_restrictions_to ? (<Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Возраст участников:{' '}
             <Text style={styles.text2}>
               {gameData?.age_restrictions_from} - {gameData?.age_restrictions_to}
             </Text>
           </Text>
-        </Row>
+        </Row>) : null}
+        
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Пол участников:{' '}
@@ -107,7 +108,6 @@ export default CalendarGameScreen
 const styles = StyleSheet.create({
   img: {
     height: RH(250),
-    resizeMode: 'contain',
   },
   main: {
     marginTop: RH(40),

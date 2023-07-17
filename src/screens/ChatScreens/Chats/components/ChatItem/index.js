@@ -11,7 +11,7 @@ import DarkButton from '@/assets/imgs/DarkButton'
 import { deleteMemberChat, deleteOrganizerChat } from '@/store/Slices/ChatsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTookPartGames } from '@/store/Slices/AuthSlice'
-import { setTeamChats } from '@/store/Slices/TeamSlice'
+import { setMyTeams } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
 
@@ -23,7 +23,7 @@ function Index({ id, item, type }) {
   const [back, setBack] = useState(false)
 
   const { user } = useSelector(({ auth }) => auth)
-  const { teamChatsList } = useSelector(({ teams }) => teams)
+  const { myTeams } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const panResponder = useRef(
     PanResponder.create({
@@ -138,6 +138,7 @@ function Index({ id, item, type }) {
 
           <FastImage
             style={style.chatItemImg}
+            resizeMode='contain'
             source={{ uri: _storageUrl + (item?.img || item?.game?.img) }}
           />
           <Text style={style.itemData}>
@@ -176,9 +177,7 @@ function Index({ id, item, type }) {
                             user?.took_part_games?.filter((elm) => elm._id !== item?._id),
                           ),
                         )
-                      : dispatch(
-                          setTeamChats(teamChatsList?.filter((elm) => elm._id !== item?._id)),
-                        )
+                      : dispatch(setMyTeams(myTeams?.filter((elm) => elm._id !== item?._id)))
                   }}
                   size={{ width: 100, height: 36 }}
                   label={'Да'}

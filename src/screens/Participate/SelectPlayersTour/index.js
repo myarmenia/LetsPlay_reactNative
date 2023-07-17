@@ -39,7 +39,7 @@ function Index({ route, navigation }) {
     <ScreenMask>
       <View style={styles.titleBlock}>
         <View style={styles.imageBlock}>
-          <FastImage style={styles.image} source={{ uri: item.image }} />
+          <FastImage style={styles.image} resizeMode='contain' source={{ uri: item.image }} />
         </View>
         <Text style={styles.title}>{item.name}</Text>
       </View>

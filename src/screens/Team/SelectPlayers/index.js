@@ -41,7 +41,7 @@ function Index({ route, navigation }) {
     <ScreenMask>
       <View style={styles.titleBlock}>
         <View style={styles.imageBlock}>
-          <FastImage style={styles.image} source={{ uri: data.game.image }} />
+          <FastImage resizeMode='contain' style={styles.image} source={{ uri: data.game.image }} />
         </View>
         <Text style={styles.title}>{data.game.name}</Text>
       </View>

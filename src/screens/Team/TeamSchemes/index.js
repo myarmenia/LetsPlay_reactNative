@@ -185,6 +185,7 @@ const TeamSchemes = ({ route }) => {
             })
           }}
           style={styles.schemaImg}
+          resizeMode='contain'
           source={{ uri: _storageUrl + data?.[gameName]?.schemaImg }}
         />
         {/* <View
@@ -245,7 +246,6 @@ const styles = StyleSheet.create({
   schemaImg: {
     height: RW(516),
     width: RW(370),
-    resizeMode: 'contain',
     justifyContent: 'center',
   },
   playersTitle: {

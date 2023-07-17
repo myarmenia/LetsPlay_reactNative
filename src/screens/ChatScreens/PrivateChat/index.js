@@ -23,7 +23,7 @@ function Index(props) {
   const type = props.route.params.type
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
-      type == 'Организатор' ? '/team' : ''
+      type == 'Командный' ? '/team' : ''
     }/chat?room=${gameID}`,
     {
       transportOptions: {
@@ -49,7 +49,7 @@ function Index(props) {
         type: IS_IOS ? 'audio/m4a' : 'video/mp4',
         name: IS_IOS ? 'audio.m4a' : 'audio.mp4',
       })
-      formdata.append('create_game', gameID)
+      formdata.append(type == 'Командный' ? "team" : 'create_game', gameID)
       formdata.append('file_length', voiceDuration)
 
       let myHeaders = new Headers()
@@ -61,9 +61,10 @@ function Index(props) {
         headers: myHeaders,
         body: formdata,
       }
-
       fetch(
-        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api/create/game/chat/`,
+        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api${
+          type == 'Командный' ? '/team/chat' : '/create/game/chat/'
+        }`,
         requestOptions,
       )
         .then((result) => {
@@ -71,7 +72,7 @@ function Index(props) {
         })
         .catch((error) => console.log('error', error))
     } else {
-      if (type == 'Организатор') {
+      if (type == 'Командный') {
         dispatch(
           sendTeamMessage({
             message: text,
@@ -117,14 +118,14 @@ function Index(props) {
     scrollViewRef?.current?.scrollToOffset({ animated: true, offset: 0 })
   }, [messageState?.length])
   const memoRenderItem = ({ item, index }) => {
-    console.log('memoRenderItem chat', item)
-    console.log('user._id', user._id)
     return (
       <Message
         item={item}
         key={index}
         id={item._id || item.id}
-        myMessage={item?.user?._id == user._id || item?.user == user._id} //|| item.user_id
+        myMessage={
+          item?.user?._id == user._id || item?.user == user._id || item.user_id == user._id
+        }
       />
     )
   }
@@ -143,12 +144,9 @@ function Index(props) {
         <PrivateChatHeader gameID={gameID} />
         <FlatList
           data={[...messageState]?.reverse()}
-          // data={messageState}
           style={{
             marginBottom: RH(25),
           }}
-          // ListHeaderComponent={() => <PrivateChatHeader gameID={gameID} />}
-          // stickyHeaderIndices={[0]}
           inverted
           refreshing
           initialNumToRender={4}

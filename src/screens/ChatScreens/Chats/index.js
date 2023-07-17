@@ -4,13 +4,13 @@ import ScreenMask from '@/components/wrappers/screen'
 import style from '@/screens/ChatScreens/Chats/style'
 import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
-import { getMyTeams } from '@/store/Slices/TeamSlice'
+import { getMyJoinedTeams, getMyTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
 import { getProfileInfo } from '@/store/Slices/AuthSlice'
 
 const ChatScreen = () => {
   const { user } = useSelector(({ auth }) => auth)
-  const { teamChatsList } = useSelector(({ teams }) => teams)
+  const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
 
   const dispatch = useDispatch()
 
@@ -18,6 +18,7 @@ const ChatScreen = () => {
 
   useEffect(() => {
     dispatch(getMyTeams())
+    dispatch(getMyJoinedTeams())
     dispatch(getProfileInfo())
   }, [isFocused])
   return (
@@ -25,20 +26,25 @@ const ChatScreen = () => {
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={style.container}>
           <Text style={style.title}>Чат</Text>
-          {teamChatsList?.length || user?.took_part_games?.length ? (
+          {myTeams?.length || user?.took_part_games?.length || myJoinedTeams.length ? (
             <>
               <View>
-                {teamChatsList?.map((eachChat) => {
-                  return <ChatItem item={eachChat} key={eachChat?._id} type="Организатор" />
+                {myTeams?.map((eachChat) => {
+                  return <ChatItem item={eachChat} key={eachChat?._id} type="Командный" />
                 })}
-                {/* {user?.inside_teams?.map((eachChat) => {
-                  return <ChatItem item={eachChat} key={eachChat?._id} type="Участник" />
-                })} */}
+                {console.log(myJoinedTeams)}
+                {myJoinedTeams?.map((eachChat) => {
+                  return <ChatItem item={eachChat} key={eachChat?._id} type="Командный" />
+                })}
               </View>
               <View>
+                {/* {console.log(JSON.stringify(user, null, 4))} */}
                 {user?.took_part_games?.map((eachChat) => {
-                  return <ChatItem item={eachChat} key={eachChat?._id} type="Участник" />
+                  return <ChatItem item={eachChat} key={eachChat?._id} type="Игра" />
                 })}
+                {/* {user?.create_games?.map((eachChat) => {
+                  return <ChatItem item={eachChat} key={eachChat?._id} type="Игра" />
+                })} */}
               </View>
             </>
           ) : (

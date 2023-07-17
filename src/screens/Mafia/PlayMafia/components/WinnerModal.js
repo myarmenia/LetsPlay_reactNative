@@ -24,7 +24,7 @@ const WinnerModal = ({ modalVisible, setModalVisible }) => {
       }}
       item={
         <View style={styles.container}>
-          <FastImage style={styles.img} source={{ uri: imgPath }} />
+          <FastImage style={styles.img} resizeMode='contain' source={{ uri: imgPath }} />
           <Text style={styles.text}>
             {modalVisible == 'мафия'
               ? 'Игра окончена. Победила мафия.'
@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
   },
   img: {
     height: RH(170),
-    resizeMode: 'contain',
   },
   text: {
     ...font('regular', 20, '#fff', 25),

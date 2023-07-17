@@ -152,12 +152,12 @@ const CreateTournamentInfo = ({ route }) => {
 
     dispatch(setTournamentFund(priceFond[0].checked ? true : false))
     if (
-      initialState.number_of_participants_from < initialState.number_of_participants_to &&
+      +initialState.number_of_participants_from < +initialState.number_of_participants_to &&
       !endDateError &&
       !startDateError &&
       initialState.address_name &&
       ((!initialState.team_tourney &&
-        initialState.age_restrictions_from < initialState.age_restrictions_to) ||
+        +initialState.age_restrictions_from < +initialState.age_restrictions_to) ||
         initialState.team_tourney)
     ) {
       if (initialState.team_tourney) {

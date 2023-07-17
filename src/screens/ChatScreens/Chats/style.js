@@ -46,10 +46,7 @@ export default StyleSheet.create({
   },
   deleteBtn: {
     height: '100%',
-    // zIndex: -2,
-    // right: RW(-35),
     backgroundColor: 'red',
-    // position: 'absolute',
     width: RW(60),
   },
   emptyText: {
@@ -80,7 +77,6 @@ export default StyleSheet.create({
     width: RW(42),
     height: RH(43),
     borderRadius: RH(22),
-    resizeMode: 'contain',
   },
   chatItemBlock: {
     backgroundColor: ICON,

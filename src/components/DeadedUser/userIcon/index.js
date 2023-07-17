@@ -46,7 +46,6 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
           flex: 1,
           width: size / 2.8,
           height: size / 2.8,
-          resizeMode: 'cover',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
@@ -62,8 +61,9 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
                 top: size > 150 ? '0%' : size < 40 ? '-45%' : '-20%',
                 left: RW(0.1),
               },
-              { resizeMode: 'cover' },
+      
             ]}
+            resizeMode='cover'
             source={
               !avatar
                 ? require('../../../assets/defualtUser.png')

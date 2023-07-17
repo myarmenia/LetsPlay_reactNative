@@ -42,44 +42,11 @@ function PlayerList({ players, isSelected = false, activePlayers = [], setActive
 }
 
 export const styles = StyleSheet.create({
-  btn: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: RH(85),
-  },
-  titleBlock: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageBlock: {
-    width: RW(50),
-    height: RW(50),
-    borderRadius: RW(50),
-    marginRight: RW(15),
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-    borderRadius: RW(50),
-  },
-  title: {
-    textAlign: 'center',
-    ...font('bold', 24, WHITE),
-    marginVertical: RH(30),
-  },
-  scroll: {
-    width: '90%',
-    height: RH(600),
-    flexGrow: 0,
-  },
   container: {
     flexDirection: 'row',
     width: '100%',
     flexWrap: 'wrap',
   },
-
   activeItem: {
     padding: RW(3),
     marginTop: RH(5),

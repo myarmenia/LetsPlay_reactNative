@@ -13,18 +13,7 @@ export  const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
     },
-    imageBlock:{
-        width:RW(50),
-        height:RW(50),
-        borderRadius:RW(50),
-        marginRight:RW(15),
-    },
-    image:{
-        width:'100%',
-        height:'100%',
-        resizeMode:'contain',
-        borderRadius:RW(50)
-    },
+ 
     title: {
         textAlign: 'center',
         ...font('bold', 24, WHITE),

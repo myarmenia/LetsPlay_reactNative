@@ -24,7 +24,8 @@ const EachTournament = ({ route }) => {
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
           <FastImage
-            style={{ width: RW(260), height: RH(260), resizeMode: 'contain' }}
+          resizeMode='contain'
+            style={{ width: RW(260), height: RH(260) }}
             source={{
               uri: _storageUrl + (props?.data?.data ? initialState?.imagePath : props?.img),
             }}

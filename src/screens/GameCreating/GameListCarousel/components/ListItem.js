@@ -105,7 +105,7 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
           <BgGamesLiner />
         </View>
         <View style={styles.title}>
-          <FastImage source={{ uri: _storageUrl + game?.img }} style={styles.image} />
+          <FastImage resizeMode='contain' source={{ uri: _storageUrl + game?.img }} style={styles.image} />
         </View>
         <View style={styles.btn}>
           <LinearGradient
@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
   image: {
     width: RW(300),
     height: RH(300),
-    resizeMode: 'contain',
   },
   rowBox: {
     width: '110%',

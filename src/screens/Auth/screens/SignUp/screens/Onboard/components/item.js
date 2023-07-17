@@ -23,7 +23,7 @@ const OnBoardingItem = ({ item }) => {
         </View>
       ) : (
         <>
-          <FastImage source={item.image} style={styles.image} />
+          <FastImage source={item.image} resizeMode="contain" style={styles.image} />
           <Text style={[styles.description]}>{item.description}</Text>
         </>
       )}
@@ -49,6 +49,5 @@ const styles = StyleSheet.create({
   image: {
     width: RW(300),
     height: RH(300),
-    resizeMode: 'contain',
   },
 })

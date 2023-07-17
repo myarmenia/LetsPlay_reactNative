@@ -29,7 +29,8 @@ function GameItem({ route }) {
       <ScrollView showsVerticalScrollIndicator={false} style={styles.itemWrapper}>
         <View style={styles.bigIcon}>
           <FastImage
-            style={{ width: RW(260), height: RW(260), resizeMode: 'contain' }}
+          resizeMode='contain'
+            style={{ width: RW(260), height: RW(260) }}
             source={{ uri: _storageUrl + item?.game?.img }}
           />
         </View>

@@ -54,14 +54,14 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
 
-    ...Platform.select({
-      ios: {
-        resizeMode: 'cover',
-      },
-      android: {
-        resizeMode: 'contain',
-      },
-    }),
+    // ...Platform.select({
+    //   ios: {
+    //     resizeMode: 'cover',
+    //   },
+    //   android: {
+    //     resizeMode: 'contain',
+    //   },
+    // }),
   },
   text: {
     marginVertical: RH(3),

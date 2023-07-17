@@ -35,11 +35,6 @@ const styles = StyleSheet.create({
     marginTop: RH(127),
     marginBottom: RH(90),
   },
-  qr: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-  },
   btn: {
     width: 281,
     height: 48,

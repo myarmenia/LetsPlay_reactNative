@@ -42,6 +42,7 @@ const index = () => {
           <View style={style.imageBlock}>
             <FastImage
               style={[style.image]}
+              resizeMode='cover'
               source={
                 !avatar
                   ? require('../../../assets/defualtUser.png')

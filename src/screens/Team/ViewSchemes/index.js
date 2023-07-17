@@ -47,6 +47,7 @@ const ViewSchemes = ({ route }) => {
             })
           }}
           style={styles.schemaImg}
+          resizeMode='contain'
           source={{ uri: _storageUrl + data?.schemaImg }}
         />
 
@@ -102,7 +103,6 @@ const styles = StyleSheet.create({
   schemaImg: {
     height: RW(516),
     width: RW(370),
-    resizeMode: 'contain',
   },
   playersTitle: {
     ...font('regular', 16, ICON, 24),

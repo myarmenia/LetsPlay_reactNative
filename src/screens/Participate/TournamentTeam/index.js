@@ -34,7 +34,7 @@ function Index(props) {
         <View style={style.homeBlock}>
           <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
             <View style={style.imageBlock}>
-              <FastImage style={style.image} source={{ uri: item.image }} />
+              <FastImage style={style.image} resizeMode='contain' source={{ uri: item.image }} />
             </View>
             <View style={style.textBlock}>
               <Text style={style.text}>{item.name}</Text>

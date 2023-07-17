@@ -29,7 +29,7 @@ function SearchedTeamSubmit({ route }) {
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>
       <View style={style.imageBlock}>
-        <FastImage style={style.image} source={{ uri: _storageUrl + item?.img }} />
+        <FastImage style={style.image} resizeMode='contain' source={{ uri: _storageUrl + item?.img }} />
       </View>
       <View style={{ alignItems: 'center' }}>
         <Text style={style.text}>Адрес нахождения команды</Text>
@@ -123,7 +123,6 @@ const style = StyleSheet.create({
     borderRadius: RW(150),
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   text: {
     ...font('bold', 14, WHITE, 20),

@@ -1,17 +1,18 @@
 import React from 'react'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {  ScrollView, StyleSheet, Text, View } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { ICON, WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
+import FastImage from 'react-native-fast-image'
 
 function Ticket({ game, initialState, name, dates }) {
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: RH(50) }}>
       <View style={styles.ticketImgBlock}>
-        <Image style={styles.ticketImg} source={{ uri: _storageUrl + game?.img }} />
+        <FastImage resizeMode='contain' style={styles.ticketImg} source={{ uri: _storageUrl + game?.img }} />
       </View>
       <View>
         <View style={styles.firstTextBlock}>
@@ -106,7 +107,6 @@ const styles = StyleSheet.create({
   ticketImg: {
     width: RW(206),
     height: RH(218),
-    resizeMode: 'contain',
   },
 })
 

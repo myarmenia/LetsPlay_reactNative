@@ -38,8 +38,7 @@ function NotificationScreen() {
         </Row>
         {/* {console.log('notifications', notifications)} */}
         <FlatList
-          contentContainerStyle={{ flex: 1, justifyContent: 'flex-end', paddingTop: RH(90) }}
-          horizontal={false}
+          contentContainerStyle={{ justifyContent: 'flex-end', paddingTop: RH(90) }}
           showsVerticalScrollIndicator={false}
           inverted={true}
           data={notifications}

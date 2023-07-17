@@ -11,6 +11,8 @@ const initialState = {
   betweenPlayers: false,
   choosedTeamGame: null,
   searchPending: false,
+  myTeams: [],
+  myJoinedTeams: [],
 }
 export const TeamSlice = createSlice({
   name: 'teamSlice',
@@ -70,6 +72,18 @@ export const TeamSlice = createSlice({
         searchPending: action.payload,
       }
     },
+    setMyTeams: (store, action) => {
+      return {
+        ...store,
+        myTeams: action.payload,
+      }
+    },
+    setMyJoinedTeams: (store, action) => {
+      return {
+        ...store,
+        myJoinedTeams: action.payload,
+      }
+    },
   },
 })
 export const getTeams = (setModalVisible) => (dispatch) => {
@@ -102,15 +116,16 @@ export const searchPlayer = (data) => (dispatch) => {
       dispatch(setSearchPending(false))
     })
 }
-export const inviteUserToTeam = (data) => (dispatch) => {
+export const inviteUserToTeam = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .patch('/api/team/invite', data)
     .then((e) => {
       console.log('inviteUserToTeam', e.data)
+      setModalVisible(true)
     })
 
     .catch((err) => {
-      console.log('Error inviting player :', err)
+      console.log('Error inviting player inviteUserToTeam :', JSON.stringify(err.response))
     })
 }
 export const joinPlayerTeam = (data, setModalVisible) => (dispatch) => {
@@ -121,7 +136,7 @@ export const joinPlayerTeam = (data, setModalVisible) => (dispatch) => {
     })
 
     .catch((err) => {
-      console.log('Error inviting player :', err)
+      console.log('Error inviting player joinPlayerTeam :', err)
     })
 }
 
@@ -261,14 +276,29 @@ export const createTeamGame = (data, setModalVisible) => (dispatch) => {
     })
 }
 export const getMyTeams = (setModalVisible) => (dispatch) => {
-  axiosInstance.get('/api/team/my_teams').then((response) => {
-    if (response?.data?.datas?.length) {
-      dispatch(setTeamChats(response?.data?.datas))
-      setModalVisible && setModalVisible(false)
-    } else {
-      setModalVisible && setModalVisible(true)
-    }
-  })
+  axiosInstance
+    .get('/api/team/my_teams')
+    .then((response) => {
+      if (response?.data?.datas?.length) {
+        dispatch(setMyTeams(response?.data?.datas))
+        setModalVisible && setModalVisible(false)
+      } else {
+        setModalVisible && setModalVisible(true)
+      }
+    })
+    .catch((err) => {
+      console.log('Error getMyTeams :', err.request)
+    })
+}
+export const getMyJoinedTeams = () => (dispatch) => {
+  axiosInstance
+    .get('/api/team/my_joined_teams')
+    .then((response) => {
+      dispatch(setMyJoinedTeams(response?.data?.datas))
+    })
+    .catch((err) => {
+      console.log('Error getMyJoinedTeams :', err.request)
+    })
 }
 
 export const {
@@ -281,5 +311,7 @@ export const {
   setBetweenPlayers,
   setChoosedTeamGame,
   setSearchPending,
+  setMyTeams,
+  setMyJoinedTeams,
 } = TeamSlice.actions
 export default TeamSlice.reducer

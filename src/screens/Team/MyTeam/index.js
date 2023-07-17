@@ -17,7 +17,7 @@ function Index({ route }) {
 
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
-  const { teamChatsList } = useSelector(({ teams }) => teams)
+  const { myTeams } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -70,8 +70,8 @@ function Index({ route }) {
             navigationText={'teamStart'}
           />
         )}
-        {teamChatsList?.length ? (
-          teamChatsList?.map((command, i) => <EachCommand data={props} command={command} key={i} />)
+        {myTeams?.length ? (
+          myTeams?.map((command, i) => <EachCommand data={props} command={command} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
             <Text style={style.text}>Загрузка...</Text>

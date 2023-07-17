@@ -22,13 +22,6 @@ export default StyleSheet.create({
         borderRadius:50,
         borderColor:WHITE
     },
-    image:{
-        borderWidth:1,
-        borderRadius:50,
-        width:'100%',
-        height:'100%',
-        resizeMode:'contain'
-    },
     text:{
         marginVertical:RH(3),
         ...font('bold',14, WHITE)

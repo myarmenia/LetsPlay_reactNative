@@ -17,7 +17,7 @@ function Index() {
         <View style={styles.body}>
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
-            <FastImage style={styles.qr} source={{ uri: _storageUrl + qrGameImg }} />
+            <FastImage style={styles.qr} resizeMode='contain' source={{ uri: _storageUrl + qrGameImg }} />
           </View>
           <Button
             onPress={() => navigation.navigate('InviteTeamPlayers')}
@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
   qr: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   btn: {
     width: 281,

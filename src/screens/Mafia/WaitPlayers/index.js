@@ -49,7 +49,8 @@ const WaitPlayers = ({ route }) => {
         }}
       >
         <FastImage
-          style={{ width: '80%', resizeMode: 'contain', position: 'absolute' }}
+        resizeMode='contain'
+          style={{ width: '80%',position: 'absolute' }}
           source={require('./assets/bgLogo.png')}
         />
       </View>

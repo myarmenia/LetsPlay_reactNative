@@ -131,7 +131,7 @@ const PlayMafia = ({ route }) => {
           <>
             <View style={styles.youPlaceMen}>
               <View>
-                <FastImage source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
+                <FastImage resizeMode='contain' source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
               </View>
               <View style={styles.infoMafia}>
                 <Text style={styles.textPlaceMen}>Вы {mafiaRole?.name?.toLowerCase()}</Text>
@@ -215,6 +215,7 @@ const PlayMafia = ({ route }) => {
                   {mafiaUsersId?.find((elm) => elm.id == equalVotes?.first_player?._id) ? (
                     <FastImage
                       style={styles.mafiaImg}
+                      resizeMode='contain'
                       source={{
                         uri:
                           _storageUrl +
@@ -253,6 +254,7 @@ const PlayMafia = ({ route }) => {
                   {mafiaUsersId?.find((elm) => elm.id == equalVotes?.second_player?._id) ? (
                     <FastImage
                       style={styles.mafiaImg}
+                      resizeMode='contain'
                       source={{
                         uri:
                           _storageUrl +
@@ -315,6 +317,7 @@ const PlayMafia = ({ route }) => {
                         {mafiaUsersId?.find((elm) => elm.id == item?._id) ? (
                           <FastImage
                             style={styles.mafiaImg}
+                            resizeMode='contain'
                             source={{
                               uri:
                                 _storageUrl +
@@ -566,7 +569,6 @@ const styles = StyleSheet.create({
   img: {
     width: RW(46),
     height: RW(55),
-    resizeMode: 'contain',
   },
   infoMafia: {
     paddingRight: RW(90),
@@ -600,11 +602,6 @@ const styles = StyleSheet.create({
     margin: RW(10),
     paddingVertical: RH(20),
   },
-  imgData: {
-    width: 76,
-    height: 150,
-    resizeMode: 'contain',
-  },
   peopleInfo: {
     width: '100%',
     flexDirection: 'row',
@@ -623,7 +620,7 @@ const styles = StyleSheet.create({
   mafiaImg: {
     width: RW(25),
     height: RW(25),
-    resizeMode: 'contain',
+
     position: 'absolute',
     zIndex: 999,
     top: RW(-3),
