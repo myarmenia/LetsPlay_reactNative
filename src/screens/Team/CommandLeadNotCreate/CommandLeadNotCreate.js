@@ -14,11 +14,7 @@ import { getMembersList, searchTeam, setFindedTeam } from '@/store/Slices/TeamSl
 
 const CommandLeadNotCreate = ({ route }) => {
   const item = route.params
-
-  const games = useSelector(({ games }) => games.games)
   const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
-
-  const game = games.find((elm) => elm.id == choosedTeamGame?.id)
   const { betweenPlayers, findedTeam, savedTeam } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -29,7 +25,7 @@ const CommandLeadNotCreate = ({ route }) => {
   const [addresName, setAddressName] = useState('')
   // const [price, setPrice] = useState('')
   const [formats, setFormats] = useState(
-    game?.formats?.map((elm, i) => {
+    choosedTeamGame?.formats?.map((elm, i) => {
       return { id: i, text: elm, checked: false }
     }),
   )

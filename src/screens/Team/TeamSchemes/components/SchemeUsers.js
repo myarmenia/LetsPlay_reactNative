@@ -13,7 +13,6 @@ import User from '@/components/User/user'
 import ArrowSvg from './assets/ArrowSvg'
 import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
-import UserAndInfoModal from '@/screens/Crocodile/Modals/UserAndInfoModal'
 const StatusBarHeight = Platform.OS == 'ios' ? NativeModules.StatusBarManager?.HEIGHT : 0
 
 const SchemeUsers = ({
@@ -25,6 +24,7 @@ const SchemeUsers = ({
 }) => {
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
+  const refsArray = useRef([])
 
   const animatedScrollX = useRef(new Animated.Value(0)).current
 
@@ -45,8 +45,6 @@ const SchemeUsers = ({
 
         setReplacementPlayers((prevplayingPlayers) => {
           const updatedplayingPlayers = [...prevplayingPlayers]
-
-
           updatedplayingPlayers[index] = {
             ...updatedplayingPlayers[index],
             small: false,
@@ -65,25 +63,7 @@ const SchemeUsers = ({
       },
 
       onPanResponderEnd: (event, gesture) => {
-        replacementPlayers[index].ref.current.measure((x, y, width, height, px, py) => {
-
-          console.log("if", 
-          py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05) <=
-            fieldSize?.height - RW(56))
-
-
-          console.log("py",py)
-          console.log("initialCordinates.y1",initialCordinates.y1)
-          console.log("initialCordinates.y2",initialCordinates.y2)
-
-          console.log("StatusBarHeight",StatusBarHeight)
-          console.log("fieldSize?.height",fieldSize?.height)
-
-
-          console.log("py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05)",py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05))
-          console.log("fieldSize?.height - RW(56)", fieldSize?.height - RW(56))
-
-
+        refsArray.current[index].measure((x, y, width, height, px, py) => {
           if (
             px - initialCordinates.x >= 0 &&
             px - initialCordinates.x <= fieldSize?.width - RW(38) &&
@@ -109,7 +89,6 @@ const SchemeUsers = ({
                       ...updatedplayingPlayers[i],
                       x: 0,
                       y: 0,
-
                       small: false,
                       inGame: false,
                     }
@@ -138,6 +117,7 @@ const SchemeUsers = ({
               return updatedplayingPlayers
             })
           } else {
+            console.log('else')
             setReplacementPlayers((prevplayingPlayers) => {
               const updatedplayingPlayers = [...prevplayingPlayers]
               updatedplayingPlayers[index] = {
@@ -186,7 +166,8 @@ const SchemeUsers = ({
             return (
             <Animated.View
               key={index}
-              ref={user.ref}
+      
+              ref={(elRef) => refsArray.current[index] = elRef}
               onLayout={(e) => {
                 if (!componentWidth.current) componentWidth.current = e.nativeEvent.layout.width
               }}
