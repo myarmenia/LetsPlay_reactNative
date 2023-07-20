@@ -2,7 +2,7 @@ import React, { useCallback, useEffect } from 'react'
 import { StatusBar } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import NetInfo, { refresh, useNetInfo } from "@react-native-community/netinfo";
+import NetInfo from "@react-native-community/netinfo";
 import AppNavigator from '@/navigation/AppNavigator'
 import AuthNavigator from './navigation/AuthNavigator'
 import CustomModal from './components/CustomModal'
@@ -18,7 +18,6 @@ const MyApp = () => {
   const userId = useSelector(({ auth }) => auth?.user?._id)
   const token = useSelector(({ auth }) => auth.token)
   let internetConnectionFailed = false;
-  // const netInfo = useNetInfo();
   const dispatch = useDispatch()
   const myFunc = useCallback(async () => {
     let tokenWithAsync = await AsyncStorage.getItem('token')
@@ -44,7 +43,6 @@ const MyApp = () => {
         body: "Нет подключения к Интернету"
       }))
       internetConnectionFailed = true;
-      // refresh()
     }
      else if(internetConnectionFailed) {
 
@@ -53,15 +51,9 @@ const MyApp = () => {
         type: "message", 
         body: "Интернет соединение восстановлено"
       }))
-      // refresh()
-
     }
 
   });
-
-  // useEffect(() => {
-  //   console.log("netInfo", netInfo)
-  // }, [netInfo])
   useEffect(() => {
     requestUserPermission()
     notificationListener((body) => {
@@ -72,13 +64,18 @@ const MyApp = () => {
       }))
     })
     unsubscribe();
+    dispatch(setModalOptions({
+      visible: true,
+      type: "error", 
+      body: "Нет подключения к Интернету"
+    }))
   }, [])
  
   
 
   
 
-  // console.log('Token - ', token)
+  console.log('Token - ', token)
 
   return (
     <>

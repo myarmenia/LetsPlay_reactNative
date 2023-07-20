@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { RW, font } from '@/theme/utils'
+import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
+import ErrorSvg from '@/screens/Mafia/AddPlayers/assets/ErrorSvg'
 
 const ErrorModal = ({message}) => {
   return (
     <View style={styles.modal}>
+       <ErrorSvg />
       <Text style={styles.text}>{message}</Text>
     </View>
   )
@@ -20,9 +22,12 @@ const styles = StyleSheet.create({
     borderRadius: RW(20),
     padding: RW(20),
     marginHorizontal: RW(30.5),
+    justifyContent: "center",
+    alignItems: "center"
   },
   text: {
-    ...font('inter', 16, "#FF0000", 20),
+    ...font('inter', 16, WHITE, 20),
     textAlign: 'center',
+    marginTop: RH(20)
   },
 })
