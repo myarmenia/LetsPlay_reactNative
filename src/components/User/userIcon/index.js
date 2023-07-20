@@ -96,10 +96,10 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         />
       </ImagePressableComponent>
       <View style={[style.nameBlock, { marginTop: size < 50 ? RH(10) : RH(10) }]}>
-        <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
+        <Text style={[font('bold', name.length > 15 || surname.length > 15 ? size / RW(25) : size > 150 ? size / RW(20) : size / RW(25), WHITE), {maxHeight: RH(30), maxWidth: RW(220)}]}>
           {name ? name : 'Имя'}
         </Text>
-        <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
+        <Text style={[font('bold', name.length > 15 || surname.length > 15 ? size / RW(25) :  size > 150 ? size / RW(20) : size / RW(25), WHITE), {maxHeight: RH(30), maxWidth: RW(220)}]}>
           {surname ? surname : 'Фамилия'}
         </Text>
       </View>

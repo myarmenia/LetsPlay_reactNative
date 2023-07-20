@@ -7,7 +7,7 @@ import LightButton from '@/assets/imgs/Button'
 import CloseSvg from '@/assets/svgs/closeSvg'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteNotification, setModalOptions, setNotifications } from '@/store/Slices/AppSlice'
+import { deleteNotification, notificationButtonClciked, setModalOptions, setNotifications } from '@/store/Slices/AppSlice'
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 
 const NotificationItem = ({ elm, setModalVisible }) => {
@@ -18,6 +18,36 @@ const NotificationItem = ({ elm, setModalVisible }) => {
   const updated = updateDateArray[0] + ":" + updateDateArray[1]
   if (!notificationText) return null
 
+  const buttonOptions = {
+    team_inite: {
+      label: 'Присоединиться',
+      onPress:() => {
+        dispatch(
+          joinPlayerTeam(
+            {
+              team_id: elm.team,
+            },
+            setModalVisible,
+          ),
+        )
+      },
+      
+    },
+    qr: {
+      secondaryClick: true,
+      label: 'Показать QR',
+      onPress: () => {
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: "QrModal",
+            body: elm.link,
+          })
+        )
+      }
+    }
+  }
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.line} />
@@ -27,34 +57,17 @@ const NotificationItem = ({ elm, setModalVisible }) => {
           {elm?.readed ? <View style={{ width: 26 }} /> : <DotSvg />}
           <View>
             <Text style={styles.notificationText}>{notificationText}</Text>
-            {elm.type == 'team_inite' ? (
-              <LightButton
-                onPress={() => {
-                  dispatch(
-                    joinPlayerTeam(
-                      {
-                        team_id: elm.team,
-                      },
-                      setModalVisible,
-                    ),
-                  )
-                }}
-                label={'Присоединиться'}
-                labelStyle={{ ...font('bold', 17, '#001034') }}
-              />
-            ) : elm.type == 'qr' ? (<LightButton
+            {buttonOptions?.[elm.type] ? (
+            <LightButton
               onPress={() => {
-                dispatch(
-                  setModalOptions({
-                    visible: true,
-                    type: "QrModal",
-                    body: elm.link,
-                  })
-                )
+                dispatch(notificationButtonClciked(elm?._id))
+                !buttonOptions[elm.type].secondaryClick && elm.click ? null : buttonOptions[elm.type].onPress()
               }}
-              label={'Показать QR'}
+              label={buttonOptions[elm.type].label}
               labelStyle={{ ...font('bold', 17, '#001034') }}
-            />) : null}
+              style={{opacity: !buttonOptions[elm.type].secondaryClick && elm.click ? 0.5 : 1 }}
+            />
+            ) : null}
           </View>
         </Row>
 

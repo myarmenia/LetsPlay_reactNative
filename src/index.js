@@ -64,11 +64,6 @@ const MyApp = () => {
       }))
     })
     unsubscribe();
-    dispatch(setModalOptions({
-      visible: true,
-      type: "error", 
-      body: "Нет подключения к Интернету"
-    }))
   }, [])
  
   

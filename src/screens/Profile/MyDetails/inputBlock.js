@@ -15,6 +15,7 @@ function InputBlock(props) {
         onChangeText={setValue}
         placeholder={placeholder}
         placeholderTextColor={ICON}
+        maxLength={20}
       />
     </View>
   )

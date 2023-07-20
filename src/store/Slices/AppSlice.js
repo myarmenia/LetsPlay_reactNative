@@ -55,6 +55,13 @@ export const notificationSettings = (e) => (dispatch) => {
       })
   }
 }
+export const notificationButtonClciked = (notification_id) => (dispatch) => {
+    axiosInstance
+      .put(`/api/notification/click/${notification_id}`)
+      .catch((err) => {
+        console.log('err request notification', err)
+      })
+}
 
 export const getNotifications = () => (dispatch) => {
   axiosInstance
@@ -87,7 +94,6 @@ export const deleteAllNotifications = () => (dispatch) => {
 
 export const getCalendarGames = (data) => (dispatch) => {
   axiosInstance
-    // .get(`api/create/game/by_date?date_from=${data.date_from}&date_to=${data.date_to}`)
     .get('api/create/game/by_date', {
       params: {
         date_from: data.date_from,

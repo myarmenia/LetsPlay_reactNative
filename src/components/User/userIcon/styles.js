@@ -49,6 +49,9 @@ export default StyleSheet.create({
   nameBlock: {
     alignItems: 'center',
     marginTop: RH(16),
+    // backgroundColor: "red",
+    // maxWidth: "80%",
+    // maxHeight: RH(50),
   },
   soc: {
     backgroundColor: 'rgba(52, 52, 52, 0)',

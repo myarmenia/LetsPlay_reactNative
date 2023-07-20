@@ -58,6 +58,7 @@ function Index() {
   const [emailState, setEmailState] = useState(email)
   const [phoneState, setPhoneState] = useState(phone_number)
   const [vkUriState, setVkUriState] = useState(vk_uri)
+  console.log("dob", dob)
   const [dateState, setDateState] = useState(dob ? new Date(dob) : new Date())
 
   const [genderState, setGenderState] = useState([
@@ -168,7 +169,7 @@ function Index() {
           name: nameState,
           surname: surNameState,
           gender: genderState?.find((elem) => elem?.checked).label,
-          dob: JSON.stringify(dateState),
+          dob: dateState,
           phone_number: phoneState,
           email: emailState,
           vk_uri: vkUriState,
@@ -236,6 +237,7 @@ function Index() {
             onChange={setGenderState}
             editable={editable}
           />
+    
           <DateComponent
             title="Дата рождения:"
             titleStyle={{ color: '#fff' }}
