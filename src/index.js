@@ -1,16 +1,24 @@
 import React, { useCallback, useEffect } from 'react'
 import { StatusBar } from 'react-native'
-import AppNavigator from '@/navigation/AppNavigator'
-import { DARK_BLUE } from '@/theme/colors'
-import AuthNavigator from './navigation/AuthNavigator'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProfileInfo } from './store/Slices/AuthSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import NetInfo, { refresh, useNetInfo } from "@react-native-community/netinfo";
+import AppNavigator from '@/navigation/AppNavigator'
+import AuthNavigator from './navigation/AuthNavigator'
+import CustomModal from './components/CustomModal'
 import { setToken } from '@/store/Slices/AuthSlice'
+import { notificationListener, requestUserPermission } from './helpers/NotificationServices'
+import { setModalOptions } from './store/Slices/AppSlice'
+import { getProfileInfo } from './store/Slices/AuthSlice'
+import { DARK_BLUE } from '@/theme/colors'
+
+
 
 const MyApp = () => {
   const userId = useSelector(({ auth }) => auth?.user?._id)
   const token = useSelector(({ auth }) => auth.token)
+  let internetConnectionFailed = false;
+  // const netInfo = useNetInfo();
   const dispatch = useDispatch()
   const myFunc = useCallback(async () => {
     let tokenWithAsync = await AsyncStorage.getItem('token')
@@ -27,13 +35,56 @@ const MyApp = () => {
     }
   }, [token, userId])
 
-  console.log('Token - ', token)
-  // console.log('userId - ', userId)
+  const unsubscribe = NetInfo.addEventListener(state => {
+    console.log("addEventListener", state)
+    if(!state.isConnected) {
+      dispatch(setModalOptions({
+        visible: true,
+        type: "error", 
+        body: "Нет подключения к Интернету"
+      }))
+      internetConnectionFailed = true;
+      // refresh()
+    }
+     else if(internetConnectionFailed) {
+
+      dispatch(setModalOptions({
+        visible: true,
+        type: "message", 
+        body: "Интернет соединение восстановлено"
+      }))
+      // refresh()
+
+    }
+
+  });
+
+  // useEffect(() => {
+  //   console.log("netInfo", netInfo)
+  // }, [netInfo])
+  useEffect(() => {
+    requestUserPermission()
+    notificationListener((body) => {
+      dispatch(setModalOptions({
+        visible: true,
+        type: "message",
+        body,
+      }))
+    })
+    unsubscribe();
+  }, [])
+ 
+  
+
+  
+
+  // console.log('Token - ', token)
 
   return (
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={DARK_BLUE} />
       {token ? <AppNavigator /> : <AuthNavigator />}
+      <CustomModal />
     </>
   )
 }

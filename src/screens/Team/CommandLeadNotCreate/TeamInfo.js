@@ -48,7 +48,7 @@ const TeamInfo = ({ route }) => {
           <LightButton
             label={'Далее>>'}
             style={{ width: 166, height: 36 }}
-            onPress={() => navigation.navigate('EditTeamPlayers', { gameId, sendingData })}
+            onPress={() => navigation.navigate('EditTeamPlayers', { teamImg: gameId.img, sendingData })}
           />
         </View>
       </View>

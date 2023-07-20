@@ -14,7 +14,7 @@ import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 
 const EditTeamPlayers = ({ route }) => {
-  const { gameId, sendingData } = route.params
+  const { teamImg, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
   const [acceptedPlayers, setAcceptedPlayers] = useState([1])
   const {choosedTeamGame, savedTeam} = useSelector(({ teams }) => teams)
@@ -30,7 +30,7 @@ const EditTeamPlayers = ({ route }) => {
           </Text>
           <FastImage
             style={styles.commandImg}
-            source={{ uri: _storageUrl + gameId?.img }}
+            source={{ uri: _storageUrl + teamImg }}
             resizeMode="cover"
           />
         </View>
@@ -64,8 +64,9 @@ const EditTeamPlayers = ({ route }) => {
                 navigation.navigate('TeamSchemes', {
                   players: savedTeam?.players,
                   schemaImg: choosedTeamGame?.schema_img,
-                  teamImg: gameId?.img,
+                  teamImg:teamImg,
                   teamName: sendingData?.enemy_team_name,
+                  sendingData: sendingData,
                 })
               }}
             />

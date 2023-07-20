@@ -7,15 +7,17 @@ import LightButton from '@/assets/imgs/Button'
 import CloseSvg from '@/assets/svgs/closeSvg'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteNotification, setNotifications } from '@/store/Slices/AppSlice'
+import { deleteNotification, setModalOptions, setNotifications } from '@/store/Slices/AppSlice'
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 
 const NotificationItem = ({ elm, setModalVisible }) => {
   const { notifications } = useSelector(({ app }) => app)
   const dispatch = useDispatch()
   const notificationText = elm.text
-  const updated = new Date(elm.createdAt).toLocaleTimeString().substring(0, 4)
+  const updateDateArray = new Date(elm.createdAt).toLocaleTimeString().split(":")
+  const updated = updateDateArray[0] + ":" + updateDateArray[1]
   if (!notificationText) return null
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.line} />
@@ -38,10 +40,21 @@ const NotificationItem = ({ elm, setModalVisible }) => {
                   )
                 }}
                 label={'Присоединиться'}
-                // size={{ width: 144, height: 36 }}
                 labelStyle={{ ...font('bold', 17, '#001034') }}
               />
-            ) : null}
+            ) : elm.type == 'qr' ? (<LightButton
+              onPress={() => {
+                dispatch(
+                  setModalOptions({
+                    visible: true,
+                    type: "QrModal",
+                    body: elm.link,
+                  })
+                )
+              }}
+              label={'Показать QR'}
+              labelStyle={{ ...font('bold', 17, '#001034') }}
+            />) : null}
           </View>
         </Row>
 

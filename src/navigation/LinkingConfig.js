@@ -25,6 +25,14 @@ export default {
           },
         },
       },
+      TabNavigator: {
+        screens: {
+          Home: {
+            path: 'participateToGame/:id',
+          },
+        },
+
+      }
     },
   },
   subscribe(listener) {

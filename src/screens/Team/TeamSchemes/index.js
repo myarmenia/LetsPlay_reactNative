@@ -11,7 +11,7 @@ import FastImage from 'react-native-fast-image'
 import { useSelector } from 'react-redux'
 
 const TeamSchemes = ({ route }) => {
-  const players = route.params?.players
+  const {players, sendingData, teamImg} = route.params
   const [replacementPlayers, setReplacementPlayers] = useState(new Array(players?.length).fill( {
     x: 0,
     y: 0,
@@ -115,7 +115,8 @@ const TeamSchemes = ({ route }) => {
       </View>
       <LightButton
         onPress={() => {
-          navigation.navigate('ViewSchemes', { replacementPlayers })
+          // navigation.navigate('ViewSchemes', { replacementPlayers })
+          navigation.navigate("EditTeamPlayers", {teamImg, sendingData: {...sendingData, game_schema: JSON.stringify(replacementPlayers)}})
         }}
         style={{ alignSelf: 'flex-end', position: 'absolute', bottom: RH(30) }}
         label="Сохранить"

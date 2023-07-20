@@ -4,6 +4,11 @@ import axiosInstance from '../Api'
 const initialState = {
   notifications: [],
   calendarGames: [],
+  modalOptions: {
+    type: null,
+    body: null,
+    visible: false,
+  }
 }
 
 export const AppSlice = createSlice({
@@ -20,6 +25,21 @@ export const AppSlice = createSlice({
       return {
         ...store,
         calendarGames: action.payload,
+      }
+    },
+    setModalOptions: (store, action) => {
+      return {
+        ...store,
+        modalOptions: action.payload,
+      }
+    },
+    setModalVisible: (store, action) => {
+      return {
+        ...store,
+        modalOptions: {
+          ...store.modalOptions,
+          visible: action.payload
+        },
       }
     },
   },
@@ -82,5 +102,5 @@ export const getCalendarGames = (data) => (dispatch) => {
     })
 }
 
-export const { setNotifications, setCalendarGames } = AppSlice.actions
+export const { setNotifications, setCalendarGames,setModalOptions,setModalVisible } = AppSlice.actions
 export default AppSlice.reducer

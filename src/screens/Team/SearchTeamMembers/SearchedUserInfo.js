@@ -11,19 +11,19 @@ import { inviteUserToTeam } from '@/store/Slices/TeamSlice'
 
 const SearchedUserInfo = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const props = route.params
+  const {command, member} = route.params
   const dispatch = useDispatch()
-  console.log("props.command",props.command)
+  console.log("command",command)
   const handleInvite = () => {
     console.log({
-      team_id: props.command,
-      user_id: props.member._id,
+      team_id: command,
+      user_id: member._id,
     })
     dispatch(
       inviteUserToTeam(
         {
-          team_id: props.command,
-          user_id: props.member._id,
+          team_id: command,
+          user_id: member._id,
         },
         setModalVisible,
       ),
@@ -43,7 +43,7 @@ const SearchedUserInfo = ({ route }) => {
       >
         <User
           size={430}
-          user={props.member}
+          user={member}
         />
       </Pressable>
       <View style={styles.btnBox}>

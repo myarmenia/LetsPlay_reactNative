@@ -25,10 +25,9 @@ export const GameSlice = createSlice({
   },
 })
 
-export const getGames = (data) => async (dispatch) => {
+export const getGames = (data) => (dispatch) => {
   axiosInstance
     .get(`api/game/${data}`)
-
     .then((response) => {
       dispatch(setGames(response.data.datas))
     })
@@ -36,10 +35,9 @@ export const getGames = (data) => async (dispatch) => {
       console.log('err request', err.request._response)
     })
 }
-export const getGamesOnlyNames = () => async (dispatch) => {
+export const getGamesOnlyNames = () => (dispatch) => {
   axiosInstance
     .get('api/game')
-
     .then((response) => {
       dispatch(
         setNames(
@@ -55,6 +53,16 @@ export const getGamesOnlyNames = () => async (dispatch) => {
     })
     .catch((err) => {
       console.log('error getting games : ', err)
+    })
+}
+export const participateToGame = (gameId) => (dispatch) => {
+  axiosInstance
+    .post(`/api/participate/${gameId}`)
+    .then((response) => {
+      console.log("response",response.data)
+    })
+    .catch((err) => {
+      console.log('err request', err.request._response)
     })
 }
 

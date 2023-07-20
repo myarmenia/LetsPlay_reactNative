@@ -1,31 +1,36 @@
 import { RH, font } from '@/theme/utils'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   Pressable,
-  Text,
-  View,
   StyleSheet,
   Animated,
   Dimensions,
   TouchableWithoutFeedback,
 } from 'react-native'
-
 import { ICON, WHITE } from '@/theme/colors'
+import QrModal from './modals/QrModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { setModalVisible } from '@/store/Slices/AppSlice'
+import MessageModal from './modals/MessageModal'
+import ErrorModal from './modals/ErrorModal'
 
-const CustomModal = ({ modalVisible, setModalVisible, item }) => {
+const CustomModal = () => {
+  const modalOptions = useSelector(({app}) => app.modalOptions)
   const height = Dimensions.get('window').height
   const animatedValue = useRef(new Animated.Value(height)).current
+  const dispatch = useDispatch();
 
-  useEffect(() => {
+  useEffect(() => {    
     Animated.timing(animatedValue, {
-      toValue: modalVisible ? 0 : height,
+      toValue: modalOptions?.visible ? 0 : height,
       duration: 200,
       useNativeDriver: true,
     }).start()
-  }, [modalVisible])
+  }, [modalOptions?.visible])
+
 
   return (
-    <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+    <TouchableWithoutFeedback onPress={() => dispatch(setModalVisible(false))}>
       <Animated.View
         style={{
           flex: 1,
@@ -35,11 +40,24 @@ const CustomModal = ({ modalVisible, setModalVisible, item }) => {
           justifyContent: 'center',
           alignItems: 'center',
           zIndex: 99999,
-          backgroundColor: modalVisible ? 'rgba(0,0,0,0.1)' : 'transparent',
+          backgroundColor: modalOptions?.type ? 'rgba(0,0,0,0.4)' : 'transparent',
           position: 'absolute',
         }}
       >
-        <Pressable>{item}</Pressable>
+        <Pressable>
+          {() => {
+            switch (modalOptions?.type) {
+              case "QrModal":
+                return <QrModal qrLink={modalOptions.body}/>;
+              case "message":
+                  return <MessageModal message={modalOptions.body}/>;
+              case "error":
+                return <ErrorModal message={modalOptions.body}/>;
+              default:
+                break;
+            }
+          }}
+        </Pressable>
       </Animated.View>
     </TouchableWithoutFeedback>
   )
@@ -51,7 +69,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   instruction: {
     ...font('regular', 18, WHITE),
   },

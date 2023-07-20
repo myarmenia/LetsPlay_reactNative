@@ -50,7 +50,7 @@ function Index() {
   )
   const user = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
-  const navigation = useNavigation()
+
 
   const [editable, setEditable] = useState(false)
   const [nameState, setNameState] = useState(name)

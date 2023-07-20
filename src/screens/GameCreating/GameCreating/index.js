@@ -103,6 +103,10 @@ const GameCreating = ({ route }) => {
     .concat(' ' + timeFormat(endDate))
 
   const handleClick = () => {
+
+    console.log("startDate.date", startDate.date)
+    console.log("endDate.date",  endDate.date)
+    console.log("startDate.date <= endDate.date", startDate.date <= endDate.date)
     if (!startDate) {
       setStartDateError('Обязательное поле для заполнения')
     } else {
@@ -110,7 +114,7 @@ const GameCreating = ({ route }) => {
     }
     if (!endDate) {
       setEndDateError('Обязательное поле для заполнения')
-    } else if (startDate.date <= endDate.date) {
+    } else if (startDate.date < endDate.date) {
       setEndDateError('Введите корректную дату')
     } else {
       setEndDateError(null)
@@ -144,7 +148,7 @@ const GameCreating = ({ route }) => {
     if (
       startDate &&
       endDate &&
-      startDate.date > endDate.date &&
+      startDate.date >= endDate.date &&
       initialState.age_restrictions_from &&
       initialState?.age_restrictions_to &&
       +initialState?.number_of_players_from > 0 &&

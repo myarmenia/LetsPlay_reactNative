@@ -156,7 +156,7 @@ function Index({ id, item, type }) {
           btnClose={false}
           item={
             <View style={style.modalBlock}>
-              <Text style={style.modalText}>Вы хотите удалить чат?</Text>
+              <Text style={style.modalText}>Вы точно хотите удалить игру и чат?</Text>
               <View
                 style={{
                   flexDirection: 'row',

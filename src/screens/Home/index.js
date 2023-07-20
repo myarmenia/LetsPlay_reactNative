@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
 import NotificationIcon from '@/assets/imgs/notification'
 import ScreenMask from '@/components/wrappers/screen'
@@ -7,9 +7,19 @@ import { RH } from '@/theme/utils'
 import User from '@/components/User/user'
 import LogoSvg from '@/assets/LogoSvg'
 import { useNavigation } from '@react-navigation/native'
+import { participateToGame } from '@/store/Slices/GamesSlice'
+import { useDispatch } from 'react-redux'
 
-const HomeScreen = () => {
+const HomeScreen = ({route}) => {
   const navigation = useNavigation()
+  const propsGameId = route.params?.id
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if(propsGameId) {
+      dispatch(participateToGame(propsGameId))
+    }
+
+  }, [propsGameId])
 
   return (
     <ScreenMask>
