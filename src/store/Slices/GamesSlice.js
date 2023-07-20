@@ -4,6 +4,7 @@ import axiosInstance from '../Api'
 const initialState = {
   games: [],
   nameOfGames: [],
+  gameFinishPhoto: null,
 }
 
 export const GameSlice = createSlice({
@@ -20,6 +21,12 @@ export const GameSlice = createSlice({
       return {
         ...store,
         nameOfGames: action.payload,
+      }
+    },
+    setGameFinishPhoto: (store, action) => {
+      return {
+        ...store,
+        gameFinishPhoto: action.payload,
       }
     },
   },
@@ -59,12 +66,12 @@ export const participateToGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`/api/participate/${gameId}`)
     .then((response) => {
-      console.log("response",response.data)
+      console.log('response', response.data)
     })
     .catch((err) => {
       console.log('err request', err.request._response)
     })
 }
 
-export const { setGames, setNames } = GameSlice.actions
+export const { setGames, setNames, setGameFinishPhoto } = GameSlice.actions
 export default GameSlice.reducer

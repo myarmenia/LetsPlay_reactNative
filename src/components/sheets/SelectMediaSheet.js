@@ -5,8 +5,11 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import { font, RH, RW } from '@/theme/utils'
 import { PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { IS_IOS } from '@/constants'
+import { useDispatch } from 'react-redux'
+import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
 
 const SelectMediaSheet = (props) => {
+  const dispatch = useDispatch()
   const _onChoose = () =>
     SheetManager.hide(props.sheetId).then(() => {
       request(
@@ -16,13 +19,14 @@ const SelectMediaSheet = (props) => {
           try {
             if ([RESULTS.GRANTED, RESULTS.LIMITED].includes(result)) {
               await launchImageLibrary({
-                mediaType: 'photo',
+                mediaType: 'mixed',
               }).then((e) => {
-                console.log('launchImageLibrary', e?.assets?.[0]?.uri)
+                if (e?.assets?.[0]?.uri) {
+                  dispatch(setGameFinishPhoto(e?.assets?.[0]))
+                }
               })
             } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
               console.log('result', result)
-              // alert(JSON.stringify(result))
             } else {
               console.log('else result', result)
             }

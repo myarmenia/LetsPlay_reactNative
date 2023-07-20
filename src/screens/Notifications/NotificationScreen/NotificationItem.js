@@ -7,21 +7,29 @@ import LightButton from '@/assets/imgs/Button'
 import CloseSvg from '@/assets/svgs/closeSvg'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteNotification, notificationButtonClciked, setModalOptions, setNotifications } from '@/store/Slices/AppSlice'
+import {
+  deleteNotification,
+  notificationButtonClciked,
+  setModalOptions,
+  setNotifications,
+} from '@/store/Slices/AppSlice'
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
+import { useNavigation } from '@react-navigation/native'
 
 const NotificationItem = ({ elm, setModalVisible }) => {
   const { notifications } = useSelector(({ app }) => app)
-  const dispatch = useDispatch()
+
   const notificationText = elm.text
-  const updateDateArray = new Date(elm.createdAt).toLocaleTimeString().split(":")
-  const updated = updateDateArray[0] + ":" + updateDateArray[1]
+  const updateDateArray = new Date(elm.createdAt).toLocaleTimeString().split(':')
+  const updated = updateDateArray[0] + ':' + updateDateArray[1]
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
   if (!notificationText) return null
 
   const buttonOptions = {
     team_inite: {
       label: 'Присоединиться',
-      onPress:() => {
+      onPress: () => {
         dispatch(
           joinPlayerTeam(
             {
@@ -31,7 +39,6 @@ const NotificationItem = ({ elm, setModalVisible }) => {
           ),
         )
       },
-      
     },
     qr: {
       secondaryClick: true,
@@ -40,12 +47,19 @@ const NotificationItem = ({ elm, setModalVisible }) => {
         dispatch(
           setModalOptions({
             visible: true,
-            type: "QrModal",
+            type: 'QrModal',
             body: elm.link,
-          })
+          }),
         )
-      }
-    }
+      },
+    },
+    finish: {
+      label: 'Завершить',
+      secondaryClick: true,
+      onPress: () => {
+        navigation.navigate('CreateGameNavigator', { screen: 'AddPhoto' })
+      },
+    },
   }
 
   return (
@@ -57,16 +71,20 @@ const NotificationItem = ({ elm, setModalVisible }) => {
           {elm?.readed ? <View style={{ width: 26 }} /> : <DotSvg />}
           <View>
             <Text style={styles.notificationText}>{notificationText}</Text>
-            {buttonOptions?.[elm.type] ? (
-            <LightButton
-              onPress={() => {
-                dispatch(notificationButtonClciked(elm?._id))
-                !buttonOptions[elm.type].secondaryClick && elm.click ? null : buttonOptions[elm.type].onPress()
-              }}
-              label={buttonOptions[elm.type].label}
-              labelStyle={{ ...font('bold', 17, '#001034') }}
-              style={{opacity: !buttonOptions[elm.type].secondaryClick && elm.click ? 0.5 : 1 }}
-            />
+            {buttonOptions?.[elm?.type] ? (
+              <LightButton
+                onPress={() => {
+                  dispatch(notificationButtonClciked(elm?._id))
+                  !buttonOptions[elm?.type].secondaryClick && elm?.click
+                    ? null
+                    : buttonOptions[elm?.type].onPress()
+                }}
+                label={buttonOptions[elm?.type]?.label}
+                labelStyle={{ ...font('bold', 17, '#001034') }}
+                style={{
+                  opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1,
+                }}
+              />
             ) : null}
           </View>
         </Row>

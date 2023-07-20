@@ -3,7 +3,6 @@ import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { Svg, Defs, LinearGradient, Stop, Rect } from 'react-native-svg'
 import { font, RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
-// import { Shadow } from 'react-native-shadow-2'
 
 const LightButton = ({ onPress, label, labelStyle, wrapper, size, style = {} }) => {
   const width = RW(size?.width) || RW(172)
