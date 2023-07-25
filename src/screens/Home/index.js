@@ -9,7 +9,7 @@ import LogoSvg from '@/assets/LogoSvg'
 import { useNavigation } from '@react-navigation/native'
 import { participateToGame } from '@/store/Slices/GamesSlice'
 import { useDispatch } from 'react-redux'
-
+import CheckedSvg from '../Profile/MyDetails/assets/CheckedSvg'
 const HomeScreen = ({ route }) => {
   const navigation = useNavigation()
   const propsGameId = route.params?.id

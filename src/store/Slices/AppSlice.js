@@ -8,7 +8,8 @@ const initialState = {
     type: null,
     body: null,
     visible: false,
-  }
+  },
+  userGalleries: [],
 }
 
 export const AppSlice = createSlice({
@@ -38,8 +39,23 @@ export const AppSlice = createSlice({
         ...store,
         modalOptions: {
           ...store.modalOptions,
-          visible: action.payload
+          visible: action.payload,
         },
+      }
+    },
+    setUserGalleries: (store, action) => {
+      return {
+        ...store,
+        userGalleries: action.payload,
+      }
+    },
+    setDeleteGalleryFile: (store, action) => {
+      const newUserGalleries = store.userGalleries.filter((item) => {
+        return item?._id !== action.payload
+      })
+      return {
+        ...store,
+        userGalleries: newUserGalleries,
       }
     },
   },
@@ -56,11 +72,9 @@ export const notificationSettings = (e) => (dispatch) => {
   }
 }
 export const notificationButtonClciked = (notification_id) => (dispatch) => {
-    axiosInstance
-      .put(`/api/notification/click/${notification_id}`)
-      .catch((err) => {
-        console.log('err request notification', err)
-      })
+  axiosInstance.put(`/api/notification/click/${notification_id}`).catch((err) => {
+    console.log('err request notification', err)
+  })
 }
 
 export const getNotifications = () => (dispatch) => {
@@ -107,6 +121,33 @@ export const getCalendarGames = (data) => (dispatch) => {
       console.log('err request notification', err)
     })
 }
+export const getGalleries = () => (dispatch) => {
+  axiosInstance
+    .get('api/user/user_game_files')
+    .then((response) => {
+      dispatch(setUserGalleries(response.data.data))
+    })
+    .catch((err) => {
+      console.log('err request notification', err)
+    })
+}
+export const deleteGalleryFile = (data) => (dispatch) => {
+  axiosInstance
+    .put('api/create/game/delete/create_game_file', data)
+    .then((response) => {
+      dispatch(setDeleteGalleryFile(data.file_id))
+    })
+    .catch((err) => {
+      console.log('err request notification', err)
+    })
+}
 
-export const { setNotifications, setCalendarGames,setModalOptions,setModalVisible } = AppSlice.actions
+export const {
+  setNotifications,
+  setCalendarGames,
+  setModalOptions,
+  setModalVisible,
+  setUserGalleries,
+  setDeleteGalleryFile,
+} = AppSlice.actions
 export default AppSlice.reducer

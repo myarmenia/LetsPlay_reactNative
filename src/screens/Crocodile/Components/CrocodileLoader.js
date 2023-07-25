@@ -5,8 +5,8 @@ import LottieView from 'lottie-react-native'
 import { RH, font } from '@/theme/utils'
 
 const CrocodileLoader = ({ background = true }) => {
-  const { loader } = useSelector(({ crocodile }) => crocodile)
-
+  // const { loader } = useSelector(({ crocodile }) => crocodile)
+  let loader = true
   const animationRef = useRef(null)
   useEffect(() => {
     if (loader) {

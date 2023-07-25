@@ -65,6 +65,19 @@ const NotificationItem = ({ elm, setModalVisible }) => {
         })
       },
     },
+    mark_file: {
+      label: 'Открыть',
+      secondaryClick: true,
+      onPress: () => {
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: 'PhotoAfterFinishGameModal',
+            body: elm?.file,
+          }),
+        )
+      },
+    },
   }
 
   return (

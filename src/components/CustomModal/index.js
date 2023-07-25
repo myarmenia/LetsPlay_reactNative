@@ -8,6 +8,7 @@ import { setModalVisible } from '@/store/Slices/AppSlice'
 import MessageModal from './modals/MessageModal'
 import ErrorModal from './modals/ErrorModal'
 import RatePlayerModal from './modals/RatePlayerModal'
+import PhotoAfterFinishGameModal from './modals/PhotoAfterFinishGameModal'
 
 const CustomModal = () => {
   const modalOptions = useSelector(({ app }) => app.modalOptions)
@@ -49,6 +50,9 @@ const CustomModal = () => {
                 return <ErrorModal message={modalOptions.body} />
               case 'RatePlayerModal':
                 return <RatePlayerModal body={modalOptions.body} />
+              case 'PhotoAfterFinishGameModal':
+                return <PhotoAfterFinishGameModal body={modalOptions.body} />
+
               default:
                 break
             }

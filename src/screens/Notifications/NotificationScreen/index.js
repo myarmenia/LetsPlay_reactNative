@@ -41,16 +41,7 @@ function NotificationScreen() {
           contentContainerStyle={{ justifyContent: 'flex-end', paddingTop: RH(90) }}
           showsVerticalScrollIndicator={false}
           inverted={true}
-          data={[
-            {
-              readed: true,
-              type: 'finish',
-              _id: '65237632787832',
-              text: 'Пожалуйста завершите игру.',
-              createdAt: new Date(),
-            },
-            ...notifications,
-          ]}
+          data={notifications}
           renderItem={(elm) => (
             <NotificationItem elm={elm?.item} setModalVisible={setModalVisible} />
           )}

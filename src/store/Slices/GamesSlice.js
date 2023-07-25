@@ -80,16 +80,26 @@ export const participateToGame = (gameId) => (dispatch) => {
       console.log('err request', err.request._response)
     })
 }
-export const addPhotoAfterFinishGame = (data) => (dispatch) => {
+// export const addPhotoAfterFinishGame = (data) => (dispatch) => {
+//   axiosInstance
+//     .postForm(`api/create/game/add_images`, data, {
+//       'Content-Type': 'multipart/form-data',
+//     })
+//     .then((response) => {
+//       console.log('addPhotoAfterFinishGame result', response.data)
+//     })
+//     .catch((err) => {
+//       console.log('err addPhotoAfterFinishGame', err.request._response)
+//     })
+// }
+export const confirmPhotoAfterFinishGame = (data) => (dispatch) => {
   axiosInstance
-    .postForm(`api/create/game/add_images`, data, {
-      'Content-Type': 'multipart/form-data',
-    })
+    .put(`api/create/game/confirm_file`, data)
     .then((response) => {
-      console.log('addPhotoAfterFinishGame result', response.data)
+      console.log('confirmPhotoAfterFinishGame result', response.data)
     })
     .catch((err) => {
-      console.log('err addPhotoAfterFinishGame', err.request._response)
+      console.log('err confirmPhotoAfterFinishGame', err.request._response)
     })
 }
 
