@@ -10,15 +10,14 @@ import { useNavigation } from '@react-navigation/native'
 import { participateToGame } from '@/store/Slices/GamesSlice'
 import { useDispatch } from 'react-redux'
 
-const HomeScreen = ({route}) => {
+const HomeScreen = ({ route }) => {
   const navigation = useNavigation()
   const propsGameId = route.params?.id
   const dispatch = useDispatch()
   useEffect(() => {
-    if(propsGameId) {
+    if (propsGameId) {
       dispatch(participateToGame(propsGameId))
     }
-
   }, [propsGameId])
 
   return (

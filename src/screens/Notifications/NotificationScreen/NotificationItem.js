@@ -53,11 +53,16 @@ const NotificationItem = ({ elm, setModalVisible }) => {
         )
       },
     },
-    finish: {
+    end_game: {
       label: 'Завершить',
       secondaryClick: true,
       onPress: () => {
-        navigation.navigate('CreateGameNavigator', { screen: 'AddPhoto' })
+        navigation.navigate('CreateGameNavigator', {
+          screen: 'AddPhoto',
+          params: {
+            gameId: elm?.create_game,
+          },
+        })
       },
     },
   }

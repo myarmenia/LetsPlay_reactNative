@@ -22,8 +22,8 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
     user = user.user
   }
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
-  const fontSizeTitle = size < RW(50) ? RW(1.5) : size > 100 ? size / RW(33) : size / RW(50)
-  const fontSizeCount = size < RW(50) ? RW(1) : size > 100 ? size / RW(22) : size / RW(30)
+  const fontSizeTitle = size < RW(50) ? RW(1.5) : size > 100 ? size / RW(34) : size / RW(50)
+  const fontSizeCount = size < RW(50) ? RW(1) : size > 100 ? size / RW(23) : size / RW(30)
   // const fontSizeTitle = size / RW(33)
   // const fontSizeCount = size / RW(22)
   const [modalVisible, setModalVisible] = useState(false)
@@ -83,7 +83,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
               left: Platform.OS == 'android' && size <= RW(30) ? RW(-0.2) : 0,
             },
           ]}
-          resizeMode='cover'
+          resizeMode="cover"
           source={
             !avatar
               ? require('../../../assets/defualtUser.png')
@@ -96,10 +96,36 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         />
       </ImagePressableComponent>
       <View style={[style.nameBlock, { marginTop: size < 50 ? RH(10) : RH(10) }]}>
-        <Text style={[font('bold', name.length > 15 || surname.length > 15 ? size / RW(25) : size > 150 ? size / RW(20) : size / RW(25), WHITE), {maxHeight: RH(30), maxWidth: RW(220)}]}>
+        <Text
+          style={[
+            font(
+              'bold',
+              name?.length > 15 || surname?.length > 15
+                ? size / RW(25)
+                : size > 150
+                ? size / RW(20)
+                : size / RW(25),
+              WHITE,
+            ),
+            { maxHeight: RH(30), maxWidth: RW(220) },
+          ]}
+        >
           {name ? name : 'Имя'}
         </Text>
-        <Text style={[font('bold', name.length > 15 || surname.length > 15 ? size / RW(25) :  size > 150 ? size / RW(20) : size / RW(25), WHITE), {maxHeight: RH(30), maxWidth: RW(220)}]}>
+        <Text
+          style={[
+            font(
+              'bold',
+              name?.length > 15 || surname?.length > 15
+                ? size / RW(25)
+                : size > 150
+                ? size / RW(20)
+                : size / RW(25),
+              WHITE,
+            ),
+            { maxHeight: RH(30), maxWidth: RW(220) },
+          ]}
+        >
           {surname ? surname : 'Фамилия'}
         </Text>
       </View>

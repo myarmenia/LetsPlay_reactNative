@@ -36,7 +36,7 @@ function NotificationScreen() {
             <Text style={styles.deleteAllText}>Очистить все</Text>
           </Pressable>
         </Row>
-        {/* {console.log('notifications', notifications)} */}
+        {console.log('notifications', JSON.stringify(notifications, null, 4))}
         <FlatList
           contentContainerStyle={{ justifyContent: 'flex-end', paddingTop: RH(90) }}
           showsVerticalScrollIndicator={false}

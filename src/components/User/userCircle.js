@@ -23,7 +23,11 @@ function SvgComponent({ count, status, size }) {
         {size > RW(45) ? (
           <Text
             style={{
-              ...font('exo_bold', size < 50 ? 1 : size > 150 ? 11 : size < 100 ? 2.5 : 4, BLACK),
+              ...font(
+                'exo_bold',
+                size < 50 ? 1 : size >= 250 ? 11 : size > 150 ? 7 : size < 100 ? 2.5 : 4,
+                BLACK,
+              ),
               fontWeight: '600',
               textAlign: 'center',
               top: size < 100 ? RH(0.1) : 0,

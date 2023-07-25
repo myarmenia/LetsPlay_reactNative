@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
+import { setModalOptions } from './AppSlice'
 
 const initialState = {
   games: [],
@@ -67,9 +68,28 @@ export const participateToGame = (gameId) => (dispatch) => {
     .post(`/api/participate/${gameId}`)
     .then((response) => {
       console.log('response', response.data)
+      dispatch(
+        setModalOptions({
+          visible: true,
+          type: 'message',
+          body: 'Вы подключились к игру',
+        }),
+      )
     })
     .catch((err) => {
       console.log('err request', err.request._response)
+    })
+}
+export const addPhotoAfterFinishGame = (data) => (dispatch) => {
+  axiosInstance
+    .postForm(`api/create/game/add_images`, data, {
+      'Content-Type': 'multipart/form-data',
+    })
+    .then((response) => {
+      console.log('addPhotoAfterFinishGame result', response.data)
+    })
+    .catch((err) => {
+      console.log('err addPhotoAfterFinishGame', err.request._response)
     })
 }
 

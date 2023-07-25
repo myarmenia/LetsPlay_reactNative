@@ -31,14 +31,14 @@ function SvgComponent({ status, size }) {
           alignItems: 'center',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          paddingHorizontal: size > 100 ? RW(10) : RW(3),
+          paddingHorizontal: size > 220 ? RW(10) : RW(3),
         }}
       >
         {size > RW(45) ? (
           <>
             <Text
               style={{
-                ...font('bold', size < 50 ? 1 : size > 220 ? 8 : 2, BLACK),
+                ...font('bold', size < 50 ? 1 : size > 300 ? 8 : size > 200 ? 6 : 2, BLACK),
                 top: size < 100 && Platform.OS == 'ios' ? RH(0.5) : 0,
               }}
             >
@@ -46,7 +46,11 @@ function SvgComponent({ status, size }) {
             </Text>
             <Text
               style={{
-                ...font('bold', size < 50 ? 1 : size > 220 ? 9 : size < 100 ? 2 : 3, BLACK),
+                ...font(
+                  'bold',
+                  size < 50 ? 1 : size > 300 ? 9 : size > 200 ? 6 : size < 100 ? 2 : 3,
+                  BLACK,
+                ),
                 top: size < 100 && Platform.OS == 'ios' ? RH(0.5) : 0,
               }}
             >
@@ -54,7 +58,7 @@ function SvgComponent({ status, size }) {
             </Text>
             <Text
               style={{
-                ...font('bold', size < 50 ? 1 : size > 220 ? 8.5 : 2, BLACK),
+                ...font('bold', size < 50 ? 1 : size > 300 ? 8.5 : size > 200 ? 6 : 2, BLACK),
                 top: size < 100 && Platform.OS == 'ios' ? RH(0.5) : 0,
               }}
             >

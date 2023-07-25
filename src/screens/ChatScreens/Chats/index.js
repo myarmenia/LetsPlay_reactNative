@@ -37,9 +37,15 @@ const ChatScreen = () => {
                 })}
               </View>
               <View>
-                {/* {console.log(JSON.stringify(user, null, 4))} */}
                 {user?.took_part_games?.map((eachChat) => {
-                  return <ChatItem item={eachChat} key={eachChat?._id} type="Игра" />
+                  return (
+                    <ChatItem
+                      item={eachChat}
+                      key={eachChat?._id}
+                      playersLength={eachChat?.players?.length}
+                      type="Игра"
+                    />
+                  )
                 })}
                 {/* {user?.create_games?.map((eachChat) => {
                   return <ChatItem item={eachChat} key={eachChat?._id} type="Игра" />

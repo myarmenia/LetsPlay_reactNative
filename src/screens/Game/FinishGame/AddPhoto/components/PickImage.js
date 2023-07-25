@@ -9,6 +9,7 @@ import Video from 'react-native-video'
 import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
 import { useDispatch } from 'react-redux'
 import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
+import CloseSVG from '../../../../Alias/components/CloseSVG'
 
 const PickImage = ({ gameFinishPhoto }) => {
   const dispatch = useDispatch()
@@ -23,14 +24,16 @@ const PickImage = ({ gameFinishPhoto }) => {
     >
       {gameFinishPhoto ? (
         <Pressable style={styles.deleteBtn} onPress={() => dispatch(setGameFinishPhoto(null))}>
-          <DeleteIconSVG color="#FF0000" style={{ right: 0 }} />
+          {/* <DeleteIconSVG color="#fff" style={{ right: 0 }} /> */}
+          <CloseSVG width={RW(30)} />
+          {/* #FF0000 */}
         </Pressable>
       ) : null}
 
       {gameFinishPhoto?.type?.includes('video') ? (
         <Video
           style={styles.image}
-          resizeMode="cover"
+          // resizeMode="cover"
           paused
           controls
           source={{ uri: gameFinishPhoto.uri }}
@@ -51,25 +54,27 @@ export default PickImage
 
 const styles = StyleSheet.create({
   container: {
-    width: RW(350),
-    height: RH(230),
+    width: RW(370),
+    height: RH(280),
     backgroundColor: '#D9D9D9',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    paddingBottom: RW(10),
   },
   text: {
     ...font('regular', 20, BACKGROUND, 22),
     marginTop: RH(20),
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: RW(350),
+    height: RH(230),
   },
   deleteBtn: {
     position: 'absolute',
-    top: RH(10),
+    top: RH(-35),
     right: RW(10),
     zIndex: 99,
+
     backgroundColor: 'transparent',
   },
 })

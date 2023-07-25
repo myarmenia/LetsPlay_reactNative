@@ -13,11 +13,7 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
   const gameDate = new Date(gameInfo?.start_date)?.toLocaleDateString().split('/').join('.')
-  const gameDateTime = new Date(gameInfo?.start_date)
-    .toLocaleTimeString()
-    .split('/')
-    .join(':')
-    .slice(0, 6)
+  const gameDateTime = new Date(gameInfo?.start_date).toLocaleTimeString().split(':')
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
   const playersSearchDate = new Date(gameInfo?.end_date)?.toLocaleDateString().split('/').join('.')
@@ -28,14 +24,10 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
       setIsVisible={setModalVisible}
       btnClose={false}
       item={
-        // on ={() => setModalVisible(false)}
         <View style={styles.modalWrapper}>
           <View style={styles.regulationBlock}>
             <View style={styles.rowBox}>
               <ArrowRight />
-              <View style={{ paddingLeft: 10 }}>
-                <InfoSvg />
-              </View>
             </View>
             <View style={styles.titleColumnBox}>
               <Text style={styles.title}>Тип игры: {gameInfo?.game?.name}</Text>
@@ -59,7 +51,13 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.title}>Организатор игры:</Text>
                 <View style={{ left: 10 }}>
-                  <User size={30} />
+                  <User
+                    size={30}
+                    onPressItem={{
+                      item: <User size={370} />,
+                      modalClose: false,
+                    }}
+                  />
                 </View>
               </View>
             </View>

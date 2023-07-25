@@ -26,8 +26,6 @@ const GameCreating = ({ route }) => {
   const { game, response } = route?.params?.params
   const navigation = useNavigation()
 
-  console.log(response)
-
   //states
   const initialState = useSelector((state) => state.game)
   const [flag, setFlag] = useState(false)
@@ -49,7 +47,7 @@ const GameCreating = ({ route }) => {
     time: new Date(),
   })
   const [endDate, setEndDate] = useState({
-    date: new Date(new Date().setDate(startDate.date.getDate() - 1)),
+    date: new Date(new Date().setDate(startDate.date.getDate())),
     time: new Date(),
   })
   const [organizer_in_the_game, setOrganizer_in_the_gameState] = useState([
@@ -93,20 +91,7 @@ const GameCreating = ({ route }) => {
     }
   }
 
-  const changedStartDate = startDate.date
-    .toISOString()
-    .substring(0, 10)
-    .concat(' ' + timeFormat(startDate))
-  const changedEndDate = endDate.date
-    .toISOString()
-    .substring(0, 10)
-    .concat(' ' + timeFormat(endDate))
-
   const handleClick = () => {
-
-    console.log("startDate.date", startDate.date)
-    console.log("endDate.date",  endDate.date)
-    console.log("startDate.date <= endDate.date", startDate.date <= endDate.date)
     if (!startDate) {
       setStartDateError('Обязательное поле для заполнения')
     } else {
@@ -114,7 +99,14 @@ const GameCreating = ({ route }) => {
     }
     if (!endDate) {
       setEndDateError('Обязательное поле для заполнения')
-    } else if (startDate.date < endDate.date) {
+    } else if (
+      startDate.date < endDate.date ||
+      !(
+        (startDate.date.getDate() == endDate.date.getDate() &&
+          startDate.time.getTime() >= endDate.time.getTime()) ||
+        startDate.date.getDate() != endDate.date.getDate()
+      )
+    ) {
       setEndDateError('Введите корректную дату')
     } else {
       setEndDateError(null)
@@ -145,22 +137,30 @@ const GameCreating = ({ route }) => {
     } else {
       setAddressError(null)
     }
+
     if (
       startDate &&
       endDate &&
       startDate.date >= endDate.date &&
+      ((startDate.date.getDate() == endDate.date.getDate() &&
+        startDate.time.getTime() >= endDate.time.getTime()) ||
+        startDate.date.getDate() != endDate.date.getDate()) &&
       initialState.age_restrictions_from &&
       initialState?.age_restrictions_to &&
       +initialState?.number_of_players_from > 0 &&
       +initialState?.number_of_players_from < +initialState?.number_of_players_to &&
       ((initialState?.latitude && initialState?.longitude) || initialState.address_name)
     ) {
+      let start_date = startDate.date
+      start_date.setTime(startDate.time)
+      let end_date = endDate.date
+      end_date.setTime(endDate.time)
       navigation.navigate('GameTicket', {
         params: {
           initialState,
           game,
           name: game.name,
-          dates: [changedStartDate, changedEndDate],
+          dates: [start_date, end_date],
         },
       })
     }
@@ -196,7 +196,6 @@ const GameCreating = ({ route }) => {
             dateValue={startDate.date}
             timeValue={startDate.time}
             setDate={(date) => {
-              console.log("setDate",new Date(date).toLocaleDateString())
               setStartDate({ ...startDate, date })
             }}
             setTime={(time) => setStartDate({ ...startDate, time })}

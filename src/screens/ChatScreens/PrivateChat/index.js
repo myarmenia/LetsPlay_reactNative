@@ -21,6 +21,7 @@ function Index(props) {
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
+  const playersLength = props.route.params?.playersLength
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
       type == 'Командный' ? '/team' : ''
@@ -49,7 +50,7 @@ function Index(props) {
         type: IS_IOS ? 'audio/m4a' : 'video/mp4',
         name: IS_IOS ? 'audio.m4a' : 'audio.mp4',
       })
-      formdata.append(type == 'Командный' ? "team" : 'create_game', gameID)
+      formdata.append(type == 'Командный' ? 'team' : 'create_game', gameID)
       formdata.append('file_length', voiceDuration)
 
       let myHeaders = new Headers()
@@ -104,12 +105,11 @@ function Index(props) {
   socket.on('message', memoSocketFunc)
 
   useEffect(() => {
-    if(type == 'Командный') {
+    if (type == 'Командный') {
       dispatch(getTeamChats(gameID))
     } else {
       dispatch(getChats(gameID))
     }
-
 
     return () => {
       console.log('chat socket disconnect')
@@ -146,7 +146,7 @@ function Index(props) {
             }
           : {})}
       >
-        <PrivateChatHeader gameID={gameID} />
+        <PrivateChatHeader gameID={gameID} playersLength={playersLength} />
         <FlatList
           data={[...messageState]?.reverse()}
           style={{

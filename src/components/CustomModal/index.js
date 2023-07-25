@@ -1,33 +1,27 @@
 import { RH, font } from '@/theme/utils'
 import { useEffect, useRef } from 'react'
-import {
-  Pressable,
-  StyleSheet,
-  Animated,
-  Dimensions,
-  TouchableWithoutFeedback,
-} from 'react-native'
+import { Pressable, StyleSheet, Animated, Dimensions, TouchableWithoutFeedback } from 'react-native'
 import { ICON, WHITE } from '@/theme/colors'
 import QrModal from './modals/QrModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalVisible } from '@/store/Slices/AppSlice'
 import MessageModal from './modals/MessageModal'
 import ErrorModal from './modals/ErrorModal'
+import RatePlayerModal from './modals/RatePlayerModal'
 
 const CustomModal = () => {
-  const modalOptions = useSelector(({app}) => app.modalOptions)
+  const modalOptions = useSelector(({ app }) => app.modalOptions)
   const height = Dimensions.get('window').height
   const animatedValue = useRef(new Animated.Value(height)).current
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  useEffect(() => {    
+  useEffect(() => {
     Animated.timing(animatedValue, {
       toValue: modalOptions?.visible ? 0 : height,
       duration: 200,
       useNativeDriver: true,
     }).start()
   }, [modalOptions?.visible])
-
 
   return (
     <TouchableWithoutFeedback onPress={() => dispatch(setModalVisible(false))}>
@@ -47,14 +41,16 @@ const CustomModal = () => {
         <Pressable>
           {() => {
             switch (modalOptions?.type) {
-              case "QrModal":
-                return <QrModal qrLink={modalOptions.body}/>;
-              case "message":
-                  return <MessageModal message={modalOptions.body}/>;
-              case "error":
-                return <ErrorModal message={modalOptions.body}/>;
+              case 'QrModal':
+                return <QrModal qrLink={modalOptions.body} />
+              case 'message':
+                return <MessageModal message={modalOptions.body} />
+              case 'error':
+                return <ErrorModal message={modalOptions.body} />
+              case 'RatePlayerModal':
+                return <RatePlayerModal body={modalOptions.body} />
               default:
-                break;
+                break
             }
           }}
         </Pressable>

@@ -5,12 +5,47 @@ import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import PickImage from './components/PickImage'
 import LightButton from '@/assets/imgs/Button'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
+import { addPhotoAfterFinishGame } from '@/store/Slices/GamesSlice'
 
-const AddPhoto = () => {
+const AddPhoto = ({ route }) => {
+  const { token } = useSelector(({ auth }) => auth)
   const gameFinishPhoto = useSelector(({ games }) => games.gameFinishPhoto)
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+
+  const hundleSubmit = () => {
+    let formdata = new FormData()
+    formdata.append('file', {
+      name: 'file',
+      type: gameFinishPhoto?.type,
+      uri: gameFinishPhoto?.uri,
+    })
+    formdata.append('create_game_id', route.params.gameId)
+
+    let myHeaders = new Headers()
+    myHeaders.append('Content-Type', 'multipart/form-data')
+    myHeaders.append('Authorization', `Bearer ${token}`)
+    myHeaders.append('Accept', 'application/json')
+    let requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: formdata,
+      redirect: 'follow',
+    }
+
+    fetch(
+      Platform.OS == 'ios'
+        ? 'https://to-play.ru/api/create/game/add_images'
+        : 'http://to-play.ru/api/create/game/add_images',
+      requestOptions,
+    )
+      .then((result) => {
+        navigation.navigate('RatePlayers')
+      })
+      .catch((error) => console.log('error', error))
+  }
   return (
     <ScreenMask>
       <Text style={styles.title}>
@@ -21,10 +56,10 @@ const AddPhoto = () => {
         <PickImage gameFinishPhoto={gameFinishPhoto} />
       </View>
       <LightButton
-        onPress={() => navigation.navigate('RatePlayers')}
-        style={{ alignSelf: 'center' }}
+        onPress={hundleSubmit}
+        style={{ alignSelf: 'center', marginBottom: RH(30) }}
         size={{ width: RW(280), height: RH(48) }}
-        label={gameFinishPhoto ? 'Далее>>' : 'Пропустить'}
+        label={gameFinishPhoto ? 'Далее' : 'Пропустить'}
       />
     </ScreenMask>
   )

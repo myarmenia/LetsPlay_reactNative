@@ -15,7 +15,7 @@ import { setMyTeams } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
 
-function Index({ id, item, type }) {
+function Index({ id, item, type, playersLength }) {
   const navigation = useNavigation()
   const [animation] = useState(new Animated.Value(RW(95)))
   const [swipeDirection, setSwipeDirection] = useState(null)
@@ -93,7 +93,13 @@ function Index({ id, item, type }) {
           onPressOut={() => {
             setBack(false)
           }}
-          onPress={() => navigation.navigate('PrivateChat', { id: item._id, type: type })}
+          onPress={() =>
+            navigation.navigate('PrivateChat', {
+              id: item._id,
+              type: type,
+              playersLength: playersLength,
+            })
+          }
           style={style.chatItemBlock}
         >
           {back ? (
@@ -138,7 +144,7 @@ function Index({ id, item, type }) {
 
           <FastImage
             style={style.chatItemImg}
-            resizeMode='contain'
+            resizeMode="contain"
             source={{ uri: _storageUrl + (item?.img || item?.game?.img) }}
           />
           <Text style={style.itemData}>

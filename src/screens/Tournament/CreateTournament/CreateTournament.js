@@ -33,7 +33,7 @@ const CreateTournament = ({ route }) => {
   const [tourName, setTourName] = useState('')
   const handleClick = () => {
     dispatch(clearTournamentData())
-    if (tourName.length) {
+    if (tourName?.length) {
       setError(false)
       dispatch(setTournamentName(tourName))
       if (formatList[0].checked) {

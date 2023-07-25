@@ -20,7 +20,7 @@ function Index({
   }, [modalVisible])
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, position: 'absolute' }}>
       <Modal
         onBackdropPress={() => {
           if (!dontClose) {

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import React from 'react'
+import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Ticket from './ticket'
-import Button from '@/assets/imgs/Button'
 import { font, RH, RW } from '@/theme/utils'
-import Modal from '@/components/modal'
 import EditSvg from '@/assets/svgs/editSvg'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 import ShareSvg from '@/assets/svgs/shareSvg'
@@ -15,14 +13,18 @@ import { createGame } from '@/store/Slices/GameCreatingSlice'
 
 function Index({ route }) {
   const navigation = useNavigation()
-  const {  game, data, initialState, name, dates } = route.params.params
+  const { game, data, initialState, name, dates } = route.params.params
   const dispatch = useDispatch()
 
   const dateFotmat = (date) => {
-    const datesArray = new Date().toLocaleDateString().split("/");
-    const date1 = [ datesArray[1].length == 1 ? "0" + datesArray[1] : datesArray[1], datesArray[0].length == 1 ? "0" + datesArray[0] :datesArray[0], datesArray[2]].join(".");
-    const timesArray = new Date(date).toLocaleTimeString().split(":");
-    const time1 = [timesArray[0], timesArray[1]].join(":")
+    const datesArray = new Date().toLocaleDateString().split('/')
+    const date1 = [
+      datesArray[1].length == 1 ? '0' + datesArray[1] : datesArray[1],
+      datesArray[0].length == 1 ? '0' + datesArray[0] : datesArray[0],
+      datesArray[2],
+    ].join('.')
+    const timesArray = new Date(date).toLocaleTimeString().split(':')
+    const time1 = [timesArray[0], timesArray[1]].join(':')
     return `${date1}, ${time1}`
   }
 
@@ -59,7 +61,6 @@ function Index({ route }) {
           <CheckedCheckbox />
         </TouchableOpacity>
       </View>
-      
     </ScreenMask>
   )
 }

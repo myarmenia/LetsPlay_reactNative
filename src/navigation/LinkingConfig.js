@@ -31,8 +31,7 @@ export default {
             path: 'participateToGame/:id',
           },
         },
-
-      }
+      },
     },
   },
   subscribe(listener) {

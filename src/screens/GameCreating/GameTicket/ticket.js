@@ -1,5 +1,5 @@
 import React from 'react'
-import {  ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { ICON, WHITE } from '@/theme/colors'
@@ -13,37 +13,64 @@ function Ticket({ game, initialState, name, dates }) {
   const { game_name, game_description } = useSelector((state) => state.game)
 
   const dateFotmat = (date) => {
-    const datesArray = new Date().toLocaleDateString().split("/");
-    const date1 = [ datesArray[1].length == 1 ? "0" + datesArray[1] : datesArray[1], datesArray[0].length == 1 ? "0" + datesArray[0] :datesArray[0], datesArray[2]].join(".");
-    const timesArray = new Date(date).toLocaleTimeString().split(":");
-    const time1 = [timesArray[0], timesArray[1]].join(":")
-    return `${date1}, ${time1}`
+    const date1 = new Date(date)
+    // date1.setDate(date1.getDate() + 1)
+    let fullDate
+    if (date1.toLocaleDateString().includes('/')) {
+      let x = date1.toLocaleDateString().split('/')
+      let fullDateArray = [x[1], x[0], x[2]]
+      fullDate = fullDateArray.map((e) => (e.length == 1 ? '0' + e : e)).join('.')
+    } else {
+      fullDate = date1
+        .toLocaleDateString()
+        .split('.')
+        .map((e) => (e.length == 1 ? '0' + e : e))
+        .join('.')
+    }
+    const timesArray = date1.toLocaleTimeString().split(':')
+    if (date1.toLocaleTimeString().includes('PM') || date1.toLocaleTimeString().includes('AM')) {
+      const hasPM = date1.toLocaleTimeString().includes('PM')
+      if (hasPM && +timesArray[0] != 12) {
+        timesArray[0] = +timesArray[0] + 12
+      } else if (hasPM && +timesArray[0] == 12) {
+        timesArray[0] = timesArray[0] - 12
+      }
+    }
+    const fullTime =
+      (timesArray[0].toString().length == 1 ? '0' + timesArray[0] : timesArray[0]) +
+      ':' +
+      (timesArray[1].toString().length == 1 ? '0' + timesArray[1] : timesArray[1])
+    return `${fullDate} ${fullTime}`
   }
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: RH(50) }}>
       <View style={styles.ticketImgBlock}>
-        <FastImage resizeMode='contain' style={styles.ticketImg} source={{ uri: _storageUrl + game?.img }} />
+        <FastImage
+          resizeMode="contain"
+          style={styles.ticketImg}
+          source={{ uri: _storageUrl + game?.img }}
+        />
       </View>
       <View>
         <View style={styles.firstTextBlock}>
           <Text style={styles.ticketText}>Тип игры:</Text>
           <Text style={styles.ticketTextTwo}>{name}</Text>
         </View>
-        {name == "Своя игра" ?<>
-        <View style={styles.firstTextBlock}>
-          <Text style={styles.ticketText}>Название игры:</Text>
-          <Text style={styles.ticketTextTwo}>{game_name}</Text>
-        </View>
-        <View style={styles.firstTextBlock}>
-          <Text style={styles.ticketText}>Описание игры:</Text>
-          <Text style={styles.ticketTextTwo}>{game_description}</Text>
-        </View>
-        </> : null}
+        {name == 'Своя игра' ? (
+          <>
+            <View style={styles.firstTextBlock}>
+              <Text style={styles.ticketText}>Название игры:</Text>
+              <Text style={styles.ticketTextTwo}>{game_name}</Text>
+            </View>
+            <View style={styles.firstTextBlock}>
+              <Text style={styles.ticketText}>Описание игры:</Text>
+              <Text style={styles.ticketTextTwo}>{game_description}</Text>
+            </View>
+          </>
+        ) : null}
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время игры:</Text>
-          <Text style={styles.ticketTextTwo}>
-            {dateFotmat(dates[0])}
-          </Text>
+          <Text style={styles.ticketTextTwo}>{dateFotmat(dates[0])}</Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Количество игроков:</Text>
@@ -73,9 +100,7 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>
-          <Text style={styles.ticketTextTwo}>
-            {dateFotmat(dates[1])}
-          </Text>
+          <Text style={styles.ticketTextTwo}>{dateFotmat(dates[1])}</Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Стоимость входного билета на игру:</Text>
