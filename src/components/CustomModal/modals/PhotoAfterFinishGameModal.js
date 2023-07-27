@@ -43,7 +43,7 @@ const PhotoAfterFinishGameModal = ({ body }) => {
             dispatch(setModalVisible(false))
           }}
         >
-          <Image style={styles.btnImage} source={require('./assets/cancel.png')} />
+          {/* <Image style={styles.btnImage} source={require('./assets/cancel.png')} /> */}
         </Pressable>
         <Pressable
           onPress={() => {
@@ -51,7 +51,7 @@ const PhotoAfterFinishGameModal = ({ body }) => {
             dispatch(confirmPhotoAfterFinishGame({ file_id: _id }))
           }}
         >
-          <Image style={styles.btnImage} source={require('./assets/done.png')} />
+          {/* <Image style={styles.btnImage} source={require('./assets/done.png')} /> */}
         </Pressable>
       </Row>
     </View>

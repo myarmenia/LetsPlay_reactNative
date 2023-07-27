@@ -5,7 +5,7 @@ import { RH, RW, font } from '@/theme/utils'
 //components
 import Button from '@/assets/imgs/Button'
 import Modal from '@/components/modal'
-import SecondBlock from './components/secondBlock'
+import SecondBlock from './components/SecondBlock'
 import ScreenMask from '@/components/wrappers/screen'
 import SearchAddresses from '../../Map/SearchAddresses'
 import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
@@ -372,7 +372,6 @@ const styles = StyleSheet.create({
     fontSize: RW(20),
     alignSelf: 'center',
     marginTop: RH(5),
-    // marginLeft: RH(10),
   },
 })
 export default GameCreating
