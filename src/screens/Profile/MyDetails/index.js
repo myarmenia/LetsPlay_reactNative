@@ -11,7 +11,6 @@ import {
   View,
   Linking,
 } from 'react-native'
-import style from './style'
 import TickSvg from '@/assets/svgs/tickSvg'
 import InputBlock from '@/screens/Profile/MyDetails/inputBlock'
 import RadioBlock from '@/components/RadioBlock'
@@ -31,13 +30,11 @@ import {
   setPending,
   setToken,
   setUser,
-  vkAuth,
 } from '@/store/Slices/AuthSlice'
 import InAppBrowser from 'react-native-inappbrowser-reborn'
 import { _storageUrl } from '@/constants'
 import { clearAsyncStorage } from '../../../helpers/asyncStore'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
-import { useNavigation } from '@react-navigation/native'
 import { io } from 'socket.io-client'
 import DateComponent from '@/components/DateComponent'
 import VKIcon from '@/assets/imgs/vk'
@@ -51,14 +48,13 @@ function Index() {
   const user = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
 
-
   const [editable, setEditable] = useState(false)
   const [nameState, setNameState] = useState(name)
   const [surNameState, setSurNameState] = useState(surname)
   const [emailState, setEmailState] = useState(email)
   const [phoneState, setPhoneState] = useState(phone_number)
   const [vkUriState, setVkUriState] = useState(vk_uri)
-  console.log("dob", dob)
+  console.log('dob', dob)
   const [dateState, setDateState] = useState(dob ? new Date(dob) : new Date())
 
   const [genderState, setGenderState] = useState([
@@ -190,12 +186,12 @@ function Index() {
   }
   return (
     <ScreenMask>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={style.container}>
-        <Text style={style.title}>Мои данные</Text>
-        <View style={style.imgBlock}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
+        <Text style={styles.title}>Мои данные</Text>
+        <View style={styles.imgBlock}>
           <ImageBackground
-            style={[style.image, editable ? { opacity: 0.6 } : null]}
-            imageStyle={style.image}
+            style={[styles.image, editable ? { opacity: 0.6 } : null]}
+            imageStyle={styles.image}
             source={
               !avatar
                 ? require('../../../assets/defualtUser.png')
@@ -207,7 +203,7 @@ function Index() {
             }
           >
             {editable && (
-              <Pressable style={style.uploadBtn} onPress={uploadPhoto}>
+              <Pressable style={styles.uploadBtn} onPress={uploadPhoto}>
                 <UploadIcon />
               </Pressable>
             )}
@@ -220,10 +216,10 @@ function Index() {
               setEditable(!editable)
             }}
           >
-            {editable ? <TickSvg style={style.tickSvg} /> : <UserEditSvg style={style.tickSvg} />}
+            {editable ? <TickSvg style={styles.tickSvg} /> : <UserEditSvg style={styles.tickSvg} />}
           </Pressable>
         </View>
-        <View style={style.formBlock}>
+        <View style={styles.formBlock}>
           <InputBlock text={'Имя:'} value={nameState} setValue={setNameState} editable={editable} />
           <InputBlock
             text={'Фамилия:'}
@@ -237,7 +233,7 @@ function Index() {
             onChange={setGenderState}
             editable={editable}
           />
-    
+
           <DateComponent
             title="Дата рождения:"
             titleStyle={{ color: '#fff' }}
@@ -277,8 +273,8 @@ function Index() {
               <VKIcon />
             </Pressable>
           )}
-          <TouchableOpacity onPress={() => setIsVisible(true)} style={style.logOut}>
-            <Text style={style.logOutText}>Выход из аккаунта</Text>
+          <TouchableOpacity onPress={() => setIsVisible(true)} style={styles.logOut}>
+            <Text style={styles.logOutText}>Выход из аккаунта</Text>
           </TouchableOpacity>
           <View style={{ position: 'absolute' }}>
             <Modal
@@ -323,6 +319,47 @@ function Index() {
   )
 }
 const styles = StyleSheet.create({
+  container: {
+    paddingTop: RW(43),
+    alignItems: 'center',
+  },
+  title: {
+    ...font('bold', 24, WHITE, 24),
+    marginBottom: RW(32),
+  },
+  imgBlock: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingLeft: RW(120),
+  },
+  uploadBtn: {
+    alignSelf: 'center',
+    zIndex: 93,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#000',
+    borderRadius: RW(84),
+  },
+  image: {
+    width: RW(168),
+    height: RW(168),
+    borderRadius: RW(84),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tickSvg: {
+    marginLeft: RW(60),
+  },
+  logOut: {
+    marginVertical: RH(46),
+  },
+  logOutText: {
+    ...font('regular', 16, WHITE, 19),
+    textDecorationLine: 'underline',
+  },
+
   topBlock: {
     width: RW(306),
     paddingBottom: RH(25),

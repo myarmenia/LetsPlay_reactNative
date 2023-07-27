@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import { font, RH, RW } from '@/theme/utils'
 
 export const styles = StyleSheet.create({
   body: {

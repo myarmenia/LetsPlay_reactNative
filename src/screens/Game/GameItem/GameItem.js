@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, ScrollView } from 'react-native'
-import { styles } from './styles'
-import { RH, RW } from '@/theme/utils'
-import { Players } from '@/assets/TestData'
+import { View, Text, ScrollView, StyleSheet } from 'react-native'
+import { RH, RW, font } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import { useDispatch } from 'react-redux'
@@ -12,6 +10,7 @@ import User from '@/components/User/user'
 import Button from '@/assets/imgs/Button'
 import Modal from '@/components/modal'
 import FastImage from 'react-native-fast-image'
+import { ICON, LIGHT_RED, WHITE } from '@/theme/colors'
 
 function GameItem({ route }) {
   const { item } = route.params
@@ -29,7 +28,7 @@ function GameItem({ route }) {
       <ScrollView showsVerticalScrollIndicator={false} style={styles.itemWrapper}>
         <View style={styles.bigIcon}>
           <FastImage
-          resizeMode='contain'
+            resizeMode="contain"
             style={{ width: RW(260), height: RW(260) }}
             source={{ uri: _storageUrl + item?.game?.img }}
           />
@@ -77,9 +76,8 @@ function GameItem({ route }) {
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>
               <User
                 size={40}
-                user={Players[0]}
                 onPressItem={{
-                  item: <User user={Players[0]} size={390} />,
+                  item: <User size={390} />,
                   modalClose: false,
                 }}
               />
@@ -116,5 +114,38 @@ function GameItem({ route }) {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  bigIcon: {
+    width: '100%',
+    alignItems: 'center',
+    marginTop: RH(42),
+    marginBottom: RH(33),
+  },
+  eachInfo: {
+    ...font('regular', 14, WHITE, 20),
+    marginLeft: RW(11),
+    marginBottom: RH(6),
+  },
+  eachInfoTwo: {
+    ...font('bold', 16, ICON, 20),
+    marginLeft: RW(11),
+    marginBottom: RH(24),
+  },
+  itemWrapper: {
+    height: '85%',
+    flexDirection: 'column',
+  },
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_RED,
+    borderRadius: RW(20),
+    padding: RW(30),
+    marginHorizontal: RW(30.5),
+  },
+  errMessage: {
+    ...font('inter', 18, WHITE, 20),
+    textAlign: 'center',
+  },
+})
 
 export default GameItem

@@ -1,33 +1,17 @@
-import React, {  useState } from 'react'
-import { Text,  View } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
-import { styles } from '@/screens/Team/SelectPlayers/style'
-import { Players } from '@/assets/TestData'
 import Button from '@/assets/imgs/Button'
 import ModalStartItem from '@/screens/Team/SelectPlayersRival/ModalStartItem'
 import PlayerList from '@/screens/Mafia/AddPlayers/componnets/PlayerList'
-import { RH } from '@/theme/utils'
+import { RH, font } from '@/theme/utils'
+import { WHITE } from '@/theme/colors'
 
 function Index({ route, navigation }) {
   const [modalStart, setModalStart] = useState(true)
-  const [modalEnd, setModalEnd] = useState(false)
-  const [user, setUser] = useState([])
   const [activeUser, setActiveUser] = useState([])
   const { data, team } = route.params
-  // useEffect(() => {
-  //     if (data.statusOrganizer === 'Весь состав команды') {
-  //         setModal(true)
-  //     }
-  // }, [data.statusOrganizer])
-  //
-  // useEffect(() => {
-  //     if (modal) {
-  //         setTimeout(() => {
-  //             navigation.navigate('Home')
-  //         }, 2000)
-  //     }
-  // }, [modal])
 
   return (
     <ScreenMask>
@@ -36,7 +20,7 @@ function Index({ route, navigation }) {
       </View>
 
       <PlayerList
-        players={Players}
+        players={[]}
         isSelected={true}
         setActivePlayers={setActiveUser}
         activePlayers={activeUser}
@@ -57,7 +41,6 @@ function Index({ route, navigation }) {
           ) : null}
         </View>
       </View>
-      {/*<Modal modalClose={setModal} modalVisible={modal} setIsVisible={setModal} item={<ModalItem/>}/>*/}
       <Modal
         setIsVisible={setModalStart}
         modalVisible={modalStart}
@@ -67,5 +50,18 @@ function Index({ route, navigation }) {
     </ScreenMask>
   )
 }
+
+const styles = StyleSheet.create({
+  btn: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: RH(85),
+  },
+  title: {
+    textAlign: 'center',
+    ...font('bold', 24, WHITE),
+    marginVertical: RH(30),
+  },
+})
 
 export default Index

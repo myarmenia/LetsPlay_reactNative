@@ -1,8 +1,7 @@
 import ScreenMask from '@/components/wrappers/screen'
 import React, { useRef, useState } from 'react'
-import { styles } from './styles'
-import { ScrollView, View, Text, Pressable } from 'react-native'
-import { RH, RW } from '@/theme/utils'
+import { ScrollView, View, Text, Pressable, StyleSheet } from 'react-native'
+import { RH, RW, font } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
@@ -10,6 +9,7 @@ import Wave from '@/assets/svgs/wave'
 import LinearGradient from 'react-native-linear-gradient'
 import LightButton from '@/assets/imgs/Button'
 import FastImage from 'react-native-fast-image'
+import { ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
 
 function GamesList() {
   const navigation = useNavigation()
@@ -84,10 +84,10 @@ function GamesList() {
             style={{
               width: RW(50),
               height: RH(50),
-              
+
               borderRadius: RW(30),
             }}
-            resizeMode='contain'
+            resizeMode="contain"
             source={{ uri: _storageUrl + elm.game?.img }}
           />
         </View>
@@ -128,7 +128,6 @@ function GamesList() {
               <Text style={styles.midText}>1.6 км</Text>
             </View>
           </View>
-          <Text style={styles.priceText}>{`Сумма участия- ${elm.ticket_price}.`}</Text>
         </View>
         <View style={styles.line}></View>
         <View
@@ -181,5 +180,66 @@ function GamesList() {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  gameItemContainer: {
+    width: RW(395),
+    minHeight: RH(99),
+    maxHeight: RH(116),
+    borderRadius: RW(8),
+    alignSelf: 'center',
+    marginVertical: RW(6),
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  midText: {
+    ...font('medium', 17, WHITE),
+    width: RW(240),
+    flexWrap: 'wrap',
+    textAlign: 'left',
+  },
+  playersText: {
+    textAlign: 'center',
+    ...font('regular', 10, WHITE),
+  },
+  topLoading: {
+    textAlign: 'center',
+    ...font('regular', 19, WHITE),
+    paddingVertical: RH(12),
+  },
+  countCircle: {
+    backgroundColor: ICON,
+    width: RW(28),
+    height: RH(28),
+    borderRadius: RW(19),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  countOfPlayersText: {
+    ...font('bold', 14, WHITE),
+  },
+  horizontalLine: {
+    width: '59%',
+    marginTop: RH(10),
+    alignSelf: 'flex-start',
+    borderWidth: RW(1),
+    borderColor: RADIO_TEXT,
+  },
+  gameTitle: {
+    ...font('bold', 20, LIGHT_LABEL, 20),
+    color: WHITE,
+    marginTop: RH(25),
+    marginBottom: RH(25),
+    textAlign: 'center',
+  },
+
+  line: {
+    borderWidth: RW(1),
+    height: RW(45),
+    borderColor: RADIO_TEXT,
+    marginHorizontal: '2%',
+  },
+})
 
 export default GamesList

@@ -7,7 +7,6 @@ import { _storageUrl } from '@/constants'
 import LightButton from '@/assets/imgs/Button'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
-import { Players } from '@/assets/TestData'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 
@@ -45,10 +44,9 @@ const SelectMembers = ({ route }) => {
         >
           <User
             size={100}
-            pressedUser={Players[0]}
             zoom={true}
             onPressItem={{
-              item: <User size={390} pressedUser={Players[0]} />,
+              item: <User size={390} />,
               modalClose: false,
               onClickFunc: () => handleClick(user),
             }}

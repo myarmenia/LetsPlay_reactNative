@@ -1,7 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-
 import Main from '@/assets/imgs/main'
 import AddSvg from '@/assets/svgs/addSvg'
 import HomeSvg from '@/assets/svgs/homeSvg'

@@ -6,7 +6,6 @@ import Button from '@/assets/imgs/Button'
 import { BLACK, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import User from '@/components/User/user'
-import { Players } from '@/assets/TestData'
 import Modal from '@/components/modal'
 import FastImage from 'react-native-fast-image'
 
@@ -18,7 +17,7 @@ function Index({ navigation, route }) {
     <ScreenMask>
       <Text style={style.team}>{team?.name}</Text>
       <View style={style.imageBlock}>
-        <FastImage resizeMode='contain' style={style.image} source={{ uri: team?.image }} />
+        <FastImage resizeMode="contain" style={style.image} source={{ uri: team?.image }} />
       </View>
       <Text style={style.text}>Адрес нахождения команды</Text>
       <Text
@@ -38,26 +37,24 @@ function Index({ navigation, route }) {
         <View style={{ alignItems: 'center' }}>
           <Text style={style.textTeam}>Организатор команды:</Text>
           <TouchableOpacity onPress={() => setModal(true)}>
-            <User user={Players[1]} pressedUser={Players[1]} size={90} />
+            <User size={90} />
           </TouchableOpacity>
         </View>
         <View style={{ alignItems: 'center', marginTop: RH(10) }}>
           <Text style={style.textTeam}>Администратор команды:</Text>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <User
-              user={Players[1]}
               size={60}
-              pressedUser={Players[1]}
               onPressItem={{
-                item: <User size={390} pressedUser={Players[1]} />,
+                item: <User size={390} />,
                 modalClose: false,
 
                 onClickFunc: () => {},
               }}
             />
-            <User user={Players[2]} size={45} pressedUser={Players[1]} />
-            <User user={Players[3]} size={45} pressedUser={Players[1]} />
-            <User user={Players[4]} size={45} pressedUser={Players[1]} />
+            <User size={45} />
+            <User size={45} />
+            <User size={45} />
           </View>
         </View>
       </View>
@@ -66,7 +63,7 @@ function Index({ navigation, route }) {
         setIsVisible={setModal}
         item={
           <View style={{ marginLeft: 'auto', marginRight: 'auto' }}>
-            <User user={Players[1]} size={370} />
+            <User size={370} />
           </View>
         }
       />

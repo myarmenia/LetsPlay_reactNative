@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
-
 import ProfileActiveIcon from '@/assets/imgs/profileActive'
 import { TAB_BAR_COLOR, TRANSPARENT } from '@/theme/colors'
 import ChatActiveIcon from '@/assets/imgs/chatActive'

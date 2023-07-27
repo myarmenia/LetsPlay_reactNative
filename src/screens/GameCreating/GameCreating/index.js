@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, Platform, ScrollView, Text, View, StyleSheet } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 //components
 import Button from '@/assets/imgs/Button'
-import Price from '@/components/inputs/price'
 import Modal from '@/components/modal'
-import SecondBlock from '@/components/forms/secondBlock'
+import SecondBlock from './components/secondBlock'
 import ScreenMask from '@/components/wrappers/screen'
-import DarkButton from '@/assets/imgs/DarkButton'
 import SearchAddresses from '../../Map/SearchAddresses'
 import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 
@@ -249,32 +247,6 @@ const GameCreating = ({ route }) => {
             list={organizer_in_the_game}
             titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
           />
-
-          {/* <RadioBlock
-            onChange={(list) => {
-              setPriceList(list)
-              list.find((e) => e.checked).text == 'Платно' ? setFlag(true) : setFlag(false)
-            }}
-            title="Стоимость входного билета на игру"
-            list={priceList}
-            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
-          /> */}
-
-          {/* {flag && (
-            <View style={styles.price}>
-              <Price
-                initialState={initialState}
-                sliceNumber={13}
-                text={'Сумма оплаты '}
-                margin={RW(18)}
-                width={RW(210)}
-                placeholder={'Сумма оплаты 200р.'}
-              />
-            </View>
-          )} */}
-          {/* {!initialState?.ticket_price && flag ? (
-            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-          ) : null} */}
           <View style={{ position: 'absolute' }}>
             {!response && (
               <Modal

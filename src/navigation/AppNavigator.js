@@ -22,7 +22,7 @@ import PrivateChat from '@/screens/ChatScreens/PrivateChat'
 import ProfileNavigator from '@/navigation/ProfileNavigator'
 import GameList from '@/screens/Game/GameList'
 import Map from '@/screens/Map/Map'
-import GameItem from '@/screens/Game/GameList/gameItem'
+import GameItem from '@/screens/Game/GameItem/GameItem'
 import JoinGameQr from '@/screens/Game/JoinGame/JoinGameQr'
 import JoinGameTypes from '@/screens/Game/JoinGame/JoinGameTypes'
 import AliasNavigator from './AliasNavigator'
@@ -63,7 +63,6 @@ const TabNavigator = () => {
 }
 
 const AppNavigator = () => {
-
   return (
     <>
       <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>

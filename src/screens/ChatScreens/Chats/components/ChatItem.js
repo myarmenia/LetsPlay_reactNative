@@ -1,8 +1,15 @@
 import React, { useRef, useState } from 'react'
-import { Animated, PanResponder, Pressable, Text, TouchableOpacity, View } from 'react-native'
-import style from '../../style'
+import {
+  Animated,
+  PanResponder,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { RW } from '@/theme/utils'
+import { RH, RW, font } from '@/theme/utils'
 import Modal from '@/components/modal'
 import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
@@ -14,6 +21,7 @@ import { setTookPartGames } from '@/store/Slices/AuthSlice'
 import { setMyTeams } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
+import { DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
 
 function Index({ id, item, type, playersLength }) {
   const navigation = useNavigation()
@@ -59,7 +67,7 @@ function Index({ id, item, type, playersLength }) {
   ).current
 
   return (
-    <View style={style.layer}>
+    <View style={styles.layer}>
       <View
         style={{
           alignItems: 'center',
@@ -81,7 +89,7 @@ function Index({ id, item, type, playersLength }) {
       </View>
       <Animated.View
         style={[
-          style.containerr,
+          styles.containerr,
           { transform: [{ translateX: swipeDirection == 'right' ? RW(95) : animation }] },
         ]}
         {...panResponder.panHandlers}
@@ -100,7 +108,7 @@ function Index({ id, item, type, playersLength }) {
               playersLength: playersLength,
             })
           }
-          style={style.chatItemBlock}
+          style={styles.chatItemBlock}
         >
           {back ? (
             <LinearGradient
@@ -143,16 +151,16 @@ function Index({ id, item, type, playersLength }) {
           )}
 
           <FastImage
-            style={style.chatItemImg}
+            style={styles.chatItemImg}
             resizeMode="contain"
             source={{ uri: _storageUrl + (item?.img || item?.game?.img) }}
           />
-          <Text style={style.itemData}>
+          <Text style={styles.itemData}>
             {`${item?.createdAt?.substring(0, 10)} ${new Date(item?.createdAt)
               .toTimeString()
               .substring(0, 5)} ${item?.address_name || item?.game?.name}`}
           </Text>
-          <Text style={style.time}>1:01</Text>
+          <Text style={styles.time}>1:01</Text>
         </Pressable>
       </Animated.View>
       {deleting && (
@@ -161,8 +169,8 @@ function Index({ id, item, type, playersLength }) {
           setIsVisible={setDeleting}
           btnClose={false}
           item={
-            <View style={style.modalBlock}>
-              <Text style={style.modalText}>Вы точно хотите удалить игру и чат?</Text>
+            <View style={styles.modalBlock}>
+              <Text style={styles.modalText}>Вы точно хотите удалить игру и чат?</Text>
               <View
                 style={{
                   flexDirection: 'row',
@@ -201,5 +209,73 @@ function Index({ id, item, type, playersLength }) {
     </View>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    marginTop: RH(56),
+    alignItems: 'center',
+  },
+  containerr: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    width: '103%',
+    height: '101%',
+    right: RW(279),
+    overflow: 'visible',
+  },
+  layer: {
+    width: RW(368),
+    alignSelf: 'center',
+    marginBottom: RH(9),
+    overflow: 'visible',
+    backgroundColor: LIGHT_RED,
+    borderRadius: RW(10),
+    alignItems: 'center',
+    flexDirection: 'row-reverse',
+  },
+
+  modalBlock: {
+    width: RW(260),
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: RW(10),
+    backgroundColor: DARK_BLUE,
+  },
+  modalText: {
+    padding: RH(20),
+    textAlign: 'center',
+    ...font('regular', 21, WHITE, 26),
+  },
+  title: {
+    ...font('bold', 24, LIGHT_GRAY, 29),
+    marginBottom: RW(27),
+  },
+  chatItemImg: {
+    width: RW(42),
+    height: RH(43),
+    borderRadius: RH(22),
+  },
+  chatItemBlock: {
+    backgroundColor: ICON,
+    width: '100%',
+    borderRadius: RW(10),
+    paddingLeft: RW(13),
+    paddingTop: RH(17),
+    paddingBottom: RH(17),
+    paddingRight: RW(6),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  itemData: {
+    ...font('bold', 18, WHITE, 20),
+    width: RW(245),
+  },
+  time: {
+    ...font('regular', 14, WHITE, 20),
+    marginBottom: RH(20),
+    marginRight: RW(10),
+  },
+})
 
 export default Index

@@ -12,8 +12,8 @@ const Index = ({ route }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getGames(list))
-  }, [list])
+    dispatch(getGames())
+  }, [])
 
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>

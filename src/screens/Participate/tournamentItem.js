@@ -1,4 +1,3 @@
-import { styles } from '../gamesList/style'
 import ScreenMask from '@/components/wrappers/screen'
 import React from 'react'
 import { View, Text } from 'react-native'

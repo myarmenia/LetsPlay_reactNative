@@ -10,10 +10,12 @@ import User from '@/components/User/user'
 import { setModalOptions } from '@/store/Slices/AppSlice'
 import Row from '@/components/wrappers/row'
 import StarSvg from '@/assets/svgs/StarSvg'
+import { ratePlayersAfterFinishGame } from '@/store/Slices/GamesSlice'
 
-const RatePlayers = () => {
-  const gameFinishPhoto = useSelector(({ games }) => games.gameFinishPhoto)
-  const navigation = useNavigation()
+const RatePlayers = ({ route }) => {
+  // const gameFinishPhoto = useSelector(({ games }) => games.gameFinishPhoto)
+  // const navigation = useNavigation()
+  const gameId = route.params.gameId
   const dispatch = useDispatch()
   const [users, setUsers] = useState([
     {
@@ -103,6 +105,13 @@ const RatePlayers = () => {
                           item: item.item,
                           rating: item.rating,
                           setRating: (newRating) => {
+                            dispatch(
+                              ratePlayersAfterFinishGame({
+                                user_id: 'string',
+                                create_game_id: gameId,
+                                rating: newRating / 100,
+                              }),
+                            )
                             setUsers((prev) => {
                               return prev.map((user, userIndex) => {
                                 if (userIndex == index) {
@@ -134,7 +143,7 @@ const RatePlayers = () => {
         // onPress={() => navigation.navigate('RatePlayers')}
         style={{ alignSelf: 'center', marginBottom: RH(30) }}
         size={{ width: RW(280), height: RH(48) }}
-        label={gameFinishPhoto ? 'Далее' : 'Пропустить'}
+        label={false ? 'Далее' : 'Пропустить'}
       />
     </ScreenMask>
   )

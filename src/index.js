@@ -52,17 +52,18 @@ const MyApp = () => {
       )
     }
   })
+  const openModalFunc = (body, type) => {
+    dispatch(
+      setModalOptions({
+        visible: true,
+        type: type,
+        body,
+      }),
+    )
+  }
   useEffect(() => {
-    requestUserPermission()
-    notificationListener((body) => {
-      dispatch(
-        setModalOptions({
-          visible: true,
-          type: 'message',
-          body,
-        }),
-      )
-    })
+    requestUserPermission(openModalFunc)
+    notificationListener(openModalFunc)
     unsubscribe()
   }, [])
 

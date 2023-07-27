@@ -5,7 +5,6 @@ import ScreenMask from '@/components/wrappers/screen'
 import Button from '@/assets/imgs/Button'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
 import { _storageUrl } from '@/constants'
 import { useDispatch } from 'react-redux'
@@ -29,7 +28,11 @@ function SearchedTeamSubmit({ route }) {
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>
       <View style={style.imageBlock}>
-        <FastImage style={style.image} resizeMode='contain' source={{ uri: _storageUrl + item?.img }} />
+        <FastImage
+          style={style.image}
+          resizeMode="contain"
+          source={{ uri: _storageUrl + item?.img }}
+        />
       </View>
       <View style={{ alignItems: 'center' }}>
         <Text style={style.text}>Адрес нахождения команды</Text>
@@ -40,9 +43,8 @@ function SearchedTeamSubmit({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
-            user={Players[3]}
             onPressItem={{
-              item: <User user={Players[3]} size={390} />,
+              item: <User size={390} />,
               modalClose: false,
             }}
           />
@@ -53,9 +55,8 @@ function SearchedTeamSubmit({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
-            user={Players[8]}
             onPressItem={{
-              item: <User user={Players[8]} size={390} />,
+              item: <User size={390} />,
               modalClose: false,
             }}
           />

@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
-import { FlatList, Image, Text, TouchableOpacity, View, Linking } from 'react-native'
-import style from '../style'
+import React from 'react'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
 import FastImage from 'react-native-fast-image'
+import { RH, RW, font } from '@/theme/utils'
+import { DARK_BLUE, ICON, WHITE } from '@/theme/colors'
 
 const index = () => {
   const navigation = useNavigation()
@@ -27,22 +28,24 @@ const index = () => {
   const LinkItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => forNavigate(item)}
-      style={item.id === 6 ? { ...style.linkBlock, borderBottomWidth: 0 } : { ...style.linkBlock }}
+      style={
+        item.id === 6 ? { ...styles.linkBlock, borderBottomWidth: 0 } : { ...styles.linkBlock }
+      }
     >
-      <Text style={style.linkText}>{item.text}</Text>
+      <Text style={styles.linkText}>{item.text}</Text>
     </TouchableOpacity>
   )
   const renderItem = ({ item }) => <LinkItem item={item} />
 
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
-      <View style={style.container}>
-        <Text style={style.title}>Мой кабинет</Text>
-        <View style={style.infoBlock}>
-          <View style={style.imageBlock}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Мой кабинет</Text>
+        <View style={styles.infoBlock}>
+          <View style={styles.imageBlock}>
             <FastImage
-              style={[style.image]}
-              resizeMode='cover'
+              style={[styles.image]}
+              resizeMode="cover"
               source={
                 !avatar
                   ? require('../../../assets/defualtUser.png')
@@ -55,8 +58,8 @@ const index = () => {
             />
           </View>
           <View>
-            <Text style={style.name}>{name + ' ' + surname}</Text>
-            <Text style={style.id}>{`Номер ID: ${_id}`}</Text>
+            <Text style={styles.name}>{name + ' ' + surname}</Text>
+            <Text style={styles.id}>{`Номер ID: ${_id}`}</Text>
           </View>
         </View>
       </View>
@@ -64,5 +67,60 @@ const index = () => {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    paddingTop: RW(27),
+    alignItems: 'center',
+  },
+  title: {
+    ...font('bold', 24, WHITE, 24),
+    marginBottom: RW(15),
+  },
+  imageBlock: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: 87,
+    height: 87,
+    borderRadius: 43.5,
+    marginRight: RW(18),
+    alignSelf: 'center',
+  },
+
+  infoBlock: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingLeft: RW(31),
+    marginBottom: RH(30),
+    marginTop: RH(15),
+  },
+
+  name: {
+    ...font('bold', 24, ICON, 28),
+    width: '88%',
+  },
+  id: {
+    ...font('regular', 16, ICON, 19),
+    marginTop: RH(8),
+    width: '87%',
+  },
+  linkText: {
+    ...font('regular', 16, WHITE, 19),
+    paddingHorizontal: RW(12),
+    paddingVertical: RH(10),
+  },
+  linkBlock: {
+    width: '100%',
+    paddingVertical: RH(17),
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderStyle: 'solid',
+    borderColor: DARK_BLUE,
+    paddingLeft: RW(44),
+  },
+})
 
 export default index

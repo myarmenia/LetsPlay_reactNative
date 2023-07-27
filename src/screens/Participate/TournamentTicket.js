@@ -74,7 +74,7 @@ function TournamentTicket(props) {
           <LightButton
             label={'Редактировать'}
             onPress={() => {
-              navigation.navigate('GameAdd')
+              // navigation.navigate('GameAdd')
             }}
             size={{ width: 192, height: 36 }}
           />

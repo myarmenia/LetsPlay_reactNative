@@ -4,8 +4,6 @@ import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import FastImage from 'react-native-fast-image'
 import Row from '@/components/wrappers/row'
-import CancelSvg from './assets/CancelSvg'
-import ConfirmSvg from './assets/ConfirmSvg'
 import { useDispatch } from 'react-redux'
 import { confirmPhotoAfterFinishGame } from '@/store/Slices/GamesSlice'
 import Video from 'react-native-video'
@@ -45,7 +43,7 @@ const PhotoAfterFinishGameModal = ({ body }) => {
             dispatch(setModalVisible(false))
           }}
         >
-          <CancelSvg />
+          <Image style={styles.btnImage} source={require('./assets/cancel.png')} />
         </Pressable>
         <Pressable
           onPress={() => {
@@ -53,7 +51,7 @@ const PhotoAfterFinishGameModal = ({ body }) => {
             dispatch(confirmPhotoAfterFinishGame({ file_id: _id }))
           }}
         >
-          <ConfirmSvg />
+          <Image style={styles.btnImage} source={require('./assets/done.png')} />
         </Pressable>
       </Row>
     </View>
@@ -85,5 +83,10 @@ const styles = StyleSheet.create({
   row: {
     width: '100%',
     justifyContent: 'space-around',
+  },
+  btnImage: {
+    width: RW(55),
+    height: RW(55),
+    resizeMode: 'contain',
   },
 })

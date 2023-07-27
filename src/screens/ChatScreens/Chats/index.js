@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import style from '@/screens/ChatScreens/Chats/style'
 import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyJoinedTeams, getMyTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
 import { getProfileInfo } from '@/store/Slices/AuthSlice'
+import { RH, RW, font } from '@/theme/utils'
+import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 
 const ChatScreen = () => {
   const { user } = useSelector(({ auth }) => auth)
@@ -24,8 +25,8 @@ const ChatScreen = () => {
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-        <View style={style.container}>
-          <Text style={style.title}>Чат</Text>
+        <View style={styles.container}>
+          <Text style={styles.title}>Чат</Text>
           {myTeams?.length || user?.took_part_games?.length || myJoinedTeams.length ? (
             <>
               <View>
@@ -53,12 +54,28 @@ const ChatScreen = () => {
               </View>
             </>
           ) : (
-            <Text style={style.emptyText}>Пусто</Text>
+            <Text style={styles.emptyText}>Пусто</Text>
           )}
         </View>
       </ScrollView>
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  container: {
+    marginTop: RH(56),
+    alignItems: 'center',
+  },
+
+  emptyText: {
+    paddingTop: '10%',
+    ...font('regular', 24, WHITE, 26),
+  },
+
+  title: {
+    ...font('bold', 24, LIGHT_GRAY, 29),
+    marginBottom: RW(27),
+  },
+})
 
 export default ChatScreen

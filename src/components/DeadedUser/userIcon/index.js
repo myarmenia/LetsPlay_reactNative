@@ -1,10 +1,9 @@
-import { Dimensions, Platform, Text, View } from 'react-native'
+import { Dimensions, Platform, StyleSheet, Text, View } from 'react-native'
 import { useState } from 'react'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
-import { WHITE } from '@/theme/colors'
-import style from './styles'
+import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import UserLine from '../userLine'
 import UserCircle from '../userCircle'
 import Vk from './vk'
@@ -56,14 +55,13 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
           <FastImage
             style={[
               {
-                ...style.image,
+                ...styles.image,
                 borderRadius: size / RW(3),
                 top: size > 150 ? '0%' : size < 40 ? '-45%' : '-20%',
                 left: RW(0.1),
               },
-      
             ]}
-            resizeMode='cover'
+            resizeMode="cover"
             source={
               !avatar
                 ? require('../../../assets/defualtUser.png')
@@ -76,7 +74,7 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
           />
         </Grayscale>
       </View>
-      <View style={[style.nameBlock, { marginTop: size < 40 ? RH(4) : RH(10) }]}>
+      <View style={[styles.nameBlock, { marginTop: size < 40 ? RH(4) : RH(10) }]}>
         <Text style={font('bold', size > 150 ? size / RW(20) : size / RW(25), WHITE)}>
           {name ? name : 'Имя'}
         </Text>
@@ -86,7 +84,7 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
       </View>
       <View
         style={{
-          ...style.statusBlock,
+          ...styles.statusBlock,
           width: screenWidth >= 420 ? size / RW(1.6) : size / RW(1.75),
           overflow: 'visible',
           marginTop: size > 150 ? size / RH(70) : size / RH(80),
@@ -106,20 +104,20 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
       </View>
       <View
         style={{
-          ...style.titleBigBloc,
+          ...styles.titleBigBloc,
           height: size < 40 ? size / RH(2.9) : size / RW(8.4),
           marginTop: size > 150 ? size / RH(55) : size / RH(90),
           width: size < 40 ? size / RW(1.5) : size / RW(2.1),
           justifyContent: 'space-evenly',
         }}
       >
-        <View style={[style.titleBloc, sizing]}>
+        <View style={[styles.titleBloc, sizing]}>
           <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Создано игр
           </Text>
           <Text style={font('exo_bold', fontSizeCount, WHITE)}>{user?.create_games?.length}</Text>
         </View>
-        <View style={[style.titleBloc, sizing]}>
+        <View style={[styles.titleBloc, sizing]}>
           <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Принято игр
           </Text>
@@ -127,7 +125,7 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
             {user?.took_part_games?.length}
           </Text>
         </View>
-        <View style={[style.titleBloc, sizing]}>
+        <View style={[styles.titleBloc, sizing]}>
           <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отменено игр
           </Text>
@@ -135,7 +133,7 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
             {user?.destroy_the_game}
           </Text>
         </View>
-        <View style={[style.titleBloc, sizing]}>
+        <View style={[styles.titleBloc, sizing]}>
           <Text style={{ ...font('openSans_medium', fontSizeTitle, WHITE), textAlign: 'center' }}>
             Отклонено игр
           </Text>
@@ -145,19 +143,75 @@ function Index({ size, size2, onPressImg, userProps, pressedUser }) {
       {/* need detect user have a vk account and show it overwise show some text */}
       <Modal
         item={
-          <View style={style.modal}>
-            <Text style={style.successTeam}>Аккаунт игрока не привязан к VK</Text>
+          <View style={styles.modal}>
+            <Text style={styles.successTeam}>Аккаунт игрока не привязан к VK</Text>
           </View>
         }
         modalVisible={modalVisible}
         setIsVisible={setModalVisible}
         // navigationText={'Home'}
       />
-      <View style={{ ...style.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}>
+      <View
+        style={{ ...styles.soc, marginTop: screenWidth > 380 ? size / RH(7.5) : size / RH(10) }}
+      >
         <Vk size={size / RH(12)} />
       </View>
     </View>
   )
 }
+const styles = StyleSheet.create({
+  titleBigBloc: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  titleBloc: {
+    alignItems: 'center',
+    padding: RH(5),
+    marginTop: RH(4),
+
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  title: {
+    ...font('bold', RW(10), WHITE),
+  },
+  titleCount: { ...font('bold', RW(16), WHITE) },
+  statusBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  bg: {
+    width: '100%',
+    height: '100%',
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    left: -0.7,
+  },
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(20),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
+  },
+  nameBlock: {
+    alignItems: 'center',
+    marginTop: RH(16),
+  },
+  soc: {
+    backgroundColor: 'rgba(52, 52, 52, 0)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+})
 
 export default Index

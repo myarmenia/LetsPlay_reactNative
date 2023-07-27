@@ -1,10 +1,7 @@
-
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import messaging from '@react-native-firebase/messaging'
 
-
-
-const requestUserPermission = async () => {
+const requestUserPermission = async (openModalFunc) => {
   const authStatus = await messaging().requestPermission()
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
@@ -12,23 +9,25 @@ const requestUserPermission = async () => {
 
   if (enabled) {
     // console.log('Authorization status:', authStatus)
-    getFcmToken()
+    getFcmToken(openModalFunc)
   }
 }
-const notificationListener= async (callBack) => {
+const notificationListener = async (openModalFunc) => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
     console.log('Notification caused app to open from background state:', remoteMessage)
   })
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log('Message handled in the background!', remoteMessage);
-       });
-  
+  messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+    console.log('Message handled in the background!', remoteMessage)
+  })
+
   messaging().onMessage(async (remoteMessage) => {
     console.log('Recived in foreground', remoteMessage)
 
-    if(Platform.OS == "android") {
-      console.log("callBack")
-      callBack(remoteMessage.notification.title + "\n" + remoteMessage.notification.body)
+    if (Platform.OS == 'android') {
+      openModalFunc(
+        remoteMessage.notification.title + '\n' + remoteMessage.notification.body,
+        'message',
+      )
     }
   })
   messaging()
@@ -39,7 +38,7 @@ const notificationListener= async (callBack) => {
       }
     })
 }
-const getFcmToken = async () => {
+const getFcmToken = async (openModalFunc) => {
   const fcmToken = await AsyncStorage.getItem('fcmToken')
   // console.log('The old generated fcmToken', fcmToken)
   if (!fcmToken) {
@@ -51,11 +50,10 @@ const getFcmToken = async () => {
       }
     } catch (error) {
       console.log('Error rasied in fcmToken', error)
-      alert('Error in notification service')
+      // alert('Error in notification service')
+      openModalFunc('Error in notification service', 'error')
     }
   }
 }
 
-
-
-export { requestUserPermission,notificationListener,  getFcmToken }
+export { requestUserPermission, notificationListener, getFcmToken }

@@ -1,5 +1,4 @@
 import { BLACK } from '@/theme/colors'
-import { Players } from '@/assets/TestData'
 import { useState } from 'react'
 import { joinInTeam } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
@@ -28,7 +27,11 @@ function Index({ route }) {
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>
       <View style={style.imageBlock}>
-        <FastImage resizeMode='contain' style={style.image} source={{ uri: _storageUrl + item?.img }} />
+        <FastImage
+          resizeMode="contain"
+          style={style.image}
+          source={{ uri: _storageUrl + item?.img }}
+        />
       </View>
       <View style={{ alignItems: 'center' }}>
         <Text style={style.text}>Адрес нахождения команды</Text>
@@ -39,9 +42,8 @@ function Index({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
-            user={Players[3]}
             onPressItem={{
-              item: <User user={Players[3]} size={390} />,
+              item: <User size={390} />,
               modalClose: false,
             }}
           />
@@ -52,9 +54,8 @@ function Index({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
-            user={Players[8]}
             onPressItem={{
-              item: <User user={Players[8]} size={390} />,
+              item: <User size={390} />,
               modalClose: false,
             }}
           />

@@ -4,7 +4,6 @@ import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { ICON, WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
-import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
 import FastImage from 'react-native-fast-image'
 import { useSelector } from 'react-redux'
@@ -113,9 +112,8 @@ function Ticket({ game, initialState, name, dates }) {
           <View style={{ width: RW(60), top: '-2%', marginLeft: RW(20) }}>
             <User
               size={45}
-              user={Players[8]}
               onPressItem={{
-                item: <User user={Players[8]} size={390} />,
+                item: <User size={390} />,
                 modalClose: false,
               }}
             />

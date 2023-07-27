@@ -4,11 +4,9 @@ import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
 import DateComponent from '@/components/DateComponent'
-import SecondBlock from '@/components/forms/secondBlock'
 import RadioBlock from '@/components/RadioBlock'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/assets/imgs/Button'
-import Modal from '@/components/modal'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import {
   setAgeRestrictionsFrom,
