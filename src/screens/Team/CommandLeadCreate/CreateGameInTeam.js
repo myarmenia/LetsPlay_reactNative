@@ -9,7 +9,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import DateComponent from '@/components/DateComponent'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import RadioBlock from '@/components/RadioBlock'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 
 const CommandLeadCreate = ({ route }) => {

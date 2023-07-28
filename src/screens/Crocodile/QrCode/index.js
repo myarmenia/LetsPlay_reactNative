@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
 import { Text, View, StyleSheet } from 'react-native'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import ScreenMask from '@/components/wrappers/screen'
 import FastImage from 'react-native-fast-image'
 
@@ -17,7 +17,11 @@ function Index() {
         <View style={styles.body}>
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
-            <FastImage style={styles.qr} resizeMode='contain' source={{ uri: _storageUrl + qrGameImg }} />
+            <FastImage
+              style={styles.qr}
+              resizeMode="contain"
+              source={{ uri: _storageUrl + qrGameImg }}
+            />
           </View>
           <Button
             onPress={() => navigation.navigate('InviteTeamPlayers')}

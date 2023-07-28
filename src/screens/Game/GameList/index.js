@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import Wave from '@/assets/svgs/wave'
 import LinearGradient from 'react-native-linear-gradient'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import FastImage from 'react-native-fast-image'
 import { ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
 

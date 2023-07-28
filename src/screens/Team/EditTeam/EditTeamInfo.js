@@ -6,7 +6,7 @@ import { _storageUrl } from '@/constants'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { launchImageLibrary } from 'react-native-image-picker'
 import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
 

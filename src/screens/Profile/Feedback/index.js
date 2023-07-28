@@ -12,7 +12,7 @@ import {
 } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { useState } from 'react'
 import Modal from '@/components/modal'
 

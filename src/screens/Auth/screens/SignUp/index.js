@@ -19,9 +19,9 @@ import {
   signUp4,
 } from '@/store/Slices/AuthSlice'
 import { useNavigation } from '@react-navigation/native'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import Row from '@/components/wrappers/row'
-import DarkButton from '@/assets/imgs/DarkButton'
+import DarkButton from '@/components/buttons/DarkButton'
 import Consent from '@/assets/imgs/Consent'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/

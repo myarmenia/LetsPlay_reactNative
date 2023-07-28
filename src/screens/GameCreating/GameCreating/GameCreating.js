@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { KeyboardAvoidingView, Platform, ScrollView, Text, View, StyleSheet } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 //components
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import SecondBlock from './components/SecondBlock'
 import ScreenMask from '@/components/wrappers/screen'

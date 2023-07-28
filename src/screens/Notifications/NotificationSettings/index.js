@@ -6,7 +6,7 @@ import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import Toggle from '@/components/ToggleSwitch'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { notificationSettings } from '@/store/Slices/AppSlice'
 import { useDispatch } from 'react-redux'
 

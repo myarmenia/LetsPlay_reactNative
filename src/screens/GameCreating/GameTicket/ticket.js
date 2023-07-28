@@ -101,12 +101,12 @@ function Ticket({ game, initialState, name, dates }) {
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>
           <Text style={styles.ticketTextTwo}>{dateFotmat(dates[1])}</Text>
         </View>
-        <View style={styles.ticketTextBlock}>
+        {/* <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Стоимость входного билета на игру:</Text>
           <Text style={styles.ticketTextTwo}>
             {initialState?.ticket_price ? initialState?.ticket_price : 0} руб.
           </Text>
-        </View>
+        </View> */}
         <Row wrapper={{ ...styles.ticketTextBlock }}>
           <Text style={styles.ticketText}>Организатор игры:</Text>
           <View style={{ width: RW(60), top: '-2%', marginLeft: RW(20) }}>

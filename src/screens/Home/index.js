@@ -1,15 +1,14 @@
 import React, { useEffect } from 'react'
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native'
-import NotificationIcon from '@/assets/imgs/notification'
+import NotificationIcon from '@/assets/imgs/NotificationIcon'
 import ScreenMask from '@/components/wrappers/screen'
-import CalendarIcon from '@/assets/imgs/calendar'
+import CalendarIcon from '@/assets/imgs/CalendarIcon'
 import { RH } from '@/theme/utils'
 import User from '@/components/User/user'
 import LogoSvg from '@/assets/LogoSvg'
 import { useNavigation } from '@react-navigation/native'
 import { participateToGame } from '@/store/Slices/GamesSlice'
 import { useDispatch } from 'react-redux'
-import CheckedSvg from '../Profile/MyDetails/assets/CheckedSvg'
 const HomeScreen = ({ route }) => {
   const navigation = useNavigation()
   const propsGameId = route.params?.id

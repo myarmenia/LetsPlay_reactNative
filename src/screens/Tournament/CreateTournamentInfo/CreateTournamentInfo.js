@@ -6,7 +6,7 @@ import { RH, RW, font } from '@/theme/utils'
 import DateComponent from '@/components/DateComponent'
 import RadioBlock from '@/components/RadioBlock'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import {
   setAgeRestrictionsFrom,

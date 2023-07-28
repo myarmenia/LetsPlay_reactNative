@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import UserLine from '../userLine'
 import UserCircle from '../userCircle'
-import Vk from '@/assets/imgs/vk'
+import Vk from '@/assets/imgs/VKIcon'
 import Modal from '@/components/modal'
 import FastImage from 'react-native-fast-image'
 

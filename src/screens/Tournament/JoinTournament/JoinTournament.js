@@ -8,7 +8,7 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import DateComponent from '@/components/DateComponent'
 import ScreenMask from '@/components/wrappers/screen'
 import RadioBlock from '@/components/RadioBlock'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import GameType from '@/screens/Game/gameType'
 import { searchTourney } from '@/store/Slices/TournamentSlice'
 

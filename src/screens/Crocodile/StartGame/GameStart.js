@@ -6,7 +6,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { View, StyleSheet, Text } from 'react-native'
 import AnimatedCircle from '../components/AnimatedCircle'
 import CrocodileBackground from '../assets/Background'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Timer from '../components/Timer'
 import {
   setExplainYou,

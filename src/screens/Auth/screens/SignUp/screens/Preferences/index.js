@@ -1,11 +1,9 @@
-import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { ACTIVE, ICON, INACTIVE, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import style from '@/screens/Profile/Preference/style'
-import pStyles from '@/screens/Profile/style'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { changeUserPreferences, setToken } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { addAsyncStorage } from '@/helpers/asyncStore'
@@ -36,21 +34,6 @@ const Preferences = () => {
   useLayoutEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
   }, [])
-  // useEffect(() => {
-  //   // dispatch(
-  //   //   setNames(
-  //   //     nameOfGames.map(elm => {
-  //   //       let changed = elm
-  //   //       preferences.forEach(id => {
-  //   //         if (id === elm.id) {
-  //   //           changed = { ...elm, checked: !elm.checked }
-  //   //         }
-  //   //       })
-  //   //       return changed
-  //   //     }),
-  //   //   ),
-  //   // )
-  // }, [nameOfGames.length])
   const checkItem = useCallback(
     (id) => {
       dispatch(
@@ -70,34 +53,19 @@ const Preferences = () => {
       ),
     )
   }
-  const PreferenceItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        onPress={() => checkItem(item.id)}
-        style={[
-          style.gameBtn,
-          {
-            backgroundColor: item.checked ? ACTIVE : INACTIVE,
-          },
-        ]}
-      >
-        <Text style={styles.linkText}>{item.name}</Text>
-      </TouchableOpacity>
-    )
-  }
 
   return (
     <ScreenMask>
       <Text style={[styles.title, styles.mt60]}>Введите ваши предпочтения</Text>
       <Text style={[styles.subTitle, styles.mt40]}>Выбрать предпочтения</Text>
-      <View style={style.flatListBlock}>
+      <View style={styles.flatListBlock}>
         {nameOfGames?.map((elm) => {
           return (
             <TouchableOpacity
               key={elm.id}
               onPress={() => checkItem(elm.id)}
               style={[
-                style.gameBtn,
+                styles.gameBtn,
                 {
                   backgroundColor: elm.checked ? ACTIVE : INACTIVE,
                 },
@@ -147,7 +115,6 @@ const styles = StyleSheet.create({
     paddingVertical: RH(10),
   },
   gameBtn: {
-    // backgroundColor: INACTIVE,
     alignSelf: 'center',
     marginHorizontal: RW(4),
     borderRadius: RW(10),
@@ -157,5 +124,11 @@ const styles = StyleSheet.create({
     right: RW(8),
     bottom: RH(44),
     position: 'absolute',
+  },
+  flatListBlock: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '95%',
+    alignSelf: 'center',
   },
 })

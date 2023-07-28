@@ -7,7 +7,7 @@ import { setComplexity } from '@/store/Slices/CrocodileSlice'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import LinearGradient from 'react-native-linear-gradient'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 
 const SelectComplexity = () => {
   const dispatch = useDispatch()

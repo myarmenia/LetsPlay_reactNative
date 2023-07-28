@@ -8,7 +8,7 @@ import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 import ScreenMask from '@/components/wrappers/screen'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { getMembersList, searchTeam, setFindedTeam } from '@/store/Slices/TeamSlice'
 

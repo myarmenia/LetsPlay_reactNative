@@ -6,7 +6,7 @@ import { font, RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import User from '@/components/User/user'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import { useDispatch } from 'react-redux'
 import { createTeamGame } from '@/store/Slices/TeamSlice'
@@ -25,18 +25,13 @@ const ChoosePlayers = ({ route }) => {
         <Pressable
           style={styles.eachUser}
           onPress={() => {
-
             setVisible(!visible)
           }}
         >
-  
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
             <View style={{ position: 'absolute' }}>
-              <User
-                size={110}
-    
-              />
+              <User size={110} />
             </View>
           </View>
         </Pressable>

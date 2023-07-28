@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 
 import { SCREEN_BACKGROUND } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 

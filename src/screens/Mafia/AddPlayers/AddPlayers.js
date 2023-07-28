@@ -3,9 +3,9 @@ import { View, Text, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BTN_TEXT, LIGHT_LABEL, WHITE } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
-import DarkButton from '@/assets/imgs/DarkButton'
+import DarkButton from '@/components/buttons/DarkButton'
 import PlayerList from './componnets/PlayerList'
 import { getDictonary, setAddPlayersError, startGame } from '@/store/Slices/MafiaSlice'
 import { useDispatch, useSelector } from 'react-redux'
@@ -62,8 +62,6 @@ const AddPlayers = () => {
 }
 
 const styles = StyleSheet.create({
-
-
   title: {
     textAlign: 'center',
     ...font('bold', 24, WHITE),

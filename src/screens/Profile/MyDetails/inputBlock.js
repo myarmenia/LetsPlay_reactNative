@@ -1,15 +1,15 @@
 import React from 'react'
-import { Text, TextInput, View } from 'react-native'
-import style from './style'
-import { ICON } from '@/theme/colors'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
+import { RH, RW, font } from '@/theme/utils'
 
 function InputBlock(props) {
   const { text, placeholder, editable, value, setValue } = props
   return (
-    <View style={style.inputBlock}>
-      <Text style={style.inputTitle}>{text}</Text>
+    <View style={styles.inputBlock}>
+      <Text style={styles.inputTitle}>{text}</Text>
       <TextInput
-        style={style.input}
+        style={styles.input}
         editable={editable}
         value={value}
         onChangeText={setValue}
@@ -20,5 +20,23 @@ function InputBlock(props) {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  inputTitle: {
+    ...font('regular', 16, WHITE, 19),
+    marginBottom: RH(14),
+  },
+  input: {
+    width: RW(354),
+    height: RH(48),
+    backgroundColor: BACKGROUND,
+    borderRadius: RW(10),
+    paddingLeft: RW(20),
+    color: ICON,
+  },
+  inputBlock: {
+    marginBottom: RH(14),
+  },
+})
 
 export default InputBlock

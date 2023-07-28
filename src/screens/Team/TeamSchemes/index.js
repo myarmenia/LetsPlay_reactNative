@@ -1,30 +1,31 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, {  useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import SchemeUsers from './components/SchemeUsers'
 import { useNavigation } from '@react-navigation/native'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import FastImage from 'react-native-fast-image'
 import { useSelector } from 'react-redux'
 
 const TeamSchemes = ({ route }) => {
-  const {players, sendingData, teamImg} = route.params
-  const [replacementPlayers, setReplacementPlayers] = useState(new Array(players?.length).fill( {
-    x: 0,
-    y: 0,
-    moveX: 0,
-    moveY: 0,
-    small: false,
-    inGame: false,
-    pageX: 0,
-    pageY: 0,
-
-  }))
+  const { players, sendingData, teamImg } = route.params
+  const [replacementPlayers, setReplacementPlayers] = useState(
+    new Array(players?.length).fill({
+      x: 0,
+      y: 0,
+      moveX: 0,
+      moveY: 0,
+      small: false,
+      inGame: false,
+      pageX: 0,
+      pageY: 0,
+    }),
+  )
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y1: 0, y2: 0 })
-  const {schema_img,name} = useSelector(({ teams }) => teams.choosedTeamGame)
+  const { schema_img, name } = useSelector(({ teams }) => teams.choosedTeamGame)
 
   const fieldSize = useRef()
   const data = {
@@ -47,7 +48,7 @@ const TeamSchemes = ({ route }) => {
         y: 9.5,
       },
     },
-    "Остальные": {
+    Остальные: {
       schemaImg: '/game_schema_img/Group 1808.png',
       fieldSizePracnt: {
         width: 87,
@@ -59,10 +60,9 @@ const TeamSchemes = ({ route }) => {
     teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
     teamName: 'Test2',
   }
-  let gameName = name == "Хоккей" || name == "Футбол" ? name : "Остальные"
+  let gameName = name == 'Хоккей' || name == 'Футбол' ? name : 'Остальные'
 
   const navigation = useNavigation()
- 
 
   return (
     <ScreenMask>
@@ -97,10 +97,9 @@ const TeamSchemes = ({ route }) => {
             })
           }}
           style={styles.schemaImg}
-          resizeMode='contain'
-          source={{ uri: _storageUrl + schema_img }}          
+          resizeMode="contain"
+          source={{ uri: _storageUrl + schema_img }}
         />
-        
       </View>
 
       <View style={{ zIndex: 999 }}>
@@ -116,7 +115,10 @@ const TeamSchemes = ({ route }) => {
       <LightButton
         onPress={() => {
           // navigation.navigate('ViewSchemes', { replacementPlayers })
-          navigation.navigate("EditTeamPlayers", {teamImg, sendingData: {...sendingData, game_schema: JSON.stringify(replacementPlayers)}})
+          navigation.navigate('EditTeamPlayers', {
+            teamImg,
+            sendingData: { ...sendingData, game_schema: JSON.stringify(replacementPlayers) },
+          })
         }}
         style={{ alignSelf: 'flex-end', position: 'absolute', bottom: RH(30) }}
         label="Сохранить"

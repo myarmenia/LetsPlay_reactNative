@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { _storageUrl } from '@/constants'

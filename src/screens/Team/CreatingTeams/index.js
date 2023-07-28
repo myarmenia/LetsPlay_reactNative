@@ -4,7 +4,7 @@ import { RH } from '@/theme/utils'
 import { setFindedTeam } from '@/store/Slices/TeamSlice'
 import { useDispatch } from 'react-redux'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 
 const CreatingTeams = ({ navigation }) => {
   const dispatch = useDispatch()

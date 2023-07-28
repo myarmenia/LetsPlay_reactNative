@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import User from '@/components/User/user'

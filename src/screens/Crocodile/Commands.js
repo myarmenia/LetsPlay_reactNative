@@ -8,7 +8,7 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
 import CircleAdd from '@/components/buttons/circleAdd'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 
 const Commands = () => {
   const dispatch = useDispatch()

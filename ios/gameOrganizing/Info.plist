@@ -59,20 +59,11 @@
 	<string>Нам нужно разрешение на мультимедиа, например, во время прямой трансляции.</string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Inter-Black.ttf</string>
 		<string>Inter-Bold.ttf</string>
-		<string>Inter-ExtraBold.ttf</string>
-		<string>Inter-ExtraLight.ttf</string>
 		<string>Inter-Light.ttf</string>
 		<string>Inter-Medium.ttf</string>
 		<string>Inter-Regular.ttf</string>
-		<string>Inter-SemiBold.ttf</string>
-		<string>Inter-Thin.ttf</string>
-		<string>Exo.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
-		<string>Exo-SemiBold.ttf</string>
-		<string>Inter-ExtraLightItalic.ttf</string>
-		<string>Inter-LightItalic.ttf</string>
 		<string>OpenSans-Medium.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>

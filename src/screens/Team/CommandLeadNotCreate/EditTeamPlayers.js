@@ -7,7 +7,7 @@ import { _storageUrl } from '@/constants'
 import User from '@/components/User/user'
 import Modal from '@/components/modal'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { createTeamGame } from '@/store/Slices/TeamSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
@@ -17,7 +17,7 @@ const EditTeamPlayers = ({ route }) => {
   const { teamImg, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
   const [acceptedPlayers, setAcceptedPlayers] = useState([1])
-  const {choosedTeamGame, savedTeam} = useSelector(({ teams }) => teams)
+  const { choosedTeamGame, savedTeam } = useSelector(({ teams }) => teams)
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -64,7 +64,7 @@ const EditTeamPlayers = ({ route }) => {
                 navigation.navigate('TeamSchemes', {
                   players: savedTeam?.players,
                   schemaImg: choosedTeamGame?.schema_img,
-                  teamImg:teamImg,
+                  teamImg: teamImg,
                   teamName: sendingData?.enemy_team_name,
                   sendingData: sendingData,
                 })
@@ -99,9 +99,9 @@ export default EditTeamPlayers
 const EachUser = ({ elm, acceptedPlayers, setAcceptedPlayers }) => {
   const [visible, setVisible] = useState(false)
   const handleClick = (elm) => {
-      setVisible(!visible);
-      setAcceptedPlayers(acceptedPlayers.concat(elm))
-    }
+    setVisible(!visible)
+    setAcceptedPlayers(acceptedPlayers.concat(elm))
+  }
   return (
     <Pressable
       style={{ alignItems: 'center', justifyContent: 'center', padding: RH(3) }}
@@ -111,10 +111,7 @@ const EachUser = ({ elm, acceptedPlayers, setAcceptedPlayers }) => {
     >
       <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
       <View style={{ position: 'absolute' }}>
-        <User
-          size={120}
-          user={elm}
-        />
+        <User size={120} user={elm} />
       </View>
     </Pressable>
   )

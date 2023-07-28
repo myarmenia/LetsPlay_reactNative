@@ -1,15 +1,14 @@
-import { BLACK } from '@/theme/colors'
+import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { useState } from 'react'
 import { joinInTeam } from '@/store/Slices/TeamSlice'
 import { _storageUrl } from '@/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import Modal from '@/components/modal'
-import style from './styles'
 import FastImage from 'react-native-fast-image'
 
 function Index({ route }) {
@@ -25,20 +24,20 @@ function Index({ route }) {
 
   return (
     <ScreenMask>
-      <Text style={style.team}>{item?.name}</Text>
-      <View style={style.imageBlock}>
+      <Text style={styles.team}>{item?.name}</Text>
+      <View style={styles.imageBlock}>
         <FastImage
           resizeMode="contain"
-          style={style.image}
+          style={styles.image}
           source={{ uri: _storageUrl + item?.img }}
         />
       </View>
       <View style={{ alignItems: 'center' }}>
-        <Text style={style.text}>Адрес нахождения команды</Text>
-        <Text style={style.textLined}>{item?.address_name}</Text>
+        <Text style={styles.text}>Адрес нахождения команды</Text>
+        <Text style={styles.textLined}>{item?.address_name}</Text>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: RH(15) }}>
-        <Text style={{ ...style.text, marginLeft: RW(15) }}>Организатор команды:</Text>
+        <Text style={{ ...styles.text, marginLeft: RW(15) }}>Организатор команды:</Text>
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
@@ -50,7 +49,7 @@ function Index({ route }) {
         </View>
       </View>
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: RH(15) }}>
-        <Text style={{ ...style.text, marginLeft: RW(15) }}>Администратор команды:</Text>
+        <Text style={{ ...styles.text, marginLeft: RW(15) }}>Администратор команды:</Text>
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
@@ -62,7 +61,7 @@ function Index({ route }) {
         </View>
       </View>
       {userId !== item.user && !item.invited_players?.includes(userId) ? (
-        <View style={style.btn}>
+        <View style={styles.btn}>
           <Button
             onPress={handleJoin}
             size={{ width: RW(360), height: RH(48) }}
@@ -73,8 +72,8 @@ function Index({ route }) {
             <Modal
               navigationText={'Home'}
               item={
-                <View style={style.modal}>
-                  <Text style={style.successTeam}>{modalVisible}</Text>
+                <View style={styles.modal}>
+                  <Text style={styles.successTeam}>{modalVisible}</Text>
                 </View>
               }
               modalVisible={modalVisible}
@@ -86,5 +85,56 @@ function Index({ route }) {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(50),
+    marginHorizontal: RW(30.5),
+  },
+  successTeam: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
+  },
+  team: {
+    textAlign: 'center',
+    ...font('bold', 22, WHITE, 27),
+    marginTop: RH(39),
+    marginBottom: RH(57),
+  },
+  textLined: {
+    ...font('bold', 14, WHITE, 19),
+    marginVertical: RH(10),
+    textDecorationLine: 'underline',
+  },
+  imageBlock: {
+    width: RW(240),
+    height: RW(240),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: RH(33),
+    borderWidth: 1,
+    borderRadius: RW(150),
+    borderColor: WHITE,
+  },
+  image: {
+    borderWidth: 1,
+    borderRadius: RW(150),
+    width: '100%',
+    height: '100%',
+  },
+  text: {
+    ...font('bold', 14, WHITE, 20),
+    marginTop: RH(5),
+  },
+
+  btn: {
+    marginTop: 'auto',
+    width: '100%',
+    alignItems: 'center',
+    marginBottom: RH(64),
+  },
+})
 
 export default Index

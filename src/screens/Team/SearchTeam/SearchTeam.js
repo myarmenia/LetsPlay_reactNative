@@ -1,16 +1,14 @@
 import { useState } from 'react'
-import { Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Button from '@/assets/imgs/Button'
-import styles from './styles'
-import { font, RW } from '@/theme/utils'
-import { ICON, RED } from '@/theme/colors'
-import { RH } from '@/theme/utils'
+import Button from '@/components/buttons/Button'
+import { font, RW, RH } from '@/theme/utils'
+import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { searchTeam } from '@/store/Slices/TeamSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 
-function Index() {
+function SearchTeam() {
   const dispatch = useDispatch()
   const [value, setValue] = useState('')
   const [findedTeamEmpty, setFindedTeamEmpty] = useState(false)
@@ -47,5 +45,28 @@ function Index() {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  btn: {
+    width: RW(397),
+    height: RH(48),
+  },
+  input: {
+    backgroundColor: BACKGROUND,
+    marginBottom: RH(49),
+    borderRadius: RW(10),
+    width: RW(363),
+    height: RH(48),
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    color: ICON,
+    paddingLeft: RW(24),
+  },
+  title: {
+    ...font('bold', 24, WHITE),
+    textAlign: 'center',
+    marginTop: RH(20),
+    marginBottom: RH(30),
+  },
+})
 
-export default Index
+export default SearchTeam

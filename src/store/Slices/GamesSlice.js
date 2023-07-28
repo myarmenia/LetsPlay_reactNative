@@ -33,11 +33,11 @@ export const GameSlice = createSlice({
   },
 })
 
-export const getGames = (data) => (dispatch) => {
+export const getGames = () => (dispatch) => {
   axiosInstance
-    .get(`api/game/${data}`)
+    .get(`api/game`)
     .then((response) => {
-      dispatch(setGames(response.data.datas))
+      dispatch(setGames(response.data.games))
     })
     .catch((err) => {
       console.log('err request', err.request._response)

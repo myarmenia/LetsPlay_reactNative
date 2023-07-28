@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { RH, RW, font } from '@/theme/utils'
 import Slider from '@/components/range'
 import ToggleSwitch from '@/components/ToggleSwitch'

@@ -1,6 +1,6 @@
 import { StyleSheet, View } from 'react-native'
 import React, { memo } from 'react'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON, RADIO_TEXT, WHITE } from '@/theme/colors'

@@ -1,4 +1,4 @@
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { RH, font } from '@/theme/utils'
 import { useIsFocused } from '@react-navigation/native'
 import { useEffect, useLayoutEffect, useRef, memo } from 'react'

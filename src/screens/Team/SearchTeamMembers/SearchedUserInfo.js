@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import User from '@/components/User/user'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import { useDispatch } from 'react-redux'
 import { SCREEN_BACKGROUND, WHITE } from '@/theme/colors'
@@ -11,9 +11,9 @@ import { inviteUserToTeam } from '@/store/Slices/TeamSlice'
 
 const SearchedUserInfo = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const {command, member} = route.params
+  const { command, member } = route.params
   const dispatch = useDispatch()
-  console.log("command",command)
+  console.log('command', command)
   const handleInvite = () => {
     console.log({
       team_id: command,
@@ -41,10 +41,7 @@ const SearchedUserInfo = ({ route }) => {
           zIndex: 15,
         }}
       >
-        <User
-          size={430}
-          user={member}
-        />
+        <User size={430} user={member} />
       </Pressable>
       <View style={styles.btnBox}>
         <LightButton

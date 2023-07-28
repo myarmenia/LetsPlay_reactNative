@@ -5,7 +5,7 @@ import { _storageUrl } from '@/constants'
 import { WHITE } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 import FastImage from 'react-native-fast-image'
@@ -48,7 +48,9 @@ const TeamInfo = ({ route }) => {
           <LightButton
             label={'Далее>>'}
             style={{ width: 166, height: 36 }}
-            onPress={() => navigation.navigate('EditTeamPlayers', { teamImg: gameId.img, sendingData })}
+            onPress={() =>
+              navigation.navigate('EditTeamPlayers', { teamImg: gameId.img, sendingData })
+            }
           />
         </View>
       </View>

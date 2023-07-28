@@ -1,12 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  View,
-  FlatList,
-  ScrollView,
-} from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
+import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW } from '@/theme/utils'
@@ -20,9 +13,9 @@ import {
   signIn,
   signIn2,
 } from '@/store/Slices/AuthSlice'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import Row from '@/components/wrappers/row'
-import DarkButton from '@/assets/imgs/DarkButton'
+import DarkButton from '@/components/buttons/DarkButton'
 import { forgitPassword2 } from '../../../../store/Slices/AuthSlice'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/

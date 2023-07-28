@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import Main from '@/assets/imgs/main'
+import Main from '@/components/buttons/Circle/CircleMain'
 import AddSvg from '@/assets/svgs/addSvg'
 import HomeSvg from '@/assets/svgs/homeSvg'
 import { RW } from '@/theme/utils'

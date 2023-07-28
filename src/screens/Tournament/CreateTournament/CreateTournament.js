@@ -4,7 +4,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import { BACKGROUND, ICON, RED } from '@/theme/colors'
 import { RH, RW, font } from '@/theme/utils'
 import RadioBlock from '@/components/RadioBlock'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import {

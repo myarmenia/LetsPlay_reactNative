@@ -1,16 +1,16 @@
-import { RH } from '@/theme/utils'
+import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { useEffect, useState } from 'react'
-import { ScrollView, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { getMyTeams, getTeams, saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
+import { getMyTeams, saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
-import style from './style'
-import LightButton from '@/assets/imgs/Button'
-import DarkButton from '@/assets/imgs/DarkButton'
+import LightButton from '@/components/buttons/Button'
+import DarkButton from '@/components/buttons/DarkButton'
 import EachCommand from './EachCommand'
+import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 
 function Index({ route }) {
   const props = route.params
@@ -26,8 +26,8 @@ function Index({ route }) {
   }, [])
   const ModalItem = () => {
     return (
-      <View style={style.modalContainer}>
-        <Text style={style.modalText}>У Вас еще нет своей команды. Создать команду?</Text>
+      <View style={styles.modalContainer}>
+        <Text style={styles.modalText}>У Вас еще нет своей команды. Создать команду?</Text>
         <View
           style={{
             flexDirection: 'row',
@@ -60,7 +60,7 @@ function Index({ route }) {
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
-        <Text style={style.title}>Мои команды</Text>
+        <Text style={styles.title}>Мои команды</Text>
         {modalVisible && (
           <Modal
             modalVisible={modalVisible}
@@ -74,12 +74,40 @@ function Index({ route }) {
           myTeams?.map((command, i) => <EachCommand data={props} command={command} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
-            <Text style={style.text}>Загрузка...</Text>
+            <Text style={styles.text}>Загрузка...</Text>
           </View>
         )}
       </ScrollView>
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  title: {
+    textAlign: 'center',
+    ...font('bold', 20, WHITE),
+    marginVertical: RH(15),
+  },
+  modalContainer: {
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    alignSelf: 'center',
+    width: RW(306),
+    height: RH(191),
+    padding: RW(35),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  modalText: {
+    ...font('bold', 17, WHITE),
+    textAlign: 'center',
+  },
+  text: {
+    marginVertical: RH(3),
+    ...font('bold', 14, WHITE),
+    flexGrow: 1,
+    flexWrap: 'nowrap',
+    width: '74%',
+  },
+})
 
 export default Index

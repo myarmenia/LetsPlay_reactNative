@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { View, TouchableOpacity, StyleSheet } from 'react-native'
-import ProfileActiveIcon from '@/assets/imgs/profileActive'
+import ProfileActiveIcon from '@/assets/imgs/ProfileActiveIcon'
 import { TAB_BAR_COLOR, TRANSPARENT } from '@/theme/colors'
-import ChatActiveIcon from '@/assets/imgs/chatActive'
-import ProfileIcon from '@/assets/imgs/profile'
+import ChatActiveIcon from '@/assets/imgs/ChatActiveIcon'
+import ProfileIcon from '@/assets/imgs/ProfileIcon'
 import { TAB_BAR_HEIGHT } from '@/constants'
 import { RH, shadow } from '@/theme/utils'
-import ChatIcon from '@/assets/imgs/chat'
+import ChatIcon from '@/assets/imgs/ChatIcon'
 
 const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden }) => {
   useEffect(() => {
@@ -72,7 +72,6 @@ export default TabBarButton
 
 const styles = StyleSheet.create({
   tabBar: {
-    // display:'none',
     alignItems: 'center',
     flexDirection: 'row',
     height: TAB_BAR_HEIGHT,

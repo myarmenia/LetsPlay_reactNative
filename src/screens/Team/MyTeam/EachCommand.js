@@ -1,18 +1,18 @@
-import { Pressable, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
-import style from './style'
-import { RH, RW } from '@/theme/utils'
+import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
+import { WHITE } from '@/theme/colors'
 
 const EachCommand = ({ command, data }) => {
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
   return (
     <Pressable
-      style={style.homeBlock}
+      style={styles.homeBlock}
       onPressIn={() => {
         setBack(true)
       }}
@@ -72,21 +72,57 @@ const EachCommand = ({ command, data }) => {
           alignItems: 'center',
         }}
       >
-        <View style={style.imageBlock}>
+        <View style={styles.imageBlock}>
           <FastImage
-            style={style.image}
+            style={styles.image}
             source={{ uri: _storageUrl + command?.img }}
             resizeMode="cover"
           />
         </View>
-        <View style={style.textBlock}>
-          <Text style={style.text}>{command.name}</Text>
-          <Text style={style.text}>{command.address_name}</Text>
-          <Text style={style.text}>{command.id}</Text>
+        <View style={styles.textBlock}>
+          <Text style={styles.text}>{command.name}</Text>
+          <Text style={styles.text}>{command.address_name}</Text>
+          <Text style={styles.text}>{command.id}</Text>
         </View>
       </View>
     </Pressable>
   )
 }
+
+const styles = StyleSheet.create({
+  homeBlock: {
+    width: RW(395),
+    height: RH(111),
+    marginVertical: RH(18),
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  imageBlock: {
+    width: RW(80),
+    height: RW(80),
+    borderWidth: 1,
+    borderRadius: 50,
+    borderColor: WHITE,
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  image: {
+    borderWidth: 1,
+    borderRadius: RW(50),
+    width: '100%',
+    height: '100%',
+  },
+  text: {
+    marginVertical: RH(3),
+    ...font('bold', 14, WHITE),
+    flexGrow: 1,
+    flexWrap: 'nowrap',
+    width: '74%',
+  },
+  textBlock: {
+    width: '100%',
+    marginLeft: RW(15),
+  },
+})
 
 export default EachCommand

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
 import OrganizerSvg from '@/assets/svgs/OrganizerSvg'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import FastImage from 'react-native-fast-image'
@@ -18,7 +18,7 @@ function TournamentTicket(props) {
         <View style={styles.svg}>
           <FastImage
             style={{ width: RW(220), height: RW(220) }}
-            source={require('@/assets/imgs/games/soccer.png')}
+            source={require('@/assets/imgs/soccer.png')}
           />
         </View>
 

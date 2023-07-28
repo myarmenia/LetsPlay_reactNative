@@ -8,8 +8,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
-import LightButton from '@/assets/imgs/Button'
-// import CircleAdd from '@/components/buttons/circleAdd'
+import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGamesOnlyNames } from '@/store/Slices/GamesSlice'
 import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
@@ -60,7 +59,7 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
- 
+
     if (!priceError && !errorMessage) {
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = {
