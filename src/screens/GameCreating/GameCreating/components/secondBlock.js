@@ -4,14 +4,14 @@ import Count from '@/components/inputs/count'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON } from '@/theme/colors'
 
-const SecondBlock = ({ title, type }) => {
+const SecondBlock = ({ title, type, from, to }) => {
   return (
     <View>
       <Text style={styles.titles}>{title}</Text>
       <View style={styles.countBlock}>
-        <Count type={type} countType={'from'} placeholder={'От'} />
+        <Count type={type} countType={'from'} value={from} placeholder={'От'} />
         <View style={styles.dash}></View>
-        <Count type={type} countType={'to'} placeholder={'До'} />
+        <Count type={type} countType={'to'} value={to} placeholder={'До'} />
       </View>
     </View>
   )

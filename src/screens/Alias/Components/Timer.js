@@ -53,9 +53,9 @@ const Timer = ({ modalState, setTimeIsFinished }) => {
     return () => clearInterval(timer)
   }, [selectedTime.seconds, stoping, explainYou])
   const displayMinutes = Math.floor(selectedTime.seconds / 60)
-    .toString()
-    .padStart(1, '0')
-  const displaySeconds = (selectedTime.seconds % 60).toString().padStart(2, '0')
+    ?.toString()
+    ?.padStart(1, '0')
+  const displaySeconds = (selectedTime.seconds % 60)?.toString()?.padStart(2, '0')
   return (
     <>
       <Text style={styles.timer}>Оставшееся время</Text>

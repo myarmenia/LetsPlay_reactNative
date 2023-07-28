@@ -84,7 +84,7 @@ const AnimatedCircle = ({ userExplainedWordsCount, setUserExplainedWordsCount })
       <TypeButton
         labelStyle={{ ...font('bold', 21, LIGHT_LABEL, 21) }}
         title={words?.[step]?.name}
-        key={Math.random().toString()}
+        key={Math.random()?.toString()}
       />
     </Animated.View>
   )

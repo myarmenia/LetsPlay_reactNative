@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   },
   btns: {
     marginTop: RH(150),
+    alignItems: 'center',
   },
   btn: {
     marginBottom: RH(15),

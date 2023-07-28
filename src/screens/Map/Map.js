@@ -83,7 +83,9 @@ const Map = ({ route }) => {
                 dispatch(setPlaceName(response))
                 game
                   ? navigation.navigate('GameCreating', {
-                      params: { game: game, response: response, fromMap: true },
+                      game: game,
+                      response: response,
+                      fromMap: true,
                     })
                   : null
                 navigateTo == 'CreateTeamTitle'

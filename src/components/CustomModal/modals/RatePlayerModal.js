@@ -8,10 +8,12 @@ import Row from '@/components/wrappers/row'
 
 const RatePlayerModal = ({ body }) => {
   let { item, rating, setRating } = body
-  const [userRating, setUserRating] = useState(rating)
+
+  const [userRating, setUserRating] = useState(1)
+
   useEffect(() => {
     setUserRating(rating)
-  }, [rating])
+  }, [rating, item])
   return (
     <View style={styles.modal}>
       <View style={styles.starsContainer}>
@@ -28,7 +30,7 @@ const RatePlayerModal = ({ body }) => {
         ))}
       </View>
 
-      <User size={250} />
+      <User size={250} user={item} />
       <Row>
         <Text style={styles.text}>Хотите пригласить игрока в свою команду?</Text>
       </Row>

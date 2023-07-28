@@ -42,7 +42,10 @@ const AddPhoto = ({ route }) => {
       requestOptions,
     )
       .then((result) => {
-        navigation.navigate('RatePlayers', { gameId: route.params.gameId })
+        navigation.navigate('RatePlayers', {
+          gameId: route.params.gameId,
+          users: route.params.users,
+        })
       })
       .catch((error) => console.log('error', error))
   }

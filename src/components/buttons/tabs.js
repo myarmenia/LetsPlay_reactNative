@@ -52,7 +52,7 @@ const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden 
           <TouchableOpacity
             onPress={onPress}
             activeOpacity={0.7}
-            key={index.toString()}
+            key={index?.toString()}
             onLongPress={onLongPress}
             accessibilityRole="button"
             testID={options.tabBarTestID}

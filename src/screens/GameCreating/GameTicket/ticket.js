@@ -41,6 +41,7 @@ function Ticket({ game, initialState, name, dates }) {
       (timesArray[1].toString().length == 1 ? '0' + timesArray[1] : timesArray[1])
     return `${fullDate} ${fullTime}`
   }
+  console.log('Ticket game', game)
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: RH(50) }}>
       <View style={styles.ticketImgBlock}>

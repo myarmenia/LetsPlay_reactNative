@@ -182,6 +182,7 @@ function ChatItem({ id, item, type, playersLength }) {
               >
                 <LightButton
                   onPress={() => {
+                    console.log(item?._id)
                     type == 'Участник'
                       ? dispatch(deleteMemberChat(item?._id, setDeleting))
                       : dispatch(deleteOrganizerChat(item?.id, setDeleting))

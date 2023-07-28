@@ -10,7 +10,7 @@ import {
   setNumber_of_players_to,
 } from '@/store/Slices/GameCreatingSlice'
 
-const Count = ({ placeholder, width, type, countType }) => {
+const Count = ({ placeholder, width, type, value, countType }) => {
   const dispatch = useDispatch()
   return (
     <TextInput
@@ -25,6 +25,7 @@ const Count = ({ placeholder, width, type, countType }) => {
             : dispatch(setAge_restrictions_to(+number))
         }
       }}
+      value={value?.toString()}
       keyboardType={'numeric'}
       style={{ ...styles.countInput, width: width || RW(124) }}
       placeholder={placeholder}

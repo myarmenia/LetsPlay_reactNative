@@ -13,21 +13,8 @@ import { createGame } from '@/store/Slices/GameCreatingSlice'
 
 function Index({ route }) {
   const navigation = useNavigation()
-  const { game, data, initialState, name, dates } = route.params.params
+  const { game, data, initialState, name, dates } = route?.params?.params
   const dispatch = useDispatch()
-
-  const dateFotmat = (date) => {
-    const datesArray = new Date().toLocaleDateString().split('/')
-    const date1 = [
-      datesArray[1].length == 1 ? '0' + datesArray[1] : datesArray[1],
-      datesArray[0].length == 1 ? '0' + datesArray[0] : datesArray[0],
-      datesArray[2],
-    ].join('.')
-    const timesArray = new Date(date).toLocaleTimeString().split(':')
-    const time1 = [timesArray[0], timesArray[1]].join(':')
-    return `${date1}, ${time1}`
-  }
-
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View>
@@ -50,10 +37,10 @@ function Index({ route }) {
               createGame(
                 {
                   ...initialState,
-                  start_date: dates[0],
-                  end_date: dates[1],
+                  start_date: dates?.[0],
+                  end_date: dates?.[1],
                 },
-                () => navigation.navigate('Home', { flag: true, game, data }),
+                () => navigation.navigate('Home'),
               ),
             )
           }}

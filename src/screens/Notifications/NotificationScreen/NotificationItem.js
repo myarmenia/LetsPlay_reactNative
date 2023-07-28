@@ -15,6 +15,7 @@ import {
 } from '@/store/Slices/AppSlice'
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
+import { getGameById } from '@/store/Slices/GamesSlice'
 
 const NotificationItem = ({ elm, setModalVisible }) => {
   const { notifications } = useSelector(({ app }) => app)
@@ -61,6 +62,7 @@ const NotificationItem = ({ elm, setModalVisible }) => {
           screen: 'AddPhoto',
           params: {
             gameId: elm?.create_game,
+            users: elm?.users,
           },
         })
       },
@@ -76,6 +78,13 @@ const NotificationItem = ({ elm, setModalVisible }) => {
             body: elm?.file,
           }),
         )
+      },
+    },
+    edit_game: {
+      label: 'Изменить',
+      secondaryClick: true,
+      onPress: () => {
+        dispatch(getGameById(elm?.create_game, navigation))
       },
     },
   }

@@ -113,7 +113,7 @@ export const GameCreatingSlice = createSlice({
       }
     },
     setInitialState: (store, action) => {
-      return { game: action.payload }
+      return { ...action.payload }
     },
     setGameCreatedSuccessful: (store, action) => {
       return {
@@ -125,9 +125,8 @@ export const GameCreatingSlice = createSlice({
 })
 
 export const createGame = (data, callBack) => (dispatch) => {
-  console.log('createGame', data)
   axiosInstance
-    .post('api/create/game', JSON.stringify(data))
+    .post('api/create/game', data)
     .then((res) => {
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))

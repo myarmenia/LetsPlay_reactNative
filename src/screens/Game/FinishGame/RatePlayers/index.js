@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
@@ -13,72 +13,27 @@ import StarSvg from '@/assets/svgs/StarSvg'
 import { ratePlayersAfterFinishGame } from '@/store/Slices/GamesSlice'
 
 const RatePlayers = ({ route }) => {
-  // const gameFinishPhoto = useSelector(({ games }) => games.gameFinishPhoto)
-  // const navigation = useNavigation()
-  const gameId = route.params.gameId
+  const navigation = useNavigation()
+  const { gameId, users } = route.params
   const dispatch = useDispatch()
-  const [users, setUsers] = useState([
-    {
-      item: 1,
-      rating: 1,
-    },
-    {
-      item: 2,
-      rating: 1,
-    },
-    {
-      item: 3,
-      rating: 1,
-    },
-    {
-      item: 4,
-      rating: 1,
-    },
-    {
-      item: 5,
-      rating: 1,
-    },
-    {
-      item: 6,
-      rating: 1,
-    },
-    {
-      item: 7,
-      rating: 1,
-    },
-    {
-      item: 8,
-      rating: 1,
-    },
-    {
-      item: 9,
-      rating: 1,
-    },
-    {
-      item: 10,
-      rating: 1,
-    },
-    {
-      item: 11,
-      rating: 1,
-    },
-    {
-      item: 12,
-      rating: 1,
-    },
-    {
-      item: 13,
-      rating: 1,
-    },
-    {
-      item: 14,
-      rating: 1,
-    },
-    {
-      item: 15,
-      rating: 1,
-    },
-  ])
+  const user = useSelector(({ auth }) => auth.user)
+
+  const [usersState, setUsersState] = useState([])
+  useEffect(() => {
+    if (users.length)
+      setUsersState(
+        users
+          ?.filter((item) => {
+            return item?._id !== user?._id
+          })
+          ?.map((user) => {
+            return {
+              ...user,
+              rating: 1,
+            }
+          }),
+      )
+  }, [users])
 
   return (
     <ScreenMask>
@@ -86,7 +41,7 @@ const RatePlayers = ({ route }) => {
         <Text style={styles.title}>Оцените игрока</Text>
 
         <FlatList
-          data={users}
+          data={usersState}
           style={styles.flatList}
           contentContainerStyle={styles.flatListContent}
           numColumns={3}
@@ -95,6 +50,7 @@ const RatePlayers = ({ route }) => {
             <View style={{ margin: RW(8) }}>
               <User
                 size={90}
+                user={item}
                 onPressItem={{
                   onClickFunc: () => {
                     dispatch(
@@ -102,17 +58,10 @@ const RatePlayers = ({ route }) => {
                         visible: true,
                         type: 'RatePlayerModal',
                         body: {
-                          item: item.item,
+                          item: item,
                           rating: item.rating,
                           setRating: (newRating) => {
-                            dispatch(
-                              ratePlayersAfterFinishGame({
-                                user_id: 'string',
-                                create_game_id: gameId,
-                                rating: newRating / 100,
-                              }),
-                            )
-                            setUsers((prev) => {
+                            setUsersState((prev) => {
                               return prev.map((user, userIndex) => {
                                 if (userIndex == index) {
                                   return {
@@ -140,10 +89,24 @@ const RatePlayers = ({ route }) => {
         />
       </View>
       <LightButton
-        // onPress={() => navigation.navigate('RatePlayers')}
+        onPress={() => {
+          let rating = {}
+          usersState.forEach((item) => {
+            rating = { ...rating, [item?._id]: item.rating / 100 }
+          })
+          dispatch(
+            ratePlayersAfterFinishGame(
+              {
+                create_game_id: gameId,
+                rating,
+              },
+              navigation,
+            ),
+          )
+        }}
         style={{ alignSelf: 'center', marginBottom: RH(30) }}
         size={{ width: RW(280), height: RH(48) }}
-        label={false ? 'Далее' : 'Пропустить'}
+        label={'Завершить игру'}
       />
     </ScreenMask>
   )

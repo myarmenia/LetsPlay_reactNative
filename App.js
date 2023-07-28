@@ -13,6 +13,7 @@ LogBox.ignoreLogs([
   'Sending `rn-recordback` with no listeners registered.',
   'Possible Unhandled Promise Rejection (id: 1): Error: Player is already running.',
   'Animated.event now requires a second argument for options',
+  'Non-serializable values were found in the navigation state.',
 ])
 
 const App = () => {

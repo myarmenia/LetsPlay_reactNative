@@ -67,7 +67,6 @@ export const participateToGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`/api/participate/${gameId}`)
     .then((response) => {
-      console.log('response', response.data)
       dispatch(
         setModalOptions({
           visible: true,
@@ -90,14 +89,31 @@ export const confirmPhotoAfterFinishGame = (data) => (dispatch) => {
       console.log('err confirmPhotoAfterFinishGame', err.request._response)
     })
 }
-export const ratePlayersAfterFinishGame = (data) => (dispatch) => {
+export const ratePlayersAfterFinishGame = (data, navigation) => (dispatch) => {
+  console.log('ratePlayersAfterFinishGame data', data)
   axiosInstance
     .post(`api/create/game/create_game/rating`, data)
     .then((response) => {
+      navigation.navigate('Home')
       console.log('ratePlayersAfterFinishGame result', response.data)
     })
     .catch((err) => {
       console.log('err ratePlayersAfterFinishGame', err.request._response)
+    })
+}
+export const getGameById = (create_game_id, navigation) => (dispatch) => {
+  axiosInstance
+    .get(`api/create/game/${create_game_id}`)
+    .then((response) => {
+      if (response.data.data) {
+        navigation.replace('CreateGameNavigator', {
+          screen: 'GameCreating',
+          params: { editGame: response.data.data },
+        })
+      }
+    })
+    .catch((err) => {
+      console.log('err getGameById', err.request._response)
     })
 }
 

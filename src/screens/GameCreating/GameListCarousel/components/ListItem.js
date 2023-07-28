@@ -54,8 +54,8 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
               savedTeam?.id
                 ? setModalVisible(true)
                 : game?.name == 'Своя игра'
-                ? navigation.navigate('OwnGameName', { params: { game } })
-                : navigation.navigate('GameCreating', { params: { game } })
+                ? navigation.navigate('OwnGameName', { game })
+                : navigation.navigate('GameCreating', { game })
             }
           }
         }}

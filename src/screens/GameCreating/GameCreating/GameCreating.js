@@ -14,19 +14,22 @@ import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setGame,
+  setInitialState,
   setOrganizer_in_the_game,
   setPlayers_gender,
 } from '@/store/Slices/GameCreatingSlice'
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
+// import { getGames } from '@/store/Slices/GamesSlice'
 
 const GameCreating = ({ route }) => {
-  const { game, response } = route?.params?.params
+  let { game, response, editGame } = route?.params
   const navigation = useNavigation()
 
   //states
   const initialState = useSelector((state) => state.game)
-  const [flag, setFlag] = useState(false)
+  // const { games } = useSelector((state) => state.games)
+
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
   const [addressName, setAddressName] = useState()
@@ -52,42 +55,11 @@ const GameCreating = ({ route }) => {
     { id: 1, text: 'Участвует', checked: true },
     { id: 2, text: 'Не участвует', checked: false },
   ])
-  // const [priceList, setPriceList] = useState([
-  //   { id: 1, text: 'Бесплатно', checked: true },
-  //   { id: 2, text: 'Платно', checked: false },
-  // ])
   const [genderList, setGenderList] = useState([
     { id: 1, text: 'М', checked: false, label: 'm' },
     { id: 2, text: 'Ж', checled: false, label: 'f' },
     { id: 3, text: 'Без ограничений', checked: true, label: 'm/f' },
   ])
-
-  const timeFormat = (date) => {
-    if (
-      date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
-      +date.time.toLocaleTimeString().slice(0, 2) != 12
-    ) {
-      return (
-        +date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
-        12 +
-        ':' +
-        date.time.toLocaleTimeString().split(':')[1]
-      )
-    } else if (date.time.toLocaleTimeString().split(' ')[0].split(':')[0].length == 1) {
-      return (
-        '0' +
-        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
-        ':' +
-        date.time.toLocaleTimeString().split(':')[1]
-      )
-    } else {
-      return (
-        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
-        ':' +
-        date.time.toLocaleTimeString().split(':')[1]
-      )
-    }
-  }
 
   const handleClick = () => {
     if (!startDate) {
@@ -119,7 +91,6 @@ const GameCreating = ({ route }) => {
     } else {
       setAgeError(null)
     }
-
     if (!initialState.number_of_players_from || !initialState?.number_of_players_to) {
       setPlayersCuntError('Обязательное поле для заполнения')
     } else if (
@@ -135,7 +106,6 @@ const GameCreating = ({ route }) => {
     } else {
       setAddressError(null)
     }
-
     if (
       startDate &&
       endDate &&
@@ -153,20 +123,60 @@ const GameCreating = ({ route }) => {
       start_date.setTime(startDate.time)
       let end_date = endDate.date
       end_date.setTime(endDate.time)
+
+      console.log('before navigate', game)
       navigation.navigate('GameTicket', {
         params: {
           initialState,
           game,
-          name: game.name,
+          name: game?.name,
           dates: [start_date, end_date],
         },
       })
     }
   }
   useEffect(() => {
-    dispatch(setGame(game._id))
-    setIsVisible(true)
+    if (game?._id) {
+      dispatch(setGame(game?._id))
+      setIsVisible(true)
+    }
   }, [])
+
+  // useEffect(() => {
+  //   setStartDate({
+  //     date: new Date(editGame.start_date),
+  //     time: new Date(editGame.start_date),
+  //   })
+  //   setEndDate({
+  //     date: new Date(editGame.end_date),
+  //     time: new Date(editGame.end_date),
+  //   })
+  //   setOrganizer_in_the_gameState([
+  //     { id: 1, text: 'Участвует', checked: editGame.organizer_in_the_game },
+  //     { id: 2, text: 'Не участвует', checked: !editGame.organizer_in_the_game },
+  //   ])
+
+  //   setGenderList(
+  //     genderList.map((elm) => {
+  //       return { ...elm, checked: elm?.label == editGame?.players_gender }
+  //     }),
+  //   )
+  //   setAddressName(editGame.address_name)
+  //   dispatch(setInitialState(editGame))
+  //   if (games.length) {
+  //     game = games?.find((elm) => elm._id == editGame.game)
+  //   } else {
+  //     dispatch(getGames())
+  //   }
+  // }, [editGame])
+
+  // useEffect(() => {
+  //   if (!game) {
+  //     console.log('!game')
+  //     game = games?.find((elm) => elm._id == editGame.game)
+  //     // dispatch(setGame(games?.find((elm) => elm._id == editGame.game)))
+  //   }
+  // }, [games])
 
   return (
     <ScreenMask>
@@ -199,10 +209,20 @@ const GameCreating = ({ route }) => {
             setTime={(time) => setStartDate({ ...startDate, time })}
           />
           {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}
-          <SecondBlock type={'player'} initialState={initialState} title={'Количество игроков'} />
+          <SecondBlock
+            from={editGame?.number_of_players_from}
+            to={editGame?.number_of_players_to}
+            type={'player'}
+            title={'Количество игроков'}
+          />
           {playersCuntError && <Text style={styles.errorText}>{playersCuntError}</Text>}
 
-          <SecondBlock type={'age'} initialState={initialState} title={'Возрастные ограничения'} />
+          <SecondBlock
+            from={editGame?.age_restrictions_from}
+            to={editGame?.age_restrictions_to}
+            type={'age'}
+            title={'Возрастные ограничения'}
+          />
           {ageError ? <Text style={styles.errorText}>{ageError}</Text> : null}
 
           <RadioBlock
@@ -259,37 +279,12 @@ const GameCreating = ({ route }) => {
                       <Text style={styles.title}>Правила</Text>
                       <Text style={styles.textTwo}>{game?.rules}</Text>
                     </View>
-                  ) : (
-                    <></>
-                    // <View style={styles.topBlock}>
-                    //   <Text style={styles.text}>Хотите, чтобы Ваша игра была в ТОП играх ?</Text>
-                    //   <View
-                    //     style={{
-                    //       flexDirection: 'row',
-                    //       justifyContent: 'space-between',
-                    //       width: RW(220),
-                    //     }}
-                    //   >
-                    //     <Button
-                    //       light={true}
-                    //       onPress={handleSubmit}
-                    //       size={{ width: 100, height: 36 }}
-                    //       label={'Да'}
-                    //     />
-                    //     <DarkButton
-                    //       light={false}
-                    //       onPress={handleSubmit}
-                    //       size={{ width: 100, height: 36 }}
-                    //       label={'Нет'}
-                    //     />
-                    //   </View>
-                    // </View>
-                  )
+                  ) : null
                 }
               />
             )}
           </View>
-          <View style={flag ? { ...styles.submitBlock } : { ...styles.submitBlock, marginTop: 20 }}>
+          <View style={{ ...styles.submitBlock, marginTop: 20 }}>
             {/* {error && <Text style={styles.errorBoldText}>Ошибка</Text>} */}
             <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
           </View>
