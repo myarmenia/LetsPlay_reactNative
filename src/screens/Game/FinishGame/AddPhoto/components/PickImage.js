@@ -8,7 +8,9 @@ import FastImage from 'react-native-fast-image'
 import Video from 'react-native-video'
 import { useDispatch } from 'react-redux'
 import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
-import CloseSVG from '../../../../Alias/components/CloseSVG'
+import CloseSvg2 from '@/assets/svgs/closeSvg2'
+import { BlurView } from '@react-native-community/blur'
+// import { BlurView, VibrancyView } from '@react-native-community/blur'
 
 const PickImage = ({ gameFinishPhoto }) => {
   const dispatch = useDispatch()
@@ -21,22 +23,29 @@ const PickImage = ({ gameFinishPhoto }) => {
       }}
       style={[styles.container, { justifyContent: gameFinishPhoto ? 'flex-end' : 'center' }]}
     >
-      {gameFinishPhoto ? (
-        <Pressable style={styles.deleteBtn} onPress={() => dispatch(setGameFinishPhoto(null))}>
-          <CloseSVG width={RW(30)} height={RW(30)} />
-        </Pressable>
-      ) : null}
+      <BlurView
+        style={[styles.container, { justifyContent: gameFinishPhoto ? 'flex-end' : 'center' }]}
+        blurType="light"
+        blurAmount={3}
+        reducedTransparencyFallbackColor="white"
+      >
+        {gameFinishPhoto ? (
+          <Pressable style={styles.deleteBtn} onPress={() => dispatch(setGameFinishPhoto(null))}>
+            <CloseSvg2 width={RW(30)} height={RW(30)} />
+          </Pressable>
+        ) : null}
 
-      {gameFinishPhoto?.type?.includes('video') ? (
-        <Video style={styles.image} paused controls source={{ uri: gameFinishPhoto.uri }} />
-      ) : gameFinishPhoto ? (
-        <FastImage style={styles.image} source={{ uri: gameFinishPhoto.uri }} />
-      ) : (
-        <>
-          <AddSvg width={RW(60)} height={RH(60)} strokeWidth={3} />
-          <Text style={styles.text}>Добавить фото/видео</Text>
-        </>
-      )}
+        {gameFinishPhoto?.type?.includes('video') ? (
+          <Video style={styles.image} paused controls source={{ uri: gameFinishPhoto.uri }} />
+        ) : gameFinishPhoto ? (
+          <FastImage style={styles.image} source={{ uri: gameFinishPhoto.uri }} />
+        ) : (
+          <>
+            <AddSvg width={RW(60)} height={RH(60)} strokeWidth={3} />
+            <Text style={styles.text}>Добавить фото/видео</Text>
+          </>
+        )}
+      </BlurView>
     </Pressable>
   )
 }
@@ -46,8 +55,8 @@ export default PickImage
 const styles = StyleSheet.create({
   container: {
     width: RW(370),
-    height: RH(280),
-    backgroundColor: '#D9D9D9',
+    minHeight: RH(280),
+    // backgroundColor: '#D9D9D9',
     alignItems: 'center',
   },
   text: {

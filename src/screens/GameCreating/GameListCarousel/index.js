@@ -5,6 +5,7 @@ import { getGames } from '@/store/Slices/GamesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import ListItem from './components/ListItem'
 import { _storageUrl } from '@/constants'
+import { clearInitialState } from '@/store/Slices/GameCreatingSlice'
 const Index = ({ route }) => {
   const { list, fromTournament = null, gameWithQr } = route.params
   const { width } = Dimensions.get('window')
@@ -13,6 +14,7 @@ const Index = ({ route }) => {
 
   useEffect(() => {
     dispatch(getGames())
+    dispatch(clearInitialState())
   }, [])
 
   return (
@@ -30,7 +32,12 @@ const Index = ({ route }) => {
       >
         {games
           ?.filter((elem) => {
-            if (elem?.category?.name == list) {
+            if (
+              gameWithQr &&
+              (elem?.name == 'Элиас' || elem?.name == 'Крокодил' || elem?.name == 'Мафия')
+            ) {
+              return elem
+            } else if (elem?.category?.name == list && !gameWithQr) {
               return elem
             }
           })

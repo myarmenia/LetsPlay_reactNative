@@ -8,7 +8,7 @@ import AuthNavigator from './navigation/AuthNavigator'
 import CustomModal from './components/CustomModal'
 import { setToken } from '@/store/Slices/AuthSlice'
 import { notificationListener, requestUserPermission } from './helpers/NotificationServices'
-import { setModalOptions } from './store/Slices/AppSlice'
+import { getNotificationCount, getNotifications, setModalOptions } from './store/Slices/AppSlice'
 import { getProfileInfo } from './store/Slices/AuthSlice'
 import { DARK_BLUE } from '@/theme/colors'
 
@@ -63,7 +63,10 @@ const MyApp = () => {
   }
   useEffect(() => {
     requestUserPermission(openModalFunc)
-    notificationListener(openModalFunc)
+    notificationListener(openModalFunc, () => {
+      dispatch(getNotifications())
+      dispatch(getNotificationCount())
+    })
     unsubscribe()
   }, [])
 

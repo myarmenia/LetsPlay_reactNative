@@ -37,11 +37,15 @@ function NotificationScreen() {
           </Pressable>
         </Row>
         {console.log('notifications', JSON.stringify(notifications, null, 4))}
+
         <FlatList
-          contentContainerStyle={{ justifyContent: 'flex-end', paddingTop: RH(90) }}
+          // style={{ flex: 1, }}
+          // contentContainerStyle={{ flex: 1 }}
+          contentContainerStyle={{ paddingBottom: RH(90) }}
           showsVerticalScrollIndicator={false}
-          inverted={true}
-          data={notifications}
+          // inverted={true}
+          data={[...notifications].reverse()}
+          // initialScrollIndex={19}
           renderItem={(elm) => (
             <NotificationItem elm={elm?.item} setModalVisible={setModalVisible} />
           )}
@@ -64,8 +68,7 @@ function NotificationScreen() {
 }
 const styles = StyleSheet.create({
   container: {
-    paddingTop: RH(56),
-
+    paddingTop: RH(36),
     alignItems: 'center',
   },
   title: {

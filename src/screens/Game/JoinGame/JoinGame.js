@@ -151,7 +151,7 @@ const JoinGame = ({ route }) => {
         style={[
           styles.bottomButton,
           {
-            bottom: RH(20),
+            bottom: RH(35),
             height: RH(36),
             width: '100%',
             alignItems: 'flex-end',

@@ -164,7 +164,7 @@ export const signIn = (data) => (dispatch) => {
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
     .catch((err) => {
-      console.log('err request', err.request._response)
+      console.error('Error: request', err.request._response)
 
       dispatch(
         setSignInError(
@@ -190,7 +190,7 @@ export const signIn2 = (data) => async (dispatch) => {
       addAsyncStorage('token', response.data.token.access_token)
     })
     .catch((err) => {
-      console.log('err request', err.request?._response)
+      console.error('Error: request', err.request?._response)
       dispatch(
         setSignInError(
           typeof err.request._response == 'string'
@@ -205,7 +205,7 @@ export const forgitPassword = (data) => (dispatch) => {
     .post('api/auth/password_reset', data)
     .then((response) => {})
     .catch((err) => {
-      console.log('err request forgitPassword', err.request?._response)
+      console.error('Error: request forgitPassword', err.request?._response)
     })
 }
 export const forgitPassword2 = (data) => (dispatch) => {
@@ -215,7 +215,7 @@ export const forgitPassword2 = (data) => (dispatch) => {
       dispatch(setSignInStep('FORGOT_PASSWORD_SUCCESS'))
     })
     .catch((err) => {
-      console.log('err request forgitPassword2', err.request?._response)
+      console.error('Error: request forgitPassword2', err.request?._response)
     })
 }
 
@@ -229,7 +229,7 @@ export const forgitPassword3 = (data) => (dispatch) => {
       }, 1500)
     })
     .catch((err) => {
-      console.log('err request forgitPassword3', err.request?._response)
+      console.error('Error: request forgitPassword3', err.request?._response)
     })
 }
 export const signUp = (data) => (dispatch) => {
@@ -241,7 +241,7 @@ export const signUp = (data) => (dispatch) => {
     })
 
     .catch((err) => {
-      console.log('err request response', err.request._response)
+      console.error('Error: request response', err.request._response)
       dispatch(
         setSignUpError(
           typeof err.request._response == 'string'
@@ -260,7 +260,7 @@ export const signUp2 = (data) => (dispatch) => {
       dispatch(setSignUpStep('EMAIL_CODE_SUCCESS'))
     })
     .catch((err) => {
-      console.log('err request response', err.request._response)
+      console.error('Error: request response', err.request._response)
       dispatch(
         setSignUpError(
           typeof err.request._response == 'string'
@@ -278,7 +278,7 @@ export const signUp3 = (data) => (dispatch) => {
       dispatch(getDocumentRules())
     })
     .catch((err) => {
-      console.log('err request response', err.request._response)
+      console.error('Error: request response', err.request._response)
       dispatch(
         setSignUpError(
           typeof err.request._response == 'string'
@@ -303,7 +303,7 @@ export const signUp4 = (data) => async (dispatch) => {
       dispatch(setExpiredToken(response.data.token.access_token))
     })
     .catch((err) => {
-      console.log('err request response', err.request._response)
+      console.error('Error: request response', err.request._response)
       dispatch(
         setSignUpError(
           typeof err.request._response == 'string'
@@ -339,7 +339,7 @@ export const changeUserPreferences = (data, token) => async (dispatch) => {
     })
 
     .catch((err) => {
-      console.log('error changing preferences : ', err)
+      console.error('Error:or changing preferences : ', err)
     })
 }
 export const getDocumentRules = () => (dispatch) => {
@@ -349,7 +349,7 @@ export const getDocumentRules = () => (dispatch) => {
       dispatch(setDocumentRules(response.data?.datas))
     })
     .catch((err) => {
-      console.log('err request response', err.request._response)
+      console.error('Error: request response', err.request._response)
     })
 }
 
@@ -368,7 +368,7 @@ export const vkAuth = (data) => async (dispatch) => {
       addAsyncStorage('token', response.data?.token)
     })
     .catch((err) => {
-      console.log('Vk auth err request response - ', err.request?._response)
+      console.error('Error: Vk auth error request response - ', err.request?._response)
     })
 }
 export const editProfile = (data) => (dispatch) => {
@@ -376,7 +376,7 @@ export const editProfile = (data) => (dispatch) => {
     .put('api/profile', data)
 
     .catch((err) => {
-      console.log('err request _response', err.request._response)
+      console.error('Error: request _response', err.request._response)
     })
 }
 export const getProfileInfo = () => (dispatch) => {
@@ -386,7 +386,7 @@ export const getProfileInfo = () => (dispatch) => {
       dispatch(setUser(response.data?.user))
     })
     .catch((err) => {
-      console.log('err request _response', err.request._response)
+      console.error('Error: request _response', err.request._response)
     })
 }
 export const {

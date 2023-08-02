@@ -3,32 +3,37 @@ import ScreenMask from '@/components/wrappers/screen'
 import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
-import { getGalleries } from '@/store/Slices/AppSlice'
+import { getGalleries, getOtherUserGalleries } from '@/store/Slices/AppSlice'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import FastImage from 'react-native-fast-image'
 import Video from 'react-native-video'
 import { _storageUrl } from '@/constants'
 import GalleryItem from './GalleryItem'
 
-function Index() {
-  const userGalleries = useSelector(({ app }) => app.userGalleries)
+function Index({ route }) {
+  const { userGalleries, otherUserGalleries } = useSelector(({ app }) => app)
   const dispatch = useDispatch()
+  const isMe = route.params.isMe
   useEffect(() => {
     dispatch(getGalleries())
   }, [])
+  useEffect(() => {
+    if (!isMe) dispatch(getOtherUserGalleries(route.params.userId))
+  }, [isMe])
+
   return (
     <ScreenMask>
       <View style={{ ...styles.container, marginTop: RH(16) }}>
         <Text style={styles.title}>Моя галерея</Text>
-        {userGalleries.length ? (
+        {(isMe && userGalleries.length) || otherUserGalleries.length ? (
           <FlatList
-            data={userGalleries}
+            data={isMe ? userGalleries : otherUserGalleries}
             style={styles.flatList}
             contentContainerStyle={styles.flatListContent}
             numColumns={2}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ index, item }) => <GalleryItem item={item} />}
+            renderItem={({ index, item }) => <GalleryItem item={item} isMe={isMe} />}
           />
         ) : (
           <View style={styles.galleryTextBlock}>

@@ -11,6 +11,7 @@ import Button from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import FastImage from 'react-native-fast-image'
 import { ICON, LIGHT_RED, WHITE } from '@/theme/colors'
+import dateFormater from '@/helpers/dateFormater'
 
 function GameItem({ route }) {
   const { item } = route.params
@@ -37,11 +38,7 @@ function GameItem({ route }) {
           <Text style={styles.eachInfo}>Тип игры:</Text>
           <Text style={styles.eachInfoTwo}>{item?.game?.name}</Text>
           <Text style={styles.eachInfo}>Дата и время игры:</Text>
-          <Text style={styles.eachInfoTwo}>
-            {' '}
-            {new Date(item?.start_date).toLocaleDateString()},{' '}
-            {new Date(item?.start_date).toLocaleTimeString().slice(0, 5)}
-          </Text>
+          <Text style={styles.eachInfoTwo}>{dateFormater(item?.start_date)}</Text>
           <Text style={styles.eachInfo}>Кол. игроков:</Text>
           <Text style={styles.eachInfoTwo}>
             от {item?.players?.slice(0, 2)} до {item?.players?.slice(3)}
@@ -63,10 +60,7 @@ function GameItem({ route }) {
           <Text style={styles.eachInfo}>
             Дата и время подтверждения заявки на игру (не позднее):
           </Text>
-          <Text style={styles.eachInfoTwo}>
-            {new Date(item?.end_date).toLocaleDateString()},{' '}
-            {new Date(item?.end_date).toLocaleTimeString().slice(0, 5)}
-          </Text>
+          <Text style={styles.eachInfoTwo}>{dateFormater(item?.end_date)}</Text>
           {/* <Text style={styles.eachInfo}>Стоимость входного билета на игру: Бесплатно</Text>
           <Text style={styles.eachInfoTwo}>
             {item?.ticket_price ? `${item?.ticket_price} руб.` : 'Бесплатно'}

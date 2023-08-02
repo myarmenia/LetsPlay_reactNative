@@ -4,20 +4,17 @@ import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { RW } from '@/theme/utils'
 import { FONT_INTER_REGULAR } from '@/theme/fonts'
 import ArrowRight from '@/assets/svgs/ArrowRight'
-import InfoSvg from '@/assets/svgs/infoSvg'
 import Modal from '@/components/modal'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
+import dateFormater from '../../../../../helpers/dateFormater'
 
 const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
-  const gameDate = new Date(gameInfo?.start_date)?.toLocaleDateString().split('/').join('.')
-  const gameDateTime = new Date(gameInfo?.start_date).toLocaleTimeString().split(':')
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
-  const playersSearchDate = new Date(gameInfo?.end_date)?.toLocaleDateString().split('/').join('.')
-  const playersSearchTime = new Date(gameInfo?.end_date)?.toTimeString().split(':')
+
   return (
     <Modal
       modalVisible={modalVisible}
@@ -32,7 +29,7 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
             <View style={styles.titleColumnBox}>
               <Text style={styles.title}>Тип игры: {gameInfo?.game?.name}</Text>
               <Text style={styles.title}>
-                Дата и время игры: {gameDate}, {gameDateTime[0]}:{gameDateTime[1]}
+                Дата и время игры: {dateFormater(gameInfo?.start_date)}
               </Text>
               <Text style={styles.title}>
                 Количество игроков: от {gameInfo?.number_of_players_from} до{' '}
@@ -44,8 +41,7 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
               <Text style={styles.title}>Половой признак игроков: {gameGender}</Text>
               <Text style={styles.title}>Адрес проведения игры: {gameInfo?.address_name}</Text>
               <Text style={styles.title}>
-                Дата и время окончания поиска игроков: {playersSearchDate}, {playersSearchTime[0]}:
-                {playersSearchTime[1]}
+                Дата и время окончания поиска игроков: {dateFormater(gameInfo?.end_date)}
               </Text>
               {/* <Text style={styles.title}>Стоимость входного билета на игру: 500 руб.</Text> */}
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>

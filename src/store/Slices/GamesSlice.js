@@ -40,7 +40,7 @@ export const getGames = () => (dispatch) => {
       dispatch(setGames(response.data.games))
     })
     .catch((err) => {
-      console.log('err request', err.request._response)
+      console.error('Error: request', err.request._response)
     })
 }
 export const getGamesOnlyNames = () => (dispatch) => {
@@ -60,13 +60,14 @@ export const getGamesOnlyNames = () => (dispatch) => {
       )
     })
     .catch((err) => {
-      console.log('error getting games : ', err)
+      console.error('Error: getting games : ', err)
     })
 }
 export const participateToGame = (gameId) => (dispatch) => {
   axiosInstance
-    .post(`/api/participate/${gameId}`)
+    .post(`api/create/game/player/confirm/${gameId}`)
     .then((response) => {
+      console.log('participateToGame response', response.data)
       dispatch(
         setModalOptions({
           visible: true,
@@ -76,7 +77,7 @@ export const participateToGame = (gameId) => (dispatch) => {
       )
     })
     .catch((err) => {
-      console.log('err request', err.request._response)
+      console.error('Error: request', err.request._response)
     })
 }
 export const confirmPhotoAfterFinishGame = (data) => (dispatch) => {
@@ -86,7 +87,20 @@ export const confirmPhotoAfterFinishGame = (data) => (dispatch) => {
       console.log('confirmPhotoAfterFinishGame result', response.data)
     })
     .catch((err) => {
-      console.log('err confirmPhotoAfterFinishGame', err.request._response)
+      console.error('Error: confirmPhotoAfterFinishGame', err.request._response)
+    })
+}
+
+export const callEndGame = (game_id) => (dispatch) => {
+  console.log('callEndGame', game_id)
+
+  axiosInstance
+    .post(`api/create/game/player/end/${game_id}`)
+    .then((response) => {
+      console.log('callEndGame result', response.data)
+    })
+    .catch((err) => {
+      console.error('Error: callEndGame', err.request._response)
     })
 }
 export const ratePlayersAfterFinishGame = (data, navigation) => (dispatch) => {
@@ -94,11 +108,11 @@ export const ratePlayersAfterFinishGame = (data, navigation) => (dispatch) => {
   axiosInstance
     .post(`api/create/game/create_game/rating`, data)
     .then((response) => {
-      navigation.navigate('Home')
       console.log('ratePlayersAfterFinishGame result', response.data)
+      navigation.navigate('Home')
     })
     .catch((err) => {
-      console.log('err ratePlayersAfterFinishGame', err.request._response)
+      console.error('Error: ratePlayersAfterFinishGame', err.request._response)
     })
 }
 export const getGameById = (create_game_id, navigation) => (dispatch) => {
@@ -113,7 +127,7 @@ export const getGameById = (create_game_id, navigation) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log('err getGameById', err.request._response)
+      console.error('Error: getGameById', err.request._response)
     })
 }
 

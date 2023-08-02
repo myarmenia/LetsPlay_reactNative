@@ -5,19 +5,35 @@ import FastImage from 'react-native-fast-image'
 import Video from 'react-native-video'
 import { RH, RW } from '@/theme/utils'
 import CloseSvg from '@/assets/svgs/closeSvg'
-import { deleteGalleryFile } from '@/store/Slices/AppSlice'
+import { deleteGalleryFile, setModalOptions } from '@/store/Slices/AppSlice'
 import { useDispatch } from 'react-redux'
 
-const GalleryItem = ({ item }) => {
+const GalleryItem = ({ item, isMe }) => {
   const dispatch = useDispatch()
   return (
-    <View>
-      <Pressable
-        onPress={() => dispatch(deleteGalleryFile({ file_id: item?._id }))}
-        style={styles.deleteBtn}
-      >
-        <CloseSvg color="#000" />
-      </Pressable>
+    <Pressable
+      onPress={() => {
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: 'GaleryOpenPhoto',
+            body: {
+              image_path: item.image_path,
+              video_path: item.video_path,
+            },
+          }),
+        )
+      }}
+    >
+      {isMe ? (
+        <Pressable
+          onPress={() => dispatch(deleteGalleryFile({ file_id: item?._id }))}
+          style={styles.deleteBtn}
+        >
+          <CloseSvg color="#000" />
+        </Pressable>
+      ) : null}
+
       {item.image_path ? (
         <FastImage
           resizeMode="contain"
@@ -26,19 +42,19 @@ const GalleryItem = ({ item }) => {
         />
       ) : item.video_path ? (
         <Video
-          onVideoLoadStart={(e) => {
-            console.log('onVideoLoadStart', e)
-          }}
-          onVideoLoad={(e) => {
-            console.log('onVideoLoad', e)
-          }}
+          // onVideoLoadStart={(e) => {
+          //   console.log('onVideoLoadStart', e)
+          // }}
+          // onVideoLoad={(e) => {
+          //   console.log('onVideoLoad', e)
+          // }}
           style={styles.image}
           paused
-          controls
+          controls={false}
           source={{ uri: _storageUrl + item.video_path }}
         />
       ) : null}
-    </View>
+    </Pressable>
   )
 }
 

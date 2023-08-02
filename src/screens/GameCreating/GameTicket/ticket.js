@@ -7,41 +7,12 @@ import Row from '@/components/wrappers/row'
 import User from '@/components/User/user'
 import FastImage from 'react-native-fast-image'
 import { useSelector } from 'react-redux'
+import dateFormater from '@/helpers/dateFormater'
+import useExtractLinksFromText from '@/helpers/useExtractLinksFromText'
 
 function Ticket({ game, initialState, name, dates }) {
   const { game_name, game_description } = useSelector((state) => state.game)
 
-  const dateFotmat = (date) => {
-    const date1 = new Date(date)
-    // date1.setDate(date1.getDate() + 1)
-    let fullDate
-    if (date1.toLocaleDateString().includes('/')) {
-      let x = date1.toLocaleDateString().split('/')
-      let fullDateArray = [x[1], x[0], x[2]]
-      fullDate = fullDateArray.map((e) => (e.length == 1 ? '0' + e : e)).join('.')
-    } else {
-      fullDate = date1
-        .toLocaleDateString()
-        .split('.')
-        .map((e) => (e.length == 1 ? '0' + e : e))
-        .join('.')
-    }
-    const timesArray = date1.toLocaleTimeString().split(':')
-    if (date1.toLocaleTimeString().includes('PM') || date1.toLocaleTimeString().includes('AM')) {
-      const hasPM = date1.toLocaleTimeString().includes('PM')
-      if (hasPM && +timesArray[0] != 12) {
-        timesArray[0] = +timesArray[0] + 12
-      } else if (hasPM && +timesArray[0] == 12) {
-        timesArray[0] = timesArray[0] - 12
-      }
-    }
-    const fullTime =
-      (timesArray[0].toString().length == 1 ? '0' + timesArray[0] : timesArray[0]) +
-      ':' +
-      (timesArray[1].toString().length == 1 ? '0' + timesArray[1] : timesArray[1])
-    return `${fullDate} ${fullTime}`
-  }
-  console.log('Ticket game', game)
   return (
     <ScrollView contentContainerStyle={{ paddingBottom: RH(50) }}>
       <View style={styles.ticketImgBlock}>
@@ -64,13 +35,18 @@ function Ticket({ game, initialState, name, dates }) {
             </View>
             <View style={styles.firstTextBlock}>
               <Text style={styles.ticketText}>Описание игры:</Text>
-              <Text style={styles.ticketTextTwo}>{game_description}</Text>
+              {useExtractLinksFromText({
+                text: game_description,
+                textStyle: { ...font('bold', 16, ICON, 20), marginRight: RW(5) },
+                wrapperStyle: { maxWidth: '80%' },
+              })}
+              {/* <Text style={styles.ticketTextTwo}>{game_description}</Text> */}
             </View>
           </>
         ) : null}
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время игры:</Text>
-          <Text style={styles.ticketTextTwo}>{dateFotmat(dates[0])}</Text>
+          <Text style={styles.ticketTextTwo}>{dateFormater(dates[0])}</Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Количество игроков:</Text>
@@ -100,14 +76,8 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>
-          <Text style={styles.ticketTextTwo}>{dateFotmat(dates[1])}</Text>
+          <Text style={styles.ticketTextTwo}>{dateFormater(dates[1])}</Text>
         </View>
-        {/* <View style={styles.ticketTextBlock}>
-          <Text style={styles.ticketText}>Стоимость входного билета на игру:</Text>
-          <Text style={styles.ticketTextTwo}>
-            {initialState?.ticket_price ? initialState?.ticket_price : 0} руб.
-          </Text>
-        </View> */}
         <Row wrapper={{ ...styles.ticketTextBlock }}>
           <Text style={styles.ticketText}>Организатор игры:</Text>
           <View style={{ width: RW(60), top: '-2%', marginLeft: RW(20) }}>
@@ -131,20 +101,21 @@ const styles = StyleSheet.create({
   },
   ticketTextBlock: {
     marginBottom: RH(16),
+    marginLeft: RW(31),
   },
   firstTextBlock: {
     justifyContent: 'space-between',
     marginRight: RW(18),
     marginBottom: RH(24),
+    marginLeft: RW(31),
   },
   ticketText: {
     ...font('regular', 14, WHITE, 20),
-    marginLeft: RW(31),
+
     marginBottom: RH(6),
   },
   ticketTextTwo: {
     ...font('bold', 16, ICON, 20),
-    marginLeft: RW(31),
   },
   ticketImg: {
     width: RW(206),

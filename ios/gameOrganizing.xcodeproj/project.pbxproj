@@ -14,22 +14,14 @@
 		1598189C056342429C63AB00 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F5858752EEC2426AB18D4E7E /* OpenSans-Regular.ttf */; };
 		3228BBC72D184D59A9F4DFD0 /* Inter-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1B097A5C758449C0B96C462E /* Inter-Bold.ttf */; };
 		3A4C4AAC2A56DFE400F09852 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3A4C4AAA2A56DFE400F09852 /* GoogleService-Info.plist */; };
-		3D4AF14E9B1A4C2B92803974 /* Inter-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC711A2E8CC14BB0AD9DE8CF /* Inter-ExtraLightItalic.ttf */; };
 		59DE4BF1D76B4323BA31BE84 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1FE463CDA8CB4350968212A2 /* Inter-Thin.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-gameOrganizing-gameOrganizingTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-gameOrganizing-gameOrganizingTests.a */; };
 		79690F9EF5C9464EA9A3331E /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C6258B5FF4C8288C7F7FE /* Inter-Light.ttf */; };
-		7D010EC643A84A00823FF027 /* Exo-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2D094C520AE3465BB11151DA /* Exo-SemiBold.ttf */; };
 		8121331C7DDF8248ABFC01B0 /* libPods-gameOrganizing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-gameOrganizing.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		86EE2CDE5EE942A38E57A3FF /* Exo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D6DDB9A6BA14F35870F66EB /* Exo.ttf */; };
-		929900F90FCA497AB07A7854 /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D05ED33E2C87421E960A5C77 /* Inter-ExtraBold.ttf */; };
-		9A0F95D9A0FC42F2ADF037C4 /* Inter-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 69DC6A850F3041A0A026C4AA /* Inter-Black.ttf */; };
-		A06D767AB73F4F8B8FBFEC4B /* Inter-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0546EAB753CB47CBB56406E9 /* Inter-SemiBold.ttf */; };
 		BC47F2B94002465AB6EB12A4 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01728D889DF945ED8CA70232 /* Inter-Regular.ttf */; };
 		BFA087941F0A499B8B825B63 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9476C837C824FCFB70B1B47 /* OpenSans-Medium.ttf */; };
-		CDA3E08F31D7477C9C7C021D /* Inter-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 174290564A4E4AC098FDA988 /* Inter-ExtraLight.ttf */; };
 		CF7BB28BB32949A7A9C1C426 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3CBA279922743798A4F19D8 /* Inter-Medium.ttf */; };
-		E24A0947D4BC4EF599F9388B /* Inter-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EB5DA6F0258E41FC90A6E42C /* Inter-LightItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -364,21 +356,13 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9A0F95D9A0FC42F2ADF037C4 /* Inter-Black.ttf in Resources */,
 				3228BBC72D184D59A9F4DFD0 /* Inter-Bold.ttf in Resources */,
-				929900F90FCA497AB07A7854 /* Inter-ExtraBold.ttf in Resources */,
-				CDA3E08F31D7477C9C7C021D /* Inter-ExtraLight.ttf in Resources */,
 				79690F9EF5C9464EA9A3331E /* Inter-Light.ttf in Resources */,
 				CF7BB28BB32949A7A9C1C426 /* Inter-Medium.ttf in Resources */,
 				BC47F2B94002465AB6EB12A4 /* Inter-Regular.ttf in Resources */,
-				A06D767AB73F4F8B8FBFEC4B /* Inter-SemiBold.ttf in Resources */,
 				59DE4BF1D76B4323BA31BE84 /* Inter-Thin.ttf in Resources */,
 				3A4C4AAC2A56DFE400F09852 /* GoogleService-Info.plist in Resources */,
-				86EE2CDE5EE942A38E57A3FF /* Exo.ttf in Resources */,
 				1598189C056342429C63AB00 /* OpenSans-Regular.ttf in Resources */,
-				7D010EC643A84A00823FF027 /* Exo-SemiBold.ttf in Resources */,
-				3D4AF14E9B1A4C2B92803974 /* Inter-ExtraLightItalic.ttf in Resources */,
-				E24A0947D4BC4EF599F9388B /* Inter-LightItalic.ttf in Resources */,
 				BFA087941F0A499B8B825B63 /* OpenSans-Medium.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,6 +10,8 @@ const initialState = {
     visible: false,
   },
   userGalleries: [],
+  notificationCount: null,
+  otherUserGalleries: [],
 }
 
 export const AppSlice = createSlice({
@@ -58,6 +60,18 @@ export const AppSlice = createSlice({
         userGalleries: newUserGalleries,
       }
     },
+    setNotificationCount: (store, action) => {
+      return {
+        ...store,
+        notificationCount: action.payload,
+      }
+    },
+    setOtherUserGalleries: (store, action) => {
+      return {
+        ...store,
+        otherUserGalleries: action.payload,
+      }
+    },
   },
 })
 
@@ -67,13 +81,13 @@ export const notificationSettings = (e) => (dispatch) => {
       .post('api/profile/notification', JSON.stringify({ name: e?.label }))
       .then((response) => {})
       .catch((err) => {
-        console.log('err request notification', err)
+        console.error('Error: request notification', err)
       })
   }
 }
 export const notificationButtonClciked = (notification_id) => (dispatch) => {
   axiosInstance.put(`/api/notification/click/${notification_id}`).catch((err) => {
-    console.log('err request notification', err)
+    console.error('Error: request notification', err)
   })
 }
 
@@ -84,7 +98,7 @@ export const getNotifications = () => (dispatch) => {
       dispatch(setNotifications(response.data?.datas))
     })
     .catch((err) => {
-      console.log('err request notification', err)
+      console.error('Error: request notification', err)
     })
 }
 export const deleteNotification = (id) => (dispatch) => {
@@ -92,7 +106,7 @@ export const deleteNotification = (id) => (dispatch) => {
     .delete(`api/notification/${id}`)
     .then((response) => {})
     .catch((err) => {
-      console.log('err request notification', err)
+      console.error('Error: request notification', err)
     })
 }
 export const deleteAllNotifications = () => (dispatch) => {
@@ -102,7 +116,7 @@ export const deleteAllNotifications = () => (dispatch) => {
       dispatch(setNotifications([]))
     })
     .catch((err) => {
-      console.log('err request notification', err)
+      console.error('Error: request notification', err)
     })
 }
 
@@ -118,7 +132,7 @@ export const getCalendarGames = (data) => (dispatch) => {
       dispatch(setCalendarGames(response.data.datas))
     })
     .catch((err) => {
-      console.log('err request notification', err)
+      console.error('Error: request notification', err)
     })
 }
 export const getGalleries = () => (dispatch) => {
@@ -128,17 +142,39 @@ export const getGalleries = () => (dispatch) => {
       dispatch(setUserGalleries(response.data.data))
     })
     .catch((err) => {
-      console.log('err request notification', err)
+      console.error('Error: request notification', err)
     })
 }
+export const getOtherUserGalleries = (user_id) => (dispatch) => {
+  axiosInstance
+    .get(`api/user/other_user_game_files/${user_id}`)
+    .then((response) => {
+      dispatch(setOtherUserGalleries(response.data.data))
+    })
+    .catch((err) => {
+      console.error('Error: getOtherUserGalleries', err)
+    })
+}
+
 export const deleteGalleryFile = (data) => (dispatch) => {
   axiosInstance
     .put('api/create/game/delete/create_game_file', data)
-    .then((response) => {
+    .then(() => {
       dispatch(setDeleteGalleryFile(data.file_id))
     })
     .catch((err) => {
-      console.log('err request notification', err)
+      console.error('Error: request notification', err)
+    })
+}
+export const getNotificationCount = (data) => (dispatch) => {
+  axiosInstance
+    .get('api/notification/unread', data)
+    .then((response) => {
+      console.log('getNotificationCount', response.data)
+      dispatch(setNotificationCount(response.data.count))
+    })
+    .catch((err) => {
+      console.error('Error: request notification', err)
     })
 }
 
@@ -149,5 +185,7 @@ export const {
   setModalVisible,
   setUserGalleries,
   setDeleteGalleryFile,
+  setNotificationCount,
+  setOtherUserGalleries,
 } = AppSlice.actions
 export default AppSlice.reducer

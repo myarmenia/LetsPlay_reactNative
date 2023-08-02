@@ -33,17 +33,21 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
-              !savedTeam?.id && qrGame
-                ? navigation.navigate(
-                    game?.name == 'Мафия'
-                      ? 'MafiaNavigator'
-                      : game?.name == 'Элиас'
-                      ? 'AliasNavigator'
-                      : game?.name == 'Крокодил'
-                      ? 'CrocodileNavigator'
-                      : '',
-                  )
-                : navigation.navigate('CommandLeadCreate')
+              if (game?.name == 'Своя игра') {
+                navigation.navigate('OwnGameName', { game })
+              } else {
+                !savedTeam?.id && qrGame
+                  ? navigation.navigate(
+                      game?.name == 'Мафия'
+                        ? 'MafiaNavigator'
+                        : game?.name == 'Элиас'
+                        ? 'AliasNavigator'
+                        : game?.name == 'Крокодил'
+                        ? 'CrocodileNavigator'
+                        : null,
+                    )
+                  : navigation.navigate('CommandLeadCreate')
+              }
             } else if (fromTournament) {
               dispatch(setTournamentGameType(game.name))
               dispatch(setTournamentImagePath(game.img))

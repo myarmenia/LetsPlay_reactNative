@@ -49,12 +49,16 @@ const CreateTeamTitle = (props) => {
   }
 
   const uploadImageHandle = async () => {
-    const result = await launchImageLibrary({
-      mediaType: 'mixed',
+    await launchImageLibrary({
+      mediaType: 'photo',
       quality: 1,
       includeBase64: true,
+      durationLimit: 10,
+      selectionLimit: 1,
+    }).then((result) => {
+      console.log('result', result)
+      setAvatar(result)
     })
-    setAvatar(result)
   }
 
   return (
@@ -90,6 +94,7 @@ const CreateTeamTitle = (props) => {
         </View>
         <View style={styles.uploadBox}>
           <TouchableOpacity style={styles.downloadingImg} onPress={uploadImageHandle}>
+            {console.log('avatar', avatar)}
             {!avatar?.assets?.[0].uri ? (
               <View style={{ transform: [{ rotate: '180deg' }] }}>
                 <DownloadingIcon />
@@ -166,7 +171,6 @@ const styles = StyleSheet.create({
     height: RH(50),
     alignSelf: 'center',
     flexDirection: 'row',
-    // top: RH(32),
     zIndex: 89,
     borderRadius: RW(10),
     margin: RH(10),

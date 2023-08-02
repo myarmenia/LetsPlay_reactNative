@@ -167,7 +167,7 @@ export const setPlayers = (teamInfo) => (dispatch) => {
     .post(`api/crocodile/confirm/team`, teamInfo)
 
     .catch((err) => {
-      console.log('err setPlayers : response', err.response)
+      console.error('Error: setPlayers : response', err.response)
     })
 }
 export const sendCrocodileSettings = (data, allTeams) => (dispatch) => {
@@ -183,7 +183,7 @@ export const sendCrocodileSettings = (data, allTeams) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log('err sending crocodile settings :', err)
+      console.error('Error: sending crocodile settings :', err)
     })
 }
 
@@ -201,7 +201,7 @@ export const sendCrocodileGameId = (id) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
-      console.log('err sending crocodile game id :', err)
+      console.error('Error: sending crocodile game id :', err)
     })
 }
 export const startCrocodileGame = (gameId) => (dispatch) => {
@@ -209,7 +209,7 @@ export const startCrocodileGame = (gameId) => (dispatch) => {
     .post(`api/crocodile/start/${gameId}`)
 
     .catch((err) => {
-      console.log('err startCrocodileGame esponse', err)
+      console.error('Error: startCrocodileGame esponse', err)
     })
 }
 

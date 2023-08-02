@@ -10,7 +10,7 @@ import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 
 const ChatScreen = () => {
-  const { user } = useSelector(({ auth }) => auth)
+  const { took_part_games } = useSelector(({ auth }) => auth.user)
   const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
 
   const dispatch = useDispatch()
@@ -27,7 +27,7 @@ const ChatScreen = () => {
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.title}>Чат</Text>
-          {myTeams?.length || user?.took_part_games?.length || myJoinedTeams.length ? (
+          {myTeams?.length || took_part_games?.length || myJoinedTeams.length ? (
             <>
               <View>
                 {myTeams?.map((eachChat) => {
@@ -38,7 +38,7 @@ const ChatScreen = () => {
                 })}
               </View>
               <View>
-                {user?.took_part_games?.map((eachChat) => {
+                {took_part_games?.map((eachChat) => {
                   return (
                     <ChatItem
                       item={eachChat}

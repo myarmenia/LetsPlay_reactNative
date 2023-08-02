@@ -178,7 +178,7 @@ export const createTournament = (data, setModalVisible) => (dispatch) => {
     })
     .catch((err) => {
       setModalVisible('error')
-      console.log('Error creating tournament', err.request)
+      console.error('Error: creating tournament', err.request)
     })
 }
 
@@ -198,7 +198,7 @@ export const searchTourney = (data, nav, setNotFoundError) => async (dispatch) =
       }
     })
     .catch((err) => {
-      console.log('Error searching players in this team :', err.request._response)
+      console.error('Error: searching players in this team :', err.request._response)
     })
 }
 

@@ -9,6 +9,7 @@ import MessageModal from './modals/MessageModal'
 import ErrorModal from './modals/ErrorModal'
 import RatePlayerModal from './modals/RatePlayerModal'
 import PhotoAfterFinishGameModal from './modals/PhotoAfterFinishGameModal'
+import GaleryOpenPhoto from './modals/GaleryOpenPhoto'
 
 const CustomModal = () => {
   const modalOptions = useSelector(({ app }) => app.modalOptions)
@@ -52,7 +53,8 @@ const CustomModal = () => {
                 return <RatePlayerModal body={modalOptions.body} />
               case 'PhotoAfterFinishGameModal':
                 return <PhotoAfterFinishGameModal body={modalOptions.body} />
-
+              case 'GaleryOpenPhoto':
+                return <GaleryOpenPhoto body={modalOptions.body} />
               default:
                 break
             }

@@ -170,7 +170,7 @@ export const setPlayers = (teamInfo) => (dispatch) => {
     .post(`api/game/alias/confirm/team`, teamInfo)
 
     .catch((err) => {
-      console.log('err setPlayers : response', err.response)
+      console.error('Error: setPlayers : response', err.response)
     })
 }
 export const sendAliasSettings = (data, allTeams) => (dispatch) => {
@@ -186,7 +186,7 @@ export const sendAliasSettings = (data, allTeams) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log('err sending alias settings :', err)
+      console.error('Error: sending alias settings :', err)
     })
 }
 
@@ -204,7 +204,7 @@ export const sendAliasGameId = (id) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
-      console.log('err sending alias game id :', err)
+      console.error('Error: sending alias game id :', err)
     })
 }
 export const startAliasGame = (gameId) => (dispatch) => {
@@ -212,7 +212,7 @@ export const startAliasGame = (gameId) => (dispatch) => {
     .post(`api/game/alias/start/${gameId}`)
 
     .catch((err) => {
-      console.log('err startAliasGame esponse', err)
+      console.error('Error: startAliasGame esponse', err)
     })
 }
 

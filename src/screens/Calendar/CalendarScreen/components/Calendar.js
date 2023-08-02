@@ -4,7 +4,7 @@ import { ICON } from '@/theme/colors'
 import { BACKGROUND } from '@/theme/colors'
 import { RH, RW, font } from '@/theme/utils'
 import * as React from 'react'
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import ArrowSvg from '../assets/ArrowSvg'
 import CircleSvg from '../assets/CircleSvg'
 import { getCalendarGames } from '@/store/Slices/AppSlice'
@@ -194,40 +194,33 @@ class Calendar extends React.Component {
         )
       }
     })
-    const showYearsArray = [
-      this.state.activeDate.getFullYear() - 1,
-      this.state.activeDate.getFullYear(),
-      this.state.activeDate.getFullYear() + 1,
-      this.state.activeDate.getFullYear() + 2,
-    ]
-    let data = {};
+
+    let data = {}
     Object.keys(this.props.calendarGames?.teamGames || {}).forEach((e) => {
-      if(data[e]) {
-        data[e] = [...data[e], {type: "teamGames", data: this.props.calendarGames?.teamGames[e]}]
+      if (data[e]) {
+        data[e] = [...data[e], { type: 'teamGames', data: this.props.calendarGames?.teamGames[e] }]
       } else {
-        data[e] = [ {type: "teamGames", data: this.props.calendarGames?.teamGames[e]}]
+        data[e] = [{ type: 'teamGames', data: this.props.calendarGames?.teamGames[e] }]
       }
     })
     Object.keys(this.props.calendarGames?.games || {}).forEach((e) => {
-      if(data[e]) {
-        data[e] = [...data[e], {type: "games", data: this.props.calendarGames?.games[e]}]
+      if (data[e]) {
+        data[e] = [...data[e], { type: 'games', data: this.props.calendarGames?.games[e] }]
       } else {
-        data[e] = [{type: "games", data: this.props.calendarGames?.games[e]}]
+        data[e] = [{ type: 'games', data: this.props.calendarGames?.games[e] }]
       }
     })
     Object.keys(this.props.calendarGames?.tourneys || {}).forEach((e) => {
-      if(data[e]) {
-        data[e] = [...data[e], {type: "tourneys", data: this.props.calendarGames?.tourneys[e]}]
+      if (data[e]) {
+        data[e] = [...data[e], { type: 'tourneys', data: this.props.calendarGames?.tourneys[e] }]
       } else {
-        data[e] = [ {type: "tourneys", data: this.props.calendarGames?.tourneys[e]}]
+        data[e] = [{ type: 'tourneys', data: this.props.calendarGames?.tourneys[e] }]
       }
-
     })
     return (
       <ScrollView style={{ paddingTop: RH(10) }}>
         {this.state.showYaersDropDown ? (
           <CalendarDropDown
-            showYearsArray={showYearsArray}
             setState={(yaer) => {
               this.setState(() => {
                 this.state.activeDate.setFullYear(yaer)
@@ -301,7 +294,6 @@ class Calendar extends React.Component {
                   </Row>
 
                   {data?.[date].map((item) => {
-    
                     return item.data.map((elm) => {
                       return (
                         <CalendarGameItem
@@ -309,16 +301,12 @@ class Calendar extends React.Component {
                           img={elm?.game?.img}
                           name={elm?.game?.name}
                           startDate={elm?.start_date}
-                          onPress={() =>{
-                            if(item.type == "games" || item.type == "teamGames") {
-
-                              this.props.navigation.navigate('CalendarGameScreen', { game: elm,  })
+                          onPress={() => {
+                            if (item.type == 'games' || item.type == 'teamGames') {
+                              this.props.navigation.navigate('CalendarGameScreen', { game: elm })
                             } else {
-                              
                             }
-                          }
-                           
-                          }
+                          }}
                         />
                       )
                     })

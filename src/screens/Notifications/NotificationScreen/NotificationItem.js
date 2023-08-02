@@ -15,7 +15,7 @@ import {
 } from '@/store/Slices/AppSlice'
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
-import { getGameById } from '@/store/Slices/GamesSlice'
+import { callEndGame, getGameById } from '@/store/Slices/GamesSlice'
 
 const NotificationItem = ({ elm, setModalVisible }) => {
   const { notifications } = useSelector(({ app }) => app)
@@ -52,6 +52,12 @@ const NotificationItem = ({ elm, setModalVisible }) => {
             body: elm.link,
           }),
         )
+      },
+    },
+    finish_game: {
+      label: 'Завершить',
+      onPress: () => {
+        dispatch(callEndGame(elm?.create_game))
       },
     },
     end_game: {
@@ -95,7 +101,7 @@ const NotificationItem = ({ elm, setModalVisible }) => {
 
       <Row wrapper={styles.row}>
         <Row wrapper={styles.midBox}>
-          {elm?.readed ? <View style={{ width: 26 }} /> : <DotSvg />}
+          {elm?.readed ? <View style={{ width: 26 }} /> : <DotSvg width={20} height={20} />}
           <View>
             <Text style={styles.notificationText}>{notificationText}</Text>
             {buttonOptions?.[elm?.type] ? (
@@ -124,7 +130,7 @@ const NotificationItem = ({ elm, setModalVisible }) => {
               dispatch(deleteNotification(elm?._id))
             }}
           >
-            <CloseSvg />
+            <CloseSvg width={13} height={13} />
           </Pressable>
 
           <Text style={styles.time}>{updated}</Text>
@@ -155,7 +161,7 @@ const styles = StyleSheet.create({
   endBox: {
     width: '10%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   notificationText: {
     maxWidth: '95%',

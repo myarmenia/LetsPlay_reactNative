@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import Main from '@/components/buttons/Circle/CircleMain'
+import CircleMain from '@/components/buttons/Circle/CircleMain'
 import AddSvg from '@/assets/svgs/addSvg'
 import HomeSvg from '@/assets/svgs/homeSvg'
 import { RW } from '@/theme/utils'
@@ -18,7 +18,7 @@ const CircleButton = ({ isHome, setIsHome, tabBarHidden }) => {
   return (
     <View style={[styles.circleContainer, { display: tabBarHidden ? 'none' : 'flex' }]}>
       <TouchableOpacity activeOpacity={0.8} onPress={press}>
-        <Main size={64} label={isHome ? <AddSvg /> : <HomeSvg />} />
+        <CircleMain size={64} label={isHome ? <AddSvg /> : <HomeSvg />} />
       </TouchableOpacity>
     </View>
   )

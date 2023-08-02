@@ -7,11 +7,11 @@ import PickImage from './components/PickImage'
 import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { addPhotoAfterFinishGame } from '@/store/Slices/GamesSlice'
+import { addPhotoAfterFinishGame, callEndGame } from '@/store/Slices/GamesSlice'
 
 const AddPhoto = ({ route }) => {
   const { token } = useSelector(({ auth }) => auth)
-  const gameFinishPhoto = useSelector(({ games }) => games.gameFinishPhoto)
+  const gameFinishPhoto = useSelector(({ games }) => games?.gameFinishPhoto)
   const navigation = useNavigation()
   const dispatch = useDispatch()
 

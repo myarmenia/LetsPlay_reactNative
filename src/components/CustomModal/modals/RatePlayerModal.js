@@ -5,11 +5,14 @@ import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import StarSvg from '@/assets/svgs/StarSvg'
 import User from '@/components/User/user'
 import Row from '@/components/wrappers/row'
+import AddSvg from '@/assets/svgs/addSvg'
+import CircleMain from '@/components/buttons/Circle/CircleMain'
+import CheckSvg from '@/assets/svgs/CheckSvg'
 
 const RatePlayerModal = ({ body }) => {
   let { item, rating, setRating } = body
-
   const [userRating, setUserRating] = useState(1)
+  const [addedToTeam, setAddedToTeam] = useState(true)
 
   useEffect(() => {
     setUserRating(rating)
@@ -31,8 +34,14 @@ const RatePlayerModal = ({ body }) => {
       </View>
 
       <User size={250} user={item} />
-      <Row>
+      <Row wrapper={styles.row}>
         <Text style={styles.text}>Хотите пригласить игрока в свою команду?</Text>
+        <Pressable>
+          <CircleMain
+            size={32}
+            label={addedToTeam ? <CheckSvg /> : <AddSvg plusColor={'#fff'} strokeWidth={3} />}
+          />
+        </Pressable>
       </Row>
     </View>
   )
@@ -52,9 +61,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: RH(30),
   },
-  text: {
-    ...font('inter', 16, WHITE, 20),
-    textAlign: 'center',
+  row: {
     marginTop: RH(20),
+
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignContent: 'center',
+  },
+  text: {
+    ...font('inter', 16, WHITE),
+    width: '80%',
   },
 })

@@ -15,6 +15,7 @@ const PhotoAfterFinishGameModal = ({ body }) => {
   const { _id, video_path, image_path } = body
   return (
     <View style={styles.modal}>
+      {console.log(_storageUrl + image_path)}
       <Text style={styles.text}>Подтвердите, что вы изображены на фото/видео!</Text>
       {image_path ? (
         <FastImage
@@ -43,7 +44,7 @@ const PhotoAfterFinishGameModal = ({ body }) => {
             dispatch(setModalVisible(false))
           }}
         >
-          {/* <Image style={styles.btnImage} source={require('./assets/cancel.png')} /> */}
+          <FastImage style={styles.btnImage} source={require('./assets/cancel.png')} />
         </Pressable>
         <Pressable
           onPress={() => {
@@ -51,7 +52,7 @@ const PhotoAfterFinishGameModal = ({ body }) => {
             dispatch(confirmPhotoAfterFinishGame({ file_id: _id }))
           }}
         >
-          {/* <Image style={styles.btnImage} source={require('./assets/done.png')} /> */}
+          <FastImage style={styles.btnImage} source={require('./assets/done.png')} />
         </Pressable>
       </Row>
     </View>
@@ -77,11 +78,13 @@ const styles = StyleSheet.create({
   },
   image: {
     margin: RW(6),
-    height: RH(300),
+    marginBottom: RH(12),
+    height: RH(200),
     width: '100%',
   },
   row: {
     width: '100%',
+
     justifyContent: 'space-around',
   },
   btnImage: {

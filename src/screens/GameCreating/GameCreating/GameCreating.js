@@ -14,21 +14,18 @@ import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   setGame,
-  setInitialState,
   setOrganizer_in_the_game,
   setPlayers_gender,
 } from '@/store/Slices/GameCreatingSlice'
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
-// import { getGames } from '@/store/Slices/GamesSlice'
 
 const GameCreating = ({ route }) => {
-  let { game, response, editGame } = route?.params
+  let { game, response, editGame, name } = route?.params
   const navigation = useNavigation()
 
   //states
   const initialState = useSelector((state) => state.game)
-  // const { games } = useSelector((state) => state.games)
 
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
@@ -49,7 +46,7 @@ const GameCreating = ({ route }) => {
   })
   const [endDate, setEndDate] = useState({
     date: new Date(new Date().setDate(startDate.date.getDate())),
-    time: new Date(),
+    time: new Date(new Date().setTime(startDate.date.getTime())),
   })
   const [organizer_in_the_game, setOrganizer_in_the_gameState] = useState([
     { id: 1, text: 'Участвует', checked: true },
@@ -124,12 +121,11 @@ const GameCreating = ({ route }) => {
       let end_date = endDate.date
       end_date.setTime(endDate.time)
 
-      console.log('before navigate', game)
       navigation.navigate('GameTicket', {
         params: {
           initialState,
           game,
-          name: game?.name,
+          name: game?.name || name,
           dates: [start_date, end_date],
         },
       })
@@ -141,42 +137,6 @@ const GameCreating = ({ route }) => {
       setIsVisible(true)
     }
   }, [])
-
-  // useEffect(() => {
-  //   setStartDate({
-  //     date: new Date(editGame.start_date),
-  //     time: new Date(editGame.start_date),
-  //   })
-  //   setEndDate({
-  //     date: new Date(editGame.end_date),
-  //     time: new Date(editGame.end_date),
-  //   })
-  //   setOrganizer_in_the_gameState([
-  //     { id: 1, text: 'Участвует', checked: editGame.organizer_in_the_game },
-  //     { id: 2, text: 'Не участвует', checked: !editGame.organizer_in_the_game },
-  //   ])
-
-  //   setGenderList(
-  //     genderList.map((elm) => {
-  //       return { ...elm, checked: elm?.label == editGame?.players_gender }
-  //     }),
-  //   )
-  //   setAddressName(editGame.address_name)
-  //   dispatch(setInitialState(editGame))
-  //   if (games.length) {
-  //     game = games?.find((elm) => elm._id == editGame.game)
-  //   } else {
-  //     dispatch(getGames())
-  //   }
-  // }, [editGame])
-
-  // useEffect(() => {
-  //   if (!game) {
-  //     console.log('!game')
-  //     game = games?.find((elm) => elm._id == editGame.game)
-  //     // dispatch(setGame(games?.find((elm) => elm._id == editGame.game)))
-  //   }
-  // }, [games])
 
   return (
     <ScreenMask>

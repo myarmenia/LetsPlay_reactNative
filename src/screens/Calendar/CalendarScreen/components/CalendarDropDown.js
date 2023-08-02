@@ -3,10 +3,16 @@ import React from 'react'
 import { RH, RW, font } from '@/theme/utils'
 import { BACKGROUND, ICON } from '@/theme/colors'
 
-const CalendarDropDown = ({ showYearsArray, setState, activeDate }) => {
+const CalendarDropDown = ({ setState, activeDate }) => {
+  const activeDateYear = new Date()
   return (
     <View style={styles.container}>
-      {showYearsArray?.map((year, i) => {
+      {[
+        activeDateYear.getFullYear() - 1,
+        activeDateYear.getFullYear(),
+        activeDateYear.getFullYear() + 1,
+        activeDateYear.getFullYear() + 2,
+      ]?.map((year, i) => {
         return (
           <Pressable onPress={() => setState(year)} key={i} style={{ marginVertical: RH(4) }}>
             <Text

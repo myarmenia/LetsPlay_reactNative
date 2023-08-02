@@ -223,7 +223,7 @@ export const postSettings = (data) => (dispatch) => {
       dispatch(setPending(false))
     })
     .catch((err) => {
-      console.log('err', err)
+      console.error('Error: postSettings', err)
 
       dispatch(setPending(false))
     })
@@ -235,7 +235,7 @@ export const getDictonary = (mafia_game_id) => (dispatch) => {
 
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
-      console.log('err request participateToGame', err.request._response)
+      console.error('Error: request participateToGame', err.request._response)
     })
   dispatch(setPending(false))
 }
@@ -250,7 +250,7 @@ export const participateToGame = (mafia_game_id) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
-      console.log('err request participateToGame', err.request._response)
+      console.error('Error: request participateToGame', err.request._response)
     })
   dispatch(setPending(false))
 }
@@ -262,7 +262,7 @@ export const startGame = (mafia_game_id) => (dispatch) => {
     .then(() => {})
     .catch((err) => {
       dispatch(setAddPlayersError(true))
-      console.log('err request startGame', err.request._response)
+      console.error('Error: request startGame', err.request._response)
     })
   dispatch(setPending(false))
 }
@@ -275,7 +275,7 @@ export const resetGame = (mafia_game_id) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setAddPlayersError(true))
-      console.log('err request startGame', err.request._response)
+      console.error('Error: request startGame', err.request._response)
     })
   dispatch(setPending(false))
 }

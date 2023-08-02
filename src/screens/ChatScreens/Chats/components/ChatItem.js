@@ -18,7 +18,7 @@ import DarkButton from '@/components/buttons/DarkButton'
 import { deleteMemberChat, deleteOrganizerChat } from '@/store/Slices/ChatsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTookPartGames } from '@/store/Slices/AuthSlice'
-import { setMyTeams } from '@/store/Slices/TeamSlice'
+import { deletePlayerFromTeam, setMyTeams } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
 import { DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
@@ -183,16 +183,20 @@ function ChatItem({ id, item, type, playersLength }) {
                 <LightButton
                   onPress={() => {
                     console.log(item?._id)
-                    type == 'Участник'
-                      ? dispatch(deleteMemberChat(item?._id, setDeleting))
-                      : dispatch(deleteOrganizerChat(item?.id, setDeleting))
-                    type == 'Участник'
-                      ? dispatch(
-                          setTookPartGames(
-                            user?.took_part_games?.filter((elm) => elm._id !== item?._id),
-                          ),
-                        )
-                      : dispatch(setMyTeams(myTeams?.filter((elm) => elm._id !== item?._id)))
+                    console.log(type)
+
+                    if (type == 'Участник') {
+                      dispatch(deleteMemberChat(item?._id, setDeleting))
+                      dispatch(
+                        setTookPartGames(
+                          user?.took_part_games?.filter((elm) => elm._id !== item?._id),
+                        ),
+                      )
+                    } else if (type == 'Командный') {
+                      // dispatch(deleteOrganizerChat(item?.id, setDeleting))
+                      dispatch(deletePlayerFromTeam(item?.id, () => setDeleting(false)))
+                      dispatch(setMyTeams(myTeams?.filter((elm) => elm._id !== item?._id)))
+                    }
                   }}
                   size={{ width: 100, height: 36 }}
                   label={'Да'}

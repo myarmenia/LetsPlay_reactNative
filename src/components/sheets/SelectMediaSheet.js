@@ -20,6 +20,7 @@ const SelectMediaSheet = (props) => {
             if ([RESULTS.GRANTED, RESULTS.LIMITED].includes(result)) {
               await launchImageLibrary({
                 mediaType: 'mixed',
+                durationLimit: 10,
               }).then((e) => {
                 if (e?.assets?.[0]?.uri) {
                   dispatch(setGameFinishPhoto(e?.assets?.[0]))

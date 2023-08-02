@@ -20,7 +20,7 @@ import Vk from '@/assets/imgs/VKIcon'
 import Modal from '@/components/modal'
 import FastImage from 'react-native-fast-image'
 
-function Index({ size, onPressImg, userProps, pressedUser }) {
+function Index({ size, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
   let user = pressedUser ? pressedUser : authedUser
   if (userProps) {
@@ -29,14 +29,14 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
   if (user?.user) {
     user = user.user
   }
+
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
   const fontSizeTitle = size < RW(50) ? RW(1.5) : size > 100 ? size / RW(34) : size / RW(50)
   const fontSizeCount = size < RW(50) ? RW(1) : size > 100 ? size / RW(23) : size / RW(30)
-  // const fontSizeTitle = size / RW(33)
-  // const fontSizeCount = size / RW(22)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const screenWidth = Dimensions.get('screen').width
+  const isMe = user?._id === authedUser?._id
 
   const sizing = {
     padding: size > 40 ? RH(5) : RH(0),
@@ -44,7 +44,6 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
     width: size < 40 ? size / RW(3) : size / RW(4.3),
   }
 
-  const ImagePressableComponent = !onPressImg || size < 100 ? View : Pressable
   const VkPressableComponent = size < 100 ? View : Pressable
 
   return (
@@ -54,11 +53,17 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         alignItems: 'center',
       }}
     >
-      <ImagePressableComponent
+      <Pressable
         onPress={
-          onPressImg
+          size > 100
             ? () => {
-                navigation.navigate('ProfileNavigator', { screen: 'Gallery' })
+                navigation.navigate('ProfileNavigator', {
+                  screen: 'Gallery',
+                  params: {
+                    isMe,
+                    userId: user?._id,
+                  },
+                })
               }
             : null
         }
@@ -102,7 +107,7 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
                 }
           }
         />
-      </ImagePressableComponent>
+      </Pressable>
       <View style={[styles.nameBlock, { marginTop: size < 50 ? RH(10) : RH(10) }]}>
         <Text
           style={[
@@ -199,7 +204,6 @@ function Index({ size, onPressImg, userProps, pressedUser }) {
         </View>
       ) : null}
 
-      {/* need detect user have a vk account and show it overwise show some text */}
       <Modal
         item={
           <View style={styles.modal}>

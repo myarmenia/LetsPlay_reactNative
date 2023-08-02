@@ -12,7 +12,7 @@ const requestUserPermission = async (openModalFunc) => {
     getFcmToken(openModalFunc)
   }
 }
-const notificationListener = async (openModalFunc) => {
+const notificationListener = async (openModalFunc, callBack) => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
     console.log('Notification caused app to open from background state:', remoteMessage)
   })
@@ -22,7 +22,7 @@ const notificationListener = async (openModalFunc) => {
 
   messaging().onMessage(async (remoteMessage) => {
     console.log('Recived in foreground', remoteMessage)
-
+    callBack()
     if (Platform.OS == 'android') {
       openModalFunc(
         remoteMessage.notification.title + '\n' + remoteMessage.notification.body,

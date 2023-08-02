@@ -23,7 +23,7 @@ function Index({ route }) {
       <View style={styles.gameTicketButtonsBlock}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('GameCreating', { screen: 'GameCreating', params: { game } })
+            navigation.navigate('GameCreating', { screen: 'GameCreating', params: { game, name } })
           }}
         >
           <EditSvg />
