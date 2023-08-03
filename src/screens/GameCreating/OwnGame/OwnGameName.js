@@ -15,7 +15,6 @@ const OwnGameName = ({ route }) => {
   const [error, setError] = useState(false)
   const { game_name, game_description } = useSelector((state) => state.game)
   const handleClick = () => {
-
     if (game_name?.length) {
       setError(false)
       navigation.navigate('GameCreating', route?.params)
@@ -83,8 +82,8 @@ const styles = StyleSheet.create({
   radioBlockBox: { marginTop: RH(30) },
   btn: {
     position: 'absolute',
-    bottom: RH(20),
-    right: 0,
+    bottom: RH(40),
+    right: RW(20),
   },
   error: {
     ...font('regular', 16, RED),

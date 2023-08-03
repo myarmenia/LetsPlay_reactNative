@@ -36,7 +36,7 @@ function NotificationScreen() {
             <Text style={styles.deleteAllText}>Очистить все</Text>
           </Pressable>
         </Row>
-        {console.log('notifications', JSON.stringify(notifications, null, 4))}
+        {/* {console.log('notifications', JSON.stringify(notifications, null, 4))} */}
 
         <FlatList
           // style={{ flex: 1, }}
@@ -57,7 +57,6 @@ function NotificationScreen() {
           setIsVisible={setModalVisible}
           item={
             <View style={styles.modal}>
-              {console.log(modalVisible)}
               <Text style={styles.successTeam}>{modalVisible}</Text>
             </View>
           }

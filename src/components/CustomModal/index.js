@@ -10,6 +10,8 @@ import ErrorModal from './modals/ErrorModal'
 import RatePlayerModal from './modals/RatePlayerModal'
 import PhotoAfterFinishGameModal from './modals/PhotoAfterFinishGameModal'
 import GaleryOpenPhoto from './modals/GaleryOpenPhoto'
+import BestPlayer from './modals/BestPlayer'
+import RateOrganizerModal from './modals/RateOrganizerModal'
 
 const CustomModal = () => {
   const modalOptions = useSelector(({ app }) => app.modalOptions)
@@ -26,7 +28,11 @@ const CustomModal = () => {
   }, [modalOptions?.visible])
 
   return (
-    <TouchableWithoutFeedback onPress={() => dispatch(setModalVisible(false))}>
+    <TouchableWithoutFeedback
+      onPress={() => {
+        if (modalOptions?.type !== 'RateOrganizerModal') dispatch(setModalVisible(false))
+      }}
+    >
       <Animated.View
         style={{
           flex: 1,
@@ -51,10 +57,14 @@ const CustomModal = () => {
                 return <ErrorModal message={modalOptions.body} />
               case 'RatePlayerModal':
                 return <RatePlayerModal body={modalOptions.body} />
+              case 'RateOrganizerModal':
+                return <RateOrganizerModal body={modalOptions.body} />
               case 'PhotoAfterFinishGameModal':
                 return <PhotoAfterFinishGameModal body={modalOptions.body} />
               case 'GaleryOpenPhoto':
                 return <GaleryOpenPhoto body={modalOptions.body} />
+              case 'BestPlayer':
+                return <BestPlayer body={modalOptions.body} />
               default:
                 break
             }

@@ -16,7 +16,7 @@ const ChoosePlayers = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [data, setData] = useState(sendingData)
   const dispatch = useDispatch()
-  const UserItem = ({ elm }) => {
+  const UserItem = ({ user }) => {
     //need fetch users in command and show
     const [visible, setVisible] = useState(false)
     const [choosedUsers, setChoosedUsers] = useState([])
@@ -31,7 +31,7 @@ const ChoosePlayers = ({ route }) => {
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
             <View style={{ position: 'absolute' }}>
-              <User size={110} />
+              <User size={110} user={user} />
             </View>
           </View>
         </Pressable>
@@ -51,8 +51,9 @@ const ChoosePlayers = ({ route }) => {
             />
           </View>
           <View style={styles.playersContainer}>
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((elm, i) => {
-              return <UserItem key={i} />
+            {savedTeam?.players.map((elm, i) => {
+              console.log(elm.user.name)
+              return <UserItem key={i} user={elm.user} />
             })}
           </View>
         </View>

@@ -12,7 +12,6 @@ import { WHITE } from '@/theme/colors'
 function Index() {
   const { findedTeam } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
-
   return (
     <ScreenMask>
       <Text style={styles.title}>Результат поиска</Text>

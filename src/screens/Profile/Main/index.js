@@ -13,14 +13,14 @@ const index = () => {
   const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
-    { id: 2, text: 'Моя галерея', navigateTo: 'Gallery' },
+    { id: 2, text: 'Моя галерея', navigateTo: 'Gallery', params: { isMe: true } },
     { id: 3, text: 'Мои предпочтения', navigateTo: 'Preference' },
     { id: 5, text: 'Условия использования' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
   const forNavigate = (item) => {
     if (item.id !== 5) {
-      navigation.navigate('ProfileNavigator', { screen: item.navigateTo })
+      navigation.navigate('ProfileNavigator', { screen: item.navigateTo, params: item?.params })
     }
   }
 

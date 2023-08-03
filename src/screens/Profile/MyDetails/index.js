@@ -54,7 +54,6 @@ function Index() {
   const [emailState, setEmailState] = useState(email)
   const [phoneState, setPhoneState] = useState(phone_number)
   const [vkUriState, setVkUriState] = useState(vk_uri)
-  console.log('dob', dob)
   const [dateState, setDateState] = useState(dob ? new Date(dob) : new Date())
 
   const [genderState, setGenderState] = useState([

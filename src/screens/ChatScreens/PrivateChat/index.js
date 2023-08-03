@@ -136,7 +136,7 @@ function Index(props) {
   }
   return (
     <ScreenMask>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={{ flex: 1 }}
         {...(Platform.OS === 'ios'
           ? {
@@ -145,37 +145,37 @@ function Index(props) {
               enabled: true,
             }
           : {})}
-      >
-        <PrivateChatHeader gameID={gameID} playersLength={playersLength} />
-        <FlatList
-          data={[...messageState]?.reverse()}
-          style={{
-            marginBottom: RH(25),
-          }}
-          inverted
-          refreshing
-          initialNumToRender={4}
-          removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-          ref={scrollViewRef}
-          renderItem={memoRenderItem}
-          keyExtractor={(_, index) => `post-${index}`}
-        />
+      > */}
+      <PrivateChatHeader gameID={gameID} playersLength={playersLength} />
+      <FlatList
+        data={[...messageState]?.reverse()}
+        style={{
+          marginBottom: RH(25),
+        }}
+        inverted
+        refreshing
+        initialNumToRender={4}
+        removeClippedSubviews
+        showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}
+        renderItem={memoRenderItem}
+        keyExtractor={(_, index) => `post-${index}`}
+      />
 
-        <View
-          style={{
-            left: 0,
-            right: 0,
-            bottom: RH(10),
-          }}
-        >
-          <CustomInput
-            onSend={sendFunc}
-            voiceMessage={voiceMessage}
-            setVoiceMessage={setVoiceMessage}
-          />
-        </View>
-      </KeyboardAvoidingView>
+      <View
+        style={{
+          left: 0,
+          right: 0,
+          bottom: RH(10),
+        }}
+      >
+        <CustomInput
+          onSend={sendFunc}
+          voiceMessage={voiceMessage}
+          setVoiceMessage={setVoiceMessage}
+        />
+      </View>
+      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }

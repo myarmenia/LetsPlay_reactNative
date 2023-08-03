@@ -22,6 +22,7 @@ const ChatScreen = () => {
     dispatch(getMyJoinedTeams())
     dispatch(getProfileInfo())
   }, [isFocused])
+
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>

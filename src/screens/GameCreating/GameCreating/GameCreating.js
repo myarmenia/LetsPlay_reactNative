@@ -140,7 +140,7 @@ const GameCreating = ({ route }) => {
 
   return (
     <ScreenMask>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         {...(Platform.OS === 'ios'
           ? {
               behavior: 'padding',
@@ -149,107 +149,107 @@ const GameCreating = ({ route }) => {
               style: { flex: 1 },
             }
           : {})}
-      >
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <DateComponent
-            title="Дата и время начала игры"
-            containerStyle={{
-              width: RW(380),
-              marginTop: RH(24),
-              alignSelf: 'center',
-            }}
-            rowStyle={{
-              justifyContent: 'flex-start',
-            }}
-            dateValue={startDate.date}
-            timeValue={startDate.time}
-            setDate={(date) => {
-              setStartDate({ ...startDate, date })
-            }}
-            setTime={(time) => setStartDate({ ...startDate, time })}
-          />
-          {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}
-          <SecondBlock
-            from={editGame?.number_of_players_from}
-            to={editGame?.number_of_players_to}
-            type={'player'}
-            title={'Количество игроков'}
-          />
-          {playersCuntError && <Text style={styles.errorText}>{playersCuntError}</Text>}
+      > */}
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <DateComponent
+          title="Дата и время начала игры"
+          containerStyle={{
+            width: RW(380),
+            marginTop: RH(24),
+            alignSelf: 'center',
+          }}
+          rowStyle={{
+            justifyContent: 'flex-start',
+          }}
+          dateValue={startDate.date}
+          timeValue={startDate.time}
+          setDate={(date) => {
+            setStartDate({ ...startDate, date })
+          }}
+          setTime={(time) => setStartDate({ ...startDate, time })}
+        />
+        {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}
+        <SecondBlock
+          from={editGame?.number_of_players_from}
+          to={editGame?.number_of_players_to}
+          type={'player'}
+          title={'Количество игроков'}
+        />
+        {playersCuntError && <Text style={styles.errorText}>{playersCuntError}</Text>}
 
-          <SecondBlock
-            from={editGame?.age_restrictions_from}
-            to={editGame?.age_restrictions_to}
-            type={'age'}
-            title={'Возрастные ограничения'}
-          />
-          {ageError ? <Text style={styles.errorText}>{ageError}</Text> : null}
+        <SecondBlock
+          from={editGame?.age_restrictions_from}
+          to={editGame?.age_restrictions_to}
+          type={'age'}
+          title={'Возрастные ограничения'}
+        />
+        {ageError ? <Text style={styles.errorText}>{ageError}</Text> : null}
 
-          <RadioBlock
-            onChange={(list) => {
-              setGenderList(list)
-              dispatch(setPlayers_gender(list.find((e) => e.checked).label))
-            }}
-            title="Половой признак игрока"
-            list={genderList}
-            titleStyle={{ ...styles.titles, marginBottom: RW(10) }}
-          />
-          <SearchAddresses
-            game={game}
-            setAddressName={setAddressName}
-            addressName={addressName}
-            command={null}
-          />
-          {addressError && <Text style={styles.errorText}>{addressError}</Text>}
+        <RadioBlock
+          onChange={(list) => {
+            setGenderList(list)
+            dispatch(setPlayers_gender(list.find((e) => e.checked).label))
+          }}
+          title="Половой признак игрока"
+          list={genderList}
+          titleStyle={{ ...styles.titles, marginBottom: RW(10) }}
+        />
+        <SearchAddresses
+          game={game}
+          setAddressName={setAddressName}
+          addressName={addressName}
+          command={null}
+        />
+        {addressError && <Text style={styles.errorText}>{addressError}</Text>}
 
-          <DateComponent
-            title="Дата и время окончания поиска игроков"
-            containerStyle={{
-              width: RW(380),
-              marginTop: RH(24),
-              alignSelf: 'center',
-            }}
-            rowStyle={{
-              justifyContent: 'flex-start',
-            }}
-            dateValue={endDate.date}
-            timeValue={endDate.time}
-            setDate={(date) => setEndDate({ ...endDate, date })}
-            setTime={(time) => setEndDate({ ...endDate, time })}
-          />
-          {endDateError ? <Text style={styles.errorText}>{endDateError}</Text> : null}
-          <RadioBlock
-            onChange={(list) => {
-              setOrganizer_in_the_gameState(list)
-              dispatch(setOrganizer_in_the_game(list.find((e) => e.text == 'Участвует').checked))
-            }}
-            title="Статус организатора в игре"
-            list={organizer_in_the_game}
-            titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
-          />
-          <View style={{ position: 'absolute' }}>
-            {!response && (
-              <Modal
-                modalVisible={isVisible}
-                setIsVisible={setIsVisible}
-                btnClose={false}
-                item={
-                  modalOpen ? (
-                    <View style={styles.regulationBlock}>
-                      <Text style={styles.title}>Правила</Text>
-                      <Text style={styles.textTwo}>{game?.rules}</Text>
-                    </View>
-                  ) : null
-                }
-              />
-            )}
-          </View>
-          <View style={{ ...styles.submitBlock, marginTop: 20 }}>
-            {/* {error && <Text style={styles.errorBoldText}>Ошибка</Text>} */}
-            <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        <DateComponent
+          title="Дата и время окончания поиска игроков"
+          containerStyle={{
+            width: RW(380),
+            marginTop: RH(24),
+            alignSelf: 'center',
+          }}
+          rowStyle={{
+            justifyContent: 'flex-start',
+          }}
+          dateValue={endDate.date}
+          timeValue={endDate.time}
+          setDate={(date) => setEndDate({ ...endDate, date })}
+          setTime={(time) => setEndDate({ ...endDate, time })}
+        />
+        {endDateError ? <Text style={styles.errorText}>{endDateError}</Text> : null}
+        <RadioBlock
+          onChange={(list) => {
+            setOrganizer_in_the_gameState(list)
+            dispatch(setOrganizer_in_the_game(list.find((e) => e.text == 'Участвует').checked))
+          }}
+          title="Статус организатора в игре"
+          list={organizer_in_the_game}
+          titleStyle={{ ...styles.titles, marginBottom: RW(23) }}
+        />
+        <View style={{ position: 'absolute' }}>
+          {!response && (
+            <Modal
+              modalVisible={isVisible}
+              setIsVisible={setIsVisible}
+              btnClose={false}
+              item={
+                modalOpen ? (
+                  <View style={styles.regulationBlock}>
+                    <Text style={styles.title}>Правила</Text>
+                    <Text style={styles.textTwo}>{game?.rules}</Text>
+                  </View>
+                ) : null
+              }
+            />
+          )}
+        </View>
+        <View style={{ ...styles.submitBlock, marginTop: 20 }}>
+          {/* {error && <Text style={styles.errorBoldText}>Ошибка</Text>} */}
+          <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
+        </View>
+      </ScrollView>
+      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }

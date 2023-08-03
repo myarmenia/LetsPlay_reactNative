@@ -55,22 +55,24 @@ const NotificationItem = ({ elm, setModalVisible }) => {
       },
     },
     finish_game: {
-      label: 'Завершить',
+      label: 'Итоги игры',
       onPress: () => {
-        dispatch(callEndGame(elm?.create_game))
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: 'BestPlayer',
+            body: {
+              best_players: elm?.best_players,
+            },
+          }),
+        )
       },
     },
     end_game: {
       label: 'Завершить',
       secondaryClick: true,
       onPress: () => {
-        navigation.navigate('CreateGameNavigator', {
-          screen: 'AddPhoto',
-          params: {
-            gameId: elm?.create_game,
-            users: elm?.users,
-          },
-        })
+        dispatch(callEndGame(elm?.create_game))
       },
     },
     mark_file: {
@@ -88,9 +90,23 @@ const NotificationItem = ({ elm, setModalVisible }) => {
     },
     edit_game: {
       label: 'Изменить',
-      secondaryClick: true,
       onPress: () => {
         dispatch(getGameById(elm?.create_game, navigation))
+      },
+    },
+    impression: {
+      label: 'фото/видео',
+      secondaryClick: true,
+
+      onPress: () => {
+        navigation.navigate('CreateGameNavigator', {
+          screen: 'AddPhoto',
+          params: {
+            gameId: elm?.create_game,
+            users: elm?.users,
+            organizer: elm?.organizer,
+          },
+        })
       },
     },
   }
@@ -107,10 +123,10 @@ const NotificationItem = ({ elm, setModalVisible }) => {
             {buttonOptions?.[elm?.type] ? (
               <LightButton
                 onPress={() => {
-                  dispatch(notificationButtonClciked(elm?._id))
-                  !buttonOptions[elm?.type].secondaryClick && elm?.click
-                    ? null
-                    : buttonOptions[elm?.type].onPress()
+                  if (!buttonOptions[elm?.type].secondaryClick)
+                    dispatch(notificationButtonClciked(elm?._id))
+
+                  if (!elm?.click) buttonOptions[elm?.type].onPress()
                 }}
                 label={buttonOptions[elm?.type]?.label}
                 labelStyle={{ ...font('bold', 17, '#001034') }}

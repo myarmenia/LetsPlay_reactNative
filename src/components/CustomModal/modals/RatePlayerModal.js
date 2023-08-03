@@ -8,15 +8,37 @@ import Row from '@/components/wrappers/row'
 import AddSvg from '@/assets/svgs/addSvg'
 import CircleMain from '@/components/buttons/Circle/CircleMain'
 import CheckSvg from '@/assets/svgs/CheckSvg'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { setModalVisible } from '@/store/Slices/AppSlice'
+import { inviteUserToTeam } from '@/store/Slices/TeamSlice'
 
 const RatePlayerModal = ({ body }) => {
-  let { item, rating, setRating } = body
+  let { item, rating, setRating, inviteCommand } = body
   const [userRating, setUserRating] = useState(1)
-  const [addedToTeam, setAddedToTeam] = useState(true)
+  const [addedToTeam, setAddedToTeam] = useState(false)
+  const modalOptions = useSelector(({ app }) => app.modalOptions)
+  const navigation = useNavigation()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     setUserRating(rating)
   }, [rating, item])
+  useEffect(() => {
+    if (inviteCommand) {
+      setAddedToTeam(true)
+    }
+  }, [inviteCommand])
+  useEffect(() => {
+    if (!modalOptions?.visible && inviteCommand) {
+      dispatch(
+        inviteUserToTeam({
+          team_id: inviteCommand?._id,
+          user_id: item?._id,
+        }),
+      )
+    }
+  }, [modalOptions?.visible])
   return (
     <View style={styles.modal}>
       <View style={styles.starsContainer}>
@@ -36,7 +58,23 @@ const RatePlayerModal = ({ body }) => {
       <User size={250} user={item} />
       <Row wrapper={styles.row}>
         <Text style={styles.text}>Хотите пригласить игрока в свою команду?</Text>
-        <Pressable>
+        <Pressable
+          onPress={() => {
+            if (!addedToTeam) {
+              dispatch(setModalVisible(false))
+              navigation.navigate('TeamNavigator', {
+                screen: 'MyTeam',
+                params: {
+                  navigateFrom: 'RatePlayerModal',
+                  body,
+                },
+              })
+            } else {
+              body.inviteCommand = null
+              setAddedToTeam(false)
+            }
+          }}
+        >
           <CircleMain
             size={32}
             label={addedToTeam ? <CheckSvg /> : <AddSvg plusColor={'#fff'} strokeWidth={3} />}

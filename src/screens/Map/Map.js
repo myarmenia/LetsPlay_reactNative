@@ -14,7 +14,7 @@ const Map = ({ route }) => {
   const mapRef = useRef()
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { game, command, navigateTo } = route.params
+  const { game, command, navigateTo, props } = route.params
   const [userPosition, setUserPosition] = useState({
     latitude: 55.751244,
     longitude: 37.618423,
@@ -95,6 +95,7 @@ const Map = ({ route }) => {
                         latitude: s.results[0].geometry.location.lat,
                         longitude: s.results[0].geometry.location.lng,
                         fromMap: true,
+                        ...props,
                       },
                     })
                   : null

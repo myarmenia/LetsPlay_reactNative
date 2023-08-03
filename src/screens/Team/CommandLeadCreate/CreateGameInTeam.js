@@ -18,18 +18,6 @@ const CommandLeadCreate = ({ route }) => {
   useEffect(() => {
     setGameId(props?._id)
   }, [])
-  // const priceList = [
-  //   {
-  //     id: 1,
-  //     text: 'Бесплатно',
-  //     checked: true,
-  //   },
-  //   {
-  //     id: 2,
-  //     text: 'Платно',
-  //     checked: false,
-  //   },
-  // ]
   const playersChoose = [
     {
       id: 1,
@@ -168,7 +156,7 @@ const CommandLeadCreate = ({ route }) => {
       </View>
       <View style={styles.bottomBtn}>
         <LightButton
-          label={radioPlayers[0].checked ? 'Подтвердить' : 'Далее>>'}
+          label={radioPlayers[0].checked ? 'Подтвердить' : 'Далее'}
           onPress={handleCreate}
         />
         {modalVisible[1] == 'ok' && (
@@ -203,8 +191,8 @@ const styles = StyleSheet.create({
   },
   bottomBtn: {
     position: 'absolute',
-    bottom: RH(15),
-    right: RW(5),
+    bottom: RH(40),
+    right: RW(10),
   },
   mapBox: {
     paddingVertical: RH(20),

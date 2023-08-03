@@ -127,7 +127,8 @@ function DateComponent({
                   styles.dateButton,
                   {
                     width: RW(125),
-                    backgroundColor: Platform.OS == 'ios' ? 'transparent' : BACKGROUND,
+                    backgroundColor: BACKGROUND,
+                    marginLeft: RW(15),
                   },
                 ]}
               >

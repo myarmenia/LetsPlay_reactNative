@@ -92,8 +92,6 @@ export const confirmPhotoAfterFinishGame = (data) => (dispatch) => {
 }
 
 export const callEndGame = (game_id) => (dispatch) => {
-  console.log('callEndGame', game_id)
-
   axiosInstance
     .post(`api/create/game/player/end/${game_id}`)
     .then((response) => {
@@ -104,7 +102,6 @@ export const callEndGame = (game_id) => (dispatch) => {
     })
 }
 export const ratePlayersAfterFinishGame = (data, navigation) => (dispatch) => {
-  console.log('ratePlayersAfterFinishGame data', data)
   axiosInstance
     .post(`api/create/game/create_game/rating`, data)
     .then((response) => {
@@ -113,6 +110,26 @@ export const ratePlayersAfterFinishGame = (data, navigation) => (dispatch) => {
     })
     .catch((err) => {
       console.error('Error: ratePlayersAfterFinishGame', err.request._response)
+    })
+}
+export const rateOrganizerAfterFinishGame = (data) => (dispatch) => {
+  axiosInstance
+    .post(`api/create/game/create_game/organizer_rating`, data)
+    .then((response) => {
+      console.log('rateOrganizerAfterFinishGame result', response.data)
+    })
+    .catch((err) => {
+      console.error('Error: rateOrganizerAfterFinishGame', err.request._response)
+    })
+}
+export const followUser = (data) => (dispatch) => {
+  axiosInstance
+    .post(`api/user/follow`, data)
+    .then((response) => {
+      console.log('followUser result', response.data)
+    })
+    .catch((err) => {
+      console.error('Error: followUser', err.request._response)
     })
 }
 export const getGameById = (create_game_id, navigation) => (dispatch) => {

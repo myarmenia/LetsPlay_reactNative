@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
@@ -7,13 +7,16 @@ import PickImage from './components/PickImage'
 import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
-import { addPhotoAfterFinishGame, callEndGame } from '@/store/Slices/GamesSlice'
+import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
 
 const AddPhoto = ({ route }) => {
   const { token } = useSelector(({ auth }) => auth)
   const gameFinishPhoto = useSelector(({ games }) => games?.gameFinishPhoto)
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(setGameFinishPhoto(null))
+  }, [])
 
   const hundleSubmit = () => {
     let formdata = new FormData()
@@ -42,10 +45,12 @@ const AddPhoto = ({ route }) => {
       requestOptions,
     )
       .then((result) => {
-        navigation.navigate('RatePlayers', {
-          gameId: route.params.gameId,
-          users: route.params.users,
-        })
+        if (route.params?.users?.length) {
+          navigation.navigate('RatePlayers', route.params)
+        } else {
+          navigation.navigate('Home')
+        }
+        dispatch(setGameFinishPhoto(null))
       })
       .catch((error) => console.log('error', error))
   }

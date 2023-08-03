@@ -17,7 +17,12 @@ const EachCommand = ({ command, data }) => {
         setBack(true)
       }}
       onPressOut={() => {
-        if (data?.fromTournament) {
+        if (data?.navigateFrom == 'RatePlayerModal') {
+          navigation.navigate('CreateGameNavigator', {
+            screen: 'RatePlayers',
+            params: { ...data.body, navigateFrom: 'MyTeam', inviteCommand: command },
+          })
+        } else if (data?.fromTournament) {
           navigation.replace('TournamentNavigator', {
             screen: 'SelectMembers',
             params: { command: command, data: data },

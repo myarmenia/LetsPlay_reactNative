@@ -1,24 +1,22 @@
 import React, { useEffect } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGalleries, getOtherUserGalleries } from '@/store/Slices/AppSlice'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
-import FastImage from 'react-native-fast-image'
-import Video from 'react-native-video'
 import { _storageUrl } from '@/constants'
 import GalleryItem from './GalleryItem'
 
 function Index({ route }) {
   const { userGalleries, otherUserGalleries } = useSelector(({ app }) => app)
   const dispatch = useDispatch()
-  const isMe = route.params.isMe
+  const isMe = route.params?.isMe
   useEffect(() => {
     dispatch(getGalleries())
   }, [])
   useEffect(() => {
-    if (!isMe) dispatch(getOtherUserGalleries(route.params.userId))
+    if (!isMe && route.params?.userId) dispatch(getOtherUserGalleries(route.params?.userId))
   }, [isMe])
 
   return (

@@ -194,6 +194,7 @@ function ChatItem({ id, item, type, playersLength }) {
                       )
                     } else if (type == 'Командный') {
                       // dispatch(deleteOrganizerChat(item?.id, setDeleting))
+
                       dispatch(deletePlayerFromTeam(item?.id, () => setDeleting(false)))
                       dispatch(setMyTeams(myTeams?.filter((elm) => elm._id !== item?._id)))
                     }

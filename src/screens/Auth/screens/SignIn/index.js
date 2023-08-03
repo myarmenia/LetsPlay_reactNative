@@ -148,7 +148,7 @@ const SignIn = (props) => {
 
   return (
     <ScreenMask>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={{ flex: 1 }}
         {...(Platform.OS === 'ios'
           ? {
@@ -157,58 +157,58 @@ const SignIn = (props) => {
               enabled: true,
             }
           : {})}
-      >
-        <FlatList
-          data={[...messagesList].reverse()}
-          style={{
-            marginBottom: RH(25),
-          }}
-          inverted
-          refreshing
-          initialNumToRender={4}
-          removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-          ref={scrollViewRef}
-          renderItem={memoRenderItem}
-          keyExtractor={(_, index) => `post-${index}`}
-        />
-        <View style={styles.bottom}>
-          {forgetPassword ? (
-            <Row wrapper={styles.btnsContainer}>
-              <Button
-                size={{ width: 100, height: 36 }}
-                label="Да"
-                onPress={() => {
-                  setForgetPassword(false)
-                  handlerMessage({ id: Math.random(), text: 'Да' })
-                  handlerMessage(messageDefault.emailCode)
-                  dispatch(forgitPassword({ expired_token: expired_token }))
-                  dispatch(setSignInStep('EMAIL_VERIFY_CODE'))
-                }}
-              />
-              <DarkButton
-                size={{ width: 100, height: 36 }}
-                containerStyle={{ marginLeft: RW(20) }}
-                label="Нет"
-                onPress={() => {
-                  setForgetPassword(false)
-                  handlerMessage({ id: Math.random(), text: 'Нет' })
-                  handlerMessage(messageDefault.password)
-                }}
-              />
-            </Row>
-          ) : (
-            <Composer
-              text={text}
-              setText={setText}
-              onSend={(message) => {
-                handlerMessage({ id: Math.random(), text: message })
-                setTimeout(nextStape, 200)
+      > */}
+      <FlatList
+        data={[...messagesList].reverse()}
+        style={{
+          marginBottom: RH(25),
+        }}
+        inverted
+        refreshing
+        initialNumToRender={4}
+        removeClippedSubviews
+        showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}
+        renderItem={memoRenderItem}
+        keyExtractor={(_, index) => `post-${index}`}
+      />
+      <View style={styles.bottom}>
+        {forgetPassword ? (
+          <Row wrapper={styles.btnsContainer}>
+            <Button
+              size={{ width: 100, height: 36 }}
+              label="Да"
+              onPress={() => {
+                setForgetPassword(false)
+                handlerMessage({ id: Math.random(), text: 'Да' })
+                handlerMessage(messageDefault.emailCode)
+                dispatch(forgitPassword({ expired_token: expired_token }))
+                dispatch(setSignInStep('EMAIL_VERIFY_CODE'))
               }}
             />
-          )}
-        </View>
-      </KeyboardAvoidingView>
+            <DarkButton
+              size={{ width: 100, height: 36 }}
+              containerStyle={{ marginLeft: RW(20) }}
+              label="Нет"
+              onPress={() => {
+                setForgetPassword(false)
+                handlerMessage({ id: Math.random(), text: 'Нет' })
+                handlerMessage(messageDefault.password)
+              }}
+            />
+          </Row>
+        ) : (
+          <Composer
+            text={text}
+            setText={setText}
+            onSend={(message) => {
+              handlerMessage({ id: Math.random(), text: message })
+              setTimeout(nextStape, 200)
+            }}
+          />
+        )}
+      </View>
+      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }

@@ -32,6 +32,8 @@ const JoinGame = ({ route }) => {
   //states
   const [showGameTypes, setShowGameTypes] = useState(false)
   const [addressName, setAddressName] = useState(route?.params?.address_name)
+  const [addressError, setAddressError] = useState()
+
   const [price, setPrice] = useState('')
   const [gameTypes, setGameTypes] = useState(nameOfGames)
   const [list, setList] = useState(chooseGameType)
@@ -44,14 +46,6 @@ const JoinGame = ({ route }) => {
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
   const checkChecks = gameTypes.some((elm) => elm.checked === true)
-  useEffect(() => {
-    !nameOfGames.length && dispatch(getGamesOnlyNames())
-    dispatch(setFindedGames([]))
-  }, [])
-
-  useEffect(() => {
-    setGameTypes(nameOfGames)
-  }, [nameOfGames])
 
   const showHideError = () => {
     if (!checkChecks && list[2].checked == true) {
@@ -59,13 +53,23 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
-
-    if (!priceError && !errorMessage) {
+    if (!addressName.address_name) {
+      setAddressError('Обязательное поле для заполнения')
+    } else {
+      setAddressError(null)
+    }
+    if (
+      !priceError &&
+      !errorMessage &&
+      ((addressName?.latitude && addressName?.longitude) ||
+        addressName.address_name ||
+        typeof addressName == 'string')
+    ) {
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = {
-        latitude: props?.fromMap ? props?.latitude : addressName?.lat,
-        longitude: props?.fromMap ? props.longitude : addressName?.lng,
-        address_name: props?.fromMap ? props?.address_name : addressName?.address_name,
+        latitude: addressName?.latitude,
+        longitude: addressName?.longitude,
+        address_name: addressName?.address_name,
         game_of_your_choice: !list[1].checked,
         date_from: startDate.toISOString().substring(0, 10),
         data_to: endDate.toISOString().substring(0, 10),
@@ -76,7 +80,20 @@ const JoinGame = ({ route }) => {
       console.log('error')
     }
   }
+  useEffect(() => {
+    if (route.params?.fromMap) {
+      setAddressName(route.params)
+      route.params = {}
+    }
+  }, [route.params?.fromMap])
+  useEffect(() => {
+    !nameOfGames.length && dispatch(getGamesOnlyNames())
+    dispatch(setFindedGames([]))
+  }, [])
 
+  useEffect(() => {
+    setGameTypes(nameOfGames)
+  }, [nameOfGames])
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -126,24 +143,7 @@ const JoinGame = ({ route }) => {
             addressName={addressName}
             show={false}
           />
-          {/* <View style={{ top: '-3%' }}>
-            <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
-            <RadioBlock list={free} onChange={setFree} />
-            {free.find((el) => el.checked).text === 'Платно' ? (
-              <>
-                <View style={styles.priceInput}>
-                  <TextInput
-                    style={styles.priceInputText}
-                    placeholder={'Сумма оплаты до'}
-                    onChangeText={(e) => setPrice(e)}
-                    placeholderTextColor={ICON}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {priceError && <Text style={styles.errorText}>Обязательное поле</Text>}
-              </>
-            ) : null}
-          </View> */}
+          {addressError && <Text style={styles.errorText}>{addressError}</Text>}
         </View>
       </ScrollView>
       {error ? <Text style={styles.errorText}>Не найденно</Text> : null}

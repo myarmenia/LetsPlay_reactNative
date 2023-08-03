@@ -1,4 +1,4 @@
-import React, { useState, memo } from 'react'
+import React, { useState, memo, useEffect } from 'react'
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
@@ -12,18 +12,19 @@ import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 import FastImage from 'react-native-fast-image'
 
-const CreateTeamTitle = (props) => {
+const CreateTeamTitle = ({ route }) => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
   const [teamNameError, setTeamNameError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
+  const [avatarError, setAvatarError] = useState(false)
   const [addressName, setAddressName] = useState('')
-  const response = props?.route?.params?.response
+  const response = route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
   const handleCreate = () => {
-    if (!addressName && !response?.latitude) {
+    if (!addressName) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
@@ -33,12 +34,17 @@ const CreateTeamTitle = (props) => {
     } else {
       setTeamNameError(false)
     }
+    if (!avatar?.assets?.[0].uri) {
+      setAvatarError(true)
+    } else {
+      setAvatarError(false)
+    }
 
-    if (!addressNameError && !teamNameError) {
+    if (addressName?.address_name && teamName && avatar?.assets?.[0].uri) {
       formdata.append('name', teamName)
-      formdata.append('address_name', response?.address_name || addressName?.address_name)
-      formdata.append('latitude', response?.latitude || addressName?.lat)
-      formdata.append('longitude', response?.longitude || addressName?.lng)
+      formdata.append('address_name', addressName?.address_name)
+      formdata.append('latitude', addressName?.latitude)
+      formdata.append('longitude', addressName?.longitude)
       formdata.append('image', {
         name: avatar?.assets?.[0].fileName,
         type: avatar?.assets?.[0].type,
@@ -56,10 +62,29 @@ const CreateTeamTitle = (props) => {
       durationLimit: 10,
       selectionLimit: 1,
     }).then((result) => {
-      console.log('result', result)
-      setAvatar(result)
+      if (result?.assets?.[0].uri) {
+        setAvatarError(false)
+        setAvatar(result)
+      } else {
+        setAvatar(null)
+      }
     })
   }
+  useEffect(() => {
+    if (response?.fromMap) {
+      setAddressName({
+        address_name: response?.address_name,
+        latitude: response?.latitude,
+        longitude: response?.longitude,
+      })
+      if (response?.avatar) {
+        setAvatar(response.avatar)
+      }
+      if (response?.teamName) {
+        setTeamName(response.teamName)
+      }
+    }
+  }, [response])
 
   return (
     <ScreenMask>
@@ -85,6 +110,10 @@ const CreateTeamTitle = (props) => {
                 setAddressName={setAddressName}
                 addressName={addressName}
                 navigateTo="CreateTeamTitle"
+                props={{
+                  avatar,
+                  teamName,
+                }}
               />
             </View>
             {addressNameError && (
@@ -94,7 +123,6 @@ const CreateTeamTitle = (props) => {
         </View>
         <View style={styles.uploadBox}>
           <TouchableOpacity style={styles.downloadingImg} onPress={uploadImageHandle}>
-            {console.log('avatar', avatar)}
             {!avatar?.assets?.[0].uri ? (
               <View style={{ transform: [{ rotate: '180deg' }] }}>
                 <DownloadingIcon />
@@ -114,8 +142,10 @@ const CreateTeamTitle = (props) => {
             <Text style={styles.noMore}>Не более 1МБ, 240x240px</Text>
           </View>
         </View>
+        {avatarError && <Text style={styles.errorText}>Обязательное поле для заполнения</Text>}
         <Text style={styles.fileName}>{avatar?.assets?.[0].fileName}</Text>
       </View>
+
       <View style={styles.nextBtn}>
         <LightButton label={'Готово'} size={{ width: 144, height: 36 }} onPress={handleCreate} />
       </View>

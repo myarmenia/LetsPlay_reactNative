@@ -35,7 +35,7 @@ function Index(props) {
 
   return (
     <ScreenMask>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={{ flex: 1 }}
         {...(Platform.OS === 'ios'
           ? {
@@ -45,58 +45,55 @@ function Index(props) {
             }
           : {})}
       >
-        <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
-          <View style={styles.container}>
-            <Text style={{ ...styles.title, marginTop: RH(53), marginBottom: RH(83) }}>
-              Обратная связь
-            </Text>
-            <View style={styles.inputBlock}>
-              <TextInput
-                onChangeText={(ev) => setValue(ev)}
-                placeholderTextColor={ICON}
-                placeholder={'Тема'}
-                style={[styles.input, Platform.OS == 'ios' && { fontSize: 16, height: 51 }]}
-              />
-              {errorText && !value ? (
-                <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-              ) : null}
-            </View>
-            <View style={styles.inputBlock}>
-              <TextInput
-                onChangeText={(ev) => setSecondValue(ev)}
-                placeholderTextColor={ICON}
-                multiline={true}
-                numberOfLines={20}
-                textAlignVertical={'top'}
-                placeholder={'Сообщение'}
-                style={[
-                  { ...styles.input, height: RH(405) },
-                  Platform.OS == 'ios' && { fontSize: 16 },
-                ]}
-              />
-              {errorText && !secondValue ? (
-                <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-              ) : null}
-            </View>
+        <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}> */}
+      <View style={styles.container}>
+        <Text style={{ ...styles.title, marginTop: RH(53), marginBottom: RH(83) }}>
+          Обратная связь
+        </Text>
+        <View style={styles.inputBlock}>
+          <TextInput
+            onChangeText={(ev) => setValue(ev)}
+            placeholderTextColor={ICON}
+            placeholder={'Тема'}
+            style={[styles.input, Platform.OS == 'ios' && { fontSize: 16, height: 51 }]}
+          />
+          {errorText && !value ? (
+            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
+          ) : null}
+        </View>
+        <View style={styles.inputBlock}>
+          <TextInput
+            onChangeText={(ev) => setSecondValue(ev)}
+            placeholderTextColor={ICON}
+            multiline={true}
+            numberOfLines={20}
+            textAlignVertical={'top'}
+            placeholder={'Сообщение'}
+            style={[{ ...styles.input, height: RH(405) }, Platform.OS == 'ios' && { fontSize: 16 }]}
+          />
+          {errorText && !secondValue ? (
+            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
+          ) : null}
+        </View>
 
-            <View style={styles.buttonBlock}>
-              <Button onPress={handleClick} size={{ width: 356, height: 48 }} label={'Отправить'} />
+        <View style={styles.buttonBlock}>
+          <Button onPress={handleClick} size={{ width: 356, height: 48 }} label={'Отправить'} />
+        </View>
+        <Modal
+          modalVisible={isVisible}
+          setIsVisible={setIsVisible}
+          item={
+            <View style={styles.feedbackModal}>
+              <Text style={styles.modalText}>
+                Спасибо за ваше сообщение. В ближайшее время с вами свяжется менеджер приложения
+                «Играем».
+              </Text>
             </View>
-            <Modal
-              modalVisible={isVisible}
-              setIsVisible={setIsVisible}
-              item={
-                <View style={styles.feedbackModal}>
-                  <Text style={styles.modalText}>
-                    Спасибо за ваше сообщение. В ближайшее время с вами свяжется менеджер приложения
-                    «Играем».
-                  </Text>
-                </View>
-              }
-            />
-          </View>
-        </TouchableNativeFeedback>
-      </KeyboardAvoidingView>
+          }
+        />
+      </View>
+      {/* </TouchableNativeFeedback>
+      </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }

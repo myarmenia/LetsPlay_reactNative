@@ -8,9 +8,7 @@ import FastImage from 'react-native-fast-image'
 import Video from 'react-native-video'
 import { useDispatch } from 'react-redux'
 import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
-import CloseSvg2 from '@/assets/svgs/closeSvg2'
 import { BlurView } from '@react-native-community/blur'
-// import { BlurView, VibrancyView } from '@react-native-community/blur'
 
 const PickImage = ({ gameFinishPhoto }) => {
   const dispatch = useDispatch()
@@ -31,7 +29,11 @@ const PickImage = ({ gameFinishPhoto }) => {
       >
         {gameFinishPhoto ? (
           <Pressable style={styles.deleteBtn} onPress={() => dispatch(setGameFinishPhoto(null))}>
-            <CloseSvg2 width={RW(30)} height={RW(30)} />
+            <FastImage
+              style={styles.deleteBtnImg}
+              resizeMode="contain"
+              source={require('@/assets/imgs/CloseBtn.png')}
+            />
           </Pressable>
         ) : null}
 
@@ -56,7 +58,6 @@ const styles = StyleSheet.create({
   container: {
     width: RW(370),
     minHeight: RH(280),
-    // backgroundColor: '#D9D9D9',
     alignItems: 'center',
   },
   text: {
@@ -74,5 +75,9 @@ const styles = StyleSheet.create({
     marginVertical: RW(5),
     alignSelf: 'flex-end',
     backgroundColor: 'transparent',
+  },
+  deleteBtnImg: {
+    width: RW(30),
+    height: RW(30),
   },
 })

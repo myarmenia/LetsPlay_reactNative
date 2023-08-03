@@ -28,6 +28,7 @@ const SearchAddresses = ({
   navigateTo = '',
   command = null,
   size = 380,
+  props = {},
 }) => {
   const inp = useRef()
   const [state, setState] = useState('')

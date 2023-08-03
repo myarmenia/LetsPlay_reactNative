@@ -116,29 +116,33 @@ export const searchPlayer = (data) => (dispatch) => {
       dispatch(setSearchPending(false))
     })
 }
-export const inviteUserToTeam = (data, setModalVisible) => (dispatch) => {
-  axiosInstance
-    .patch('/api/team/invite', data)
-    .then((e) => {
-      console.log('inviteUserToTeam', e.data)
-      setModalVisible(true)
-    })
+export const inviteUserToTeam =
+  (data, setModalVisible = () => {}) =>
+  (dispatch) => {
+    axiosInstance
+      .patch('/api/team/invite', data)
+      .then((e) => {
+        console.log('inviteUserToTeam', e.data)
+        setModalVisible(true)
+      })
 
-    .catch((err) => {
-      console.error('Error: inviting player inviteUserToTeam :', JSON.stringify(err.response))
-    })
-}
-export const joinPlayerTeam = (data, setModalVisible) => (dispatch) => {
-  axiosInstance
-    .put('/api/team/join_player', data)
-    .then((e) => {
-      if (e.data.message) setModalVisible(e.data.message)
-    })
+      .catch((err) => {
+        console.error('Error: inviting player inviteUserToTeam :', JSON.stringify(err.response))
+      })
+  }
+export const joinPlayerTeam =
+  (data, setModalVisible = () => {}) =>
+  (dispatch) => {
+    axiosInstance
+      .put('/api/team/join_player', data)
+      .then((e) => {
+        if (e.data.message) setModalVisible(e.data.message)
+      })
 
-    .catch((err) => {
-      console.error('Error: inviting player joinPlayerTeam :', err)
-    })
-}
+      .catch((err) => {
+        console.error('Error: inviting player joinPlayerTeam :', err)
+      })
+  }
 
 export const setPlayerAdmin = (data, setModalVisible) => (dispatch) => {
   axiosInstance

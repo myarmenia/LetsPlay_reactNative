@@ -14,13 +14,13 @@ import { ratePlayersAfterFinishGame } from '@/store/Slices/GamesSlice'
 
 const RatePlayers = ({ route }) => {
   const navigation = useNavigation()
-  const { gameId, users } = route.params
+  const { gameId, users, organizer } = route.params
   const dispatch = useDispatch()
   const user = useSelector(({ auth }) => auth.user)
 
   const [usersState, setUsersState] = useState([])
   useEffect(() => {
-    if (users.length)
+    if (users?.length)
       setUsersState(
         users
           ?.filter((item) => {
@@ -34,6 +34,32 @@ const RatePlayers = ({ route }) => {
           }),
       )
   }, [users])
+  useEffect(() => {
+    if (organizer && organizer?._id !== user?._id) {
+      dispatch(
+        setModalOptions({
+          visible: true,
+          type: 'RateOrganizerModal',
+          body: {
+            organizer,
+          },
+        }),
+      )
+    }
+  }, [organizer])
+
+  useEffect(() => {
+    if (route.params?.navigateFrom == 'MyTeam') {
+      dispatch(
+        setModalOptions({
+          visible: true,
+          type: 'RatePlayerModal',
+          body: route.params,
+        }),
+      )
+      route.params.navigateFrom = null
+    }
+  }, [route.params])
 
   return (
     <ScreenMask>

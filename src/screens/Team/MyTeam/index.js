@@ -24,6 +24,7 @@ function Index({ route }) {
     dispatch(getMyTeams(setModalVisible))
     dispatch(saveTeamDataForCreating({}))
   }, [])
+
   const ModalItem = () => {
     return (
       <View style={styles.modalContainer}>
@@ -49,7 +50,14 @@ function Index({ route }) {
             size={{ width: 100 }}
             onPress={() => {
               setModalVisible(false)
-              navigation.navigate('Home')
+              if (props?.navigateFrom == 'RatePlayerModal') {
+                navigation.navigate('CreateGameNavigator', {
+                  screen: 'RatePlayers',
+                  params: { ...route.params.body, navigateFrom: 'MyTeam' },
+                })
+              } else {
+                navigation.navigate('Home')
+              }
             }}
           ></DarkButton>
         </View>

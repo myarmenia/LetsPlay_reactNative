@@ -1,4 +1,4 @@
-import { Image, ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useNavigation } from '@react-navigation/native'
@@ -17,20 +17,24 @@ const EditTeamInfo = ({ route }) => {
   const [photo, setPhoto] = useState(_storageUrl + command?.img)
   const navigation = useNavigation()
   const uploadPhoto = async () => {
-    const result = await launchImageLibrary({
-      mediaType: 'mixed',
+    await launchImageLibrary({
+      mediaType: 'photo',
       quality: 1,
       includeBase64: true,
+    }).then((result) => {
+      if (result?.assets?.[0]?.uri) {
+        setPhoto(result.assets[0].uri)
+      } else {
+        setPhoto(null)
+      }
     })
-    setPhoto(result.assets[0].uri)
   }
-  //command is initial coming state from navigation and from map after changing location
   return (
     <ScreenMask>
       <View style={styles.row}>
         <ImageBackground
           source={{ uri: photo }}
-          // resizeMode="cover"
+          resizeMode="cover"
           style={styles.img}
           imageStyle={styles.img}
         >
@@ -68,7 +72,6 @@ const styles = StyleSheet.create({
     width: RW(120),
     height: RW(120),
     borderRadius: RW(60),
-    // position: 'relative',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -98,7 +101,6 @@ const styles = StyleSheet.create({
     marginVertical: RH(40),
   },
   text: {
-    // textAlign: 'center',
     marginVertical: RH(15),
     ...font('regular', 16, WHITE),
   },
