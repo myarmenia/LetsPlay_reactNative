@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
+import PushNotification from 'react-native-push-notification'
 
 const initialState = {
   notifications: [],
@@ -11,6 +12,7 @@ const initialState = {
   },
   userGalleries: [],
   notificationCount: null,
+  messagesCount: null,
   otherUserGalleries: [],
 }
 
@@ -66,6 +68,12 @@ export const AppSlice = createSlice({
         notificationCount: action.payload,
       }
     },
+    setMessagesCount: (store, action) => {
+      return {
+        ...store,
+        messagesCount: action.payload,
+      }
+    },
     setOtherUserGalleries: (store, action) => {
       return {
         ...store,
@@ -113,6 +121,7 @@ export const deleteAllNotifications = () => (dispatch) => {
   axiosInstance
     .delete('api/notification')
     .then((response) => {
+      PushNotification.setApplicationIconBadgeNumber(0)
       dispatch(setNotifications([]))
     })
     .catch((err) => {
@@ -170,11 +179,22 @@ export const getNotificationCount = (data) => (dispatch) => {
   axiosInstance
     .get('api/notification/unread', data)
     .then((response) => {
-      console.log('getNotificationCount', response.data)
+      PushNotification.setApplicationIconBadgeNumber(response.data.count)
       dispatch(setNotificationCount(response.data.count))
     })
     .catch((err) => {
       console.error('Error: request notification', err)
+    })
+}
+export const getMessagesCount = () => (dispatch) => {
+  axiosInstance
+    .get('/api/create/game/chat/messages/un_read_count')
+    .then((response) => {
+      console.log('response getMessagesCount', response.data)
+      dispatch(setMessagesCount(response.data.count))
+    })
+    .catch((err) => {
+      console.error('Error: getMessagesCount', err)
     })
 }
 
@@ -186,6 +206,7 @@ export const {
   setUserGalleries,
   setDeleteGalleryFile,
   setNotificationCount,
+  setMessagesCount,
   setOtherUserGalleries,
 } = AppSlice.actions
 export default AppSlice.reducer

@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import messaging from '@react-native-firebase/messaging'
+import PushNotification from 'react-native-push-notification'
 
 const requestUserPermission = async (openModalFunc) => {
   const authStatus = await messaging().requestPermission()
@@ -18,6 +19,10 @@ const notificationListener = async (openModalFunc, callBack) => {
   })
   messaging().setBackgroundMessageHandler(async (remoteMessage) => {
     console.log('Message handled in the background!', remoteMessage)
+
+    PushNotification.setApplicationIconBadgeNumber(
+      PushNotification.getApplicationIconBadgeNumber() + 1,
+    )
   })
 
   messaging().onMessage(async (remoteMessage) => {

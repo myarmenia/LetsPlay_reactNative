@@ -34,21 +34,18 @@ const JoinGame = ({ route }) => {
   const [addressName, setAddressName] = useState(route?.params?.address_name)
   const [addressError, setAddressError] = useState()
 
-  const [price, setPrice] = useState('')
   const [gameTypes, setGameTypes] = useState(nameOfGames)
   const [list, setList] = useState(chooseGameType)
-  // const [free, setFree] = useState(freeOrPaid)
   //datesState
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   //errors
-  const [priceError, setPriceError] = useState(false)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
   const checkChecks = gameTypes.some((elm) => elm.checked === true)
 
   const showHideError = () => {
-    if (!checkChecks && list[2].checked == true) {
+    if (!checkChecks && list[2].checked) {
       setErrorMessage(true)
     } else {
       setErrorMessage(false)
@@ -58,13 +55,7 @@ const JoinGame = ({ route }) => {
     } else {
       setAddressError(null)
     }
-    if (
-      !priceError &&
-      !errorMessage &&
-      ((addressName?.latitude && addressName?.longitude) ||
-        addressName.address_name ||
-        typeof addressName == 'string')
-    ) {
+    if (addressName.address_name && startDate <= endDate) {
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = {
         latitude: addressName?.latitude,

@@ -1,5 +1,4 @@
 const dateFormater = (date) => {
-  console.log(date)
   const date1 = new Date(date)
   let fullDate
   if (date1.toLocaleDateString().includes('/')) {

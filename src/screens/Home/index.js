@@ -10,7 +10,7 @@ import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { participateToGame } from '@/store/Slices/GamesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient'
-import { getNotificationCount } from '@/store/Slices/AppSlice'
+import { getMessagesCount, getNotificationCount } from '@/store/Slices/AppSlice'
 const HomeScreen = ({ route }) => {
   const navigation = useNavigation()
   const propsGameId = route.params?.id
@@ -23,7 +23,10 @@ const HomeScreen = ({ route }) => {
     }
   }, [propsGameId])
   useEffect(() => {
-    if (isFocused) dispatch(getNotificationCount())
+    if (isFocused) {
+      dispatch(getNotificationCount())
+      dispatch(getMessagesCount())
+    }
   }, [isFocused])
 
   return (

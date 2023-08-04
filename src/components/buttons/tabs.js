@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react'
-import { View, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, TouchableOpacity, StyleSheet, Text } from 'react-native'
 import ProfileActiveIcon from '@/assets/imgs/ProfileActiveIcon'
 import { TAB_BAR_COLOR, TRANSPARENT } from '@/theme/colors'
 import ChatActiveIcon from '@/assets/imgs/ChatActiveIcon'
 import ProfileIcon from '@/assets/imgs/ProfileIcon'
 import { TAB_BAR_HEIGHT } from '@/constants'
-import { RH, shadow } from '@/theme/utils'
+import { RH, RW, font, shadow } from '@/theme/utils'
 import ChatIcon from '@/assets/imgs/ChatIcon'
+import { useSelector } from 'react-redux'
+import LinearGradient from 'react-native-linear-gradient'
 
 const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden }) => {
+  const messagesCount = useSelector(({ app }) => app.messagesCount)
   useEffect(() => {
     setIsHome(state.index === 0)
   }, [state.index])
@@ -60,6 +63,16 @@ const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden 
             accessibilityLabel={options.tabBarAccessibilityLabel}
             accessibilityState={isFocused ? { selected: true } : {}}
           >
+            {route.name === 'Chat' && messagesCount ? (
+              <LinearGradient
+                style={styles.notificationCount}
+                colors={['#7DCE8A', '#4D7CFE']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <Text style={styles.notificationCountText}>{messagesCount}</Text>
+              </LinearGradient>
+            ) : null}
             <TabIcon height={RH(27)} width={RH(27)} />
           </TouchableOpacity>
         )
@@ -81,4 +94,16 @@ const styles = StyleSheet.create({
     backgroundColor: TAB_BAR_COLOR,
     ...shadow,
   },
+  notificationCount: {
+    width: RW(12),
+    height: RW(12),
+    borderRadius: RW(8),
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 9,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationCountText: font('bold', 8, '#1A2848'),
 })

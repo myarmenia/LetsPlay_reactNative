@@ -110,22 +110,21 @@ function ChatItem({ id, item, type, playersLength }) {
           }
           style={styles.chatItemBlock}
         >
-          {back ? (
+          {!back ? (
             <LinearGradient
               colors={['#7DCE8A', '#4D7CFE']}
               start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+              end={{ x: 0, y: 0 }}
               useAngle={true}
               angle={105}
               angleCenter={{ x: 0.5, y: 0.5 }}
               style={{
+                width: '130%',
+                height: '150%',
                 zIndex: -1,
+                alignSelf: 'center',
+                opacity: 0.6,
                 position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                opacity: 0.5,
                 borderRadius: RW(10),
               }}
             ></LinearGradient>
@@ -133,18 +132,17 @@ function ChatItem({ id, item, type, playersLength }) {
             <LinearGradient
               colors={['#7DCE8A', '#4D7CFE']}
               start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
+              end={{ x: 0, y: 0 }}
               useAngle={true}
               angle={105}
               angleCenter={{ x: 0.5, y: 0.5 }}
               style={{
+                width: '130%',
+                height: '150%',
                 zIndex: -1,
+                alignSelf: 'center',
                 position: 'absolute',
-                opacity: 0.3,
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
+                opacity: 0.8,
                 borderRadius: RW(10),
               }}
             ></LinearGradient>
@@ -182,9 +180,6 @@ function ChatItem({ id, item, type, playersLength }) {
               >
                 <LightButton
                   onPress={() => {
-                    console.log(item?._id)
-                    console.log(type)
-
                     if (type == 'Участник') {
                       dispatch(deleteMemberChat(item?._id, setDeleting))
                       dispatch(
@@ -193,8 +188,6 @@ function ChatItem({ id, item, type, playersLength }) {
                         ),
                       )
                     } else if (type == 'Командный') {
-                      // dispatch(deleteOrganizerChat(item?.id, setDeleting))
-
                       dispatch(deletePlayerFromTeam(item?.id, () => setDeleting(false)))
                       dispatch(setMyTeams(myTeams?.filter((elm) => elm._id !== item?._id)))
                     }
@@ -272,6 +265,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    overflow: 'hidden',
   },
   itemData: {
     ...font('bold', 18, WHITE, 20),

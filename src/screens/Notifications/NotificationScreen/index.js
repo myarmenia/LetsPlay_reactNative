@@ -10,6 +10,7 @@ import Modal from '@/components/modal'
 import { ICON, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import NotificationItem from './NotificationItem'
+import FastImage from 'react-native-fast-image'
 
 function NotificationScreen() {
   const [modalVisible, setModalVisible] = useState(false)
@@ -22,6 +23,33 @@ function NotificationScreen() {
   }, [])
   return (
     <ScreenMask>
+      <View
+        style={{
+          flex: 1,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+        }}
+      >
+        <FastImage
+          resizeMode="contain"
+          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
+          source={require('@/assets/bgLogo.png')}
+        />
+        <View
+          style={{
+            width: RW(360),
+            height: RW(360),
+            borderRadius: RW(180),
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+          }}
+        />
+      </View>
       <View style={styles.container}>
         <Text style={styles.title}>Уведомления</Text>
         <Row wrapper={styles.row}>
@@ -39,13 +67,9 @@ function NotificationScreen() {
         {/* {console.log('notifications', JSON.stringify(notifications, null, 4))} */}
 
         <FlatList
-          // style={{ flex: 1, }}
-          // contentContainerStyle={{ flex: 1 }}
           contentContainerStyle={{ paddingBottom: RH(90) }}
           showsVerticalScrollIndicator={false}
-          // inverted={true}
           data={[...notifications].reverse()}
-          // initialScrollIndex={19}
           renderItem={(elm) => (
             <NotificationItem elm={elm?.item} setModalVisible={setModalVisible} />
           )}

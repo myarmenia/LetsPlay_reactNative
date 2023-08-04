@@ -58,7 +58,8 @@ const EditTeamInfo = ({ route }) => {
         <LightButton
           label={'Сохранить'}
           size={{ width: RW(366), height: RH(50) }}
-          onPress={() => navigation.navigate('MyTeamInfo', command)}
+          // onPress={() => navigation.navigate('MyTeamInfo', command)}
+          onPress={() => navigation.goBack()}
         />
       </View>
     </ScreenMask>

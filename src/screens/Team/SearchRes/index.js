@@ -14,6 +14,33 @@ function Index() {
   const navigation = useNavigation()
   return (
     <ScreenMask>
+      <View
+        style={{
+          flex: 1,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+        }}
+      >
+        <FastImage
+          resizeMode="contain"
+          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
+          source={require('@/assets/bgLogo.png')}
+        />
+        <View
+          style={{
+            width: RW(360),
+            height: RW(360),
+            borderRadius: RW(180),
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+          }}
+        />
+      </View>
       <Text style={styles.title}>Результат поиска</Text>
       <ScrollView>
         {findedTeam?.map((item, i) => {

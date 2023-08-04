@@ -10,6 +10,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import LightButton from '@/components/buttons/Button'
 import FastImage from 'react-native-fast-image'
 import { ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
+import dateFormater from '@/helpers/dateFormater'
 
 function GamesList() {
   const navigation = useNavigation()
@@ -23,13 +24,11 @@ function GamesList() {
     })
   const passIdGameItem = (id) => {
     findedGames.map((elem) => {
-      // elem.data.forEach(elm => {
       if (elem?._id === id) {
         navigation.navigate('GameItem', { item: { ...elem, clicked: true } })
       } else {
         return null
       }
-      // })
     })
   }
 
@@ -55,7 +54,7 @@ function GamesList() {
               height: '100%',
               zIndex: -1,
               alignSelf: 'center',
-              opacity: 0.3,
+              opacity: 0.6,
               position: 'absolute',
               borderRadius: RW(10),
             }}
@@ -74,7 +73,7 @@ function GamesList() {
               zIndex: -1,
               alignSelf: 'center',
               position: 'absolute',
-              opacity: 0.5,
+              opacity: 0.8,
               borderRadius: RW(10),
             }}
           ></LinearGradient>
@@ -103,13 +102,11 @@ function GamesList() {
           }}
         >
           <Text style={styles.midText}>
-            {new Date(elm?.updatedAt).toLocaleDateString()},{' '}
-            {new Date(elm?.updatedAt).toLocaleTimeString().slice(0, 5)}, {elm?.address_name}
+            {dateFormater(elm?.createdAt)}, {elm?.address_name}
           </Text>
           <View
             style={{
               flexDirection: 'row',
-              // alignSelf: 'center',
               width: '100%',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -125,7 +122,7 @@ function GamesList() {
               }}
             >
               <Wave />
-              <Text style={styles.midText}>1.6 км</Text>
+              <Text style={styles.midText}>{elm.distance} км</Text>
             </View>
           </View>
         </View>
@@ -154,8 +151,36 @@ function GamesList() {
 
   return (
     <ScreenMask>
+      <View
+        style={{
+          flex: 1,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+        }}
+      >
+        <FastImage
+          resizeMode="contain"
+          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
+          source={require('@/assets/bgLogo.png')}
+        />
+        <View
+          style={{
+            width: RW(360),
+            height: RW(360),
+            borderRadius: RW(180),
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+          }}
+        />
+      </View>
       <ScrollView
         style={{ flex: 1, paddingTop: RH(15) }}
+        contentContainerStyle={{ paddingBottom: RH(80) }}
         showsVerticalScrollIndicator={false}
         ref={ref}
       >
@@ -164,19 +189,18 @@ function GamesList() {
         {findedGames?.map((elm, i) => {
           return <EatchItem elm={elm} key={i} />
         })}
-
-        {findedGames.length ? (
-          <View style={{ alignSelf: 'center', paddingTop: RH(99), paddingBottom: RH(48) }}>
-            <LightButton
-              label={'Обновить'}
-              size={{ width: 375, height: 48 }}
-              onPress={() => {
-                setForUpdate(!forUpdate), scrollToTop()
-              }}
-            />
-          </View>
-        ) : null}
       </ScrollView>
+      {findedGames.length ? (
+        <View style={{ alignSelf: 'center', position: 'absolute', bottom: RH(40) }}>
+          <LightButton
+            label={'Обновить'}
+            size={{ width: 375, height: 48 }}
+            onPress={() => {
+              setForUpdate(!forUpdate), scrollToTop()
+            }}
+          />
+        </View>
+      ) : null}
     </ScreenMask>
   )
 }

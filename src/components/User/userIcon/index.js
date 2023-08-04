@@ -31,7 +31,7 @@ function Index({ size, userProps, pressedUser }) {
   }
 
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
-  const fontSizeTitle = size < RW(50) ? RW(1.5) : size > 100 ? size / RW(34) : size / RW(50)
+  const fontSizeTitle = size < RW(50) ? RW(1.5) : size > 100 ? size / RW(34) : size / RW(51)
   const fontSizeCount = size < RW(50) ? RW(1) : size > 100 ? size / RW(23) : size / RW(30)
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()

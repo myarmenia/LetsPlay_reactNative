@@ -8,6 +8,7 @@ import { useIsFocused } from '@react-navigation/native'
 import { getProfileInfo } from '@/store/Slices/AuthSlice'
 import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
+import FastImage from 'react-native-fast-image'
 
 const ChatScreen = () => {
   const { took_part_games } = useSelector(({ auth }) => auth.user)
@@ -25,6 +26,33 @@ const ChatScreen = () => {
 
   return (
     <ScreenMask>
+      <View
+        style={{
+          flex: 1,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+        }}
+      >
+        <FastImage
+          resizeMode="contain"
+          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
+          source={require('@/assets/bgLogo.png')}
+        />
+        <View
+          style={{
+            width: RW(360),
+            height: RW(360),
+            borderRadius: RW(180),
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+          }}
+        />
+      </View>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.title}>Чат</Text>
@@ -49,9 +77,6 @@ const ChatScreen = () => {
                     />
                   )
                 })}
-                {/* {user?.create_games?.map((eachChat) => {
-                  return <ChatItem item={eachChat} key={eachChat?._id} type="Игра" />
-                })} */}
               </View>
             </>
           ) : (

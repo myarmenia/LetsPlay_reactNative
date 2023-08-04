@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native'
-import { RH } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { getChats, getTeamChats, sendTeamMessage } from '@/store/Slices/ChatsSlice'
 import { sendMessage } from '../../../store/Slices/ChatsSlice'
@@ -11,6 +11,7 @@ import Message from './components/container/message'
 import { IS_IOS } from '@/constants'
 import { setPausedMessageId, setPlayMessageId } from '../../../store/Slices/ChatsSlice'
 import PrivateChatHeader from './components/PrivateChatHeader'
+import FastImage from 'react-native-fast-image'
 
 function Index(props) {
   const [messageState, setMessageState] = useState([])
@@ -136,16 +137,33 @@ function Index(props) {
   }
   return (
     <ScreenMask>
-      {/* <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        {...(Platform.OS === 'ios'
-          ? {
-              behavior: 'padding',
-              keyboardVerticalOffset: RH(10),
-              enabled: true,
-            }
-          : {})}
-      > */}
+      <View
+        style={{
+          flex: 1,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+        }}
+      >
+        <FastImage
+          resizeMode="contain"
+          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
+          source={require('@/assets/bgLogo.png')}
+        />
+        <View
+          style={{
+            width: RW(360),
+            height: RW(360),
+            borderRadius: RW(180),
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+          }}
+        />
+      </View>
       <PrivateChatHeader gameID={gameID} playersLength={playersLength} />
       <FlatList
         data={[...messageState]?.reverse()}
@@ -175,7 +193,6 @@ function Index(props) {
           setVoiceMessage={setVoiceMessage}
         />
       </View>
-      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }

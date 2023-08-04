@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Platform } from 'react-native'
 import ActionSheet, { registerSheet, SheetManager } from 'react-native-actions-sheet'
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import { font, RH, RW } from '@/theme/utils'
@@ -21,6 +21,8 @@ const SelectMediaSheet = (props) => {
               await launchImageLibrary({
                 mediaType: 'mixed',
                 durationLimit: 10,
+                chooseFromLibraryButtonTitle: 'aaa',
+                cancelButtonTitle: 'aaa',
               }).then((e) => {
                 if (e?.assets?.[0]?.uri) {
                   dispatch(setGameFinishPhoto(e?.assets?.[0]))
@@ -43,23 +45,27 @@ const SelectMediaSheet = (props) => {
       console.log('chose')
     })
 
-  const _onTake = () =>
+  const _onTake = (mediaType) =>
     SheetManager.hide(props.sheetId).then(() => {
-      request(IS_IOS ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA).then(
+      request(Platform.OS == 'ios' ? PERMISSIONS.IOS.CAMERA : PERMISSIONS.ANDROID.CAMERA).then(
         async (result) => {
           try {
-            if ([RESULTS.GRANTED, RESULTS.LIMITED].includes(result)) {
-              await launchCamera({
-                mediaType: 'photo',
-              }).then((e) => {
-                console.log('launchCamera', e?.assets?.[0]?.uri)
-              })
-            } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
-              console.log('result', result)
-              // alert(JSON.stringify(result))
-            } else {
-              console.log('else result', result)
-            }
+            // if ([RESULTS.GRANTED, RESULTS.LIMITED].includes(result)) {
+            await launchCamera({
+              mediaType: mediaType,
+              presentationStyle: 'fullScreen',
+            }).then((e) => {
+              if (e?.assets?.[0]?.uri) {
+                dispatch(setGameFinishPhoto(e?.assets?.[0]))
+              }
+              console.log('launchCamera', e?.assets?.[0]?.uri)
+            })
+            // } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
+            //   console.log('result', result)
+            //   // alert(JSON.stringify(result))
+            // } else {
+            //   console.log('else result', result)
+            // }
           } catch (error) {
             console.log('catch', error)
           }
@@ -77,8 +83,11 @@ const SelectMediaSheet = (props) => {
         <Text style={styles.title} onPress={_onChoose}>
           Загрузить из библиотеки
         </Text>
-        <Text style={styles.title} onPress={_onTake}>
+        <Text style={styles.title} onPress={() => _onTake('photo')}>
           Сделать снимок
+        </Text>
+        <Text style={styles.title} onPress={() => _onTake('video')}>
+          Сделать видео
         </Text>
       </View>
     </ActionSheet>

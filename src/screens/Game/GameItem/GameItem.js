@@ -42,7 +42,7 @@ function GameItem({ route }) {
             <Text style={styles.eachInfoTwo}>{dateFormater(item?.start_date)}</Text>
             <Text style={styles.eachInfo}>Кол. игроков:</Text>
             <Text style={styles.eachInfoTwo}>
-              от {item?.players?.slice(0, 2)} до {item?.players?.slice(3)}
+              от {item?.number_of_players_from} до {item?.number_of_players_to}
             </Text>
             <Text style={styles.eachInfo}>Возраст игроков:</Text>
             <Text style={styles.eachInfoTwo}>
@@ -71,8 +71,9 @@ function GameItem({ route }) {
               <View style={{ width: RW(60), paddingBottom: RH(20) }}>
                 <User
                   size={40}
+                  user={item?.user}
                   onPressItem={{
-                    item: <User size={390} />,
+                    item: <User size={390} user={item?.user} />,
                     modalClose: false,
                   }}
                 />

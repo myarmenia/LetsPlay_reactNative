@@ -34,20 +34,21 @@ const EachCommand = ({ command, data }) => {
         }
       }}
     >
-      {back ? (
+      {!back ? (
         <LinearGradient
           colors={['#7DCE8A', '#4D7CFE']}
           start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
           useAngle={true}
           angle={105}
           angleCenter={{ x: 0.5, y: 0.5 }}
           style={{
-            width: RW(395),
-            height: RH(111),
+            width: '100%',
+            height: '100%',
             zIndex: -1,
+            alignSelf: 'center',
+            opacity: 0.6,
             position: 'absolute',
-            opacity: 0.5,
             borderRadius: RW(10),
           }}
         ></LinearGradient>
@@ -55,16 +56,17 @@ const EachCommand = ({ command, data }) => {
         <LinearGradient
           colors={['#7DCE8A', '#4D7CFE']}
           start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
+          end={{ x: 0, y: 0 }}
           useAngle={true}
           angle={105}
           angleCenter={{ x: 0.5, y: 0.5 }}
           style={{
-            width: RW(395),
-            height: RH(111),
+            width: '100%',
+            height: '100%',
             zIndex: -1,
+            alignSelf: 'center',
             position: 'absolute',
-            opacity: 0.3,
+            opacity: 0.8,
             borderRadius: RW(10),
           }}
         ></LinearGradient>
@@ -98,7 +100,7 @@ const styles = StyleSheet.create({
   homeBlock: {
     width: RW(395),
     height: RH(111),
-    marginVertical: RH(18),
+    marginVertical: RW(6),
     alignItems: 'flex-start',
     justifyContent: 'center',
   },
