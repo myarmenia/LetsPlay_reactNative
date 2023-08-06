@@ -4,18 +4,17 @@ import ScreenMask from '@/components/wrappers/screen'
 import { BACKGROUND, ICON, RED } from '@/theme/colors'
 import { RH, RW, font } from '@/theme/utils'
 import RadioBlock from '@/components/RadioBlock'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import {
   clearTournamentData,
-  setDescription,
+  setTournamentDescription,
   setTeamTourney,
   setTournamentName,
 } from '@/store/Slices/TournamentSlice'
 
 const CreateTournament = ({ route }) => {
-  const props = route.params
   const [formatList, setFormatList] = useState([
     {
       id: 1,
@@ -33,21 +32,21 @@ const CreateTournament = ({ route }) => {
   const [error, setError] = useState(false)
   const [tourName, setTourName] = useState('')
   const handleClick = () => {
-    if (tourName.length) {
+    dispatch(clearTournamentData())
+    if (tourName?.length) {
       setError(false)
       dispatch(setTournamentName(tourName))
       if (formatList[0].checked) {
-        navigation.navigate('CreateTournamentInfoIndividual', props)
-        // dispatch(setTeamTourney(false))
+        navigation.navigate('CreateTournamentInfo')
+        dispatch(setTeamTourney(false))
       } else {
         dispatch(setTeamTourney(true))
-        navigation.navigate('CreateTournamentInfoCommand', props)
+        navigation.navigate('CreateTournamentInfo')
       }
     } else {
       setError(true)
     }
   }
-  const initialState = useSelector(({ tournament }) => tournament)
   useEffect(() => {
     dispatch(clearTournamentData())
   }, [])
@@ -68,7 +67,7 @@ const CreateTournament = ({ route }) => {
             placeholderTextColor={ICON}
             multiline={true}
             // value={description}
-            onChangeText={(e) => dispatch(setDescription(e))}
+            onChangeText={(e) => dispatch(setTournamentDescription(e))}
             placeholder={'Описание турнира (можно использовать ссылку на интернет страничку):'}
           />
         </View>

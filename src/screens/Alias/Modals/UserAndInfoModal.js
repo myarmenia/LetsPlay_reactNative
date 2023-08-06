@@ -1,17 +1,8 @@
-import LightButton from '@/assets/imgs/Button'
-import { RH, RW, font } from '@/theme/utils'
+import LightButton from '@/components/buttons/Button'
+import { RH, font } from '@/theme/utils'
 import { useIsFocused } from '@react-navigation/native'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import {
-  Pressable,
-  Text,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-  Animated,
-  useWindowDimensions,
-  Dimensions,
-} from 'react-native'
+import { useEffect, useLayoutEffect, useRef, memo } from 'react'
+import { Pressable, Text, View, StyleSheet, Animated, Dimensions } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import PlayingInstructionSVG from '../assets/PlayingInstructionSVG'
 import TypeButton from '@/screens/Game/components/TypeButton'
@@ -19,17 +10,23 @@ import User from '@/components/User/user'
 import { ICON, WHITE } from '@/theme/colors'
 import { setStoping } from '@/store/Slices/AliasSlice'
 
-export const SomeSampleScreen = ({ modalState, setModalState }) => {
+// have render problem
+
+const SomeSampleScreen = ({ modalState, setModalState }) => {
   const isFocused = useIsFocused()
   const { user } = useSelector(({ auth }) => auth)
   const { explainYou, explainerTeam, explainerUser } = useSelector(({ alias }) => alias)
   const height = Dimensions.get('window').height
   const animatedValue = useRef(new Animated.Value(height)).current
+  const showInstruction = useRef(true)
+
   const dispatch = useDispatch()
 
   useEffect(() => {
-    setModalState({ state: 'user' })
-  }, [isFocused])
+    if (explainYou == true || explainerUser !== null) {
+      setModalState({ state: 'user' })
+    }
+  }, [isFocused, explainYou, explainerUser])
   useLayoutEffect(() => {
     if (!isFocused) {
       setTimeout(() => {
@@ -42,12 +39,6 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
       duration: 200,
       useNativeDriver: true,
     }).start()
-
-    // Animated.timing(animatedValueBack, {
-    //   toValue: 1,
-    //   duration: 2000,
-    //   useNativeDriver: true,
-    // }).start()
   }, [isFocused])
 
   return (
@@ -55,28 +46,33 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
       style={{
         transform: [{ translateY: animatedValue }],
         width: '100%',
-        display: !modalState.state && 'none',
+        display: !modalState?.state ? 'none' : 'flex',
         height: '120%',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 999,
-        backgroundColor: modalState.state && 'rgba(0,0,0,0.8)',
+        zIndex: 99999,
+        backgroundColor: modalState?.state ? 'rgba(0,0,0,0.8)' : 'transparent',
         position: 'absolute',
       }}
     >
       <Pressable
         onPress={() => {
-          explainYou ? setModalState({ state: 'inst' }) : setModalState({})
+          if (explainYou) {
+            showInstruction.current
+              ? () => {
+                  showInstruction.current = false
+                  setModalState({ state: 'inst' })
+                }
+              : setModalState({})
+          } else {
+            setModalState({})
+          }
         }}
         style={{
-          display: modalState.state == 'user' ? 'flex' : 'none',
+          display: modalState?.state == 'user' ? 'flex' : 'none',
           flexDirection: 'column',
           alignItems: 'center',
-          // zIndex: 300,
-          // marginTop: height / 1.5,
-          // position: 'absolute',
           height: '87%',
-          // width: '100%',
           justifyContent: 'space-evenly',
         }}
       >
@@ -86,7 +82,12 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
           </Text>
           <View style={{ alignItems: 'center' }}>
             <Text style={[styles.countOfTrueAnswer, { bottom: RH(10) }]}>Объясняет</Text>
-            <User size={380} pressedUser={explainYou ? user : explainerUser} />
+            {explainYou == true || explainerUser !== null ? (
+              <User
+                size={370}
+                pressedUser={explainYou ? user : explainerUser !== null ? explainerUser : null}
+              />
+            ) : null}
           </View>
 
           {!!explainYou && (
@@ -96,7 +97,6 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
                 size={{ width: 281, height: 48 }}
                 onPress={() => {
                   setModalState({ state: 'inst' })
-                  //   setUserModalVisible(false)
                 }}
               />
             </View>
@@ -106,17 +106,15 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
 
       <View
         onPress={() => {
-          // setModalState({ state: '' })
           dispatch(setStoping(false))
         }}
         style={{
-          display: modalState.state == 'inst' ? 'flex' : 'none',
+          display: modalState?.state == 'inst' ? 'flex' : 'none',
           flexDirection: 'column',
           alignItems: 'center',
           width: '100%',
           height: '84%',
           justifyContent: 'center',
-          //   position: 'relative',
         }}
       >
         <View style={styles.modalBox}>
@@ -128,19 +126,15 @@ export const SomeSampleScreen = ({ modalState, setModalState }) => {
           </View>
           <PlayingInstructionSVG />
         </View>
-        {/* <Pressable style={{ top: '7%' }}> */}
+
         <TypeButton
           size={60}
           title={'OK'}
           onPress={() => {
             dispatch(setStoping(false))
-            setModalState('')
-
-            //   setModalVisible(false)
-            // dispatch(setStartedAlias(true))
+            setModalState(null)
           }}
         />
-        {/* </Pressable> */}
       </View>
     </Animated.View>
   )
@@ -157,7 +151,6 @@ const styles = StyleSheet.create({
     ...font('regular', 18, WHITE),
   },
   modalBox: {
-    // height: '100%',
     width: '95%',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -197,3 +190,4 @@ const styles = StyleSheet.create({
     paddingVertical: RH(5),
   },
 })
+export default memo(SomeSampleScreen)

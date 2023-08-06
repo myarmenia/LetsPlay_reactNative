@@ -17,6 +17,7 @@ import {
   setEqualVotes,
   setDonVotedPlayers,
   setAnswersCount,
+  setRoles,
 } from '@/store/Slices/MafiaSlice'
 import { useNavigation } from '@react-navigation/native'
 import {
@@ -39,7 +40,6 @@ import {
 
 const Stack = createNativeStackNavigator()
 const MafiaNavigator = () => {
-  // const [questionAnswerState, setQuestionAnswerState] = useState(0)
   const socketRef = useRef(null)
   const alredyDeadedUsers = useRef([])
   const questionAnswerState = useRef(0)
@@ -64,7 +64,14 @@ const MafiaNavigator = () => {
         dispatch(setVoteTime(e?.vote_time))
         dispatch(setAnswerQuestions(e?.data?.role?.answer_question))
         dispatch(setLoader(false))
-        navigation.navigate('PlayMafia')
+        setTimeout(() => {
+          navigation.navigate('PlayMafia')
+        }, 500)
+
+        break
+      case 'dictionaries':
+        navigation.navigate('AboutGame')
+        dispatch(setRoles(e.data))
         break
       case 'questions':
         dispatch(setAnswerQuestions(e?.questions))
@@ -94,19 +101,16 @@ const MafiaNavigator = () => {
         dispatch(setLoader(false))
         dispatch(setWaitNight(null))
         dispatch(setPlayers(e?.all_players))
+        dispatch(setAnswersCount(0))
+        questionAnswerState.current = 0
 
         break
       case 'question_answer':
         dispatch(setQuestionTruthfulness({ question_id: e.question, truthfulness: e.answer }))
-        // console.log('question_answer answersCount', answersCount)
-        // if (answersCount == 1) {
-        //   dispatch(setWaitNight(false))
-        //   dispatch(setAnswersCount(0))
-        // }
-        // setQuestionAnswerState(++questionAnswerState)
-        console.log('mafiaRoleName', mafiaRoleName)
+
         if (nightRef.current) {
           if (questionAnswerState.current == 1) {
+            // || answersCount == 1
             dispatch(setWaitNight(false))
             dispatch(setAnswersCount(0))
             questionAnswerState.current = 0
@@ -114,12 +118,12 @@ const MafiaNavigator = () => {
             dispatch(setAnswersCount(1))
             questionAnswerState.current = 1
           }
+        } else {
+          dispatch(setWaitNight(true))
         }
 
         break
       case 'player_out':
-        console.log('type player_out', e)
-
         const deadUser = e.all_players.filter((user) => {
           if (!user.status && !alredyDeadedUsers.current?.find((id) => user?._id == id)) {
             alredyDeadedUsers.current = [...alredyDeadedUsers.current, user._id]
@@ -131,10 +135,8 @@ const MafiaNavigator = () => {
         deadUser.forEach((user, index) => {
           deadUser[index].role = e?.players.find((item) => item._id == user?._id)?.role?.name
         })
-        if (e?.roleDatas?.mafia == 0 || e?.roleDatas?.mafia > e?.roleDatas?.civilian) {
-          break
-        }
-
+        dispatch(setAnswersCount(0))
+        questionAnswerState.current = 0
         dispatch(setDeadUser(deadUser))
 
         dispatch(setCiviliansCount(e?.roleDatas?.civilian))
@@ -142,11 +144,12 @@ const MafiaNavigator = () => {
         break
       case 'equal_votes':
         dispatch(setLoader(false))
+        dispatch(setWaitNight(null))
         dispatch(
           setEqualVotes({
             question_id: e?.question_id,
-            first_player: e?.first_player?.user,
-            second_player: e?.second_player?.user,
+            first_player: { ...e?.first_player?.user, _id: e?.first_player?._id },
+            second_player: { ...e?.second_player?.user, _id: e?.second_player?._id },
           }),
         )
         break
@@ -168,7 +171,6 @@ const MafiaNavigator = () => {
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {
-    console.log('waitNight', waitNight)
     if (waitNight === null) return
     socketRef.current?.send({
       type: 'end_time_vote',
@@ -191,8 +193,8 @@ const MafiaNavigator = () => {
 
     console.log('mafiaGameId -', mafiaGameId)
     socketRef.current = io(
-      `https://48e1-37-252-94-159.eu.ngrok.io/mafia?room=${mafiaGameId}`,
-      // `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
+      // `https://2dff-37-252-82-211.eu.ngrok.io/mafia?room=${mafiaGameId}`,
+      `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
       {
         transportOptions: {
           polling: {
@@ -206,20 +208,16 @@ const MafiaNavigator = () => {
   }, [mafiaGameId, token])
 
   useEffect(() => {
-    // return () => {
-    //   socketRef?.current?.disconnect()
-    //   console.log('useEffect clearAllDatas')
-    //   dispatch(clearAllDatas())
-    // }
+    return () => {
+      socketRef?.current?.disconnect()
+      console.log('useEffect clearAllDatas')
+      dispatch(clearAllDatas())
+    }
   }, [])
 
   useEffect(() => {
     mafiaRoleName.current = mafiaRole?.name
   }, [mafiaRole])
-
-  useEffect(() => {
-    questionAnswerState.current = answersCount
-  }, [answersCount])
 
   return (
     <Stack.Navigator screenOptions={NAV_HEADER_OPTION}>
@@ -228,7 +226,7 @@ const MafiaNavigator = () => {
       <Stack.Screen name="AddPlayers" component={AddPlayers} />
       <Stack.Screen name="AboutGame" component={AboutGame} />
       <Stack.Screen name="WaitPlayers" component={WaitPlayers} />
-      <Stack.Screen name="PlayMafia" component={PlayMafia} options={{ gestureEnabled: false }} />
+      <Stack.Screen name="PlayMafia" component={PlayMafia} />
       <Stack.Screen name="RatingPlayer" component={RatingPlayer} />
     </Stack.Navigator>
   )

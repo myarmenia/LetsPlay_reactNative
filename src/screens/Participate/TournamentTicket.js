@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { Image, Text, View, StyleSheet, TouchableOpacity } from 'react-native'
+import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import ScreenMask from '@/components/wrappers/screen'
 import OrganizerSvg from '@/assets/svgs/OrganizerSvg'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
+import FastImage from 'react-native-fast-image'
 
 function TournamentTicket(props) {
   const { navigation, route } = props
@@ -15,9 +16,9 @@ function TournamentTicket(props) {
     <ScreenMask>
       <View style={{ height: '100%' }}>
         <View style={styles.svg}>
-          <Image
+          <FastImage
             style={{ width: RW(220), height: RW(220) }}
-            source={require('@/assets/imgs/games/soccer.png')}
+            source={require('@/assets/imgs/soccer.png')}
           />
         </View>
 
@@ -56,9 +57,9 @@ function TournamentTicket(props) {
             <Text style={styles.ticketText}>Адрес проведения турнира:</Text>
           </View>
 
-          <View style={styles.ticketTextBlock}>
+          {/* <View style={styles.ticketTextBlock}>
             <Text style={styles.ticketText}>Плата за участие: 500 руб.</Text>
-          </View>
+          </View> */}
           <View
             style={[
               styles.ticketTextBlock,
@@ -73,7 +74,7 @@ function TournamentTicket(props) {
           <LightButton
             label={'Редактировать'}
             onPress={() => {
-              navigation.navigate('GameAdd')
+              // navigation.navigate('GameAdd')
             }}
             size={{ width: 192, height: 36 }}
           />

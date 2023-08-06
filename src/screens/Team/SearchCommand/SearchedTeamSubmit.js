@@ -1,18 +1,18 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
 import { _storageUrl } from '@/constants'
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import Modal from '@/components/modal'
-import { joinInTeam, setFindedTeam } from '@/store/Slices/TeamSlice'
+import { setFindedTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 function SearchedTeamSubmit({ route }) {
   const item = route.params
@@ -28,7 +28,11 @@ function SearchedTeamSubmit({ route }) {
     <ScreenMask>
       <Text style={style.team}>{item?.name}</Text>
       <View style={style.imageBlock}>
-        <Image style={style.image} source={{ uri: _storageUrl + item?.img }} />
+        <FastImage
+          style={style.image}
+          resizeMode="contain"
+          source={{ uri: _storageUrl + item?.img }}
+        />
       </View>
       <View style={{ alignItems: 'center' }}>
         <Text style={style.text}>Адрес нахождения команды</Text>
@@ -39,9 +43,8 @@ function SearchedTeamSubmit({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
-            user={Players[3]}
             onPressItem={{
-              item: <User user={Players[3]} size={390} />,
+              item: <User size={390} />,
               modalClose: false,
             }}
           />
@@ -52,9 +55,8 @@ function SearchedTeamSubmit({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
-            user={Players[8]}
             onPressItem={{
-              item: <User user={Players[8]} size={390} />,
+              item: <User size={390} />,
               modalClose: false,
             }}
           />
@@ -122,7 +124,6 @@ const style = StyleSheet.create({
     borderRadius: RW(150),
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   text: {
     ...font('bold', 14, WHITE, 20),

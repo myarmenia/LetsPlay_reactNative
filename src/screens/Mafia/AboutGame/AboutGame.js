@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, ScrollView, Image, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, ScrollView, ImageBackground } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import Modal from '@/components/modal'
 import { useDispatch, useSelector } from 'react-redux'
@@ -12,33 +12,30 @@ import {
   clearAllDatas,
   participateToGame,
   setLoader,
-  setMafiaSocketOn,
-  setParticipateSuccess,
+  startGame,
 } from '../../../store/Slices/MafiaSlice'
-import { setPending } from '@/store/Slices/AuthSlice'
+import FastImage from 'react-native-fast-image'
 
 const AboutGame = ({ route }) => {
-  const [modalVisible, setModalVisible] = useState(true)
-  const { roles, participateSuccess } = useSelector(({ mafia }) => mafia)
+  const [modalVisible, setModalVisible] = useState(false)
+  const { roles, mafiaRole, mafiaGameId } = useSelector(({ mafia }) => mafia)
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const propsGameId = route.params?.id
+  let gameIsStarted = route.params?.gameIsStarted
 
   useEffect(() => {
     if (propsGameId) {
-      // dispatch(clearAllDatas())
+      dispatch(clearAllDatas())
       dispatch(participateToGame(propsGameId))
     }
   }, [propsGameId])
-
   useEffect(() => {
-    if (participateSuccess === false) {
-      alert('Что-то пошло не так')
-      navigation.navigate('Home')
-      dispatch(setParticipateSuccess(null))
+    if (mafiaRole && propsGameId) {
+      setModalVisible(false)
     }
-    dispatch(setPending(false))
-  }, [participateSuccess])
+  }, [mafiaRole])
+
   return (
     <ScreenMask>
       <View style={styles.container}>
@@ -61,8 +58,9 @@ const AboutGame = ({ route }) => {
                   margin: RW(15),
                 }}
               >
-                <Image
-                  style={{ resizeMode: 'contain', width: '100%', height: 125 }}
+                <FastImage
+                resizeMode='contain'
+                  style={{  width: '100%', height: 125 }}
                   source={{ uri: _storageUrl + item.img }}
                 />
               </View>
@@ -82,13 +80,19 @@ const AboutGame = ({ route }) => {
             <LightButton
               size={{ width: 281, height: 48 }}
               labelStyle={styles.countinue}
-              label={'Продолжить'}
+              label={!gameIsStarted ? 'Продолжить' : 'Вернутся'}
+              // label={'Продолжить'}
               white={'white'}
               background={'#7DCE8A'}
               bgColor={'#4D7CFE'}
               onPress={() => {
-                navigation.navigate('WaitPlayers')
-                dispatch(setLoader(true))
+                if (!gameIsStarted) {
+                  navigation.navigate('WaitPlayers')
+                  dispatch(startGame(mafiaGameId))
+                  dispatch(setLoader(true))
+                } else {
+                  navigation.navigate('PlayMafia', { daysCount: route.params?.daysCount })
+                }
               }}
             />
           </View>

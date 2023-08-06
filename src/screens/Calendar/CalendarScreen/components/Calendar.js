@@ -127,22 +127,27 @@ class Calendar extends React.Component {
             key={colIndex}
             onPress={() => this._onPress(item)}
             style={{
-              height: RH(30),
+              height: RH(40),
               minWidth: RW(20),
               justifyContent: 'center',
               alignItems: 'center',
 
-              paddingBottom: rowIndex == 0 ? 0 : RH(15),
+              // paddingBottom: rowIndex == 0 ? 0 : RH(20),
             }}
           >
-            <View style={{ position: 'absolute', top: 0, bottom: 0 }}>
+            <View
+              style={{
+                position: 'absolute',
+                top: (RH(40) - 25) / 2,
+                bottom: (RH(40) - 25) / 2,
+              }}
+            >
               {item == this.state.choosedDate?.getDate() ? <CircleSvg /> : null}
             </View>
             <Text
               style={{
                 textAlign: 'center',
-                bottom: rowIndex == 0 ? 0 : -RH(4.5),
-                color: rowIndex == 0 ? ICON : currentDay ? ICON : '#fff',
+                ...font('regular', 15, rowIndex == 0 ? ICON : currentDay ? ICON : '#fff', 25),
               }}
             >
               {item != -1 ? item : ''}
@@ -189,18 +194,33 @@ class Calendar extends React.Component {
         )
       }
     })
-    const showYearsArray = [
-      this.state.activeDate.getFullYear() - 1,
-      this.state.activeDate.getFullYear(),
-      this.state.activeDate.getFullYear() + 1,
-      this.state.activeDate.getFullYear() + 2,
-    ]
 
+    let data = {}
+    Object.keys(this.props.calendarGames?.teamGames || {}).forEach((e) => {
+      if (data[e]) {
+        data[e] = [...data[e], { type: 'teamGames', data: this.props.calendarGames?.teamGames[e] }]
+      } else {
+        data[e] = [{ type: 'teamGames', data: this.props.calendarGames?.teamGames[e] }]
+      }
+    })
+    Object.keys(this.props.calendarGames?.games || {}).forEach((e) => {
+      if (data[e]) {
+        data[e] = [...data[e], { type: 'games', data: this.props.calendarGames?.games[e] }]
+      } else {
+        data[e] = [{ type: 'games', data: this.props.calendarGames?.games[e] }]
+      }
+    })
+    Object.keys(this.props.calendarGames?.tourneys || {}).forEach((e) => {
+      if (data[e]) {
+        data[e] = [...data[e], { type: 'tourneys', data: this.props.calendarGames?.tourneys[e] }]
+      } else {
+        data[e] = [{ type: 'tourneys', data: this.props.calendarGames?.tourneys[e] }]
+      }
+    })
     return (
-      <ScrollView>
+      <ScrollView style={{ paddingTop: RH(10) }}>
         {this.state.showYaersDropDown ? (
           <CalendarDropDown
-            showYearsArray={showYearsArray}
             setState={(yaer) => {
               this.setState(() => {
                 this.state.activeDate.setFullYear(yaer)
@@ -260,7 +280,7 @@ class Calendar extends React.Component {
           <View style={styles.line} />
 
           <View style={styles.agentaContainer}>
-            {Object.keys(this.props?.calendarGames || {})?.map((date, i) => {
+            {Object.keys(data || {})?.map((date, i) => {
               let dateString = new Date(date)
               return (
                 <View key={i}>
@@ -272,18 +292,24 @@ class Calendar extends React.Component {
                       {this.months2[dateString.getMonth()]}
                     </Text>
                   </Row>
-                  {this.props?.calendarGames[date].map((item) => {
-                    return (
-                      <CalendarGameItem
-                        key={item?._id}
-                        img={item?.game?.img}
-                        name={item?.game?.name}
-                        startDate={item?.start_date}
-                        onPress={() =>
-                          this.props.navigation.navigate('CalendarGameScreen', { game: item })
-                        }
-                      />
-                    )
+
+                  {data?.[date].map((item) => {
+                    return item.data.map((elm) => {
+                      return (
+                        <CalendarGameItem
+                          key={elm?._id}
+                          img={elm?.game?.img}
+                          name={elm?.game?.name}
+                          startDate={elm?.start_date}
+                          onPress={() => {
+                            if (item.type == 'games' || item.type == 'teamGames') {
+                              this.props.navigation.navigate('CalendarGameScreen', { game: elm })
+                            } else {
+                            }
+                          }}
+                        />
+                      )
+                    })
                   })}
                 </View>
               )

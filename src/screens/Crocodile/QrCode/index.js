@@ -1,36 +1,35 @@
 import { WHITE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
-import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
-import { Image, Text, View, StyleSheet, ScrollView, Pressable } from 'react-native'
-import Button from '@/assets/imgs/Button'
+import { Text, View, StyleSheet } from 'react-native'
+import Button from '@/components/buttons/Button'
 import ScreenMask from '@/components/wrappers/screen'
-import Modal from '@/components/modal'
+import FastImage from 'react-native-fast-image'
 
-function Index({ route }) {
-  const commandsCount = route?.params
-
+function Index() {
   const { qrGameImg } = useSelector(({ crocodile }) => crocodile)
   const navigation = useNavigation()
-
   return (
     <ScreenMask>
       <View>
         <View style={styles.body}>
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
-            <Image style={styles.qr} source={{ uri: _storageUrl + qrGameImg }} />
+            <FastImage
+              style={styles.qr}
+              resizeMode="contain"
+              source={{ uri: _storageUrl + qrGameImg }}
+            />
           </View>
           <Button
-            onPress={() => navigation.navigate('InviteTeamPlayers', commandsCount)}
+            onPress={() => navigation.navigate('InviteTeamPlayers')}
             size={styles.btn}
             label={'Продолжить'}
           />
         </View>
       </View>
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}></View>
     </ScreenMask>
   )
 }
@@ -55,7 +54,6 @@ const styles = StyleSheet.create({
   qr: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   btn: {
     width: 281,

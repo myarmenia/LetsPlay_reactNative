@@ -1,13 +1,13 @@
 import React from 'react'
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
 import { WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import BgMyTem from '@/assets/bgMyTem'
-import LightButton from '@/assets/imgs/Button'
 import ScreenMask from '@/components/wrappers/screen'
+import FastImage from 'react-native-fast-image'
 
 function SearchTeamInvite() {
   const { findedTeam } = useSelector(({ teams }) => teams)
@@ -17,7 +17,6 @@ function SearchTeamInvite() {
     <ScreenMask>
       <Text style={styles.title}>Результат поиска</Text>
       <ScrollView style={{ flex: 1 }}>
-        {console.log('findedTeam', findedTeam)}
         {findedTeam.length
           ? findedTeam?.map((item, i) => {
               return (
@@ -28,7 +27,7 @@ function SearchTeamInvite() {
                   <View style={styles.homeBlock}>
                     <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
                       <View style={styles.imageBlock}>
-                        <Image style={styles.image} source={{ uri: _storageUrl + item?.img }} />
+                        <FastImage resizeMode='contain' style={styles.image} source={{ uri: _storageUrl + item?.img }} />
                       </View>
                       <View style={styles.textBlock}>
                         <Text style={styles.text}>{item?.name}</Text>
@@ -86,7 +85,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   text: {
     marginVertical: RH(3),

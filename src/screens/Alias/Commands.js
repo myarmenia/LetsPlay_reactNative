@@ -1,28 +1,29 @@
-import { memo, useEffect, useState } from 'react'
+import { memo, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
-import { sendAliasSettings, setCommandsInGame, setTeams } from '@/store/Slices/AliasSlice'
+import { sendAliasSettings, setTeams } from '@/store/Slices/AliasSlice'
 import { useNavigation } from '@react-navigation/native'
 import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import DeleteIconSVG from '@/assets/svgs/DeleteIconSVG'
 import CircleAdd from '@/components/buttons/circleAdd'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 
 const Commands = () => {
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { countWords, allTeams, complexity, time } = useSelector(({ alias }) => alias)
+  const { countWords, allTeams, complexity, time, penalty } = useSelector(({ alias }) => alias)
   const [error, setError] = useState(false)
   // const [input, setInput] = useState(`Команда ${elm.command}`)
 
   const handleSubmit = async () => {
+    let error = false
+    setError(false)
     for (let elem of allTeams) {
       if (!elem.value) {
         setError(true)
-      } else {
-        setError(false)
+        error = true
       }
     }
     if (!error) {
@@ -33,14 +34,13 @@ const Commands = () => {
           {
             number_of_words: countWords,
             round_time: time,
-            pass_fine: true,
+            pass_fee: penalty,
             type: complexity,
             teams: allTeams.map((elm) => elm.value),
           },
           allTeams,
         ),
       )
-      // console.log(allTeams)
       navigation.navigate('QrCode')
     }
   }
@@ -73,7 +73,6 @@ const Commands = () => {
                         )
                       }}
                       placeholderTextColor={ICON}
-                      // keyboardType="number-pad"
                     />
                   </View>
                   {allTeams.length !== 2 ? (

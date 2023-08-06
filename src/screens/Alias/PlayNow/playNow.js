@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View, Text, StyleSheet, ScrollView } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import { font, RH, RW } from '@/theme/utils'
-import { ICON, WHITE } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import { font, RH } from '@/theme/utils'
+import { ICON } from '@/theme/colors'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import User from '@/components/User/user'
 import { useDispatch, useSelector } from 'react-redux'
@@ -23,17 +23,15 @@ const PlayNow = () => {
                 <View key={i}>
                   <Text style={styles.commandName}>{elm?.value}</Text>
                   <View style={styles.eachCommandBox}>
-                    {playersInGame.map((player) => {
+                    {playersInGame.map((player, id) => {
                       if (allTeams[i].members.includes(player?._id)) {
                         return (
-                          <View key={Math.random().toString()}>
-                            {/* pass user in User component with pressed user prop */}
+                          <View key={id}>
                             <User
                               size={70}
                               onPressItem={{
                                 item: <User size={390} pressedUser={player} />,
                                 modalClose: false,
-                                // onClickFunc: handleClick,
                               }}
                               pressedUser={player}
                             />
@@ -51,7 +49,6 @@ const PlayNow = () => {
           <View style={{ position: 'absolute', bottom: RH(50), alignSelf: 'center' }}>
             <LightButton
               size={{ width: 281, height: 48 }}
-              // labelStyle={styles.countinue}
               label={'Продолжить'}
               white={'white'}
               background={'#7DCE8A'}
@@ -59,7 +56,7 @@ const PlayNow = () => {
               onPress={() => {
                 dispatch(startAliasGame(aliasGameId))
                 dispatch(setStart(true))
-                navigation.navigate('GameStart', { fromRes: false })
+                navigation.navigate('GameStart')
               }}
             />
           </View>
@@ -70,28 +67,6 @@ const PlayNow = () => {
 }
 
 const styles = StyleSheet.create({
-  titleBlock: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageBlock: {
-    width: RW(50),
-    height: RW(50),
-    borderRadius: RW(50),
-    marginRight: RW(15),
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-    borderRadius: RW(50),
-  },
-  title: {
-    textAlign: 'center',
-    ...font('bold', 24, WHITE),
-    marginVertical: RH(30),
-  },
   commandName: {
     ...font('medium', 20, ICON),
     textAlign: 'left',

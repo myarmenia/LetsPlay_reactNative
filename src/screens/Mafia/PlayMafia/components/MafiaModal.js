@@ -1,10 +1,11 @@
-import { Text, View, Image, ImageBackground } from 'react-native'
+import { Text, View, ImageBackground } from 'react-native'
 import React from 'react'
 import Modal from '@/components/modal'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
+import FastImage from 'react-native-fast-image'
 
 const MafiaModal = ({ modalVisible, setModalVisible }) => {
   const { mafiaRole, roles } = useSelector(({ mafia }) => mafia)
@@ -34,25 +35,28 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
               style={{
                 justifyContent: 'center',
                 alignItems: 'center',
-                paddingVertical: RW(20),
-                paddingHorizontal: RH(10),
+                paddingVertical: RW(40),
+                paddingHorizontal: RH(100),
                 // height: RH(420),
               }}
             >
-              <Image
+              <FastImage
+              resizeMode='contain'
                 source={{ uri: _storageUrl + mafiaRole?.img }}
-                style={{ height: RH(150), width: RH(120), resizeMode: 'contain' }}
+                style={{ height: RH(150), width: RH(120) }}
               />
               <Text
                 style={{
                   textAlign: 'center',
                   ...font('bold', 25, '#000'),
                   marginTop: RH(10),
+                  maxWidth: '90%',
+                  // marginHorizontal: RW(100),
                 }}
               >
                 {mafiaRole?.name}
               </Text>
-              <Text
+              {/* <Text
                 style={{
                   textAlign: 'center',
                   ...font('bold', 16, '#000'),
@@ -61,7 +65,7 @@ const MafiaModal = ({ modalVisible, setModalVisible }) => {
                 }}
               >
                 {description}
-              </Text>
+              </Text> */}
             </ImageBackground>
           </>
         }

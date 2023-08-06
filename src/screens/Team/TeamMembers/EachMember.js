@@ -1,44 +1,47 @@
 import React, { useState } from 'react'
 import { _storageUrl } from '@/constants'
-import { BACKGROUND, WHITE } from '@/theme/colors'
+import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
-import LightButton from '@/assets/imgs/Button'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+import LightButton from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch } from 'react-redux'
 import { deletePlayerFromTeam, setPlayerAdmin } from '@/store/Slices/TeamSlice'
+import FastImage from 'react-native-fast-image'
+import Modal from '@/components/modal'
 
 const EachMember = ({ route }) => {
-  const [back, setBack] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
-  const commandName = route?.params?.command.name
-  const commandImg = route?.params?.command.img
+  const command = route?.params?.command
+  const user = route?.params.user
   const dispatch = useDispatch()
-  const props = route?.params
 
   const submitAdmin = () => {
     dispatch(
-      setPlayerAdmin({
-        team_id: props.command?._id,
-        user_id: props.member,
-      }),
+      setPlayerAdmin(
+        {
+          team_id: command?._id,
+          user_id: user?._id,
+        },
+        setModalVisible,
+      ),
     )
   }
   const handleDelete = () => {
     dispatch(
-      deletePlayerFromTeam({
-        team_id: props.command?._id,
-        user_id: props.member,
-      }),
+      deletePlayerFromTeam(
+        {
+          team_id: command?._id,
+          user_id: user?._id,
+        },
+        setModalVisible,
+      ),
     )
   }
   return (
     <ScreenMask>
       <Pressable
-        onPressIn={() => setBack(true)}
-        onPressOut={() => setBack(false)}
-        onPress={() => setModalVisible(true)}
         style={{
           width: '100%',
           alignSelf: 'center',
@@ -50,14 +53,14 @@ const EachMember = ({ route }) => {
         }}
       >
         <View style={styles.rowBox}>
-          <Text style={styles.topTitle}>{commandName}</Text>
-          <Image
-            source={{ uri: _storageUrl + commandImg }}
+          <Text style={styles.topTitle}>{command.name}</Text>
+          <FastImage
+            source={{ uri: _storageUrl + command.img }}
             resizeMode="cover"
             style={styles.commandImg}
-          ></Image>
+          />
         </View>
-        <User size={430} />
+        <User user={user} size={390} />
         <View style={styles.btnsBox}>
           <LightButton
             label={'Сделать администратором'}
@@ -71,6 +74,15 @@ const EachMember = ({ route }) => {
           />
         </View>
       </Pressable>
+      <Modal
+        item={
+          <View style={styles.modal}>
+            <Text style={styles.modalText}>{modalVisible}</Text>
+          </View>
+        }
+        modalVisible={modalVisible}
+        setIsVisible={setModalVisible}
+      />
     </ScreenMask>
   )
 }
@@ -80,8 +92,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     alignSelf: 'center',
-    // position: 'absolute',
-    // bottom: RH(40),
     height: '12%',
     justifyContent: 'space-between',
   },
@@ -105,6 +115,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     top: RH(15),
+  },
+  modal: {
+    width: RW(306),
+    backgroundColor: LIGHT_LABEL,
+    borderRadius: RW(20),
+    padding: RW(20),
+    marginHorizontal: RW(30.5),
+  },
+  modalText: {
+    ...font('inter', 16, WHITE, 20),
+    textAlign: 'center',
   },
 })
 export default EachMember

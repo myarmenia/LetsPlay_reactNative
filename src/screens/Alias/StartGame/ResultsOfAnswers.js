@@ -3,10 +3,10 @@ import React, { memo, useEffect } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { sendUserPoints, setCountWords, setExplainedWords } from '@/store/Slices/AliasSlice'
+import { setExplainedWords } from '@/store/Slices/AliasSlice'
 
 const ResultsOfAnswers = ({ route }) => {
   const dispatch = useDispatch()
@@ -23,9 +23,6 @@ const ResultsOfAnswers = ({ route }) => {
   let data = route.params
   useEffect(() => {
     data.player = explainYou ? user : explainerUser
-    if (isFocused && explainYou) {
-      dispatch(sendUserPoints(data))
-    }
 
     if (!isFocused) {
       dispatch(

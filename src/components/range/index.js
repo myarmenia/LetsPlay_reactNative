@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import Slider from '@react-native-community/slider'
 import CircleSlide from '@/assets/imgs/CircleSlide.png'
@@ -53,7 +53,7 @@ function Index({
           maximumTrackTintColor="#ccc"
           thumbImage={CircleSlide}
           onValueChange={(newValue) => {
-          setValue(newValue), dispatch(setCountWords(newValue))
+            setValue(newValue), dispatch(setCountWords(newValue))
           }}
         />
       </View>

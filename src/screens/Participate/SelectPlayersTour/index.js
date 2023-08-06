@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { Image, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
-import { styles } from '@/screens/Team/SelectPlayers/style'
-import { Players } from '@/assets/TestData'
 import User from '@/components/User/user'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
+import FastImage from 'react-native-fast-image'
 
 function Index({ route, navigation }) {
   const [isVisible, setIsVisible] = useState(false)
@@ -38,19 +37,19 @@ function Index({ route, navigation }) {
     <ScreenMask>
       <View style={styles.titleBlock}>
         <View style={styles.imageBlock}>
-          <Image style={styles.image} source={{ uri: item.image }} />
+          <FastImage style={styles.image} resizeMode="contain" source={{ uri: item.image }} />
         </View>
         <Text style={styles.title}>{item.name}</Text>
       </View>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <View style={styles.container}>
-          {Players.map((item, i) => (
+          {[1, 2, 3, 4].map((item, i) => (
             <TouchableOpacity
               onPress={() => handlerActiveUser(item.id)}
               key={i}
               style={user.includes(item.id) ? styles.activeItem : styles.item}
             >
-              <User user={item} />
+              <User size={90} />
             </TouchableOpacity>
           ))}
         </View>
@@ -97,6 +96,57 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: RH(49),
     marginBottom: RH(31),
+  },
+
+  btn: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: RH(85),
+  },
+  titleBlock: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imageBlock: {
+    width: RW(50),
+    height: RW(50),
+    borderRadius: RW(50),
+    marginRight: RW(15),
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    borderRadius: RW(50),
+  },
+  title: {
+    textAlign: 'center',
+    ...font('bold', 24, WHITE),
+    marginVertical: RH(30),
+  },
+  scroll: {
+    marginRight: 'auto',
+    marginLeft: 'auto',
+    width: RW(310),
+    height: RH(600),
+    flexGrow: 0,
+  },
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    flexWrap: 'wrap',
+  },
+
+  item: {
+    padding: RW(3),
+    marginTop: RH(30),
+  },
+  activeItem: {
+    padding: RW(3),
+    marginTop: RH(30),
+    borderWidth: 1,
+    borderColor: '#7DCE8A',
+    borderRadius: RW(15),
   },
 })
 

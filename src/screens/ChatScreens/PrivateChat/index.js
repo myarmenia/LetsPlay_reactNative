@@ -1,7 +1,7 @@
 import React, { memo, useEffect, useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { FlatList, KeyboardAvoidingView, Platform, View } from 'react-native'
-import { RH } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { getChats, getTeamChats, sendTeamMessage } from '@/store/Slices/ChatsSlice'
 import { sendMessage } from '../../../store/Slices/ChatsSlice'
@@ -11,6 +11,7 @@ import Message from './components/container/message'
 import { IS_IOS } from '@/constants'
 import { setPausedMessageId, setPlayMessageId } from '../../../store/Slices/ChatsSlice'
 import PrivateChatHeader from './components/PrivateChatHeader'
+import FastImage from 'react-native-fast-image'
 
 function Index(props) {
   const [messageState, setMessageState] = useState([])
@@ -18,13 +19,13 @@ function Index(props) {
 
   const { user, token } = useSelector(({ auth }) => auth)
   const { voiceDuration, chats } = useSelector(({ chats }) => chats)
-  const userId = user._id
   const dispatch = useDispatch()
   const gameID = props.route.params.id
   const type = props.route.params.type
+  const playersLength = props.route.params?.playersLength
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
-      type == 'Организатор' ? '/team' : ''
+      type == 'Командный' ? '/team' : ''
     }/chat?room=${gameID}`,
     {
       transportOptions: {
@@ -50,7 +51,7 @@ function Index(props) {
         type: IS_IOS ? 'audio/m4a' : 'video/mp4',
         name: IS_IOS ? 'audio.m4a' : 'audio.mp4',
       })
-      formdata.append('create_game', gameID)
+      formdata.append(type == 'Командный' ? 'team' : 'create_game', gameID)
       formdata.append('file_length', voiceDuration)
 
       let myHeaders = new Headers()
@@ -62,9 +63,10 @@ function Index(props) {
         headers: myHeaders,
         body: formdata,
       }
-
       fetch(
-        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api/create/game/chat/`,
+        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api${
+          type == 'Командный' ? '/team/chat' : '/create/game/chat/'
+        }`,
         requestOptions,
       )
         .then((result) => {
@@ -72,7 +74,7 @@ function Index(props) {
         })
         .catch((error) => console.log('error', error))
     } else {
-      if (type == 'Организатор') {
+      if (type == 'Командный') {
         dispatch(
           sendTeamMessage({
             message: text,
@@ -104,8 +106,12 @@ function Index(props) {
   socket.on('message', memoSocketFunc)
 
   useEffect(() => {
-    dispatch(getChats(gameID))
-    dispatch(getTeamChats(gameID))
+    if (type == 'Командный') {
+      dispatch(getTeamChats(gameID))
+    } else {
+      dispatch(getChats(gameID))
+    }
+
     return () => {
       console.log('chat socket disconnect')
       socket.disconnect()
@@ -123,56 +129,70 @@ function Index(props) {
         item={item}
         key={index}
         id={item._id || item.id}
-        myMessage={item?.user?._id == userId || item?.user == userId || item.user_id}
+        myMessage={
+          item?.user?._id == user._id || item?.user == user._id || item.user_id == user._id
+        }
       />
     )
   }
-
   return (
     <ScreenMask>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        {...(Platform.OS === 'ios'
-          ? {
-              behavior: 'padding',
-              keyboardVerticalOffset: RH(10),
-              enabled: true,
-            }
-          : {})}
+      <View
+        style={{
+          flex: 1,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+        }}
       >
-        <PrivateChatHeader gameID={gameID} />
-        <FlatList
-          data={[...messageState]?.reverse()}
-          // data={messageState}
-          style={{
-            marginBottom: RH(25),
-          }}
-          // ListHeaderComponent={() => <PrivateChatHeader gameID={gameID} />}
-          // stickyHeaderIndices={[0]}
-          inverted
-          refreshing
-          initialNumToRender={4}
-          removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-          ref={scrollViewRef}
-          renderItem={memoRenderItem}
-          keyExtractor={(_, index) => `post-${index}`}
+        <FastImage
+          resizeMode="contain"
+          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
+          source={require('@/assets/bgLogo.png')}
         />
-
         <View
           style={{
-            left: 0,
-            right: 0,
-            bottom: RH(10),
+            width: RW(360),
+            height: RW(360),
+            borderRadius: RW(180),
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.7)',
           }}
-        >
-          <CustomInput
-            onSend={sendFunc}
-            voiceMessage={voiceMessage}
-            setVoiceMessage={setVoiceMessage}
-          />
-        </View>
-      </KeyboardAvoidingView>
+        />
+      </View>
+      <PrivateChatHeader gameID={gameID} playersLength={playersLength} />
+      <FlatList
+        data={[...messageState]?.reverse()}
+        style={{
+          marginBottom: RH(25),
+        }}
+        inverted
+        refreshing
+        initialNumToRender={4}
+        removeClippedSubviews
+        showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}
+        renderItem={memoRenderItem}
+        keyExtractor={(_, index) => `post-${index}`}
+      />
+
+      <View
+        style={{
+          left: 0,
+          right: 0,
+          bottom: RH(10),
+        }}
+      >
+        <CustomInput
+          onSend={sendFunc}
+          voiceMessage={voiceMessage}
+          setVoiceMessage={setVoiceMessage}
+        />
+      </View>
     </ScreenMask>
   )
 }

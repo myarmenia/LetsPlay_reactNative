@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import { RH, RW, font } from '@/theme/utils'
 import Slider from '@/components/range'
 import ToggleSwitch from '@/components/ToggleSwitch'
 import { RED, WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import Modal from '@/components/modal'
-import ModalRules from '../QrCode/ModalRules'
-import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { setCountWords, setStoping, setTime } from '@/store/Slices/AliasSlice'
+import {
+  setCountWords,
+  setPenalty,
+  setStoping,
+  setTime,
+  setUserIsOrganizer,
+} from '@/store/Slices/AliasSlice'
+import ModalRules from '../QrCode/ModalRules'
 
 function Index({ navigation }) {
   //===================states=====================
@@ -34,6 +39,8 @@ function Index({ navigation }) {
       dispatch(setCountWords(countOfWords))
       dispatch(setStoping(true))
       dispatch(setTime(timeOfRounds))
+      dispatch(setUserIsOrganizer(true))
+      dispatch(setPenalty(isOn))
       navigation.navigate('SelectComplexity')
     }
   }

@@ -1,32 +1,28 @@
 import User from '@/components/User/userIcon'
+import { Pressable, View } from 'react-native'
 import Modal from '@/components/modal'
 import { RH, RW } from '@/theme/utils'
 import { useState } from 'react'
 import { Pressable, View } from 'react-native'
 import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg'
 
-function SvgComponent({
-  setVisibleBorder = () => {},
-  visibleBorder = false,
-  onPressItem = () => {},
-  size = RW(100),
-  pressedUser,
-  onPressImg,
-  zoom,
-  user,
-}) {
-  const width = RW(size < 40 ? 40 : size)
+function SvgComponent({ onPressItem = () => {}, size, pressedUser, user, style = {} }) {
+  // size 390, 370, 150, 90, 80, 45, 30
+  const width = RW(size)
+  const height = width + RH(25)
+
   const [modalVisible, setModalVisible] = useState(false)
   const item = (
     <View
       style={{
         position: 'relative',
         alignItems: 'center',
+        ...style,
       }}
     >
       <Svg
         width={width}
-        height={width + RH(size < 200 ? 15 : 25)}
+        height={height}
         viewBox="0 0 271 414"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -109,13 +105,7 @@ function SvgComponent({
           position: 'absolute',
         }}
       >
-        <User
-          size={width}
-          size2={size}
-          onPressImg={onPressImg}
-          pressedUser={pressedUser}
-          userProps={user}
-        />
+        <User size={width} pressedUser={pressedUser} userProps={user} />
       </View>
     </View>
   )

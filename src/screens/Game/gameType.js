@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, Pressable, TouchableOpacity } from 'react-native'
-import { styles } from '@/screens/Game/Play/style'
+import { View, Text, Pressable, TouchableOpacity, StyleSheet } from 'react-native'
 import ArrowDown from '@/assets/svgs/arrowDown'
 import CheckboxNotChecked from '@/assets/svgs/checkboxNotChecked'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
-import CircleAdd from '@/components/buttons/circleAdd'
-import { useSelector } from 'react-redux'
+import { RH, RW } from '@/theme/utils'
+import { BACKGROUND, ICON, RADIO_TEXT } from '@/theme/colors'
 
 function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
   const [showDropDown, setShowDropDown] = useState(false)
-  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   const [selected, setSelected] = useState('Выбрать игру')
   const checkElem = (elm) => {
     setGameTypes([
@@ -101,10 +99,6 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
                     </TouchableOpacity>
                   )
                 })}
-            {/* <View style={styles.circleAddBox}>
-              <CircleAdd />
-              <Text style={styles.addGameText}>Добавить игру</Text>
-            </View> */}
           </>
         ) : null}
       </View>
@@ -112,5 +106,63 @@ function GameType({ setShowGameTypes, gameTypes, setGameTypes, errorMessage }) {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  gameTypeContainer: {
+    alignSelf: 'center',
+  },
+  checkCheckbox: {
+    padding: RW(10),
+    flexDirection: 'row',
+  },
+  openedGameBtn: {
+    borderRadius: RW(10),
+    backgroundColor: BACKGROUND,
+    width: RW(380),
+    alignSelf: 'center',
+    height: RH(48),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: RW(16),
+  },
+
+  typeText: {
+    color: RADIO_TEXT,
+    fontSize: RW(16),
+    paddingHorizontal: RW(10),
+  },
+  gameTypeBtn: {
+    backgroundColor: BACKGROUND,
+    width: RW(380),
+    alignSelf: 'center',
+    height: RH(48),
+    borderTopLeftRadius: RW(10),
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopRightRadius: RW(10),
+    borderBottomWidth: RH(2),
+    borderBottomColor: ICON,
+  },
+  gameTypeLastBtn: {
+    borderRadius: RW(0),
+    backgroundColor: BACKGROUND,
+    width: RW(380),
+    height: RH(48),
+    justifyContent: 'center',
+  },
+  gameTypeBtnText: {
+    color: ICON,
+    fontSize: RH(16),
+    paddingHorizontal: RW(15),
+  },
+  arrowDown: {
+    paddingHorizontal: RW(15),
+  },
+})
 
 export default GameType

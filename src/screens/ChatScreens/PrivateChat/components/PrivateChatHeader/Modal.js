@@ -1,49 +1,35 @@
-import { StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
-import { RH, RW } from '@/theme/utils'
+import { RW } from '@/theme/utils'
 import { FONT_INTER_REGULAR } from '@/theme/fonts'
 import ArrowRight from '@/assets/svgs/ArrowRight'
-import InfoSvg from '@/assets/svgs/infoSvg'
 import Modal from '@/components/modal'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
+import dateFormater from '../../../../../helpers/dateFormater'
 
 const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
-  // const teamInfo = useSelector(({ auth }) => auth.user)
-  // console.log(teamInfo)
-
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
-  const gameDate = new Date(gameInfo?.start_date)?.toLocaleDateString().split('/').join('.')
-  const gameDateTime = new Date(gameInfo?.start_date)
-    .toLocaleTimeString()
-    .split('/')
-    .join(':')
-    .slice(0, 6)
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
-  const playersSearchDate = new Date(gameInfo?.end_date)?.toLocaleDateString().split('/').join('.')
-  const playersSearchTime = new Date(gameInfo?.end_date)?.toTimeString().split(':')
+
   return (
     <Modal
       modalVisible={modalVisible}
       setIsVisible={setModalVisible}
       btnClose={false}
       item={
-        // on ={() => setModalVisible(false)}
         <View style={styles.modalWrapper}>
           <View style={styles.regulationBlock}>
             <View style={styles.rowBox}>
               <ArrowRight />
-              <View style={{ paddingLeft: 10 }}>
-                <InfoSvg />
-              </View>
             </View>
             <View style={styles.titleColumnBox}>
               <Text style={styles.title}>Тип игры: {gameInfo?.game?.name}</Text>
               <Text style={styles.title}>
-                Дата и время игры: {gameDate}, {gameDateTime[0]}:{gameDateTime[1]}
+                Дата и время игры: {dateFormater(gameInfo?.start_date)}
               </Text>
               <Text style={styles.title}>
                 Количество игроков: от {gameInfo?.number_of_players_from} до{' '}
@@ -55,14 +41,19 @@ const ModalItem = ({ modalVisible, setModalVisible, gameID }) => {
               <Text style={styles.title}>Половой признак игроков: {gameGender}</Text>
               <Text style={styles.title}>Адрес проведения игры: {gameInfo?.address_name}</Text>
               <Text style={styles.title}>
-                Дата и время окончания поиска игроков: {playersSearchDate}, {playersSearchTime[0]}:
-                {playersSearchTime[1]}
+                Дата и время окончания поиска игроков: {dateFormater(gameInfo?.end_date)}
               </Text>
               {/* <Text style={styles.title}>Стоимость входного билета на игру: 500 руб.</Text> */}
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={styles.title}>Организатор игры:</Text>
                 <View style={{ left: 10 }}>
-                  <User size={30} />
+                  <User
+                    size={30}
+                    onPressItem={{
+                      item: <User size={370} />,
+                      modalClose: false,
+                    }}
+                  />
                 </View>
               </View>
             </View>

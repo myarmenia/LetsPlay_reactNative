@@ -6,7 +6,7 @@ export default {
     screens: {
       MafiaNavigator: {
         screens: {
-          AboutGame: {
+          WaitPlayers: {
             path: 'playMafia/:id',
           },
         },
@@ -22,6 +22,13 @@ export default {
         screens: {
           InviteTeamPlayers: {
             path: 'playCrocodile/:id',
+          },
+        },
+      },
+      TabNavigator: {
+        screens: {
+          Home: {
+            path: 'participateToGame/:id',
           },
         },
       },

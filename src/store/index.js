@@ -23,6 +23,9 @@ const store = configureStore({
     crocodile: CrocodileSlice,
     tournament: TournamentSlice,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false
+  }),
 })
 
 export default store

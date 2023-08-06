@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 
 const initialState = {
-  number_of_players_from: 0,
-  number_of_players_to: 0,
-  age_restrictions_from: 0,
-  age_restrictions_to: 0,
+  number_of_players_from: null,
+  number_of_players_to: null,
+  age_restrictions_from: null,
+  age_restrictions_to: null,
   players_gender: 'm/f',
   latitude: 0,
   longitude: 0,
@@ -113,7 +113,7 @@ export const GameCreatingSlice = createSlice({
       }
     },
     setInitialState: (store, action) => {
-      return { game: action.payload }
+      return { ...action.payload }
     },
     setGameCreatedSuccessful: (store, action) => {
       return {
@@ -124,18 +124,38 @@ export const GameCreatingSlice = createSlice({
   },
 })
 
-export const createGame = (data, nav) => (dispatch) => {
+export const createGame = (data, callBack) => (dispatch) => {
   axiosInstance
-    .post('api/create/game', JSON.stringify(data))
+    .post('api/create/game', data)
     .then((res) => {
       if (res.data.message == 'Created successfully') {
         dispatch(setGameCreatedSuccessful(true))
-        nav()
+        callBack()
       }
     })
     .catch((err) => {
-      console.log('ERROR :', err)
+      console.error('Error: createGame', err)
     })
+}
+export const clearInitialState = () => (dispatch) => {
+  dispatch(
+    setInitialState({
+      number_of_players_from: null,
+      number_of_players_to: null,
+      age_restrictions_from: null,
+      age_restrictions_to: null,
+      players_gender: 'm/f',
+      latitude: 0,
+      longitude: 0,
+      organizer_in_the_game: true,
+      ticket_price: 0,
+      game: '',
+      address_name: '',
+      gameCreatedSuccessful: null,
+      game_name: '',
+      game_description: '',
+    }),
+  )
 }
 
 export const {

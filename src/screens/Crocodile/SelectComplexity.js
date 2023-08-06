@@ -1,25 +1,23 @@
 import { useState } from 'react'
 import { RED, WHITE } from '@/theme/colors'
+import { useDispatch } from 'react-redux'
 import { font, RH, RW } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import { setComplexity } from '@/store/Slices/CrocodileSlice'
-import { useDispatch, useSelector } from 'react-redux'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LinearGradient from 'react-native-linear-gradient'
+import LightButton from '@/components/buttons/Button'
 
 const SelectComplexity = () => {
-  const btnsData = [
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const [btns, setBtns] = useState([
     { id: 1, name: 'Быстрая игра', complexity: 'Легкий', type: 'quick_game', check: false },
     { id: 2, name: 'Оптимус', complexity: 'Средний', type: 'optimus', check: false },
     { id: 3, name: 'Мозговой штурм', complexity: 'Сложный', type: 'brainstorm', check: false },
     { id: 4, name: 'Рулетка', complexity: 'От простого до сложного', type: 'random', check: false },
-  ]
-
-  const dispatch = useDispatch()
-  const navigation = useNavigation()
-  const [btns, setBtns] = useState(btnsData)
+  ])
   const [error, setError] = useState(false)
   const handleSubmit = () => {
     if (!btns.filter((elm) => elm.check)?.length) {

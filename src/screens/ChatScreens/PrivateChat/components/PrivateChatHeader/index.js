@@ -8,7 +8,7 @@ import { RW } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import ModalItem from './Modal'
 
-const PrivateChatHeader = ({ gameID }) => {
+const PrivateChatHeader = ({ gameID, playersLength }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   return (
@@ -27,7 +27,7 @@ const PrivateChatHeader = ({ gameID }) => {
         <Row>
           <LeftArrow />
           <View style={{ marginLeft: RW(8) }}>
-            <CircleSvg count={10} />
+            <CircleSvg count={playersLength || 0} />
           </View>
         </Row>
       </Pressable>

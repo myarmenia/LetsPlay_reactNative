@@ -1,11 +1,11 @@
 import { StyleSheet, View } from 'react-native'
 import React, { memo, useState } from 'react'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, BLACK, ICON, RADIO_TEXT, WHITE } from '@/theme/colors'
 import ScreenMask from '@/components/wrappers/screen'
-import Modal from './Modal'
+import ChooseGameTypeModal from './Modal'
 import { useSelector } from 'react-redux'
 const ChooseGameType = () => {
   const navigation = useNavigation()
@@ -39,11 +39,11 @@ const ChooseGameType = () => {
           </View>
         </View>
       </ScreenMask>
-      <Modal
+      <ChooseGameTypeModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         onPressYes={() => {
-          navigation.navigate('GameListCarousel', { list: 'qr' })
+          navigation.navigate('GameListCarousel', { list: 'desktop', gameWithQr: true })
         }}
         onPressNo={() => {
           navigation.navigate('GameListCarousel', { list: 'desktop' })

@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { font, RH, RW } from '@/theme/utils'
-import { memo, useState } from 'react'
+import { useState } from 'react'
 import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
@@ -13,14 +13,15 @@ import {
   setReservedUsers,
   setTeams,
 } from '@/store/Slices/AliasSlice'
-import LightButton from '@/assets/imgs/Button'
-import DarkButton from '@/assets/imgs/DarkButton'
+import LightButton from '@/components/buttons/Button'
+import DarkButton from '@/components/buttons/DarkButton'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
 import { setPending } from '@/store/Slices/AuthSlice'
 import Modal from '@/components/modal'
-import CloseSVG from './Components/CloseSVG'
+import CloseSVG from './components/CloseSVG'
+// import CloseSVG from './components/CloseSVG'
 
 const IniviteTeamPlayers = ({ route }) => {
   const navigation = useNavigation()
@@ -34,6 +35,7 @@ const IniviteTeamPlayers = ({ route }) => {
     participateSuccess,
     userIsOrganizer,
   } = useSelector(({ alias }) => alias)
+  const { user } = useSelector(({ auth }) => auth)
   const [i, setI] = useState(0)
   const [errorModal, setErrorModal] = useState(false)
   const [error, setError] = useState(false)
@@ -47,6 +49,7 @@ const IniviteTeamPlayers = ({ route }) => {
   useEffect(() => {
     if (props?.id) {
       dispatch(sendAliasGameId(props.id))
+      props.id = null
     }
   }, [props])
 
@@ -58,10 +61,7 @@ const IniviteTeamPlayers = ({ route }) => {
     }
     dispatch(setPending(false))
   }, [participateSuccess])
-  // useEffect(() => {
-  //   dispatch(setReservedUsers([]))
-  //   dispatch(setTeams(allTeams.map((elm) => ({ ...elm, memebers: [] }))))
-  // }, [isFocused])
+
   const handleClick = (elm) => {
     if (!reservedUsers?.includes(elm?._id)) {
       if (allTeams?.[i]?.members?.some((item) => item == elm?._id)) {
@@ -89,7 +89,10 @@ const IniviteTeamPlayers = ({ route }) => {
   }
 
   const handleSubmit = async () => {
-    if (allTeams[i]?.members.length >= 2) {
+    if (playersInGame?.length < 4) {
+      setError('Игроки не должны быть менее 4')
+      setErrorModal(true)
+    } else if (allTeams[i]?.members.length >= 2) {
       setError(false)
       dispatch(setReservedUsers([...new Set([...reservedUsers, ...allTeams[i].members])]))
       dispatch(
@@ -102,8 +105,7 @@ const IniviteTeamPlayers = ({ route }) => {
       setI((prev) => prev + 1)
       i >= allTeams.length - 1 ? navigation.navigate('PlayNow') : null
     } else {
-      setError(true)
-      setErrorModal(true)
+      setError(`Распределите игроков для команды '${allTeams?.[i]?.value}'`)
     }
   }
   const ErrorModal = () => {
@@ -138,54 +140,106 @@ const IniviteTeamPlayers = ({ route }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ justifyContent: 'center' }}>
           <View style={styles.mainContainer}>
-            <Text style={styles.title}>Игроки добавились в игру</Text>
-            <Text style={styles.title}>Распределите игроков</Text>
+            {userIsOrganizer ? (
+              playersInGame.length >= 4 ? (
+                <>
+                  <Text style={styles.title}>Игроки добавились в игру</Text>
+                  <Text style={styles.title}>Распределите игроков</Text>
+                </>
+              ) : (
+                <Text style={styles.title}>Ждем добавление игроков</Text>
+              )
+            ) : (
+              <Text style={styles.title}>Ждете пока организатор распределит команды игроков</Text>
+            )}
+
             <Text style={styles.commandName}>{userIsOrganizer ? allTeams?.[i]?.value : ''}</Text>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
               <View style={styles.gridBox}>
-                {playersInGame?.map((elm, j) => {
-                  return (
-                    <View
-                      style={{
-                        opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1,
-                      }}
-                      key={j + 10}
-                    >
+                {playersInGame?.length ? (
+                  playersInGame?.map((elm, j) => {
+                    return (
                       <View
                         style={{
-                          alignItems: 'center',
-                          justifyContent: 'center',
+                          opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1,
                         }}
+                        key={j}
                       >
-                        <BorderGradient
-                          height={142}
-                          width={105}
-                          opacity={
-                            allTeams?.[i]?.members?.includes(elm?._id) && userIsOrganizer ? 1 : 0
-                          }
-                        />
-                        <Pressable
+                        <View
                           style={{
-                            position: 'absolute',
-                            zIndex: 65,
+                            alignItems: 'center',
+                            justifyContent: 'center',
                           }}
-                          onPress={() => (userIsOrganizer ? handleClick(elm) : null)}
                         >
-                          <User
-                            size={100}
-                            pressedUser={elm}
-                            zoom={true}
-                            onPressItem={{
-                              item: <User size={390} pressedUser={elm} />,
-                              modalClose: false,
-                              onClickFunc: () => (userIsOrganizer ? handleClick(elm) : null),
-                            }}
+                          <BorderGradient
+                            height={142}
+                            width={105}
+                            opacity={
+                              allTeams?.[i]?.members?.includes(elm?._id) && userIsOrganizer ? 1 : 0
+                            }
                           />
-                        </Pressable>
+                          <Pressable
+                            style={{
+                              position: 'absolute',
+                              zIndex: 65,
+                            }}
+                            onPress={() => (userIsOrganizer ? handleClick(elm) : null)}
+                          >
+                            <User
+                              size={90}
+                              pressedUser={elm}
+                              zoom={true}
+                              onPressItem={{
+                                item: <User size={150} pressedUser={elm} />,
+                                modalClose: false,
+                                onClickFunc: () => (userIsOrganizer ? handleClick(elm) : null),
+                              }}
+                            />
+                          </Pressable>
+                        </View>
                       </View>
+                    )
+                  })
+                ) : (
+                  <View
+                    style={{
+                      opacity: reservedUsers?.includes(user?._id) ? 0.5 : 1,
+                    }}
+                  >
+                    <View
+                      style={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <BorderGradient
+                        height={142}
+                        width={105}
+                        opacity={
+                          allTeams?.[i]?.members?.includes(user?._id) && userIsOrganizer ? 1 : 0
+                        }
+                      />
+                      <Pressable
+                        style={{
+                          position: 'absolute',
+                          zIndex: 65,
+                        }}
+                        onPress={() => (userIsOrganizer ? handleClick(user) : null)}
+                      >
+                        <User
+                          size={90}
+                          pressedUser={user}
+                          zoom={true}
+                          onPressItem={{
+                            item: <User size={150} pressedUser={user} />,
+                            modalClose: false,
+                            onClickFunc: () => (userIsOrganizer ? handleClick(user) : null),
+                          }}
+                        />
+                      </Pressable>
                     </View>
-                  )
-                })}
+                  </View>
+                )}
               </View>
             </ScrollView>
           </View>
@@ -203,7 +257,7 @@ const IniviteTeamPlayers = ({ route }) => {
               marginBottom: RH(20),
             }}
           >
-            {!!error && <Text style={styles.errorText}>Игроки не должны быть менее 4</Text>}
+            {!!error && <Text style={styles.errorText}>{error}</Text>}
             <View style={styles.btnBox}>
               <LightButton
                 label={'Продолжить'}
@@ -273,5 +327,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...font('regular', 17, RED, 24),
+    maxWidth: '80%',
+    textAlign: 'center',
   },
 })

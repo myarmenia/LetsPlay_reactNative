@@ -3,7 +3,7 @@ import { StyleSheet, TextInput, View } from 'react-native'
 
 import { BACKGROUND, BLACK, ICON, WHITE } from '@/theme/colors'
 import { font, RH, RW, shadow } from '@/theme/utils'
-import SendIcon from '@/assets/imgs/send'
+import SendIcon from '@/assets/imgs/SendIcon'
 
 const Composer = React.forwardRef(
   (

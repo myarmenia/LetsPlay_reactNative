@@ -25,7 +25,7 @@ const Timer = ({ setChoosedUsers }) => {
         }
       } else if (night && answersCount > 0) {
         dispatch(setLoader(true))
-        // dispatch(setWaitNight(false))
+        dispatch(setWaitNight(false))
         setChoosedUsers(null)
       } else {
         clearInterval(interval)
@@ -39,7 +39,7 @@ const Timer = ({ setChoosedUsers }) => {
       setSeconds(120) // 7
       setChoosedUsers(null)
     } else if (night && answersCount == 1) {
-      setSeconds(120)
+      setSeconds(120) // 8
     } else if (!night) {
       setSeconds(voteTime * 60)
       setChoosedUsers(null)

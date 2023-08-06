@@ -1,11 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 import { setPending } from './AuthSlice'
-import { useSelector } from 'react-redux'
+
 const initialState = {
   rules: '',
   step: 0,
-  explainYou: false,
+  explainYou: null,
   loader: false,
   start: false,
   countWords: null,
@@ -28,6 +28,9 @@ const initialState = {
     truthy: [],
     falsy: [],
   },
+  waitEndRound: false,
+  penalty: false,
+  explainerUser: null,
 }
 
 export const AliasSlice = createSlice({
@@ -55,9 +58,6 @@ export const AliasSlice = createSlice({
     },
     setExplainerUser: (store, action) => {
       return { ...store, explainerUser: action.payload }
-    },
-    setEndRound: (store, action) => {
-      return { ...store, endRound: action.payload }
     },
     setPlayersInGame: (store, action) => {
       return { ...store, playersInGame: action.payload }
@@ -99,7 +99,7 @@ export const AliasSlice = createSlice({
     setTeams: (store, action) => {
       return {
         ...store,
-        allTeams: [...action.payload],
+        allTeams: action.payload,
       }
     },
     setStart: (store, action) => {
@@ -151,16 +151,26 @@ export const AliasSlice = createSlice({
         loader: action.payload,
       }
     },
+    setWaitEndRound: (store, action) => {
+      return {
+        ...store,
+        waitEndRound: action.payload,
+      }
+    },
+    setPenalty: (store, action) => {
+      return {
+        ...store,
+        penalty: action.payload,
+      }
+    },
   },
 })
 export const setPlayers = (teamInfo) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/confirm/team`, teamInfo)
-    .then((response) => {
-      // console.log('setPlayers response', response.data)
-    })
+
     .catch((err) => {
-      console.log('err setPlayers : response', err.response)
+      console.error('Error: setPlayers : response', err.response)
     })
 }
 export const sendAliasSettings = (data, allTeams) => (dispatch) => {
@@ -176,7 +186,7 @@ export const sendAliasSettings = (data, allTeams) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.log('err sending alias settings :', err)
+      console.error('Error: sending alias settings :', err)
     })
 }
 
@@ -188,38 +198,24 @@ export const sendAliasGameId = (id) => (dispatch) => {
       if (response.data?.data?.players) {
         dispatch(setPlayersInGame(response.data.data.players))
       }
-      console.log('sendAliasGameId', id)
+      // console.log('sendAliasGameId', id)
       dispatch(setAliasGameId(id))
       dispatch(setParticipateSuccess(true))
     })
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
-      console.log('err sending alias game id :', err)
+      console.error('Error: sending alias game id :', err)
     })
 }
 export const startAliasGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/game/alias/start/${gameId}`)
-    .then((response) => {
-      console.log('response ------', response)
 
-      // dispatch(setExplainYou(true))
-    })
     .catch((err) => {
-      console.log('err startAliasGame esponse', err)
+      console.error('Error: startAliasGame esponse', err)
     })
 }
-export const sendUserPoints = (data) => (dispatch) => {
-  console.log('data for send', data)
-  axiosInstance
-    .post('api/alias/user_points', data)
-    .then((response) => {
-      console.log('sendUserPoints pesponse', response.data)
-    })
-    .catch((err) => {
-      console.log('err sending user points', err)
-    })
-}
+
 export const cleanDataAndPlayAgain = (data) => (dispatch) => {
   dispatch(setWords([]))
   dispatch(setYouGuesser(null))
@@ -238,7 +234,7 @@ export const {
   setTeams,
   setWords,
   setExplainYou,
-  setEndRound,
+  setWaitEndRound,
   setStart,
   setYouGuesser,
   setComplexity,
@@ -255,5 +251,6 @@ export const {
   setStaticRoundTime,
   setParticipateSuccess,
   setExplainedWords,
+  setPenalty,
 } = AliasSlice.actions
 export default AliasSlice.reducer

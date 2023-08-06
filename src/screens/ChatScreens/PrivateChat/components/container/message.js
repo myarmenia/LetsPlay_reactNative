@@ -5,6 +5,7 @@ import { font, RH, RW } from '@/theme/utils'
 import Row from '@/components/wrappers/row'
 import MessagePlayer from '../Voice/MessagePlayer'
 const Message = ({ item, id, myMessage }) => {
+  
   if (myMessage) {
     return (
       <>

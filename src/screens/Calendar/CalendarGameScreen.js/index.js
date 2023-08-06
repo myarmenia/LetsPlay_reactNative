@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import Row from '@/components/wrappers/row'
 import User from '@/components/User/user'
+import FastImage from 'react-native-fast-image'
 
 const CalendarGameScreen = (props) => {
   const gameData = props.route.params.game
@@ -14,7 +15,7 @@ const CalendarGameScreen = (props) => {
 
   return (
     <ScreenMask>
-      <Image style={styles.img} source={{ uri: _storageUrl + gameData.game.img }} />
+      <FastImage resizeMode='contain' style={styles.img} source={{ uri: _storageUrl + gameData.game.img }} />
       <View style={styles.main}>
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
@@ -31,25 +32,26 @@ const CalendarGameScreen = (props) => {
         </Row>
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
-            Описание игры: <Text style={styles.text2}>{gameData?.game?.description}</Text>
+            Описание игры: <Text style={styles.text2}>{gameData?.game?.description ? gameData?.game?.description : "Нету"}</Text>
           </Text>
         </Row>
-        <Row wrapper={styles.row}>
+        {gameData?.number_of_players_from && gameData?.number_of_players_to ? (<Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Количество участников:{' '}
             <Text style={styles.text2}>
               {gameData?.number_of_players_from} до {gameData?.number_of_players_to}
             </Text>
           </Text>
-        </Row>
-        <Row wrapper={styles.row}>
+        </Row>) : null}
+        {gameData?.age_restrictions_from && gameData?.age_restrictions_to ? (<Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Возраст участников:{' '}
             <Text style={styles.text2}>
               {gameData?.age_restrictions_from} - {gameData?.age_restrictions_to}
             </Text>
           </Text>
-        </Row>
+        </Row>) : null}
+        
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Пол участников:{' '}
@@ -77,14 +79,14 @@ const CalendarGameScreen = (props) => {
             Адрес проведения игры: <Text style={styles.text2}>{gameData?.address_name}</Text>
           </Text>
         </Row>
-        <Row wrapper={styles.row}>
+        {/* <Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Плата за участие:{' '}
             <Text style={styles.text2}>
               {gameData?.ticket_price != 0 ? gameData?.ticket_price : 'Бесплатно'}
             </Text>
           </Text>
-        </Row>
+        </Row> */}
         <Row wrapper={styles.row}>
           <Text style={[styles.text1, { marginRight: RW(15) }]}>Организатор игры:</Text>
           <User
@@ -106,7 +108,6 @@ export default CalendarGameScreen
 const styles = StyleSheet.create({
   img: {
     height: RH(250),
-    resizeMode: 'contain',
   },
   main: {
     marginTop: RH(40),

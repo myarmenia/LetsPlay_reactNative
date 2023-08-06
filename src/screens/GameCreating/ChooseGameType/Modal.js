@@ -1,20 +1,22 @@
-import { Pressable, StyleSheet, Text, View, Modal, TouchableNativeFeedback } from 'react-native'
+import { Pressable, Text, View, Modal } from 'react-native'
 import React from 'react'
 import { RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
-import DarkButton from '@/assets/imgs/DarkButton'
+import LightButton from '@/components/buttons/Button'
+import DarkButton from '@/components/buttons/DarkButton'
 import Row from '@/components/wrappers/row'
 import { font } from '@/theme/utils'
 import CloseSvg from '../../../assets/svgs/closeSvg'
 
-const CustomModal = ({ modalVisible, setModalVisible, onPressYes, onPressNo }) => {
+const ChooseGameTypeModal = ({ modalVisible, setModalVisible, onPressYes, onPressNo }) => {
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={modalVisible}
-      onBackdropPress={() => setModalVisible(false)}
+      onBackdropPress={() => {
+        setModalVisible(false)
+      }}
     >
       <View
         style={{
@@ -73,6 +75,4 @@ const CustomModal = ({ modalVisible, setModalVisible, onPressYes, onPressNo }) =
   )
 }
 
-export default CustomModal
-
-const styles = StyleSheet.create({})
+export default ChooseGameTypeModal

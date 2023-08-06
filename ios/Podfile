@@ -1,5 +1,6 @@
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+$RNFirebaseAsStaticFramework = true
 
 platform :ios, '13.0'
 install! 'cocoapods', :deterministic_uuids => false
@@ -9,11 +10,17 @@ target 'gameOrganizing' do
 pod 'RNInAppBrowser', :path => '../node_modules/react-native-inappbrowser-reborn'
 pod 'RNFS', :path => '../node_modules/react-native-fs'
 pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/Simon-TechForm/google-maps-ios-utils.git', :branch => 'feat/support-apple-silicon'
-rn_maps_path = '../node_modules/react-native-maps'
-pod 'react-native-google-maps', :path => rn_maps_path
+pod 'react-native-google-maps', :path => '../node_modules/react-native-maps'
+pod 'Firebase/Messaging'
   
-#   permissions_path = '../node_modules/react-native-permissions/ios'
 
+# permissions_path = '../node_modules/react-native-permissions/ios'
+
+# pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
+# pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
+# pod 'Permission-MediaLibrary', :path => "#{permissions_path}/MediaLibrary/Permission-MediaLibrary.podspec"
+# pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary/Permission-PhotoLibrary.podspec"
+# pod 'Permission-PhotoLibraryAddOnly', :path => "#{permissions_path}/PhotoLibraryAddOnly/Permission-PhotoLibraryAddOnly.podspec"
 # pod 'Permission-Microphone', :path => "#{permissions_path}/Microphone/Permission-Microphone.podspec"
 # pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications/Permission-Notifications.podspec"
   
@@ -21,9 +28,13 @@ pod 'react-native-google-maps', :path => rn_maps_path
  
   # Flags change depending on the env values.
   flags = get_default_flags()
-  # pod 'React', :path => '../node_modules/react-native', :subspecs => [
-  #   'RCTLinkingIOS',
-  # ]
+
+  # For Firebase Notifcations
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  # end For Firebase Notifcations
+
   use_react_native!(
 
     :path => config[:reactNativePath],
@@ -48,5 +59,13 @@ pod 'react-native-google-maps', :path => rn_maps_path
   post_install do |installer|
     react_native_post_install(installer)
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
+    # installer.pods_project.targets.each do |target|
+    #   target.build_configurations.each do |config|
+    #     config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = "arm64"
+    #   end
+    # end
+    installer.pods_project.build_configurations.each do |config|
+      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+    end
   end
 end

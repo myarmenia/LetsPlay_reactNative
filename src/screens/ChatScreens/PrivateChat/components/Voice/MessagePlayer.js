@@ -17,17 +17,25 @@ audioRecorderPlayer.setSubscriptionDuration(0.05)
 const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
   const [playTime, setPlayTime] = useState('00:00:00')
   const [playWidth, setPlayWidth] = useState(0)
+  const [stoped, setStoped] = useState(true)
 
   const dispatch = useDispatch()
   const { playMessageId, pausedMessageId } = useSelector(({ chats }) => chats)
 
   const onStartPlay = async () => {
     if (pausedMessageId == messageId) {
+      setStoped(false)
       await audioRecorderPlayer.resumePlayer()
       dispatch(setPausedMessageId(null))
     } else {
-      await audioRecorderPlayer.stopPlayer()
+      setPlayWidth(0)
+      if (!stoped) {
+        await audioRecorderPlayer.stopPlayer()
+        setStoped(true)
+      }
+
       dispatch(setPlayMessageId(messageId))
+      setStoped(false)
       await audioRecorderPlayer.startPlayer(_storageUrl + path)
       try {
         audioRecorderPlayer.addPlayBackListener(async (e) => {
@@ -36,7 +44,10 @@ const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
           if (e.currentPosition == e.duration) {
             audioRecorderPlayer.removePlayBackListener()
             dispatch(setPlayMessageId(null))
-            await audioRecorderPlayer.stopPlayer()
+            if (!stoped) {
+              await audioRecorderPlayer.stopPlayer()
+              setStoped(true)
+            }
           }
         })
       } catch (err) {
@@ -45,6 +56,7 @@ const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
     }
   }
   const onStopPlay = async () => {
+    setStoped(true)
     await audioRecorderPlayer.pausePlayer()
     dispatch(setPausedMessageId(messageId))
     dispatch(setPlayMessageId(messageId))

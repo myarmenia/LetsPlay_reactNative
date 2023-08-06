@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { Pressable, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import styles from '@/components/inputs/styles'
-import { ICON, RED, WHITE } from '@/theme/colors'
-import { font, RW } from '@/theme/utils'
+import { Pressable, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native'
+import { BACKGROUND, ICON, RED, WHITE } from '@/theme/colors'
+import { font, RH, RW } from '@/theme/utils'
 import MapSvg from '@/assets/svgs/mapSvg'
 import { useNavigation } from '@react-navigation/native'
 
-function Map(props) {
-  const { placeholder, data, setData, errorText, width, availablePress } = props
+function Map({ placeholder, data, setData, errorText, width, availablePress }) {
   const [value, setValue] = useState('')
   const navigation = useNavigation()
   return (
@@ -32,7 +30,7 @@ function Map(props) {
           <TextInput
             style={{ ...styles.mapInput, color: WHITE }}
             value={value}
-            onChangeText={ev => {
+            onChangeText={(ev) => {
               setValue(ev)
               setData({ ...data, addressValue: ev })
             }}
@@ -50,5 +48,23 @@ function Map(props) {
     </>
   )
 }
+const styles = StyleSheet.create({
+  mapInputBlock: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginLeft: RW(11),
+    paddingRight: RW(17),
+    width: RW(375),
+    height: RH(48),
+    backgroundColor: BACKGROUND,
+    borderRadius: RW(10),
+  },
+  mapInput: {
+    paddingLeft: RW(24),
+    color: ICON,
+  },
+})
 
 export default Map

@@ -11,6 +11,7 @@ function Index({
   navigationText,
   setIsVisible,
   navigationParam = null,
+  onDismiss = () => {},
 }) {
   const [isModalVisible, setModalVisible] = useState(true)
   const navigation = useNavigation()
@@ -19,7 +20,7 @@ function Index({
   }, [modalVisible])
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, position: 'absolute' }}>
       <Modal
         onBackdropPress={() => {
           if (!dontClose) {
@@ -34,7 +35,8 @@ function Index({
             }
           }
         }}
-        isVisible={isModalVisible}
+        isVisible={!!isModalVisible}
+        onDismiss={onDismiss}
       >
         {item}
       </Modal>

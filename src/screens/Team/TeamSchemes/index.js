@@ -1,140 +1,67 @@
-import { Image, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React, { useRef, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import SchemeUsers from './components/SchemeUsers'
 import { useNavigation } from '@react-navigation/native'
+import LightButton from '@/components/buttons/Button'
+import FastImage from 'react-native-fast-image'
+import { useSelector } from 'react-redux'
 
 const TeamSchemes = ({ route }) => {
-  const [replacementPlayers, setReplacementPlayers] = useState([
-    {
+  const { players, sendingData, teamImg } = route.params
+  const [replacementPlayers, setReplacementPlayers] = useState(
+    new Array(players?.length).fill({
       x: 0,
       y: 0,
       moveX: 0,
       moveY: 0,
       small: false,
-      ref: useRef(),
       inGame: false,
       pageX: 0,
       pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-    {
-      x: 0,
-      y: 0,
-      moveX: 0,
-      moveY: 0,
-      small: false,
-      ref: useRef(),
-      inGame: false,
-      pageX: 0,
-      pageY: 0,
-    },
-  ])
+    }),
+  )
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y1: 0, y2: 0 })
+  const { schema_img, name } = useSelector(({ teams }) => teams.choosedTeamGame)
+
   const fieldSize = useRef()
   const data = {
-    players: ['64219136e3a868ee5e71a799'],
-    schemaImg: '/game_schema_img/Group 1805.png',
-    footbal: {
+    players: players,
+    Футбол: {
+      schemaImg: '/game_schema_img/Group 1805.png',
       fieldSizePracnt: {
         width: 81.5,
         height: 85.1,
+        x: 9.25,
+        y: 7.45,
+      },
+    },
+    Хоккей: {
+      schemaImg: '/game_schema_img/Group 1808.png',
+      fieldSizePracnt: {
+        width: 100,
+        height: 81,
+        x: 0,
+        y: 9.5,
+      },
+    },
+    Остальные: {
+      schemaImg: '/game_schema_img/Group 1808.png',
+      fieldSizePracnt: {
+        width: 87,
+        height: 91,
+        x: 6.5,
+        y: 4.5,
       },
     },
     teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
     teamName: 'Test2',
   }
+  let gameName = name == 'Хоккей' || name == 'Футбол' ? name : 'Остальные'
+
   const navigation = useNavigation()
 
   return (
@@ -148,24 +75,30 @@ const TeamSchemes = ({ route }) => {
         }}
         style={styles.teamNameRow}
       >
-        <Image style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
+        <FastImage style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
         <Text style={styles.teamName}>{data?.teamName}</Text>
       </View>
       <View style={[styles.schemaImgContainer]}>
-        <Image
+        <FastImage
           onLayout={(e) => {
             fieldSize.current = {
-              width: (e.nativeEvent.layout.width / 100) * 81.5,
-              height: (e.nativeEvent.layout.height / 100) * 85.1,
+              width: (e.nativeEvent.layout.width / 100) * data?.[gameName]?.fieldSizePracnt.width,
+              height:
+                (e.nativeEvent.layout.height / 100) * data?.[gameName]?.fieldSizePracnt.height,
             }
             setInitialCordinates({
               ...initialCordinates,
-              x: e.nativeEvent.layout.x + (e.nativeEvent.layout.width / 100) * 9.25,
-              y2: e.nativeEvent.layout.y + (e.nativeEvent.layout.height / 100) * 7.45,
+              x:
+                e.nativeEvent.layout.x +
+                (e.nativeEvent.layout.width / 100) * data?.[gameName]?.fieldSizePracnt.x,
+              y2:
+                e.nativeEvent.layout.y +
+                (e.nativeEvent.layout.height / 100) * data?.[gameName]?.fieldSizePracnt.y,
             })
           }}
           style={styles.schemaImg}
-          source={{ uri: _storageUrl + data?.schemaImg }}
+          resizeMode="contain"
+          source={{ uri: _storageUrl + schema_img }}
         />
       </View>
 
@@ -176,17 +109,20 @@ const TeamSchemes = ({ route }) => {
           fieldSize={fieldSize.current}
           replacementPlayers={replacementPlayers}
           setReplacementPlayers={setReplacementPlayers}
+          players={players}
         />
       </View>
-      <Pressable
+      <LightButton
         onPress={() => {
-          navigation.navigate('ViewSchemes', { replacementPlayers })
+          // navigation.navigate('ViewSchemes', { replacementPlayers })
+          navigation.navigate('EditTeamPlayers', {
+            teamImg,
+            sendingData: { ...sendingData, game_schema: JSON.stringify(replacementPlayers) },
+          })
         }}
-      >
-        <Text style={{ fontSize: 20, color: '#fff', alignSelf: 'center', marginTop: 50 }}>
-          View Schemes
-        </Text>
-      </Pressable>
+        style={{ alignSelf: 'flex-end', position: 'absolute', bottom: RH(30) }}
+        label="Сохранить"
+      />
     </ScreenMask>
   )
 }
@@ -218,7 +154,6 @@ const styles = StyleSheet.create({
   schemaImg: {
     height: RW(516),
     width: RW(370),
-    resizeMode: 'contain',
     justifyContent: 'center',
   },
   playersTitle: {

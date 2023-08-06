@@ -1,13 +1,14 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { WHITE } from '@/theme/colors'
 import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
+import FastImage from 'react-native-fast-image'
 
 const TeamInfo = ({ route }) => {
   const { sendingData, gameId } = route.params
@@ -18,7 +19,7 @@ const TeamInfo = ({ route }) => {
     <ScreenMask>
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Image
+          <FastImage
             source={{ uri: _storageUrl + choosedTeamGame?.img }}
             resizeMode="contain"
             style={styles.img}
@@ -29,13 +30,13 @@ const TeamInfo = ({ route }) => {
           </Text>
           <Text style={styles.text}>Дата и время игры: {sendingData?.start_date}</Text>
           <Text style={styles.text}>Адрес проведения игры: {sendingData?.address_name} </Text>
-          <Text style={styles.text}>
+          {/* <Text style={styles.text}>
             Стоимость входного билета на игру:{' '}
             {sendingData?.ticket_price ? sendingData?.ticket_price : 0}
-          </Text>
+          </Text> */}
           <View style={{ flexDirection: 'row', width: '35%', alignItems: 'center' }}>
             <Text style={styles.text}>Организатор игры:</Text>
-            <User size={10} />
+            <User size={30} />
           </View>
         </View>
         <View style={styles.rowBox}>
@@ -47,7 +48,9 @@ const TeamInfo = ({ route }) => {
           <LightButton
             label={'Далее>>'}
             style={{ width: 166, height: 36 }}
-            onPress={() => navigation.navigate('EditTeamPlayers', { gameId, sendingData })}
+            onPress={() =>
+              navigation.navigate('EditTeamPlayers', { teamImg: gameId.img, sendingData })
+            }
           />
         </View>
       </View>

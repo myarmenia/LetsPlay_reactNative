@@ -1,14 +1,14 @@
-import { Image, StyleSheet, Text, View, Pressable, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Pressable, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { _storageUrl } from '@/constants'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
-import { Players } from '@/assets/TestData'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const SelectMembers = ({ route }) => {
   const props = route?.params
@@ -44,10 +44,9 @@ const SelectMembers = ({ route }) => {
         >
           <User
             size={100}
-            pressedUser={Players[0]}
             zoom={true}
             onPressItem={{
-              item: <User size={390} pressedUser={Players[0]} />,
+              item: <User size={390} />,
               modalClose: false,
               onClickFunc: () => handleClick(user),
             }}
@@ -56,13 +55,14 @@ const SelectMembers = ({ route }) => {
       </View>
     )
   }
+  console.log(props.command)
   return (
     <ScreenMask>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
         <View style={styles.header}>
           <View style={styles.headerChild}>
-            <Image
-              source={{ uri: _storageUrl + (props?.img || props?.command?.img) }}
+            <FastImage
+              source={{ uri: _storageUrl + props?.command?.img }}
               style={styles.commandImg}
               resizeMode="cover"
             />

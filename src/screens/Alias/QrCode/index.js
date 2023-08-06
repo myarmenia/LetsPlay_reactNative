@@ -3,12 +3,13 @@ import { RH, RW } from '@/theme/utils'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
-import { Image, Text, View, StyleSheet } from 'react-native'
-import Button from '@/assets/imgs/Button'
+import { Text, View, StyleSheet } from 'react-native'
+import Button from '@/components/buttons/Button'
 import ScreenMask from '@/components/wrappers/screen'
+import FastImage from 'react-native-fast-image'
 
 function Index() {
-  const { qrGameImg, countWords } = useSelector(({ alias }) => alias)
+  const { qrGameImg } = useSelector(({ alias }) => alias)
   const navigation = useNavigation()
   return (
     <ScreenMask>
@@ -16,7 +17,11 @@ function Index() {
         <View style={styles.body}>
           <Text style={styles.title}>Пригласить игроков</Text>
           <View style={styles.qrBlock}>
-            <Image style={styles.qr} source={{ uri: _storageUrl + qrGameImg }} />
+            <FastImage
+              resizeMode="contain"
+              style={styles.qr}
+              source={{ uri: _storageUrl + qrGameImg }}
+            />
           </View>
           <Button
             onPress={() => navigation.navigate('InviteTeamPlayers')}
@@ -49,7 +54,6 @@ const styles = StyleSheet.create({
   qr: {
     width: '100%',
     height: '100%',
-    resizeMode: 'contain',
   },
   btn: {
     width: 281,

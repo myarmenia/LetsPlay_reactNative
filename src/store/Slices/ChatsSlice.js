@@ -46,7 +46,7 @@ export const getChats = (data) => (dispatch) => {
       dispatch(setChats(response.data.datas.reverse()))
     })
     .catch((err) => {
-      console.log('err request chats', err.request._response)
+      console.error('Error: request chats', err.request._response)
     })
 }
 export const getTeamChats = (data) => (dispatch) => {
@@ -56,25 +56,20 @@ export const getTeamChats = (data) => (dispatch) => {
       dispatch(setChats(response.data.datas.reverse()))
     })
     .catch((err) => {
-      console.log('err request chats', err.request._response)
+      console.error('Error: request chats', err.request._response)
     })
 }
 export const sendMessage = (data) => (dispatch) => {
-  axiosInstance
-    .post(`/api/create/game/chat/`, data)
-    .then((response) => {
-      // console.log(response.data)
-    })
-    .catch((err) => {
-      console.log('err request', err.request._response)
-    })
+  axiosInstance.post(`/api/create/game/chat/`, data).catch((err) => {
+    console.error('Error: request', err.request._response)
+  })
 }
 export const sendTeamMessage = (data) => (dispatch) => {
   axiosInstance
     .post(`/api/team/chat`, data)
     .then((response) => {})
     .catch((err) => {
-      console.log('err request', err.request._response)
+      console.error('Error: request', err.request._response)
     })
 }
 export const deleteMemberChat = (chatId, setDeleting) => (dispatch) => {
@@ -84,18 +79,17 @@ export const deleteMemberChat = (chatId, setDeleting) => (dispatch) => {
       setDeleting(false)
     })
     .catch((err) => {
-      console.log('err deleting chat', err)
+      console.error('Error: deleting chat deleteMemberChat', err)
     })
 }
 export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
-  // console.log(chatId)
   axiosInstance
     .delete(`/api/create/game/${chatId}`)
     .then((response) => {
       setDeleting(false)
     })
     .catch((err) => {
-      console.log('err deleting chat', err)
+      console.error('Error: deleting chat deleteOrganizerChat', err)
     })
 }
 

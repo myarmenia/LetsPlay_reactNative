@@ -12,7 +12,7 @@ const initialState = {
   // end_search_date: new Date().toLocaleDateString(),
   // prize_fund: true,
   // organizer_status: true,
-  // ticket_price: 0,
+  ticket_price: 0,
   // number_of_teams_from: 0,
   // number_of_teams_to: 0,
   // address_name: '',
@@ -36,7 +36,7 @@ const TournamentSlice = createSlice({
         name: action.payload,
       }
     },
-    setDescription: (store, action) => {
+    setTournamentDescription: (store, action) => {
       return {
         ...store,
         description: action.payload,
@@ -170,53 +170,35 @@ const TournamentSlice = createSlice({
     },
   },
 })
-export const createTournament = (data) => (dispatch) => {
-  console.log(data)
+export const createTournament = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .post('api/tourney/', data)
     .then((response) => {
-      console.log('response -------', JSON.stringify(response))
+      setModalVisible(true)
     })
-    .catch((err) => console.log('Error creating tournament', err.request))
+    .catch((err) => {
+      setModalVisible('error')
+      console.error('Error: creating tournament', err.request)
+    })
 }
 
-export const searchTourney = (data, nav, setError, tourney) => async (dispatch) => {
-  let price = data.getAll('price')
-  let game_of_your_choice = data.getAll('game_of_your_choice')
-  let longitude = data.getAll('longitude')
-  let latitude = data.getAll('latitude')
-  let dateFrom = data.getAll('date_from')
-  let dateTo = data.getAll('date_to')
-  let teamTourney = data.getAll('teamTourney')
-  console.log('teamTourney', teamTourney)
-  console.log('price ==', price[0])
-  console.log('game_of_your_choice', game_of_your_choice)
-  let place =
-    latitude[0] && longitude[0] ? `&longitude=${longitude[0]}&latatude=${latitude[0]}` : ''
-  let dates = dateFrom && dateTo ? `date_from=${dateFrom}&date_to=${dateTo}` : ''
-  let gameIds = data.getAll('ids')
-  let gameIdsForLink = gameIds[0].map((elm) => `games[]=${elm}&`).join('')
-  let link = `api/tourney?price=${price[0]}&game_of_your_choice=${game_of_your_choice}&team_tourney=${teamTourney[0]}${place}${gameIdsForLink}`
-  // price=false&game_of_your_choice=false&team_tourney=false&longitude=43.9722&latitude=44.237623
-
-  console.log(link)
+export const searchTourney = (data, nav, setNotFoundError) => async (dispatch) => {
   axiosInstance
-    .get(link.slice(0, link.length - 1))
+    .get('api/tourney', {
+      params: data,
+    })
 
     .then((response) => {
-      console.log(JSON.stringify(response?.data?.datas, null, 5))
       dispatch(setFindedTouney(response?.data?.datas))
       if (response?.data?.datas.length) {
+        setNotFoundError(false)
         nav.navigate('AllTournaments')
       } else {
-        setError(true)
-        setTimeout(() => {
-          setError(false)
-        }, 2500)
+        setNotFoundError(true)
       }
     })
     .catch((err) => {
-      console.log('Error searching players in this team :', err.request._response)
+      console.error('Error: searching players in this team :', err.request._response)
     })
 }
 
@@ -230,6 +212,8 @@ export const clearTournamentData = () => (dispatch) => {
   dispatch(setAddressNameTour(''))
   dispatch(setLongitude(''))
   dispatch(setLatitude(''))
+  dispatch(setNumberOfParticipantsFrom(null))
+  dispatch(setNumberOfParticipantsTo(null))
 }
 
 export const {
@@ -239,7 +223,7 @@ export const {
   setClearData,
   setTeamTourney,
   setTourEndDate,
-  setDescription,
+  setTournamentDescription,
   setTicketPrice,
   setFindedTouney,
   setPlayersGender,

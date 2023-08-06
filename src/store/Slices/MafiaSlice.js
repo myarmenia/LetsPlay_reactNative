@@ -223,11 +223,21 @@ export const postSettings = (data) => (dispatch) => {
       dispatch(setPending(false))
     })
     .catch((err) => {
-      console.log('err', err)
-      console.log('err request', err?.request?._response)
+      console.error('Error: postSettings', err)
 
       dispatch(setPending(false))
     })
+}
+export const getDictonary = (mafia_game_id) => (dispatch) => {
+  dispatch(setPending(true))
+  axiosInstance
+    .get(`/api/game/mafia/dictonary/${mafia_game_id}`)
+
+    .catch((err) => {
+      dispatch(setParticipateSuccess(false))
+      console.error('Error: request participateToGame', err.request._response)
+    })
+  dispatch(setPending(false))
 }
 export const participateToGame = (mafia_game_id) => (dispatch) => {
   dispatch(setPending(true))
@@ -240,7 +250,7 @@ export const participateToGame = (mafia_game_id) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setParticipateSuccess(false))
-      console.log('err request participateToGame', err.request._response)
+      console.error('Error: request participateToGame', err.request._response)
     })
   dispatch(setPending(false))
 }
@@ -252,7 +262,7 @@ export const startGame = (mafia_game_id) => (dispatch) => {
     .then(() => {})
     .catch((err) => {
       dispatch(setAddPlayersError(true))
-      console.log('err request startGame', err.request._response)
+      console.error('Error: request startGame', err.request._response)
     })
   dispatch(setPending(false))
 }
@@ -261,16 +271,18 @@ export const resetGame = (mafia_game_id) => (dispatch) => {
   axiosInstance
     .post(`/api/game/mafia/reset/${mafia_game_id}`)
     .then((e) => {
-      console.log('reset mafia', e)
       dispatch(clearAllDatas())
     })
     .catch((err) => {
       dispatch(setAddPlayersError(true))
-      console.log('err request startGame', err.request._response)
+      console.error('Error: request startGame', err.request._response)
     })
   dispatch(setPending(false))
 }
-export const clearAllDatas = () => (dispatch) => {
+export const clearAllDatas = (navigation) => (dispatch) => {
+  if (navigation) {
+    navigation?.navigate('TabNavigator', { screen: 'Home' })
+  }
   dispatch(setAddPlayersError(null))
   dispatch(setQrGame(false))
   dispatch(setQrLink(false))

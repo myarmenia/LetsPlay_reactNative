@@ -3,7 +3,7 @@ import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, font } from '@/theme/utils'
 import { ICON } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { Stop, Svg, TSpan } from 'react-native-svg'
@@ -22,7 +22,6 @@ const WinnerTeamMessage = () => {
     }
   }
   const winnerName = maxPointsTeam.value
-  console.log('winnerName', winnerName)
 
   return (
     <ScreenMask>

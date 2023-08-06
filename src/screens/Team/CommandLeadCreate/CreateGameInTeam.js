@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
@@ -9,7 +9,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import DateComponent from '@/components/DateComponent'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import RadioBlock from '@/components/RadioBlock'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 
 const CommandLeadCreate = ({ route }) => {
@@ -18,18 +18,6 @@ const CommandLeadCreate = ({ route }) => {
   useEffect(() => {
     setGameId(props?._id)
   }, [])
-  const priceList = [
-    {
-      id: 1,
-      text: 'Бесплатно',
-      checked: true,
-    },
-    {
-      id: 2,
-      text: 'Платно',
-      checked: false,
-    },
-  ]
   const playersChoose = [
     {
       id: 1,
@@ -44,7 +32,7 @@ const CommandLeadCreate = ({ route }) => {
   ]
   // states
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
-  const [radioPrice, setRadioPrice] = useState(priceList)
+  // const [radioPrice, setRadioPrice] = useState(priceList)
   const [radioPlayers, setRadioPlayers] = useState(playersChoose)
   const [gameId, setGameId] = useState()
   const [addressName, setAddressName] = useState('')
@@ -53,47 +41,33 @@ const CommandLeadCreate = ({ route }) => {
   // states end
   // errors
   const [mapError, setMapError] = useState(false)
-  const [priceError, setPriceError] = useState(false)
+  // const [priceError, setPriceError] = useState(false)
   // errors end
 
   const dispatch = useDispatch()
   const { betweenPlayers, savedTeam } = useSelector(({ teams }) => teams)
 
-  const timeFormat = date => {
+  const timeFormat = (date) => {
     if (
       date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
       +date.time.toLocaleTimeString().slice(0, 2) != 12
     ) {
       return (
-        +date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        +date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         12 +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
-    } else if (
-      date.time
-        .toLocaleTimeString()
-        .split(' ')[0]
-        .split(':')[0].length == 1
-    ) {
+    } else if (date.time.toLocaleTimeString().split(' ')[0].split(':')[0].length == 1) {
       return (
         '0' +
-        date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
     } else {
       return (
-        date.time
-          .toLocaleTimeString()
-          .split(' ')[0]
-          .split(':')[0] +
+        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
         ':' +
         date.time.toLocaleTimeString().split(':')[1]
       )
@@ -131,12 +105,13 @@ const CommandLeadCreate = ({ route }) => {
       if (props.latitude) {
         setMapError(false)
       }
-      if (priceList.find(elm => elm.checked).text == 'Платно' && !price.length) {
-        setPriceError(true)
-      } else {
-        setPriceError(false)
-      }
-      if (!mapError && !priceError) {
+      // if (priceList.find(elm => elm.checked).text == 'Платно' && !price.length) {
+      //   setPriceError(true)
+      // } else {
+      //   setPriceError(false)
+      // }
+      if (!mapError) {
+        //&& !priceError
         dispatch(createTeamGame(sendingData, setModalVisible))
       } else {
         return null
@@ -159,18 +134,18 @@ const CommandLeadCreate = ({ route }) => {
         </View>
         {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
 
-        <RadioBlock
+        {/* <RadioBlock
           list={radioPrice}
           onChange={setRadioPrice}
           titleStyle={{ color: ICON, left: '3%', paddingVertical: RH(10) }}
           title="Стоимость входного билета в игру"
-        />
-        {!!radioPrice[1].checked && (
+        /> */}
+        {/* {!!radioPrice[1].checked && (
           <View style={styles.priceInput}>
-            <TextInput value={price} onChangeText={e => setPrice(e)} style={styles.price} />
+            <TextInput value={price} onChangeText={(e) => setPrice(e)} style={styles.price} />
           </View>
-        )}
-        {!!priceError && <Text style={styles.errorText}>Обязательное поле</Text>}
+        )} */}
+        {/* {!!priceError && <Text style={styles.errorText}>Обязательное поле</Text>} */}
 
         <RadioBlock
           list={radioPlayers}
@@ -181,7 +156,7 @@ const CommandLeadCreate = ({ route }) => {
       </View>
       <View style={styles.bottomBtn}>
         <LightButton
-          label={radioPlayers[0].checked ? 'Подтвердить' : 'Далее>>'}
+          label={radioPlayers[0].checked ? 'Подтвердить' : 'Далее'}
           onPress={handleCreate}
         />
         {modalVisible[1] == 'ok' && (
@@ -216,8 +191,8 @@ const styles = StyleSheet.create({
   },
   bottomBtn: {
     position: 'absolute',
-    bottom: RH(15),
-    right: RW(5),
+    bottom: RH(40),
+    right: RW(10),
   },
   mapBox: {
     paddingVertical: RH(20),

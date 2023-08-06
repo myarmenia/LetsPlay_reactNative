@@ -8,8 +8,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
-import LightButton from '@/assets/imgs/Button'
-// import CircleAdd from '@/components/buttons/circleAdd'
+import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGamesOnlyNames } from '@/store/Slices/GamesSlice'
 import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
@@ -19,10 +18,10 @@ const JoinGame = ({ route }) => {
   const dispatch = useDispatch()
   const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
 
-  const freeOrPaid = [
-    { id: 4, text: 'Бесплатно', checked: true },
-    { id: 5, text: 'Платно', checked: false },
-  ]
+  // const freeOrPaid = [
+  //   { id: 4, text: 'Бесплатно', checked: true },
+  //   { id: 5, text: 'Платно', checked: false },
+  // ]
   const chooseGameType = [
     { id: 1, text: 'Игры из Ваших предпочтений', checked: true },
     { id: 2, text: 'Все игры', checked: false },
@@ -33,18 +32,51 @@ const JoinGame = ({ route }) => {
   //states
   const [showGameTypes, setShowGameTypes] = useState(false)
   const [addressName, setAddressName] = useState(route?.params?.address_name)
-  const [price, setPrice] = useState('')
+  const [addressError, setAddressError] = useState()
+
   const [gameTypes, setGameTypes] = useState(nameOfGames)
   const [list, setList] = useState(chooseGameType)
-  const [free, setFree] = useState(freeOrPaid)
   //datesState
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
   //errors
-  const [priceError, setPriceError] = useState(false)
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
   const checkChecks = gameTypes.some((elm) => elm.checked === true)
+
+  const showHideError = () => {
+    if (!checkChecks && list[2].checked) {
+      setErrorMessage(true)
+    } else {
+      setErrorMessage(false)
+    }
+    if (!addressName.address_name) {
+      setAddressError('Обязательное поле для заполнения')
+    } else {
+      setAddressError(null)
+    }
+    if (addressName.address_name && startDate <= endDate) {
+      let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
+      const formData = {
+        latitude: addressName?.latitude,
+        longitude: addressName?.longitude,
+        address_name: addressName?.address_name,
+        game_of_your_choice: !list[1].checked,
+        date_from: startDate.toISOString().substring(0, 10),
+        data_to: endDate.toISOString().substring(0, 10),
+        games: ids,
+      }
+      dispatch(searchGame(formData, navigation, setError))
+    } else {
+      console.log('error')
+    }
+  }
+  useEffect(() => {
+    if (route.params?.fromMap) {
+      setAddressName(route.params)
+      route.params = {}
+    }
+  }, [route.params?.fromMap])
   useEffect(() => {
     !nameOfGames.length && dispatch(getGamesOnlyNames())
     dispatch(setFindedGames([]))
@@ -53,43 +85,6 @@ const JoinGame = ({ route }) => {
   useEffect(() => {
     setGameTypes(nameOfGames)
   }, [nameOfGames])
-
-  const showHideError = () => {
-    if (!checkChecks && list[2].checked == true) {
-      setErrorMessage(true)
-    } else {
-      setErrorMessage(false)
-    }
-    if (!price.length && Boolean(free.find((el) => el.checked).text == 'Платно')) {
-      setPriceError(true)
-    } else {
-      setPriceError(false)
-    }
-    if (!priceError && !errorMessage) {
-      let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
-      const formData = new FormData()
-      if (!free[0].checked) {
-        formData.append('price', true)
-      }
-      formData.append('latitude', props?.fromMap ? props?.latitude : addressName?.lat)
-      formData.append('longitude', props?.fromMap ? props.longitude : addressName?.lng)
-      formData.append(
-        'address_name',
-        props?.fromMap ? props?.address_name : addressName?.address_name,
-      )
-      if (!list[1].checked) {
-        formData.append('game_of_your_choice', true)
-      }
-
-      formData.append('date_from', startDate.toISOString().substring(0, 10))
-      formData.append('date_to', endDate.toISOString().substring(0, 10))
-      formData.append('ids', ids)
-      dispatch(searchGame(formData, navigation, setError))
-    } else {
-      console.log('error')
-    }
-  }
-
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -139,24 +134,7 @@ const JoinGame = ({ route }) => {
             addressName={addressName}
             show={false}
           />
-          <View style={{ top: '-3%' }}>
-            <Text style={styles.someTitle}>Стоимость входного билета в игру</Text>
-            <RadioBlock list={free} onChange={setFree} />
-            {free.find((el) => el.checked).text === 'Платно' ? (
-              <>
-                <View style={styles.priceInput}>
-                  <TextInput
-                    style={styles.priceInputText}
-                    placeholder={'Сумма оплаты до'}
-                    onChangeText={(e) => setPrice(e)}
-                    placeholderTextColor={ICON}
-                    keyboardType="number-pad"
-                  />
-                </View>
-                {priceError && <Text style={styles.errorText}>Обязательное поле</Text>}
-              </>
-            ) : null}
-          </View>
+          {addressError && <Text style={styles.errorText}>{addressError}</Text>}
         </View>
       </ScrollView>
       {error ? <Text style={styles.errorText}>Не найденно</Text> : null}
@@ -164,7 +142,7 @@ const JoinGame = ({ route }) => {
         style={[
           styles.bottomButton,
           {
-            bottom: RH(20),
+            bottom: RH(35),
             height: RH(36),
             width: '100%',
             alignItems: 'flex-end',

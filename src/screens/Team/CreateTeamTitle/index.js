@@ -1,52 +1,30 @@
-// if (addressName && teamName) {
-//   formdata.append('name', teamName)
-//   formdata.append('address_name', addressName?.address_name)
-//   formdata.append('latitude', addressName.lat)
-//   formdata.append('longitude', addressName.lng)
-//   formdata.append('image', {
-//     name: avatar?.assets?.[0].fileName,
-//     type: avatar?.assets?.[0].type,
-//     uri: avatar?.assets?.[0].uri,
-//   })
-
-//   createTeam(formdata, token, setModalVisible)
-// } else {
-//   if (!addressName) {
-//     setAddressNameError(true)
-//   } else {
-//     setAddressNameError(false)
-//   }
-//   if (!teamName) {
-//     setTeamNameError(true)
-//   } else {
-//     setTeamNameError(false)
-//   }
-// }
-import React, { useState, useEffect, memo } from 'react'
-import { View, TextInput, StyleSheet, Text, TouchableOpacity, Image } from 'react-native'
+import React, { useState, memo, useEffect } from 'react'
+import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, RED, WHITE } from '@/theme/colors'
 import DownloadingIcon from '@/assets/svgs/downloadingSvg'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { launchImageLibrary } from 'react-native-image-picker'
 import Index from '@/components/modal'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
+import FastImage from 'react-native-fast-image'
 
-const CreateTeamTitle = (props) => {
+const CreateTeamTitle = ({ route }) => {
   const [avatar, setAvatar] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
   const [teamNameError, setTeamNameError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
+  const [avatarError, setAvatarError] = useState(false)
   const [addressName, setAddressName] = useState('')
-  const response = props?.route?.params?.response
+  const response = route?.params?.response
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
   const handleCreate = () => {
-    if (!addressName && !response.latitude) {
+    if (!addressName) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
@@ -56,12 +34,17 @@ const CreateTeamTitle = (props) => {
     } else {
       setTeamNameError(false)
     }
+    if (!avatar?.assets?.[0].uri) {
+      setAvatarError(true)
+    } else {
+      setAvatarError(false)
+    }
 
-    if (!addressNameError && !teamNameError) {
+    if (addressName?.address_name && teamName && avatar?.assets?.[0].uri) {
       formdata.append('name', teamName)
-      formdata.append('address_name', response?.address_name || addressName?.address_name)
-      formdata.append('latitude', response?.latitude || addressName?.lat)
-      formdata.append('longitude', response?.longitude || addressName?.lng)
+      formdata.append('address_name', addressName?.address_name)
+      formdata.append('latitude', addressName?.latitude)
+      formdata.append('longitude', addressName?.longitude)
       formdata.append('image', {
         name: avatar?.assets?.[0].fileName,
         type: avatar?.assets?.[0].type,
@@ -72,13 +55,36 @@ const CreateTeamTitle = (props) => {
   }
 
   const uploadImageHandle = async () => {
-    const result = await launchImageLibrary({
-      mediaType: 'mixed',
+    await launchImageLibrary({
+      mediaType: 'photo',
       quality: 1,
       includeBase64: true,
+      durationLimit: 10,
+      selectionLimit: 1,
+    }).then((result) => {
+      if (result?.assets?.[0].uri) {
+        setAvatarError(false)
+        setAvatar(result)
+      } else {
+        setAvatar(null)
+      }
     })
-    setAvatar(result)
   }
+  useEffect(() => {
+    if (response?.fromMap) {
+      setAddressName({
+        address_name: response?.address_name,
+        latitude: response?.latitude,
+        longitude: response?.longitude,
+      })
+      if (response?.avatar) {
+        setAvatar(response.avatar)
+      }
+      if (response?.teamName) {
+        setTeamName(response.teamName)
+      }
+    }
+  }, [response])
 
   return (
     <ScreenMask>
@@ -104,6 +110,10 @@ const CreateTeamTitle = (props) => {
                 setAddressName={setAddressName}
                 addressName={addressName}
                 navigateTo="CreateTeamTitle"
+                props={{
+                  avatar,
+                  teamName,
+                }}
               />
             </View>
             {addressNameError && (
@@ -119,7 +129,7 @@ const CreateTeamTitle = (props) => {
               </View>
             ) : (
               <View style={styles.imgBox}>
-                <Image
+                <FastImage
                   source={{ uri: avatar?.assets?.[0].uri }}
                   resizeMode={'cover'}
                   style={styles.img}
@@ -132,8 +142,10 @@ const CreateTeamTitle = (props) => {
             <Text style={styles.noMore}>Не более 1МБ, 240x240px</Text>
           </View>
         </View>
+        {avatarError && <Text style={styles.errorText}>Обязательное поле для заполнения</Text>}
         <Text style={styles.fileName}>{avatar?.assets?.[0].fileName}</Text>
       </View>
+
       <View style={styles.nextBtn}>
         <LightButton label={'Готово'} size={{ width: 144, height: 36 }} onPress={handleCreate} />
       </View>
@@ -189,7 +201,6 @@ const styles = StyleSheet.create({
     height: RH(50),
     alignSelf: 'center',
     flexDirection: 'row',
-    // top: RH(32),
     zIndex: 89,
     borderRadius: RW(10),
     margin: RH(10),

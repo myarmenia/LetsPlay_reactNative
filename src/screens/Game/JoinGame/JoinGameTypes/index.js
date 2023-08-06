@@ -1,9 +1,8 @@
 import React from 'react'
-import { View } from 'react-native'
-import { styles } from '@/screens/Game/Play/style'
+import { StyleSheet, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 
 function JoinGameTypes() {
   const navigation = useNavigation()
@@ -24,5 +23,15 @@ function JoinGameTypes() {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  btnBlock: {
+    alignItems: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  btnActiveGames: {
+    marginBottom: 24,
+  },
+})
 
 export default JoinGameTypes

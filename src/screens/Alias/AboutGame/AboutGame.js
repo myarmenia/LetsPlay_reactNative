@@ -4,7 +4,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import MafiaData from '@/screens/Mafia/AboutGame/data'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import Modal from '@/components/modal'
 

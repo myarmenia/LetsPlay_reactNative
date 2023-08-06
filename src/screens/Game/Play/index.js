@@ -1,9 +1,8 @@
 import React from 'react'
-import { View } from 'react-native'
-import { styles } from '@/screens/Game/Play/style'
+import { StyleSheet, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 import { useDispatch } from 'react-redux'
 
@@ -35,5 +34,15 @@ function Index() {
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  btnBlock: {
+    alignItems: 'center',
+    marginTop: 'auto',
+    marginBottom: 'auto',
+  },
+  btnActiveGames: {
+    marginBottom: 24,
+  },
+})
 
 export default Index

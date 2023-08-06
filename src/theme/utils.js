@@ -4,15 +4,12 @@ import { SHADOW } from './colors'
 import {
   FONT_INTER_THIN,
   FONT_INTER_BOLD,
-  FONT_INTER_BLACK,
   FONT_INTER_LIGHT,
   FONT_INTER_MEDIUM,
   FONT_INTER_REGULAR,
-  FONT_EXO,
   FONT_EXO_BOLD,
   FONT_OPEN_SANS,
   FONT_OPEN_SANS_MEDIUM,
-  FONT_ITNER_ITALIC,
 } from './fonts'
 
 const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
@@ -35,8 +32,6 @@ export const normalizePixel = (size) => {
 const getFontFamily = (fontFamily) => {
   switch (fontFamily) {
     // Roboto fonts
-    case 'black':
-      return FONT_INTER_BLACK
     case 'bold':
       return FONT_INTER_BOLD
     case 'light':
@@ -47,16 +42,12 @@ const getFontFamily = (fontFamily) => {
       return FONT_INTER_REGULAR
     case 'thin':
       return FONT_INTER_THIN
-    case 'exo':
-      return FONT_EXO
     case 'exo_bold':
       return FONT_EXO_BOLD
     case 'openSans':
       return FONT_OPEN_SANS
     case 'openSans_medium':
       return FONT_OPEN_SANS_MEDIUM
-    case 'regular':
-      return FONT_ITNER_ITALIC
   }
 }
 /**

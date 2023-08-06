@@ -1,31 +1,56 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { memo, useEffect } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
-import { useNavigation } from '@react-navigation/native'
+import LightButton from '@/components/buttons/Button'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { setExplainedWords } from '@/store/Slices/CrocodileSlice'
 
-const ResultsOfAnswers = () => {
+const ResultsOfAnswers = ({ route }) => {
+  const dispatch = useDispatch()
   const navigation = useNavigation()
+  const isFocused = useIsFocused()
+
+  const handleSubmit = () => {
+    navigation.navigate('TeamsResults')
+  }
+  const { user } = useSelector(({ auth }) => auth)
+  const { explainedWords, explainerTeam, explainYou, explainerUser } = useSelector(
+    ({ crocodile }) => crocodile,
+  )
+  let data = route.params
+  useEffect(() => {
+    data.player = explainYou ? user : explainerUser
+
+    if (!isFocused) {
+      dispatch(
+        setExplainedWords({
+          truthy: [],
+          falsy: [],
+        }),
+      )
+    }
+  }, [isFocused])
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.commandName}>Команда 1</Text>
+        <Text style={styles.commandName}>{explainerTeam}</Text>
         <View style={styles.mainBox}>
           <View style={styles.trueAnswers}>
-            <Text style={styles.title}>Отгадано 3</Text>
+            <Text style={styles.title}>Отгадано {explainedWords?.truthy?.length}</Text>
             <View style={styles.trueAnswersWrap}>
-              {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
-                return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
+              {explainedWords?.truthy?.map((elm, i) => {
+                return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
               })}
             </View>
           </View>
           <View style={styles.falseAnswers}>
-            <Text style={styles.title}>Пропущено 4</Text>
+            <Text style={styles.title}>Пропущено {explainedWords?.falsy?.length}</Text>
             <View style={styles.trueAnswersWrap}>
-              {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((elm, i) => {
-                return <Text style={styles.word} key={i}>{`${i + 1} Слово`}</Text>
+              {explainedWords?.falsy?.map((elm, i) => {
+                return <Text style={styles.word} key={i}>{`${i + 1}. ${elm}`}</Text>
               })}
             </View>
           </View>
@@ -34,7 +59,7 @@ const ResultsOfAnswers = () => {
           <LightButton
             label={'Продолжить'}
             size={{ width: 281, height: 48 }}
-            onPress={() => navigation.navigate('TeamsResults')}
+            onPress={handleSubmit}
           />
         </View>
       </ScrollView>
@@ -69,7 +94,7 @@ const styles = StyleSheet.create({
   trueAnswersWrap: {
     flexDirection: 'column',
     flexWrap: 'wrap',
-    height: RH(280),
+    // height: RH(280),
     width: '80%',
   },
   title: {

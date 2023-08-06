@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NAV_HEADER_OPTION } from '@/constants'
 import ChooseGameType from '@/screens/GameCreating/ChooseGameType'
 import GameListCarousel from '@/screens/GameCreating/GameListCarousel'
-import GameCreating from '@/screens/GameCreating/GameCreating'
+import GameCreating from '@/screens/GameCreating/GameCreating/GameCreating'
 import GameTicket from '@/screens/GameCreating/GameTicket'
 import CommandLeadCreate from '@/screens/Team/CommandLeadCreate/CreateGameInTeam'
 import ChoosePlayers from '@/screens/Team/CommandLeadCreate/ChoosePlayers'
@@ -11,8 +11,9 @@ import CommandLeadNotCreate from '@/screens/Team/CommandLeadNotCreate/CommandLea
 import EditTeamInfo from '@/screens/Team/EditTeam/EditTeamInfo'
 import TeamInfo from '@/screens/Team/CommandLeadNotCreate/TeamInfo'
 import EditTeamPlayers from '@/screens/Team/CommandLeadNotCreate/EditTeamPlayers'
-import OwnGame from '@/screens/GameCreating/OwnGame/OwnGameName'
 import OwnGameName from '@/screens/GameCreating/OwnGame/OwnGameName'
+import AddPhoto from '@/screens/Game/FinishGame/AddPhoto'
+import RatePlayers from '@/screens/Game/FinishGame/RatePlayers'
 
 const Stack = createNativeStackNavigator()
 
@@ -30,6 +31,8 @@ const CreateGameNavigator = () => {
       <Stack.Screen name={'ChoosePlayers'} component={ChoosePlayers} />
       <Stack.Screen name={'GameCreating'} component={GameCreating} />
       <Stack.Screen name={'GameTicket'} component={GameTicket} />
+      <Stack.Screen name={'AddPhoto'} component={AddPhoto} />
+      <Stack.Screen name={'RatePlayers'} component={RatePlayers} />
     </Stack.Navigator>
   )
 }

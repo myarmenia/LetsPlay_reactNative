@@ -4,7 +4,7 @@ import { RH } from '@/theme/utils'
 import { setFindedTeam } from '@/store/Slices/TeamSlice'
 import { useDispatch } from 'react-redux'
 import ScreenMask from '@/components/wrappers/screen'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 
 const CreatingTeams = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -25,8 +25,7 @@ const CreatingTeams = ({ navigation }) => {
           <LightButton
             label={'Мои команды'}
             size={{ width: 270, height: 48 }}
-            // onPress={() => navigation.navigate('MyTeam')}
-            onPress={() => navigation.navigate('TeamSchemes')}
+            onPress={() => navigation.navigate('MyTeam')}
           />
         </View>
         <View style={styles.btn}>

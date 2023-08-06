@@ -4,7 +4,7 @@ import { RW, RH } from '@/theme/utils'
 import { Pressable, Share } from 'react-native'
 import RNFS from 'react-native-fs'
 
-function SvgComponent({ path, name }) {
+function Consent({ path, name }) {
   const downloadFunc = async () => {
     RNFS.downloadFile({
       fromUrl: `https://to-play.ru/storage/${path}`,
@@ -38,4 +38,4 @@ function SvgComponent({ path, name }) {
   )
 }
 
-export default SvgComponent
+export default Consent

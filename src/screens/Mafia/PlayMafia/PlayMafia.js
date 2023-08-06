@@ -1,19 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Pressable,
-  InteractionManager,
-} from 'react-native'
+import { View, Text, StyleSheet, ScrollView, Pressable, Platform } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import VectorIcon from '@/assets/svgs/vectorSvg'
 import UserBorderSvg from './assets/UserBorderSvg'
 import { font, RH, RW } from '@/theme/utils'
 import { GRAY, ICON, WHITE } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import MafiaModal from './components/MafiaModal'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,6 +14,7 @@ import Time from './components/Time'
 import MafiaLoader from './components/MafiaLoader'
 import {
   setAnswersCount,
+  setEqualVotes,
   setLoader,
   setQuestionTruthfulness,
   setSendAnswer,
@@ -32,9 +25,11 @@ import {
 import MafiaDeadModal from './components/MafiaDeadModal'
 import WinnerModal from './components/WinnerModal'
 import Row from '@/components/wrappers/row'
+import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
-const PlayMafia = () => {
-  const [modalVisible, setModalVisible] = useState(true)
+const PlayMafia = ({ route }) => {
+  const [modalVisible, setModalVisible] = useState(false)
   const [deadModalVisible, setDeadModalVisible] = useState(false)
   const [winnerModal, setWinnerModal] = useState(false)
   const [choosable, setChoosable] = useState(false)
@@ -42,7 +37,7 @@ const PlayMafia = () => {
   const [nightQueastions, setNightQueastions] = useState([])
   const [dayQueastions, setDayQueastions] = useState(null)
   const [daysCount, setDaysCount] = useState(1)
-
+  const daysCountProps = route.params?.daysCount
   const currentUserDeaded = useRef(false)
 
   const {
@@ -66,12 +61,13 @@ const PlayMafia = () => {
   } = useSelector(({ mafia }) => mafia)
   const currentUser = useSelector(({ auth }) => auth.user)
   const dispatch = useDispatch()
+  const navigation = useNavigation()
 
   useEffect(() => {
     if (deadUser?.length) {
+      dispatch(setEqualVotes(null))
       setDeadModalVisible(true)
       deadUser.forEach((deadUserItem) => {
-        console.log('deadUserItem?.user?._id', deadUserItem?.user?._id)
         if (deadUserItem?.user?._id == currentUser?._id) {
           currentUserDeaded.current = true
         }
@@ -80,14 +76,22 @@ const PlayMafia = () => {
   }, [deadUser])
 
   useEffect(() => {
-    if (!night && daysCount > 1 && waitNight == null) {
+    if (
+      !Object.keys(equalVotes || {}).length &&
+      !night &&
+      daysCount > 1 &&
+      waitNight == null &&
+      !loader
+    ) {
       setDeadModalVisible(true)
+    } else if (Object.keys(equalVotes || {}).length) {
+      setDeadModalVisible(false)
     }
-  }, [night, daysCount, waitNight])
+  }, [equalVotes, night, daysCount, waitNight, loader])
 
   useEffect(() => {
     setDayQueastions(answerQuestions?.find((item) => !item.night))
-    if (mafiaRole.name !== 'Дон') {
+    if (mafiaRole?.name !== 'Дон') {
       setNightQueastions(answerQuestions?.filter((item) => item.night))
     } else {
       setNightQueastions(
@@ -97,20 +101,27 @@ const PlayMafia = () => {
   }, [answerQuestions])
 
   useEffect(() => {
-    InteractionManager.runAfterInteractions(() => {
-      if (winner) {
-        setModalVisible(false)
-        setDeadModalVisible(false)
-        setWinnerModal(winner)
-      }
-    })
-  }, [winner])
-
-  useEffect(() => {
-    if (donVotedPlayers?.length == mafiasCount - 1 && loader && mafiaRole.name == 'Дон') {
+    if (
+      Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0) != 0 &&
+      Object.values(donVotedPlayers).reduce((prev, current) => prev + current, 0) ==
+        mafiasCount - 2 &&
+      mafiaRole?.name == 'Дон' &&
+      loader
+    ) {
+      dispatch(setLoader(false))
       dispatch(setAnswersCount(1))
     }
-  }, [donVotedPlayers, loader, mafiasCount, mafiaRole])
+  }, [donVotedPlayers, loader, answersCount, mafiasCount, mafiaRole])
+  useEffect(() => {
+    if (daysCount == 1) {
+      setModalVisible(true)
+    }
+  }, [])
+  useEffect(() => {
+    if (daysCountProps) {
+      setDaysCount(daysCountProps)
+    }
+  }, [daysCountProps])
 
   return (
     <ScreenMask>
@@ -120,21 +131,27 @@ const PlayMafia = () => {
           <>
             <View style={styles.youPlaceMen}>
               <View>
-                <Image source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
+                <FastImage resizeMode='contain' source={{ uri: _storageUrl + mafiaRole?.img }} style={styles.img} />
               </View>
               <View style={styles.infoMafia}>
                 <Text style={styles.textPlaceMen}>Вы {mafiaRole?.name?.toLowerCase()}</Text>
                 <Text style={styles.text}>Мафия {mafiasCount}</Text>
                 <Text style={styles.text}>Мирные жители {civiliansCount}</Text>
               </View>
-              <Pressable onPress={() => setModalVisible(true)}>
+              <Pressable
+                onPress={() =>
+                  navigation.navigate('AboutGame', { gameIsStarted: true, daysCount: daysCount })
+                }
+              >
                 <VectorIcon />
               </Pressable>
             </View>
             <Text style={styles.morningText}>Утро</Text>
-            {daysCount > 1 && !Object.keys(equalVotes || {}).length ? (
+            {daysCount > 1 && Object.keys(equalVotes || {}).length ? (
               <View>
-                <Text style={styles.question}>{dayQueastions?.question}</Text>
+                <Text style={styles.question}>
+                  Игроки набрали равное количество голосов. {'\n'} Голосуем между ними.
+                </Text>
               </View>
             ) : null}
           </>
@@ -143,7 +160,10 @@ const PlayMafia = () => {
             <Text style={[styles.morningText, { color: ICON }]}>Ночь</Text>
             <Pressable
               style={{ position: 'absolute', right: RW(10), top: RH(2) }}
-              onPress={() => setModalVisible(true)}
+              onPress={() => {
+                // setModalVisible(true)
+                navigation.navigate('AboutGame', { gameIsStarted: true, daysCount: daysCount })
+              }}
             >
               <VectorIcon />
             </Pressable>
@@ -193,15 +213,16 @@ const PlayMafia = () => {
                   ) : null}
 
                   {mafiaUsersId?.find((elm) => elm.id == equalVotes?.first_player?._id) ? (
-                    <Image
+                    <FastImage
                       style={styles.mafiaImg}
+                      resizeMode='contain'
                       source={{
                         uri:
                           _storageUrl +
                           (mafiaUsersId?.find((elm) => elm?.id == equalVotes?.first_player?._id)
-                            ?.name == 'Дон' && mafiaRole.name !== 'Шпион'
-                            ? roles?.find((item) => item.name == 'Дон')?.img
-                            : roles?.find((item) => item.name == 'Мафия')?.img),
+                            ?.name == 'Дон' && mafiaRole?.name !== 'Шпион'
+                            ? roles?.find((item) => item?.name == 'Дон')?.img
+                            : roles?.find((item) => item?.name == 'Мафия')?.img),
                       }}
                     />
                   ) : null}
@@ -231,8 +252,9 @@ const PlayMafia = () => {
                     </View>
                   ) : null}
                   {mafiaUsersId?.find((elm) => elm.id == equalVotes?.second_player?._id) ? (
-                    <Image
+                    <FastImage
                       style={styles.mafiaImg}
+                      resizeMode='contain'
                       source={{
                         uri:
                           _storageUrl +
@@ -293,16 +315,17 @@ const PlayMafia = () => {
                           </View>
                         ) : null}
                         {mafiaUsersId?.find((elm) => elm.id == item?._id) ? (
-                          <Image
+                          <FastImage
                             style={styles.mafiaImg}
+                            resizeMode='contain'
                             source={{
                               uri:
                                 _storageUrl +
                                 (mafiaUsersId?.find(
                                   (elm) => elm?.id == equalVotes?.first_player?._id,
                                 )?.name == 'Дон' && mafiaRole?.name !== 'Шпион'
-                                  ? roles?.find((item) => item.name == 'Дон')?.img
-                                  : roles?.find((item) => item.name == 'Мафия')?.img),
+                                  ? roles?.find((item) => item?.name == 'Дон')?.img
+                                  : roles?.find((item) => item?.name == 'Мафия')?.img),
                             }}
                           />
                         ) : null}
@@ -315,12 +338,6 @@ const PlayMafia = () => {
                                 }
                               : {
                                   onClickFunc: () => {
-                                    console.log('choosable', choosable)
-                                    console.log(
-                                      'currentUserDeaded.current',
-                                      currentUserDeaded.current,
-                                    )
-                                    console.log(item?.status)
                                     if (choosable && !currentUserDeaded.current && item?.status) {
                                       if (
                                         answersCount == 0 &&
@@ -402,14 +419,11 @@ const PlayMafia = () => {
               bgColor={'#4D7CFE'}
               onPress={() => {
                 if (daysCount == 1) {
-                  console.log('if 1')
                   dispatch(setLoader(true))
                   dispatch(setWaitNight(true))
                   setDaysCount(2)
                   setChoosable(true)
                 } else if (equalVotes?.question_id) {
-                  console.log('if 1 1')
-                  console.log('if equalVotes?.question_id', equalVotes?.question_id)
                   dispatch(
                     setSendAnswer({
                       type: 'answer_question',
@@ -417,21 +431,18 @@ const PlayMafia = () => {
                       select_user: choosedUsers,
                     }),
                   )
-                  dispatch(setWaitNight(true))
+                  dispatch(setEqualVotes(null))
                   setChoosedUsers(null)
-                  dispatch(setLoader(true))
-                } else if (choosedUsers) {
-                  console.log('if')
 
+                  dispatch(setLoader(true))
+                  dispatch(setWaitNight(true))
+                } else if (choosedUsers) {
                   if (waitAnswer && Object.keys(questionTruthfulness || {}).length) {
-                    console.log('if 1')
                     dispatch(setQuestionTruthfulness(null))
                     setChoosedUsers(null)
                     dispatch(setWaitAnswer(false))
                     setChoosable(true)
-                    if (mafiaRole?.name !== 'Дон') {
-                      // dispatch(setAnswersCount(1))
-                    } else {
+                    if (mafiaRole?.name === 'Дон') {
                       dispatch(setLoader('Ждем голосование мафии'))
                     }
                   } else if (
@@ -439,15 +450,10 @@ const PlayMafia = () => {
                     answersCount > 0 &&
                     Object.keys(donVotedPlayers || {}).length
                   ) {
-                    console.log('if 2')
                     const questionId = answerQuestions?.find(
                       (item) => item.answer_user === 'Мирный житель',
                     )?._id
-                    console.log('answer_question DON', {
-                      type: 'answer_question',
-                      question_id: questionId,
-                      select_user: choosedUsers,
-                    })
+
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -455,9 +461,10 @@ const PlayMafia = () => {
                         select_user: choosedUsers,
                       }),
                     )
-                    dispatch(setAnswersCount(0))
+
                     dispatch(setLoader(true))
                     dispatch(setWaitNight(false))
+                    dispatch(setAnswersCount(0))
                   } else if (night && answersCount == 1) {
                     dispatch(
                       setSendAnswer({
@@ -466,16 +473,10 @@ const PlayMafia = () => {
                         select_user: choosedUsers,
                       }),
                     )
-                    console.log('if 6')
-                    // dispatch(setAnswersCount(0))
                     dispatch(setLoader(true))
 
-                    // dispatch(setWaitNight(false))
+                    dispatch(setWaitNight(false))
                   } else if (!night) {
-                    console.log('if 7')
-                    // day
-                    // dispatch(setAnswersCount(0))
-
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -484,15 +485,9 @@ const PlayMafia = () => {
                       }),
                     )
                     dispatch(setLoader(true))
-                    dispatch(setWaitNight(true))
+
                     setChoosedUsers(null)
                   } else {
-                    console.log('if 3')
-                    console.log('choosedUsers ' + mafiaRole?.name, {
-                      type: 'answer_question',
-                      question_id: night ? nightQueastions[answersCount]?._id : dayQueastions?._id,
-                      select_user: choosedUsers,
-                    })
                     dispatch(
                       setSendAnswer({
                         type: 'answer_question',
@@ -504,13 +499,10 @@ const PlayMafia = () => {
                     )
 
                     if (waitAnswer) {
-                      console.log('if 4')
                       setChoosable(false)
                     } else {
-                      console.log('if 5')
                       setChoosedUsers(null)
                       setChoosable(true)
-                      // dispatch(setAnswersCount(1))
                     }
                   }
                 }
@@ -519,12 +511,28 @@ const PlayMafia = () => {
           ) : null}
         </View>
       </View>
-      <MafiaModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
-      <MafiaDeadModal modalVisible={deadModalVisible} setModalVisible={setDeadModalVisible} />
       <WinnerModal modalVisible={winnerModal} setModalVisible={setWinnerModal} />
+      <MafiaModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <MafiaDeadModal
+        modalVisible={deadModalVisible}
+        setModalVisible={(e) => {
+          setDeadModalVisible(e)
+          if (winner && Platform.OS == 'android') {
+            setTimeout(() => {
+              setWinnerModal(winner)
+            }, 1000)
+          }
+        }}
+        onDismiss={() => {
+          if (winner) {
+            setWinnerModal(winner)
+          }
+        }}
+      />
     </ScreenMask>
   )
 }
+
 const styles = StyleSheet.create({
   item: {
     padding: RW(3),
@@ -561,7 +569,6 @@ const styles = StyleSheet.create({
   img: {
     width: RW(46),
     height: RW(55),
-    resizeMode: 'contain',
   },
   infoMafia: {
     paddingRight: RW(90),
@@ -595,11 +602,6 @@ const styles = StyleSheet.create({
     margin: RW(10),
     paddingVertical: RH(20),
   },
-  imgData: {
-    width: 76,
-    height: 150,
-    resizeMode: 'contain',
-  },
   peopleInfo: {
     width: '100%',
     flexDirection: 'row',
@@ -618,7 +620,7 @@ const styles = StyleSheet.create({
   mafiaImg: {
     width: RW(25),
     height: RW(25),
-    resizeMode: 'contain',
+
     position: 'absolute',
     zIndex: 999,
     top: RW(-3),

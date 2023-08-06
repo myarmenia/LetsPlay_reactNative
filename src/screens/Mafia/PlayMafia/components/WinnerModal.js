@@ -1,39 +1,30 @@
-import { View, Image, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text } from 'react-native'
 import React from 'react'
 import Modal from '@/components/modal'
 import { font, RH, RW } from '@/theme/utils'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
-import User from '@/components/User/user'
-import { ICON } from '@/theme/colors'
+
 import { SCREEN_BACKGROUND } from '@/theme/colors'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 const WinnerModal = ({ modalVisible, setModalVisible }) => {
   const { roles } = useSelector(({ mafia }) => mafia)
   const imgPath = _storageUrl + roles?.find((item) => item.type == modalVisible)?.img
   const navigation = useNavigation()
-  if (!modalVisible) return null
+
   return (
-    // <View
-    //   style={{
-    //     flex: 1,
-    //     position: 'absolute',
-    //     // backgroundColor: 'red',
-    //     width: '100%',
-    //     height: '100%',
-    //   }}
-    // >
     <Modal
-      modalVisible={!!modalVisible}
+      modalVisible={modalVisible}
       setIsVisible={(e) => {
         navigation.navigate('RatingPlayer')
         setModalVisible(e)
       }}
       item={
         <View style={styles.container}>
-          <Image style={styles.img} source={{ uri: imgPath }} />
+          <FastImage style={styles.img} resizeMode='contain' source={{ uri: imgPath }} />
           <Text style={styles.text}>
             {modalVisible == 'мафия'
               ? 'Игра окончена. Победила мафия.'
@@ -67,7 +58,6 @@ const styles = StyleSheet.create({
   },
   img: {
     height: RH(170),
-    resizeMode: 'contain',
   },
   text: {
     ...font('regular', 20, '#fff', 25),

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import React from 'react'
+import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import Ticket from './ticket'
-import Button from '@/assets/imgs/Button'
 import { font, RH, RW } from '@/theme/utils'
-import Modal from '@/components/modal'
 import EditSvg from '@/assets/svgs/editSvg'
 import CheckedCheckbox from '@/assets/svgs/checkedCheckbox'
 import ShareSvg from '@/assets/svgs/shareSvg'
@@ -15,18 +13,8 @@ import { createGame } from '@/store/Slices/GameCreatingSlice'
 
 function Index({ route }) {
   const navigation = useNavigation()
-  const { flag, game, data, initialState, name, dates } = route.params.params
-  const [isVisible, setIsVisible] = useState(false)
-  const [success, setSuccess] = useState(false)
-  const [modalClose, setModalClose] = useState(true)
+  const { game, data, initialState, name, dates } = route?.params?.params
   const dispatch = useDispatch()
-  useEffect(() => {
-    if (flag) {
-      setIsVisible(true)
-    } else {
-      setIsVisible(false)
-    }
-  }, [])
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View>
@@ -35,7 +23,7 @@ function Index({ route }) {
       <View style={styles.gameTicketButtonsBlock}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('GameCreating', { screen: 'GameCreating', params: { game } })
+            navigation.navigate('GameCreating', { screen: 'GameCreating', params: { game, name } })
           }}
         >
           <EditSvg />
@@ -49,49 +37,16 @@ function Index({ route }) {
               createGame(
                 {
                   ...initialState,
-                  start_date: dates[0],
-                  end_date: dates[1],
+                  start_date: dates?.[0],
+                  end_date: dates?.[1],
                 },
-                () => navigation.navigate('Home', { flag: true, game, data }),
+                () => navigation.navigate('Home'),
               ),
             )
           }}
         >
           <CheckedCheckbox />
         </TouchableOpacity>
-      </View>
-      <View style={{ position: 'absolute' }}>
-        <Modal
-          modalClose={modalClose}
-          modalVisible={isVisible}
-          setIsVisible={setIsVisible}
-          btnClose={false}
-          item={
-            !success ? (
-              <View style={styles.firstTicketModalBlock}>
-                <Text style={{ ...styles.text, width: RW(209), marginBottom: 0 }}>
-                  Для завершения необходимо оплатить стоимость комиссий за организацию платной игры.
-                </Text>
-                <Text style={{ ...styles.text, marginTop: 0, marginBottom: RH(42) }}>
-                  {' '}
-                  Стоимость: 100 р
-                </Text>
-                <Button
-                  onPress={() => {
-                    setSuccess(true)
-                    setModalClose(false)
-                  }}
-                  size={{ width: 144, height: 36 }}
-                  label={'Оплатить'}
-                />
-              </View>
-            ) : (
-              <View style={styles.secondTicketModalBlock}>
-                <Text style={styles.text}>Оплата прошла успешна. Вы успешно создали игру!</Text>
-              </View>
-            )
-          }
-        />
       </View>
     </ScreenMask>
   )

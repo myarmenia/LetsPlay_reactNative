@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
-function CloseSvg({ width = 17, height = 16 }) {
+function CloseSvg({ width = 17, height = 16, color = '#B3B7C2' }) {
   return (
     <Svg
       width={width}
@@ -12,7 +12,7 @@ function CloseSvg({ width = 17, height = 16 }) {
     >
       <Path
         d="M1.42 1.006l14 14M15.42 1.006l-14 14"
-        stroke="#B3B7C2"
+        stroke={color}
         strokeWidth={1.5}
         strokeLinecap="round"
       />

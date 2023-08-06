@@ -6,17 +6,17 @@ import { font, RH, RW } from '@/theme/utils'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import User from '@/components/User/user'
-import EmptyBorderedAvatar from '@/assets/svgs/EmptyBorderedAvatar'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import { useDispatch } from 'react-redux'
 import { createTeamGame } from '@/store/Slices/TeamSlice'
+import FastImage from 'react-native-fast-image'
 const ChoosePlayers = ({ route }) => {
   const { savedTeam, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
   const [data, setData] = useState(sendingData)
   const dispatch = useDispatch()
-  const UserItem = ({ elm }) => {
+  const UserItem = ({ user }) => {
     //need fetch users in command and show
     const [visible, setVisible] = useState(false)
     const [choosedUsers, setChoosedUsers] = useState([])
@@ -25,19 +25,13 @@ const ChoosePlayers = ({ route }) => {
         <Pressable
           style={styles.eachUser}
           onPress={() => {
-            // setData({...data, players: ['64219136e3a868ee5e71a799']}),
             setVisible(!visible)
           }}
         >
-          {/* //need detect user accept invite or not and set opacity and don't navigate another show modal */}
-          {/* // <View style={{ opacity: 0.6 }}> */}
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
             <View style={{ position: 'absolute' }}>
-              <User
-                size={110}
-                // pressedUser={{ avatar: '/team/image/4caea4a8-8864-4ad1-bd20-bf5539558622.jpg' }}
-              />
+              <User size={110} user={user} />
             </View>
           </View>
         </Pressable>
@@ -50,16 +44,16 @@ const ChoosePlayers = ({ route }) => {
         <View>
           <View style={styles.rowBox}>
             <Text style={styles.topTitle}>{savedTeam?.name}</Text>
-            <Image
+            <FastImage
               style={styles.commandImg}
               source={{ uri: _storageUrl + savedTeam?.img }}
               resizeMode="cover"
             />
           </View>
           <View style={styles.playersContainer}>
-            {/* map in players in team */}
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((elm, i) => {
-              return <UserItem key={i} />
+            {savedTeam?.players.map((elm, i) => {
+              console.log(elm.user.name)
+              return <UserItem key={i} user={elm.user} />
             })}
           </View>
         </View>

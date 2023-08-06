@@ -1,13 +1,4 @@
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native'
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { BACKGROUND, ICON } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
@@ -17,22 +8,13 @@ import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 import ScreenMask from '@/components/wrappers/screen'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
-import LightButton from '@/assets/imgs/Button'
-import { useIsFocused, useNavigation } from '@react-navigation/native'
-import {
-  getMembersList,
-  searchTeam,
-  setFindedPlayers,
-  setFindedTeam,
-} from '@/store/Slices/TeamSlice'
+import LightButton from '@/components/buttons/Button'
+import { useNavigation } from '@react-navigation/native'
+import { getMembersList, searchTeam, setFindedTeam } from '@/store/Slices/TeamSlice'
 
 const CommandLeadNotCreate = ({ route }) => {
   const item = route.params
-
-  const games = useSelector(({ games }) => games.games)
   const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
-
-  const game = games.find((elm) => elm.id == choosedTeamGame?.id)
   const { betweenPlayers, findedTeam, savedTeam } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -41,24 +23,22 @@ const CommandLeadNotCreate = ({ route }) => {
   const [enemyTeam, setEnemyTeam] = useState('')
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
   const [addresName, setAddressName] = useState('')
-  const [valOne, setValOne] = useState('')
-  const [valSec, setValSec] = useState('')
-  const [price, setPrice] = useState('')
+  // const [price, setPrice] = useState('')
   const [formats, setFormats] = useState(
-    game?.formats?.map((elm, i) => {
+    choosedTeamGame?.formats?.map((elm, i) => {
       return { id: i, text: elm, checked: false }
     }),
   )
-  const [priceList, setPriceList] = useState([
-    { id: 1, text: 'Бесплатно', checked: true },
-    { id: 2, text: 'Платно', checked: false },
-  ])
+  // const [priceList, setPriceList] = useState([
+  //   { id: 1, text: 'Бесплатно', checked: true },
+  //   { id: 2, text: 'Платно', checked: false },
+  // ])
   // states end ================================
   // error states =============================
   const [enemyTeamError, setEnemyTeamError] = useState(false)
-  const [formatError, setFormatError] = useState(false)
+  // const [formatError, setFormatError] = useState(false)
   const [mapError, setMapError] = useState(false)
-  const [priceError, setPriceError] = useState(false)
+  // const [priceError, setPriceError] = useState(false)
   // error states end =========================
   const timeFormat = (date) => {
     if (
@@ -97,7 +77,7 @@ const CommandLeadNotCreate = ({ route }) => {
     longitude: item?.fromMap ? item?.longitude : addresName?.lng,
     between_players: betweenPlayers,
     all_players: false,
-    ticket_price: price ? price : 0,
+    ticket_price: 0, //price ? price : 0
     team: savedTeam?._id,
     // gtac team i id
     //  enemy_team: findedTeam?._id
@@ -125,23 +105,21 @@ const CommandLeadNotCreate = ({ route }) => {
     if (item?.latitude) {
       setMapError(false)
     }
-    if (priceList?.find((elm) => elm?.checked)?.text == 'Платно' && !price?.length) {
-      setPriceError(true)
-    } else {
-      setPriceError(false)
-    }
+    // if (priceList?.find((elm) => elm?.checked)?.text == 'Платно' && !price?.length) {
+    //   setPriceError(true)
+    // } else {
+    //   setPriceError(false)
+    // }
     if (
       Boolean(
         addresName?.address_name || item?.latitude,
-        price,
+        0, //price
         enemyTeam,
         formats?.filter((elm) => elm?.checked)?.length,
       )
     ) {
       sendingData.enemy_team_name = enemyTeam
       navigation.navigate('TeamInfo', { sendingData, gameId })
-    } else {
-      console.log('else')
     }
   }
   useEffect(() => {
@@ -221,7 +199,7 @@ const CommandLeadNotCreate = ({ route }) => {
           />
           {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
         </View>
-        {priceList?.length ? (
+        {/* {priceList?.length ? (
           <RadioBlock
             title={'Стоимость входного билета в игру'}
             list={priceList}
@@ -237,7 +215,7 @@ const CommandLeadNotCreate = ({ route }) => {
         )}
         {!!priceError && !!priceList[1].checked && (
           <Text style={styles.errorText}>Заполните поле</Text>
-        )}
+        )} */}
       </ScrollView>
       <View style={{ right: RW(10), bottom: RH(20), position: 'absolute' }}>
         <LightButton label={'Готово'} onPress={handleSubmit} />

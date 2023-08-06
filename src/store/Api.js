@@ -1,9 +1,9 @@
-import { IS_IOS } from '@/constants'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import axios from 'axios'
+import { Platform } from 'react-native'
 
-const baseURL = IS_IOS ? 'https://to-play.ru/' : 'http://to-play.ru/'
-// const baseURL = 'https://48e1-37-252-94-159.eu.ngrok.io'
+const baseURL = Platform.OS == 'ios' ? 'https://to-play.ru/' : 'http://to-play.ru/'
+// const baseURL = 'https://2dff-37-252-82-211.eu.ngrok.io'
 
 const axiosInstance = axios.create()
 axiosInstance.interceptors.request.use(

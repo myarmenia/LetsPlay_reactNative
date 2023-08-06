@@ -20,9 +20,11 @@ const SchemeUsers = ({
   setReplacementPlayers,
   fieldSize,
   initialCordinates,
+  players
 }) => {
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
+  const refsArray = useRef([])
 
   const animatedScrollX = useRef(new Animated.Value(0)).current
 
@@ -34,7 +36,6 @@ const SchemeUsers = ({
       useNativeDriver: true,
     }).start()
   }, [screenX])
-
   const panResponders = replacementPlayers?.map((item, index) => {
     return PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
@@ -44,7 +45,6 @@ const SchemeUsers = ({
 
         setReplacementPlayers((prevplayingPlayers) => {
           const updatedplayingPlayers = [...prevplayingPlayers]
-
           updatedplayingPlayers[index] = {
             ...updatedplayingPlayers[index],
             small: false,
@@ -57,12 +57,13 @@ const SchemeUsers = ({
             moveX: gesture.moveX,
             moveY: gesture.moveY,
           }
+  
           return updatedplayingPlayers
         })
       },
 
       onPanResponderEnd: (event, gesture) => {
-        replacementPlayers[index].ref.current.measure((x, y, width, height, px, py) => {
+        refsArray.current[index].measure((x, y, width, height, px, py) => {
           if (
             px - initialCordinates.x >= 0 &&
             px - initialCordinates.x <= fieldSize?.width - RW(38) &&
@@ -88,7 +89,6 @@ const SchemeUsers = ({
                       ...updatedplayingPlayers[i],
                       x: 0,
                       y: 0,
-
                       small: false,
                       inGame: false,
                     }
@@ -117,13 +117,13 @@ const SchemeUsers = ({
               return updatedplayingPlayers
             })
           } else {
+            console.log('else')
             setReplacementPlayers((prevplayingPlayers) => {
               const updatedplayingPlayers = [...prevplayingPlayers]
               updatedplayingPlayers[index] = {
                 ...updatedplayingPlayers[index],
                 x: 0,
                 y: 0,
-
                 small: false,
                 inGame: false,
               }
@@ -162,10 +162,12 @@ const SchemeUsers = ({
             height: RW(100),
           }}
         >
-          {replacementPlayers?.map((user, index) => (
+          {replacementPlayers?.map((user, index) => {
+            return (
             <Animated.View
               key={index}
-              ref={user.ref}
+      
+              ref={(elRef) => refsArray.current[index] = elRef}
               onLayout={(e) => {
                 if (!componentWidth.current) componentWidth.current = e.nativeEvent.layout.width
               }}
@@ -190,9 +192,9 @@ const SchemeUsers = ({
               ]}
               {...panResponders[index]?.panHandlers}
             >
-              <User size={user.small ? RW(45) : RW(90)} />
+              <User user={players[index]} size={user.small ? RW(45) : RW(90)} />
             </Animated.View>
-          ))}
+          )})}
         </Row>
       </View>
 
@@ -221,7 +223,7 @@ export default SchemeUsers
 
 const styles = StyleSheet.create({
   container: {
-    height: RW(100),
+    height: RW(110),
     backgroundColor: BACKGROUND,
     justifyContent: 'space-between',
     width: RW(428),

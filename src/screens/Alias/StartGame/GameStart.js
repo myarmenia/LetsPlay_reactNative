@@ -1,69 +1,49 @@
 import { ICON, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import { font, RH } from '@/theme/utils'
-import { memo, useEffect, useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import { View, StyleSheet, Text } from 'react-native'
-import AnimatedCircle from '../Components/AnimatedCircle'
+import AnimatedCircle from '../components/AnimatedCircle'
 import AliasBackground from '../assets/Background'
-import LightButton from '@/assets/imgs/Button'
-import Timer from '../Components/Timer'
+import LightButton from '@/components/buttons/Button'
+import Timer from '../components/Timer'
 import {
   setExplainYou,
   setExplainedWords,
+  setExplainerUser,
   setStart,
   setStep,
   setStoping,
+  setTeams,
 } from '@/store/Slices/AliasSlice'
-import { SomeSampleScreen } from '../Modals/UserAndInfoModal'
+import SomeSampleScreen from '../Modals/UserAndInfoModal'
 import TimeFinishModal from '../Modals/TimeFinishModal'
 
-const GameStart = ({ route }) => {
-  const [modalVisible, setModalVisible] = useState(false)
-  const [userModalVisible, setUserModalVisible] = useState(true)
-  const [timeIsFinished, setTimeIsFinished] = useState('timeDontFinished')
+const GameStart = () => {
+  const [timeIsFinished, setTimeIsFinished] = useState(false)
   const [falsyCount, setFalsyCount] = useState(0)
   const [truthyCount, setTruthyCount] = useState(0)
-  const [modalState, setModalState] = useState({ state: 'user' })
+  const [modalState, setModalState] = useState() //{ state: 'user' }
 
-  // const [explainedWords, setExplainedWords] = useState({
-  //   truthy: [],
-  //   falsy: [],
-  // })
-  const { stoping } = useSelector(({ alias }) => alias)
-  const { user } = useSelector(({ auth }) => auth)
   const {
-    allTeams,
     explainerTeam,
     explainYou,
     step,
-    time,
-    staticTime,
-    countWords,
     explainedWords,
     aliasGameId,
-    explainerUser,
+    stoping,
+    penalty,
+    allTeams,
   } = useSelector(({ alias }) => alias)
   const [userExplainedWordsCount, setUserExplainedWordsCount] = useState({
     points: 0,
     aliasGameId,
   })
-  let pointsPrevCurrent = allTeams.find((item) => item.value == explainerTeam)?.points
 
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
-  useEffect(() => {
-    dispatch(setExplainYou(explainYou))
-  }, [explainYou])
-
-  // useEffect(() => {
-  //   // if (modalState.state == 'user' && !explainYou) {
-  //   dispatch(setStep(0))
-  //   setTruthyCount(0)
-  //   setFalsyCount(0)
-  //   // }
-  // }, [isFocused, modalState])
   useEffect(() => {
     if (isFocused) {
       dispatch(
@@ -72,22 +52,57 @@ const GameStart = ({ route }) => {
           falsy: [],
         }),
       )
-    } else if (!isFocused) {
+    } else {
+      dispatch(setStart(false))
+    }
+    return () => {
       dispatch(setStart(false))
     }
   }, [isFocused])
   useEffect(() => {
-    if (!explainYou) {
+    if (penalty) {
+      let truthyCount = step - explainedWords.falsy?.length * 2
+      setTruthyCount(truthyCount >= 0 ? truthyCount : 0)
+    } else {
       setTruthyCount(step - explainedWords.falsy?.length)
-      setFalsyCount(step - explainedWords.truthy?.length)
     }
+
+    setFalsyCount(step - explainedWords.truthy?.length)
+
     // raundic heto vor minus er etum dzelu masy
-    if (modalState.state == 'user' && !explainYou) {
+    if (modalState?.state == 'user' && !explainYou) {
       dispatch(setStep(0))
       setTruthyCount(0)
       setFalsyCount(0)
     }
   }, [explainedWords, explainYou, step, falsyCount, modalState])
+
+  useEffect(() => {
+    if (timeIsFinished) {
+      dispatch(setExplainerUser(null))
+      dispatch(setExplainYou(null))
+      if (explainYou) {
+        dispatch(
+          setTeams([
+            ...allTeams?.map((elm) => {
+              if (elm.value == explainerTeam) {
+                return {
+                  ...elm,
+                  points: elm.points + truthyCount,
+                }
+              } else return elm
+            }),
+          ]),
+        )
+      }
+    }
+  }, [timeIsFinished])
+  useEffect(() => {
+    if (!stoping && modalState?.state === 'user' && !explainYou) {
+      setModalState({})
+    }
+  }, [stoping, modalState, explainYou])
+
   return (
     <>
       <AliasBackground style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -96,8 +111,8 @@ const GameStart = ({ route }) => {
           timeIsFinished={timeIsFinished}
           setTimeIsFinished={setTimeIsFinished}
           userExplainedWordsCount={userExplainedWordsCount}
+          setModalState={setModalState}
         />
-        <View style={{ position: 'absolute' }}></View>
         <View
           style={{
             height: '95%',
@@ -113,15 +128,16 @@ const GameStart = ({ route }) => {
             <Text style={styles.countOfTrueAnswer}>{truthyCount}</Text>
             <Text style={styles.countOfTrueAnswer}>Отгадано</Text>
           </View>
-          <View>
+          <View style={{ zIndex: 999999 }}>
             <AnimatedCircle
               setTruthyCount={setTruthyCount}
               setFalsyCount={setFalsyCount}
               userExplainedWordsCount={userExplainedWordsCount}
               setUserExplainedWordsCount={setUserExplainedWordsCount}
+              truthyCount={truthyCount}
             />
           </View>
-          <View style={styles.answersBox}>
+          <View style={[styles.answersBox, { bottom: -20 }]}>
             <Text style={styles.countOfTrueAnswer}>Пропущено</Text>
             <Text style={styles.countOfTrueAnswer}>{falsyCount}</Text>
             <View style={styles.bottomBox}>
@@ -135,12 +151,7 @@ const GameStart = ({ route }) => {
                 )}
               </View>
               <View style={{ alignItems: 'center', width: '35%' }}>
-                <Timer
-                  timeIsFinished={timeIsFinished}
-                  fromRes={route?.params?.fromRes}
-                  modalState={modalState}
-                  setTimeIsFinished={setTimeIsFinished}
-                />
+                <Timer modalState={modalState} setTimeIsFinished={setTimeIsFinished} />
               </View>
             </View>
           </View>
@@ -161,7 +172,6 @@ const styles = StyleSheet.create({
     ...font('regular', 18, WHITE),
   },
   modalBox: {
-    // height: '100%',
     width: '95%',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -184,10 +194,10 @@ const styles = StyleSheet.create({
   answersBox: {
     flexDirection: 'column',
     alignItems: 'center',
-    zIndex: 999,
+    zIndex: 99,
   },
   bottomBox: {
-    width: '97%',
+    width: '90%',
     flexDirection: 'row',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -202,4 +212,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default memo(GameStart)
+export default GameStart

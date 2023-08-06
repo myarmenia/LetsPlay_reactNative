@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, View, Animated, Pressable } from 'react-native'
-// import { styles } from '@/screens/GameCreatingScreens/GameListCarousel/components/style'
-import BgGamesLiner from '@/assets/imgs/games/BgGamesLiner'
-import Border from '@/assets/imgs/games/Border'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, Animated, Pressable } from 'react-native'
+import BgGamesLiner from '@/assets/imgs/BgGamesLiner'
+import Border from '@/assets/imgs/Border'
 import { useNavigation } from '@react-navigation/native'
 import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
 import { BLACK, LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
-import { clearAllDatas, setQrGame, setRules } from '@/store/Slices/MafiaSlice'
+import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 import Modal from '@/components/modal'
-import LightButton from '@/assets/imgs/Button'
-import DarkButton from '@/assets/imgs/DarkButton'
+import LightButton from '@/components/buttons/Button'
+import DarkButton from '@/components/buttons/DarkButton'
 import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
-import { clearAllAliasData } from '@/store/Slices/AliasSlice'
-function ListItem({ game, pressable, qrGame, fromTournament }) {
-  const [active, setActive] = useState(false)
+import { setTournamentGameType, setTournamentImagePath } from '@/store/Slices/TournamentSlice'
+import FastImage from 'react-native-fast-image'
 
+function ListItem({ game, pressable, qrGame, fromTournament }) {
   const [modalVisible, setModalVisible] = useState(false)
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
@@ -29,40 +28,39 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
       <Pressable
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
-        onPress={async () => {
+        onPress={() => {
           if (pressable) {
-            // setActive(true)
             if (qrGame) {
               dispatch(setRules(game.rules))
               dispatch(setQrGame(qrGame))
-              // dispatch(clearAllAliasData())
-
-              // dispatch(clearAllDatas())
-              !savedTeam?.id && qrGame
-                ? navigation.navigate(
-                    game?.name == 'Мафия'
-                      ? 'MafiaNavigator'
-                      : game?.name == 'Элиас'
-                      ? 'AliasNavigator'
-                      : game?.name == 'Крокодил'
-                      ? 'CrocodileNavigator'
-                      : '',
-                  )
-                : navigation.navigate('CommandLeadCreate')
+              if (game?.name == 'Своя игра') {
+                navigation.navigate('OwnGameName', { game })
+              } else {
+                !savedTeam?.id && qrGame
+                  ? navigation.navigate(
+                      game?.name == 'Мафия'
+                        ? 'MafiaNavigator'
+                        : game?.name == 'Элиас'
+                        ? 'AliasNavigator'
+                        : game?.name == 'Крокодил'
+                        ? 'CrocodileNavigator'
+                        : null,
+                    )
+                  : navigation.navigate('CommandLeadCreate')
+              }
+            } else if (fromTournament) {
+              dispatch(setTournamentGameType(game.name))
+              dispatch(setTournamentImagePath(game.img))
+              navigation.replace('TournamentNavigator', {
+                screen: 'CreateTournament',
+              })
             } else {
               savedTeam?.id
                 ? setModalVisible(true)
-                : fromTournament
-                ? navigation.navigate('TournamentNavigator', {
-                    screen: 'CreateTournament',
-                    params: game,
-                  })
                 : game?.name == 'Своя игра'
-                ? navigation.navigate('OwnGameName', { params: { game } })
-                : navigation.navigate('GameCreating', { params: { game } })
+                ? navigation.navigate('OwnGameName', { game })
+                : navigation.navigate('GameCreating', { game })
             }
-
-            // setActive(false)
           }
         }}
         style={styles.bgFon}
@@ -111,7 +109,11 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
           <BgGamesLiner />
         </View>
         <View style={styles.title}>
-          <Image source={{ uri: _storageUrl + game?.img }} style={styles.image} />
+          <FastImage
+            resizeMode="contain"
+            source={{ uri: _storageUrl + game?.img }}
+            style={styles.image}
+          />
         </View>
         <View style={styles.btn}>
           <LinearGradient
@@ -177,7 +179,6 @@ const styles = StyleSheet.create({
   bgFon: {
     marginLeft: 'auto',
     marginRight: 'auto',
-    // marginTop: RH(40),
     width: RW(335),
     height: RH(707),
     borderWidth: RW(2),
@@ -235,7 +236,6 @@ const styles = StyleSheet.create({
   image: {
     width: RW(300),
     height: RH(300),
-    resizeMode: 'contain',
   },
   rowBox: {
     width: '110%',

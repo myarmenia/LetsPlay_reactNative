@@ -1,11 +1,16 @@
-import { Animated, Dimensions, Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect, useLayoutEffect, useRef } from 'react'
+import { Animated, Dimensions, Pressable, Text } from 'react-native'
+import React, { useEffect, useLayoutEffect, useRef, memo } from 'react'
 import { useDispatch } from 'react-redux'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { font } from '@/theme/utils'
-import { setYouGuesser } from '@/store/Slices/AliasSlice'
+import { setExplainYou, setExplainerUser, setYouGuesser } from '@/store/Slices/AliasSlice'
 
-const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWordsCount }) => {
+const TimeFinishModal = ({
+  timeIsFinished,
+  setTimeIsFinished,
+  userExplainedWordsCount,
+  setModalState,
+}) => {
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
   const navigation = useNavigation()
@@ -13,14 +18,14 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
   const animatedValue = useRef(new Animated.Value(height)).current
 
   useEffect(() => {
-    setTimeIsFinished('timeDontFinished')
+    setTimeIsFinished(false)
   }, [isFocused])
   useLayoutEffect(() => {
     if (!isFocused) {
       setTimeout(() => {
         animatedValue.setValue(height)
       }, 1000)
-      setTimeIsFinished('timeDontFinished')
+      setTimeIsFinished(false)
     }
     Animated.timing(animatedValue, {
       toValue: 0,
@@ -33,22 +38,30 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
       style={{
         transform: [{ translateY: animatedValue }],
         width: '100%',
-        display: timeIsFinished == 'timeFinish' ? 'flex' : 'none',
+        display: timeIsFinished ? 'flex' : 'none',
         height: '120%',
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 999,
+        zIndex: 99999,
         backgroundColor: timeIsFinished && 'rgba(0,0,0,0.8)',
         position: 'absolute',
       }}
     >
       <Pressable
         onPress={() => {
-          setTimeIsFinished('timeDontFinished')
+          setTimeIsFinished(false)
           dispatch(setYouGuesser(null))
+          setModalState({})
+          dispatch(setExplainYou(null))
+          dispatch(setExplainerUser(null))
           navigation.navigate('ResultsOfAnswers', userExplainedWordsCount)
         }}
-        style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }}
+        style={{
+          height: '100%',
+          width: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <Text style={{ ...font('medium', 32, '#F73934') }}>Время истекло!</Text>
       </Pressable>
@@ -56,6 +69,4 @@ const TimeFinishModal = ({ timeIsFinished, setTimeIsFinished, userExplainedWords
   )
 }
 
-export default TimeFinishModal
-
-const styles = StyleSheet.create({})
+export default memo(TimeFinishModal)

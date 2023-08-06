@@ -1,16 +1,16 @@
 import ScreenMask from '@/components/wrappers/screen'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { styles } from './styles'
-import { ScrollView, View, Text, TouchableOpacity, Image, Pressable } from 'react-native'
-import { _gamesData } from '../gamesDatas/gamesData'
-import { RH, RW } from '@/theme/utils'
-import Button from '@/assets/imgs/Button'
-import { useNavigation, useScrollToTop } from '@react-navigation/native'
+import React, { useRef, useState } from 'react'
+import { ScrollView, View, Text, Pressable, StyleSheet } from 'react-native'
+import { RH, RW, font } from '@/theme/utils'
+import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import Wave from '@/assets/svgs/wave'
 import LinearGradient from 'react-native-linear-gradient'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
+import FastImage from 'react-native-fast-image'
+import { ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
+import dateFormater from '@/helpers/dateFormater'
 
 function GamesList() {
   const navigation = useNavigation()
@@ -24,13 +24,11 @@ function GamesList() {
     })
   const passIdGameItem = (id) => {
     findedGames.map((elem) => {
-      // elem.data.forEach(elm => {
       if (elem?._id === id) {
         navigation.navigate('GameItem', { item: { ...elem, clicked: true } })
       } else {
         return null
       }
-      // })
     })
   }
 
@@ -56,7 +54,7 @@ function GamesList() {
               height: '100%',
               zIndex: -1,
               alignSelf: 'center',
-              opacity: 0.3,
+              opacity: 0.6,
               position: 'absolute',
               borderRadius: RW(10),
             }}
@@ -75,19 +73,20 @@ function GamesList() {
               zIndex: -1,
               alignSelf: 'center',
               position: 'absolute',
-              opacity: 0.5,
+              opacity: 0.8,
               borderRadius: RW(10),
             }}
           ></LinearGradient>
         )}
         <View style={styles.image}>
-          <Image
+          <FastImage
             style={{
               width: RW(50),
               height: RH(50),
-              resizeMode: 'contain',
+
               borderRadius: RW(30),
             }}
+            resizeMode="contain"
             source={{ uri: _storageUrl + elm.game?.img }}
           />
         </View>
@@ -103,13 +102,11 @@ function GamesList() {
           }}
         >
           <Text style={styles.midText}>
-            {new Date(elm?.updatedAt).toLocaleDateString()},{' '}
-            {new Date(elm?.updatedAt).toLocaleTimeString().slice(0, 5)}, {elm?.address_name}
+            {dateFormater(elm?.createdAt)}, {elm?.address_name}
           </Text>
           <View
             style={{
               flexDirection: 'row',
-              // alignSelf: 'center',
               width: '100%',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -125,10 +122,9 @@ function GamesList() {
               }}
             >
               <Wave />
-              <Text style={styles.midText}>1.6 км</Text>
+              <Text style={styles.midText}>{elm.distance} км</Text>
             </View>
           </View>
-          <Text style={styles.priceText}>{`Сумма участия- ${elm.ticket_price}.`}</Text>
         </View>
         <View style={styles.line}></View>
         <View
@@ -155,8 +151,36 @@ function GamesList() {
 
   return (
     <ScreenMask>
+      <View
+        style={{
+          flex: 1,
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+        }}
+      >
+        <FastImage
+          resizeMode="contain"
+          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
+          source={require('@/assets/bgLogo.png')}
+        />
+        <View
+          style={{
+            width: RW(360),
+            height: RW(360),
+            borderRadius: RW(180),
+            position: 'absolute',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+          }}
+        />
+      </View>
       <ScrollView
         style={{ flex: 1, paddingTop: RH(15) }}
+        contentContainerStyle={{ paddingBottom: RH(80) }}
         showsVerticalScrollIndicator={false}
         ref={ref}
       >
@@ -165,21 +189,81 @@ function GamesList() {
         {findedGames?.map((elm, i) => {
           return <EatchItem elm={elm} key={i} />
         })}
-
-        {findedGames.length ? (
-          <View style={{ alignSelf: 'center', paddingTop: RH(99), paddingBottom: RH(48) }}>
-            <LightButton
-              label={'Обновить'}
-              size={{ width: 375, height: 48 }}
-              onPress={() => {
-                setForUpdate(!forUpdate), scrollToTop()
-              }}
-            />
-          </View>
-        ) : null}
       </ScrollView>
+      {findedGames.length ? (
+        <View style={{ alignSelf: 'center', position: 'absolute', bottom: RH(40) }}>
+          <LightButton
+            label={'Обновить'}
+            size={{ width: 375, height: 48 }}
+            onPress={() => {
+              setForUpdate(!forUpdate), scrollToTop()
+            }}
+          />
+        </View>
+      ) : null}
     </ScreenMask>
   )
 }
+const styles = StyleSheet.create({
+  gameItemContainer: {
+    width: RW(395),
+    minHeight: RH(99),
+    maxHeight: RH(116),
+    borderRadius: RW(8),
+    alignSelf: 'center',
+    marginVertical: RW(6),
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  midText: {
+    ...font('medium', 17, WHITE),
+    width: RW(240),
+    flexWrap: 'wrap',
+    textAlign: 'left',
+  },
+  playersText: {
+    textAlign: 'center',
+    ...font('regular', 10, WHITE),
+  },
+  topLoading: {
+    textAlign: 'center',
+    ...font('regular', 19, WHITE),
+    paddingVertical: RH(12),
+  },
+  countCircle: {
+    backgroundColor: ICON,
+    width: RW(28),
+    height: RH(28),
+    borderRadius: RW(19),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  countOfPlayersText: {
+    ...font('bold', 14, WHITE),
+  },
+  horizontalLine: {
+    width: '59%',
+    marginTop: RH(10),
+    alignSelf: 'flex-start',
+    borderWidth: RW(1),
+    borderColor: RADIO_TEXT,
+  },
+  gameTitle: {
+    ...font('bold', 20, LIGHT_LABEL, 20),
+    color: WHITE,
+    marginTop: RH(25),
+    marginBottom: RH(25),
+    textAlign: 'center',
+  },
+
+  line: {
+    borderWidth: RW(1),
+    height: RW(45),
+    borderColor: RADIO_TEXT,
+    marginHorizontal: '2%',
+  },
+})
 
 export default GamesList

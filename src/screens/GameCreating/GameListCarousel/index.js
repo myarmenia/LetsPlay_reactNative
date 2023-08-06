@@ -5,17 +5,17 @@ import { getGames } from '@/store/Slices/GamesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import ListItem from './components/ListItem'
 import { _storageUrl } from '@/constants'
-import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
+import { clearInitialState } from '@/store/Slices/GameCreatingSlice'
 const Index = ({ route }) => {
-  const { list, fromTournament = null } = route.params
+  const { list, fromTournament = null, gameWithQr } = route.params
   const { width } = Dimensions.get('window')
   const games = useSelector(({ games }) => games.games)
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getGames(list))
-    // dispatch(saveTeamDataForCreating(null))
-  }, [list])
+    dispatch(getGames())
+    dispatch(clearInitialState())
+  }, [])
 
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
@@ -30,25 +30,36 @@ const Index = ({ route }) => {
         alwaysBounceHorizontal={false}
         horizontal
       >
-        {games?.map((elem, index) => {
-          return (
-            <View
-              key={elem._id}
-              style={{
-                width: width,
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <ListItem
-                game={elem}
-                pressable={true}
-                qrGame={list == 'qr'}
-                fromTournament={fromTournament}
-              />
-            </View>
-          )
-        })}
+        {games
+          ?.filter((elem) => {
+            if (
+              gameWithQr &&
+              (elem?.name == 'Элиас' || elem?.name == 'Крокодил' || elem?.name == 'Мафия')
+            ) {
+              return elem
+            } else if (elem?.category?.name == list && !gameWithQr) {
+              return elem
+            }
+          })
+          ?.map((elem, index) => {
+            return (
+              <View
+                key={elem._id}
+                style={{
+                  width: width,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <ListItem
+                  game={elem}
+                  pressable={true}
+                  qrGame={gameWithQr}
+                  fromTournament={fromTournament}
+                />
+              </View>
+            )
+          })}
       </ScrollView>
     </ScreenMask>
   )

@@ -1,11 +1,11 @@
 import React from 'react'
-import { ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { TouchableOpacity, View, StyleSheet } from 'react-native'
 import User from '@/components/User/user'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 
 function PlayerList({ players, isSelected = false, activePlayers = [], setActivePlayers }) {
-  const handlerActiveUser = id => {
+  const handlerActiveUser = (id) => {
     if (isSelected) {
       if (activePlayers.includes(id)) {
         const temp = activePlayers.filter((item, i) => item !== id)
@@ -42,45 +42,11 @@ function PlayerList({ players, isSelected = false, activePlayers = [], setActive
 }
 
 export const styles = StyleSheet.create({
-  btn: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: RH(85),
-  },
-  titleBlock: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  imageBlock: {
-    width: RW(50),
-    height: RW(50),
-    borderRadius: RW(50),
-    marginRight: RW(15),
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'contain',
-    borderRadius: RW(50),
-  },
-  title: {
-    textAlign: 'center',
-    ...font('bold', 24, WHITE),
-    marginVertical: RH(30),
-  },
-  scroll: {
-    width: '90%',
-    height: RH(600),
-    flexGrow: 0,
-  },
   container: {
     flexDirection: 'row',
     width: '100%',
-    // justifyContent: 'space-evenly',
     flexWrap: 'wrap',
   },
-
   activeItem: {
     padding: RW(3),
     marginTop: RH(5),

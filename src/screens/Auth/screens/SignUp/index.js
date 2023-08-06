@@ -19,9 +19,9 @@ import {
   signUp4,
 } from '@/store/Slices/AuthSlice'
 import { useNavigation } from '@react-navigation/native'
-import Button from '@/assets/imgs/Button'
+import Button from '@/components/buttons/Button'
 import Row from '@/components/wrappers/row'
-import DarkButton from '@/assets/imgs/DarkButton'
+import DarkButton from '@/components/buttons/DarkButton'
 import Consent from '@/assets/imgs/Consent'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -181,7 +181,7 @@ const SignUp = () => {
 
   return (
     <ScreenMask>
-      <KeyboardAvoidingView
+      {/* <KeyboardAvoidingView
         style={{ flex: 1 }}
         {...(Platform.OS === 'ios'
           ? {
@@ -190,78 +190,78 @@ const SignUp = () => {
               enabled: true,
             }
           : {})}
-      >
-        <FlatList
-          data={[...messagesList].reverse()}
-          style={{
-            marginBottom: RH(25),
-          }}
-          inverted
-          refreshing
-          initialNumToRender={4}
-          removeClippedSubviews
-          showsVerticalScrollIndicator={false}
-          ref={scrollViewRef}
-          renderItem={memoRenderItem}
-          keyExtractor={(_, index) => `post-${index}`}
-        />
-        <View style={styles.bottom}>
-          {agreeBtn ? (
-            <View
-              style={{
-                alignSelf: 'flex-end',
-                width: RW(170),
-                height: RH(36),
-                marginVertical: RH(19),
+      > */}
+      <FlatList
+        data={[...messagesList].reverse()}
+        style={{
+          marginBottom: RH(25),
+        }}
+        inverted
+        refreshing
+        initialNumToRender={4}
+        removeClippedSubviews
+        showsVerticalScrollIndicator={false}
+        ref={scrollViewRef}
+        renderItem={memoRenderItem}
+        keyExtractor={(_, index) => `post-${index}`}
+      />
+      <View style={styles.bottom}>
+        {agreeBtn ? (
+          <View
+            style={{
+              alignSelf: 'flex-end',
+              width: RW(170),
+              height: RH(36),
+              marginVertical: RH(19),
+            }}
+          >
+            <Button
+              size={{ width: 170, height: 36 }}
+              label="Я согласен"
+              onPress={() => {
+                const documents = documentRules?.map((item) => item._id)
+                handlerMessage(messageDefault.iAgree)
+                dispatch(signUp4({ expired_token, documents }))
               }}
-            >
-              <Button
-                size={{ width: 170, height: 36 }}
-                label="Я согласен"
-                onPress={() => {
-                  const documents = documentRules?.map((item) => item._id)
-                  handlerMessage(messageDefault.iAgree)
-                  dispatch(signUp4({ expired_token, documents }))
-                }}
-              />
-            </View>
-          ) : emailUsedBtns ? (
-            <Row wrapper={styles.btnsContainer}>
-              <Button
-                size={{ width: 100, height: 36 }}
-                label="Да"
-                onPress={() => {
-                  setEmailUsedBtns(false)
-                  handlerMessage({ id: Math.random(), text: 'Да' })
-                  setTimeout(() => {
-                    navigation.navigate('SignIn', { email: user.email })
-                  }, 500)
-                }}
-              />
-              <DarkButton
-                size={{ width: 100, height: 36 }}
-                containerStyle={{ marginLeft: RW(20) }}
-                label="Нет"
-                onPress={() => {
-                  setEmailUsedBtns(false)
-                  handlerMessage({ id: Math.random(), text: 'Нет' })
-                  handlerMessage(messageDefault.email)
-                }}
-              />
-            </Row>
-          ) : (
-            <Composer
-              text={text}
-              setText={setText}
-              onSend={(message) => {
-                handlerMessage({ id: Math.random(), text: message })
-                setTimeout(onPress, 200)
-              }}
-              ref={ref}
             />
-          )}
-        </View>
-      </KeyboardAvoidingView>
+          </View>
+        ) : emailUsedBtns ? (
+          <Row wrapper={styles.btnsContainer}>
+            <Button
+              size={{ width: 100, height: 36 }}
+              label="Да"
+              onPress={() => {
+                setEmailUsedBtns(false)
+                handlerMessage({ id: Math.random(), text: 'Да' })
+                setTimeout(() => {
+                  navigation.navigate('SignIn', { email: user.email })
+                }, 500)
+              }}
+            />
+            <DarkButton
+              size={{ width: 100, height: 36 }}
+              containerStyle={{ marginLeft: RW(20) }}
+              label="Нет"
+              onPress={() => {
+                setEmailUsedBtns(false)
+                handlerMessage({ id: Math.random(), text: 'Нет' })
+                handlerMessage(messageDefault.email)
+              }}
+            />
+          </Row>
+        ) : (
+          <Composer
+            text={text}
+            setText={setText}
+            onSend={(message) => {
+              handlerMessage({ id: Math.random(), text: message })
+              setTimeout(onPress, 200)
+            }}
+            ref={ref}
+          />
+        )}
+      </View>
+      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }

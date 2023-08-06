@@ -14,7 +14,7 @@ const Map = ({ route }) => {
   const mapRef = useRef()
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { game, command, navigateTo } = route.params
+  const { game, command, navigateTo, props } = route.params
   const [userPosition, setUserPosition] = useState({
     latitude: 55.751244,
     longitude: 37.618423,
@@ -51,10 +51,9 @@ const Map = ({ route }) => {
       <MapView
         ref={mapRef}
         style={styles.map}
+        liteMode={true}
         initialRegion={userPosition}
         showsBuildings={true}
-        customMapStyle={styles.mapTheme}
-        // provider={PROVIDER_GOOGLE}
         provider={Platform.OS == 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
         showsUserLocation={false}
         onPress={(e) => {
@@ -83,7 +82,9 @@ const Map = ({ route }) => {
                 dispatch(setPlaceName(response))
                 game
                   ? navigation.navigate('GameCreating', {
-                      params: { game: game, response: response, fromMap: true },
+                      game: game,
+                      response: response,
+                      fromMap: true,
                     })
                   : null
                 navigateTo == 'CreateTeamTitle'
@@ -93,6 +94,7 @@ const Map = ({ route }) => {
                         latitude: s.results[0].geometry.location.lat,
                         longitude: s.results[0].geometry.location.lng,
                         fromMap: true,
+                        ...props,
                       },
                     })
                   : null
@@ -131,7 +133,7 @@ const Map = ({ route }) => {
                   : null
                 navigateTo == 'CreateTournamentInfo'
                   ? navigation.navigate('TournamentNavigator', {
-                      screen: 'CreateTournamentInfoIndividual',
+                      screen: 'CreateTournamentInfo',
                       params: {
                         address_name: response,
                         latitude: s.results[0].geometry.location.lat,
@@ -140,6 +142,7 @@ const Map = ({ route }) => {
                       },
                     })
                   : null
+
                 navigateTo == 'CommandLeadNotCreate'
                   ? navigation.navigate(navigateTo, {
                       address_name: response,
@@ -156,7 +159,6 @@ const Map = ({ route }) => {
           coordinate={{ latitude: userPosition.latitude, longitude: userPosition.longitude }}
           title={'Ваше место'}
           pinColor={'#00b7ff'}
-          // description={'description'}
         />
         {markers?.map((marker) => {
           return (
@@ -193,184 +195,7 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
   },
-  mapTheme: [
-    {
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#242f3e',
-        },
-      ],
-    },
-    {
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#746855',
-        },
-      ],
-    },
-    {
-      elementType: 'labels.text.stroke',
-      stylers: [
-        {
-          color: '#242f3e',
-        },
-      ],
-    },
-    {
-      featureType: 'administrative.locality',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#d59563',
-        },
-      ],
-    },
-    {
-      featureType: 'poi',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#d59563',
-        },
-      ],
-    },
-    {
-      featureType: 'poi.business',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#263c3f',
-        },
-      ],
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'labels.text',
-      stylers: [
-        {
-          visibility: 'off',
-        },
-      ],
-    },
-    {
-      featureType: 'poi.park',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#6b9a76',
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#38414e',
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'geometry.stroke',
-      stylers: [
-        {
-          color: '#212a37',
-        },
-      ],
-    },
-    {
-      featureType: 'road',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#9ca5b3',
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#746855',
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'geometry.stroke',
-      stylers: [
-        {
-          color: '#1f2835',
-        },
-      ],
-    },
-    {
-      featureType: 'road.highway',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#f3d19c',
-        },
-      ],
-    },
-    {
-      featureType: 'transit',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#2f3948',
-        },
-      ],
-    },
-    {
-      featureType: 'transit.station',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#d59563',
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'geometry',
-      stylers: [
-        {
-          color: '#17263c',
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.fill',
-      stylers: [
-        {
-          color: '#515c6d',
-        },
-      ],
-    },
-    {
-      featureType: 'water',
-      elementType: 'labels.text.stroke',
-      stylers: [
-        {
-          color: '#17263c',
-        },
-      ],
-    },
-  ],
+
   geoBtn: {
     height: RH(64),
     width: RW(64),

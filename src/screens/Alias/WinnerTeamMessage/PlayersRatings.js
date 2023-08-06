@@ -1,15 +1,13 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import InfoSvg from '@/assets/svgs/infoSvg'
 import User from '@/components/User/user'
 import { useDispatch, useSelector } from 'react-redux'
-import LightButton from '@/assets/imgs/Button'
+import LightButton from '@/components/buttons/Button'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
-import { cleanDataAndPlayAgain, setLoader, setStoping, setTeams } from '@/store/Slices/AliasSlice'
-import AliasLoader from '../Components/AliasLoader'
+import { cleanDataAndPlayAgain, setTeams } from '@/store/Slices/AliasSlice'
 
 const PlayersRatings = () => {
   const { user } = useSelector(({ auth }) => auth)

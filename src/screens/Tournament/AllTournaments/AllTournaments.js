@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux'
 const AllTournaments = () => {
   const navigation = useNavigation()
   const { findedTourney } = useSelector(({ tournament }) => tournament)
-  console.log('findedTours -------> ', findedTourney)
+
   const handleClick = (elm) => {
     navigation.navigate('EachTournament', elm)
   }
