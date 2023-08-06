@@ -1,24 +1,15 @@
-import {
-  Dimensions,
-  Image,
-  Linking,
-  Platform,
-  Pressable,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native'
-import { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
-import { font, RH, RW } from '@/theme/utils'
-import { _storageUrl } from '@/constants'
-import { useSelector } from 'react-redux'
-import { WHITE } from '@/theme/colors'
-import style from './styles'
-import UserLine from '../userLine'
-import UserCircle from '../userCircle'
 import Vk from '@/assets/imgs/vk'
 import Modal from '@/components/modal'
+import { _storageUrl } from '@/constants'
+import { WHITE } from '@/theme/colors'
+import { RH, RW, font } from '@/theme/utils'
+import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
+import { Dimensions, Image, Linking, Platform, Pressable, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
+import UserCircle from '../userCircle'
+import UserLine from '../userLine'
+import style from './styles'
 
 function Index({ size, size2, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)

@@ -1,10 +1,9 @@
-import * as React from 'react'
-import Svg, { LinearGradient, Stop, Path, Defs } from 'react-native-svg'
-import { RH, RW } from '@/theme/utils'
 import User from '@/components/User/userIcon'
-import { Pressable, TouchableOpacity, View } from 'react-native'
 import Modal from '@/components/modal'
+import { RH, RW } from '@/theme/utils'
 import { useState } from 'react'
+import { Pressable, View } from 'react-native'
+import Svg, { Defs, LinearGradient, Path, Stop } from 'react-native-svg'
 
 function SvgComponent({
   setVisibleBorder = () => {},
