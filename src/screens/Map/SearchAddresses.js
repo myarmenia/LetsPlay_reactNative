@@ -1,23 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react'
+import MapSvg from '@/assets/svgs/mapSvg'
+import { useDebounce } from '@/helpers/useDebounce'
+import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
+import { BACKGROUND, ICON } from '@/theme/colors'
+import { RH, RW } from '@/theme/utils'
+import { useNavigation } from '@react-navigation/native'
+import { useEffect, useRef, useState } from 'react'
 import {
-  StyleSheet,
-  View,
+  Alert,
+  PermissionsAndroid,
+  Platform,
   Pressable,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  PermissionsAndroid,
-  Alert,
-  Platform,
+  View,
 } from 'react-native'
-import { RH, RW } from '@/theme/utils'
-import { BACKGROUND, ICON } from '@/theme/colors'
-import { useNavigation } from '@react-navigation/native'
-import { fetchAddress } from './fetchAddress'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
 import Geolocation from 'react-native-geolocation-service'
-import MapSvg from '@/assets/svgs/mapSvg'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAddress } from './fetchAddress'
 
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
 
@@ -33,6 +34,7 @@ const SearchAddresses = ({
   const inp = useRef()
   const [state, setState] = useState('')
   const [addresses, setAddresses] = useState(null)
+  const debouncedValue = useDebounce(state, 500)
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const initialState = useSelector((state) => state.game)
@@ -88,6 +90,8 @@ const SearchAddresses = ({
               dispatch(setLatitude(s.results[0]?.geometry.bounds?.northeast.lat))
               dispatch(setLongitude(s.results[0]?.geometry.bounds?.northeast?.lng))
               // dispatch(setPlaceName(response))
+            } else {
+              setAddresses('Не найденно')
             }
           })
       })
@@ -97,21 +101,27 @@ const SearchAddresses = ({
     }
   }
   const chooseAddress = () => {
-    setState(addresses)
-    if (state?.length >= 35) {
-      setState(state.split().reverse().join().substring(0, 32) + '...')
+    console.log(addresses.length)
+    if (addresses?.length >= 35) {
+      setState(addresses.split().reverse().join().substring(0, 32) + '...')
+    } else {
+      setState(addressName)
     }
     setAddresses(null)
     dispatch(setPlaceName(addressName.address_name))
   }
+  const inputHandler = (e) => {
+    setState(e)
+  }
   useEffect(() => {
-    if (state?.length >= 5) {
-      makeURL()
+    if (state?.length >= 4 && state?.length <= 35) {
+      makeURL(state)
     } else {
       setAddresses(null)
       setAddressName('')
     }
-  }, [state?.length])
+  }, [debouncedValue])
+
   return (
     <View style={{ flexDirection: 'column' }}>
       <View
@@ -126,13 +136,8 @@ const SearchAddresses = ({
           ref={inp}
           placeholder={'Адрес проведения игры'}
           placeholderTextColor={ICON}
-          value={state}
-          onChangeText={(e) => {
-            setState(e)
-            if (state?.length >= 4) {
-              makeURL(state)
-            }
-          }}
+          value={state?.length > 35 ? state.substring(0, 33) + '...' : state}
+          onChangeText={inputHandler}
         ></TextInput>
         <TouchableOpacity onPress={checkPermissionAndNavigate} style={styles.mapIcon}>
           <MapSvg />
