@@ -6,6 +6,7 @@ const initialState = {
   playMessageId: null,
   pausedMessageId: null,
   voiceDuration: '00:00:00',
+  allChats: [],
 }
 
 export const ChatsSlice = createSlice({
@@ -36,9 +37,25 @@ export const ChatsSlice = createSlice({
         voiceDuration: action.payload,
       }
     },
+    setAllChats: (store, action) => {
+      return {
+        ...store,
+        allChats: action.payload,
+      }
+    },
   },
 })
 
+export const getAllChats = () => (dispatch) => {
+  axiosInstance
+    .get('api/create/game/all/create_games')
+    .then((response) => {
+      dispatch(setAllChats(response.data.data))
+    })
+    .catch((err) => {
+      console.error('Error: getMessagesCount', err)
+    })
+}
 export const getChats = (data) => (dispatch) => {
   axiosInstance
     .get(`/api/create/game/chat/${data}`)
@@ -93,6 +110,6 @@ export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
     })
 }
 
-export const { setChats, setPlayMessageId, setPausedMessageId, setVoiceDuration } =
+export const { setChats, setPlayMessageId, setPausedMessageId, setVoiceDuration, setAllChats } =
   ChatsSlice.actions
 export default ChatsSlice.reducer

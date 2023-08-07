@@ -4,7 +4,6 @@ import { setModalOptions } from './AppSlice'
 
 const initialState = {
   games: [],
-  nameOfGames: [],
   gameFinishPhoto: null,
 }
 
@@ -16,12 +15,6 @@ export const GameSlice = createSlice({
       return {
         ...store,
         games: action.payload,
-      }
-    },
-    setNames: (store, action) => {
-      return {
-        ...store,
-        nameOfGames: action.payload,
       }
     },
     setGameFinishPhoto: (store, action) => {
@@ -43,26 +36,7 @@ export const getGames = () => (dispatch) => {
       console.error('Error: request', err.request._response)
     })
 }
-export const getGamesOnlyNames = () => (dispatch) => {
-  axiosInstance
-    .get('api/game')
-    .then((response) => {
-      dispatch(
-        setNames(
-          response.data.games.map((elm) => {
-            return {
-              name: elm.name,
-              checked: false,
-              id: elm._id,
-            }
-          }),
-        ),
-      )
-    })
-    .catch((err) => {
-      console.error('Error: getting games : ', err)
-    })
-}
+
 export const participateToGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/create/game/player/confirm/${gameId}`)
@@ -148,5 +122,5 @@ export const getGameById = (create_game_id, navigation) => (dispatch) => {
     })
 }
 
-export const { setGames, setNames, setGameFinishPhoto } = GameSlice.actions
+export const { setGames, setGameFinishPhoto } = GameSlice.actions
 export default GameSlice.reducer

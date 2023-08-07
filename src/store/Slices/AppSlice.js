@@ -188,7 +188,7 @@ export const getNotificationCount = (data) => (dispatch) => {
 }
 export const getMessagesCount = () => (dispatch) => {
   axiosInstance
-    .get('/api/create/game/chat/messages/un_read_count')
+    .get('api/create/game/chat/messages/un_read_count')
     .then((response) => {
       console.log('response getMessagesCount', response.data)
       dispatch(setMessagesCount(response.data.count))

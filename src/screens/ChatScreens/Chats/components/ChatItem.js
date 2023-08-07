@@ -15,13 +15,13 @@ import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
-import { deleteMemberChat, deleteOrganizerChat } from '@/store/Slices/ChatsSlice'
+import { deleteMemberChat } from '@/store/Slices/ChatsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTookPartGames } from '@/store/Slices/AuthSlice'
 import { deletePlayerFromTeam, setMyTeams } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
-import { DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
+import { BACKGROUND, DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
 
 function ChatItem({ id, item, type, playersLength }) {
   const navigation = useNavigation()
@@ -158,7 +158,17 @@ function ChatItem({ id, item, type, playersLength }) {
               .toTimeString()
               .substring(0, 5)} ${item?.address_name || item?.game?.name}`}
           </Text>
-          <Text style={styles.time}>1:01</Text>
+          <View>
+            <Text style={styles.time}>1:01</Text>
+            <LinearGradient
+              style={styles.messagesCount}
+              colors={['#7DCE8A', '#4D7CFE']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+            >
+              <Text style={styles.messagesCountText}>{item?.chats?.length}</Text>
+            </LinearGradient>
+          </View>
         </Pressable>
       </Animated.View>
       {deleting && (
@@ -276,6 +286,18 @@ const styles = StyleSheet.create({
     marginBottom: RH(20),
     marginRight: RW(10),
   },
+  messagesCount: {
+    width: RW(22),
+    height: RW(22),
+    borderRadius: RW(11),
+    // position: 'absolute',
+    // right: 0,
+    // top: 0,
+    // zIndex: 9,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  messagesCountText: font('bold', 12, BACKGROUND),
 })
 
 export default ChatItem

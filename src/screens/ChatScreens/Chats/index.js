@@ -5,14 +5,14 @@ import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyJoinedTeams, getMyTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
-import { getProfileInfo } from '@/store/Slices/AuthSlice'
 import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import FastImage from 'react-native-fast-image'
+import { getAllChats } from '@/store/Slices/ChatsSlice'
 
 const ChatScreen = () => {
-  const { took_part_games } = useSelector(({ auth }) => auth.user)
   const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
+  const allChats = useSelector(({ chats }) => chats.allChats)
 
   const dispatch = useDispatch()
 
@@ -21,7 +21,7 @@ const ChatScreen = () => {
   useEffect(() => {
     dispatch(getMyTeams())
     dispatch(getMyJoinedTeams())
-    dispatch(getProfileInfo())
+    dispatch(getAllChats())
   }, [isFocused])
 
   return (
@@ -56,7 +56,7 @@ const ChatScreen = () => {
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.title}>Чат</Text>
-          {myTeams?.length || took_part_games?.length || myJoinedTeams.length ? (
+          {myTeams?.length || allChats?.length || myJoinedTeams.length ? (
             <>
               <View>
                 {myTeams?.map((eachChat) => {
@@ -81,7 +81,7 @@ const ChatScreen = () => {
                 })}
               </View>
               <View>
-                {took_part_games?.map((eachChat) => {
+                {allChats?.map((eachChat) => {
                   return (
                     <ChatItem
                       item={eachChat}

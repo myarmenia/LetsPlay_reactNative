@@ -313,33 +313,14 @@ export const signUp4 = (data) => async (dispatch) => {
       )
     })
 }
-export const changeUserPreferences = (data, token) => async (dispatch) => {
-  const myHeaders = new Headers()
-  myHeaders.append('Authorization', `Bearer ${token}`)
-  myHeaders.append('Accept', 'application/json')
-  const formdata = new FormData()
-  data.forEach((elm) => {
-    formdata.append('preferences[]', elm)
-  })
-  let requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: formdata,
-    redirect: 'follow',
-  }
-  fetch(
-    Platform.OS == 'ios'
-      ? 'https://to-play.ru/api/user/preferences'
-      : 'http://to-play.ru/api/user/preferences',
-    requestOptions,
-  )
+export const changeUserPreferences = (data) => (dispatch) => {
+  axiosInstance
+    .post('api/user/preferences', data)
     .then((response) => {
-      dispatch(setUserPreferences(data))
-      return response.json()
+      console.log('changeUserPreferences response ', response.data)
     })
-
     .catch((err) => {
-      console.error('Error:or changing preferences : ', err)
+      console.error('Error: changeUserPreferences', err)
     })
 }
 export const getDocumentRules = () => (dispatch) => {
