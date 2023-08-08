@@ -70,7 +70,6 @@ const NotificationItem = ({ elm, setModalVisible }) => {
     },
     end_game: {
       label: 'Завершить',
-      secondaryClick: true,
       onPress: () => {
         dispatch(callEndGame(elm?.create_game))
       },
@@ -96,8 +95,6 @@ const NotificationItem = ({ elm, setModalVisible }) => {
     },
     impression: {
       label: 'фото/видео',
-      secondaryClick: true,
-
       onPress: () => {
         navigation.navigate('CreateGameNavigator', {
           screen: 'AddPhoto',

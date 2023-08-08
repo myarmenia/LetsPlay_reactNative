@@ -1,5 +1,4 @@
 import React, { memo, useEffect, useState } from 'react'
-import ScreenMask from '@/components/wrappers/screen'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 import { ACTIVE, INACTIVE, LIGHT_LABEL, WHITE } from '@/theme/colors'
@@ -9,6 +8,7 @@ import { changeUserPreferences, getProfileInfo } from '@/store/Slices/AuthSlice'
 import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import { useIsFocused } from '@react-navigation/native'
+import ScreenMask2 from '@/components/wrappers/screen2'
 function Index() {
   const [myPreferencesActive, setMyPreferencesActive] = useState([])
   const [myPreferencesDesktop, setMyPreferencesDesktop] = useState([])
@@ -28,7 +28,6 @@ function Index() {
   }, [isFocused])
 
   useEffect(() => {
-    console.log(preferences)
     if (games.length && preferences.length) {
       let myPreferencesData = {
         active: [],
@@ -73,19 +72,30 @@ function Index() {
   }
 
   const savePreferences = () => {
-    const preferences = [
+    const changedPreferences = [
       ...myPreferencesActive.filter((elm) => elm.checked).map((elm) => elm.id),
       ...myPreferencesDesktop.filter((elm) => elm.checked).map((elm) => elm.id),
     ]
+    const addPreferences = changedPreferences?.filter((elm) => {
+      return !preferences?.includes(elm)
+    })
+    const deletePreferences = preferences?.filter((elm) => {
+      return !changedPreferences?.includes(elm)
+    })
+    console.log({
+      addPreferences,
+      deletePreferences,
+    })
     dispatch(
       changeUserPreferences({
-        preferences,
+        addPreferences: ['63ec9183338f6ba3d35e9eee'],
+        deletePreferences: ['63ec9238338f6ba3d35e9ef8'],
       }),
     )
     setModalVisible(true)
   }
   return (
-    <ScreenMask>
+    <ScreenMask2>
       <View style={styles.container}>
         <Text style={styles.title}>Мои предпочтения</Text>
         <View style={styles.gameNamesBlock}>
@@ -142,7 +152,7 @@ function Index() {
         setIsVisible={setModalVisible}
         navigationText={'Profile'}
       />
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 

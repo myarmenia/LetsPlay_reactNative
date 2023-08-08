@@ -7,13 +7,14 @@ import { useSelector } from 'react-redux'
 import FastImage from 'react-native-fast-image'
 import { RH, RW, font } from '@/theme/utils'
 import { DARK_BLUE, ICON, WHITE } from '@/theme/colors'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 const index = () => {
   const navigation = useNavigation()
   const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
-    { id: 2, text: 'Моя галерея', navigateTo: 'Gallery', params: { isMe: true } },
+    { id: 2, text: 'Моя галерея', navigateTo: 'Gallery', params: { isMe: true, canDelete: true } },
     { id: 3, text: 'Мои предпочтения', navigateTo: 'Preference' },
     { id: 5, text: 'Условия использования' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
@@ -37,7 +38,7 @@ const index = () => {
   const renderItem = ({ item }) => <LinkItem item={item} />
 
   return (
-    <ScreenMask style={{ paddingHorizontal: 0 }}>
+    <ScreenMask2 style={{ paddingHorizontal: 0 }}>
       <View style={styles.container}>
         <Text style={styles.title}>Мой кабинет</Text>
         <View style={styles.infoBlock}>
@@ -63,7 +64,7 @@ const index = () => {
         </View>
       </View>
       <FlatList data={list} renderItem={renderItem} keyExtractor={(item) => item.id} />
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 const styles = StyleSheet.create({

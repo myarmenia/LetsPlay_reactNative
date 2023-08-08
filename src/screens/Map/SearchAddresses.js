@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
 import Geolocation from 'react-native-geolocation-service'
 import MapSvg from '@/assets/svgs/mapSvg'
+import { setModalOptions } from '@/store/Slices/AppSlice'
 
 const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
 
@@ -46,7 +47,13 @@ const SearchAddresses = ({
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           navigation.navigate('Map', { game: game, navigateTo: navigateTo, command: command })
         } else {
-          Alert.alert('Доступ к местоположению запрещен')
+          dispatch(
+            setModalOptions({
+              type: 'error',
+              visible: true,
+              body: 'Доступ к местоположению запрещен',
+            }),
+          )
         }
       } catch (err) {
         console.warn(err)
@@ -56,7 +63,13 @@ const SearchAddresses = ({
       if (geo === 'granted') {
         navigation.navigate('Map', { game: game, navigateTo: navigateTo, command: command })
       } else {
-        alert('Доступ к местоположению запрещен')
+        dispatch(
+          setModalOptions({
+            type: 'error',
+            visible: true,
+            body: 'Доступ к местоположению запрещен',
+          }),
+        )
       }
     }
   }
@@ -87,7 +100,6 @@ const SearchAddresses = ({
 
               dispatch(setLatitude(s.results[0]?.geometry.bounds?.northeast.lat))
               dispatch(setLongitude(s.results[0]?.geometry.bounds?.northeast?.lng))
-              // dispatch(setPlaceName(response))
             }
           })
       })

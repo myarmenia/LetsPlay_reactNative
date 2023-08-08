@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet } from 'react-native'
 import React from 'react'
 import { _storageUrl } from '@/constants'
 import FastImage from 'react-native-fast-image'
@@ -8,7 +8,7 @@ import CloseSvg from '@/assets/svgs/closeSvg'
 import { deleteGalleryFile, setModalOptions } from '@/store/Slices/AppSlice'
 import { useDispatch } from 'react-redux'
 
-const GalleryItem = ({ item, isMe }) => {
+const GalleryItem = ({ item, isMe, canDelete }) => {
   const dispatch = useDispatch()
   return (
     <Pressable
@@ -25,7 +25,7 @@ const GalleryItem = ({ item, isMe }) => {
         )
       }}
     >
-      {isMe ? (
+      {isMe && canDelete ? (
         <Pressable
           onPress={() => dispatch(deleteGalleryFile({ file_id: item?._id }))}
           style={styles.deleteBtn}

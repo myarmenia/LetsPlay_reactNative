@@ -284,6 +284,7 @@ export const getMyTeams = (setModalVisible) => (dispatch) => {
       console.error('Error: getMyTeams :', err.request)
     })
 }
+
 export const getMyJoinedTeams = () => (dispatch) => {
   axiosInstance
     .get('/api/team/my_joined_teams')

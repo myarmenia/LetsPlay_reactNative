@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
-import ScreenMask from '@/components/wrappers/screen'
+import { StyleSheet, View, FlatList } from 'react-native'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Message from '../../shared/container/message'
@@ -23,6 +22,7 @@ import Button from '@/components/buttons/Button'
 import Row from '@/components/wrappers/row'
 import DarkButton from '@/components/buttons/DarkButton'
 import Consent from '@/assets/imgs/Consent'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
@@ -68,7 +68,6 @@ const SignUp = () => {
   }, [signUpError])
 
   const onPress = () => {
-    // dispatch(setToken(1234567))
     switch (signUpStep) {
       case 'NAME':
         dispatch(setName(text))
@@ -180,17 +179,7 @@ const SignUp = () => {
   }, [messagesList?.length])
 
   return (
-    <ScreenMask>
-      {/* <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        {...(Platform.OS === 'ios'
-          ? {
-              behavior: 'padding',
-              keyboardVerticalOffset: RH(10),
-              enabled: true,
-            }
-          : {})}
-      > */}
+    <ScreenMask2>
       <FlatList
         data={[...messagesList].reverse()}
         style={{
@@ -261,8 +250,7 @@ const SignUp = () => {
           />
         )}
       </View>
-      {/* </KeyboardAvoidingView> */}
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 

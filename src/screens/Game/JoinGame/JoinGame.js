@@ -10,13 +10,13 @@ import DateComponent from '@/components/DateComponent'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
-import { getGamesOnlyNames } from '@/store/Slices/GamesSlice'
+import { getGames } from '@/store/Slices/GamesSlice'
 import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
 
 const JoinGame = ({ route }) => {
   const props = route?.params
   const dispatch = useDispatch()
-  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
+  const games = useSelector(({ games }) => games.games)
 
   // const freeOrPaid = [
   //   { id: 4, text: 'Бесплатно', checked: true },
@@ -34,7 +34,7 @@ const JoinGame = ({ route }) => {
   const [addressName, setAddressName] = useState(route?.params?.address_name)
   const [addressError, setAddressError] = useState()
 
-  const [gameTypes, setGameTypes] = useState(nameOfGames)
+  const [gameTypes, setGameTypes] = useState()
   const [list, setList] = useState(chooseGameType)
   //datesState
   const [startDate, setStartDate] = useState(new Date())
@@ -42,7 +42,7 @@ const JoinGame = ({ route }) => {
   //errors
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState(false)
-  const checkChecks = gameTypes.some((elm) => elm.checked === true)
+  const checkChecks = gameTypes?.some((elm) => elm.checked === true)
 
   const showHideError = () => {
     if (!checkChecks && list[2].checked) {
@@ -78,13 +78,23 @@ const JoinGame = ({ route }) => {
     }
   }, [route.params?.fromMap])
   useEffect(() => {
-    !nameOfGames.length && dispatch(getGamesOnlyNames())
     dispatch(setFindedGames([]))
   }, [])
 
   useEffect(() => {
-    setGameTypes(nameOfGames)
-  }, [nameOfGames])
+    if (!games.length) {
+      dispatch(getGames())
+    }
+
+    let gameTypesData = games.map((elm) => {
+      return {
+        id: elm._id,
+        name: elm.name,
+        checked: false,
+      }
+    })
+    setGameTypes(gameTypesData)
+  }, [games])
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -208,7 +218,6 @@ const styles = StyleSheet.create({
     marginLeft: RW(10),
     alignSelf: 'flex-start',
     top: '15%',
-    // marginVertical: RH(10),
   },
   datesContainer: {
     flexDirection: 'row',
@@ -217,7 +226,6 @@ const styles = StyleSheet.create({
     marginVertical: RH(20),
     width: RW(380),
     alignSelf: 'center',
-    // marginBottom: RH(30),
   },
   dash: {
     width: RW(10),

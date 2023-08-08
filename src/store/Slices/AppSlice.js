@@ -131,13 +131,14 @@ export const deleteAllNotifications = () => (dispatch) => {
 
 export const getCalendarGames = (data) => (dispatch) => {
   axiosInstance
-    .get('api/create/game/by_date', {
+    .get('api/create/game/by/date', {
       params: {
         date_from: data.date_from,
         date_to: data.date_to,
       },
     })
     .then((response) => {
+      console.log('getCalendarGames', response.data)
       dispatch(setCalendarGames(response.data.datas))
     })
     .catch((err) => {
@@ -190,7 +191,6 @@ export const getMessagesCount = () => (dispatch) => {
   axiosInstance
     .get('api/create/game/chat/messages/un_read_count')
     .then((response) => {
-      console.log('response getMessagesCount', response.data)
       dispatch(setMessagesCount(response.data.count))
     })
     .catch((err) => {

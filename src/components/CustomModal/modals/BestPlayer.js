@@ -14,7 +14,7 @@ const BestPlayer = ({ body }) => {
       <Text style={styles.text}>По итогам игры Вас признали</Text>
       <Text style={styles.text2}>Лучшим игроком</Text>
       <User user={best_players[0]} size={370} />
-      {/* <Text style={[styles.text, { marginTop: RW(14) }]}>Поздравляем!</Text> */}
+      <Text style={[styles.text, { marginTop: RW(14) }]}>Поздравляем!</Text>
     </View>
   )
 }

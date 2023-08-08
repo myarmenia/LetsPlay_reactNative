@@ -290,14 +290,10 @@ const styles = StyleSheet.create({
     width: RW(22),
     height: RW(22),
     borderRadius: RW(11),
-    // position: 'absolute',
-    // right: 0,
-    // top: 0,
-    // zIndex: 9,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  messagesCountText: font('bold', 12, BACKGROUND),
+  messagesCountText: font('bold', 12, '#fff'),
 })
 
 export default ChatItem

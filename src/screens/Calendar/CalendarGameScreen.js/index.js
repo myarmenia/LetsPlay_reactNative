@@ -7,15 +7,19 @@ import Row from '@/components/wrappers/row'
 import User from '@/components/User/user'
 import FastImage from 'react-native-fast-image'
 
-const CalendarGameScreen = (props) => {
-  const gameData = props.route.params.game
+const CalendarGameScreen = ({ route }) => {
+  const gameData = route.params.game
   let startData = new Date(gameData?.start_date)
   let startTime = startData.toTimeString().substring(0, 5)
   startData = startData.toISOString().substring(0, 10).split('-').reverse().join('.')
 
   return (
     <ScreenMask>
-      <FastImage resizeMode='contain' style={styles.img} source={{ uri: _storageUrl + gameData.game.img }} />
+      <FastImage
+        resizeMode="contain"
+        style={styles.img}
+        source={{ uri: _storageUrl + gameData.game.img }}
+      />
       <View style={styles.main}>
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
@@ -32,26 +36,33 @@ const CalendarGameScreen = (props) => {
         </Row>
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
-            Описание игры: <Text style={styles.text2}>{gameData?.game?.description ? gameData?.game?.description : "Нету"}</Text>
+            Описание игры:{' '}
+            <Text style={styles.text2}>
+              {gameData?.game?.description ? gameData?.game?.description : 'Нету'}
+            </Text>
           </Text>
         </Row>
-        {gameData?.number_of_players_from && gameData?.number_of_players_to ? (<Row wrapper={styles.row}>
-          <Text style={styles.text1}>
-            Количество участников:{' '}
-            <Text style={styles.text2}>
-              {gameData?.number_of_players_from} до {gameData?.number_of_players_to}
+        {gameData?.number_of_players_from && gameData?.number_of_players_to ? (
+          <Row wrapper={styles.row}>
+            <Text style={styles.text1}>
+              Количество участников:{' '}
+              <Text style={styles.text2}>
+                {gameData?.number_of_players_from} до {gameData?.number_of_players_to}
+              </Text>
             </Text>
-          </Text>
-        </Row>) : null}
-        {gameData?.age_restrictions_from && gameData?.age_restrictions_to ? (<Row wrapper={styles.row}>
-          <Text style={styles.text1}>
-            Возраст участников:{' '}
-            <Text style={styles.text2}>
-              {gameData?.age_restrictions_from} - {gameData?.age_restrictions_to}
+          </Row>
+        ) : null}
+        {gameData?.age_restrictions_from && gameData?.age_restrictions_to ? (
+          <Row wrapper={styles.row}>
+            <Text style={styles.text1}>
+              Возраст участников:{' '}
+              <Text style={styles.text2}>
+                {gameData?.age_restrictions_from} - {gameData?.age_restrictions_to}
+              </Text>
             </Text>
-          </Text>
-        </Row>) : null}
-        
+          </Row>
+        ) : null}
+
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Пол участников:{' '}
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
     marginHorizontal: RW(20),
   },
   row: {
-    marginBottom: RH(10),
+    marginBottom: RH(16),
     alignItems: 'flex-start',
     alignSelf: 'flex-start',
   },

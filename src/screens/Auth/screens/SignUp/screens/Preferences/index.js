@@ -29,16 +29,15 @@ const Preferences = () => {
   const [game, setGame] = useState([])
   const dispatch = useDispatch()
   const { expired_token } = useSelector(({ auth }) => auth)
-  const { preferences } = useSelector(({ auth }) => auth.user)
   const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
   useLayoutEffect(() => {
-    !nameOfGames.length && dispatch(getGamesOnlyNames())
+    !nameOfGames?.length && dispatch(getGamesOnlyNames())
   }, [])
   const checkItem = useCallback(
     (id) => {
       dispatch(
         setNames([
-          ...nameOfGames.map((elm) => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
+          ...nameOfGames?.map((elm) => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
         ]),
       )
     },
@@ -78,7 +77,7 @@ const Preferences = () => {
       </View>
       <View style={styles.next}>
         <Button
-          label={'Далее>>'}
+          label={'Далее'}
           size={{ width: 171, height: 36 }}
           onPress={async () => {
             dispatch(setToken(expired_token))

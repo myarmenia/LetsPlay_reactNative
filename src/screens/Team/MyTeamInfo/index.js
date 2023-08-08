@@ -14,6 +14,7 @@ function Index({ route }) {
   const { command } = route.params
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  console.log('command', command)
   return (
     <ScreenMask>
       <View style={styles.rowBox}>
@@ -28,7 +29,9 @@ function Index({ route }) {
       <View style={styles.imageBlock}>
         <FastImage
           style={styles.image}
-          source={{ uri: _storageUrl + command?.img }}
+          source={{
+            uri: command?.img?.includes('file://') ? command.img : _storageUrl + command?.img,
+          }}
           resizeMode="cover"
         />
       </View>

@@ -5,13 +5,12 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import { getMyTeams, saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
-import ScreenMask from '@/components/wrappers/screen'
 import Modal from '@/components/modal'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
 import EachCommand from './EachCommand'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
-import FastImage from 'react-native-fast-image'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 function Index({ route }) {
   const props = route.params
@@ -67,34 +66,7 @@ function Index({ route }) {
   }
 
   return (
-    <ScreenMask>
-      <View
-        style={{
-          flex: 1,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-        }}
-      >
-        <FastImage
-          resizeMode="contain"
-          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
-          source={require('@/assets/bgLogo.png')}
-        />
-        <View
-          style={{
-            width: RW(360),
-            height: RW(360),
-            borderRadius: RW(180),
-            position: 'absolute',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-          }}
-        />
-      </View>
+    <ScreenMask2>
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <Text style={styles.title}>Мои команды</Text>
         {modalVisible && (
@@ -114,7 +86,7 @@ function Index({ route }) {
           </View>
         )}
       </ScrollView>
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 const styles = StyleSheet.create({

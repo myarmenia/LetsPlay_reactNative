@@ -1,4 +1,3 @@
-import ScreenMask from '@/components/wrappers/screen'
 import React, { useRef, useState } from 'react'
 import { ScrollView, View, Text, Pressable, StyleSheet } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
@@ -11,6 +10,7 @@ import LightButton from '@/components/buttons/Button'
 import FastImage from 'react-native-fast-image'
 import { ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
 import dateFormater from '@/helpers/dateFormater'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 function GamesList() {
   const navigation = useNavigation()
@@ -150,34 +150,7 @@ function GamesList() {
   }
 
   return (
-    <ScreenMask>
-      <View
-        style={{
-          flex: 1,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-        }}
-      >
-        <FastImage
-          resizeMode="contain"
-          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
-          source={require('@/assets/bgLogo.png')}
-        />
-        <View
-          style={{
-            width: RW(360),
-            height: RW(360),
-            borderRadius: RW(180),
-            position: 'absolute',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-          }}
-        />
-      </View>
+    <ScreenMask2>
       <ScrollView
         style={{ flex: 1, paddingTop: RH(15) }}
         contentContainerStyle={{ paddingBottom: RH(80) }}
@@ -201,7 +174,7 @@ function GamesList() {
           />
         </View>
       ) : null}
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 const styles = StyleSheet.create({

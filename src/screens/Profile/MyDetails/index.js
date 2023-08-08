@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import ScreenMask from '@/components/wrappers/screen'
 import {
   ImageBackground,
   StyleSheet,
@@ -39,6 +38,7 @@ import { io } from 'socket.io-client'
 import DateComponent from '@/components/DateComponent'
 import VKIcon from '@/assets/imgs/VKIcon'
 import { requestUserPermission } from '@/helpers/NotificationServices'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 function Index() {
   const [isVisible, setIsVisible] = useState(false)
@@ -184,7 +184,7 @@ function Index() {
     )
   }
   return (
-    <ScreenMask>
+    <ScreenMask2>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.container}>
         <Text style={styles.title}>Мои данные</Text>
         <View style={styles.imgBlock}>
@@ -314,7 +314,7 @@ function Index() {
           </View>
         </View>
       </ScrollView>
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 const styles = StyleSheet.create({

@@ -9,7 +9,6 @@ import Video from 'react-native-video'
 import { useDispatch } from 'react-redux'
 import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
 import { BlurView } from '@react-native-community/blur'
-import CircleAdd from '@/components/buttons/circleAdd'
 import CircleMain from '@/components/buttons/Circle/CircleMain'
 
 const PickImage = ({ gameFinishPhoto }) => {

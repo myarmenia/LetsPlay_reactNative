@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import ScreenMask from '@/components/wrappers/screen'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,11 +6,13 @@ import { getGalleries, getOtherUserGalleries } from '@/store/Slices/AppSlice'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { _storageUrl } from '@/constants'
 import GalleryItem from './GalleryItem'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 function Index({ route }) {
   const { userGalleries, otherUserGalleries } = useSelector(({ app }) => app)
   const dispatch = useDispatch()
   const isMe = route.params?.isMe
+  const canDelete = route.params.canDelete
   useEffect(() => {
     dispatch(getGalleries())
   }, [])
@@ -20,7 +21,7 @@ function Index({ route }) {
   }, [isMe])
 
   return (
-    <ScreenMask>
+    <ScreenMask2>
       <View style={{ ...styles.container, marginTop: RH(16) }}>
         <Text style={styles.title}>Моя галерея</Text>
         {(isMe && userGalleries.length) || otherUserGalleries.length ? (
@@ -31,7 +32,9 @@ function Index({ route }) {
             numColumns={2}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            renderItem={({ index, item }) => <GalleryItem item={item} isMe={isMe} />}
+            renderItem={({ index, item }) => (
+              <GalleryItem item={item} isMe={isMe} canDelete={canDelete} />
+            )}
           />
         ) : (
           <View style={styles.galleryTextBlock}>
@@ -42,7 +45,7 @@ function Index({ route }) {
           </View>
         )}
       </View>
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 const styles = StyleSheet.create({

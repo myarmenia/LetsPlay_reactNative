@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { KeyboardAvoidingView, Platform, StyleSheet, View, FlatList } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW } from '@/theme/utils'
 import Message from '../../shared/container/message'
 import Composer from '../../shared/composer'
@@ -17,6 +16,7 @@ import Button from '@/components/buttons/Button'
 import Row from '@/components/wrappers/row'
 import DarkButton from '@/components/buttons/DarkButton'
 import { forgitPassword2 } from '../../../../store/Slices/AuthSlice'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 let passwordForgotErrorCount = 1
@@ -147,17 +147,7 @@ const SignIn = (props) => {
   }, [messagesList?.length])
 
   return (
-    <ScreenMask>
-      {/* <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        {...(Platform.OS === 'ios'
-          ? {
-              behavior: 'padding',
-              keyboardVerticalOffset: RH(10),
-              enabled: true,
-            }
-          : {})}
-      > */}
+    <ScreenMask2>
       <FlatList
         data={[...messagesList].reverse()}
         style={{
@@ -208,8 +198,7 @@ const SignIn = (props) => {
           />
         )}
       </View>
-      {/* </KeyboardAvoidingView> */}
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 

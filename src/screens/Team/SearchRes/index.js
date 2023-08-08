@@ -3,44 +3,17 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-nati
 import { useSelector } from 'react-redux'
 import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
-import ScreenMask from '@/components/wrappers/screen'
 import BgMyTem from '@/assets/bgMyTem'
 import FastImage from 'react-native-fast-image'
 import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 function Index() {
   const { findedTeam } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
   return (
-    <ScreenMask>
-      <View
-        style={{
-          flex: 1,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-        }}
-      >
-        <FastImage
-          resizeMode="contain"
-          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
-          source={require('@/assets/bgLogo.png')}
-        />
-        <View
-          style={{
-            width: RW(360),
-            height: RW(360),
-            borderRadius: RW(180),
-            position: 'absolute',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-          }}
-        />
-      </View>
+    <ScreenMask2>
       <Text style={styles.title}>Результат поиска</Text>
       <ScrollView>
         {findedTeam?.map((item, i) => {
@@ -72,7 +45,7 @@ function Index() {
           )
         })}
       </ScrollView>
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 const styles = StyleSheet.create({

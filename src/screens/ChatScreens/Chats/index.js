@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import ScreenMask from '@/components/wrappers/screen'
 import ChatItem from '@/screens/ChatScreens/Chats/components/ChatItem'
 import { useDispatch, useSelector } from 'react-redux'
 import { getMyJoinedTeams, getMyTeams } from '@/store/Slices/TeamSlice'
 import { useIsFocused } from '@react-navigation/native'
 import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
-import FastImage from 'react-native-fast-image'
+
 import { getAllChats } from '@/store/Slices/ChatsSlice'
+import ScreenMask2 from '@/components/wrappers/screen2'
 
 const ChatScreen = () => {
   const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
@@ -25,34 +25,7 @@ const ChatScreen = () => {
   }, [isFocused])
 
   return (
-    <ScreenMask>
-      <View
-        style={{
-          flex: 1,
-          top: 0,
-          bottom: 0,
-          left: 0,
-          right: 0,
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'absolute',
-        }}
-      >
-        <FastImage
-          resizeMode="contain"
-          style={{ width: RW(360), position: 'absolute', height: RW(360) }}
-          source={require('@/assets/bgLogo.png')}
-        />
-        <View
-          style={{
-            width: RW(360),
-            height: RW(360),
-            borderRadius: RW(180),
-            position: 'absolute',
-            backgroundColor: 'rgba(0,0,0,0.7)',
-          }}
-        />
-      </View>
+    <ScreenMask2>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.title}>Чат</Text>
@@ -98,7 +71,7 @@ const ChatScreen = () => {
           )}
         </View>
       </ScrollView>
-    </ScreenMask>
+    </ScreenMask2>
   )
 }
 const styles = StyleSheet.create({
