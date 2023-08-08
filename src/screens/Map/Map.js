@@ -1,5 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { StyleSheet, View, Pressable, Image, Text, Platform } from 'react-native'
+import { StyleSheet, Pressable, Platform } from 'react-native'
 import { DARK_BLUE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
 import Geolocation from '@react-native-community/geolocation'
@@ -51,7 +51,7 @@ const Map = ({ route }) => {
       <MapView
         ref={mapRef}
         style={styles.map}
-        liteMode={true}
+        // liteMode={true}
         initialRegion={userPosition}
         showsBuildings={true}
         provider={Platform.OS == 'ios' ? PROVIDER_DEFAULT : PROVIDER_GOOGLE}
@@ -65,8 +65,6 @@ const Map = ({ route }) => {
               longitude: e.nativeEvent.coordinate.longitude,
             },
           ])
-          // dispatch(setLatitude(e.nativeEvent.coordinate.latitude))
-          // dispatch(setLongitude(e.nativeEvent.coordinate.longitude))
           fetchAddress(
             true,
             e.nativeEvent.coordinate.latitude,
@@ -165,9 +163,6 @@ const Map = ({ route }) => {
             <Marker
               tooltip={true}
               pinColor="random"
-              // onPress={() => {
-              //   setMarkers(markers.filter(mark => mark.latitude !== marker.latitude))
-              // }}
               tracksViewChanges={false}
               key={Math.random().toString()}
               coordinate={{
@@ -179,7 +174,6 @@ const Map = ({ route }) => {
           )
         })}
       </MapView>
-      {/* <View style={{ width: '100%', position: 'absolute' }}><SearchAddresses /></View> */}
       <Pressable onPress={getPosition} style={styles.geoBtn}>
         <GeolocationIcon />
       </Pressable>

@@ -12,28 +12,20 @@ import PhotoAfterFinishGameModal from './modals/PhotoAfterFinishGameModal'
 import GaleryOpenPhoto from './modals/GaleryOpenPhoto'
 import BestPlayer from './modals/BestPlayer'
 import RateOrganizerModal from './modals/RateOrganizerModal'
-import { useNavigation } from '@react-navigation/native'
 
 const CustomModal = () => {
   const modalOptions = useSelector(({ app }) => app.modalOptions)
   const height = Dimensions.get('window').height
   const animatedValue = useRef(new Animated.Value(height)).current
   const dispatch = useDispatch()
-  const navigation = useNavigation()
 
   useEffect(() => {
-    console.log('modalOptions?.visible', modalOptions?.visible)
     Animated.timing(animatedValue, {
       toValue: modalOptions?.visible ? 0 : height,
       duration: 200,
       useNativeDriver: true,
     }).start()
   }, [modalOptions?.visible])
-
-  // navigation.addListener('state', () => {
-  //   console.log('addListener')
-  //   // if (modalOptions?.visible) dispatch(setModalVisible(false))
-  // })
 
   return (
     <TouchableWithoutFeedback

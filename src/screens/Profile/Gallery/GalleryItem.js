@@ -36,7 +36,7 @@ const GalleryItem = ({ item, isMe, canDelete }) => {
 
       {item.image_path ? (
         <FastImage
-          resizeMode="contain"
+          resizeMode="cover"
           source={{ uri: _storageUrl + item.image_path }}
           style={styles.image}
         />

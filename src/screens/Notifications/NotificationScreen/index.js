@@ -12,7 +12,6 @@ import NotificationItem from './NotificationItem'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 function NotificationScreen() {
-  const [modalVisible, setModalVisible] = useState(false)
   const { notifications } = useSelector(({ app }) => app)
 
   const navigation = useNavigation()
@@ -42,22 +41,9 @@ function NotificationScreen() {
           contentContainerStyle={{ paddingBottom: RH(90) }}
           showsVerticalScrollIndicator={false}
           data={[...notifications].reverse()}
-          renderItem={(elm) => (
-            <NotificationItem elm={elm?.item} setModalVisible={setModalVisible} />
-          )}
+          renderItem={(elm) => <NotificationItem elm={elm?.item} />}
         />
       </View>
-      {modalVisible ? (
-        <Modal
-          modalVisible={modalVisible}
-          setIsVisible={setModalVisible}
-          item={
-            <View style={styles.modal}>
-              <Text style={styles.successTeam}>{modalVisible}</Text>
-            </View>
-          }
-        />
-      ) : null}
     </ScreenMask2>
   )
 }
@@ -95,19 +81,6 @@ const styles = StyleSheet.create({
   deleteAllText: {
     ...font('bold', 14, ICON, 17),
     textDecorationLine: 'underline',
-  },
-  modal: {
-    width: RW(285),
-    backgroundColor: LIGHT_LABEL,
-    borderRadius: RW(20),
-    alignSelf: 'center',
-    padding: RW(40),
-    marginHorizontal: RW(30.5),
-  },
-  successTeam: {
-    ...font('inter', 17, WHITE, 20),
-    textAlign: 'center',
-    lineHeight: RH(28),
   },
 })
 

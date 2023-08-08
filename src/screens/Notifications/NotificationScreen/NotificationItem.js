@@ -11,13 +11,14 @@ import {
   deleteNotification,
   notificationButtonClciked,
   setModalOptions,
+  setModalVisible,
   setNotifications,
 } from '@/store/Slices/AppSlice'
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
 import { callEndGame, getGameById } from '@/store/Slices/GamesSlice'
 
-const NotificationItem = ({ elm, setModalVisible }) => {
+const NotificationItem = ({ elm }) => {
   const { notifications } = useSelector(({ app }) => app)
 
   const notificationText = elm.text
@@ -25,19 +26,15 @@ const NotificationItem = ({ elm, setModalVisible }) => {
   const updated = updateDateArray[0] + ':' + updateDateArray[1]
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  if (!notificationText) return null
 
   const buttonOptions = {
     team_inite: {
       label: 'Присоединиться',
       onPress: () => {
         dispatch(
-          joinPlayerTeam(
-            {
-              team_id: elm.team,
-            },
-            setModalVisible,
-          ),
+          joinPlayerTeam({
+            team_id: elm.team,
+          }),
         )
       },
     },
@@ -55,6 +52,7 @@ const NotificationItem = ({ elm, setModalVisible }) => {
       },
     },
     finish_game: {
+      // secondaryClick: true,
       label: 'Итоги игры',
       onPress: () => {
         dispatch(
@@ -90,7 +88,19 @@ const NotificationItem = ({ elm, setModalVisible }) => {
     edit_game: {
       label: 'Изменить',
       onPress: () => {
-        dispatch(getGameById(elm?.create_game, navigation))
+        dispatch(
+          getGameById(elm?.create_game, (game, editData) => {
+            if (game) {
+              navigation?.replace('CreateGameNavigator', {
+                screen: 'GameCreating',
+                params: {
+                  game: game,
+                  editData: editData,
+                },
+              })
+            }
+          }),
+        )
       },
     },
     impression: {
@@ -113,6 +123,7 @@ const NotificationItem = ({ elm, setModalVisible }) => {
       dispatch(setModalVisible(false))
     }
   }, [])
+  if (!notificationText) return null
   return (
     <View style={styles.mainContainer}>
       <View style={styles.line} />

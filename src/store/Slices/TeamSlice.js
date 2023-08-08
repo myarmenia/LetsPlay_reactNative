@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { Platform } from 'react-native'
 import axiosInstance from '../Api'
+import { setModalOptions } from './AppSlice'
 const initialState = {
   teamChatsList: [],
   findedTeam: [],
@@ -130,19 +131,24 @@ export const inviteUserToTeam =
         console.error('Error: inviting player inviteUserToTeam :', JSON.stringify(err.response))
       })
   }
-export const joinPlayerTeam =
-  (data, setModalVisible = () => {}) =>
-  (dispatch) => {
-    axiosInstance
-      .put('/api/team/join_player', data)
-      .then((e) => {
-        if (e.data.message) setModalVisible(e.data.message)
-      })
+export const joinPlayerTeam = (data) => (dispatch) => {
+  axiosInstance
+    .put('/api/team/join_player', data)
+    .then((e) => {
+      if (e.data.message)
+        dispatch(
+          setModalOptions({
+            body: e.data.message,
+            visible: true,
+            type: 'message',
+          }),
+        )
+    })
 
-      .catch((err) => {
-        console.error('Error: inviting player joinPlayerTeam :', err)
-      })
-  }
+    .catch((err) => {
+      console.error('Error: inviting player joinPlayerTeam :', err)
+    })
+}
 
 export const setPlayerAdmin = (data, setModalVisible) => (dispatch) => {
   axiosInstance

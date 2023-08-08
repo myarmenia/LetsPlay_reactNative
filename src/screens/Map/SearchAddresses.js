@@ -20,8 +20,6 @@ import Geolocation from 'react-native-geolocation-service'
 import MapSvg from '@/assets/svgs/mapSvg'
 import { setModalOptions } from '@/store/Slices/AppSlice'
 
-const GOOGLE_API_KEY = 'AIzaSyBEfoq_jSo1AZwtYmNikfuqLBrgVclc8Qc'
-
 const SearchAddresses = ({
   game,
   setAddressName = () => {},
@@ -29,7 +27,6 @@ const SearchAddresses = ({
   navigateTo = '',
   command = null,
   size = 380,
-  props = {},
 }) => {
   const inp = useRef()
   const [state, setState] = useState('')
@@ -75,7 +72,7 @@ const SearchAddresses = ({
   }
   useEffect(() => {
     setAddresses('')
-    dispatch(setPlaceName(''))
+    // dispatch(setPlaceName(''))
     setState(!command ? '' : command?.address_name)
   }, [])
   useEffect(() => {

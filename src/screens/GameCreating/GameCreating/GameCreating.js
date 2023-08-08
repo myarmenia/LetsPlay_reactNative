@@ -21,7 +21,7 @@ import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
 
 const GameCreating = ({ route }) => {
-  let { game, response, editGame, name } = route?.params
+  let { game, response, name, editData } = route?.params
   const navigation = useNavigation()
 
   //states
@@ -29,7 +29,7 @@ const GameCreating = ({ route }) => {
 
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
-  const [addressName, setAddressName] = useState()
+  const [addressName, setAddressName] = useState('')
 
   // error messages
   const [startDateError, setStartDateError] = useState(false)
@@ -137,19 +137,33 @@ const GameCreating = ({ route }) => {
       setIsVisible(true)
     }
   }, [])
+  console.log('initialState.address_name', initialState.address_name)
+
+  useEffect(() => {
+    if (Object.values(editData || {}).length) {
+      setStartDate({
+        date: new Date(editData.start_date),
+        time: new Date(editData.start_date),
+      })
+      setEndDate({
+        date: new Date(editData.end_date),
+        time: new Date(editData.end_date),
+      })
+      setGenderList([
+        { id: 1, text: 'М', checked: editData.players_gender == 'm', label: 'm' },
+        { id: 2, text: 'Ж', checled: editData.players_gender == 'f', label: 'f' },
+        { id: 3, text: 'Без ограничений', checked: editData.players_gender == 'm/f', label: 'm/f' },
+      ])
+      setOrganizer_in_the_gameState([
+        { id: 1, text: 'Участвует', checked: editData.organizer_in_the_game },
+        { id: 2, text: 'Не участвует', checked: !editData.organizer_in_the_game },
+      ])
+      // setAddressName(editData.address_name)
+    }
+  }, [editData])
 
   return (
     <ScreenMask>
-      {/* <KeyboardAvoidingView
-        {...(Platform.OS === 'ios'
-          ? {
-              behavior: 'padding',
-              keyboardVerticalOffset: RH(10),
-              enabled: true,
-              style: { flex: 1 },
-            }
-          : {})}
-      > */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <DateComponent
           title="Дата и время начала игры"
@@ -170,16 +184,16 @@ const GameCreating = ({ route }) => {
         />
         {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}
         <SecondBlock
-          from={editGame?.number_of_players_from}
-          to={editGame?.number_of_players_to}
+          from={initialState?.number_of_players_from}
+          to={initialState?.number_of_players_to}
           type={'player'}
           title={'Количество игроков'}
         />
         {playersCuntError && <Text style={styles.errorText}>{playersCuntError}</Text>}
 
         <SecondBlock
-          from={editGame?.age_restrictions_from}
-          to={editGame?.age_restrictions_to}
+          from={initialState?.age_restrictions_from}
+          to={initialState?.age_restrictions_to}
           type={'age'}
           title={'Возрастные ограничения'}
         />
@@ -245,11 +259,9 @@ const GameCreating = ({ route }) => {
           )}
         </View>
         <View style={{ ...styles.submitBlock, marginTop: 20 }}>
-          {/* {error && <Text style={styles.errorBoldText}>Ошибка</Text>} */}
           <Button onPress={handleClick} size={{ width: 144, height: 36 }} label={'Готово'} />
         </View>
       </ScrollView>
-      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }
