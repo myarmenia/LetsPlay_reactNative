@@ -320,7 +320,7 @@ export const changeUserPreferences = (data) => (dispatch) => {
       console.log('changeUserPreferences response ', response.data)
     })
     .catch((err) => {
-      console.error('Error: changeUserPreferences', err)
+      console.error('Error: changeUserPreferences', err.request?._response)
     })
 }
 export const getDocumentRules = () => (dispatch) => {

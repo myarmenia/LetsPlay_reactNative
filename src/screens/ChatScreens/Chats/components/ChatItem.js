@@ -15,7 +15,7 @@ import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
-import { deleteMemberChat } from '@/store/Slices/ChatsSlice'
+import { deleteChat, deleteMemberChat } from '@/store/Slices/ChatsSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setTookPartGames } from '@/store/Slices/AuthSlice'
 import { deletePlayerFromTeam, setMyTeams } from '@/store/Slices/TeamSlice'
@@ -190,7 +190,9 @@ function ChatItem({ id, item, type, playersLength }) {
               >
                 <LightButton
                   onPress={() => {
-                    if (type == 'Участник') {
+                    if (type == 'Игра') {
+                      dispatch(deleteChat(item?._id, () => setDeleting(false)))
+                    } else if (type == 'Участник') {
                       dispatch(deleteMemberChat(item?._id, setDeleting))
                       dispatch(
                         setTookPartGames(

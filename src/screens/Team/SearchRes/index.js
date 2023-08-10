@@ -15,31 +15,31 @@ function Index() {
   return (
     <ScreenMask2>
       <Text style={styles.title}>Результат поиска</Text>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {findedTeam?.map((item, i) => {
+          console.log('findedTeam', item)
           return (
             <TouchableOpacity
               key={item?._id || Math.random()}
               onPress={() => navigation.navigate('JoinTeam', item)}
+              style={styles.homeBlock}
             >
-              <View style={styles.homeBlock}>
-                <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
-                  <View style={styles.imageBlock}>
-                    <FastImage
-                      resizeMode="contain"
-                      style={styles.image}
-                      source={{ uri: _storageUrl + item?.img }}
-                    />
-                  </View>
-                  <View style={styles.textBlock}>
-                    <Text style={styles.text}>{item?.name}</Text>
-                    <Text style={styles.text}>{item?.address_name}</Text>
-                    <Text style={styles.text}>{item?._id?.substring(0, item?._id.length - 1)}</Text>
-                  </View>
+              <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={styles.imageBlock}>
+                  <FastImage
+                    resizeMode="contain"
+                    style={styles.image}
+                    source={{ uri: _storageUrl + item?.img }}
+                  />
                 </View>
-                <View style={{ position: 'absolute' }}>
-                  <BgMyTem gradient={i % 2 == 0} />
+                <View style={styles.textBlock}>
+                  <Text style={styles.text}>{item?.name}</Text>
+                  <Text style={styles.text}>{item?.address_name}</Text>
+                  <Text style={styles.text}>{item?._id?.substring(0, item?._id.length - 1)}</Text>
                 </View>
+              </View>
+              <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+                <BgMyTem />
               </View>
             </TouchableOpacity>
           )
@@ -74,6 +74,9 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: '100%',
     height: '100%',
+  },
+  textBlock: {
+    width: '70%',
   },
   text: {
     marginVertical: RH(3),

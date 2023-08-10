@@ -10,18 +10,17 @@ import Button from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import Modal from '@/components/modal'
 import FastImage from 'react-native-fast-image'
+import Row from '@/components/wrappers/row'
 
 function Index({ route }) {
   const item = route.params
 
   const [modalVisible, setModalVisible] = useState(false)
-  const userId = useSelector(({ auth }) => auth?.user?._id)
 
   const dispatch = useDispatch()
   const handleJoin = () => {
     dispatch(joinInTeam(item?._id, setModalVisible))
   }
-
   return (
     <ScreenMask>
       <Text style={styles.team}>{item?.name}</Text>
@@ -41,47 +40,58 @@ function Index({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
+            user={item.user}
             onPressItem={{
-              item: <User size={390} />,
+              item: <User size={390} user={item.user} />,
               modalClose: false,
             }}
           />
         </View>
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: RH(15) }}>
-        <Text style={{ ...styles.text, marginLeft: RW(15) }}>Администратор команды:</Text>
-        <View style={{ marginLeft: RW(15) }}>
-          <User
-            size={40}
-            onPressItem={{
-              item: <User size={390} />,
-              modalClose: false,
-            }}
-          />
-        </View>
-      </View>
-      {userId !== item.user && !item.invited_players?.includes(userId) ? (
-        <View style={styles.btn}>
-          <Button
-            onPress={handleJoin}
-            size={{ width: RW(360), height: RH(48) }}
-            label={'Присоединиться к команде'}
-            labelStyle={font('bold', 18, BLACK)}
-          />
-          {modalVisible && (
-            <Modal
-              navigationText={'Home'}
-              item={
-                <View style={styles.modal}>
-                  <Text style={styles.successTeam}>{modalVisible}</Text>
-                </View>
-              }
-              modalVisible={modalVisible}
-              setIsVisible={setModalVisible}
-            />
-          )}
+      {item?.admins?.length ? (
+        <View style={{ justifyContent: 'center', marginBottom: RH(15) }}>
+          <Text style={{ ...styles.text, marginLeft: RW(15), marginBottom: RH(15) }}>
+            Администратор{item?.admins?.length > 1 ? 'ы' : null} команды:
+          </Text>
+          <Row>
+            {item?.admins?.map((eachAdmin, i) => (
+              <View style={{ marginLeft: RW(15) }} key={i}>
+                <User
+                  size={40}
+                  user={eachAdmin}
+                  onPressItem={{
+                    item: <User size={390} user={eachAdmin} />,
+                    modalClose: false,
+                  }}
+                />
+              </View>
+            ))}
+          </Row>
         </View>
       ) : null}
+
+      {/* {userId !== item.user && !item.invited_players?.includes(userId) ? ( */}
+      <View style={styles.btn}>
+        <Button
+          onPress={handleJoin}
+          size={{ width: RW(360), height: RH(48) }}
+          label={'Присоединиться к команде'}
+          labelStyle={font('bold', 18, BLACK)}
+        />
+        {modalVisible && (
+          <Modal
+            navigationText={'Home'}
+            item={
+              <View style={styles.modal}>
+                <Text style={styles.successTeam}>{modalVisible}</Text>
+              </View>
+            }
+            modalVisible={modalVisible}
+            setIsVisible={setModalVisible}
+          />
+        )}
+      </View>
+      {/* ) : null} */}
     </ScreenMask>
   )
 }

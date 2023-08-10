@@ -14,7 +14,7 @@ function Ticket({ game, initialState, name, dates }) {
   const { game_name, game_description } = useSelector((state) => state.game)
 
   return (
-    <ScrollView contentContainerStyle={{ paddingBottom: RH(50) }}>
+    <ScrollView contentContainerStyle={{ paddingBottom: RH(100) }}>
       <View style={styles.ticketImgBlock}>
         <FastImage
           resizeMode="contain"

@@ -4,7 +4,7 @@ import { RH, RW, font } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import { useDispatch } from 'react-redux'
-import { joinGame } from '@/store/Slices/TeamSlice'
+import { joinGame } from '@/store/Slices/GamesSlice'
 import ScreenMask from '@/components/wrappers/screen'
 import User from '@/components/User/user'
 import Button from '@/components/buttons/Button'
@@ -62,10 +62,6 @@ function GameItem({ route }) {
               Дата и время подтверждения заявки на игру (не позднее):
             </Text>
             <Text style={styles.eachInfoTwo}>{dateFormater(item?.end_date)}</Text>
-            {/* <Text style={styles.eachInfo}>Стоимость входного билета на игру: Бесплатно</Text>
-          <Text style={styles.eachInfoTwo}>
-            {item?.ticket_price ? `${item?.ticket_price} руб.` : 'Бесплатно'}
-          </Text> */}
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Text style={styles.eachInfo}>Организатор игры:</Text>
               <View style={{ width: RW(60), paddingBottom: RH(20) }}>

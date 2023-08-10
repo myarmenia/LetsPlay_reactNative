@@ -13,6 +13,7 @@ import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 // redux
 import { useDispatch, useSelector } from 'react-redux'
 import {
+  clearInitialState,
   setGame,
   setOrganizer_in_the_game,
   setPlayers_gender,
@@ -91,7 +92,7 @@ const GameCreating = ({ route }) => {
     if (!initialState.number_of_players_from || !initialState?.number_of_players_to) {
       setPlayersCuntError('Обязательное поле для заполнения')
     } else if (
-      +initialState?.number_of_players_from < 0 ||
+      +initialState?.number_of_players_from < 2 ||
       +initialState?.number_of_players_from > +initialState?.number_of_players_to
     ) {
       setPlayersCuntError('Введите корректную число')
@@ -112,7 +113,8 @@ const GameCreating = ({ route }) => {
         startDate.date.getDate() != endDate.date.getDate()) &&
       initialState.age_restrictions_from &&
       initialState?.age_restrictions_to &&
-      +initialState?.number_of_players_from > 0 &&
+      +initialState.age_restrictions_from < +initialState?.age_restrictions_to &&
+      +initialState?.number_of_players_from > 1 &&
       +initialState?.number_of_players_from < +initialState?.number_of_players_to &&
       ((initialState?.latitude && initialState?.longitude) || initialState.address_name)
     ) {
@@ -132,12 +134,13 @@ const GameCreating = ({ route }) => {
     }
   }
   useEffect(() => {
+    dispatch(clearInitialState())
+
     if (game?._id) {
       dispatch(setGame(game?._id))
-      setIsVisible(true)
+      if (game?.rules) setIsVisible(true)
     }
   }, [])
-  console.log('initialState.address_name', initialState.address_name)
 
   useEffect(() => {
     if (Object.values(editData || {}).length) {

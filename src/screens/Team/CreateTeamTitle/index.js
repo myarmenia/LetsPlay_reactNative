@@ -216,10 +216,12 @@ const styles = StyleSheet.create({
     ...font('inter', 16, RADIO_TEXT, 19),
     fontWeight: '400',
     marginBottom: RH(5),
+    marginLeft: RW(5),
   },
   noMore: {
     ...font('inter', 12, RADIO_TEXT, 15),
     fontWeight: '400',
+    marginLeft: RW(5),
   },
   nextBtn: {
     marginBottom: RH(30),

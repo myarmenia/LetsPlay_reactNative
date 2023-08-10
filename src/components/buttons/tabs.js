@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, TouchableOpacity, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Pressable } from 'react-native'
 import ProfileActiveIcon from '@/assets/imgs/ProfileActiveIcon'
 import { TAB_BAR_COLOR, TRANSPARENT } from '@/theme/colors'
 import ChatActiveIcon from '@/assets/imgs/ChatActiveIcon'
@@ -52,9 +52,8 @@ const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden 
         if (!TabIcon || state.index === 4) return null
 
         return (
-          <TouchableOpacity
+          <Pressable
             onPress={onPress}
-            activeOpacity={0.7}
             key={index?.toString()}
             onLongPress={onLongPress}
             accessibilityRole="button"
@@ -74,7 +73,7 @@ const TabBarButton = ({ state, descriptors, navigation, setIsHome, tabBarHidden 
               </LinearGradient>
             ) : null}
             <TabIcon height={RH(27)} width={RH(27)} />
-          </TouchableOpacity>
+          </Pressable>
         )
       })}
     </View>

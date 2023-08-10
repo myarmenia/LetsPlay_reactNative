@@ -17,12 +17,12 @@ const Count = ({ placeholder, width, type, value, countType }) => {
       onChangeText={(number) => {
         if (type === 'player') {
           countType === 'from'
-            ? dispatch(setNumber_of_players_from(+number))
-            : dispatch(setNumber_of_players_to(+number))
+            ? dispatch(setNumber_of_players_from(isNaN(+number) ? 0 : +number))
+            : dispatch(setNumber_of_players_to(isNaN(+number) ? 0 : +number))
         } else if (type === 'age') {
           countType === 'from'
-            ? dispatch(setAge_restrictions_from(+number))
-            : dispatch(setAge_restrictions_to(+number))
+            ? dispatch(setAge_restrictions_from(isNaN(+number) ? 0 : +number))
+            : dispatch(setAge_restrictions_to(isNaN(+number) ? 0 : +number))
         }
       }}
       value={value?.toString()}

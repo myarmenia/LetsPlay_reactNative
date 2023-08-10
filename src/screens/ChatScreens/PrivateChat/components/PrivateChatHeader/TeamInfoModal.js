@@ -45,31 +45,33 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, TeamId }) => {
                   />
                 </View>
               </View>
-              <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(5) }}>
-                <Text style={styles.title}>Игроки команды:</Text>
+              {teamInfo.players?.length ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(5) }}>
+                  <Text style={styles.title}>Игроки команды:</Text>
 
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
-                    width: 150,
-                    left: 10,
-                    // backgroundColor: 'red',
-                  }}
-                >
-                  {teamInfo.players.map((player) => (
-                    <User
-                      size={30}
-                      user={player}
-                      style={{ marginLeft: RW(5) }}
-                      onPressItem={{
-                        item: <User size={370} user={player} />,
-                        modalClose: false,
-                      }}
-                    />
-                  ))}
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      flexWrap: 'wrap',
+                      width: 150,
+                      left: 10,
+                    }}
+                  >
+                    {teamInfo.players.map((player) => (
+                      <User
+                        key={player?._id}
+                        size={30}
+                        user={player}
+                        style={{ marginLeft: RW(5) }}
+                        onPressItem={{
+                          item: <User size={370} user={player} />,
+                          modalClose: false,
+                        }}
+                      />
+                    ))}
+                  </View>
                 </View>
-              </View>
+              ) : null}
             </View>
           </View>
         </View>

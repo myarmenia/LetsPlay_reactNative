@@ -23,7 +23,7 @@ function Index({ route }) {
       <View style={styles.gameTicketButtonsBlock}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('GameCreating', { screen: 'GameCreating', params: { game, name } })
+            navigation.navigate('GameCreating', { game, name })
           }}
         >
           <EditSvg />
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: LIGHT_LABEL,
     position: 'absolute',
-    bottom: 0,
+    bottom: RH(-10),
   },
   shareButton: {
     position: 'absolute',

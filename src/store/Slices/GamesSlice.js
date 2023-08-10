@@ -46,6 +46,22 @@ export const getGames = () => (dispatch) => {
     })
 }
 
+export const joinGame = (gameId, nav, setError, setModalVisible) => async (dispatch) => {
+  console.log('gameId', gameId)
+  axiosInstance
+    .post(`api/participate/${gameId}`)
+    .then((response) => {
+      if (response.data.message !== 'Success') {
+        setError(response.data.message)
+        setModalVisible(true)
+      } else {
+        setModalVisible(false), nav.navigate('Home')
+      }
+    })
+    .catch((err) => {
+      console.error('Error: joining to game :', err.request?._response)
+    })
+}
 export const participateToGame = (gameId) => (dispatch) => {
   axiosInstance
     .post(`api/create/game/player/confirm/${gameId}`)

@@ -178,7 +178,7 @@ export const createTournament = (data, setModalVisible) => (dispatch) => {
     })
     .catch((err) => {
       setModalVisible('error')
-      console.error('Error: creating tournament', err.request)
+      console.error('Error: creating tournament', err.request?._response)
     })
 }
 

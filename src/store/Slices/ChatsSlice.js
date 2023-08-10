@@ -7,6 +7,7 @@ const initialState = {
   pausedMessageId: null,
   voiceDuration: '00:00:00',
   allChats: [],
+  allTeamChats: [],
 }
 
 export const ChatsSlice = createSlice({
@@ -43,6 +44,18 @@ export const ChatsSlice = createSlice({
         allChats: action.payload,
       }
     },
+    setDeleteChat: (store, action) => {
+      return {
+        ...store,
+        allChats: store.allChats.filter((elm) => elm._id !== action.payload),
+      }
+    },
+    setAllTeamChats: (store, action) => {
+      return {
+        ...store,
+        allChats: store.allChats.filter((elm) => elm._id !== action.payload),
+      }
+    },
   },
 })
 
@@ -56,11 +69,34 @@ export const getAllChats = () => (dispatch) => {
       console.error('Error: getMessagesCount', err)
     })
 }
+export const deleteChat = (gameId, callBack) => (dispatch) => {
+  axiosInstance
+    .delete(`api/create/game/${gameId}`)
+    .then((res) => {
+      callBack()
+      console.log('deleteChat', res.data)
+      dispatch(setDeleteChat(gameId))
+    })
+    .catch((err) => {
+      console.error('Error: createGame', err.request._response)
+    })
+}
 export const getChats = (data) => (dispatch) => {
   axiosInstance
     .get(`/api/create/game/chat/${data}`)
     .then((response) => {
       dispatch(setChats(response.data.datas.reverse()))
+    })
+    .catch((err) => {
+      console.error('Error: request chats', err.request._response)
+    })
+}
+export const getAllTeamChats = (data) => (dispatch) => {
+  axiosInstance
+    .get(`api/team/create/game/all/team_games`)
+    .then((response) => {
+      console.log(response.data)
+      // dispatch(setAllTeamChats(response.data))
     })
     .catch((err) => {
       console.error('Error: request chats', err.request._response)
@@ -110,6 +146,13 @@ export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
     })
 }
 
-export const { setChats, setPlayMessageId, setPausedMessageId, setVoiceDuration, setAllChats } =
-  ChatsSlice.actions
+export const {
+  setChats,
+  setPlayMessageId,
+  setPausedMessageId,
+  setVoiceDuration,
+  setAllChats,
+  setDeleteChat,
+  setAllTeamChats,
+} = ChatsSlice.actions
 export default ChatsSlice.reducer

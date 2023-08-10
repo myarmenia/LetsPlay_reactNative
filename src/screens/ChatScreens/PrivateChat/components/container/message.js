@@ -5,13 +5,16 @@ import { font, RH, RW } from '@/theme/utils'
 import Row from '@/components/wrappers/row'
 import MessagePlayer from '../Voice/MessagePlayer'
 const Message = ({ item, id, myMessage }) => {
-  
+  const messageTimeArray = new Date(item?.createdAt).toTimeString().split(':')
+  const messageTime = messageTimeArray[0] + ':' + messageTimeArray[1]
+
   if (myMessage) {
     return (
       <>
         {item?.type == 'text' || item.message ? (
           <View style={[styles.right, { marginTop: RH(25) }]} key={id}>
             <Row>
+              <Text style={[styles.messageTime, { alignSelf: 'flex-end' }]}>{messageTime}</Text>
               <View
                 style={[
                   styles.container,
@@ -38,18 +41,23 @@ const Message = ({ item, id, myMessage }) => {
           <MessagePlayer path={item?.file?.path} messageId={id} duration={item?.file?.length} />
         </View>
       ) : (
-        <View
-          key={id}
-          style={[
-            styles.container,
-            styles.left,
-            { backgroundColor: MESSAGE_CONTAINER, marginTop: RH(25) },
-          ]}
-        >
-          <Text style={styles.label} secureTextEntry={true}>
-            {item.message}
+        <Row>
+          <View
+            key={id}
+            style={[
+              styles.container,
+              styles.left,
+              { backgroundColor: MESSAGE_CONTAINER, marginTop: RH(25) },
+            ]}
+          >
+            <Text style={styles.label} secureTextEntry={true}>
+              {item.message}
+            </Text>
+          </View>
+          <Text style={[styles.messageTime, { alignSelf: 'flex-end', marginLeft: RW(5) }]}>
+            {messageTime}
           </Text>
-        </View>
+        </Row>
       )}
     </>
   )
@@ -76,5 +84,8 @@ const styles = StyleSheet.create({
   label: {
     ...font('regular', 16, WHITE),
     flexWrap: 'wrap',
+  },
+  messageTime: {
+    ...font('regular', 14, '#657AC5'),
   },
 })

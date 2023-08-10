@@ -13,7 +13,6 @@ const SearchedUserInfo = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const { command, member } = route.params
   const dispatch = useDispatch()
-  console.log('command', command)
   const handleInvite = () => {
     console.log({
       team_id: command,

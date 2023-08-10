@@ -21,27 +21,27 @@ const CalendarGameScreen = ({ route }) => {
         source={{ uri: _storageUrl + gameData.game.img }}
       />
       <View style={styles.main}>
-        <Row wrapper={styles.row}>
+        {/* <Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Тип игры:{' '}
             <Text style={styles.text2}>
               {gameData?.game?.category?.name == 'active' ? 'Активный' : 'Настольный'}
             </Text>
           </Text>
-        </Row>
+        </Row> */}
         <Row wrapper={styles.row}>
           <Text style={styles.text1}>
             Название игры: <Text style={styles.text2}>{gameData?.game?.name}</Text>
           </Text>
         </Row>
-        <Row wrapper={styles.row}>
-          <Text style={styles.text1}>
-            Описание игры:{' '}
-            <Text style={styles.text2}>
-              {gameData?.game?.description ? gameData?.game?.description : 'Нету'}
+        {gameData?.game?.description ? (
+          <Row wrapper={styles.row}>
+            <Text style={styles.text1}>
+              Описание игры: <Text style={styles.text2}>{gameData?.game?.description}</Text>
             </Text>
-          </Text>
-        </Row>
+          </Row>
+        ) : null}
+
         {gameData?.number_of_players_from && gameData?.number_of_players_to ? (
           <Row wrapper={styles.row}>
             <Text style={styles.text1}>

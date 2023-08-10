@@ -134,9 +134,10 @@ export const createGame = (data, callBack) => (dispatch) => {
       }
     })
     .catch((err) => {
-      console.error('Error: createGame', err)
+      console.error('Error: createGame', err.request?._response)
     })
 }
+
 export const clearInitialState = () => (dispatch) => {
   dispatch(
     setInitialState({

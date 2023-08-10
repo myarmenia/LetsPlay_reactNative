@@ -14,7 +14,6 @@ function Index({ route }) {
   const { command } = route.params
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  console.log('command', command)
   return (
     <ScreenMask>
       <View style={styles.rowBox}>

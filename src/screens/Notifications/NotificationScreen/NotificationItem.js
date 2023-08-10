@@ -29,6 +29,7 @@ const NotificationItem = ({ elm }) => {
 
   const buttonOptions = {
     team_inite: {
+      secondaryClick: true,
       label: 'Присоединиться',
       onPress: () => {
         dispatch(
@@ -52,7 +53,6 @@ const NotificationItem = ({ elm }) => {
       },
     },
     finish_game: {
-      // secondaryClick: true,
       label: 'Итоги игры',
       onPress: () => {
         dispatch(
@@ -123,6 +123,7 @@ const NotificationItem = ({ elm }) => {
       dispatch(setModalVisible(false))
     }
   }, [])
+  // console.log('elm', elm)
   if (!notificationText) return null
   return (
     <View style={styles.mainContainer}>
@@ -139,7 +140,8 @@ const NotificationItem = ({ elm }) => {
                   if (!buttonOptions[elm?.type].secondaryClick)
                     dispatch(notificationButtonClciked(elm?._id))
 
-                  if (!elm?.click) buttonOptions[elm?.type].onPress()
+                  if (!elm?.click || buttonOptions[elm?.type].secondaryClick)
+                    buttonOptions[elm?.type].onPress()
                 }}
                 label={buttonOptions[elm?.type]?.label}
                 labelStyle={{ ...font('bold', 17, '#001034') }}

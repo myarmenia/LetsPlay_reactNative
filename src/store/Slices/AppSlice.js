@@ -87,15 +87,14 @@ export const notificationSettings = (e) => (dispatch) => {
   if (e.checked) {
     axiosInstance
       .post('api/profile/notification', JSON.stringify({ name: e?.label }))
-      .then((response) => {})
       .catch((err) => {
-        console.error('Error: request notification', err)
+        console.error('Error: request notification', err.request?._response)
       })
   }
 }
 export const notificationButtonClciked = (notification_id) => (dispatch) => {
   axiosInstance.put(`/api/notification/click/${notification_id}`).catch((err) => {
-    console.error('Error: request notification', err)
+    console.error('Error: request notification', err.request?._response)
   })
 }
 
@@ -106,26 +105,23 @@ export const getNotifications = () => (dispatch) => {
       dispatch(setNotifications(response.data?.datas))
     })
     .catch((err) => {
-      console.error('Error: request notification', err)
+      console.error('Error: request notification', err.request?._response)
     })
 }
 export const deleteNotification = (id) => (dispatch) => {
-  axiosInstance
-    .delete(`api/notification/${id}`)
-    .then((response) => {})
-    .catch((err) => {
-      console.error('Error: request notification', err)
-    })
+  axiosInstance.delete(`api/notification/${id}`).catch((err) => {
+    console.error('Error: request notification', err.request?._response)
+  })
 }
 export const deleteAllNotifications = () => (dispatch) => {
   axiosInstance
     .delete('api/notification')
-    .then((response) => {
+    .then(() => {
       PushNotification.setApplicationIconBadgeNumber(0)
       dispatch(setNotifications([]))
     })
     .catch((err) => {
-      console.error('Error: request notification', err)
+      console.error('Error: request notification', err.request?._response)
     })
 }
 
@@ -142,7 +138,7 @@ export const getCalendarGames = (data) => (dispatch) => {
       dispatch(setCalendarGames(response.data.datas))
     })
     .catch((err) => {
-      console.error('Error: request notification', err)
+      console.error('Error: request notification', err.request?._response)
     })
 }
 export const getGalleries = () => (dispatch) => {
@@ -152,7 +148,7 @@ export const getGalleries = () => (dispatch) => {
       dispatch(setUserGalleries(response.data.data))
     })
     .catch((err) => {
-      console.error('Error: request notification', err)
+      console.error('Error: request notification', err.request?._response)
     })
 }
 export const getOtherUserGalleries = (user_id) => (dispatch) => {
@@ -162,7 +158,7 @@ export const getOtherUserGalleries = (user_id) => (dispatch) => {
       dispatch(setOtherUserGalleries(response.data.data))
     })
     .catch((err) => {
-      console.error('Error: getOtherUserGalleries', err)
+      console.error('Error: getOtherUserGalleries', err.request?._response)
     })
 }
 
@@ -173,7 +169,7 @@ export const deleteGalleryFile = (data) => (dispatch) => {
       dispatch(setDeleteGalleryFile(data.file_id))
     })
     .catch((err) => {
-      console.error('Error: request notification', err)
+      console.error('Error: request notification', err.request?._response)
     })
 }
 export const getNotificationCount = (data) => (dispatch) => {
@@ -184,7 +180,7 @@ export const getNotificationCount = (data) => (dispatch) => {
       dispatch(setNotificationCount(response.data.count))
     })
     .catch((err) => {
-      console.error('Error: request notification', err)
+      console.error('Error: request notification', err.request?._response)
     })
 }
 export const getMessagesCount = () => (dispatch) => {
@@ -194,7 +190,7 @@ export const getMessagesCount = () => (dispatch) => {
       dispatch(setMessagesCount(response.data.count))
     })
     .catch((err) => {
-      console.error('Error: getMessagesCount', err)
+      console.error('Error: getMessagesCount', err.request?._response)
     })
 }
 
