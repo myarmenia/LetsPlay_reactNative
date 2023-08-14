@@ -53,7 +53,7 @@ export const ChatsSlice = createSlice({
     setAllTeamChats: (store, action) => {
       return {
         ...store,
-        allChats: store.allChats.filter((elm) => elm._id !== action.payload),
+        allTeamChats: action.payload,
       }
     },
   },
@@ -91,12 +91,11 @@ export const getChats = (data) => (dispatch) => {
       console.error('Error: request chats', err.request._response)
     })
 }
-export const getAllTeamChats = (data) => (dispatch) => {
+export const getAllTeamChats = () => (dispatch) => {
   axiosInstance
     .get(`api/team/create/game/all/team_games`)
     .then((response) => {
-      console.log(response.data)
-      // dispatch(setAllTeamChats(response.data))
+      dispatch(setAllTeamChats(response.data.data))
     })
     .catch((err) => {
       console.error('Error: request chats', err.request._response)

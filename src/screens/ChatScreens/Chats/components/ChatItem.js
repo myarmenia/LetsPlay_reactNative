@@ -21,7 +21,7 @@ import { setTookPartGames } from '@/store/Slices/AuthSlice'
 import { deletePlayerFromTeam, setMyTeams } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
-import { BACKGROUND, DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
+import { DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
 
 function ChatItem({ id, item, type, playersLength }) {
   const navigation = useNavigation()
@@ -65,7 +65,10 @@ function ChatItem({ id, item, type, playersLength }) {
       },
     }),
   ).current
-
+  const lastMessageTimeArray = new Date(item.last_message).toLocaleTimeString().split(':')
+  const lastMessageTime = lastMessageTimeArray[0] + ':' + lastMessageTimeArray[1]
+  const createAtTimeArray = new Date(item.createdAt).toLocaleTimeString().split(':')
+  const createAtTime = createAtTimeArray[0] + ':' + createAtTimeArray[1]
   return (
     <View style={styles.layer}>
       <View
@@ -151,15 +154,20 @@ function ChatItem({ id, item, type, playersLength }) {
           <FastImage
             style={styles.chatItemImg}
             resizeMode="contain"
-            source={{ uri: _storageUrl + (item?.img || item?.game?.img) }}
+            source={{
+              uri:
+                _storageUrl + (type == 'Командный' ? item.team.img : item?.img || item?.game?.img),
+            }}
           />
           <Text style={styles.itemData}>
-            {`${item?.createdAt?.substring(0, 10)} ${new Date(item?.createdAt)
-              .toTimeString()
-              .substring(0, 5)} ${item?.address_name || item?.game?.name}`}
+            {type == 'Командный'
+              ? `${item?.team.name} ${item.team.address_name}`
+              : `${item?.createdAt?.substring(0, 10)} ${new Date(item?.createdAt)
+                  .toTimeString()
+                  .substring(0, 5)} ${item?.address_name || item?.game?.name}`}
           </Text>
           <View>
-            <Text style={styles.time}>1:01</Text>
+            <Text style={styles.time}>{item.last_message ? lastMessageTime : createAtTime}</Text>
             <LinearGradient
               style={styles.messagesCount}
               colors={['#7DCE8A', '#4D7CFE']}

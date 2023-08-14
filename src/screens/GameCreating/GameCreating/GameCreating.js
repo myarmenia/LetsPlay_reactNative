@@ -68,7 +68,6 @@ const GameCreating = ({ route }) => {
     if (!endDate) {
       setEndDateError('Обязательное поле для заполнения')
     } else if (
-      startDate.date < endDate.date ||
       !(
         (startDate.date.getDate() == endDate.date.getDate() &&
           startDate.time.getTime() >= endDate.time.getTime()) ||
@@ -107,7 +106,6 @@ const GameCreating = ({ route }) => {
     if (
       startDate &&
       endDate &&
-      startDate.date >= endDate.date &&
       ((startDate.date.getDate() == endDate.date.getDate() &&
         startDate.time.getTime() >= endDate.time.getTime()) ||
         startDate.date.getDate() != endDate.date.getDate()) &&

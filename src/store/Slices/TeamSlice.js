@@ -134,7 +134,7 @@ export const inviteUserToTeam =
 export const joinPlayerTeam = (data) => (dispatch) => {
   console.log('joinPlayerTeam', data)
   axiosInstance
-    .put('/api/team/join_player', data)
+    .put('/api/team/join/player', data)
     .then((e) => {
       if (e.data.message)
         dispatch(
@@ -201,7 +201,7 @@ export const getMembersList = (teamId) => async (dispatch) => {
 
 export const joinInTeam = (teamId, setModalVisible) => (dispatch) => {
   axiosInstance
-    .put(`api/team/join_player`, { team_id: teamId })
+    .put(`api/team/join/player`, { team_id: teamId })
     .then((response) => {
       setModalVisible(response.data.message)
     })
@@ -274,17 +274,6 @@ export const getMyTeams = (setModalVisible) => (dispatch) => {
     })
     .catch((err) => {
       console.error('Error: getMyTeams :', err.request?._response)
-    })
-}
-
-export const getMyJoinedTeams = () => (dispatch) => {
-  axiosInstance
-    .get('/api/team/my_joined_teams')
-    .then((response) => {
-      dispatch(setMyJoinedTeams(response?.data?.datas))
-    })
-    .catch((err) => {
-      console.error('Error: getMyJoinedTeams :', err.request?._response)
     })
 }
 

@@ -17,7 +17,6 @@ function Index() {
       <Text style={styles.title}>Результат поиска</Text>
       <ScrollView showsVerticalScrollIndicator={false}>
         {findedTeam?.map((item, i) => {
-          console.log('findedTeam', item)
           return (
             <TouchableOpacity
               key={item?._id || Math.random()}
@@ -38,7 +37,7 @@ function Index() {
                   <Text style={styles.text}>{item?._id?.substring(0, item?._id.length - 1)}</Text>
                 </View>
               </View>
-              <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }}>
+              <View style={{ position: 'absolute' }}>
                 <BgMyTem />
               </View>
             </TouchableOpacity>
@@ -59,7 +58,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    marginVertical: RH(18),
+    marginVertical: RH(5),
   },
   imageBlock: {
     width: RW(80),

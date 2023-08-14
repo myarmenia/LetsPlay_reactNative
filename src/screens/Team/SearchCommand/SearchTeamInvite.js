@@ -27,7 +27,11 @@ function SearchTeamInvite() {
                   <View style={styles.homeBlock}>
                     <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
                       <View style={styles.imageBlock}>
-                        <FastImage resizeMode='contain' style={styles.image} source={{ uri: _storageUrl + item?.img }} />
+                        <FastImage
+                          resizeMode="contain"
+                          style={styles.image}
+                          source={{ uri: _storageUrl + item?.img }}
+                        />
                       </View>
                       <View style={styles.textBlock}>
                         <Text style={styles.text}>{item?.name}</Text>

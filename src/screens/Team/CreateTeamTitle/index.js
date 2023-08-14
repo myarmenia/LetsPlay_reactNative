@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     width: '90%',
     alignItems: 'center',
   },
-  imgBox: { width: RW(85), height: RH(85) },
+  imgBox: { width: RW(85), height: RW(85) },
   img: {
     width: '100%',
     height: '100%',
