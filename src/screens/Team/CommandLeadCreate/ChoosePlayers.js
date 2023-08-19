@@ -14,27 +14,39 @@ import FastImage from 'react-native-fast-image'
 const ChoosePlayers = ({ route }) => {
   const { savedTeam, sendingData } = route.params
   const [modalVisible, setModalVisible] = useState(false)
-  const [data, setData] = useState(sendingData)
+  const [data, setData] = useState({ ...sendingData, players: [] })
   const dispatch = useDispatch()
   const UserItem = ({ user }) => {
-    //need fetch users in command and show
     const [visible, setVisible] = useState(false)
-    const [choosedUsers, setChoosedUsers] = useState([])
     return (
       <>
-        <Pressable
-          style={styles.eachUser}
-          onPress={() => {
-            setVisible(!visible)
-          }}
-        >
+        <View style={styles.eachUser}>
           <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-            <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
+            <BorderGradient
+              height={142}
+              width={105}
+              opacity={data.players.includes(user?._id) ? 1 : 0}
+            />
             <View style={{ position: 'absolute' }}>
-              <User size={110} user={user} />
+              <User
+                onPressItem={{
+                  onClickFunc: () => {
+                    setData((prevState) => {
+                      if (prevState?.players?.includes(user?._id)) {
+                        let filtredPlayers = prevState?.players?.filter((elm) => elm !== user._id)
+                        return { ...prevState, players: filtredPlayers }
+                      } else {
+                        return { ...prevState, players: [...prevState.players, user?._id] }
+                      }
+                    })
+                  },
+                }}
+                size={110}
+                user={user}
+              />
             </View>
           </View>
-        </Pressable>
+        </View>
       </>
     )
   }
@@ -52,7 +64,6 @@ const ChoosePlayers = ({ route }) => {
           </View>
           <View style={styles.playersContainer}>
             {savedTeam?.players.map((elm, i) => {
-              console.log(elm.user.name)
               return <UserItem key={i} user={elm.user} />
             })}
           </View>
@@ -61,7 +72,9 @@ const ChoosePlayers = ({ route }) => {
           <LightButton
             label={'Подтвердить'}
             size={{ width: 265, height: 42 }}
-            onPress={() => dispatch(createTeamGame(data, setModalVisible))}
+            onPress={() => {
+              dispatch(createTeamGame(data, setModalVisible))
+            }}
           />
         </View>
         {!!modalVisible && (

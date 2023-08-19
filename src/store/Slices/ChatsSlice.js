@@ -98,7 +98,7 @@ export const getAllTeamChats = () => (dispatch) => {
       dispatch(setAllTeamChats(response.data.data))
     })
     .catch((err) => {
-      console.error('Error: request chats', err.request._response)
+      console.error('Error: getAllTeamChats', err.request._response)
     })
 }
 export const getTeamChats = (data) => (dispatch) => {

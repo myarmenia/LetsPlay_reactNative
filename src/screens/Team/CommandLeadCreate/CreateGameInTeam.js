@@ -105,13 +105,7 @@ const CommandLeadCreate = ({ route }) => {
       if (props.latitude) {
         setMapError(false)
       }
-      // if (priceList.find(elm => elm.checked).text == 'Платно' && !price.length) {
-      //   setPriceError(true)
-      // } else {
-      //   setPriceError(false)
-      // }
       if (!mapError) {
-        //&& !priceError
         dispatch(createTeamGame(sendingData, setModalVisible))
       } else {
         return null

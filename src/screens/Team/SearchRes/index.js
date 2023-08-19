@@ -31,10 +31,11 @@ function Index() {
                     source={{ uri: _storageUrl + item?.img }}
                   />
                 </View>
+
                 <View style={styles.textBlock}>
                   <Text style={styles.text}>{item?.name}</Text>
                   <Text style={styles.text}>{item?.address_name}</Text>
-                  <Text style={styles.text}>{item?._id?.substring(0, item?._id.length - 1)}</Text>
+                  <Text style={styles.text}>{item?._id}</Text>
                 </View>
               </View>
               <View style={{ position: 'absolute' }}>

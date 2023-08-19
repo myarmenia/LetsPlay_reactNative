@@ -191,6 +191,7 @@ export const searchTourney = (data, nav, setNotFoundError) => async (dispatch) =
     .then((response) => {
       dispatch(setFindedTouney(response?.data?.datas))
       if (response?.data?.datas.length) {
+        console.log('response?.data?.datas.length', response?.data?.datas.length)
         setNotFoundError(false)
         nav.navigate('AllTournaments')
       } else {

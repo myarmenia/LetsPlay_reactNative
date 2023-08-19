@@ -27,8 +27,8 @@ const TournamentInfo = () => {
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
           <FastImage
-          resizeMode='contain'
-            style={{ width: RW(260), height: RH(260), }}
+            resizeMode="contain"
+            style={{ width: RW(260), height: RH(260) }}
             source={{
               uri: _storageUrl + initialState?.imagePath,
             }}

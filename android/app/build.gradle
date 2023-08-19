@@ -4,6 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
 
+
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
  * and bundleReleaseJsAndAssets).
@@ -272,6 +273,9 @@ android {
 
 dependencies {
     implementation project(':react-native-fs')
+    implementation project(':react-native-maps')
+
+
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion

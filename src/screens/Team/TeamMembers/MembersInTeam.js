@@ -44,6 +44,7 @@ const MembersInTeam = ({ route }) => {
       </View>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.membersBox}>
+          {console.log(command.players)}
           {command.players.map((elm, i) => {
             return <UserItem elm={elm} key={i} />
           })}

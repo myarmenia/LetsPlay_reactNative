@@ -13,7 +13,6 @@ import FastImage from 'react-native-fast-image'
 const SelectMembers = ({ route }) => {
   const props = route?.params
   const navigation = useNavigation()
-  const test = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
   const [reservedUsers, setReservedUsers] = useState([])
   const handleClick = (user) => {
     if (!reservedUsers.includes(user)) {
@@ -44,7 +43,7 @@ const SelectMembers = ({ route }) => {
         >
           <User
             size={100}
-            zoom={true}
+            user={user}
             onPressItem={{
               item: <User size={390} />,
               modalClose: false,
@@ -55,7 +54,6 @@ const SelectMembers = ({ route }) => {
       </View>
     )
   }
-  console.log(props.command)
   return (
     <ScreenMask>
       <View style={{ flex: 1, justifyContent: 'space-between' }}>
@@ -71,7 +69,7 @@ const SelectMembers = ({ route }) => {
         </View>
         <ScrollView>
           <View style={styles.usersContainer}>
-            {test.map((user, i) => {
+            {props.command?.players.map((user, i) => {
               return <EachUser key={i} user={user} />
             })}
           </View>
