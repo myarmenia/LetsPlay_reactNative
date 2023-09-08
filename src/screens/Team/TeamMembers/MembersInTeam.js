@@ -9,11 +9,16 @@ import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import OrganizerSvg from '@/assets/svgs/OrganizatorSvg'
 import FastImage from 'react-native-fast-image'
+
+
+
 const MembersInTeam = ({ route }) => {
   const command = route.params
+  console.log(command, 'comand');
   const navigation = useNavigation()
 
   const UserItem = ({ elm }) => {
+    console.log(elm.user, 'elem');
     return (
       <Pressable style={{ margin: RW(5) }}>
         <View style={{ top: RH(15), left: RW(5) }}>
@@ -44,8 +49,7 @@ const MembersInTeam = ({ route }) => {
       </View>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.membersBox}>
-          {console.log(command.players)}
-          {command.players.map((elm, i) => {
+          {command.invited_players.map((elm, i) => {
             return <UserItem elm={elm} key={i} />
           })}
         </View>

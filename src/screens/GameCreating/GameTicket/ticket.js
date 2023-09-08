@@ -11,6 +11,7 @@ import dateFormater from '@/helpers/dateFormater'
 import useExtractLinksFromText from '@/helpers/useExtractLinksFromText'
 
 function Ticket({ game, initialState, name, dates }) {
+  console.log(dates, 'dates');
   const { game_name, game_description } = useSelector((state) => state.game)
 
   return (

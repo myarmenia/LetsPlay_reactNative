@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableNativeFeedback,
   View,
 } from 'react-native'
 import { RH, RW, font } from '@/theme/utils'

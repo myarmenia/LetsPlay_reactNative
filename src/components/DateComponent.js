@@ -11,8 +11,8 @@ function DateComponent({
   title,
   dateValue = new Date(),
   timeValue = new Date(),
-  setDate = () => {},
-  setTime = () => {},
+  setDate,
+  setTime,
   containerStyle = {},
   dateAndroidStyle = {},
   titleStyle,
@@ -22,10 +22,13 @@ function DateComponent({
   minDate,
   maxDate,
 }) {
-  let dateLocalizaded = dateValue.toLocaleDateString().substring(0, 10)
-  let textDate = `${dateLocalizaded.split('/')[1]}/${dateLocalizaded.split('/')[0]}/${
-    dateLocalizaded.split('/')[2]
-  }`
+  let dateLocalizaded = dateValue?.toLocaleDateString()?.substring(0, 10)?.replaceAll('/', '.')
+
+
+  // console.log(dateLocalizaded, 'dateLocalizaded');
+  // let textDate = `${dateLocalizaded.split('/')[1]}/${dateLocalizaded.split('/')[0]}/${
+  //   dateLocalizaded.split('/')[2]
+  // }`
   return (
     <View style={[containerStyle]}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
@@ -78,14 +81,14 @@ function DateComponent({
                     minimumDate: minDate,
                     maximumDate: maxDate,
                     value: dateValue,
-                    onChange: (_, changedDate) => {
-                      setDate(changedDate)
+                    onChange: (_, data) => {
+                      setDate(data)
                     },
                   })
               }}
             >
               <DateSvg style={styles.dateSvg} />
-              <Text style={styles.dateText}>{textDate}</Text>
+              <Text style={styles.dateText}>{dateLocalizaded}</Text>
             </Pressable>
           </View>
         )}

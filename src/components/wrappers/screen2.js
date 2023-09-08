@@ -6,7 +6,6 @@ import {
   Platform,
   SafeAreaView,
   StyleSheet,
-  TouchableNativeFeedback,
   View,
 } from 'react-native'
 import BGMask from '@/assets/imgs/BGMask.png'
@@ -16,7 +15,6 @@ import { IS_IOS } from '@/constants'
 import FastImage from 'react-native-fast-image'
 
 const ScreenMask2 = ({ children, style }) => {
-  const CustomTouchableNativeFeedback = Keyboard.isVisible() ? TouchableNativeFeedback : View
   return (
     <ImageBackground
       source={BGMask}
@@ -54,15 +52,15 @@ const ScreenMask2 = ({ children, style }) => {
         style={{ flex: 1 }}
         {...(Platform.OS === 'ios'
           ? {
-              behavior: 'padding',
-              keyboardVerticalOffset: RH(10),
-              enabled: true,
-            }
+            behavior: 'padding',
+            keyboardVerticalOffset: RH(10),
+            enabled: true,
+          }
           : {})}
       >
-        <CustomTouchableNativeFeedback style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
+        <View style={{ flex: 1 }} onPress={() => Keyboard.dismiss()}>
           <SafeAreaView style={{ flex: 1 }}>{children}</SafeAreaView>
-        </CustomTouchableNativeFeedback>
+        </View>
       </KeyboardAvoidingView>
     </ImageBackground>
   )

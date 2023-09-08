@@ -16,6 +16,8 @@ const ChoosePlayers = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [data, setData] = useState({ ...sendingData, players: [] })
   const dispatch = useDispatch()
+
+  console.log(savedTeam, 'savedTeam');
   const UserItem = ({ user }) => {
     const [visible, setVisible] = useState(false)
     return (
@@ -64,6 +66,7 @@ const ChoosePlayers = ({ route }) => {
           </View>
           <View style={styles.playersContainer}>
             {savedTeam?.players.map((elm, i) => {
+
               return <UserItem key={i} user={elm.user} />
             })}
           </View>

@@ -60,6 +60,7 @@ const GameCreating = ({ route }) => {
   ])
 
   const handleClick = () => {
+
     if (!startDate) {
       setStartDateError('Обязательное поле для заполнения')
     } else {
@@ -116,10 +117,13 @@ const GameCreating = ({ route }) => {
       +initialState?.number_of_players_from < +initialState?.number_of_players_to &&
       ((initialState?.latitude && initialState?.longitude) || initialState.address_name)
     ) {
+
+ 
       let start_date = startDate.date
-      start_date.setTime(startDate.time)
+      start_date.getTime(startDate.time)
       let end_date = endDate.date
-      end_date.setTime(endDate.time)
+      end_date.getTime(endDate.time)
+
 
       navigation.navigate('GameTicket', {
         params: {
@@ -127,7 +131,7 @@ const GameCreating = ({ route }) => {
           game,
           name: game?.name || name,
           dates: [start_date, end_date],
-        },
+        }
       })
     }
   }
@@ -184,6 +188,8 @@ const GameCreating = ({ route }) => {
           setTime={(time) => setStartDate({ ...startDate, time })}
         />
         {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}
+
+
         <SecondBlock
           from={initialState?.number_of_players_from}
           to={initialState?.number_of_players_to}

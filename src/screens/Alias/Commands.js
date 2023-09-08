@@ -50,6 +50,7 @@ const Commands = () => {
         style={{
           justifyContent: 'center',
           flex: 0.8,
+        
         }}
       >
         <View style={styles.mainContainer}>

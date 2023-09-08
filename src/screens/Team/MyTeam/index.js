@@ -65,19 +65,23 @@ function Index({ route }) {
     )
   }
 
+
+
   return (
-    <ScreenMask2>
+    <ScreenMask2
+    // style={{borderWidth: 10, borderColor: 'red'}}
+    >
+      {modalVisible && (
+        <Modal
+          modalVisible={modalVisible}
+          setIsVisible={setModalVisible}
+          item={<ModalItem />}
+          btnClose={false}
+          navigationText={'teamStart'}
+        />
+      )}
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <Text style={styles.title}>Мои команды</Text>
-        {modalVisible && (
-          <Modal
-            modalVisible={modalVisible}
-            setIsVisible={setModalVisible}
-            item={<ModalItem />}
-            btnClose={false}
-            navigationText={'teamStart'}
-          />
-        )}
         {myTeams?.length ? (
           myTeams?.map((command, i) => <EachCommand data={props} command={command} key={i} />)
         ) : (
