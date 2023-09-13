@@ -76,10 +76,12 @@ const styles = StyleSheet.create({
   left: {
     alignSelf: 'flex-start',
     borderBottomLeftRadius: 0,
+
   },
   right: {
     alignSelf: 'flex-end',
     borderBottomRightRadius: 0,
+
   },
   label: {
     ...font('regular', 16, WHITE),

@@ -317,7 +317,7 @@ export const changeUserPreferences = (data) => (dispatch) => {
   axiosInstance
     .post('api/user/preferences', data)
     .then((response) => {
-      console.log('changeUserPreferences response ', response.data)
+      // console.log('changeUserPreferences response ', response.data)
     })
     .catch((err) => {
       console.error('Error: changeUserPreferences', err.request?._response)
@@ -364,6 +364,7 @@ export const getProfileInfo = () => (dispatch) => {
   axiosInstance
     .get('api/profile')
     .then((response) => {
+      console.log(response, 'response');
       dispatch(setUser(response.data?.user))
     })
     .catch((err) => {
@@ -391,3 +392,5 @@ export const {
   setTookPartGames,
 } = AuthSlice.actions
 export default AuthSlice.reducer
+
+

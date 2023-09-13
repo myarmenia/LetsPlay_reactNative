@@ -85,18 +85,20 @@ const GameCreating = ({ route }) => {
       +initialState?.age_restrictions_from < 0 ||
       +initialState?.age_restrictions_from > +initialState?.age_restrictions_to
     ) {
-      setAgeError('Введите корректную возраст')
+      setAgeError('Введите корректный возраст')
     } else {
       setAgeError(null)
     }
     if (!initialState.number_of_players_from || !initialState?.number_of_players_to) {
       setPlayersCuntError('Обязательное поле для заполнения')
     } else if (
-      +initialState?.number_of_players_from < 2 ||
-      +initialState?.number_of_players_from > +initialState?.number_of_players_to
-    ) {
-      setPlayersCuntError('Введите корректную число')
-    } else {
+      +initialState?.number_of_players_from < 2) {
+      setPlayersCuntError('Укажите минимальное число игроков в количестве 2х человек.')
+    }
+    else if (+initialState?.number_of_players_from > +initialState?.number_of_players_to) {
+      setPlayersCuntError('Укажите корректное число')
+    }
+    else {
       setPlayersCuntError(null)
     }
     if (!initialState?.latitude || !initialState?.longitude || !initialState.address_name) {
@@ -118,7 +120,7 @@ const GameCreating = ({ route }) => {
       ((initialState?.latitude && initialState?.longitude) || initialState.address_name)
     ) {
 
- 
+
       let start_date = startDate.date
       start_date.getTime(startDate.time)
       let end_date = endDate.date

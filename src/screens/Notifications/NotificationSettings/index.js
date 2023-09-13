@@ -8,29 +8,39 @@ import Row from '@/components/wrappers/row'
 import Toggle from '@/components/ToggleSwitch'
 import LightButton from '@/components/buttons/Button'
 import { notificationSettings } from '@/store/Slices/AppSlice'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 function NotificationScettings() {
-  const [settings, setSettings] = useState([
-    {
-      label: 'Индивидуальные игры',
-      checked: true,
-    },
-    {
-      label: 'Командные игры',
-      checked: true,
-    },
-    {
-      label: 'Турниры',
-      checked: true,
-    },
-    {
-      label: 'Отобразить только непрочитанные уведомления',
-      checked: true,
-    },
-  ])
-
   const dispatch = useDispatch()
+  const user = useSelector(({ auth }) => auth)
+
+  console.log(user, 'user');
+  const [settings, setSettings] = useState(
+    [
+      {
+        label: 'Индивидуальные игры',
+        checked: true,
+      },
+      {
+        label: 'Командные игры',
+        checked: true,
+      },
+      {
+        label: 'Турниры',
+        checked: true,
+      },
+      {
+        label: 'Отобразить только непрочитанные уведомления',
+        checked: true,
+      },
+    ]
+  )
+
+
+  const onTogglePress = (e) => {
+
+  }
+
   return (
     <ScreenMask>
       <View style={styles.container}>

@@ -23,8 +23,7 @@ function Index(props) {
   const type = props.route.params.type
   const playersLength = props.route.params?.playersLength
   const socket = io(
-    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${
-      type == 'Командный' ? '/team' : ''
+    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${type == 'Командный' ? '/team' : ''
     }/chat?room=${gameID}`,
     {
       transportOptions: {
@@ -63,8 +62,7 @@ function Index(props) {
         body: formdata,
       }
       fetch(
-        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api${
-          type == 'Командный' ? '/team/chat' : '/create/game/chat/'
+        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api${type == 'Командный' ? '/team/chat' : '/create/game/chat/'
         }`,
         requestOptions,
       )
@@ -105,6 +103,7 @@ function Index(props) {
   socket.on('message', memoSocketFunc)
 
   useEffect(() => {
+    messageState
     if (type == 'Командный') {
       dispatch(getTeamChats(gameID))
     } else {
@@ -116,9 +115,14 @@ function Index(props) {
       socket.disconnect()
     }
   }, [])
+
+
   useEffect(() => {
     setMessageState(chats)
   }, [chats])
+
+
+
   useEffect(() => {
     scrollViewRef?.current?.scrollToOffset({ animated: true, offset: 0 })
   }, [messageState?.length])

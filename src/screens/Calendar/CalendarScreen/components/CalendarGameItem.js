@@ -9,7 +9,6 @@ import FastImage from 'react-native-fast-image'
 import LinearGradient from 'react-native-linear-gradient'
 
 const CalendarGameItem = ({ img, name, startDate, onPress }) => {
-  console.log('CalendarGameItem', name)
   const dateTime = new Date(startDate).toTimeString().substring(0, 5)
   return (
     <Pressable
@@ -26,9 +25,13 @@ const CalendarGameItem = ({ img, name, startDate, onPress }) => {
       </View> */}
       <LinearGradient
         colors={['#7DCE8A', '#4D7CFE']}
-        start={{ x: 0 }}
+        // start={{ x: 0 }}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
         style={{ position: 'absolute', width: '100%', height: '100%', borderRadius: 5 }}
-      ></LinearGradient>
+      >
+
+      </LinearGradient>
       <Row
         wrapper={{
           width: RW(300),
@@ -47,7 +50,7 @@ const CalendarGameItem = ({ img, name, startDate, onPress }) => {
           />
           <Text style={{ ...font('bold', 16, WHITE) }}>{name}</Text>
         </Row>
-        <Text style={{ ...font('bold', 16, WHITE) }}>{dateTime}</Text>
+        <Text style={{ ...font('bold', 16, WHITE) }}>{dateTime}</Text> 
       </Row>
     </Pressable>
   )
