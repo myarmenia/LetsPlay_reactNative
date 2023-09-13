@@ -191,6 +191,7 @@ function Index() {
           <ImageBackground
             style={[styles.image, editable ? { opacity: 0.6 } : null]}
             imageStyle={styles.image}
+            resizeMode='contain'
             source={
               !avatar
                 ? require('../../../assets/defualtUser.png')

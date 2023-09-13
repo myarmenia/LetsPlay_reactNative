@@ -131,7 +131,6 @@ class Calendar extends React.Component {
               minWidth: RW(20),
               justifyContent: 'center',
               alignItems: 'center',
-
               // paddingBottom: rowIndex == 0 ? 0 : RH(20),
             }}
           >
@@ -363,7 +362,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: RW(10),
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
 
   settingsText: {
@@ -379,6 +378,7 @@ const styles = StyleSheet.create({
   },
   agentaContainer: {
     paddingVertical: RH(20),
+ 
   },
 })
 

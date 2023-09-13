@@ -12,6 +12,7 @@ import ScreenMask2 from '@/components/wrappers/screen2'
 const index = () => {
   const navigation = useNavigation()
   const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
+
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
     { id: 2, text: 'Моя галерея', navigateTo: 'Gallery', params: { isMe: true, canDelete: true } },
@@ -20,6 +21,7 @@ const index = () => {
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
   const forNavigate = (item) => {
+    console.log(item, 'item');
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo, params: item?.params })
     }
@@ -44,22 +46,22 @@ const index = () => {
         <View style={styles.infoBlock}>
           <View style={styles.imageBlock}>
             <FastImage
-              style={[styles.image]}
-              resizeMode="cover"
+              style={styles.image}
+              resizeMode="contain"
               source={
                 !avatar
                   ? require('../../../assets/defualtUser.png')
                   : avatar.startsWith('https://')
-                  ? { uri: avatar }
-                  : {
+                    ? { uri: avatar }
+                    : {
                       uri: _storageUrl + avatar,
                     }
               }
             />
           </View>
-          <View>
-            <Text style={styles.name}>{name + ' ' + surname}</Text>
-            <Text style={styles.id}>{`Номер ID: ${_id}`}</Text>
+          <View style={styles.userInfoBlock}>
+            <Text style={styles.name} numberOfLines={2}>{name + ' ' + surname}</Text>
+            <Text style={styles.id} numberOfLines={2}>{`Номер ID: ${_id}`}</Text>
           </View>
         </View>
       </View>
@@ -72,37 +74,48 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingTop: RW(27),
     alignItems: 'center',
+    paddingLeft: RW(30),
+    paddingRight: RH(15)
   },
   title: {
     ...font('bold', 24, WHITE, 24),
     marginBottom: RW(15),
   },
-  imageBlock: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: 87,
-    height: 87,
-    borderRadius: 43.5,
-    marginRight: RW(18),
-    alignSelf: 'center',
-  },
 
   infoBlock: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '100%',
-    paddingLeft: RW(31),
+    overflow: 'hidden',
     marginBottom: RH(30),
     marginTop: RH(15),
+    maxHeight: RH(160),
   },
 
+
+  imageBlock: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '20%',
+  },
+  image: {
+    width: '100%',
+    // height: '100%',
+    aspectRatio: 1,
+    borderRadius: 43.5,
+    alignSelf: 'center',
+  },
+
+  userInfoBlock: {
+    width: '80%',
+    paddingLeft: RW(18)
+  },
   name: {
     ...font('bold', 24, ICON, 28),
-    width: '88%',
+    flexGrow: 1,
   },
   id: {
-    ...font('regular', 16, ICON, 19),
+    ...font('regular', 15, ICON, 19),
     marginTop: RH(8),
     width: '87%',
   },

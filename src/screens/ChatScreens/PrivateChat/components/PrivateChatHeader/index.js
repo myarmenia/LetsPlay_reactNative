@@ -28,7 +28,7 @@ const PrivateChatHeader = ({ gameID, playersLength, type }) => {
         <Row>
           <LeftArrow />
           <View style={{ marginLeft: RW(8) }}>
-            <CircleSvg count={playersLength || 0} />
+            <CircleSvg count={playersLength || 1} />
           </View>
         </Row>
       </Pressable>

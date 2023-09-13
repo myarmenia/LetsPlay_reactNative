@@ -112,14 +112,16 @@ export const getTeamChats = (data) => (dispatch) => {
     })
 }
 export const sendMessage = (data) => (dispatch) => {
-  axiosInstance.post(`/api/create/game/chat/`, data).catch((err) => {
-    console.error('Error: request', err.request._response)
-  })
+  axiosInstance.post(`/api/create/game/chat/`, data)
+    .then((res) => { console.log(res, 'res'); })
+    .catch((err) => {
+      console.error('Error: request', err.request._response)
+    })
 }
 export const sendTeamMessage = (data) => (dispatch) => {
   axiosInstance
     .post(`/api/team/chat`, data)
-    .then((response) => {})
+    .then((response) => { })
     .catch((err) => {
       console.error('Error: request', err.request._response)
     })

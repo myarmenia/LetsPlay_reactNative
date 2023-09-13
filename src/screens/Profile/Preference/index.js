@@ -49,24 +49,16 @@ function Index() {
   }, [games, preferences])
 
   const checkItem = (id, type) => {
-    if (type == 'desktop') {
-      setMyPreferencesDesktop((prevState) => {
-        const newDate = prevState.map((elm) => {
-          if (elm.id == id) {
-            return { ...elm, checked: !elm.checked }
-          } else return elm
-        })
+    if (type === 'desktop') {
+      setMyPreferencesDesktop(prevState => {
+        prevState.map(item => item.id === id ? item.checked = !item.checked : item)
+        return [...prevState]
 
-        return newDate
       })
     } else {
       setMyPreferencesActive((prevState) => {
-        const newDate = prevState.map((elm) => {
-          if (elm.id == id) {
-            return { ...elm, checked: !elm.checked }
-          } else return elm
-        })
-        return newDate
+        prevState.map(item => item.id === id ? item.checked = !item.checked : item)
+        return [...prevState]
       })
     }
   }
@@ -82,14 +74,11 @@ function Index() {
     const deletePreferences = preferences?.filter((elm) => {
       return !changedPreferences?.includes(elm)
     })
-    console.log({
-      addPreferences,
-      deletePreferences,
-    })
+
     dispatch(
       changeUserPreferences({
-        addPreferences: ['63ec9183338f6ba3d35e9eee'],
-        deletePreferences: ['63ec9238338f6ba3d35e9ef8'],
+        addPreferences: addPreferences,
+        deletePreferences: deletePreferences,
       }),
     )
     setModalVisible(true)
