@@ -30,7 +30,6 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
         onPressOut={() => setBack(false)}
         onPress={() => {
           console.log(qrGame, 'gago0');
-          return
           if (pressable) {
             if (qrGame) {
               dispatch(setRules(game.rules))
