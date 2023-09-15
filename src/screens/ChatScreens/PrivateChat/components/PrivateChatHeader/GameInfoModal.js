@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View, Share } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { RW } from '@/theme/utils'
@@ -15,6 +15,25 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
 
+  const share = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'React Native | A framework for building native apps using React',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
   return (
     <Modal
       modalVisible={modalVisible}
@@ -24,7 +43,9 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
         <View style={styles.modalWrapper}>
           <View style={styles.regulationBlock}>
             <View style={styles.rowBox}>
-              <ArrowRight />
+              <Pressable onPress={share}>
+                <ArrowRight />
+              </Pressable>
             </View>
             <View style={styles.titleColumnBox}>
               <Text style={styles.title}>Тип игры: {gameInfo?.game?.name}</Text>
@@ -78,6 +99,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
+
   },
   titleColumnBox: {
     flexDirection: 'column',

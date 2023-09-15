@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { useNavigation } from '@react-navigation/native'
@@ -8,60 +8,60 @@ import Row from '@/components/wrappers/row'
 import Toggle from '@/components/ToggleSwitch'
 import LightButton from '@/components/buttons/Button'
 import { notificationSettings } from '@/store/Slices/AppSlice'
+import { changeNotificationData } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
+
 
 function NotificationScettings() {
   const dispatch = useDispatch()
   const user = useSelector(({ auth }) => auth)
+  const needRender = useRef(false)
 
-  console.log(user, 'user');
-  const [settings, setSettings] = useState(
-    [
-      {
-        label: 'Индивидуальные игры',
-        checked: true,
-      },
-      {
-        label: 'Командные игры',
-        checked: true,
-      },
-      {
-        label: 'Турниры',
-        checked: true,
-      },
-      {
-        label: 'Отобразить только непрочитанные уведомления',
-        checked: true,
-      },
-    ]
-  )
+  // const [settings, setSettings] = useState(
+  //   [
+  //     {
+  //       label: 'Индивидуальные игры',
+  //       checked: true,
+  //     },
+  //     {
+  //       label: 'Командные игры',
+  //       checked: true,
+  //     },
+  //     {
+  //       label: 'Турниры',
+  //       checked: true,
+  //     },
+  //     {
+  //       label: 'Отобразить только непрочитанные уведомления',
+  //       checked: true,
+  //     },
+  //   ]
+  // )
 
 
-  const onTogglePress = (e) => {
-
+  const onTogglePress = async (index) => {
+    dispatch(changeNotificationData(index))
+    needRender.current = true
   }
+
+  useEffect(() => {
+    needRender.current && dispatch(notificationSettings(user.user.notification_settings))
+  }, [user.user.notification_settings])
+
+
+
 
   return (
     <ScreenMask>
       <View style={styles.container}>
         <Text style={styles.title}>Уведомления</Text>
         <Text style={styles.subTitle}>Отображение</Text>
-        {settings.map((item, i) => (
+        {user?.user?.notification_settings.map((item, i) => (
           <Row wrapper={[styles.row, { marginTop: i == 3 ? RH(50) : RH(25) }]} key={i}>
             <Text style={styles.rowText}>{item.label}</Text>
             <Toggle
               isOn={item.checked}
-              setIsOn={(e) => {
-                dispatch(notificationSettings({ checked: e, label: item.label }))
-                setSettings((prev) =>
-                  prev.map((elem) => {
-                    if (elem.label == item.label) {
-                      elem.checked = e
-                    }
-                    return elem
-                  }),
-                )
-              }}
+              setIsOn={() => { onTogglePress(i) }}
             />
           </Row>
         ))}
