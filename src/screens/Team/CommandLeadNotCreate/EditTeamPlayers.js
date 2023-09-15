@@ -35,7 +35,8 @@ const EditTeamPlayers = ({ route }) => {
           />
         </View>
         <View style={styles.gridBox}>
-          {savedTeam.players.map((elm, i) => {
+          
+          {savedTeam.invited_players.map((elm, i) => {
             return (
               <EachUser
                 elm={elm}
@@ -62,7 +63,7 @@ const EditTeamPlayers = ({ route }) => {
               size={{ width: 284, height: 48 }}
               onPress={() => {
                 navigation.navigate('TeamSchemes', {
-                  players: savedTeam?.players,
+                  players: savedTeam?.invited_players,
                   schemaImg: choosedTeamGame?.schema_img,
                   teamImg: teamImg,
                   teamName: sendingData?.enemy_team_name,

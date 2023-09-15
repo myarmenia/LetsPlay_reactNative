@@ -23,12 +23,12 @@ function DateComponent({
   maxDate,
 }) {
 
+ 
+  let dateLocalizaded = dateValue?.toLocaleDateString("en-IN");
+  // console.log(dateLocalizaded, 'dateLocalizaded');
 
-  let dateLocalizaded = dateValue?.toLocaleDateString()?.substring(0, 10)
-
-  let textDate = `${dateLocalizaded.split('/')[1]}/${dateLocalizaded.split('/')[0]}/${
-    dateLocalizaded.split('/')[2]
-  }`
+  // let textDate = `${dateLocalizaded.split('/')[1]}/${dateLocalizaded.split('/')[0]}/${dateLocalizaded.split('/')[2]
+  //   }`
   return (
     <View style={[containerStyle]}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
@@ -88,7 +88,7 @@ function DateComponent({
               }}
             >
               <DateSvg style={styles.dateSvg} />
-              <Text style={styles.dateText}>{textDate}</Text>
+              <Text style={styles.dateText}>{dateLocalizaded}</Text>
             </Pressable>
           </View>
         )}

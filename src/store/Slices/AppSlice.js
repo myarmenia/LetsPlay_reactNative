@@ -83,14 +83,15 @@ export const AppSlice = createSlice({
   },
 })
 
-export const notificationSettings = (e) => (dispatch) => {
-  if (e.checked) {
-    axiosInstance
-      .post('api/profile/notification', JSON.stringify({ name: e?.label }))
-      .catch((err) => {
-        console.error('Error: request notification', err.request?._response)
-      })
-  }
+export const notificationSettings = (data) => (dispatch) => {
+  axiosInstance
+    .post('api/profile/notification', data)
+    .then((response) => {
+    })
+    .catch((err) => {
+      console.error('Error: request notification', err.request?._response)
+    })
+
 }
 export const notificationButtonClciked = (notification_id) => (dispatch) => {
   axiosInstance.put(`/api/notification/click/${notification_id}`).catch((err) => {

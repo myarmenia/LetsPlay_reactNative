@@ -22,6 +22,7 @@ const SchemeUsers = ({
   initialCordinates,
   players
 }) => {
+  console.log(players, 'players');
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
   const refsArray = useRef([])
