@@ -26,10 +26,17 @@ export const AppSlice = createSlice({
         notifications: action.payload,
       }
     },
+
     setCalendarGames: (store, action) => {
       return {
         ...store,
         calendarGames: action.payload,
+      }
+    },
+    clearCalendarGames: (store) => {
+      return {
+        ...store,
+        calendarGames: [],
       }
     },
     setModalOptions: (store, action) => {
@@ -129,14 +136,12 @@ export const deleteAllNotifications = () => (dispatch) => {
 }
 
 export const getCalendarGames = (data) => (dispatch) => {
-  console.log(data, 'data');
   axiosInstance
     .get('api/create/game/by/date', {
       params: data
     })
     .then((response) => {
 
-      console.log('getCalendarGames', response.data.datas)
       // const allGames=
       dispatch(setCalendarGames([...response.data.datas.games, ...response.data.datas.teamGames, ...response.data.datas.tourneys
       ]))
@@ -208,5 +213,6 @@ export const {
   setNotificationCount,
   setMessagesCount,
   setOtherUserGalleries,
+  clearCalendarGames
 } = AppSlice.actions
 export default AppSlice.reducer
