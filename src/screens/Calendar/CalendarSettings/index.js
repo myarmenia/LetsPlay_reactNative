@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
 import { RH, RW, font } from '@/theme/utils'
@@ -10,24 +10,30 @@ import { changeChatSettings } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 function CalendarSettings() {
-  const chatSettings = useSelector(({ auth }) => auth.user)
+  const chatSettings = useSelector(({ auth }) => auth.user.chat_settings)
+  const needRender = useRef(false)
+
+
+  useEffect(() => {
+    needRender.current && dispatch(notificationSettings(chatSettings))
+  }, [chatSettings])
 
   console.log(chatSettings, 'chatSettings');
-  
+
   const dispatch = useDispatch()
   return (
     <ScreenMask>
       <View style={styles.container}>
         <Text style={styles.title}>Настройки</Text>
         <Text style={styles.subTitle}>Отображение</Text>
-        {chatSettings.map((item, index) => (
+        {chatSettings.length && chatSettings?.map((item, index) => (
           <Row wrapper={styles.row} key={item.type}>
             <Text style={styles.rowText}>{item.label}</Text>
             <Toggle
               isOn={item.checked}
               setIsOn={async (e) => {
                 dispatch(changeChatSettings(index))
-                dispatch(notificationSettings({ checked: e, label: item.label }))
+                needRender.current = true
               }}
             />
           </Row>

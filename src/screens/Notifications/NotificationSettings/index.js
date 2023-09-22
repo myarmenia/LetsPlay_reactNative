@@ -17,27 +17,6 @@ function NotificationScettings() {
   const user = useSelector(({ auth }) => auth)
   const needRender = useRef(false)
 
-  // const [settings, setSettings] = useState(
-  //   [
-  //     {
-  //       label: 'Индивидуальные игры',
-  //       checked: true,
-  //     },
-  //     {
-  //       label: 'Командные игры',
-  //       checked: true,
-  //     },
-  //     {
-  //       label: 'Турниры',
-  //       checked: true,
-  //     },
-  //     {
-  //       label: 'Отобразить только непрочитанные уведомления',
-  //       checked: true,
-  //     },
-  //   ]
-  // )
-
 
   const onTogglePress = async (index) => {
     dispatch(changeNotificationData(index))
