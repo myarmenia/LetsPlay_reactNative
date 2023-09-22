@@ -9,7 +9,7 @@ import { useNavigation } from '@react-navigation/native'
 import GameInfoModal from './GameInfoModal'
 import TeamInfoModal from './TeamInfoModal'
 
-const PrivateChatHeader = ({ gameID, playersLength, type }) => {
+const PrivateChatHeader = ({ gameID, playersLength, type, team }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   return (
@@ -40,7 +40,7 @@ const PrivateChatHeader = ({ gameID, playersLength, type }) => {
           <TeamInfoModal
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
-            TeamId={gameID}
+            Team={team}
           />
         ) : (
           <GameInfoModal

@@ -70,7 +70,6 @@ const MyApp = () => {
     unsubscribe()
   }, [])
 
-  console.log('Token - ', token)
 
   return (
     <>

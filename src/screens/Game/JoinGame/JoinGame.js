@@ -66,6 +66,7 @@ const JoinGame = ({ route }) => {
         data_to: endDate.toISOString().substring(0, 10),
         games: ids,
       }
+      console.log(formData, 'formdata');
       dispatch(searchGame(formData, navigation, setError))
     } else {
       console.log('error')
@@ -162,9 +163,7 @@ const JoinGame = ({ route }) => {
       >
         <LightButton
           label={'Готово'}
-          onPress={() => {
-            showHideError()
-          }}
+          onPress={showHideError}
           size={{ width: RW(144), height: '100%' }}
         />
       </View>

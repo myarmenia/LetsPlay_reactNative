@@ -21,7 +21,7 @@ function Index({ route }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getMyTeams(setModalVisible))
+    dispatch(getMyTeams())
     dispatch(saveTeamDataForCreating({}))
   }, [])
 

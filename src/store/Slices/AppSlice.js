@@ -84,9 +84,11 @@ export const AppSlice = createSlice({
 })
 
 export const notificationSettings = (data) => (dispatch) => {
+  console.log(data, 'data');
   axiosInstance
-    .post('api/profile/notification', data)
+    .post('api/profile/chat/settings', data)
     .then((response) => {
+      console.log(response, 'response');
     })
     .catch((err) => {
       console.error('Error: request notification', err.request?._response)
@@ -130,14 +132,14 @@ export const getCalendarGames = (data) => (dispatch) => {
   console.log(data, 'data');
   axiosInstance
     .get('api/create/game/by/date', {
-      params: {
-        date_from: data.date_from,
-        date_to: data.date_to,
-      },
+      params: data
     })
     .then((response) => {
-      console.log('getCalendarGames', response.data)
-      dispatch(setCalendarGames(response.data.datas))
+
+      console.log('getCalendarGames', response.data.datas)
+      // const allGames=
+      dispatch(setCalendarGames([...response.data.datas.games, ...response.data.datas.teamGames, ...response.data.datas.tourneys
+      ]))
     })
     .catch((err) => {
       console.error('Error: request notification', err.request?._response)

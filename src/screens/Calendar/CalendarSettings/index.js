@@ -6,45 +6,28 @@ import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import Toggle from '@/components/ToggleSwitch'
 import { notificationSettings } from '@/store/Slices/AppSlice'
-import { useDispatch } from 'react-redux'
+import { changeChatSettings } from '@/store/Slices/AuthSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 function CalendarSettings() {
-  const [settings, setSettings] = useState([
-    {
-      label: 'Индивидуальные игры',
-      checked: true,
-    },
-    {
-      label: 'Командные игры',
-      checked: true,
-    },
-    {
-      label: 'Турниры',
-      checked: true,
-    },
-  ])
+  const chatSettings = useSelector(({ auth }) => auth.user)
 
+  console.log(chatSettings, 'chatSettings');
+  
   const dispatch = useDispatch()
   return (
     <ScreenMask>
       <View style={styles.container}>
         <Text style={styles.title}>Настройки</Text>
         <Text style={styles.subTitle}>Отображение</Text>
-        {settings.map((item, i) => (
-          <Row wrapper={styles.row} key={i}>
+        {chatSettings.map((item, index) => (
+          <Row wrapper={styles.row} key={item.type}>
             <Text style={styles.rowText}>{item.label}</Text>
             <Toggle
               isOn={item.checked}
-              setIsOn={(e) => {
+              setIsOn={async (e) => {
+                dispatch(changeChatSettings(index))
                 dispatch(notificationSettings({ checked: e, label: item.label }))
-                setSettings((prev) =>
-                  prev.map((elem) => {
-                    if (elem.label == item.label) {
-                      elem.checked = e
-                    }
-                    return elem
-                  }),
-                )
               }}
             />
           </Row>

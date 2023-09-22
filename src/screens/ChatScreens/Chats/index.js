@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useIsFocused } from '@react-navigation/native'
 import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
+import { getMyTeams, getMyJoinedTeams } from '@/store/Slices/TeamSlice'
 
 import { getAllChats, getAllTeamChats } from '@/store/Slices/ChatsSlice'
 import ScreenMask2 from '@/components/wrappers/screen2'
@@ -19,7 +20,10 @@ const ChatScreen = () => {
   useEffect(() => {
     dispatch(getAllTeamChats())
     dispatch(getAllChats())
+    dispatch(getMyTeams())
+    dispatch(getMyJoinedTeams())
   }, [isFocused])
+
 
   return (
     <ScreenMask2>

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Share, Pressable } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
@@ -9,10 +9,30 @@ import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
 
-const TeamInfoModal = ({ modalVisible, setModalVisible, TeamId }) => {
+const TeamInfoModal = ({ modalVisible, setModalVisible, Team }) => {
   const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
-  const teamInfo =
-    myTeams.find((elm) => elm.id == TeamId) || myJoinedTeams.find((elm) => elm.id == TeamId)
+  const teams = [...myTeams, ...myJoinedTeams]
+  const teamInfo = teams.find(item => item._id === Team._id)
+
+  const share = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          'React Native | A framework for building native apps using React',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
 
   return (
     <Modal
@@ -23,7 +43,10 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, TeamId }) => {
         <View style={styles.modalWrapper}>
           <View style={styles.regulationBlock}>
             <View style={styles.rowBox}>
-              <ArrowRight />
+              <Pressable onPress={share}>
+                <ArrowRight />
+              </Pressable>
+
             </View>
             <View style={styles.titleColumnBox}>
               <Text style={styles.title}>Имя команды: {teamInfo?.name}</Text>
@@ -45,7 +68,7 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, TeamId }) => {
                   />
                 </View>
               </View>
-              {teamInfo.players?.length ? (
+              {teamInfo.invited_players?.length ? (
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(5) }}>
                   <Text style={styles.title}>Игроки команды:</Text>
 
@@ -57,7 +80,7 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, TeamId }) => {
                       left: 10,
                     }}
                   >
-                    {teamInfo.players.map((player) => (
+                    {teamInfo.invited_players.map((player) => (
                       <User
                         key={player?._id}
                         size={30}
