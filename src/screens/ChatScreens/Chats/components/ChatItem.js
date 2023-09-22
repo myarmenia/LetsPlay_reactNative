@@ -23,7 +23,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
 import { DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
 
-function ChatItem({ key, item, type, playersLength }) {
+function ChatItem({ item, type, playersLength }) {
   const navigation = useNavigation()
   const [animation] = useState(new Animated.Value(RW(95)))
   const [swipeDirection, setSwipeDirection] = useState(null)

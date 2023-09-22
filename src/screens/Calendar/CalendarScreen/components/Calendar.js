@@ -9,20 +9,24 @@ import * as React from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import ArrowSvg from '../assets/ArrowSvg'
 import CircleSvg from '../assets/CircleSvg'
-import { getCalendarGames } from '@/store/Slices/AppSlice'
+import { getCalendarGames, clearCalendarGames } from '@/store/Slices/AppSlice'
+
 import CalendarGameItem from './CalendarGameItem'
 import TriangleSvg from '../assets/TriangleSvg'
 import CalendarDropDown from './CalendarDropDown'
 import { useDispatch, useSelector } from 'react-redux'
 import { months, months2, nDays, weekDays } from './data'
+import { useNavigation } from '@react-navigation/native'
 
 
-const Calendar = (props) => {
+const Calendar = () => {
 
   const [activeDate, setActiveDate] = useState(new Date())
   const [choosenData, setChoosenData] = useState(null)
   const [showYaersDropDown, setShowYaersDropDown] = useState(false)
   const calendarGames = useSelector(({ app }) => app.calendarGames)
+
+  const navigation = useNavigation()
   const dispatch = useDispatch()
 
 
@@ -172,6 +176,13 @@ const Calendar = (props) => {
   }, [choosenData])
 
 
+  useEffect(() => {
+    return () => {
+      dispatch(clearCalendarGames())
+    }
+  }, [])
+
+
 
   return (
     <Pressable onPress={closeYearDropDown}>
@@ -190,7 +201,7 @@ const Calendar = (props) => {
                 style={styles.settings}
                 onPress={() => {
                   closeYearDropDown()
-                  props.navigation.navigate('CalendarSettings')
+                  navigation.navigate('CalendarSettings')
                 }}
               >
                 <Text style={styles.settingsText}>Настройки</Text>
@@ -241,7 +252,6 @@ const Calendar = (props) => {
 
             {calendarGames.length ?
               calendarGames?.map((elm) => {
-                console.log(elm, 'elm');
 
                 return (
                   <CalendarGameItem
@@ -251,10 +261,10 @@ const Calendar = (props) => {
                     startDate={elm?.start_date}
                     onPress={() => {
                       closeYearDropDown()
-                      // if (item.type === 'games' || item.type === 'teamGames') {
-                      //   this.props.navigation.navigate('CalendarGameScreen', { game: elm })
-                      // } else {
-                      // }
+                      if (elm.type === 'games' || elm.type === 'teamGames') {
+                        navigation.navigate('CalendarGameScreen', { game: elm })
+                      } else {
+                      }
                     }}
                   />
                 )
