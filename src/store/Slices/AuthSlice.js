@@ -14,6 +14,7 @@ const initialState = {
     took_part_games: [],
     vk_uri: '',
     notification_settings: [],
+    chat_settings: [],
   },
   pending: false,
   token: '',
@@ -38,6 +39,11 @@ export const AuthSlice = createSlice({
     changeNotificationData: (store, action) => {
       store.user.notification_settings[action.payload].checked =
         !store.user.notification_settings[action.payload].checked
+    },
+
+    changeChatSettings: (store, action) => {
+      store.user.chat_settings[action.payload].checked =
+        !store.user.chat_settings[action.payload].checked
     },
     setExpiredToken: (store, action) => {
       return {
@@ -328,6 +334,7 @@ export const changeUserPreferences = (data) => (dispatch) => {
       console.error('Error: changeUserPreferences', err.request?._response)
     })
 }
+
 export const getDocumentRules = () => (dispatch) => {
   axiosInstance
     .get('api/document-rules')
@@ -395,5 +402,6 @@ export const {
   setDocumentRules,
   setTookPartGames,
   changeNotificationData,
+  changeChatSettings,
 } = AuthSlice.actions
 export default AuthSlice.reducer

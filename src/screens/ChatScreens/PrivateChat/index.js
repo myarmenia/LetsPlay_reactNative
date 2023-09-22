@@ -22,6 +22,7 @@ function Index(props) {
   const gameID = props.route.params.id
   const type = props.route.params.type
   const playersLength = props.route.params?.playersLength
+  const team=props.route.params?.team
   const socket = io(
     `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${type == 'Командный' ? '/team' : ''
     }/chat?room=${gameID}`,
@@ -103,7 +104,7 @@ function Index(props) {
   socket.on('message', memoSocketFunc)
 
   useEffect(() => {
-    messageState
+    // messageState
     if (type == 'Командный') {
       dispatch(getTeamChats(gameID))
     } else {
@@ -138,14 +139,14 @@ function Index(props) {
       />
     )
   }
+
+
   return (
     <ScreenMask2>
-      <PrivateChatHeader type={type} gameID={gameID} playersLength={playersLength} />
+      <PrivateChatHeader type={type} gameID={gameID} playersLength={playersLength} team={team}/>
       <FlatList
         data={[...messageState]?.reverse()}
-        style={{
-          marginBottom: RH(25),
-        }}
+        style={{marginBottom: RH(25)}}
         inverted
         refreshing
         initialNumToRender={4}

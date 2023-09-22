@@ -21,7 +21,6 @@ const index = () => {
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
   const forNavigate = (item) => {
-    console.log(item, 'item');
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo, params: item?.params })
     }
@@ -47,7 +46,7 @@ const index = () => {
           <View style={styles.imageBlock}>
             <FastImage
               style={styles.image}
-              resizeMode="contain"
+              resizeMode="cover"
               source={
                 !avatar
                   ? require('../../../assets/defualtUser.png')

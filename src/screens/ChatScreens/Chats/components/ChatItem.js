@@ -23,7 +23,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
 import { DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
 
-function ChatItem({ id, item, type, playersLength }) {
+function ChatItem({ key, item, type, playersLength }) {
   const navigation = useNavigation()
   const [animation] = useState(new Animated.Value(RW(95)))
   const [swipeDirection, setSwipeDirection] = useState(null)
@@ -78,11 +78,12 @@ function ChatItem({ id, item, type, playersLength }) {
           flexDirection: 'row',
           width: RW(372),
           zIndex: -33,
+   
         }}
       >
         <View style={{ width: '80%' }}></View>
         <TouchableOpacity
-          style={{ width: '20%' }}
+          style={{ width: '20%', }}
           onPress={() => {
             setDeleting(true)
           }}
@@ -109,6 +110,7 @@ function ChatItem({ id, item, type, playersLength }) {
               id: item._id,
               type: type,
               playersLength: playersLength,
+              team: item.team
             })
           }
           style={styles.chatItemBlock}
