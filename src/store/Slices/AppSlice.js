@@ -86,12 +86,10 @@ export const AppSlice = createSlice({
 export const notificationSettings = (data) => (dispatch) => {
   axiosInstance
     .post('api/profile/notification', data)
-    .then((response) => {
-    })
+    .then((response) => {})
     .catch((err) => {
       console.error('Error: request notification', err.request?._response)
     })
-
 }
 export const notificationButtonClciked = (notification_id) => (dispatch) => {
   axiosInstance.put(`/api/notification/click/${notification_id}`).catch((err) => {
@@ -106,7 +104,7 @@ export const getNotifications = () => (dispatch) => {
       dispatch(setNotifications(response.data?.datas))
     })
     .catch((err) => {
-      console.error('Error: request notification', err.request?._response)
+      console.log(err, 'err')
     })
 }
 export const deleteNotification = (id) => (dispatch) => {
@@ -127,7 +125,7 @@ export const deleteAllNotifications = () => (dispatch) => {
 }
 
 export const getCalendarGames = (data) => (dispatch) => {
-  console.log(data, 'data');
+  console.log(data, 'data')
   axiosInstance
     .get('api/create/game/by/date', {
       params: {

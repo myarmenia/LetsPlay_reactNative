@@ -13,7 +13,7 @@ const initialState = {
     preferences: [],
     took_part_games: [],
     vk_uri: '',
-    notification_settings: []
+    notification_settings: [],
   },
   pending: false,
   token: '',
@@ -36,7 +36,8 @@ export const AuthSlice = createSlice({
       }
     },
     changeNotificationData: (store, action) => {
-      store.user.notification_settings[action.payload].checked = !store.user.notification_settings[action.payload].checked
+      store.user.notification_settings[action.payload].checked =
+        !store.user.notification_settings[action.payload].checked
     },
     setExpiredToken: (store, action) => {
       return {
@@ -207,7 +208,7 @@ export const signIn2 = (data) => async (dispatch) => {
 export const forgitPassword = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/password_reset', data)
-    .then((response) => { })
+    .then((response) => {})
     .catch((err) => {
       console.error('Error: request forgitPassword', err.request?._response)
     })
@@ -368,7 +369,6 @@ export const getProfileInfo = () => (dispatch) => {
   axiosInstance
     .get('api/profile')
     .then((response) => {
-      console.log(response, 'response Arshak');
       dispatch(setUser(response.data?.user))
     })
     .catch((err) => {
@@ -394,8 +394,6 @@ export const {
   setSignUpStep,
   setDocumentRules,
   setTookPartGames,
-  changeNotificationData
+  changeNotificationData,
 } = AuthSlice.actions
 export default AuthSlice.reducer
-
-

@@ -39,24 +39,24 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Нам нужно разрешение на мультимедиа, например, во время прямой трансляции.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>"Играем" запрашивает доступ к камере. Это позволит вам создавать события с фотографиями.</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Включение Face ID обеспечивает вам быстрый и безопасный доступ к вашей учетной записи.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Ваше местоположение необходимо для определения ближайших к вам событий.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Ваше местоположение необходимо для определения ближайших к вам событий.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Ваше местоположение необходимо для определения ближайших к вам событий.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>Включение Face ID обеспечивает вам быстрый и безопасный доступ к вашей учетной записи.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Нам нужно разрешение на передачу звука через микрофон, например, во время прямой трансляции.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Нам нужно разрешение на доступ к библиотеке фотографий, чтобы изменить изображение профиля, загружать и сохранять фотографии из записей в библиотеку фотографий.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Нам нужно разрешение на доступ к библиотеке фотографий, чтобы изменить изображение профиля, загружать и сохранять фотографии из записей в библиотеку фотографий.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Нам нужно разрешение на мультимедиа, например, во время прямой трансляции.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Inter-Bold.ttf</string>
@@ -65,6 +65,11 @@
 		<string>Inter-Regular.ttf</string>
 		<string>OpenSans-Regular.ttf</string>
 		<string>OpenSans-Medium.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

@@ -7,7 +7,6 @@ const requestUserPermission = async (openModalFunc) => {
   const enabled =
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL
-
   if (enabled) {
     // console.log('Authorization status:', authStatus)
     getFcmToken(openModalFunc)
@@ -44,20 +43,21 @@ const notificationListener = async (openModalFunc, callBack) => {
     })
 }
 const getFcmToken = async (openModalFunc) => {
-  const fcmToken = await AsyncStorage.getItem('fcmToken')
-  // console.log('The old generated fcmToken', fcmToken)
-  if (!fcmToken) {
-    try {
+  try {
+    const token = await AsyncStorage.getItem('fcmToken')
+    // await messaging().registerDeviceForRemoteMessages()
+    if (!token) {
       let fcmToken = await messaging().getToken()
+      console.log(fcmToken, 'fcmToken')
       if (fcmToken) {
         // console.log('The new generated fcmToken', fcmToken)
         await AsyncStorage.setItem('fcmToken', fcmToken)
       }
-    } catch (error) {
-      console.log('Error rasied in fcmToken', error)
-      // alert('Error in notification service')
-      openModalFunc('Error in notification service', 'error')
     }
+  } catch (error) {
+    console.log(error, 'gago error')
+    // alert('Error in notification service')
+    openModalFunc('Error in notification service', 'error')
   }
 }
 
