@@ -7,6 +7,7 @@ import DateComponent from '@/components/DateComponent'
 import RadioBlock from '@/components/RadioBlock'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
+import { gender, organizerData, priceFondData, start_date, end_date } from '../info'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import {
   setAgeRestrictionsFrom,
@@ -21,7 +22,7 @@ import {
   setTourStartDate,
   setTournamentFund,
   setPlayersGender,
-} from '@/store/Slices/TournamentSlice'
+} from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 
 const CreateTournamentInfo = ({ route }) => {
@@ -32,27 +33,20 @@ const CreateTournamentInfo = ({ route }) => {
   // ================== states ==================
 
   const [addressName, setAddressName] = useState(null)
-  const [startDate, setStartDate] = useState({
-    date: new Date(),
-    time: new Date(),
+  const [startDate, setStartDate] = useState(start_date)
+  const [endDate, setEndDate] = useState(end_date)
+  const [genderList, setGenderList] = useState(gender)
+  const [organizerJoin, setOrganizerJoin] = useState(organizerData)
+  const [priceFond, setPriceFond] = useState(priceFondData)
+  const [count, setCount] = useState({
+    from: null,
+    to: null
+})
+
+  const [age, setAge] = useState({
+    from: null,
+    to: null
   })
-  const [endDate, setEndDate] = useState({
-    date: new Date(new Date().setDate(startDate.date.getDate() - 1)),
-    time: new Date(),
-  })
-  const [genderList, setGenderList] = useState([
-    { id: 1, text: 'М', checked: false, label: 'm' },
-    { id: 2, text: 'Ж', checked: false, label: 'f' },
-    { id: 3, text: 'Без ограничений', checked: true, label: 'm/f' },
-  ])
-  const [organizerJoin, setOrganizerJoin] = useState([
-    { id: 1, text: 'Участвует', checked: true },
-    { id: 2, text: 'Не Участвует', checked: false },
-  ])
-  const [priceFond, setPriceFond] = useState([
-    { id: 1, text: 'Да', checked: false },
-    { id: 2, text: 'Нет', checked: true },
-  ])
 
   // ================== states end ==================
 
@@ -100,7 +94,7 @@ const CreateTournamentInfo = ({ route }) => {
     .concat(' ' + timeFormat(endDate))
 
   const handleSubmit = () => {
-    if (!initialState.address_name) {
+    if (!addressName) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
@@ -169,13 +163,13 @@ const CreateTournamentInfo = ({ route }) => {
     }
   }
   useEffect(() => {
-    dispatch(setLatitude(response?.latitude ? response?.latitude : addressName?.lat))
-    dispatch(setLongitude(response?.longitude ? response?.longitude : addressName?.lng))
-    dispatch(
-      setAddressNameTour(
-        response?.address_name ? response?.address_name : addressName?.address_name,
-      ),
-    )
+    // dispatch(setLatitude(response?.latitude ? response?.latitude : addressName?.lat))
+    // dispatch(setLongitude(response?.longitude ? response?.longitude : addressName?.lng))
+    // dispatch(
+    //   setAddressNameTour(
+    //     response?.address_name ? response?.address_name : addressName?.address_name,
+    //   ),
+    // )
   }, [response, addressName])
   return (
     <ScreenMask>
@@ -212,10 +206,8 @@ const CreateTournamentInfo = ({ route }) => {
           </Text>
           <View style={styles.countBlock}>
             <TextInput
-              // value={value}
-              onChangeText={(number) => {
-                dispatch(setNumberOfParticipantsFrom(number))
-              }}
+              value={count.from}
+              onChangeText={(e) => { setCount({ ...count, from: e }) }}
               keyboardType={'numeric'}
               style={styles.countInput}
               placeholder={'От'}
@@ -223,10 +215,8 @@ const CreateTournamentInfo = ({ route }) => {
             />
             <View style={styles.dash}></View>
             <TextInput
-              // value={value}
-              onChangeText={(e) => {
-                dispatch(setNumberOfParticipantsTo(e))
-              }}
+              value={count.to}
+              onChangeText={(e) => { setCount({ ...count, to: e }) }}
               keyboardType={'numeric'}
               style={styles.countInput}
               placeholder={'До'}
@@ -241,10 +231,8 @@ const CreateTournamentInfo = ({ route }) => {
               <Text style={styles.titles}>Возрастные ограничения</Text>
               <View style={styles.countBlock}>
                 <TextInput
-                  // value={value}
-                  onChangeText={(number) => {
-                    dispatch(setAgeRestrictionsFrom(number))
-                  }}
+                  value={age.from}
+                  onChangeText={(number) => { setAge({ ...age, from: number }) }}
                   keyboardType={'numeric'}
                   style={styles.countInput}
                   placeholder={'От'}
@@ -252,10 +240,8 @@ const CreateTournamentInfo = ({ route }) => {
                 />
                 <View style={styles.dash}></View>
                 <TextInput
-                  // value={value}
-                  onChangeText={(number) => {
-                    dispatch(setAgeRestrictionsTo(number))
-                  }}
+                  value={age.to}
+                  onChangeText={(number) => { setAge({ ...age, to: number }) }}
                   keyboardType={'numeric'}
                   style={styles.countInput}
                   placeholder={'До'}
@@ -265,10 +251,7 @@ const CreateTournamentInfo = ({ route }) => {
             </View>
             {ageError?.length ? <Text style={styles.error}>{ageError}</Text> : null}
             <RadioBlock
-              onChange={(e) => {
-                dispatch(setPlayersGender(e))
-                setGenderList(e)
-              }}
+              onChange={setGenderList}
               title="Половой признак участника"
               list={genderList}
               titleStyle={{ ...styles.titles, marginTop: RW(23) }}
@@ -302,9 +285,7 @@ const CreateTournamentInfo = ({ route }) => {
 
         <View style={{ paddingTop: '5%', left: '2%' }}>
           <RadioBlock
-            onChange={(priceFond) => {
-              setPriceFond(priceFond)
-            }}
+            onChange={setPriceFond}
             title="Призовой фонд"
             list={priceFond}
             containerStyle={{ paddingTop: '4%' }}
@@ -313,9 +294,7 @@ const CreateTournamentInfo = ({ route }) => {
         </View>
         <View style={{ paddingTop: '5%', left: '2%' }}>
           <RadioBlock
-            onChange={(organizerJoin) => {
-              setOrganizerJoin(organizerJoin)
-            }}
+            onChange={setOrganizerJoin}
             title="Статус организатора в турнире"
             list={organizerJoin}
             containerStyle={{ paddingTop: '4%' }}

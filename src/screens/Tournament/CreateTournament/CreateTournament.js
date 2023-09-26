@@ -8,11 +8,8 @@ import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import {
-  clearTournamentData,
-  setTournamentDescription,
-  setTeamTourney,
-  setTournamentName,
-} from '@/store/Slices/TournamentSlice'
+  setTourneyInfo
+} from '@/store/Slices/TournamentReducer/TournamentSlice'
 
 const CreateTournament = ({ route }) => {
   const [formatList, setFormatList] = useState([
@@ -27,29 +24,45 @@ const CreateTournament = ({ route }) => {
       checked: false,
     },
   ])
+
+  const [tourName, setTourName] = useState(null)
+  const [description, setDescription] = useState(null)
+
+
+
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const [error, setError] = useState(false)
-  const [tourName, setTourName] = useState('')
+
+
+
+
+  const clearfields = () => {
+    setDescription(null)
+    setTourName(null)
+  }
+
+
+
   const handleClick = () => {
-    dispatch(clearTournamentData())
-    if (tourName?.length) {
+    clearfields()
+    if (tourName) {
       setError(false)
-      dispatch(setTournamentName(tourName))
-      if (formatList[0].checked) {
-        navigation.navigate('CreateTournamentInfo')
-        dispatch(setTeamTourney(false))
-      } else {
-        dispatch(setTeamTourney(true))
-        navigation.navigate('CreateTournamentInfo')
-      }
+      dispatch(setTourneyInfo({
+        name: tourName,
+        description: description,
+        team_tourney: formatList[0].checked ? false : true
+      }))
+      navigation.navigate('CreateTournamentInfo')
+      clearfields()
     } else {
       setError(true)
     }
   }
   useEffect(() => {
-    dispatch(clearTournamentData())
+    // dispatch(clearTournamentData())
   }, [])
+
 
   return (
     <ScreenMask>
@@ -59,15 +72,15 @@ const CreateTournament = ({ route }) => {
             style={styles.input}
             placeholderTextColor={ICON}
             value={tourName}
-            onChangeText={(e) => setTourName(e)}
+            onChangeText={setTourName}
             placeholder={'Название турнира'}
           />
           <TextInput
             style={styles.inputMulti}
             placeholderTextColor={ICON}
             multiline={true}
-            // value={description}
-            onChangeText={(e) => dispatch(setTournamentDescription(e))}
+            value={description}
+            onChangeText={setDescription}
             placeholder={'Описание турнира (можно использовать ссылку на интернет страничку):'}
           />
         </View>

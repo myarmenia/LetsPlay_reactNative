@@ -12,6 +12,7 @@ import FastImage from 'react-native-fast-image'
 
 const SelectMembers = ({ route }) => {
   const props = route?.params
+  console.log(props, 'params');
   const navigation = useNavigation()
   const [reservedUsers, setReservedUsers] = useState([])
   const handleClick = (user) => {
@@ -69,7 +70,7 @@ const SelectMembers = ({ route }) => {
         </View>
         <ScrollView>
           <View style={styles.usersContainer}>
-            {props.command?.players.map((user, i) => {
+            {props.command?.invited_players.map((user, i) => {
               return <EachUser key={i} user={user} />
             })}
           </View>
