@@ -13,7 +13,7 @@ import Modal from '@/components/modal'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
 import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
-import { setTournamentGameType, setTournamentImagePath } from '@/store/Slices/TournamentSlice'
+import { setTournamentGameType, setTournamentImagePath } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import FastImage from 'react-native-fast-image'
 
 function ListItem({ game, pressable, qrGame, fromTournament }) {

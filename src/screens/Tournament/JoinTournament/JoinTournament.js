@@ -11,7 +11,7 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames } from '@/store/Slices/GamesSlice'
-import { searchTourney, setFindedTouney } from '@/store/Slices/TournamentSlice'
+import { searchTourney, setFindedTouney } from '@/store/Slices/TournamentReducer/TournamentSlice'
 
 const JoinTournament = ({ route }) => {
   const dispatch = useDispatch()

@@ -18,7 +18,6 @@ function CalendarSettings() {
     needRender.current && dispatch(notificationSettings(chatSettings))
   }, [chatSettings])
 
-  console.log(chatSettings, 'chatSettings');
 
   const dispatch = useDispatch()
   return (

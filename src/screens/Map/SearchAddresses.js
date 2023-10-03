@@ -70,14 +70,17 @@ const SearchAddresses = ({
       }
     }
   }
-  useEffect(() => {
-    setAddresses('')
-    // dispatch(setPlaceName(''))
-    setState(!command ? '' : command?.address_name)
-  }, [])
-  useEffect(() => {
-    setState(command ? command?.address_name : initialState?.address_name)
-  }, [initialState.address_name])
+  // useEffect(() => {
+  //   setAddresses('')
+  //   // dispatch(setPlaceName(''))
+  //   setState(!command ? '' : command?.address_name)
+  // }, [])
+  // useEffect(() => {
+  //   setState(command ? command?.address_name : initialState?.address_name)
+  // }, [initialState.address_name])
+
+
+
   const makeURL = async (state) => {
     try {
       const res = fetchAddress(false, null, null, state).then(async (e) => {

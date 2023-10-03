@@ -11,7 +11,7 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import Row from '@/components/wrappers/row'
-import { createTournament } from '@/store/Slices/TournamentSlice'
+import { createTournament } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import FastImage from 'react-native-fast-image'
 const TournamentInfo = () => {
   const navigation = useNavigation()

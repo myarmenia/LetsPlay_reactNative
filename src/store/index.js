@@ -8,7 +8,7 @@ import AliasSlice from './Slices/AliasSlice'
 import AuthSlice from './Slices/AuthSlice'
 import TeamSlice from './Slices/TeamSlice'
 import AppSlice from './Slices/AppSlice'
-import TournamentSlice from './Slices/TournamentSlice'
+import TournamentSlice from './Slices/TournamentReducer/TournamentSlice'
 
 const store = configureStore({
   reducer: {
@@ -24,7 +24,9 @@ const store = configureStore({
     tournament: TournamentSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false
+    serializableCheck: false,
+    immutableCheck: false,
+
   }),
 })
 
