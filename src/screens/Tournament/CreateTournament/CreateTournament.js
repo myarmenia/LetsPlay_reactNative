@@ -7,9 +7,7 @@ import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
-import {
-  setTourneyInfo
-} from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { setTourneyInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 
 const CreateTournament = ({ route }) => {
   const [formatList, setFormatList] = useState([
@@ -28,33 +26,28 @@ const CreateTournament = ({ route }) => {
   const [tourName, setTourName] = useState(null)
   const [description, setDescription] = useState(null)
 
-
-
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const [error, setError] = useState(false)
-
-
-
 
   const clearfields = () => {
     setDescription(null)
     setTourName(null)
   }
 
-
-
   const handleClick = () => {
     clearfields()
     if (tourName) {
       setError(false)
-      dispatch(setTourneyInfo({
-        name: tourName,
-        description: description,
-        team_tourney: formatList[0].checked ? false : true
-      }))
+      dispatch(
+        setTourneyInfo({
+          name: tourName,
+          description: description,
+          team_tourney: formatList[0].checked ? false : true,
+        }),
+      )
       navigation.navigate('CreateTournamentInfo')
-      clearfields()
+      // clearfields()
     } else {
       setError(true)
     }
@@ -62,7 +55,6 @@ const CreateTournament = ({ route }) => {
   useEffect(() => {
     // dispatch(clearTournamentData())
   }, [])
-
 
   return (
     <ScreenMask>

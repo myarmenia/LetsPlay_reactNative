@@ -7,7 +7,7 @@ const initialState = {
 
   imagePath: null,
 
-  // տուրնիրի անուն  
+  // տուրնիրի անուն
   name: null,
 
   // տուրնիրի նկարագրություն
@@ -16,36 +16,34 @@ const initialState = {
   // տուրնիրի ֆորմատ
   team_tourney: null,
 
-   // ամսաթիվ
-   start_date: new Date(),
-   end_search_date: new Date(),
+  // ամսաթիվ
+  start_date: new Date(),
+  end_search_date: new Date(),
 
-   // հասցե
-   address_name: null,
+  // հասցե
+  address_name: null,
 
   // մրցանակային ֆոնդ
-   prize_fund: false,
+  prize_fund: false,
 
-   // կազմակերպչի մասնակցություն
-   organizer_status: true,
+  // կազմակերպչի մասնակցություն
+  organizer_status: true,
 
-   // խաղացողների քանակ
-   number_of_participants_from: null,
-   number_of_participants_to: null,
+  // խաղացողների քանակ
+  number_of_participants_from: null,
+  number_of_participants_to: null,
 
-   // խաղացողների տարիք
-   age_restrictions_from: null,
-   age_restrictions_to: null,
+  // խաղացողների տարիք
+  age_restrictions_from: null,
+  age_restrictions_to: null,
 
-   // խաղացողներ սեռը
-   players_gender: null,
-
-
+  // խաղացողներ սեռը
+  players_gender: null,
 
   // === menak svoya igrai jamanakan
   // ====
 
-   // number_of_teams_from: 0,
+  // number_of_teams_from: 0,
   // number_of_teams_to: 0,
   // latitude: 0,
   // longitude: 0,
@@ -54,15 +52,8 @@ const initialState = {
   findedTourney: [],
   // petqa menak ind i vaxt
 
-
-
-
-
- 
-
-
   loading: false,
-  error: false
+  error: false,
 }
 const TournamentSlice = createSlice({
   name: 'tournament',
@@ -75,7 +66,7 @@ const TournamentSlice = createSlice({
     },
 
     addTournamentInfo: (state, action) => {
-      state.number_of_participants_from = action.payload.playersCount.number_of_participants_from
+      state.number_of_participants_from = action.payload.playersCount.from
       state.number_of_participants_to = action.payload.playersCount.to
       state.age_restrictions_from = action.payload.playersAge.from
       state.age_restrictions_to = action.payload.playersAge.to
@@ -84,9 +75,8 @@ const TournamentSlice = createSlice({
       state.end_search_date = action.payload.endData
       state.address_name = action.payload.address
       state.prize_fund = action.payload.price
-      state.organizer_status=action.payload.organizerJoin
+      state.organizer_status = action.payload.organizerJoin
     },
-
 
     // setGameName: (store, action) => {
     //   return {
@@ -94,8 +84,6 @@ const TournamentSlice = createSlice({
     //     game_name: action.payload,
     //   }
     // },
-
-
 
     setTournamentImagePath: (store, action) => {
       store.imagePath = action.payload
@@ -195,11 +183,8 @@ const TournamentSlice = createSlice({
       state.rejected = false
       state.data = action.payload
     })
-  }
+  },
 })
-
-
-
 
 export const clearTournamentData = () => (dispatch) => {
   dispatch(setTeamTourney(false))
@@ -231,7 +216,7 @@ export const {
   // setNumberOfTeamsFrom,
   setTournamentGameType,
   setTournamentImagePath,
-  addTournamentInfo
+  addTournamentInfo,
   // setAgeRestrictionsFrom,
   // setNumberOfParticipantsTo,
   // setNumberOfParticipantsFrom,

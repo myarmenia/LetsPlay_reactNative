@@ -11,7 +11,7 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import Row from '@/components/wrappers/row'
-import { createTournament } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { createTournament } from '../../../store/Slices/TournamentReducer/TournamentApies'
 import FastImage from 'react-native-fast-image'
 const TournamentInfo = () => {
   const navigation = useNavigation()
@@ -95,7 +95,7 @@ const TournamentInfo = () => {
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
-            <Text style={styles.eachInfoTwo}>{initialState?.address_name}</Text>
+            <Text style={styles.eachInfoTwo}>{initialState?.address_name.address_name}</Text>
           </Row>
 
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -321,3 +321,25 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
 })
+
+let x = {
+  address_name: { address_name: 'Ереван, Армения', lat: 40.2426667, lng: 44.6150493 },
+  age_restrictions_from: 12,
+  age_restrictions_to: 12,
+  description: 'Crece2c',
+  end_search_date: '2023-10-02 12:26',
+  error: false,
+  findedTourney: [],
+  imagePath: '/game_imgs/soccer-ball 1.png',
+  loading: false,
+  name: 'Ece',
+  number_of_participants_from: undefined,
+  number_of_participants_to: 12,
+  organizer_status: true,
+  players_gender: 'm/f',
+  prize_fund: false,
+  start_date: '2023-10-03 12:26',
+  team_tourney: false,
+  ticket_price: 0,
+  tournamentGameType: 'Футбол',
+}

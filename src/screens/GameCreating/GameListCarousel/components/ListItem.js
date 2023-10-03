@@ -13,7 +13,10 @@ import Modal from '@/components/modal'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
 import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
-import { setTournamentGameType, setTournamentImagePath } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import {
+  setTournamentGameType,
+  setTournamentImagePath,
+} from '@/store/Slices/TournamentReducer/TournamentSlice'
 import FastImage from 'react-native-fast-image'
 
 function ListItem({ game, pressable, qrGame, fromTournament }) {
@@ -29,7 +32,6 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
         onPressIn={() => setBack(true)}
         onPressOut={() => setBack(false)}
         onPress={() => {
-          console.log(qrGame, 'gago0');
           if (pressable) {
             if (qrGame) {
               dispatch(setRules(game.rules))
