@@ -1,5 +1,5 @@
 import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
@@ -9,24 +9,12 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
 import { gender, organizerData, priceFondData, start_date, end_date } from '../info'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
-import {
-  setAgeRestrictionsFrom,
-  setAgeRestrictionsTo,
-  setLatitude,
-  setLongitude,
-  setNumberOfParticipantsFrom,
-  setNumberOfParticipantsTo,
-  setOrganizerStatus,
-  setTourEndDate,
-  setAddressNameTour,
-  setTourStartDate,
-  setTournamentFund,
-  setPlayersGender,
-} from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { addTournamentInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 
 const CreateTournamentInfo = ({ route }) => {
   const dispatch = useDispatch()
+  const needNavigate=useRef(false)
   const navigation = useNavigation()
   const initialState = useSelector(({ tournament }) => tournament)
   const response = route?.params
@@ -41,7 +29,7 @@ const CreateTournamentInfo = ({ route }) => {
   const [count, setCount] = useState({
     from: null,
     to: null
-})
+  })
 
   const [age, setAge] = useState({
     from: null,
@@ -93,65 +81,75 @@ const CreateTournamentInfo = ({ route }) => {
     .substring(0, 10)
     .concat(' ' + timeFormat(endDate))
 
+
+
+
   const handleSubmit = () => {
+
+
+    // Հասցեի ստուգում
     if (!addressName) {
       setAddressNameError(true)
     } else {
       setAddressNameError(false)
     }
+
+    // ամսաթվի ստուգում
     if (startDate.date <= endDate.date) {
       setEndDateError(true)
     } else {
       setEndDateError(false)
       setStartDateError(false)
     }
-    if (startDate && endDate) {
-      dispatch(setTourStartDate(changedStartDate))
-      dispatch(setTourEndDate(changedEndDate))
-    }
-    if (organizerJoin[0].checked) {
-      dispatch(setOrganizerStatus(true))
-    } else {
-      dispatch(setOrganizerStatus(false))
-    }
-    if (!initialState.team_tourney) {
-      if (
-        initialState.age_restrictions_from == undefined ||
-        initialState.age_restrictions_to == undefined ||
-        !initialState.age_restrictions_from.length ||
-        !initialState.age_restrictions_to
-      ) {
-        setAgeError('Обязательное поле для заполнения')
-      } else if (+initialState.age_restrictions_from > +initialState.age_restrictions_to) {
-        setAgeError('Введите корректную возраст')
-      } else {
-        setAgeError(null)
-      }
-      dispatch(setPlayersGender(genderList.find((e) => e.checked).label))
-    }
+
+
+    // մասնակիցների թվի ստուգում
     if (
-      !initialState.number_of_participants_from?.length ||
-      !initialState.number_of_participants_to?.length
+      !count.from || !count.to
     ) {
       setCountError('Обязательное поле для заполнения')
     } else if (
-      +initialState.number_of_participants_from > +initialState.number_of_participants_to
+      count.from > +count.to
     ) {
       setCountError('Введите корректную количество')
     } else {
-      setCountError('')
+      setCountError(false)
     }
 
-    dispatch(setTournamentFund(priceFond[0].checked ? true : false))
-    if (
-      +initialState.number_of_participants_from < +initialState.number_of_participants_to &&
-      !endDateError &&
-      !startDateError &&
-      initialState.address_name &&
-      ((!initialState.team_tourney &&
-        +initialState.age_restrictions_from < +initialState.age_restrictions_to) ||
-        initialState.team_tourney)
-    ) {
+
+    // տարիքի ստուգում եթե անհատական խաղ է
+    if (!initialState.team_tourney) {
+      if (
+        !age.to || !age.from
+      ) {
+        setAgeError('Обязательное поле для заполнения')
+      } else if (age.from > age.to) {
+        setAgeError('Введите корректную возраст')
+      } else {
+        setAgeError(false)
+      }
+    }
+    needNavigate.current=true
+  }
+
+  useEffect(() => {
+    console.log(needNavigate, 'need');
+    if ( 
+      needNavigate.current && !countError && !endDateError && !startDateError && addressName &&
+      ((!initialState.team_tourney && !ageError) || initialState.team_tourney)) {
+      const tournamentInfo = {
+        startData: changedStartDate,
+        endData: changedEndDate,
+        playersCount: count,
+        playersAge: age,
+        gender: genderList.find((e) => e.checked).label,
+        address: addressName,
+        price: priceFond[0].checked ? true : false,
+        organizerJoin: organizerJoin[0].checked ? true : false
+      }
+      dispatch(addTournamentInfo(tournamentInfo))
+
+      needNavigate.current=false
       if (initialState.team_tourney) {
         navigation.navigate('TeamNavigator', {
           screen: 'MyTeam',
@@ -161,7 +159,9 @@ const CreateTournamentInfo = ({ route }) => {
         navigation.navigate('TournamentInfo')
       }
     }
-  }
+  }, [countError, endDateError, startDateError, addressName, ageError, needNavigate.current])
+
+
   useEffect(() => {
     // dispatch(setLatitude(response?.latitude ? response?.latitude : addressName?.lat))
     // dispatch(setLongitude(response?.longitude ? response?.longitude : addressName?.lng))
@@ -207,7 +207,7 @@ const CreateTournamentInfo = ({ route }) => {
           <View style={styles.countBlock}>
             <TextInput
               value={count.from}
-              onChangeText={(e) => { setCount({ ...count, from: e }) }}
+              onChangeText={(e) => { setCount({ ...count, from: +e }) }}
               keyboardType={'numeric'}
               style={styles.countInput}
               placeholder={'От'}
@@ -216,7 +216,7 @@ const CreateTournamentInfo = ({ route }) => {
             <View style={styles.dash}></View>
             <TextInput
               value={count.to}
-              onChangeText={(e) => { setCount({ ...count, to: e }) }}
+              onChangeText={(e) => { setCount({ ...count, to: +e }) }}
               keyboardType={'numeric'}
               style={styles.countInput}
               placeholder={'До'}
@@ -232,7 +232,7 @@ const CreateTournamentInfo = ({ route }) => {
               <View style={styles.countBlock}>
                 <TextInput
                   value={age.from}
-                  onChangeText={(number) => { setAge({ ...age, from: number }) }}
+                  onChangeText={(number) => { setAge({ ...age, from: +number }) }}
                   keyboardType={'numeric'}
                   style={styles.countInput}
                   placeholder={'От'}
@@ -241,7 +241,7 @@ const CreateTournamentInfo = ({ route }) => {
                 <View style={styles.dash}></View>
                 <TextInput
                   value={age.to}
-                  onChangeText={(number) => { setAge({ ...age, to: number }) }}
+                  onChangeText={(number) => { setAge({ ...age, to: +number }) }}
                   keyboardType={'numeric'}
                   style={styles.countInput}
                   placeholder={'До'}

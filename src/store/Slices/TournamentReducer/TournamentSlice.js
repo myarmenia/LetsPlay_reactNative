@@ -16,30 +16,51 @@ const initialState = {
   // տուրնիրի ֆորմատ
   team_tourney: null,
 
+   // ամսաթիվ
+   start_date: new Date(),
+   end_search_date: new Date(),
+
+   // հասցե
+   address_name: null,
+
+  // մրցանակային ֆոնդ
+   prize_fund: false,
+
+   // կազմակերպչի մասնակցություն
+   organizer_status: true,
+
+   // խաղացողների քանակ
+   number_of_participants_from: null,
+   number_of_participants_to: null,
+
+   // խաղացողների տարիք
+   age_restrictions_from: null,
+   age_restrictions_to: null,
+
+   // խաղացողներ սեռը
+   players_gender: null,
+
 
 
   // === menak svoya igrai jamanakan
-  // game_description: '',
   // ====
-  // start_date: new Date().toLocaleDateString(),
-  // end_search_date: new Date().toLocaleDateString(),
-  // prize_fund: true,
-  // organizer_status: true,
-  ticket_price: 0,
-  findedTourney: [],
 
-  // number_of_teams_from: 0,
+   // number_of_teams_from: 0,
   // number_of_teams_to: 0,
-  // address_name: '',
   // latitude: 0,
   // longitude: 0,
   // game_name: 'string',
+  ticket_price: 0,
+  findedTourney: [],
   // petqa menak ind i vaxt
-  // number_of_participants_from: 0,
-  // number_of_participants_to: 0,
-  // age_restrictions_from: 0,
-  // age_restrictions_to: 0,
-  // players_gender: 'm',
+
+
+
+
+
+ 
+
+
   loading: false,
   error: false
 }
@@ -53,6 +74,19 @@ const TournamentSlice = createSlice({
       store.team_tourney = action.payload.team_tourney
     },
 
+    addTournamentInfo: (state, action) => {
+      state.number_of_participants_from = action.payload.playersCount.number_of_participants_from
+      state.number_of_participants_to = action.payload.playersCount.to
+      state.age_restrictions_from = action.payload.playersAge.from
+      state.age_restrictions_to = action.payload.playersAge.to
+      state.players_gender = action.payload.gender
+      state.start_date = action.payload.startData
+      state.end_search_date = action.payload.endData
+      state.address_name = action.payload.address
+      state.prize_fund = action.payload.price
+      state.organizer_status=action.payload.organizerJoin
+    },
+
 
     // setGameName: (store, action) => {
     //   return {
@@ -60,6 +94,9 @@ const TournamentSlice = createSlice({
     //     game_name: action.payload,
     //   }
     // },
+
+
+
     setTournamentImagePath: (store, action) => {
       store.imagePath = action.payload
     },
@@ -69,30 +106,13 @@ const TournamentSlice = createSlice({
         tournamentGameType: action.payload,
       }
     },
-    // setTourStartDate: (store, action) => {
-    //   return {
-    //     ...store,
-    //     start_date: action.payload,
-    //   }
-    // },
-    // setTourEndDate: (store, action) => {
-    //   return {
-    //     ...store,
-    //     end_search_date: action.payload,
-    //   }
-    // },
     // setTournamentFund: (store, action) => {
     //   return {
     //     ...store,
     //     prize_fund: action.payload,
     //   }
     // },
-    // setOrganizerStatus: (store, action) => {
-    //   return {
-    //     ...store,
-    //     organizer_status: action.payload,
-    //   }
-    // },
+
     // setTicketPrice: (store, action) => {
     //   return {
     //     ...store,
@@ -117,12 +137,7 @@ const TournamentSlice = createSlice({
     //     age_restrictions_from: action.payload,
     //   }
     // },
-    // setAgeRestrictionsTo: (store, action) => {
-    //   return {
-    //     ...store,
-    //     age_restrictions_to: action.payload,
-    //   }
-    // },
+
     // setPlayersGender: (store, action) => {
     //   return {
     //     ...store,
@@ -206,20 +221,17 @@ export const {
   // setLongitude,
   // setClearData,
   // setTeamTourney,
-  // setTourEndDate,
   // setTicketPrice,
   // setFindedTouney,
   // setPlayersGender,
-  // setTourStartDate,
   // setTournamentFund,
   // setGameDescription,
-  // setOrganizerStatus,
   // setNumberOfTeamsTo,
   // setAddressNameTour,
   // setNumberOfTeamsFrom,
-  // setAgeRestrictionsTo,
   setTournamentGameType,
   setTournamentImagePath,
+  addTournamentInfo
   // setAgeRestrictionsFrom,
   // setNumberOfParticipantsTo,
   // setNumberOfParticipantsFrom,
