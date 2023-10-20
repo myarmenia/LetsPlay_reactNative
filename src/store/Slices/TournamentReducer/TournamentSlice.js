@@ -4,13 +4,12 @@ import {
   createTourney,
   joinPlayer,
   joinTeam,
-  getTourneyChats,
+  // getTourneyChats,
+  getAllChats,
   confirmJoin,
-  rejectJoin
-}
-  from './TournamentApies'
+  rejectJoin,
+} from './TournamentApies'
 import { tournirData } from './info'
-
 
 const initialState = {
   singleTournir: tournirData,
@@ -24,8 +23,6 @@ const initialState = {
   loading: false,
   error: false,
 }
-
-
 
 const TournamentSlice = createSlice({
   name: 'tournament',
@@ -63,8 +60,7 @@ const TournamentSlice = createSlice({
     },
     setJoinedTeamInfo: (state, action) => {
       state.joinedTeamInfo = action.payload
-    }
-
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(createTourney.pending, (state, action) => {
@@ -103,7 +99,6 @@ const TournamentSlice = createSlice({
     builder.addCase(joinPlayer.pending, (state) => {
       state.loading = true
       state.rejected = false
-
     })
     builder.addCase(joinPlayer.fulfilled, (state, action) => {
       state.loading = false
@@ -119,7 +114,6 @@ const TournamentSlice = createSlice({
     builder.addCase(joinTeam.pending, (state) => {
       state.loading = true
       state.rejected = false
-
     })
     builder.addCase(joinTeam.fulfilled, (state, action) => {
       state.loading = false
@@ -127,23 +121,21 @@ const TournamentSlice = createSlice({
       state.joinStatus = action.payload.data.message
     })
 
-    builder.addCase(getTourneyChats.rejected, (state, action) => {
+    builder.addCase(getAllChats.rejected, (state, action) => {
       state.loading = false
-      state.rejected = false
+      state.rejected = true
     })
-    builder.addCase(getTourneyChats.pending, (state) => {
+    builder.addCase(getAllChats.pending, (state) => {
       state.loading = true
       state.rejected = false
-
     })
-    builder.addCase(getTourneyChats.fulfilled, (state, action) => {
+    builder.addCase(getAllChats.fulfilled, (state, action) => {
       state.loading = false
       state.rejected = false
-      state.chats = action.payload.datas
+      state.chats = action.payload
     })
   },
 })
-
 
 export const {
   setTourneyInfo,
@@ -153,6 +145,6 @@ export const {
   editTournametInfo,
   resetSingleTournirData,
   addSelectedTeam,
-  setJoinedTeamInfo
+  setJoinedTeamInfo,
 } = TournamentSlice.actions
 export default TournamentSlice.reducer

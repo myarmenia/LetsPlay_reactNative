@@ -7,59 +7,52 @@ import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import { getMyTeams, getMyJoinedTeams } from '@/store/Slices/TeamSlice'
 import { getTourneyChats } from '@/store/Slices/TournamentReducer/TournamentApies'
-import { getAllChats, getAllTeamChats } from '@/store/Slices/ChatsSlice'
+import { getAllGameChats, getAllTeamChats } from '@/store/Slices/ChatsSlice'
+import { getAllChats } from '@/store/Slices/TournamentReducer/TournamentApies'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 const ChatScreen = () => {
-  const { allChats, allTeamChats } = useSelector(({ chats }) => chats)
+  const chat = useSelector(({ tournament }) => tournament.chats)
 
-  
+  const chats = [chat[11]]
 
   const dispatch = useDispatch()
 
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    dispatch(getTourneyChats())
-    dispatch(getAllTeamChats())
     dispatch(getAllChats())
-    dispatch(getMyTeams())
-    dispatch(getMyJoinedTeams())
+    // dispatch(getTourneyChats())
+    // dispatch(getAllTeamChats())
+    // dispatch(getAllGameChats())
+    // dispatch(getMyTeams())
+    // dispatch(getMyJoinedTeams())
   }, [isFocused])
-
 
   return (
     <ScreenMask2>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
           <Text style={styles.title}>Чат</Text>
-          {allChats?.length || allTeamChats.length ? (
-            <>
-              <View>
-                {allTeamChats?.map((eachChat) => {
-                  return (
-                    <ChatItem
-                      item={eachChat}
-                      playersLength={eachChat?.players?.length}
-                      key={eachChat?._id}
-                      type="Командный"
-                    />
-                  )
-                })}
-              </View>
-              <View>
-                {allChats?.map((eachChat) => {
-                  return (
-                    <ChatItem
-                      item={eachChat}
-                      key={eachChat?._id}
-                      playersLength={eachChat?.players?.length}
-                      type="Игра"
-                    />
-                  )
-                })}
-              </View>
-            </>
+          {chats?.length ? (
+            <View>
+              {chats?.map((singleChat) => {
+                let type = singleChat?.hasOwnProperty('team_tourney')
+                  ? 'tournament'
+                  : singleChat?.hasOwnProperty('team')
+                  ? 'team'
+                  : 'game'
+
+                return (
+                  <ChatItem
+                    item={singleChat}
+                    playersLength={singleChat?.players?.length}
+                    key={singleChat?._id}
+                    type={type}
+                  />
+                )
+              })}
+            </View>
           ) : (
             <Text style={styles.emptyText}>Пусто</Text>
           )}

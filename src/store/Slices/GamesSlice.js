@@ -138,7 +138,6 @@ export const getGameById =
       .get(`api/create/game/${create_game_id}`)
       .then((response) => {
         if (response.data.data) {
-          console.log('response.data.data.address_nam', response.data.data.address_nam)
           dispatch(setAge_restrictions_from(response.data.data.age_restrictions_from))
           dispatch(setAge_restrictions_to(response.data.data.age_restrictions_to))
           dispatch(setNumber_of_players_from(response.data.data.number_of_players_from))

@@ -170,12 +170,11 @@ export const signIn = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/sign_in', data)
     .then((response) => {
-      console.log(response, 'response');
       dispatch(setExpiredToken(response.data.expired_token))
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
     .catch((err) => {
-      console.log(err, 'err');
+      console.log(err, 'err')
       // console.error('Error: request', err.request._response)
 
       // dispatch(
