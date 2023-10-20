@@ -8,15 +8,15 @@ import CloseSvg from '@/assets/svgs/closeSvg'
 import { setModalVisible } from '@/store/Slices/AppSlice'
 import { useDispatch } from 'react-redux'
 
-const QrModal = ({qrLink}) => {
+const QrModal = ({ qrLink }) => {
   const dispatch = useDispatch()
   return (
     <View style={styles.modal}>
       <Pressable onPress={() => dispatch(setModalVisible(false))} style={styles.modalHeader}>
         <CloseSvg width={24} height={24} />
       </Pressable>
-  
-      <FastImage style={styles.qrImg} source={{uri: _storageUrl + qrLink}} resizeMode='contain'/>
+
+      <FastImage style={styles.qrImg} source={{ uri: _storageUrl + qrLink }} resizeMode='contain' />
     </View>
   )
 }
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   qrImg: {
-    height:RW(320),
+    height: RW(320),
     width: RW(320)
   }
 })

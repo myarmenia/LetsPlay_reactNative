@@ -169,21 +169,22 @@ export const AuthSlice = createSlice({
 export const signIn = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/sign_in', data)
-
     .then((response) => {
+      console.log(response, 'response');
       dispatch(setExpiredToken(response.data.expired_token))
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
     .catch((err) => {
-      console.error('Error: request', err.request._response)
+      console.log(err, 'err');
+      // console.error('Error: request', err.request._response)
 
-      dispatch(
-        setSignInError(
-          typeof err.request._response == 'string'
-            ? JSON.parse(err.request._response).message
-            : err.request._response.message,
-        ),
-      )
+      // dispatch(
+      //   setSignInError(
+      //     typeof err.request._response == 'string'
+      //       ? JSON.parse(err.request._response).message
+      //       : err.request._response.message,
+      //   ),
+      // )
     })
 }
 export const signIn2 = (data) => async (dispatch) => {

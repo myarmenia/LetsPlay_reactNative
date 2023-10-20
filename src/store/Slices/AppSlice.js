@@ -26,7 +26,6 @@ export const AppSlice = createSlice({
         notifications: action.payload,
       }
     },
-
     setCalendarGames: (store, action) => {
       return {
         ...store,
@@ -87,11 +86,14 @@ export const AppSlice = createSlice({
         otherUserGalleries: action.payload,
       }
     },
+    changeSingleNotification: (store, action)=>{
+      const index=store.notifications.findIndex(i=>i._id===action.payload._id)
+      store.notifications[index]=action.payload
+    }
   },
 })
 
 export const notificationSettings = (data) => (dispatch) => {
-  console.log(data, 'data')
   axiosInstance
     .post('api/profile/chat/settings', data)
     .then((response) => {
@@ -102,9 +104,13 @@ export const notificationSettings = (data) => (dispatch) => {
     })
 }
 export const notificationButtonClciked = (notification_id) => (dispatch) => {
-  axiosInstance.put(`/api/notification/click/${notification_id}`).catch((err) => {
-    console.error('Error: request notification', err.request?._response)
-  })
+  axiosInstance.put(`/api/notification/click/${notification_id}`)
+    .then((res) => {
+      dispatch(changeSingleNotification(res.data.data))
+    })
+    .catch((err) => {
+      console.error('Error: request notification', err.request?._response)
+    })
 }
 
 export const getNotifications = () => (dispatch) => {
@@ -217,5 +223,6 @@ export const {
   setMessagesCount,
   setOtherUserGalleries,
   clearCalendarGames,
+  changeSingleNotification
 } = AppSlice.actions
 export default AppSlice.reducer

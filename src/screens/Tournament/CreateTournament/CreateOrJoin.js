@@ -23,7 +23,7 @@ const CreateOrJoin = () => {
         <View>
           <LightButton
             onPress={() => {
-              navigation.navigate('JoinTournament')
+              navigation.navigate('SearchTournament')
             }}
             label={'Принять участие в турнире'}
             size={{ width: 281, height: 50 }}

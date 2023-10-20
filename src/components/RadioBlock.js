@@ -7,7 +7,7 @@ import { ICON, LIGHT_LABEL, RADIO, RADIO_TEXT, WHITE } from '@/theme/colors'
 function RadioBlock({
   title,
   list,
-  onChange = () => {},
+  onChange = () => { },
   editable = true,
   titleStyle,
   left = RW(20),
@@ -33,7 +33,7 @@ function RadioBlock({
           key={index}
         >
           <LinearGradient
-            colors={['#7DCE8A', '#4D7CFE']}
+            colors={!ev.disable ? ['#7DCE8A', '#4D7CFE'] : ['#dddddd', '#dddddd']}
             start={{ x: 0.0, y: 0.0 }}
             end={{ x: 1.0, y: 0.0 }}
             style={{
@@ -73,7 +73,7 @@ function RadioBlock({
               ></View>
             )}
           </LinearGradient>
-          <Text style={styles.radioText}>{ev.text}</Text>
+          <Text style={[styles.radioText, ev.disable && {color: '#dddddd'}]}>{ev.text}</Text>
         </Pressable>
       ))}
     </View>

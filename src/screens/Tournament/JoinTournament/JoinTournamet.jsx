@@ -8,62 +8,133 @@ import User from '@/components/User/user'
 import LightButton from '@/components/buttons/Button'
 import { FONT_INTER_BOLD, FONT_INTER_MEDIUM } from '@/theme/fonts'
 import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
-import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { createTournament } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { resetSingleTournirData } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import FastImage from 'react-native-fast-image'
-const EachTournament = ({ route }) => {
-  const props = route.params
+import moment from 'moment'
+import { joinPlayer, joinTeam } from '@/store/Slices/TournamentReducer/TournamentApies'
+import Row from '@/components/wrappers/row'
+
+
+const JoinTournament = () => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
-  const [modalVisible, setModalVisible] = useState(false)
-  const initialState = useSelector(({ tournament }) => tournament)
   const { user } = useSelector(({ auth }) => auth)
+
+
+  const [errorText, setErrorText] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
+  const { choosenTournir, joinedTeamInfo } = useSelector(({ tournament }) => tournament)
+
+
+
+
+  const handleClick = async () => {
+    if (!choosenTournir.team_tourney) {
+      dispatch(joinPlayer(choosenTournir._id))
+        .unwrap()
+        .then((res) => {
+          setErrorText(false)
+          setModalVisible(true)
+          dispatch(resetSingleTournirData())
+        })
+        .catch((err) => {
+          setErrorText(err)
+        })
+    } else {
+      //ստեղ գրել թիմային տուրնիրին միանալու լոգիկան
+
+      dispatch(joinTeam(joinedTeamInfo))
+        .unwrap()
+        .then((res) => {
+          setErrorText(false)
+          setModalVisible(true)
+          dispatch(resetSingleTournirData())
+        })
+        .catch((err) => {
+          setErrorText(err)
+        })
+    }
+  }
+
+  const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
         <View style={styles.bigIcon}>
           <FastImage
-          resizeMode='contain'
+            resizeMode='contain'
             style={{ width: RW(260), height: RH(260) }}
             source={{
-              uri: _storageUrl + (props?.data?.data ? initialState?.imagePath : props?.img),
+              uri: _storageUrl + choosenTournir?.game?.img,
             }}
           />
         </View>
         <View>
-          <Text style={styles.eachInfo}>Тип турнира :</Text>
-          <Text style={styles.eachInfoTwo}>{initialState.tournamentGameType}</Text>
-          <Text style={styles.eachInfo}>Название турнира: </Text>
-          <Text style={styles.eachInfoTwo}>{initialState?.name ? initialState?.name : ''}</Text>
-          <Text style={styles.eachInfo}>Описание турнира: </Text>
-          <Text style={styles.eachInfoTwo}>
-            {initialState?.game_description ? initialState.game_description : 'Нету'}
-          </Text>
-          <Text style={styles.eachInfo}>Количество команд:</Text>
-          <Text style={styles.eachInfoTwo}>
-            от {initialState?.number_of_teams_from} до {initialState?.number_of_teams_to}
-          </Text>
-          <Text style={styles.eachInfo}>Дата турнира:</Text>
-          <Text style={styles.eachInfoTwo}>
-            {props?.data?.data?.data?.start_date.split('/').reverse().join('-').slice(0, 10)}
-          </Text>
-          <Text style={styles.eachInfo}>Время:</Text>
-          <Text style={styles.eachInfoTwo}>
-            {initialState?.start_date?.split('/').reverse().join('-').slice(10)}
-            {/* {new Date(props?.start_date).toLocaleTimeString().slice(0, 5)}  */}
-          </Text>
-          <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
-          <Text style={styles.eachInfoTwo}>
-            {initialState.address_name}
-            {/* {new Date(props?.end_date).toLocaleDateString()},{' '}
-            {new Date(props?.end_date).toLocaleTimeString().slice(0, 5)} */}
-          </Text>
-          {/* <Text style={styles.eachInfo}>Плата за участие: </Text> */}
-          {/* <Text style={styles.eachInfoTwo}>
-            {initialState?.ticket_price ? initialState?.ticket_price : '0 р.'} */}
-          {/* {props?.ticket_price ? `${props?.ticket_price} руб.` : 'Бесплатно'} */}
-          {/* </Text> */}
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Тип турнира :</Text>
+            <Text style={styles.eachInfoTwo}>{choosenTournir?.game?.name}</Text>
+          </Row>
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Название турнира: </Text>
+            <Text style={styles.eachInfoTwo}>{choosenTournir?.name}</Text>
+          </Row>
+
+
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Описание турнира: </Text>
+            <Text style={styles.eachInfoTwo}>
+              {choosenTournir?.description ? choosenTournir.description : 'Нету'}
+            </Text>
+          </Row>
+
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Количество {choosenTournir.team_tourney ? 'команд' : 'игроков'}:</Text>
+            <Text style={styles.eachInfoTwo}>
+              от {choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_from : choosenTournir.number_of_participants_from
+              } до {choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_to : choosenTournir.number_of_participants_to}
+            </Text>
+          </Row>
+
+          {!choosenTournir?.team_tourney && <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Возраст участников:</Text>
+            <Text style={styles.eachInfoTwo}>
+              от {choosenTournir.age_restrictions_from}
+              до {choosenTournir?.age_restrictions_to}
+            </Text>
+          </Row>}
+
+          {!choosenTournir?.team_tourney && <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Пол участников:</Text>
+            <Text style={styles.eachInfoTwo}>
+              {genders[choosenTournir?.players_gender]}
+            </Text>
+          </Row>}
+
+
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Дата турнира:</Text>
+            <Text style={styles.eachInfoTwo}>
+              {moment(choosenTournir.start_date).format('DD.MM.YYYY')}
+            </Text>
+          </Row>
+
+
+
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Время:</Text>
+            <Text style={styles.eachInfoTwo}>
+              {moment(choosenTournir.start_date).format('HH:mm')}
+            </Text>
+          </Row>
+
+
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
+            <Text style={styles.eachInfoTwo}>
+              {choosenTournir.address_name}
+            </Text>
+          </Row>
+
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
             <Text style={styles.eachInfo}>Организатор турнира:</Text>
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>
@@ -78,6 +149,8 @@ const EachTournament = ({ route }) => {
               />
             </View>
           </View>
+          {errorText && <Text style={styles.errorText} numberOfLines={2}>{errorText}</Text>}
+
         </View>
         <View
           style={{
@@ -89,45 +162,20 @@ const EachTournament = ({ route }) => {
             marginTop: RH(100),
           }}
         >
+
+
+
           <LightButton
-            label={'Редактировать'}
-            size={{ width: 220, height: 40 }}
-            onPress={() => {
-              // if (data.fromTournament) {
-              //   navigation.navigate('TournamentNavigator', {
-              //     screen: 'SelectMembers',
-              //     params: { command: command, data: data },
-              //   })
-              //   setBack(false)
-              // }
-              navigation.navigate(
-                !props?.data?.data?.data ? 'JoinTournament' : 'SelectMembers',
-                props,
-              )
-              //   dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
-            }}
-          />
-          <LightButton
-            label={'Готово'}
-            size={{ width: 120, height: 40 }}
-            onPress={() => {
-              initialState.team_tourney == true
-                ? (dispatch(createTournament(initialState)), setModalVisible(true))
-                : null
-              // setModalVisible(true)
-              //   dispatch(joinGame(props?.id, navigation, setError, setModalVisible))
-            }}
+            label={'Присоединиться к турниру'}
+            size={{ width: RW(290), height: RW(45) }}
+            onPress={handleClick}
           />
         </View>
 
         <Modal
           item={
             <View style={styles.modal}>
-              <Text style={styles.modalText}>
-                {initialState.team_tourney == true
-                  ? 'Вы успешно создали турнир!'
-                  : 'Вы успешно присоединились к турниру!'}
-              </Text>
+              <Text style={styles.modalText}>Вы успешно присоединились к турниру!</Text>
             </View>
           }
           modalVisible={modalVisible}
@@ -139,7 +187,7 @@ const EachTournament = ({ route }) => {
   )
 }
 
-export default EachTournament
+export default JoinTournament
 
 export const styles = StyleSheet.create({
   gameItemContainer: {
@@ -166,6 +214,12 @@ export const styles = StyleSheet.create({
     ...font('medium', 12, WHITE),
     width: RW(230),
     textAlign: 'left',
+  },
+  errorText: {
+    ...font('medium', 17, 'red'),
+    marginLeft: 11,
+    top: RH(15),
+    // left: RW(20),
   },
   playersText: {
     textAlign: 'center',
@@ -267,14 +321,14 @@ export const styles = StyleSheet.create({
     marginBottom: RH(33),
   },
   eachInfo: {
-    ...font('regular', 14, WHITE, 20),
+    ...font('bold', RH(20), WHITE, 20),
     marginLeft: RW(11),
-    marginBottom: RH(6),
+    // marginBottom: RH(6),
   },
   eachInfoTwo: {
-    ...font('bold', 16, ICON, 20),
+    ...font('regular', RH(20), WHITE, 20),
     marginLeft: RW(11),
-    marginBottom: RH(24),
+    // marginBottom: RH(24),
   },
   eachInfoRegular: {
     fontFamily: FONT_INTER_BOLD,

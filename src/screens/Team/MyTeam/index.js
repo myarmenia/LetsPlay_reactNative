@@ -13,7 +13,7 @@ import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 function Index({ route }) {
-  const props = route.params
+  const {params} = route
 
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
@@ -21,7 +21,7 @@ function Index({ route }) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(getMyTeams())
+    // dispatch(getMyTeams())
     dispatch(saveTeamDataForCreating({}))
   }, [])
 
@@ -50,7 +50,7 @@ function Index({ route }) {
             size={{ width: 100 }}
             onPress={() => {
               setModalVisible(false)
-              if (props?.navigateFrom == 'RatePlayerModal') {
+              if (params?.navigateFrom == 'RatePlayerModal') {
                 navigation.navigate('CreateGameNavigator', {
                   screen: 'RatePlayers',
                   params: { ...route.params.body, navigateFrom: 'MyTeam' },
@@ -83,7 +83,7 @@ function Index({ route }) {
       <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
         <Text style={styles.title}>Мои команды</Text>
         {myTeams?.length ? (
-          myTeams?.map((command, i) => <EachCommand data={props} command={command} key={i} />)
+          myTeams?.map((command, i) => <EachCommand data={params} command={command} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
             <Text style={styles.text}>Загрузка...</Text>

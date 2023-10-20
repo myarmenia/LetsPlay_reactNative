@@ -11,28 +11,25 @@ import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames } from '@/store/Slices/GamesSlice'
-import { searchTourney, setFindedTouney } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { searchTourney } from '@/store/Slices/TournamentReducer/TournamentApies'
+import moment from 'moment'
 
-const JoinTournament = ({ route }) => {
+import { chooseGameType, format } from './info'
+
+
+const SearchTournament = () => {
   const dispatch = useDispatch()
-  const props = route.params
-  const games = useSelector(({ games }) => games.games)
 
-  const chooseGameType = [
-    { id: 1, text: 'Игры из Ваших предпочтений', checked: true },
-    { id: 2, text: 'Все игры', checked: false },
-    { id: 3, text: 'Выбрать игру', checked: false },
-  ]
+
+  const games = useSelector(({ games }) => games.games)
+  const { myTeams } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
 
   //states
   const [showGameTypes, setShowGameTypes] = useState(false)
-  const [addressName, setAddressName] = useState(props?.address_name)
+  const [addressName, setAddressName] = useState(null)
   const [addressError, setAddressError] = useState(false)
-  const [tournamentFormat, setTournamentFormat] = useState([
-    { id: 1, text: 'Индивидуальный', checked: true },
-    { id: 2, text: 'Командный', checked: false },
-  ])
+  const [tournamentFormat, setTournamentFormat] = useState(format)
 
   const [gameTypes, setGameTypes] = useState()
   const [list, setList] = useState(chooseGameType)
@@ -44,32 +41,47 @@ const JoinTournament = ({ route }) => {
 
   const handleSubmit = () => {
     if (!addressName.address_name) {
-      console.log('setAddressError(true)')
       setAddressError(true)
     } else {
       setAddressError(false)
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = {
-        latitude: props?.fromMap ? props?.latitude : addressName?.lat,
-        longitude: props?.fromMap ? props.longitude : addressName?.lng,
-        address_name: props?.fromMap ? props?.address_name : addressName?.address_name,
-        teamTourney: !tournamentFormat[0].checked,
+        price: null,
         game_of_your_choice: !list[1].checked,
-        // date_from: startDate.toISOString().substring(0, 10),
+        team_tourney: !tournamentFormat[0].checked,
+        date_from: moment(startDate).format('YYYY-MM-DD'),
+        date_to: moment(endDate).format('YYYY-MM-DD'),
+        latitude: addressName?.lat,
+        longitude: addressName?.lng,
         games: ids,
       }
-      dispatch(searchTourney(formData, navigation, setNotFoundError))
+      dispatch(searchTourney(formData))
+        .unwrap()
+        .then((res) => {
+          if (res.data.datas.length) {
+            setNotFoundError(false)
+            navigation.navigate('TournamentList')
+          } else {
+            setNotFoundError(true)
+          }
+        })
+        .catch((err) => {
+        })
     }
   }
+
+
   useEffect(() => {
-    if (route.params?.fromMap) {
-      setAddressName(route.params)
-      route.params = {}
+    if (!myTeams.length) {
+      setTournamentFormat([
+        tournamentFormat[0],
+        { id: 2, text: 'Командный', checked: false, disable: true },])
     }
-  }, [route.params?.fromMap])
-  useEffect(() => {
-    dispatch(setFindedTouney([]))
   }, [])
+
+
+
+
 
   useEffect(() => {
     if (!games.length) {
@@ -85,6 +97,8 @@ const JoinTournament = ({ route }) => {
     })
     setGameTypes(gameTypesData)
   }, [games])
+
+
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
@@ -95,6 +109,7 @@ const JoinTournament = ({ route }) => {
             title="Формат турнира"
             titleStyle={styles.radioTitle}
             onChange={setTournamentFormat}
+            editable={!tournamentFormat[1]?.disable}
           />
           <RadioBlock
             list={list}
@@ -140,11 +155,10 @@ const JoinTournament = ({ route }) => {
             addressName={addressName}
             command={null}
           />
-          {console.log('addressError', addressError)}
           {addressError ? <Text style={styles.errorText}>Выберите аддрес</Text> : null}
         </View>
       </ScrollView>
-      {notFoundError ? <Text style={styles.error}>Турниров не найдено</Text> : null}
+      {notFoundError ? <Text style={styles.errorText}>Турниров не найдено</Text> : null}
       <View
         style={[
           styles.bottomButton,
@@ -160,14 +174,14 @@ const JoinTournament = ({ route }) => {
         <LightButton
           label={'Готово'}
           onPress={handleSubmit}
-          size={{ width: RW(144), height: '100%' }}
+          size={{ width: RW(144), height: '100%', }}
         />
       </View>
     </ScreenMask>
   )
 }
 
-export default JoinTournament
+export default SearchTournament
 
 const styles = StyleSheet.create({
   gameTypesContainer: {

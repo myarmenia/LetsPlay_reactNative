@@ -11,16 +11,40 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import Row from '@/components/wrappers/row'
-import { createTournament } from '../../../store/Slices/TournamentReducer/TournamentApies'
 import FastImage from 'react-native-fast-image'
-const TournamentInfo = () => {
+import moment from 'moment'
+import { editTournametInfo, resetSingleTournirData } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { createTourney } from '@/store/Slices/TournamentReducer/TournamentApies'
+
+
+const CreateTournament = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
   const initialState = useSelector(({ tournament }) => tournament)
-  const { user } = useSelector(({ auth }) => auth)
+  const { user } = useSelector(({ auth }) => auth) 
+  const count_from = initialState?.singleTournir?.team_tourney
+    ?
+    initialState?.singleTournir?.number_of_teams_from
+    :
+    initialState.singleTournir.number_of_participants_from
 
+  const count_to = initialState.singleTournir.team_tourney
+    ?
+    initialState.singleTournir.number_of_teams_to
+    :
+    initialState.singleTournir.number_of_participants_to
   const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
+
+
+
+  const onEditPress = () => {
+    dispatch(editTournametInfo())
+    navigation.navigate('TournamentName')
+  }
+
+
+
 
   return (
     <ScreenMask>
@@ -29,9 +53,7 @@ const TournamentInfo = () => {
           <FastImage
             resizeMode="contain"
             style={{ width: RW(260), height: RH(260) }}
-            source={{
-              uri: _storageUrl + initialState?.imagePath,
-            }}
+            source={{ uri: _storageUrl + initialState?.singleTournir?.imagePath }}
           />
         </View>
         <View>
@@ -39,45 +61,54 @@ const TournamentInfo = () => {
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Тип турнира :</Text>
             <Text style={styles.eachInfoTwo}>
-              {/* Своя игра */}
-              {initialState?.name}
+              {initialState?.singleTournir?.tournamentGameType}
             </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Название турнира: </Text>
-            <Text style={styles.eachInfoTwo}> {initialState?.name}</Text>
+            <Text style={styles.eachInfoTwo}> {initialState?.singleTournir?.name}</Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Описание турнира: </Text>
             <Text style={styles.eachInfoTwo}>
-              {initialState?.description?.length ? initialState?.description : 'Нету'}
+              {initialState?.singleTournir?.description
+                ?
+                initialState?.singleTournir?.description
+                :
+                'Нету'}
             </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>
-              Количество {initialState.team_tourney ? 'команд' : 'участников'}:
+              Количество {initialState?.singleTournir?.team_tourney
+                ?
+                'команд'
+                :
+                'участников'
+              }:
             </Text>
             <Text style={styles.eachInfoTwo}>
-              от {initialState?.number_of_participants_from} до{' '}
-              {initialState?.number_of_participants_to}
+              от {count_from} до {' '}{count_to}
             </Text>
           </Row>
-          {initialState.team_tourney ? null : (
+          {initialState.singleTournir?.team_tourney ? null : (
             <>
               <Row>
                 <View style={{ paddingVertical: RH(20) }}></View>
                 <Text style={styles.eachInfo}>Возраст участников:</Text>
                 <Text style={styles.eachInfoTwo}>
-                  от {initialState?.age_restrictions_from} до {initialState?.age_restrictions_to}
+                  от {initialState?.singleTournir.age_restrictions_from} до {initialState?.singleTournir?.age_restrictions_to}
                 </Text>
               </Row>
               <Row>
                 <View style={{ paddingVertical: RH(20) }}></View>
                 <Text style={styles.eachInfo}> Пол участников:</Text>
-                <Text style={styles.eachInfoTwo}>{genders[initialState?.players_gender]}</Text>
+                <Text style={styles.eachInfoTwo}>
+                  {genders[initialState?.singleTournir?.players_gender]}
+                </Text>
               </Row>
             </>
           )}
@@ -85,17 +116,23 @@ const TournamentInfo = () => {
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Дата турнира:</Text>
-            <Text style={styles.eachInfoTwo}>{initialState?.start_date.slice(0, 10)}</Text>
+            <Text style={styles.eachInfoTwo}>
+              {moment(initialState?.singleTournir?.start_date).format('DD.MM.YYYY')}
+            </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Время:</Text>
-            <Text style={styles.eachInfoTwo}>{initialState?.end_search_date.slice(10)}</Text>
+            <Text style={styles.eachInfoTwo}>
+              {moment(initialState?.singleTournir?.start_date).format('HH:mm')}
+            </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
-            <Text style={styles.eachInfoTwo}>{initialState?.address_name.address_name}</Text>
+            <Text style={styles.eachInfoTwo}>
+              {initialState?.singleTournir?.address_name}
+            </Text>
           </Row>
 
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -124,15 +161,40 @@ const TournamentInfo = () => {
           <LightButton
             label={'Редактировать'}
             size={{ width: 220, height: 40 }}
-            onPress={() => {
-              navigation.navigate('CreateTournamentInfo')
-            }}
+            onPress={onEditPress}
           />
           <LightButton
             label={'Готово'}
             size={{ width: 120, height: 40 }}
             onPress={() => {
-              dispatch(createTournament(initialState, setModalVisible))
+              const obj = { ...initialState.singleTournir }
+           
+              if (!initialState.singleTournir.team_tourney) {
+                delete obj.number_of_teams_from
+                delete obj.number_of_teams_to
+              } else {
+                delete obj.number_of_participants_from
+                delete obj.number_of_participants_to
+                delete obj.age_restrictions_from
+                delete obj.age_restrictions_to
+                delete obj.players_gender
+                const {joinedTeamInfo}=initialState 
+                if(obj.organizer_status){
+                  obj.team_id=joinedTeamInfo.team_id
+                  obj.players=joinedTeamInfo.players
+                }
+              }
+              dispatch(createTourney(obj))
+                .unwrap()
+                .then((res) => {
+                  if (res.status === 201) {
+                    setModalVisible(true)
+                    dispatch(resetSingleTournirData())
+                  }
+                })
+                .catch((err) => {
+                  console.log(err, 'err');
+                })
             }}
           />
         </View>
@@ -143,7 +205,7 @@ const TournamentInfo = () => {
               <Text style={styles.modalText}>
                 {modalVisible === true
                   ? 'Вы успешно создали турнир!'
-                  : 'Что-то произошло не так, трнир не создань!'}
+                  : 'Что-то произошло не так, трнир не создан!'}
               </Text>
             </View>
           }
@@ -156,7 +218,7 @@ const TournamentInfo = () => {
   )
 }
 
-export default TournamentInfo
+export default CreateTournament
 
 export const styles = StyleSheet.create({
   gameItemContainer: {
@@ -309,7 +371,7 @@ export const styles = StyleSheet.create({
     marginLeft: RW(130),
   },
   modal: {
-    width: RW(266),
+    width: RW(290),
     alignSelf: 'center',
     backgroundColor: BACKGROUND,
     borderRadius: RW(20),

@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import CircleButton from '@/components/buttons/Circle/Index'
 import TabBarButton from '@/components/buttons/tabs'
 import { NAV_HEADER_OPTION } from '@/constants'
 import { ICON } from '@/theme/colors'
+import { getMyTeams } from '@/store/Slices/TeamSlice'
+import { useDispatch } from 'react-redux'
 
 // TAB SCREENS
 import ProfileScreen from '@/screens/Profile'
@@ -37,6 +39,14 @@ const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
   const [isHome, setIsHome] = React.useState(true)
+
+  const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    dispatch(getMyTeams())
+  }, [])
+
 
   return (
     <>

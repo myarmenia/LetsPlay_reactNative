@@ -74,7 +74,6 @@ export const deleteChat = (gameId, callBack) => (dispatch) => {
     .delete(`api/create/game/${gameId}`)
     .then((res) => {
       callBack()
-      console.log('deleteChat', res.data)
       dispatch(setDeleteChat(gameId))
     })
     .catch((err) => {
@@ -113,7 +112,7 @@ export const getTeamChats = (data) => (dispatch) => {
 }
 export const sendMessage = (data) => (dispatch) => {
   axiosInstance.post(`/api/create/game/chat/`, data)
-    .then((res) => { console.log(res, 'res'); })
+    .then((res) => {})
     .catch((err) => {
       console.error('Error: request', err.request._response)
     })

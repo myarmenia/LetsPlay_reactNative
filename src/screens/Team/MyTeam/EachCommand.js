@@ -6,8 +6,13 @@ import { _storageUrl } from '@/constants'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 import { WHITE } from '@/theme/colors'
+import { useDispatch } from 'react-redux'
+import { addSelectedTeam } from '@/store/Slices/TournamentReducer/TournamentSlice'
 
 const EachCommand = ({ command, data }) => {
+  console.log(data, 'data');
+
+  const dispatch = useDispatch()
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
   return (
@@ -22,13 +27,17 @@ const EachCommand = ({ command, data }) => {
             screen: 'RatePlayers',
             params: { ...data.body, navigateFrom: 'MyTeam', inviteCommand: command },
           })
-        } else if (data?.fromTournament) {
-          navigation.replace('TournamentNavigator', {
-            screen: 'SelectMembers',
-            params: { command: command, data: data },
-          })
+        } else if (data?.fromTournament || data?.fromJoinTournament) {
+          navigation.navigate('TournamentNavigator',
+            {
+              screen: 'SelectMembers',
+              params: data
+            }
+          )
+          dispatch(addSelectedTeam(command))
           setBack(false)
-        } else {
+        }
+        else {
           setBack(false)
           navigation.navigate('MyTeamInfo', { command })
         }

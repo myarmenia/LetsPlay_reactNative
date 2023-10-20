@@ -13,13 +13,11 @@ import Modal from '@/components/modal'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
 import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
-import {
-  setTournamentGameType,
-  setTournamentImagePath,
-} from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { addTournamentGameInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import FastImage from 'react-native-fast-image'
 
 function ListItem({ game, pressable, qrGame, fromTournament }) {
+
   const [modalVisible, setModalVisible] = useState(false)
   const [back, setBack] = useState(false)
   const navigation = useNavigation()
@@ -41,28 +39,27 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
               } else {
                 !savedTeam?.id && qrGame
                   ? navigation.navigate(
-                      game?.name == 'Мафия'
-                        ? 'MafiaNavigator'
-                        : game?.name == 'Элиас'
+                    game?.name == 'Мафия'
+                      ? 'MafiaNavigator'
+                      : game?.name == 'Элиас'
                         ? 'AliasNavigator'
                         : game?.name == 'Крокодил'
-                        ? 'CrocodileNavigator'
-                        : null,
-                    )
+                          ? 'CrocodileNavigator'
+                          : null,
+                  )
                   : navigation.navigate('CommandLeadCreate')
               }
             } else if (fromTournament) {
-              dispatch(setTournamentGameType(game.name))
-              dispatch(setTournamentImagePath(game.img))
+              dispatch(addTournamentGameInfo(game))
               navigation.replace('TournamentNavigator', {
-                screen: 'CreateTournament',
+                screen: 'TournamentName',
               })
             } else {
               savedTeam?.id
                 ? setModalVisible(true)
                 : game?.name == 'Своя игра'
-                ? navigation.navigate('OwnGameName', { game })
-                : navigation.navigate('GameCreating', { game })
+                  ? navigation.navigate('OwnGameName', { game })
+                  : navigation.navigate('GameCreating', { game })
             }
           }
         }}

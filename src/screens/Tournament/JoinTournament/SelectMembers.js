@@ -9,22 +9,45 @@ import User from '@/components/User/user'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
+import { setJoinedTeamInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { useDispatch, useSelector } from 'react-redux'
+
 
 const SelectMembers = ({ route }) => {
-  const props = route?.params
-  console.log(props, 'params');
+  const { params } = route
   const navigation = useNavigation()
-  const [reservedUsers, setReservedUsers] = useState([])
+  const dispatch = useDispatch()
+  const { selectedTeam, choosenTournir } = useSelector(({ tournament }) => tournament)
+
+
+  const [choosenUsers, setChoosenUsers] = useState([])
+
+
   const handleClick = (user) => {
-    if (!reservedUsers.includes(user)) {
-      setReservedUsers([...reservedUsers, user])
+    if (!choosenUsers.includes(user._id)) {
+      setChoosenUsers([...choosenUsers, user._id])
     } else {
-      setReservedUsers(reservedUsers.filter((elm) => elm !== user))
+      setChoosenUsers(choosenUsers.filter((elm) => elm !== user._id))
     }
   }
+
+
   const handleSubmit = () => {
-    navigation.navigate('EachTournament', { data: props })
+    const allPlayers = selectedTeam.invited_players.reduce((acc, item) => {
+      acc.push(item._id)
+      return acc
+    }, [])
+
+    const joinTeamInfo = {
+      tourney_id: choosenTournir._id,
+      team_id: selectedTeam._id,
+      players: choosenUsers.length ? choosenUsers : allPlayers
+    }
+    dispatch(setJoinedTeamInfo(joinTeamInfo))
+    navigation.navigate(params.fromJoinTournament ? 'JoinTournament' : 'CreateTournament')
   }
+
+
   const EachUser = ({ user }) => {
     return (
       <View
@@ -34,12 +57,9 @@ const SelectMembers = ({ route }) => {
           padding: RW(5),
         }}
       >
-        <BorderGradient height={142} width={105} opacity={reservedUsers.includes(user) ? 1 : 0} />
+        <BorderGradient height={142} width={105} opacity={choosenUsers.includes(user._id) ? 1 : 0} />
         <Pressable
-          style={{
-            position: 'absolute',
-            zIndex: 65,
-          }}
+          style={{ position: 'absolute', zIndex: 65 }}
           onPress={() => handleClick(user)}
         >
           <User
@@ -61,16 +81,16 @@ const SelectMembers = ({ route }) => {
         <View style={styles.header}>
           <View style={styles.headerChild}>
             <FastImage
-              source={{ uri: _storageUrl + props?.command?.img }}
+              source={{ uri: _storageUrl + selectedTeam?.img }}
               style={styles.commandImg}
               resizeMode="cover"
             />
-            <Text style={styles.teamName}>{props?.command?.name}</Text>
+            <Text style={styles.teamName}>{selectedTeam?.name}</Text>
           </View>
         </View>
         <ScrollView>
           <View style={styles.usersContainer}>
-            {props.command?.invited_players.map((user, i) => {
+            {selectedTeam?.invited_players?.map((user, i) => {
               return <EachUser key={i} user={user} />
             })}
           </View>

@@ -1,5 +1,5 @@
 import { Text, View, TextInput, ScrollView, StyleSheet } from 'react-native'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState, } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useDispatch, useSelector } from 'react-redux'
 import { RH, RW, font } from '@/theme/utils'
@@ -12,31 +12,38 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import { addTournamentInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 
-const CreateTournamentInfo = ({ route }) => {
+const TournamentInfo = () => {
+
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const initialState = useSelector(({ tournament }) => tournament)
-  const response = route?.params
+  const { singleTournir } = useSelector(({ tournament }) => tournament)
+
+
+
+
+
   const [needNavigate, setNeedNavigate] = useState(false)
   // ================== states ==================
-
-  const [addressName, setAddressName] = useState(null)
   const [startDate, setStartDate] = useState(start_date)
-  const [endDate, setEndDate] = useState(end_date)
-  const [genderList, setGenderList] = useState(gender)
-  const [organizerJoin, setOrganizerJoin] = useState(organizerData)
-  const [priceFond, setPriceFond] = useState(priceFondData)
   const [count, setCount] = useState({
     from: null,
-    to: null,
+    to: null
   })
-
   const [age, setAge] = useState({
     from: null,
     to: null,
   })
-
+  const [genderList, setGenderList] = useState(gender)
+  const [addressName, setAddressName] = useState(null)
+  const [endDate, setEndDate] = useState(end_date)
+  const [priceFond, setPriceFond] = useState(priceFondData)
+  const [organizerJoin, setOrganizerJoin] = useState(organizerData)
   // ================== states end ==================
+
+
+
+
+
 
   //errors
   const [ageError, setAgeError] = useState(false)
@@ -45,41 +52,6 @@ const CreateTournamentInfo = ({ route }) => {
   const [startDateError, setStartDateError] = useState(false)
   const [addressNameError, setAddressNameError] = useState(false)
 
-  const timeFormat = (date) => {
-    if (
-      date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
-      +date.time.toLocaleTimeString().slice(0, 2) != 12
-    ) {
-      return (
-        +date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
-        12 +
-        ':' +
-        date.time.toLocaleTimeString().split(':')[1]
-      )
-    } else if (date.time.toLocaleTimeString().split(' ')[0].split(':')[0].length == 1) {
-      return (
-        '0' +
-        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
-        ':' +
-        date.time.toLocaleTimeString().split(':')[1]
-      )
-    } else {
-      return (
-        date.time.toLocaleTimeString().split(' ')[0].split(':')[0] +
-        ':' +
-        date.time.toLocaleTimeString().split(':')[1]
-      )
-    }
-  }
-
-  const changedStartDate = startDate.date
-    .toISOString()
-    .substring(0, 10)
-    .concat(' ' + timeFormat(startDate))
-  const changedEndDate = endDate.date
-    .toISOString()
-    .substring(0, 10)
-    .concat(' ' + timeFormat(endDate))
 
   const handleSubmit = () => {
     // Հասցեի ստուգում
@@ -107,7 +79,7 @@ const CreateTournamentInfo = ({ route }) => {
     }
 
     // տարիքի ստուգում եթե անհատական խաղ է
-    if (!initialState.team_tourney) {
+    if (!singleTournir.team_tourney) {
       if (!age.to || !age.from) {
         setAgeError('Обязательное поле для заполнения')
       } else if (age.from > age.to) {
@@ -119,63 +91,53 @@ const CreateTournamentInfo = ({ route }) => {
     setNeedNavigate(true)
   }
 
+
+
+
   useEffect(() => {
-    if (
-      needNavigate &&
-      !countError &&
-      !endDateError &&
-      !startDateError &&
-      addressName &&
-      ((!initialState.team_tourney && !ageError) || initialState.team_tourney)
+    if (needNavigate && !countError && !endDateError && !startDateError && addressName &&
+      ((!singleTournir.team_tourney && !ageError) || singleTournir.team_tourney)
     ) {
-      const tournamentInfo = {
-        startData: changedStartDate,
-        endData: changedEndDate,
-        playersCount: count,
-        playersAge: age,
-        gender: genderList.find((e) => e.checked).label,
-        address: addressName,
-        price: priceFond[0].checked ? true : false,
-        organizerJoin: organizerJoin[0].checked ? true : false,
+
+      let tournamentInfo = {
+        start_date: startDate.date.toISOString(),
+        end_search_date: endDate.date.toISOString(),
+        address_name: addressName.address_name,
+        latitude: addressName.lat,
+        longitude: addressName.lng,
+        prize_fund: priceFond[0].checked ? true : false,
+        organizer_status: organizerJoin[0].checked ? true : false
+      }
+
+      if (singleTournir.team_tourney) {
+        tournamentInfo.number_of_teams_from = count.from
+        tournamentInfo.number_of_teams_to = count.to
+      } else {
+        tournamentInfo.players_gender = genderList.find((e) => e.checked).label
+        tournamentInfo.age_restrictions_from = age.from
+        tournamentInfo.age_restrictions_to = age.to
+        tournamentInfo.number_of_participants_from = count.from
+        tournamentInfo.number_of_participants_to = count.to
       }
       dispatch(addTournamentInfo(tournamentInfo))
-
       setNeedNavigate(false)
-
-      if (initialState.team_tourney) {
+      if (singleTournir.team_tourney && tournamentInfo.organizer_status) {
         navigation.navigate('TeamNavigator', {
           screen: 'MyTeam',
-          params: { data: initialState, game: response, fromTournament: true },
+          params: { fromTournament: true },
         })
       } else {
-        navigation.navigate('TournamentInfo')
+        navigation.navigate('CreateTournament')
       }
     } else {
       setNeedNavigate(false)
     }
   }, [countError, endDateError, startDateError, addressName, ageError, needNavigate])
 
-  useEffect(() => {
-    // dispatch(setLatitude(response?.latitude ? response?.latitude : addressName?.lat))
-    // dispatch(setLongitude(response?.longitude ? response?.longitude : addressName?.lng))
-    // dispatch(
-    //   setAddressNameTour(
-    //     response?.address_name ? response?.address_name : addressName?.address_name,
-    //   ),
-    // )
-  }, [response, addressName])
+
+
   return (
     <ScreenMask>
-      {/* <KeyboardAvoidingView
-        {...(Platform.OS === 'ios'
-          ? {
-              behavior: 'padding',
-              keyboardVerticalOffset: RH(10),
-              enabled: true,
-              style: { flex: 1 },
-            }
-          : {})}
-      > */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <DateComponent
           title="Дата и время начала турнира"
@@ -195,7 +157,7 @@ const CreateTournamentInfo = ({ route }) => {
         {!!startDateError && <Text style={styles.error}>Введите корректную дату</Text>}
         <View>
           <Text style={styles.titles}>
-            Количество {!initialState.team_tourney ? 'участников' : 'команд'}
+            Количество {!singleTournir.team_tourney ? 'участников' : 'команд'}
           </Text>
           <View style={styles.countBlock}>
             <TextInput
@@ -222,7 +184,7 @@ const CreateTournamentInfo = ({ route }) => {
           </View>
         </View>
         {countError ? <Text style={styles.error}>{countError}</Text> : null}
-        {!initialState.team_tourney ? (
+        {!singleTournir.team_tourney ? (
           <>
             <View>
               <Text style={styles.titles}>Возрастные ограничения</Text>
@@ -259,7 +221,7 @@ const CreateTournamentInfo = ({ route }) => {
             />
           </>
         ) : null}
-        <View style={{ marginTop: initialState.team_tourney ? RH(20) : 0 }} />
+        <View style={{ marginTop: singleTournir.team_tourney ? RH(20) : 0 }} />
         <SearchAddresses
           navigateTo="CreateTournamentInfo"
           setAddressName={setAddressName}
@@ -307,12 +269,11 @@ const CreateTournamentInfo = ({ route }) => {
           <LightButton label={'Готово'} onPress={handleSubmit} />
         </View>
       </ScrollView>
-      {/* </KeyboardAvoidingView> */}
     </ScreenMask>
   )
 }
 
-export default CreateTournamentInfo
+export default TournamentInfo
 
 const styles = StyleSheet.create({
   modal: {

@@ -1,57 +1,100 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axiosInstance from '@/store/Api'
 
-export const createTournament = createAsyncThunk('tournament/create', async (obj, {}) => {
+export const createTourney = createAsyncThunk('tournament/create', async (obj, { }) => {
   try {
     const data = await axiosInstance.post('api/tourney/', obj)
-    console.log(data, 'data')
     return data
   } catch (error) {
-    console.error('Error: creating tournament', err.request?._response)
   }
-  // axiosInstance
-  //     .post('api/tourney/', data)
-  //     .then((response) => {
-  //         console.log(response, 'response');
-  //         // setModalVisible(true)
-  //     })
-  //     .catch((err) => {
-  //         // setModalVisible('error')
-  //         console.error('Error: creating tournament', err.request?._response)
-  //     })
 })
 
-// (data, setModalVisible) => (dispatch) => {
-//     axiosInstance
-//         .post('api/tourney/', data)
-//         .then((response) => {
-//             setModalVisible(true)
-//         })
-//         .catch((err) => {
-//             setModalVisible('error')
-//             console.error('Error: creating tournament', err.request?._response)
-//         })
-// }
+export const searchTourney = createAsyncThunk('tournament/search', async (obj, { }) => {
+  try {
+    const data = await axiosInstance.get('api/tourney', {
+      params: obj,
+    })
+    return data
+  } catch (error) {
+  }
+})
 
-// export const searchTourney = (data, nav, setNotFoundError) => async (dispatch) => {
-//     axiosInstance
-//         .get('api/tourney', {
-//             params: data,
-//         })
+export const joinPlayer = createAsyncThunk(
+  'tournament/individualJoin', async (id, { rejectWithValue }) => {
+    try {
+      const data = await axiosInstance.post(`api/tourney/players/participate/${id}`)
+      return data
+    } catch (error) {
+      if (error.response.status = 400) {
+        return rejectWithValue(error.response.data.message[0])
+      }
 
-//         .then((response) => {
-//             dispatch(setFindedTouney(response?.data?.datas))
-//             if (response?.data?.datas.length) {
-//                 console.log('response?.data?.datas.length', response?.data?.datas.length)
-//                 setNotFoundError(false)
-//                 nav.navigate('AllTournaments')
-//             } else {
-//                 setNotFoundError(true)
-//             }
+    }
+  }
+)
 
-//             return response?.data?.datas
-//         })
-//         .catch((err) => {
-//             console.error('Error: searching players in this team :', err.request._response)
-//         })
-// }
+export const confirmJoin = createAsyncThunk(
+  'tournir/confirmJoinFromTeam',
+  async (tourney_id) => {
+    try {
+      const data = await axiosInstance.post(`api/tourney/teams/player/confirm/${tourney_id}`)
+      return data
+
+    } catch (error) {
+
+    }
+  }
+)
+
+export const rejectJoin = createAsyncThunk(
+  'tournir/rejectJoinFromTeam',
+  async (tourney_id) => {
+    try {
+      const data = await axiosInstance.post(`api/tourney/teams/player/reject/${tourney_id}`)
+      return data
+    } catch (error) {
+    }
+  }
+)
+
+
+
+export const joinTeam = createAsyncThunk(
+  'tournament/teamJoin',
+  async (obj) => {
+    try {
+      const data = await axiosInstance.post('api/tourney/teams', obj)
+      return data
+    } catch (error) {
+      if (error.response.status = 400) {
+        return rejectWithValue(error.response.data.message[0])
+      }
+    }
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const getTourneyChats = createAsyncThunk(
+  'tournament/getChats',
+  async () => {
+    try {
+      const data = await axiosInstance.get('api/tourney/all/touneys')
+      return data.data
+    } catch (error) {
+      console.log(error, 'error');
+    }
+  }
+)

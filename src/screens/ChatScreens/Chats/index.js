@@ -6,18 +6,21 @@ import { useIsFocused } from '@react-navigation/native'
 import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import { getMyTeams, getMyJoinedTeams } from '@/store/Slices/TeamSlice'
-
+import { getTourneyChats } from '@/store/Slices/TournamentReducer/TournamentApies'
 import { getAllChats, getAllTeamChats } from '@/store/Slices/ChatsSlice'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 const ChatScreen = () => {
   const { allChats, allTeamChats } = useSelector(({ chats }) => chats)
 
+  
+
   const dispatch = useDispatch()
 
   const isFocused = useIsFocused()
 
   useEffect(() => {
+    dispatch(getTourneyChats())
     dispatch(getAllTeamChats())
     dispatch(getAllChats())
     dispatch(getMyTeams())

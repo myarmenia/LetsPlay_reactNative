@@ -9,16 +9,30 @@ import { FONT_INTER_BOLD, FONT_INTER_MEDIUM } from '@/theme/fonts'
 import { ICON, LIGHT_LABEL, RADIO_TEXT, WHITE } from '@/theme/colors'
 import Wave from '@/assets/svgs/wave'
 import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { choosenTournir } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import moment from 'moment'
 
-const AllTournaments = () => {
+const TournamentList = () => {
   const navigation = useNavigation()
-  const { findedTourney } = useSelector(({ tournament }) => tournament)
+  const dispatch = useDispatch()
+  const { tournamentList } = useSelector(({ tournament }) => tournament)
+
+
 
   const handleClick = (elm) => {
-    navigation.navigate('EachTournament', elm)
+    dispatch(choosenTournir(elm))
+    if (elm?.team_tourney) {
+      navigation.navigate('TeamNavigator', {
+        screen: 'MyTeam',
+        params: { fromJoinTournament: true },
+      })
+    } else {
+      navigation.navigate('JoinTournament')
+    }
+
   }
-  const EatchItem = ({ elm }) => {
+  const SingleTournire = ({ elm }) => {
     const [back, setBack] = useState(false)
     return (
       <Pressable
@@ -79,9 +93,7 @@ const AllTournaments = () => {
           }}
         >
           <Text style={styles.midText}>
-            07.07.22 , 18:30, Пресненская наб. 25
-            {/* {new Date(elm?.updatedAt).toLocaleDateString()},{' '} */}
-            {/* {new Date(elm?.updatedAt).toLocaleTimeString().slice(0, 5)}, {elm?.address_name} */}
+            {'  ' + moment(elm.start_date).format("DD.MM.YYYY") + " " + elm.address_name}
           </Text>
           <View
             style={{
@@ -110,7 +122,7 @@ const AllTournaments = () => {
                 }}
               >
                 <Wave />
-                <Text style={styles.distantion}>1.6 км</Text>
+                <Text style={styles.distantion}>{elm.distance} км</Text>
               </View>
             </View>
           </View>
@@ -126,14 +138,15 @@ const AllTournaments = () => {
           }}
         >
           <View>
-            <Text style={styles.playersText}>Игроки</Text>
+            <Text style={styles.playersText}>{elm.team_tourney ? 'Команды' : 'Игроки'}</Text>
             <Text style={styles.playersText}>
-              10-23
-              {/* {elm.number_of_players_from}-{elm.number_of_players_to} */}
+              {elm.team_tourney ? elm.number_of_teams_from : elm.number_of_participants_from}
+              -
+              {elm.team_tourney ? elm.number_of_teams_to : elm.number_of_participants_to}
             </Text>
           </View>
           <View style={styles.countCircle}>
-            <Text style={styles.countOfPlayersText}>3{/* {elm.players.length} */}</Text>
+            <Text style={styles.countOfPlayersText}>{elm.players.length}</Text>
           </View>
         </View>
       </Pressable>
@@ -143,15 +156,15 @@ const AllTournaments = () => {
   return (
     <ScreenMask>
       <ScrollView>
-        {findedTourney.map((elm, i) => {
-          return <EatchItem key={i} />
+        {tournamentList.map((elm, i) => {
+          return <SingleTournire key={i} elm={elm} />
         })}
       </ScrollView>
     </ScreenMask>
   )
 }
 
-export default AllTournaments
+export default TournamentList
 
 const styles = StyleSheet.create({
   gameItemContainer: {

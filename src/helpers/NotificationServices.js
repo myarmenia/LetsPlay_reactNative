@@ -25,7 +25,7 @@ const notificationListener = async (openModalFunc, callBack) => {
   })
 
   messaging().onMessage(async (remoteMessage) => {
-    console.log('Recived in foreground', remoteMessage)
+    // console.log('Recived in foreground', remoteMessage)
     callBack()
     if (Platform.OS == 'android') {
       openModalFunc(

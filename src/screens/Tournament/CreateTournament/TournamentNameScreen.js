@@ -6,10 +6,11 @@ import { RH, RW, font } from '@/theme/utils'
 import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setTourneyInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 
-const CreateTournament = ({ route }) => {
+const TournamentName = ({ route }) => {
+  const initialState = useSelector(({ tournament }) => tournament)
   const [formatList, setFormatList] = useState([
     {
       id: 1,
@@ -30,13 +31,7 @@ const CreateTournament = ({ route }) => {
   const navigation = useNavigation()
   const [error, setError] = useState(false)
 
-  const clearfields = () => {
-    setDescription(null)
-    setTourName(null)
-  }
-
   const handleClick = () => {
-    clearfields()
     if (tourName) {
       setError(false)
       dispatch(
@@ -46,15 +41,11 @@ const CreateTournament = ({ route }) => {
           team_tourney: formatList[0].checked ? false : true,
         }),
       )
-      navigation.navigate('CreateTournamentInfo')
-      // clearfields()
+      navigation.navigate('TournamentInfo')
     } else {
       setError(true)
     }
   }
-  useEffect(() => {
-    // dispatch(clearTournamentData())
-  }, [])
 
   return (
     <ScreenMask>
@@ -93,7 +84,7 @@ const CreateTournament = ({ route }) => {
   )
 }
 
-export default CreateTournament
+export default TournamentName
 
 const styles = StyleSheet.create({
   input: {

@@ -17,6 +17,7 @@ import {
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
 import { callEndGame, getGameById } from '@/store/Slices/GamesSlice'
+import { confirmJoin, rejectJoin } from '@/store/Slices/TournamentReducer/TournamentApies'
 
 const NotificationItem = ({ elm }) => {
   const { notifications } = useSelector(({ app }) => app)
@@ -116,6 +117,16 @@ const NotificationItem = ({ elm }) => {
         })
       },
     },
+    confirm_tourney: {
+      label: 'Принять',
+      onPress: async () => {
+        dispatch(confirmJoin(elm?.tourney))
+          .unwrap()
+          .then((res) => {
+          }).catch((err) => {
+          })
+      },
+    }
   }
 
   useEffect(() => {
@@ -123,33 +134,61 @@ const NotificationItem = ({ elm }) => {
       dispatch(setModalVisible(false))
     }
   }, [])
-  // console.log('elm', elm)
   if (!notificationText) return null
   return (
     <View style={styles.mainContainer}>
       <View style={styles.line} />
-
       <Row wrapper={styles.row}>
         <Row wrapper={styles.midBox}>
-          {elm?.readed ? <View style={{ width: 26 }} /> : <DotSvg width={20} height={20} />}
-          <View>
-            <Text style={styles.notificationText}>{notificationText}</Text>
-            {buttonOptions?.[elm?.type] ? (
-              <LightButton
-                onPress={() => {
-                  if (!buttonOptions[elm?.type].secondaryClick)
-                    dispatch(notificationButtonClciked(elm?._id))
 
-                  if (!elm?.click || buttonOptions[elm?.type].secondaryClick)
-                    buttonOptions[elm?.type].onPress()
-                }}
-                label={buttonOptions[elm?.type]?.label}
-                labelStyle={{ ...font('bold', 17, '#001034') }}
-                style={{
-                  opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1,
-                }}
-              />
-            ) : null}
+          <View style={{ width: elm.readed ? 0 : '10%', overflow: 'hidden' }}>
+            <DotSvg width={20} height={20} />
+          </View>
+          <View style={{ width: elm.readed ? '100%' : '90%' }}>
+            <Text style={styles.notificationText}>{notificationText}</Text>
+            {buttonOptions?.[elm?.type] &&
+              <Row wrapper={styles.buttonComponent}>
+                <LightButton
+                  onPress={() => {
+                    if (!buttonOptions[elm?.type].secondaryClick && !elm?.click) {
+                      dispatch(notificationButtonClciked(elm?._id))
+                    }
+                    if (!elm?.click || buttonOptions[elm?.type].secondaryClick) {
+                      buttonOptions[elm?.type].onPress()
+                    }
+
+                  }}
+                  label={buttonOptions[elm?.type]?.label}
+                  labelStyle={{ ...font('bold', 17, '#001034') }}
+                  style={{
+                    opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1,
+                  }}
+                  size={{ width: RH(172) }}
+                />
+
+                {elm.type === 'confirm_tourney' && <LightButton
+                  onPress={() => {
+
+                    if (!elm?.click) {
+                      dispatch(rejectJoin(elm?.tourney))
+                        .unwrap()
+                        .then((res) => {
+                          if (res.status === 201) {
+                            dispatch(notificationButtonClciked(elm?._id))
+                          }
+                        }).catch((err) => {
+                        })
+                    }
+                  }}
+                  label={'Отклонить'}
+                  labelStyle={{ ...font('bold', 17, '#001034') }}
+                  style={{
+                    opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1, marginLeft: 15
+                  }}
+                  size={{ width: RH(172) }}
+                />}
+
+              </Row>}
           </View>
         </Row>
 
@@ -174,7 +213,8 @@ const NotificationItem = ({ elm }) => {
 export default NotificationItem
 
 const styles = StyleSheet.create({
-  mainContainer: {},
+  mainContainer: {
+  },
   line: {
     width: '100%',
     alignSelf: 'center',
@@ -185,9 +225,12 @@ const styles = StyleSheet.create({
   },
   row: {
     justifyContent: 'space-between',
+    width: '100%',
   },
   midBox: {
     width: '90%',
+    paddingRight: 10
+    // overflow: 'hidden'  
   },
   endBox: {
     width: '10%',
@@ -195,13 +238,15 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   notificationText: {
-    maxWidth: '95%',
     marginBottom: RH(10),
-    marginLeft: RW(10),
+    width: '100%',
     ...font('medium', 14, WHITE),
   },
   time: {
     paddingTop: RH(9),
     ...font('medium', 12, LIGHT_GRAY),
   },
+  buttonComponent: {
+    width: '100%',
+  }
 })
