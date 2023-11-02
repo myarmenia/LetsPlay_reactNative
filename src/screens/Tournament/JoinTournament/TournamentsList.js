@@ -155,7 +155,7 @@ const TournamentList = () => {
 
   return (
     <ScreenMask>
-      <ScrollView>
+      <ScrollView style={styles.container}>
         {tournamentList.map((elm, i) => {
           return <SingleTournire key={i} elm={elm} />
         })}
@@ -167,6 +167,9 @@ const TournamentList = () => {
 export default TournamentList
 
 const styles = StyleSheet.create({
+  container:{
+    paddingVertical: RH(20),
+  },
   gameItemContainer: {
     width: RW(395),
     minHeight: RH(85),

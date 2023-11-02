@@ -145,7 +145,6 @@ export const getCalendarGames = (data) => (dispatch) => {
       params: data,
     })
     .then((response) => {
-      // const allGames=
       dispatch(
         setCalendarGames([
           ...response.data.datas.games,
@@ -155,7 +154,7 @@ export const getCalendarGames = (data) => (dispatch) => {
       )
     })
     .catch((err) => {
-      console.error('Error: request notification', err.request?._response)
+      console.error('Error: request notification', err)
     })
 }
 export const getGalleries = () => (dispatch) => {

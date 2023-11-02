@@ -119,11 +119,14 @@ export const sendMessage = (data) => (dispatch) => {
     })
 }
 export const sendTeamMessage = (data) => (dispatch) => {
+  console.log(data, 'data');
   axiosInstance
-    .post(`/api/team/chat`, data)
-    .then((response) => {})
+    .post(`/api/team/create_game/chat`, data)
+    .then((response) => {
+      console.log(response, 'response');
+    })
     .catch((err) => {
-      console.error('Error: request', err.request._response)
+      console.error('Error: request', err)
     })
 }
 export const deleteMemberChat = (chatId, setDeleting) => (dispatch) => {

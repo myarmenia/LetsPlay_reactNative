@@ -11,6 +11,8 @@ import GameTypeSelect from '@/screens/Tournament/GameTypeSelect.js/GameTypeSelec
 import TournamentName from '@/screens/Tournament/CreateTournament/TournamentNameScreen'
 import TournamentInfo from '@/screens/Tournament/CreateTournament/TournamentInfoScreen'
 import CreateTournament from '@/screens/Tournament/CreateTournament/CreateTournamentScreen'
+import AddTournamentPhoto from '@/screens/Tournament/FinishTournament/AddPhoto/AddTournamentPhoto'
+import RateTourneyPlayers from '@/screens/Tournament/FinishTournament/RatePlayers'
 
 const Stack = createNativeStackNavigator()
 
@@ -26,6 +28,8 @@ function TournamentNavigator() {
       <Stack.Screen name="JoinTournament" component={JoinTournament} />
       <Stack.Screen name="CreateTournament" component={CreateTournament} />
       <Stack.Screen name="SelectMembers" component={SelectMembers} />
+      <Stack.Screen name="AddTournamentPhoto" component={AddTournamentPhoto} />
+      <Stack.Screen name="RateTourneyPlayers" component={RateTourneyPlayers} />
     </Stack.Navigator>
   )
 }

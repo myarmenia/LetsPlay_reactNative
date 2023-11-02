@@ -9,12 +9,12 @@ import User from '@/components/User/user'
 const BestPlayer = ({ body }) => {
   const userId = useSelector(({ auth }) => auth?.user?._id)
   const best_players = body.best_players
+
+
   return (
     <View style={styles.modal}>
       <Text style={styles.text}>
-        По итогам игры{' '}
-        {best_players[0]?._id && best_players[0]?._id !== userId ? best_players[0]?.name : 'Вас'}{' '}
-        признали
+        {`По итогам ${body?.best_players?.fromTourney ? 'турнира' : 'игры'} ${best_players[0]?._id && best_players[0]?._id !== userId ? best_players[0]?.name : 'Вас'} признали`}
       </Text>
       <Text style={styles.text2}>Лучшим игроком</Text>
       <User user={best_players[0]} size={370} />
@@ -36,7 +36,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  text: font('regular', 16, '#fff', 25),
+  text: {
+    ...font('regular', 16, '#fff', 25),
+    // width: '100%',
+    // borderWidth: 1
+
+  },
   text2: {
     ...font('bold', 20, '#fff', 31),
     marginBottom: RW(50),

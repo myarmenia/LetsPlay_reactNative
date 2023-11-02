@@ -8,6 +8,7 @@ import { RW } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import GameInfoModal from './GameInfoModal'
 import TeamInfoModal from './TeamInfoModal'
+import TournamentInfoModal from './TournamentInfoModal'
 
 const PrivateChatHeader = ({ gameID, playersLength, type, team }) => {
   const [modalVisible, setModalVisible] = useState(false)
@@ -36,19 +37,28 @@ const PrivateChatHeader = ({ gameID, playersLength, type, team }) => {
         <InfoSvg />
       </Pressable>
       {modalVisible ? (
-        type === 'Командный' ? (
+        type === 'team' ? (
           <TeamInfoModal
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             Team={team}
           />
-        ) : (
-          <GameInfoModal
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            gameID={gameID}
-          />
-        )
+        ) :
+          type === 'game'
+            ?
+            (
+              <GameInfoModal
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                gameID={gameID}
+              />
+            )
+            :
+            <TournamentInfoModal
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              id={gameID}
+            />
       ) : null}
     </View>
   )

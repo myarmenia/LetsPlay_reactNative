@@ -55,7 +55,7 @@ const getFcmToken = async (openModalFunc) => {
       }
     }
   } catch (error) {
-    console.log(error, 'gago error')
+    console.log(error, 'error')
     // alert('Error in notification service')
     openModalFunc('Error in notification service', 'error')
   }

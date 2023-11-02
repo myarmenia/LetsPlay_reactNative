@@ -6,6 +6,7 @@ import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community
 import { BACKGROUND, ICON } from '@/theme/colors'
 import DateSvg from '@/assets/svgs/dateSvg'
 import TimeSvg from '../assets/svgs/timeSvg'
+import moment from 'moment'
 
 function DateComponent({
   title,
@@ -23,12 +24,9 @@ function DateComponent({
   maxDate,
 }) {
 
- 
-  let dateLocalizaded = dateValue?.toLocaleDateString("en-IN");
-  // console.log(dateLocalizaded, 'dateLocalizaded');
 
-  // let textDate = `${dateLocalizaded.split('/')[1]}/${dateLocalizaded.split('/')[0]}/${dateLocalizaded.split('/')[2]
-  //   }`
+  let dateLocalizaded = moment(dateValue).format('DD.MM.YYYY')
+
   return (
     <View style={[containerStyle]}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
@@ -152,7 +150,7 @@ function DateComponent({
                   }}
                 >
                   <TimeSvg style={styles.dateSvg} />
-                  <Text style={styles.dateText}>{timeValue.toLocaleTimeString().slice(0, -3)}</Text>
+                  <Text style={styles.dateText}>{moment(timeValue).format('HH:mm')}</Text>
                 </Pressable>
               </View>
             )}

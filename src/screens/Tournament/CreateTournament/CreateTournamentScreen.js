@@ -22,18 +22,19 @@ const CreateTournament = () => {
   const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
   const initialState = useSelector(({ tournament }) => tournament)
-  const { user } = useSelector(({ auth }) => auth) 
+
+  const { user } = useSelector(({ auth }) => auth)
   const count_from = initialState?.singleTournir?.team_tourney
     ?
     initialState?.singleTournir?.number_of_teams_from
     :
-    initialState.singleTournir.number_of_participants_from
+    initialState.singleTournir?.number_of_participants_from
 
-  const count_to = initialState.singleTournir.team_tourney
+  const count_to = initialState?.singleTournir?.team_tourney
     ?
-    initialState.singleTournir.number_of_teams_to
+    initialState.singleTournir?.number_of_teams_to
     :
-    initialState.singleTournir.number_of_participants_to
+    initialState.singleTournir?.number_of_participants_to
   const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
 
 
@@ -100,7 +101,7 @@ const CreateTournament = () => {
                 <View style={{ paddingVertical: RH(20) }}></View>
                 <Text style={styles.eachInfo}>Возраст участников:</Text>
                 <Text style={styles.eachInfoTwo}>
-                  от {initialState?.singleTournir.age_restrictions_from} до {initialState?.singleTournir?.age_restrictions_to}
+                  от {initialState?.singleTournir?.age_restrictions_from} до {initialState?.singleTournir?.age_restrictions_to}
                 </Text>
               </Row>
               <Row>
@@ -168,7 +169,7 @@ const CreateTournament = () => {
             size={{ width: 120, height: 40 }}
             onPress={() => {
               const obj = { ...initialState.singleTournir }
-           
+
               if (!initialState.singleTournir.team_tourney) {
                 delete obj.number_of_teams_from
                 delete obj.number_of_teams_to
@@ -178,22 +179,21 @@ const CreateTournament = () => {
                 delete obj.age_restrictions_from
                 delete obj.age_restrictions_to
                 delete obj.players_gender
-                const {joinedTeamInfo}=initialState 
-                if(obj.organizer_status){
-                  obj.team_id=joinedTeamInfo.team_id
-                  obj.players=joinedTeamInfo.players
+                const { joinedTeamInfo } = initialState
+                if (obj.organizer_status) {
+                  obj.team_id = joinedTeamInfo.team_id
+                  obj.players = joinedTeamInfo.players
                 }
               }
+              console.log(obj, 'obj');
               dispatch(createTourney(obj))
                 .unwrap()
                 .then((res) => {
                   if (res.status === 201) {
                     setModalVisible(true)
-                    dispatch(resetSingleTournirData())
                   }
                 })
                 .catch((err) => {
-                  console.log(err, 'err');
                 })
             }}
           />
@@ -209,6 +209,7 @@ const CreateTournament = () => {
               </Text>
             </View>
           }
+          onModalClose={() => { dispatch(resetSingleTournirData()) }}
           modalVisible={modalVisible}
           navigationText={'Home'}
           setIsVisible={setModalVisible}
@@ -384,24 +385,3 @@ export const styles = StyleSheet.create({
   },
 })
 
-let x = {
-  address_name: { address_name: 'Ереван, Армения', lat: 40.2426667, lng: 44.6150493 },
-  age_restrictions_from: 12,
-  age_restrictions_to: 12,
-  description: 'Crece2c',
-  end_search_date: '2023-10-02 12:26',
-  error: false,
-  findedTourney: [],
-  imagePath: '/game_imgs/soccer-ball 1.png',
-  loading: false,
-  name: 'Ece',
-  number_of_participants_from: undefined,
-  number_of_participants_to: 12,
-  organizer_status: true,
-  players_gender: 'm/f',
-  prize_fund: false,
-  start_date: '2023-10-03 12:26',
-  team_tourney: false,
-  ticket_price: 0,
-  tournamentGameType: 'Футбол',
-}

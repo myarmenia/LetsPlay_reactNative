@@ -1,25 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit'
 import {
   searchTourney,
+  getSingleTournament,
   createTourney,
   joinPlayer,
   joinTeam,
-  // getTourneyChats,
+  getPlayers,
   getAllChats,
   confirmJoin,
   rejectJoin,
+  getTourneyChat,
+  sendTourneyMessage
 } from './TournamentApies'
 import { tournirData } from './info'
 
 const initialState = {
   singleTournir: tournirData,
   needToEdit: false,
+  selectedTournament: {},
   chats: [],
+  singleChat: [],
   choosenTournir: {},
   tournamentList: [],
   selectedTeam: {},
   joinStatus: null,
   joinedTeamInfo: {},
+  mediaForTournament: false,
+  tournamentFinishPhoto: null,
+  playersForRating: null,
   loading: false,
   error: false,
 }
@@ -30,6 +38,12 @@ const TournamentSlice = createSlice({
   reducers: {
     setTourneyInfo: (state, action) => {
       state.singleTournir = { ...state.singleTournir, ...action.payload }
+    },
+    changeMediaForTournament: (state, action) => {
+      state.mediaForTournament = action.payload
+    },
+    setFinishPhoto: (store, action) => {
+      store.tournamentFinishPhoto = action.payload
     },
     addTournamentInfo: (state, action) => {
       state.singleTournir = { ...state.singleTournir, ...action.payload }
@@ -57,6 +71,10 @@ const TournamentSlice = createSlice({
     },
     addSelectedTeam: (state, action) => {
       state.selectedTeam = action.payload
+    },
+    addPlayerRating: (state, action) => {
+      const index = state.playersForRating.players.findIndex(item => item._id === action.payload.id)
+      state.playersForRating.players[index].rating = action.payload.rate
     },
     setJoinedTeamInfo: (state, action) => {
       state.joinedTeamInfo = action.payload
@@ -132,8 +150,48 @@ const TournamentSlice = createSlice({
     builder.addCase(getAllChats.fulfilled, (state, action) => {
       state.loading = false
       state.rejected = false
-      state.chats = action.payload
+      state.chats = action.payload.reverse()
     })
+    builder.addCase(getTourneyChat.rejected, (state, action) => {
+      state.loading = false
+      state.rejected = true
+    })
+    builder.addCase(getTourneyChat.pending, (state) => {
+      state.loading = true
+      state.rejected = false
+    })
+    builder.addCase(getTourneyChat.fulfilled, (state, action) => {
+      state.loading = false
+      state.rejected = false
+      state.singleChat = action.payload.datas
+    })
+    builder.addCase(getSingleTournament.rejected, (state, action) => {
+      state.loading = false
+      state.rejected = true
+    })
+    builder.addCase(getSingleTournament.pending, (state, action) => {
+      state.loading = true
+      state.rejected = false
+    })
+    builder.addCase(getSingleTournament.fulfilled, (state, action) => {
+      state.loading = false
+      state.rejected = false
+      state.selectedTournament = action.payload.data
+    })
+    builder.addCase(getPlayers.rejected, (state, action) => {
+      state.loading = false
+      state.rejected = true
+    })
+    builder.addCase(getPlayers.pending, (state, action) => {
+      state.loading = true
+      state.rejected = false
+    })
+    builder.addCase(getPlayers.fulfilled, (state, action) => {
+      state.loading = false
+      state.rejected = false
+      state.playersForRating = action.payload.data
+    })
+
   },
 })
 
@@ -146,5 +204,8 @@ export const {
   resetSingleTournirData,
   addSelectedTeam,
   setJoinedTeamInfo,
+  changeMediaForTournament,
+  setFinishPhoto,
+  addPlayerRating
 } = TournamentSlice.actions
 export default TournamentSlice.reducer

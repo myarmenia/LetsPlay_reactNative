@@ -16,14 +16,17 @@ import { joinPlayer, joinTeam } from '@/store/Slices/TournamentReducer/Tournamen
 import Row from '@/components/wrappers/row'
 
 
-const JoinTournament = () => {
+const JoinTournament = ({ route }) => {
   const dispatch = useDispatch()
   const { user } = useSelector(({ auth }) => auth)
+  console.log(route, 'route');
 
 
   const [errorText, setErrorText] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const { choosenTournir, joinedTeamInfo } = useSelector(({ tournament }) => tournament)
+
+
 
 
 
@@ -41,8 +44,6 @@ const JoinTournament = () => {
           setErrorText(err)
         })
     } else {
-      //ստեղ գրել թիմային տուրնիրին միանալու լոգիկան
-
       dispatch(joinTeam(joinedTeamInfo))
         .unwrap()
         .then((res) => {
@@ -72,19 +73,24 @@ const JoinTournament = () => {
         <View>
           <Row wrapper={{ marginBottom: RW(16) }}>
             <Text style={styles.eachInfo}>Тип турнира :</Text>
-            <Text style={styles.eachInfoTwo}>{choosenTournir?.game?.name}</Text>
+            <Text style={styles.eachInfoTwo}>{choosenTournir?.team_tourney ? 'командный' : 'Индивидуальный'}</Text>
           </Row>
           <Row wrapper={{ marginBottom: RW(16) }}>
             <Text style={styles.eachInfo}>Название турнира: </Text>
             <Text style={styles.eachInfoTwo}>{choosenTournir?.name}</Text>
           </Row>
 
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Тип игры :</Text>
+            <Text style={styles.eachInfoTwo}>{choosenTournir?.game?.name}</Text>
+          </Row>
+
 
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Описание турнира: </Text>
-            <Text style={styles.eachInfoTwo}>
+            <Text style={styles.eachInfo} dataDetectorType='link'>Описание турнира: <Text style={styles.eachInfoTwo}>
               {choosenTournir?.description ? choosenTournir.description : 'Нету'}
-            </Text>
+            </Text></Text>
+
           </Row>
 
           <Row wrapper={{ marginBottom: RW(16) }}>
@@ -95,43 +101,47 @@ const JoinTournament = () => {
             </Text>
           </Row>
 
-          {!choosenTournir?.team_tourney && <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Возраст участников:</Text>
-            <Text style={styles.eachInfoTwo}>
-              от {choosenTournir.age_restrictions_from}
-              до {choosenTournir?.age_restrictions_to}
-            </Text>
-          </Row>}
+          {!choosenTournir?.team_tourney &&
+            <Row wrapper={{ marginBottom: RW(16) }}>
+              <Text style={styles.eachInfo}>Возраст участников:</Text>
+              <Text style={styles.eachInfoTwo}>
+                от {choosenTournir.age_restrictions_from + ' '}
+                до {" " + choosenTournir?.age_restrictions_to}
+              </Text>
+            </Row>
+          }
 
-          {!choosenTournir?.team_tourney && <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Пол участников:</Text>
-            <Text style={styles.eachInfoTwo}>
-              {genders[choosenTournir?.players_gender]}
-            </Text>
-          </Row>}
+          {!choosenTournir?.team_tourney &&
+            <Row wrapper={{ marginBottom: RW(16) }}>
+              <Text style={styles.eachInfo}>Пол участников:</Text>
+              <Text style={styles.eachInfoTwo}>
+                {genders[choosenTournir?.players_gender]}
+              </Text>
+            </Row>
+          }
 
 
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Дата турнира:</Text>
-            <Text style={styles.eachInfoTwo}>
+            <Text style={styles.eachInfo}>Дата турнира: <Text style={styles.eachInfoTwo}>
               {moment(choosenTournir.start_date).format('DD.MM.YYYY')}
-            </Text>
+            </Text></Text>
+
           </Row>
 
 
 
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Время:</Text>
-            <Text style={styles.eachInfoTwo}>
+            <Text style={styles.eachInfo}>Время: <Text style={styles.eachInfoTwo}>
               {moment(choosenTournir.start_date).format('HH:mm')}
-            </Text>
+            </Text></Text>
+
           </Row>
 
 
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
-            <Text style={styles.eachInfoTwo}>
+            <Text style={styles.eachInfo} selectable={true}>Адрес проведения турнира:  <Text style={styles.eachInfoTwo} selectable={true} selectionColor={'red'}>
               {choosenTournir.address_name}
+            </Text>
             </Text>
           </Row>
 
@@ -165,11 +175,11 @@ const JoinTournament = () => {
 
 
 
-          <LightButton
+          {!route?.params?.fromCalendar && <LightButton
             label={'Присоединиться к турниру'}
             size={{ width: RW(290), height: RW(45) }}
             onPress={handleClick}
-          />
+          />}
         </View>
 
         <Modal
@@ -323,7 +333,6 @@ export const styles = StyleSheet.create({
   eachInfo: {
     ...font('bold', RH(20), WHITE, 20),
     marginLeft: RW(11),
-    // marginBottom: RH(6),
   },
   eachInfoTwo: {
     ...font('regular', RH(20), WHITE, 20),

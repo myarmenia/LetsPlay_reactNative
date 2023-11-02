@@ -32,15 +32,26 @@ import NotificationNavigator from './NotificationNavigator'
 import CalendarNavigator from './CalendarNavigator'
 import CrocodileNavigator from './CrocodileNavigator'
 import TournamentNavigator from './TournamentNavigator'
+import { confirmQR } from '@/store/Slices/TournamentReducer/TournamentApies'
 // SCREENS END
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 
-const TabNavigator = () => {
+const TabNavigator = ({ route }) => {
   const [isHome, setIsHome] = React.useState(true)
+  const propsGameId = route.params?.id
+
+  console.log(route, propsGameId, 'tabroute');
 
   const dispatch = useDispatch()
+
+
+  useEffect(() => {
+    if (propsGameId) {
+      dispatch(confirmQR(propsGameId))
+    }
+  }, [propsGameId])
 
 
   useEffect(() => {

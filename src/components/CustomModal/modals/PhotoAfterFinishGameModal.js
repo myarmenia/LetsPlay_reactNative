@@ -9,13 +9,13 @@ import { confirmPhotoAfterFinishGame } from '@/store/Slices/GamesSlice'
 import Video from 'react-native-video'
 import { _storageUrl } from '@/constants'
 import { setModalVisible } from '@/store/Slices/AppSlice'
+import { rejectImage, confirmImage } from '@/store/Slices/TournamentReducer/TournamentApies'
 
 const PhotoAfterFinishGameModal = ({ body }) => {
   const dispatch = useDispatch()
   const { _id, video_path, image_path } = body
   return (
     <View style={styles.modal}>
-      {console.log(_storageUrl + image_path)}
       <Text style={styles.text}>Подтвердите, что вы изображены на фото/видео!</Text>
       {image_path ? (
         <FastImage
@@ -41,15 +41,32 @@ const PhotoAfterFinishGameModal = ({ body }) => {
       <Row wrapper={styles.row}>
         <Pressable
           onPress={() => {
+            if (body?.fromTourney) {
+              dispatch(rejectImage({
+                file_id: _id
+              }))
+            }
             dispatch(setModalVisible(false))
+
+
           }}
         >
           <FastImage style={styles.btnImage} source={require('./assets/cancel.png')} />
         </Pressable>
         <Pressable
-          onPress={() => {
+          onPress={() => { 
             dispatch(setModalVisible(false))
-            dispatch(confirmPhotoAfterFinishGame({ file_id: _id }))
+            if (body?.fromTourney) {
+              dispatch(confirmImage({
+                impression_image_id: _id,
+                confirm: true
+              }))
+            } else {
+              dispatch(confirmPhotoAfterFinishGame({ file_id: _id }))
+            }
+
+
+
           }}
         >
           <FastImage style={styles.btnImage} source={require('./assets/done.png')} />
@@ -81,6 +98,8 @@ const styles = StyleSheet.create({
     marginBottom: RH(12),
     height: RH(200),
     width: '100%',
+    borderWidth: 2,
+    borderColor: 'aqua'
   },
   row: {
     width: '100%',

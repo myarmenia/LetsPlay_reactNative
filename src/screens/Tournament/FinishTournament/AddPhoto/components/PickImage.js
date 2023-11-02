@@ -7,7 +7,7 @@ import { SheetManager } from 'react-native-actions-sheet'
 import FastImage from 'react-native-fast-image'
 import Video from 'react-native-video'
 import { useDispatch } from 'react-redux'
-import { setFinishPhoto } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
 import { BlurView } from '@react-native-community/blur'
 import CircleMain from '@/components/buttons/Circle/CircleMain'
 
@@ -35,7 +35,7 @@ const PickImage = ({ gameFinishPhoto }) => {
         reducedTransparencyFallbackColor="white"
       >
         {gameFinishPhoto ? (
-          <Pressable style={styles.deleteBtn} onPress={() => dispatch(setFinishPhoto(null))}>
+          <Pressable style={styles.deleteBtn} onPress={() => dispatch(setGameFinishPhoto(null))}>
             <FastImage
               style={styles.deleteBtnImg}
               resizeMode="contain"

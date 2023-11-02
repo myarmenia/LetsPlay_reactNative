@@ -17,7 +17,6 @@ export const tournirData = {
     // կազմակերպչի մասնակցություն
     organizer_status: true,
     ticket_price: 0,
-    findedTourney: [],
     // խաղացողների քանակ
     number_of_participants_from: null,
     number_of_participants_to: null,

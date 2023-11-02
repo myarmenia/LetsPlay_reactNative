@@ -4,6 +4,9 @@ export default {
   prefixes: ['game://', 'https://game.com'], //'game:/',
   config: {
     screens: {
+      // HomeScreen: {
+      //   path: 'tourney/:id',
+      // },
       MafiaNavigator: {
         screens: {
           WaitPlayers: {
@@ -32,10 +35,21 @@ export default {
           },
         },
       },
+      TabNavigator: {
+        path: 'tourney/:id',
+      },
+      // TabNavigator: {
+      //   screens: {
+      //     Home: {
+      //       path: 'tourney/:id',
+      //     },
+      //   },
+      // },
     },
   },
   subscribe(listener) {
     const onReceiveURL = ({ url }) => {
+      console.log(url, 'url');
       listener(url)
     }
 

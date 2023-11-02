@@ -22,7 +22,7 @@ import { setModalOptions } from '@/store/Slices/AppSlice'
 
 const SearchAddresses = ({
   game,
-  setAddressName = () => {},
+  setAddressName = () => { },
   addressName = '',
   navigateTo = '',
   command = null,
@@ -42,6 +42,7 @@ const SearchAddresses = ({
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         )
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          setAddresses(null)
           navigation.navigate('Map', { game: game, navigateTo: navigateTo, command: command })
         } else {
           dispatch(
@@ -70,14 +71,10 @@ const SearchAddresses = ({
       }
     }
   }
-  // useEffect(() => {
-  //   setAddresses('')
-  //   // dispatch(setPlaceName(''))
-  //   setState(!command ? '' : command?.address_name)
-  // }, [])
-  // useEffect(() => {
-  //   setState(command ? command?.address_name : initialState?.address_name)
-  // }, [initialState.address_name])
+
+  useEffect(() => {
+    setState(command ? command?.address_name : initialState?.address_name)
+  }, [initialState.address_name])
 
 
 
@@ -124,6 +121,16 @@ const SearchAddresses = ({
       setAddressName('')
     }
   }, [state?.length])
+
+
+  useEffect(() => {
+    setAddresses('')
+    // dispatch(setPlaceName(''))
+    setState(!command ? '' : command?.address_name)
+    return () => {
+      setState(null)
+    }
+  }, [])
   return (
     <View style={{ flexDirection: 'column' }}>
       <View
@@ -145,7 +152,7 @@ const SearchAddresses = ({
               makeURL(state)
             }
           }}
-        ></TextInput>
+        />
         <TouchableOpacity onPress={checkPermissionAndNavigate} style={styles.mapIcon}>
           <MapSvg />
         </TouchableOpacity>

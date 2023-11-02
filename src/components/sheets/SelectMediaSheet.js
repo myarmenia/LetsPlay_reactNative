@@ -5,10 +5,17 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 import { font, RH, RW } from '@/theme/utils'
 import { PERMISSIONS, request, RESULTS } from 'react-native-permissions'
 import { IS_IOS } from '@/constants'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setGameFinishPhoto } from '@/store/Slices/GamesSlice'
+import { setFinishPhoto } from '@/store/Slices/TournamentReducer/TournamentSlice'
+
 
 const SelectMediaSheet = (props) => {
+  const { mediaForTournament } = useSelector(({ tournament }) => tournament)
+
+  console.log(mediaForTournament, 'mediaForTournament');
+
+
   const dispatch = useDispatch()
   const _onChoose = () =>
     SheetManager.hide(props.sheetId).then(() => {
@@ -25,7 +32,13 @@ const SelectMediaSheet = (props) => {
                 cancelButtonTitle: 'aaa',
               }).then((e) => {
                 if (e?.assets?.[0]?.uri) {
-                  dispatch(setGameFinishPhoto(e?.assets?.[0]))
+                  if (mediaForTournament) {
+                    dispatch(setFinishPhoto(e?.assets?.[0]))
+
+                  } else {
+                    dispatch(setGameFinishPhoto(e?.assets?.[0]))
+
+                  }
                 }
               })
             } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
@@ -56,7 +69,11 @@ const SelectMediaSheet = (props) => {
               presentationStyle: 'fullScreen',
             }).then((e) => {
               if (e?.assets?.[0]?.uri) {
-                dispatch(setGameFinishPhoto(e?.assets?.[0]))
+                if (mediaForTournament) {
+                  dispatch(setFinishPhoto(e?.assets?.[0]))
+                } else {
+                  dispatch(setGameFinishPhoto(e?.assets?.[0]))
+                }
               }
               console.log('launchCamera', e?.assets?.[0]?.uri)
             })

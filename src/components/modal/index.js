@@ -11,6 +11,7 @@ function Index({
   navigationText,
   setIsVisible,
   navigationParam = null,
+  onModalClose,
   onDismiss = () => { },
 }) {
   const [isModalVisible, setModalVisible] = useState(true)
@@ -18,6 +19,8 @@ function Index({
   useMemo(() => {
     setModalVisible(modalVisible)
   }, [modalVisible])
+
+
 
   return (
     <View style={{ flex: 1, position: 'absolute' }}>
@@ -32,6 +35,8 @@ function Index({
               setIsVisible(false)
               setModalVisible(false)
               navigationText ? navigation.navigate(navigationText, navigationParam) : null
+              onModalClose && onModalClose()
+
             }
           }
         }}

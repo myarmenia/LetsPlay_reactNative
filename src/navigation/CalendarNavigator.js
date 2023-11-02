@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NAV_HEADER_OPTION } from '@/constants'
 import CalendarScreen from '@/screens/Calendar/CalendarScreen'
 import CalendarSettings from '@/screens/Calendar/CalendarSettings'
-import CalendarGameScreen from '@/screens/Calendar/CalendarGameScreen.js'
+import CalendarGameScreen from '@/screens/Calendar/CalendarGameScreen'
 
 const Stack = createNativeStackNavigator()
 

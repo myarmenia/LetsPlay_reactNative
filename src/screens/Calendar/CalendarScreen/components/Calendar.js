@@ -12,11 +12,16 @@ import CircleSvg from '../assets/CircleSvg'
 import { getCalendarGames, clearCalendarGames } from '@/store/Slices/AppSlice'
 
 import CalendarGameItem from './CalendarGameItem'
+import TournamentItem from './TournamentItem'
 import TriangleSvg from '../assets/TriangleSvg'
 import CalendarDropDown from './CalendarDropDown'
 import { useDispatch, useSelector } from 'react-redux'
 import { months, months2, nDays, weekDays } from './data'
 import { useNavigation } from '@react-navigation/native'
+import { choosenTournir } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import moment from 'moment'
+
+
 
 
 const Calendar = () => {
@@ -25,6 +30,8 @@ const Calendar = () => {
   const [choosenData, setChoosenData] = useState(null)
   const [showYaersDropDown, setShowYaersDropDown] = useState(false)
   const calendarGames = useSelector(({ app }) => app.calendarGames)
+  console.log(calendarGames, 'games');
+
 
   const navigation = useNavigation()
   const dispatch = useDispatch()
@@ -172,7 +179,7 @@ const Calendar = () => {
   })
 
   useEffect(() => {
-    choosenData && dispatch(getCalendarGames({ date: choosenData?.toISOString().slice(0, 10) }))
+    choosenData && dispatch(getCalendarGames({ date: moment(choosenData).format('YYYY-MM-DD') }))
   }, [choosenData])
 
 
@@ -181,6 +188,9 @@ const Calendar = () => {
       dispatch(clearCalendarGames())
     }
   }, [])
+
+  console.log(activeDate.getMonth(), 'months[activeDate.getMonth()]');
+  console.log(moment(calendarGames[0]?.start_date)?.month())
 
 
 
@@ -250,23 +260,36 @@ const Calendar = () => {
 
           <View style={styles.agentaContainer}>
 
-            {calendarGames.length ?
+            {calendarGames.length && moment(calendarGames[0]?.start_date)?.month() === activeDate.getMonth()
+              ?
               calendarGames?.map((elm) => {
 
                 return (
-                  <CalendarGameItem
-                    key={elm?._id}
-                    img={elm?.game?.img}
-                    name={elm?.game?.name}
-                    startDate={elm?.start_date}
-                    onPress={() => {
-                      closeYearDropDown()
-                      if (elm.type === 'games' || elm.type === 'teamGames') {
+                  elm.type === 'tourneys' ?
+                    <TournamentItem
+                      key={elm?._id}
+                      item={elm}
+                      onPress={() => {
+                        closeYearDropDown()
+                        dispatch(choosenTournir(elm))
+                        navigation.navigate('TournamentNavigator', {
+                          screen: 'JoinTournament',
+                          params: { fromCalendar: true }
+                        })
+                        // navigation.navigate('JoinTournament', { tourney: elm })
+                      }}
+                    />
+                    :
+                    <CalendarGameItem
+                      key={elm?._id}
+                      img={elm?.game?.img}
+                      name={elm?.game?.name}
+                      startDate={elm?.start_date}
+                      onPress={() => {
+                        closeYearDropDown()
                         navigation.navigate('CalendarGameScreen', { game: elm })
-                      } else {
-                      }
-                    }}
-                  />
+                      }}
+                    />
                 )
 
               }) : null}

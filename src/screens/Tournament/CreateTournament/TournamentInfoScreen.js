@@ -12,19 +12,18 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import { addTournamentInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 
-const TournamentInfo = () => {
+
+const TournamentInfo = ({ route }) => {
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
   const { singleTournir } = useSelector(({ tournament }) => tournament)
 
-
-
-
-
   const [needNavigate, setNeedNavigate] = useState(false)
   // ================== states ==================
-  const [startDate, setStartDate] = useState(start_date)
+  const [startDate, setStartDate] = useState(new Date)
+  const [endDate, setEndDate] = useState(new Date)
+
   const [count, setCount] = useState({
     from: null,
     to: null
@@ -35,7 +34,6 @@ const TournamentInfo = () => {
   })
   const [genderList, setGenderList] = useState(gender)
   const [addressName, setAddressName] = useState(null)
-  const [endDate, setEndDate] = useState(end_date)
   const [priceFond, setPriceFond] = useState(priceFondData)
   const [organizerJoin, setOrganizerJoin] = useState(organizerData)
   // ================== states end ==================
@@ -53,6 +51,8 @@ const TournamentInfo = () => {
   const [addressNameError, setAddressNameError] = useState(false)
 
 
+
+
   const handleSubmit = () => {
     // Հասցեի ստուգում
     if (!addressName) {
@@ -60,9 +60,8 @@ const TournamentInfo = () => {
     } else {
       setAddressNameError(false)
     }
-
     // ամսաթվի ստուգում
-    if (startDate.date <= endDate.date) {
+    if (startDate <= endDate) {
       setEndDateError(true)
     } else {
       setEndDateError(false)
@@ -72,14 +71,17 @@ const TournamentInfo = () => {
     // մասնակիցների թվի ստուգում
     if (!count.from || !count.to) {
       setCountError('Обязательное поле для заполнения')
-    } else if (count.from > +count.to) {
+    } else if (count.from < 2) {
+      setCountError(`Минимальное количество ${!singleTournir?.team_tourney ? 'участников' : 'команд'} 2`)
+    }
+    else if (count.from > +count.to) {
       setCountError('Введите корректную количество')
     } else {
       setCountError(false)
     }
 
     // տարիքի ստուգում եթե անհատական խաղ է
-    if (!singleTournir.team_tourney) {
+    if (!singleTournir?.team_tourney) {
       if (!age.to || !age.from) {
         setAgeError('Обязательное поле для заполнения')
       } else if (age.from > age.to) {
@@ -93,15 +95,26 @@ const TournamentInfo = () => {
 
 
 
+  useEffect(() => {
+    setAddressName({
+      address_name: route?.params?.address_name,
+      lat: route?.params?.latitude,
+      lng: route?.params?.longitude,
+    })
+
+  }, [route?.params?.address_name])
+
+
+
 
   useEffect(() => {
     if (needNavigate && !countError && !endDateError && !startDateError && addressName &&
-      ((!singleTournir.team_tourney && !ageError) || singleTournir.team_tourney)
+      ((!singleTournir?.team_tourney && !ageError) || singleTournir.team_tourney)
     ) {
 
       let tournamentInfo = {
-        start_date: startDate.date.toISOString(),
-        end_search_date: endDate.date.toISOString(),
+        start_date: startDate.toISOString(),
+        end_search_date: endDate.toISOString(),
         address_name: addressName.address_name,
         latitude: addressName.lat,
         longitude: addressName.lng,
@@ -109,7 +122,7 @@ const TournamentInfo = () => {
         organizer_status: organizerJoin[0].checked ? true : false
       }
 
-      if (singleTournir.team_tourney) {
+      if (singleTournir?.team_tourney) {
         tournamentInfo.number_of_teams_from = count.from
         tournamentInfo.number_of_teams_to = count.to
       } else {
@@ -121,7 +134,7 @@ const TournamentInfo = () => {
       }
       dispatch(addTournamentInfo(tournamentInfo))
       setNeedNavigate(false)
-      if (singleTournir.team_tourney && tournamentInfo.organizer_status) {
+      if (singleTournir?.team_tourney && tournamentInfo.organizer_status) {
         navigation.navigate('TeamNavigator', {
           screen: 'MyTeam',
           params: { fromTournament: true },
@@ -149,15 +162,15 @@ const TournamentInfo = () => {
           rowStyle={{
             justifyContent: 'space-around',
           }}
-          dateValue={startDate.date}
-          timeValue={startDate.time}
-          setDate={(date) => setStartDate({ ...startDate, date })}
-          setTime={(time) => setStartDate({ ...startDate, time })}
+          dateValue={startDate}
+          timeValue={startDate}
+          setDate={(date) => { setStartDate(new Date(date)) }}
+          setTime={(time) => { setStartDate(new Date(time)) }}
         />
         {!!startDateError && <Text style={styles.error}>Введите корректную дату</Text>}
         <View>
           <Text style={styles.titles}>
-            Количество {!singleTournir.team_tourney ? 'участников' : 'команд'}
+            Количество {!singleTournir?.team_tourney ? 'участников' : 'команд'}
           </Text>
           <View style={styles.countBlock}>
             <TextInput
@@ -184,7 +197,7 @@ const TournamentInfo = () => {
           </View>
         </View>
         {countError ? <Text style={styles.error}>{countError}</Text> : null}
-        {!singleTournir.team_tourney ? (
+        {!singleTournir?.team_tourney ? (
           <>
             <View>
               <Text style={styles.titles}>Возрастные ограничения</Text>
@@ -221,9 +234,9 @@ const TournamentInfo = () => {
             />
           </>
         ) : null}
-        <View style={{ marginTop: singleTournir.team_tourney ? RH(20) : 0 }} />
+        <View style={{ marginTop: singleTournir?.team_tourney ? RH(20) : 0 }} />
         <SearchAddresses
-          navigateTo="CreateTournamentInfo"
+          navigateTo="TournamentInfo"
           setAddressName={setAddressName}
           addressName={addressName}
           show={false}
@@ -239,10 +252,10 @@ const TournamentInfo = () => {
           rowStyle={{
             justifyContent: 'space-around',
           }}
-          dateValue={endDate.date}
-          timeValue={endDate.time}
-          setDate={(date) => setEndDate({ ...endDate, date })}
-          setTime={(time) => setEndDate({ ...endDate, time })}
+          dateValue={endDate}
+          timeValue={endDate}
+          setDate={(date) => { setEndDate(new Date(date)) }}
+          setTime={(time) => { setEndDate(new Date(time)) }}
         />
         {endDateError && <Text style={styles.error}>Введите корректную дату</Text>}
 

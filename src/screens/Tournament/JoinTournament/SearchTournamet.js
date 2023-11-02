@@ -17,8 +17,9 @@ import moment from 'moment'
 import { chooseGameType, format } from './info'
 
 
-const SearchTournament = () => {
+const SearchTournament = ({ route }) => {
   const dispatch = useDispatch()
+
 
 
   const games = useSelector(({ games }) => games.games)
@@ -30,6 +31,7 @@ const SearchTournament = () => {
   const [addressName, setAddressName] = useState(null)
   const [addressError, setAddressError] = useState(false)
   const [tournamentFormat, setTournamentFormat] = useState(format)
+
 
   const [gameTypes, setGameTypes] = useState()
   const [list, setList] = useState(chooseGameType)
@@ -77,11 +79,9 @@ const SearchTournament = () => {
         tournamentFormat[0],
         { id: 2, text: 'Командный', checked: false, disable: true },])
     }
+
+
   }, [])
-
-
-
-
 
   useEffect(() => {
     if (!games.length) {
@@ -97,6 +97,20 @@ const SearchTournament = () => {
     })
     setGameTypes(gameTypesData)
   }, [games])
+
+
+  useEffect(() => {
+    setAddressName({
+      address_name: route?.params?.address_name,
+      lat: route?.params?.latitude,
+      lng: route?.params?.longitude,
+    })
+
+  }, [route?.params?.address_name])
+
+
+
+
 
 
   return (
@@ -150,7 +164,7 @@ const SearchTournament = () => {
           </View>
 
           <SearchAddresses
-            navigateTo="JoinTournament"
+            navigateTo="SearchTournament"
             setAddressName={setAddressName}
             addressName={addressName}
             command={null}

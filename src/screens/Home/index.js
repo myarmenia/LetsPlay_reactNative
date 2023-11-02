@@ -11,6 +11,10 @@ import { participateToGame } from '@/store/Slices/GamesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient'
 import { getMessagesCount, getNotificationCount } from '@/store/Slices/AppSlice'
+import { getCalendarGames } from '@/store/Slices/AppSlice'
+import moment from 'moment'
+
+
 const HomeScreen = ({ route }) => {
   const navigation = useNavigation()
   const propsGameId = route.params?.id
@@ -35,6 +39,7 @@ const HomeScreen = ({ route }) => {
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('CalendarNavigator')
+            dispatch(getCalendarGames({ date: moment(new Date).format('YYYY-MM-DD') }))
           }}
         >
           <CalendarIcon />

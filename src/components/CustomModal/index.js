@@ -12,6 +12,7 @@ import PhotoAfterFinishGameModal from './modals/PhotoAfterFinishGameModal'
 import GaleryOpenPhoto from './modals/GaleryOpenPhoto'
 import BestPlayer from './modals/BestPlayer'
 import RateOrganizerModal from './modals/RateOrganizerModal'
+import UserInfo from './modals/UserInfoModal'
 
 const CustomModal = () => {
   const modalOptions = useSelector(({ app }) => app.modalOptions)
@@ -51,6 +52,8 @@ const CustomModal = () => {
             switch (modalOptions?.type) {
               case 'QrModal':
                 return <QrModal qrLink={modalOptions.body} />
+              case 'UserInfo':
+                return <UserInfo body={modalOptions.body} />
               case 'message':
                 return <MessageModal message={modalOptions.body} />
               case 'error':

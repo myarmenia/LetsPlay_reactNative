@@ -12,21 +12,14 @@ import { getAllChats } from '@/store/Slices/TournamentReducer/TournamentApies'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 const ChatScreen = () => {
-  const chat = useSelector(({ tournament }) => tournament.chats)
-
-  const chats = [chat[11]]
-
+  const { chats } = useSelector(({ tournament }) => tournament)
   const dispatch = useDispatch()
-
   const isFocused = useIsFocused()
 
   useEffect(() => {
     dispatch(getAllChats())
-    // dispatch(getTourneyChats())
-    // dispatch(getAllTeamChats())
-    // dispatch(getAllGameChats())
-    // dispatch(getMyTeams())
-    // dispatch(getMyJoinedTeams())
+    dispatch(getMyTeams())
+    dispatch(getMyJoinedTeams())
   }, [isFocused])
 
   return (
@@ -40,8 +33,8 @@ const ChatScreen = () => {
                 let type = singleChat?.hasOwnProperty('team_tourney')
                   ? 'tournament'
                   : singleChat?.hasOwnProperty('team')
-                  ? 'team'
-                  : 'game'
+                    ? 'team'
+                    : 'game'
 
                 return (
                   <ChatItem
@@ -79,3 +72,4 @@ const styles = StyleSheet.create({
 })
 
 export default ChatScreen
+

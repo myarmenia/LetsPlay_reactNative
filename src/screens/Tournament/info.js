@@ -13,15 +13,3 @@ export const priceFondData = [
     { id: 1, text: 'Да', checked: false },
     { id: 2, text: 'Нет', checked: true },
 ]
-
-
-export const start_date = {
-    date: new Date(),
-    time: new Date(),
-}
-
-
-export const end_date = {
-    date: new Date(new Date().setDate(start_date.date.getDate() - 1)),
-    time: new Date(),
-}

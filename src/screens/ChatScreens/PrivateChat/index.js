@@ -11,6 +11,8 @@ import { IS_IOS } from '@/constants'
 import { setPausedMessageId, setPlayMessageId } from '../../../store/Slices/ChatsSlice'
 import PrivateChatHeader from './components/PrivateChatHeader'
 import ScreenMask2 from '@/components/wrappers/screen2'
+import { getTourneyChat } from '@/store/Slices/TournamentReducer/TournamentApies'
+import { sendTourneyMessage, getSingleTournament } from '@/store/Slices/TournamentReducer/TournamentApies'
 
 function Index(props) {
   const [messageState, setMessageState] = useState([])
@@ -18,24 +20,29 @@ function Index(props) {
 
   const { user, token } = useSelector(({ auth }) => auth)
   const { voiceDuration, chats } = useSelector(({ chats }) => chats)
+  const { singleChat } = useSelector(({ tournament }) => tournament)
+
   const dispatch = useDispatch()
-  const gameID = props.route.params.id
+  const chatId = props.route.params.id
   const type = props.route.params.type
   const playersLength = props.route.params?.playersLength
-  const team=props.route.params?.team
-  const socket = io(
-    `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru${type == 'Командный' ? '/team' : ''
-    }/chat?room=${gameID}`,
-    {
-      transportOptions: {
-        polling: {
-          extraHeaders: {
-            Authorization: token,
-          },
+  const team = props.route.params?.team
+
+  const api = `${Platform.OS === 'ios' ? 'wss' : 'ws'}://to-play.ru${type === 'team' ? '/team/create_game' : type === 'tournament' ? '/tourney' : ''
+    }/chat?room=${chatId}`
+
+  const options = {
+    transportOptions: {
+      polling: {
+        extraHeaders: {
+          Authorization: token,
         },
       },
     },
-  )
+  }
+
+
+  const socket = io(api, options)
 
   const scrollViewRef = useRef(null)
 
@@ -50,7 +57,7 @@ function Index(props) {
         type: IS_IOS ? 'audio/m4a' : 'video/mp4',
         name: IS_IOS ? 'audio.m4a' : 'audio.mp4',
       })
-      formdata.append(type == 'Командный' ? 'team' : 'create_game', gameID)
+      formdata.append(type === 'team' ? 'team' : type === 'game' ? 'create_game' : 'tourney', chatId)
       formdata.append('file_length', voiceDuration)
 
       let myHeaders = new Headers()
@@ -63,29 +70,33 @@ function Index(props) {
         body: formdata,
       }
       fetch(
-        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api${type == 'Командный' ? '/team/chat' : '/create/game/chat/'
+        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api${type == 'team' ? '/team/chat' : type === 'game' ? '/create/game/chat/' : '/tourney/chat'
         }`,
         requestOptions,
       )
-        .then((result) => {
+        .then((res) => {
           setVoiceMessage(null)
         })
-        .catch((error) => console.log('error', error))
     } else {
-      if (type == 'Командный') {
+      if (type === 'team') {
         dispatch(
           sendTeamMessage({
             message: text,
-            team: gameID,
+            team_create_game: chatId,
           }),
         )
-      } else {
+      } else if (type === 'game') {
         dispatch(
           sendMessage({
             message: text,
-            create_game: gameID,
+            create_game: chatId,
           }),
         )
+      } else {
+        dispatch(sendTourneyMessage({
+          message: text,
+          tourney: chatId,
+        }))
       }
     }
   }
@@ -105,12 +116,15 @@ function Index(props) {
 
   useEffect(() => {
     // messageState
-    if (type == 'Командный') {
-      dispatch(getTeamChats(gameID))
+    if (type == 'team') {
+      dispatch(getTeamChats(chatId))
+    } else if (type === 'game') {
+      dispatch(getChats(chatId))
     } else {
-      dispatch(getChats(gameID))
-    }
+      dispatch(getTourneyChat(chatId))
+      dispatch(getSingleTournament(chatId))
 
+    }
     return () => {
       console.log('chat socket disconnect')
       socket.disconnect()
@@ -119,8 +133,8 @@ function Index(props) {
 
 
   useEffect(() => {
-    setMessageState(chats)
-  }, [chats])
+    setMessageState(type === 'tournament' ? singleChat : chats)
+  }, [chats, singleChat])
 
 
 
@@ -143,10 +157,10 @@ function Index(props) {
 
   return (
     <ScreenMask2>
-      <PrivateChatHeader type={type} gameID={gameID} playersLength={playersLength} team={team}/>
+      <PrivateChatHeader type={type} chatId={chatId} playersLength={playersLength} team={team} />
       <FlatList
         data={[...messageState]?.reverse()}
-        style={{marginBottom: RH(25)}}
+        style={{ marginBottom: RH(25) }}
         inverted
         refreshing
         initialNumToRender={4}

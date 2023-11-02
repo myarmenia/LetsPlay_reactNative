@@ -17,7 +17,8 @@ import {
 import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
 import { callEndGame, getGameById } from '@/store/Slices/GamesSlice'
-import { confirmJoin, rejectJoin } from '@/store/Slices/TournamentReducer/TournamentApies'
+import { confirmJoin, rejectJoin, getPlayers } from '@/store/Slices/TournamentReducer/TournamentApies'
+import { changeMediaForTournament } from '@/store/Slices/TournamentReducer/TournamentSlice'
 
 const NotificationItem = ({ elm }) => {
   const { notifications } = useSelector(({ app }) => app)
@@ -44,6 +45,7 @@ const NotificationItem = ({ elm }) => {
       secondaryClick: true,
       label: 'Показать QR',
       onPress: () => {
+        console.log(elm, 'elm');
         dispatch(
           setModalOptions({
             visible: true,
@@ -126,7 +128,64 @@ const NotificationItem = ({ elm }) => {
           }).catch((err) => {
           })
       },
-    }
+    },
+    end_tourney_game: {
+      label: 'Завершить',
+      onPress: async () => {
+        dispatch(changeMediaForTournament(true))
+        dispatch(getPlayers(elm.tourney))
+          .unwrap()
+          .then((res) => {
+            navigation.navigate('TournamentNavigator', {
+              screen: 'AddTournamentPhoto',
+            })
+          })
+
+      },
+    },
+    mark_tourney_file: {
+      label: 'Открыть',
+      secondaryClick: true,
+      onPress: () => {
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: 'PhotoAfterFinishGameModal',
+            body: { ...elm?.tourneyFile, fromTourney: true },
+          }),
+        )
+      },
+    },
+    finish_tourney: {
+      label: 'Итоги турнира',
+      secondaryClick: true,
+      onPress: () => {
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: 'BestPlayer',
+            body: {
+              best_players: {...elm?.best_players, fromTourney: true},
+            },
+          }),
+        )
+      },
+    },
+    tourney_join_user: {
+      label: 'Посмотреть',
+      secondaryClick: true,
+      onPress: () => {
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: 'UserInfo',
+            body: elm.userInfo
+          }),
+        )
+      },
+    },
+
+
   }
 
   useEffect(() => {
