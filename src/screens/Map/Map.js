@@ -86,6 +86,8 @@ const Map = ({ route }) => {
             ? navigation.navigate('EditTeamInfo', {
               ...command,
               address_name: response,
+              latitude: s.results[0].geometry.location.lat,
+              longitude: s.results[0].geometry.location.lng,
             })
             : null
           navigateTo == 'Join'

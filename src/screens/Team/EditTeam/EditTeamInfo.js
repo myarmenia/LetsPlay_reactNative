@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from 'react-redux'
 const EditTeamInfo = ({ route }) => {
   const command = route.params
   const address_name = command?.address_name
+
+
   const [addresName, setAddressName] = useState('')
   const [name, setName] = useState(command?.name)
   const [photo, setPhoto] = useState({ uri: _storageUrl + command?.img })
@@ -37,16 +39,22 @@ const EditTeamInfo = ({ route }) => {
   const hundleSubmit = () => {
     const formData = new FormData()
     formData.append('name', name)
-    formData.append('address_name', addresName)
-    // formData.append('image', photo)
-    formData.append('image', {
+    photo?.fileName && formData.append('image', {
       name: photo?.fileName,
       type: photo?.type,
       uri: photo?.uri,
     })
-    // formData.append('latitude', 0)
-    // formData.append('longitude', 0)
 
+    console.log(addresName, 'addressName');
+    formData.append('img', command?.img)
+
+
+    if (addresName?.address_name) {
+      formData.append('address_name', addresName?.address_name)
+      formData.append('latitude', addresName?.lat)
+      formData.append('longitude', addresName?.lng)
+    }
+    
     let myHeaders = new Headers()
     myHeaders.append('Content-Type', 'multipart/form-data')
     myHeaders.append('Authorization', `Bearer ${token}`)
@@ -65,20 +73,22 @@ const EditTeamInfo = ({ route }) => {
     )
       .then((result) => result.json())
       .then((result) => {
+        console.log(result, 'result');
+
         navigation.navigate('MyTeamInfo', {
           command: {
             ...command,
-            name: name,
-            address_name: addresName,
-            img: photo.uri,
+            name: result?.data?.name,
+            address_name: result?.data?.address_name,
+            img: result?.data?.img,
           },
         })
       })
       .catch((error) => console.log('error', error))
   }
-  useEffect(() => {
-    if (address_name) setAddressName(address_name)
-  }, [address_name])
+  // useEffect(() => {
+  //   if (address_name) setAddressName(address_name)
+  // }, [address_name])
   return (
     <ScreenMask>
       <View style={styles.row}>

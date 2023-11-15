@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     color: ICON,
     paddingLeft: RW(24),
-    paddingBottom: RH(150),
+    paddingBottom: RH(220),
   },
   inputsContainer: { height: RH(350), justifyContent: 'space-around', marginTop: RH(70) },
   radioBlockBox: { marginTop: RH(30) },

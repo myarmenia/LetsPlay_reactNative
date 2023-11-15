@@ -8,13 +8,11 @@ import SchemeUsers from './components/SchemeUsers'
 import { useNavigation } from '@react-navigation/native'
 import LightButton from '@/components/buttons/Button'
 import FastImage from 'react-native-fast-image'
-import { useSelector } from 'react-redux'
 
-const TeamSchemes = ({ route }) => {
-  const { players, sendingData, teamImg,  } = route.params
-  console.log(route.params, 'params');
+const TeamSchema = ({ route }) => {
+  const { players, navigateTo, teamImg, gameType, teamName } = route.params
 
-  console.log(replacementPlayers, 'replacment players');
+
   const [replacementPlayers, setReplacementPlayers] = useState(
     new Array(players?.length).fill({
       x: 0,
@@ -28,13 +26,11 @@ const TeamSchemes = ({ route }) => {
     }),
   )
   const [initialCordinates, setInitialCordinates] = useState({ x: 0, y1: 0, y2: 0 })
-  const { schema_img, name } = useSelector(({ teams }) => teams.choosedTeamGame)
 
   const fieldSize = useRef()
   const data = {
-    players: players,
     Футбол: {
-      schemaImg: '/game_schema_img/Group 1805.png',
+      schemaImg: require('./images/football.png'),
       fieldSizePracnt: {
         width: 81.5,
         height: 85.1,
@@ -43,7 +39,7 @@ const TeamSchemes = ({ route }) => {
       },
     },
     Хоккей: {
-      schemaImg: '/game_schema_img/Group 1808.png',
+      schemaImg: require('./images/hockey.png'),
       fieldSizePracnt: {
         width: 100,
         height: 81,
@@ -51,20 +47,34 @@ const TeamSchemes = ({ route }) => {
         y: 9.5,
       },
     },
-    Остальные: {
-      schemaImg: '/game_schema_img/Group 1808.png',
+    Баскетбол: {
+      schemaImg: require('./images/basketball.png'),
       fieldSizePracnt: {
         width: 87,
         height: 91,
-        x: 6.5,
-        y: 4.5,
+        x: 0,
+        y: 9.5,
       },
     },
-    teamImg: '/team/image/a64e7664-9a78-42c3-bff7-b02a92c40c0a.jpg',
-    teamName: 'Test2',
+    Волейбол: {
+      schemaImg: require('./images/volleyball.png'),
+      fieldSizePracnt: {
+        width: 87,
+        height: 91,
+        x: 0,
+        y: 9.5,
+      },
+    },
+    Пионербол: {
+      schemaImg: require('./images/pionerball.png'),
+      fieldSizePracnt: {
+        width: 86,
+        height: 91,
+        x: 0,
+        y: 9.5,
+      },
+    },
   }
-  let gameName = name == 'Хоккей' || name == 'Футбол' ? name : 'Остальные'
-
   const navigation = useNavigation()
 
   return (
@@ -78,33 +88,35 @@ const TeamSchemes = ({ route }) => {
         }}
         style={styles.teamNameRow}
       >
-        <FastImage style={styles.teamImg} source={{ uri: _storageUrl + data?.teamImg }} />
-        <Text style={styles.teamName}>{data?.teamName}</Text>
+        <FastImage style={styles.teamImg} source={{ uri: _storageUrl + teamImg }} />
+        <Text style={styles.teamName}>{teamName}</Text>
       </View>
+
+
       <View style={[styles.schemaImgContainer]}>
         <FastImage
           onLayout={(e) => {
             fieldSize.current = {
-              width: (e.nativeEvent.layout.width / 100) * data?.[gameName]?.fieldSizePracnt.width,
+              width: (e.nativeEvent.layout.width / 100) * data?.[gameType]?.fieldSizePracnt.width,
               height:
-                (e.nativeEvent.layout.height / 100) * data?.[gameName]?.fieldSizePracnt.height,
+                (e.nativeEvent.layout.height / 100) * data?.[gameType]?.fieldSizePracnt.height,
             }
             setInitialCordinates({
               ...initialCordinates,
               x:
                 e.nativeEvent.layout.x +
-                (e.nativeEvent.layout.width / 100) * data?.[gameName]?.fieldSizePracnt.x,
+                (e.nativeEvent.layout.width / 100) * data?.[gameType]?.fieldSizePracnt.x,
               y2:
                 e.nativeEvent.layout.y +
-                (e.nativeEvent.layout.height / 100) * data?.[gameName]?.fieldSizePracnt.y,
+                (e.nativeEvent.layout.height / 100) * data?.[gameType]?.fieldSizePracnt.y,
             })
           }}
           style={styles.schemaImg}
           resizeMode="contain"
-          source={{ uri: _storageUrl + schema_img }}
+          source={data?.[gameType]?.schemaImg}
         />
       </View>
-
+ 
       <View style={{ zIndex: 999 }}>
         <Text style={styles.playersTitle}>Запасные игроки:</Text>
         <SchemeUsers
@@ -117,6 +129,8 @@ const TeamSchemes = ({ route }) => {
       </View>
       <LightButton
         onPress={() => {
+          navigation.navigate(navigateTo, replacementPlayers)
+          return
           // navigation.navigate('ViewSchemes', { replacementPlayers })
           navigation.navigate('EditTeamPlayers', {
             teamImg,
@@ -130,7 +144,7 @@ const TeamSchemes = ({ route }) => {
   )
 }
 
-export default TeamSchemes
+export default TeamSchema
 
 const styles = StyleSheet.create({
   teamNameRow: {

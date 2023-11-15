@@ -30,7 +30,6 @@ const Calendar = () => {
   const [choosenData, setChoosenData] = useState(null)
   const [showYaersDropDown, setShowYaersDropDown] = useState(false)
   const calendarGames = useSelector(({ app }) => app.calendarGames)
-  console.log(calendarGames, 'games');
 
 
   const navigation = useNavigation()
@@ -189,8 +188,6 @@ const Calendar = () => {
     }
   }, [])
 
-  console.log(activeDate.getMonth(), 'months[activeDate.getMonth()]');
-  console.log(moment(calendarGames[0]?.start_date)?.month())
 
 
 
@@ -274,7 +271,7 @@ const Calendar = () => {
                         dispatch(choosenTournir(elm))
                         navigation.navigate('TournamentNavigator', {
                           screen: 'JoinTournament',
-                          params: { fromCalendar: true }
+                          params: { fromCalendar: true, elm }
                         })
                         // navigation.navigate('JoinTournament', { tourney: elm })
                       }}

@@ -62,13 +62,25 @@ const EditTeamPlayers = ({ route }) => {
               label={'Схема игры'}
               size={{ width: 284, height: 48 }}
               onPress={() => {
-                navigation.navigate('TeamSchemes', {
-                  players: savedTeam?.invited_players,
-                  schemaImg: choosedTeamGame?.schema_img,
-                  teamImg: teamImg,
-                  teamName: sendingData?.enemy_team_name,
-                  sendingData: sendingData,
-                })
+                navigation.navigate('TeamNavigator',
+                {
+                  screen: 'TeamSchemes',
+                  params: {
+                    players: savedTeam?.invited_players,
+                    schemaImg: choosedTeamGame?.schema_img,
+                    teamImg: teamImg,
+                    teamName: sendingData?.enemy_team_name,
+                    sendingData: sendingData,
+                  }
+                }
+              )
+                // navigation.navigate('TeamSchemes', {
+                //   players: savedTeam?.invited_players,
+                //   schemaImg: choosedTeamGame?.schema_img,
+                //   teamImg: teamImg,
+                //   teamName: sendingData?.enemy_team_name,
+                //   sendingData: sendingData,
+                // })
               }}
             />
           </View>

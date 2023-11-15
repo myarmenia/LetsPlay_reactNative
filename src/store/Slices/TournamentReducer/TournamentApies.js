@@ -4,7 +4,6 @@ import axiosInstance from '@/store/Api'
 export const createTourney = createAsyncThunk('tournament/create', async (obj, { }) => {
   try {
     const data = await axiosInstance.post('api/tourney/', obj)
-    console.log(data, 'data');
     return data
   } catch (error) {
     console.log(error, 'error');
@@ -31,8 +30,6 @@ export const getSingleTournament = createAsyncThunk('tournament/getSingleTournir
 
     }
   }
-
-
 )
 
 export const joinPlayer = createAsyncThunk(
@@ -182,13 +179,40 @@ export const rejectImage = createAsyncThunk(
   async (obj) => {
     try {
       const data = await axiosInstance.put('api/tourney/impression-images/delete/tourney_file', obj)
-      console.log(data, 'data');
       return data
 
     } catch (error) {
 
     }
   }
+)
+
+export const addToTeam = createAsyncThunk(
+  'tournament/addToTeam',
+  async (obj) => {
+    try {
+      const data = await axiosInstance.patch('api/team/invite', obj)
+      return data.data
+
+    } catch (error) {
+
+    }
+  }
+)
+
+
+export const rateOrganizerAfterTourney = createAsyncThunk(
+  'tournament/rateOrganizerAfterTourney',
+  async (obj) => {
+    try {
+      const data = await axiosInstance.post('api/tourney/tourney_game/organizer_rating', obj)
+      return data.data
+    } catch (error) {
+
+    }
+
+  }
+
 )
 
 
@@ -218,8 +242,7 @@ export const rejectImage = createAsyncThunk(
 
 
 // /api/tourney/tourney_game/organizer_rating
-// /api/tourney/impression-images/confirm
-// /api/tourney/impression-images/delete/tourney_file
+
 
 
 

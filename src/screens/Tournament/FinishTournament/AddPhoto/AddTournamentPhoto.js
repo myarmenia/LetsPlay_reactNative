@@ -12,6 +12,7 @@ import { setFinishPhoto } from '@/store/Slices/TournamentReducer/TournamentSlice
 const AddTournamentPhoto = () => {
   const { token } = useSelector(({ auth }) => auth)
   const { tournamentFinishPhoto, playersForRating } = useSelector(({ tournament }) => tournament)
+
   const navigation = useNavigation()
   const dispatch = useDispatch()
   useEffect(() => {
@@ -69,7 +70,7 @@ const AddTournamentPhoto = () => {
         onPress={hundleSubmit}
         style={{ alignSelf: 'center', marginBottom: RH(30) }}
         size={{ width: RW(280), height: RH(48) }}
-        label={tournamentFinishPhoto ? 'Далее' : 'Пропустить'}
+        label={tournamentFinishPhoto ? 'Далее>>' : 'Пропустить'}
       />
     </ScreenMask>
   )

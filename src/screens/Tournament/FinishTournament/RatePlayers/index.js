@@ -14,8 +14,10 @@ import { finishTournament, addTournamentRating } from '@/store/Slices/Tournament
 import RatePlayerModal from './RateModal'
 import { addPlayerRating } from '@/store/Slices/TournamentReducer/TournamentSlice'
 
-const RateTourneyPlayers = () => {
+const RateTourneyPlayers = ({ route }) => {
   const navigation = useNavigation()
+  const { user } = useSelector(({ auth }) => auth)
+
   const [modalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch()
   const { playersForRating } = useSelector(({ tournament }) => tournament)
@@ -25,6 +27,23 @@ const RateTourneyPlayers = () => {
       rate: elm
     }))
   }
+
+
+  // useEffect(()=>{
+
+
+  // }, [route?.params?.sendInvitation])
+
+
+  useEffect(() => {
+    if (user._id !== playersForRating?.user?._id) {
+      dispatch(setModalOptions({
+        visible: true,
+        type: 'RateOrganizerModal',
+        body: { organizer: playersForRating?.user, fromTourney: true },
+      }))
+    }
+  }, [])
 
 
 
@@ -98,13 +117,13 @@ const RateTourneyPlayers = () => {
           })
           dispatch(addTournamentRating(obj)).unwrap()
           dispatch(finishTournament(playersForRating._id)).unwrap().then((res) => {
-           
+
             if (res.statusCode === 200) {
               navigation.navigate('TabNavigator', {
                 screen: 'Home',
               })
             }
-          }).catch((error)=>{
+          }).catch((error) => {
             console.log(error, 'err');
           })
         }}
@@ -132,7 +151,6 @@ const styles = StyleSheet.create({
     marginTop: RH(10),
     marginBottom: RH(20),
   },
-  // flatList: {},
   flatListContent: {
     alignItems: 'center',
     paddingBottom: RH(10),

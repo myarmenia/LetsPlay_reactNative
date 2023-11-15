@@ -39,12 +39,11 @@ const CreateTeamTitle = ({ route }) => {
     } else {
       setAvatarError(false)
     }
-
     if (addressName?.address_name && teamName && avatar?.assets?.[0].uri) {
       formdata.append('name', teamName)
       formdata.append('address_name', addressName?.address_name)
-      formdata.append('latitude', addressName?.latitude)
-      formdata.append('longitude', addressName?.longitude)
+      formdata.append('latitude', addressName?.lat ? addressName?.lat : addressName?.latitude)
+      formdata.append('longitude', addressName?.lng ? addressName?.lng : addressName?.longitude)
       formdata.append('image', {
         name: avatar?.assets?.[0].fileName,
         type: avatar?.assets?.[0].type,

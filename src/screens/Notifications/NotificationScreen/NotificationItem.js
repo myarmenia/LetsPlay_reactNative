@@ -45,7 +45,6 @@ const NotificationItem = ({ elm }) => {
       secondaryClick: true,
       label: 'Показать QR',
       onPress: () => {
-        console.log(elm, 'elm');
         dispatch(
           setModalOptions({
             visible: true,
@@ -145,7 +144,7 @@ const NotificationItem = ({ elm }) => {
     },
     mark_tourney_file: {
       label: 'Открыть',
-      secondaryClick: true,
+      // secondaryClick: true,
       onPress: () => {
         dispatch(
           setModalOptions({
@@ -225,9 +224,9 @@ const NotificationItem = ({ elm }) => {
                   size={{ width: RH(172) }}
                 />
 
-                {elm.type === 'confirm_tourney' && <LightButton
+                {elm.type === 'confirm_tourney' && 
+                <LightButton
                   onPress={() => {
-
                     if (!elm?.click) {
                       dispatch(rejectJoin(elm?.tourney))
                         .unwrap()

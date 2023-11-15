@@ -17,9 +17,10 @@ import Row from '@/components/wrappers/row'
 
 
 const JoinTournament = ({ route }) => {
+
   const dispatch = useDispatch()
   const { user } = useSelector(({ auth }) => auth)
-  console.log(route, 'route');
+
 
 
   const [errorText, setErrorText] = useState(false)
@@ -151,11 +152,11 @@ const JoinTournament = ({ route }) => {
               <User
                 size={30}
                 onPressItem={{
-                  item: <User size={390} pressedUser={user} />,
+                  item: <User size={390} pressedUser={!route?.params?.fromCalendar ? user : route?.params?.elm?.user} />,
                   modalClose: false,
                   // onClickFunc: handleClick,
                 }}
-                pressedUser={user}
+                pressedUser={!route?.params?.fromCalendar ? user : route?.params?.elm?.user}
               />
             </View>
           </View>

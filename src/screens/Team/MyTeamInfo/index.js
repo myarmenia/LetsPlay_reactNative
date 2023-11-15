@@ -12,6 +12,7 @@ import FastImage from 'react-native-fast-image'
 
 function Index({ route }) {
   const { command } = route.params
+  console.log(command, 'command');
   const navigation = useNavigation()
   const dispatch = useDispatch()
   return (

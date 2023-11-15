@@ -43,10 +43,6 @@ const CreateTournament = () => {
     dispatch(editTournametInfo())
     navigation.navigate('TournamentName')
   }
-
-
-
-
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
@@ -62,13 +58,18 @@ const CreateTournament = () => {
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Тип турнира :</Text>
             <Text style={styles.eachInfoTwo}>
-              {initialState?.singleTournir?.tournamentGameType}
+              {initialState?.singleTournir?.team_tourney ? 'командный' : 'Индивидуальный'}
             </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Название турнира: </Text>
-            <Text style={styles.eachInfoTwo}> {initialState?.singleTournir?.name}</Text>
+            <Text style={styles.eachInfoTwo}>{initialState?.singleTournir?.name}</Text>
+          </Row>
+          <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Тип игры :</Text>
+            <Text style={styles.eachInfoTwo}>{initialState?.singleTournir?.tournamentGameType}</Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
@@ -128,8 +129,8 @@ const CreateTournament = () => {
               {moment(initialState?.singleTournir?.start_date).format('HH:mm')}
             </Text>
           </Row>
-          <Row>
-            <View style={{ paddingVertical: RH(20) }}></View>
+          <Row wrapper={{ alignItems: 'flex-start', marginBottom: RH(5) }}>
+            <View style={{ paddingVertical: RH(20), alignItems: 'flex-start' }}></View>
             <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
             <Text style={styles.eachInfoTwo}>
               {initialState?.singleTournir?.address_name}
@@ -185,12 +186,12 @@ const CreateTournament = () => {
                   obj.players = joinedTeamInfo.players
                 }
               }
-              console.log(obj, 'obj');
               dispatch(createTourney(obj))
                 .unwrap()
                 .then((res) => {
                   if (res.status === 201) {
                     setModalVisible(true)
+                    dispatch(resetSingleTournirData())
                   }
                 })
                 .catch((err) => {
@@ -209,7 +210,7 @@ const CreateTournament = () => {
               </Text>
             </View>
           }
-          onModalClose={() => { dispatch(resetSingleTournirData()) }}
+          onModalClose={() => { }}
           modalVisible={modalVisible}
           navigationText={'Home'}
           setIsVisible={setModalVisible}

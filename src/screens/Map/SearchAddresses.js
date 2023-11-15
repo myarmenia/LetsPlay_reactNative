@@ -74,7 +74,7 @@ const SearchAddresses = ({
 
   useEffect(() => {
     setState(command ? command?.address_name : initialState?.address_name)
-  }, [initialState.address_name])
+  }, [])
 
 
 
@@ -105,14 +105,18 @@ const SearchAddresses = ({
       return console.log('err', err)
     }
   }
+
+
   const chooseAddress = () => {
     setState(addresses)
-    if (state?.length >= 35) {
+    if (addresses?.length >= 35) {
       setState(state.split().reverse().join().substring(0, 32) + '...')
     }
     setAddresses(null)
     dispatch(setPlaceName(addressName.address_name))
   }
+
+
   useEffect(() => {
     if (state?.length >= 5) {
       makeURL()
@@ -148,8 +152,8 @@ const SearchAddresses = ({
           value={state}
           onChangeText={(e) => {
             setState(e)
-            if (state?.length >= 4) {
-              makeURL(state)
+            if (e.length >= 4) {
+              makeURL(e)
             }
           }}
         />

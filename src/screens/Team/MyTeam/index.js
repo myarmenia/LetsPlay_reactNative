@@ -86,7 +86,7 @@ function Index({ route }) {
           myTeams?.map((command, i) => <EachCommand data={params} command={command} key={i} />)
         ) : (
           <View style={{ alignSelf: 'center' }}>
-            <Text style={styles.text}>Загрузка...</Text>
+            <Text style={styles.text}>Нет команд</Text>
           </View>
         )}
       </ScrollView>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   text: {
     marginVertical: RH(3),
-    ...font('bold', 14, WHITE),
+    ...font('bold', 15, WHITE),
     flexGrow: 1,
     flexWrap: 'nowrap',
     width: '74%',

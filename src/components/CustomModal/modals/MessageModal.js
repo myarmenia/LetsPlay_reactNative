@@ -3,7 +3,7 @@ import React from 'react'
 import { RW, font } from '@/theme/utils'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 
-const MessageModal = ({message}) => {
+const MessageModal = ({ message }) => {
   return (
     <View style={styles.modal}>
       <Text style={styles.text}>{message}</Text>
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     marginHorizontal: RW(30.5),
   },
   text: {
-    ...font('inter', 16, WHITE, 20),
+    ...font('inter', 17, WHITE, 20),
     textAlign: 'center',
   },
 })

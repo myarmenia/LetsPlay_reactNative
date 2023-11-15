@@ -29,12 +29,15 @@ const EachMember = ({ route }) => {
     )
   }
   const handleDelete = () => {
+    console.log(command, 'command');
+    const obj = {
+      team_id: command?._id,
+      user_id: user?._id,
+    }
+    console.log(obj, 'obj');
     dispatch(
       deletePlayerFromTeam(
-        {
-          team_id: command?._id,
-          user_id: user?._id,
-        },
+        obj,
         setModalVisible,
       ),
     )

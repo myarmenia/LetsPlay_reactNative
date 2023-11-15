@@ -9,15 +9,13 @@ import AddSvg from '@/assets/svgs/addSvg'
 import CircleMain from '@/components/buttons/Circle/CircleMain'
 import CheckSvg from '@/assets/svgs/CheckSvg'
 import { useNavigation } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
-import { setModalVisible } from '@/store/Slices/AppSlice'
-import { inviteUserToTeam } from '@/store/Slices/TeamSlice'
+import { useDispatch } from 'react-redux'
 
 const RatePlayerModal = (props) => {
-    let { item, visible, setVisible, setRating, inviteCommand } = props
-
+    let { item, visible, setVisible, setRating, invite } = props
     const [addedToTeam, setAddedToTeam] = useState(false)
     const navigation = useNavigation()
+
 
     return (
         <Modal
@@ -28,6 +26,9 @@ const RatePlayerModal = (props) => {
             statusBarTranslucent>
             <Pressable style={styles.container} onPress={() => { setVisible(false) }}>
                 <Pressable style={styles.modal} onPress={(e) => { e.preventDefault() }}>
+                    <Text style={[styles.text, styles.headerText]}>
+                        По умолчанию все неоцененные вами  участники получают
+                    </Text>
                     <View style={styles.starsContainer}>
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((elm, key) => (
                             <Pressable
@@ -47,17 +48,13 @@ const RatePlayerModal = (props) => {
                         <Pressable
                             onPress={() => {
                                 if (!addedToTeam) {
-                                    dispatch(setModalVisible(false))
                                     navigation.navigate('TeamNavigator', {
                                         screen: 'MyTeam',
                                         params: {
-                                            navigateFrom: 'RatePlayerModal',
-                                            body,
+                                            navigateFrom: 'addToTeamFromTournament',
+                                            id: item._id,
                                         },
                                     })
-                                } else {
-                                    body.inviteCommand = null
-                                    setAddedToTeam(false)
                                 }
                             }}
                         >
@@ -92,6 +89,7 @@ const styles = StyleSheet.create({
         padding: RW(20),
         marginHorizontal: RW(30.5),
         alignSelf: 'center',
+        alignItems: 'center'
     },
     starsContainer: {
         flexDirection: 'row',
@@ -108,4 +106,10 @@ const styles = StyleSheet.create({
         ...font('inter', 16, WHITE),
         width: '80%',
     },
+    headerText: {
+        textAlign: 'center',
+        marginBottom: RH(9),
+        ...font('inter', 17, WHITE),
+
+    }
 })

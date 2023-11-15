@@ -98,8 +98,6 @@ const styles = StyleSheet.create({
     marginBottom: RH(12),
     height: RH(200),
     width: '100%',
-    borderWidth: 2,
-    borderColor: 'aqua'
   },
   row: {
     width: '100%',

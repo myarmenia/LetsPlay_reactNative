@@ -8,9 +8,6 @@ import User from '@/components/User/user'
 
 const UserInfo = ({ body }) => {
 
-    console.log(body, 'user body');
-
-
     return (
         <View style={styles.modal}>
             <User user={body} size={370} />

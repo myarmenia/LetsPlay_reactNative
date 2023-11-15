@@ -42,7 +42,6 @@ const TabNavigator = ({ route }) => {
   const [isHome, setIsHome] = React.useState(true)
   const propsGameId = route.params?.id
 
-  console.log(route, propsGameId, 'tabroute');
 
   const dispatch = useDispatch()
 

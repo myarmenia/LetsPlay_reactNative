@@ -7,10 +7,7 @@ import {
   joinTeam,
   getPlayers,
   getAllChats,
-  confirmJoin,
-  rejectJoin,
   getTourneyChat,
-  sendTourneyMessage
 } from './TournamentApies'
 import { tournirData } from './info'
 
@@ -68,6 +65,9 @@ const TournamentSlice = createSlice({
       state.selectedTeam = {}
       state.joinStatus = null
       state.joinedTeamInfo = {}
+      state.mediaForTournament = false
+      state.tournamentFinishPhoto = null
+      state.playersForRating = null
     },
     addSelectedTeam: (state, action) => {
       state.selectedTeam = action.payload

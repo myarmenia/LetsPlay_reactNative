@@ -12,12 +12,15 @@ import LightButton from '@/components/buttons/Button'
 import { useDispatch } from 'react-redux'
 import { followUser, rateOrganizerAfterFinishGame } from '@/store/Slices/GamesSlice'
 import { setModalVisible } from '@/store/Slices/AppSlice'
+import { rateOrganizerAfterTourney } from '@/store/Slices/TournamentReducer/TournamentApies'
 
 const RateOrganizerModal = ({ body }) => {
   const [userRating, setUserRating] = useState(1)
   const [follow, setFollow] = useState(false)
   const dispatch = useDispatch()
-  const { organizer } = body
+  const { organizer, fromTourney } = body
+
+
 
   return (
     <View style={styles.modal}>
@@ -54,12 +57,19 @@ const RateOrganizerModal = ({ body }) => {
               }),
             )
           }
-          dispatch(
-            rateOrganizerAfterFinishGame({
+          if (fromTourney) {
+            dispatch(rateOrganizerAfterTourney({
               user_id: organizer?._id,
               rating: userRating / 100,
-            }),
-          )
+            }))
+          } else {
+            dispatch(
+              rateOrganizerAfterFinishGame({
+                user_id: organizer?._id,
+                rating: userRating / 100,
+              }),
+            )
+          }
           dispatch(setModalVisible(false))
         }}
         style={styles.btn}

@@ -123,7 +123,6 @@ export const sendTeamMessage = (data) => (dispatch) => {
   axiosInstance
     .post(`/api/team/create_game/chat`, data)
     .then((response) => {
-      console.log(response, 'response');
     })
     .catch((err) => {
       console.error('Error: request', err)
