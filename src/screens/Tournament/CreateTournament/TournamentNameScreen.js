@@ -62,6 +62,7 @@ const TournamentName = ({ route }) => {
             style={styles.inputMulti}
             placeholderTextColor={ICON}
             multiline={true}
+            numberOfLines={12}
             value={description}
             onChangeText={setDescription}
             placeholder={'Описание турнира (можно использовать ссылку на интернет страничку):'}
@@ -92,8 +93,6 @@ const styles = StyleSheet.create({
     borderRadius: RW(10),
     width: RW(363),
     height: RH(48),
-    marginLeft: 'auto',
-    marginRight: 'auto',
     color: ICON,
     paddingLeft: RW(24),
   },
@@ -101,16 +100,19 @@ const styles = StyleSheet.create({
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     width: RW(363),
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    height: RH(256),
-    marginLeft: 'auto',
-    marginRight: 'auto',
     color: ICON,
-    paddingLeft: RW(24),
-    paddingBottom: RH(220),
+    paddingHorizontal: RW(24),
+    marginTop: RH(15),
+    textAlignVertical: 'top'
   },
-  inputsContainer: { height: RH(350), justifyContent: 'space-around', marginTop: RH(70) },
+  inputsContainer: {
+    height: RH(350),
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+
+    marginTop: RH(70)
+  },
   radioBlockBox: { marginTop: RH(30) },
   btn: {
     position: 'absolute',

@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
@@ -14,19 +14,19 @@ import FastImage from 'react-native-fast-image'
 import moment from 'moment'
 import { joinPlayer, joinTeam } from '@/store/Slices/TournamentReducer/TournamentApies'
 import Row from '@/components/wrappers/row'
+import { openMap } from '@/helpers/helpFunctions'
 
 
 const JoinTournament = ({ route }) => {
 
+  const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
   const dispatch = useDispatch()
   const { user } = useSelector(({ auth }) => auth)
-
-
-
   const [errorText, setErrorText] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const { choosenTournir, joinedTeamInfo } = useSelector(({ tournament }) => tournament)
-
+  const countFrom = choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_from : choosenTournir.number_of_participants_from
+  const countTo = choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_to : choosenTournir.number_of_participants_to
 
 
 
@@ -58,7 +58,6 @@ const JoinTournament = ({ route }) => {
     }
   }
 
-  const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false} style={styles.propsWrapper}>
@@ -66,18 +65,18 @@ const JoinTournament = ({ route }) => {
           <FastImage
             resizeMode='contain'
             style={{ width: RW(260), height: RH(260) }}
-            source={{
-              uri: _storageUrl + choosenTournir?.game?.img,
-            }}
+            source={{ uri: _storageUrl + choosenTournir?.game?.img }}
           />
         </View>
         <View>
           <Row wrapper={{ marginBottom: RW(16) }}>
             <Text style={styles.eachInfo}>Тип турнира :</Text>
-            <Text style={styles.eachInfoTwo}>{choosenTournir?.team_tourney ? 'командный' : 'Индивидуальный'}</Text>
+            <Text style={styles.eachInfoTwo}>
+              {choosenTournir?.team_tourney ? 'командный' : 'Индивидуальный'}</Text>
           </Row>
+
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Название турнира: </Text>
+            <Text style={styles.eachInfo}>Название турнира :</Text>
             <Text style={styles.eachInfoTwo}>{choosenTournir?.name}</Text>
           </Row>
 
@@ -86,20 +85,21 @@ const JoinTournament = ({ route }) => {
             <Text style={styles.eachInfoTwo}>{choosenTournir?.game?.name}</Text>
           </Row>
 
-
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo} dataDetectorType='link'>Описание турнира: <Text style={styles.eachInfoTwo}>
-              {choosenTournir?.description ? choosenTournir.description : 'Нету'}
-            </Text></Text>
-
-          </Row>
-
-          <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Количество {choosenTournir.team_tourney ? 'команд' : 'игроков'}:</Text>
-            <Text style={styles.eachInfoTwo}>
-              от {choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_from : choosenTournir.number_of_participants_from
-              } до {choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_to : choosenTournir.number_of_participants_to}
+            <Text
+              style={[styles.eachInfo]}
+              dataDetectorType='link'>
+              Описание турнира :
+              <Text style={styles.eachInfoTwo}>
+                {'  '}{choosenTournir?.description ? choosenTournir.description : 'Нету'}
+              </Text>
             </Text>
+          </Row>
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>
+              Количество {choosenTournir.team_tourney ? 'команд' : 'игроков'} :
+            </Text>
+            <Text style={styles.eachInfoTwo}>{`от ${countFrom} до  ${countTo}`}</Text>
           </Row>
 
           {!choosenTournir?.team_tourney &&
@@ -112,7 +112,8 @@ const JoinTournament = ({ route }) => {
             </Row>
           }
 
-          {!choosenTournir?.team_tourney &&
+          {
+            !choosenTournir?.team_tourney &&
             <Row wrapper={{ marginBottom: RW(16) }}>
               <Text style={styles.eachInfo}>Пол участников:</Text>
               <Text style={styles.eachInfoTwo}>
@@ -121,29 +122,31 @@ const JoinTournament = ({ route }) => {
             </Row>
           }
 
-
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Дата турнира: <Text style={styles.eachInfoTwo}>
-              {moment(choosenTournir.start_date).format('DD.MM.YYYY')}
-            </Text></Text>
-
+            <Text style={styles.eachInfo}>Дата турнира :
+              <Text style={styles.eachInfoTwo}>
+                {'  ' + moment(choosenTournir.start_date).format('DD.MM.YYYY')}
+              </Text>
+            </Text>
           </Row>
 
-
-
           <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Время: <Text style={styles.eachInfoTwo}>
+            <Text style={styles.eachInfo}>Время : <Text style={styles.eachInfoTwo}>
               {moment(choosenTournir.start_date).format('HH:mm')}
             </Text></Text>
-
           </Row>
 
+          <Row wrapper={{ marginBottom: RW(16), width: '100%' }}>
+            <Text style={styles.addressStyle} selectable={true}>
+              {`Адрес проведения турнира :  `}
+              <Text
+                onPress={() => { openMap(choosenTournir.address_name) }}
+                style={styles.addressText}
+                selectable >
+                {choosenTournir.address_name}
+              </Text>
+            </Text>
 
-          <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo} selectable={true}>Адрес проведения турнира:  <Text style={styles.eachInfoTwo} selectable={true} selectionColor={'red'}>
-              {choosenTournir.address_name}
-            </Text>
-            </Text>
           </Row>
 
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -339,6 +342,16 @@ export const styles = StyleSheet.create({
     ...font('regular', RH(20), WHITE, 20),
     marginLeft: RW(11),
     // marginBottom: RH(24),
+  },
+  addressStyle: {
+    ...font('regular', RH(20), WHITE, 20),
+    width: '100%',
+    marginLeft: RW(11)
+  },
+  addressText: {
+    ...font('bold', 16, '#008175', 20),
+    textDecorationColor: '#008175',
+    textDecorationLine: 'underline'
   },
   eachInfoRegular: {
     fontFamily: FONT_INTER_BOLD,

@@ -13,6 +13,7 @@ import ScreenMask2 from '@/components/wrappers/screen2'
 
 const ChatScreen = () => {
   const { chats } = useSelector(({ tournament }) => tournament)
+  console.log(chats, 'chats');
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 

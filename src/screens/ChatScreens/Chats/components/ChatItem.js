@@ -187,13 +187,14 @@ function ChatItem({ item, type, playersLength }) {
         </Pressable>
       </Animated.View>
       {deleting && (
-        <Modal
+        <Modal 
           modalVisible={deleting}
           setIsVisible={setDeleting}
           btnClose={false}
           item={
             <View style={styles.modalBlock}>
-              <Text style={styles.modalText}>Вы точно хотите удалить игру и чат?</Text>
+              <Text style={styles.modalText}>
+                {`Вы точно хотите удалить ${type === 'tournament' ? 'турнир' : 'игру'} и чат?`}</Text>
               <View
                 style={{
                   flexDirection: 'row',

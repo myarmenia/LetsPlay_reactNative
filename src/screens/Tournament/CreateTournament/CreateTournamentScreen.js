@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, View, Linking, Platform } from 'react-native'
 import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { _storageUrl } from '@/constants'
@@ -15,15 +15,18 @@ import FastImage from 'react-native-fast-image'
 import moment from 'moment'
 import { editTournametInfo, resetSingleTournirData } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { createTourney } from '@/store/Slices/TournamentReducer/TournamentApies'
+import { openMap } from '@/helpers/helpFunctions'
 
 
 const CreateTournament = () => {
+  const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const [modalVisible, setModalVisible] = useState(false)
   const initialState = useSelector(({ tournament }) => tournament)
-
   const { user } = useSelector(({ auth }) => auth)
+
+  
   const count_from = initialState?.singleTournir?.team_tourney
     ?
     initialState?.singleTournir?.number_of_teams_from
@@ -35,7 +38,6 @@ const CreateTournament = () => {
     initialState.singleTournir?.number_of_teams_to
     :
     initialState.singleTournir?.number_of_participants_to
-  const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
 
 
 
@@ -56,9 +58,9 @@ const CreateTournament = () => {
         <View>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
-            <Text style={styles.eachInfo}>Тип турнира :</Text>
+            <Text style={styles.eachInfo}>Тип турнира: </Text>
             <Text style={styles.eachInfoTwo}>
-              {initialState?.singleTournir?.team_tourney ? 'командный' : 'Индивидуальный'}
+              {initialState?.singleTournir?.team_tourney ? ' командный' : ' Индивидуальный'}
             </Text>
           </Row>
           <Row>
@@ -68,13 +70,15 @@ const CreateTournament = () => {
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
-            <Text style={styles.eachInfo}>Тип игры :</Text>
+            <Text style={styles.eachInfo}>Тип игры: </Text>
             <Text style={styles.eachInfoTwo}>{initialState?.singleTournir?.tournamentGameType}</Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Описание турнира: </Text>
-            <Text style={styles.eachInfoTwo}>
+            <Text
+              style={styles.eachInfoTwo}
+              dataDetectorType='link'>
               {initialState?.singleTournir?.description
                 ?
                 initialState?.singleTournir?.description
@@ -85,12 +89,8 @@ const CreateTournament = () => {
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>
-              Количество {initialState?.singleTournir?.team_tourney
-                ?
-                'команд'
-                :
-                'участников'
-              }:
+              Количество
+              {initialState?.singleTournir?.team_tourney ? ' команд: ' : ' участников: '}
             </Text>
             <Text style={styles.eachInfoTwo}>
               от {count_from} до {' '}{count_to}
@@ -100,14 +100,14 @@ const CreateTournament = () => {
             <>
               <Row>
                 <View style={{ paddingVertical: RH(20) }}></View>
-                <Text style={styles.eachInfo}>Возраст участников:</Text>
+                <Text style={styles.eachInfo}>Возраст участников: </Text>
                 <Text style={styles.eachInfoTwo}>
                   от {initialState?.singleTournir?.age_restrictions_from} до {initialState?.singleTournir?.age_restrictions_to}
                 </Text>
               </Row>
               <Row>
                 <View style={{ paddingVertical: RH(20) }}></View>
-                <Text style={styles.eachInfo}> Пол участников:</Text>
+                <Text style={styles.eachInfo}>Пол участников:  </Text>
                 <Text style={styles.eachInfoTwo}>
                   {genders[initialState?.singleTournir?.players_gender]}
                 </Text>
@@ -117,14 +117,14 @@ const CreateTournament = () => {
 
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
-            <Text style={styles.eachInfo}>Дата турнира:</Text>
+            <Text style={styles.eachInfo}>Дата турнира:  </Text>
             <Text style={styles.eachInfoTwo}>
               {moment(initialState?.singleTournir?.start_date).format('DD.MM.YYYY')}
             </Text>
           </Row>
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
-            <Text style={styles.eachInfo}>Время:</Text>
+            <Text style={styles.eachInfo}>Время: </Text>
             <Text style={styles.eachInfoTwo}>
               {moment(initialState?.singleTournir?.start_date).format('HH:mm')}
             </Text>
@@ -132,9 +132,17 @@ const CreateTournament = () => {
           <Row wrapper={{ alignItems: 'flex-start', marginBottom: RH(5) }}>
             <View style={{ paddingVertical: RH(20), alignItems: 'flex-start' }}></View>
             <Text style={styles.eachInfo}>Адрес проведения турнира:</Text>
-            <Text style={styles.eachInfoTwo}>
-              {initialState?.singleTournir?.address_name}
-            </Text>
+            <Pressable
+              style={styles.addressStyle}
+              onPress={() => { openMap(initialState?.singleTournir?.address_name) }}
+            >
+              <Text
+                selectable
+                style={styles.addressTextStyle}>
+                {initialState?.singleTournir?.address_name}
+              </Text>
+            </Pressable>
+
           </Row>
 
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
@@ -351,12 +359,21 @@ export const styles = StyleSheet.create({
     ...font('regular', 16, WHITE, 20),
     marginLeft: RW(11),
   },
-  eachInfoTwo: {
-    ...font('bold', 16, ICON, 20),
+  addressStyle: {
     marginLeft: RW(11),
     width: '50%',
+  },
+  addressTextStyle: {
+    ...font('bold', 16, '#008175', 20),
+    textDecorationColor: '#008175',
+    textDecorationLine: 'underline'
+  },
+  eachInfoTwo: {
+    ...font('bold', 16, ICON, 20),
     flexWrap: 'wrap',
-    // marginBottom: RH(24),
+    width: '50%',
+
+
   },
   eachInfoRegular: {
     fontFamily: FONT_INTER_BOLD,

@@ -64,7 +64,7 @@ const TournamentInfoModal = ({ modalVisible, setModalVisible, id }) => {
                             <Text style={styles.title}>
                                 Название турнира: {selectedTournament?.name}
                             </Text>
-                            <Text style={styles.title}>Описание турнира: {selectedTournament.description}
+                            <Text style={styles.title} dataDetectorType='link'>Описание турнира: {selectedTournament.description}
                             </Text >
                             <Text style={styles.title}>
                                 Количество
@@ -79,12 +79,14 @@ const TournamentInfoModal = ({ modalVisible, setModalVisible, id }) => {
                                         Пол участников:  {genders[selectedTournament?.players_gender]}
                                     </Text></>}
                             <Text style={styles.title}>
-                                Дата турнира: {moment(selectedTournament.start_date).format('DD.MM.YYYY') }
+                                Дата турнира: {moment(selectedTournament.start_date).format('DD.MM.YYYY')}
                             </Text>
                             <Text style={styles.title}>
-                                Время: {moment(selectedTournament.start_date).format('HH:mm') } 
+                                Время: {moment(selectedTournament.start_date).format('HH:mm')}
                             </Text>
-                            <Text style={styles.title}>
+                            <Text
+                                selectable
+                                style={styles.title}>
                                 Адрес проведения турнира: {selectedTournament?.address_name}
                             </Text>
                             {/* <Text style={styles.title}>
