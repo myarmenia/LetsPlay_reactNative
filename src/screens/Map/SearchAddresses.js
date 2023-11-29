@@ -12,28 +12,24 @@ import {
 } from 'react-native'
 import { RH, RW } from '@/theme/utils'
 import { BACKGROUND, ICON } from '@/theme/colors'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import { fetchAddress } from './fetchAddress'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
 import Geolocation from 'react-native-geolocation-service'
 import MapSvg from '@/assets/svgs/mapSvg'
 import { setModalOptions } from '@/store/Slices/AppSlice'
+import { setAddress, resetAddress, changeAddressName } from '@/store/Slices/AddressSlice'
 
-const SearchAddresses = ({
-  game,
-  setAddressName = () => { },
-  addressName = '',
-  navigateTo = '',
-  command = null,
-  size = 380,
-}) => {
+const SearchAddresses = () => {
   const inp = useRef()
-  const [state, setState] = useState('')
-  const [addresses, setAddresses] = useState(null)
+  const [addressList, setAddresssList] = useState(null)
+  const [value, setValue] = useState('')
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  const initialState = useSelector((state) => state.game)
+  const { address } = useSelector(({ address }) => address)
+
+
+
 
   const checkPermissionAndNavigate = async function requestLocationPermission() {
     if (Platform.OS === 'android') {
@@ -42,8 +38,8 @@ const SearchAddresses = ({
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         )
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          setAddresses(null)
-          navigation.navigate('Map', { game: game, navigateTo: navigateTo, command: command })
+          navigation.navigate('Map')
+          setAddresssList(null)
         } else {
           dispatch(
             setModalOptions({
@@ -59,7 +55,8 @@ const SearchAddresses = ({
     } else {
       let geo = await Geolocation.requestAuthorization('always')
       if (geo === 'granted') {
-        navigation.navigate('Map', { game: game, navigateTo: navigateTo, command: command })
+        navigation.navigate('Map')
+        setAddresssList(null)
       } else {
         dispatch(
           setModalOptions({
@@ -72,86 +69,82 @@ const SearchAddresses = ({
     }
   }
 
-  useEffect(() => {
-    setState(command ? command?.address_name : initialState?.address_name)
-  }, [])
+
 
 
 
   const makeURL = async (state) => {
     try {
-      const res = fetchAddress(false, null, null, state).then(async (e) => {
-        await fetch(e.url)
-          .then((r) => {
-            return r?.json()
-          })
-          .then((s) => {
-            if (s.results?.length) {
-              let response = s.results[0]?.formatted_address
-              setAddresses(response)
-              setAddressName({
-                address_name: response,
-                lat: s.results[0]?.geometry.bounds?.northeast.lat,
-                lng: s.results[0]?.geometry.bounds?.northeast?.lng,
-              })
-
-              dispatch(setLatitude(s.results[0]?.geometry.bounds?.northeast.lat))
-              dispatch(setLongitude(s.results[0]?.geometry.bounds?.northeast?.lng))
-            }
-          })
-      })
-      return res
+      await fetchAddress(false, null, null, state)
+        .then(async (e) => {
+          fetch(e.url)
+            .then((r) => {
+              return r?.json()
+            })
+            .then((s) => {
+              if (s.results?.length) {
+                let response = s.results[0]
+                setAddresssList({
+                  address: response?.formatted_address,
+                  longitude: response?.geometry?.location?.lat,
+                  latitude: response?.geometry?.location?.lng,
+                })
+              } else {
+                setAddresssList(null)
+              }
+            })
+        })
     } catch (err) {
-      return console.log('err', err)
     }
   }
 
 
   const chooseAddress = () => {
-    setState(addresses)
-    if (addresses?.length >= 35) {
-      setState(state.split().reverse().join().substring(0, 32) + '...')
-    }
-    setAddresses(null)
-    dispatch(setPlaceName(addressName.address_name))
+    dispatch(setAddress(addressList))
+    setAddresssList(null)
   }
 
 
-  useEffect(() => {
-    if (state?.length >= 5) {
-      makeURL()
-    } else {
-      setAddresses(null)
-      setAddressName('')
-    }
-  }, [state?.length])
-
 
   useEffect(() => {
-    setAddresses('')
-    // dispatch(setPlaceName(''))
-    setState(!command ? '' : command?.address_name)
-    return () => {
-      setState(null)
-    }
-  }, [])
+    const state = address?.length >= 35
+      ?
+      address.split().reverse().join().substring(0, 32) + '...'
+      :
+      address
+    setValue(state)
+
+  }, [address])
+
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Your code here
+
+      return () => {
+        dispatch(resetAddress())
+        // Clean up code here
+      };
+    }, []))
+
+
+
   return (
-    <View style={{ flexDirection: 'column' }}>
-      <View
-        style={[
-          styles.container,
-          { width: RW(size) },
-          addresses ? { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 } : null,
-        ]}
+    <View style={styles.container}>
+      <View style={[
+        styles.inputContainer, addressList && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
+      ]}
       >
         <TextInput
           style={styles.input}
           ref={inp}
           placeholder={'Адрес проведения игры'}
           placeholderTextColor={ICON}
-          value={state}
+          numberOfLines={1}
+          value={value}
           onChangeText={(e) => {
-            setState(e)
+            setValue(e)
+            dispatch(changeAddressName(e))
             if (e.length >= 4) {
               makeURL(e)
             }
@@ -161,9 +154,9 @@ const SearchAddresses = ({
           <MapSvg />
         </TouchableOpacity>
       </View>
-      {addresses && (
+      {addressList?.address && (
         <Pressable style={styles.responseAddress} onPress={chooseAddress}>
-          <Text style={styles.searchedAddress}>{addresses}</Text>
+          <Text style={styles.searchedAddress}>{addressList?.address}</Text>
         </Pressable>
       )}
     </View>
@@ -173,17 +166,18 @@ const SearchAddresses = ({
 export default SearchAddresses
 
 const styles = StyleSheet.create({
-  searchIcon: {
-    width: '15%',
-    alignItems: 'center',
-  },
   container: {
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    // marginVertical: RW(15)
+  },
+
+  inputContainer: {
     backgroundColor: BACKGROUND,
     width: RW(380),
     height: RH(50),
-    alignSelf: 'center',
     flexDirection: 'row',
-    // top: RH(32),
     zIndex: 89,
     borderRadius: RW(10),
     flexDirection: 'row',
@@ -195,11 +189,14 @@ const styles = StyleSheet.create({
     marginLeft: RW(20),
     fontSize: RW(16),
   },
+  searchIcon: {
+    width: '15%',
+    alignItems: 'center',
+  },
   responseAddress: {
     backgroundColor: BACKGROUND,
     width: RW(380),
     height: RH(55),
-    alignSelf: 'center',
     zIndex: 888,
     flexDirection: 'row',
     alignItems: 'center',

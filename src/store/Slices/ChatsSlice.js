@@ -2,12 +2,12 @@ import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 
 const initialState = {
-  chats: [],
+  chatMessages: [],
   playMessageId: null,
   pausedMessageId: null,
   voiceDuration: '00:00:00',
-  allGameChats: [],
-  allTeamChats: [],
+  chats: []
+
 }
 
 export const ChatsSlice = createSlice({
@@ -15,11 +15,22 @@ export const ChatsSlice = createSlice({
   initialState,
   reducers: {
     setChats: (store, action) => {
+      store.chats = action.payload
+    },
+
+    setMessages: (store, action) => {
       return {
         ...store,
-        chats: action.payload,
+        chatMessages: action.payload,
       }
     },
+    addSingleMessage: (store, action) => {
+      const index = store.chatMessages.findIndex(item => item.id === action.payload.id)
+      if (index === -1) {
+        store.chatMessages.unshift(action.payload)
+      }
+    },
+
     setPlayMessageId: (store, action) => {
       return {
         ...store,
@@ -45,10 +56,7 @@ export const ChatsSlice = createSlice({
       }
     },
     setDeleteChat: (store, action) => {
-      return {
-        ...store,
-        allChats: store.allChats.filter((elm) => elm._id !== action.payload),
-      }
+      store.chats = store.chats.filter((elm) => elm._id !== action.payload)
     },
     setAllTeamChats: (store, action) => {
       return {
@@ -59,67 +67,131 @@ export const ChatsSlice = createSlice({
   },
 })
 
-export const getAllGameChats = () => (dispatch) => {
-  axiosInstance
-    .get('api/create/game/all/create_games')
-    .then((response) => {
-      dispatch(setAllChats(response.data.data))
-    })
-    .catch((err) => {
-      console.error('Error: getMessagesCount', err)
-    })
+
+
+export const getAllChats = () => async (dispatch) => {
+  try {
+    const data = await axiosInstance.get('api/create/game/to_play/allChats')
+    if (data.data.statusCode === 200) {
+      dispatch(setChats(data.data.datas))
+    }
+  } catch (error) {
+    console.log(error, 'error')
+  }
 }
-export const deleteChat = (gameId, callBack) => (dispatch) => {
+
+
+
+
+export const getTourneyChatMessages = (id) => async (dispatch) => {
+  try {
+    const messages = await axiosInstance.get(`api/tourney/chat/${id}`)
+    if (messages.data.datas.length) {
+      dispatch(setMessages(messages.data.datas.reverse()))
+    }
+  } catch (error) {
+    console.log(error, 'error');
+  }
+}
+export const sendTourneyChatMessage = (obj) => async () => {
+  try {
+    const data = await axiosInstance.post('api/tourney/chat', obj)
+  } catch (error) {
+    console.log(error, 'error');
+  }
+}
+export const deleteTourneyChat = (gameId, callBack) => (dispatch) => {
   axiosInstance
-    .delete(`api/create/game/${gameId}`)
+    .delete(`api/tourney/${gameId}`)
     .then((res) => {
-      callBack()
-      dispatch(setDeleteChat(gameId))
+      if (res.data.statusCode === 200) {
+        callBack(false)
+        dispatch(setDeleteChat(gameId))
+      }
     })
     .catch((err) => {
-      console.error('Error: createGame', err.request._response)
+      console.error('Error: createGame', err)
     })
 }
-export const getChats = (data) => (dispatch) => {
+
+export const getGameChatMessages = (data) => (dispatch) => {
   axiosInstance
     .get(`/api/create/game/chat/${data}`)
     .then((response) => {
-      dispatch(setChats(response.data.datas.reverse()))
+      dispatch(setMessages(response.data.datas))
     })
     .catch((err) => {
-      console.error('Error: request chats', err.request._response)
+      console.error('Error', err.request._response)
     })
 }
-export const getAllTeamChats = () => (dispatch) => {
-  axiosInstance
-    .get(`api/team/create/game/all/team_games`)
-    .then((response) => {
-      dispatch(setAllTeamChats(response.data.data))
-    })
-    .catch((err) => {
-      console.error('Error: getAllTeamChats', err.request._response)
-    })
-}
-export const getTeamChats = (data) => (dispatch) => {
-  axiosInstance
-    .get(`/api/team/chat/${data}`)
-    .then((response) => {
-      dispatch(setChats(response.data.datas.reverse()))
-    })
-    .catch((err) => {
-      console.error('Error: request chats', err.request._response)
-    })
-}
-export const sendMessage = (data) => (dispatch) => {
+export const sendGameChatMessage = (data) => () => {
   axiosInstance
     .post(`/api/create/game/chat/`, data)
-    .then((res) => {})
+    .then((res) => { })
     .catch((err) => {
       console.error('Error: request', err.request._response)
     })
 }
-export const sendTeamMessage = (data) => (dispatch) => {
-  console.log(data, 'data');
+export const deleteGameChat = (gameId, callBack) => (dispatch) => {
+  axiosInstance
+    .delete(`api/create/game/${gameId}`)
+    .then((res) => {
+      if (res.data.statusCode === 200) {
+        callBack(false)
+        dispatch(setDeleteChat(gameId))
+      }
+    })
+    .catch((err) => {
+      console.error('Error: createGame', err)
+    })
+}
+
+export const getTeamChatMessages = (data) => (dispatch) => {
+  axiosInstance
+    .get(`/api/team/chat/${data}`)
+    .then((response) => {
+      dispatch(setMessages(response.data.datas.reverse()))
+    })
+    .catch((err) => {
+      console.error('Error', err.request._response)
+    })
+}
+export const sendTeamChatMessage = (data) => () => {
+  axiosInstance
+    .post(`/api/team/chat`, data)
+    .then((response) => { })
+    .catch((err) => {
+      console.error('Error', err)
+    })
+}
+export const deleteTeamChat = (body, callBack) => (dispatch) => {
+  console.log(body, 'body');
+  axiosInstance
+    .delete('api/team/delete/player', body)
+    .then((res) => {
+      console.log(res, 'res');
+      if (res.data.statusCode === 200) {
+        callBack(false)
+        dispatch(setDeleteChat(gameId))
+      }
+    })
+    .catch((err) => {
+      console.log('Error: createGame', err)
+    })
+}
+
+
+export const getTeamCreateGameChatMessages = (data) => (dispatch) => {
+  axiosInstance
+    .get(`/api/team/create_game/chat/${data}`)
+    .then((response) => {
+      dispatch(setMessages(response.data.datas.reverse()))
+    })
+    .catch((err) => {
+      console.error('Error', err.request._response)
+    })
+}
+export const sendTeamCreateGameChatMessage = (data) => (dispatch) => {
   axiosInstance
     .post(`/api/team/create_game/chat`, data)
     .then((response) => {
@@ -128,16 +200,32 @@ export const sendTeamMessage = (data) => (dispatch) => {
       console.error('Error: request', err)
     })
 }
-export const deleteMemberChat = (chatId, setDeleting) => (dispatch) => {
+export const deleteTeamCreateGameChat = (gameId, callBack) => (dispatch) => {
   axiosInstance
-    .delete(`/api/participate/${chatId}`)
-    .then((response) => {
-      setDeleting(false)
+    .delete(`api/team/create/game/${gameId}`)
+    .then((res) => {
+      if (res.data.statusCode === 200) {
+        callBack(false)
+        dispatch(setDeleteChat(gameId))
+      }
     })
     .catch((err) => {
-      console.error('Error: deleting chat deleteMemberChat', err)
+      console.error('Error: createGame', err)
     })
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
   axiosInstance
     .delete(`/api/create/game/${chatId}`)
@@ -148,64 +236,16 @@ export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
       console.error('Error: deleting chat deleteOrganizerChat', err)
     })
 }
-// export const getAllChats
 
 export const {
   setChats,
+  setMessages,
   setPlayMessageId,
   setPausedMessageId,
   setVoiceDuration,
   setAllChats,
   setDeleteChat,
   setAllTeamChats,
+  addSingleMessage
 } = ChatsSlice.actions
 export default ChatsSlice.reducer
-
-let x = {
-  __v: 1,
-  _id: '64dd4fa5116a3f1d1e8f41de',
-  address_name: 'RG7V+VV Тимирязевский район, Москва, Россия',
-  age_restrictions_from: 1,
-  age_restrictions_to: 50,
-  chats: [],
-  clicked_end_players: [],
-  confirmed_players: [],
-  createdAt: '2023-08-16T22:37:25.169Z',
-  end_date: '2023-08-17T12:30:00.000Z',
-  game: {
-    _id: '63ec910c338f6ba3d35e9ee9',
-    category: '63ec8d46338f6ba3d35e9ee1',
-    description: null,
-    formats: ['3:3', '5:5', '8:8', '11:11'],
-    img: '/game_imgs/soccer-ball 1.png',
-    name: 'Футбол',
-    rules:
-      'Футбол — командный вид спорта, в котором целью является забить мяч в ворота соперника ногами или другими частями тела (кроме рук) большее количество раз, чем команда соперника. Команда, которая забьет больше голов к концу игры, становится победителем.Организуйте увлекательную игру: подберите подходящую для Вас площадку в Вашем городе и с помощью “Играем” найдите единомышленников для совместной игры. Количество игроков должно быть не менее 3 человек.Главное - собраться. Удачной игры!',
-    schema_img: '/game_schema_img/Group 1805.png',
-    updatedAt: '2023-10-11T08:32:31.193Z',
-  },
-  id: '64dd4fa5116a3f1d1e8f41de',
-  last_message: '2023-08-16T22:38:38.245Z',
-  location: { coordinates: [37.54464351634547, 55.81474858416374], type: 'Point' },
-  number_of_players_from: 10,
-  number_of_players_to: 30,
-  organizer_in_the_game: false,
-  players: ['64e5f5acd199e848be438230'],
-  players_gender: 'm/f',
-  rating: {},
-  start_date: '2023-08-17T13:30:00.000Z',
-  ticket_price: 0,
-  updatedAt: '2023-09-18T12:53:13.665Z',
-  user: {
-    _id: '64db7ee5875a68f80712bf84',
-    avatar:
-      'https://sun6-23.userapi.com/s/v1/if1/iry1_oWujLCYTnxbAtRCdTsy8e3woErwc2eKEzdhU-gf1VrsYxhONU-rBYariyVbrYrBk395.jpg?size=200x200&quality=96&crop=20,20,260,260&ava=1',
-    dob: '1987-11-11T00:00:00.000Z',
-    email: null,
-    gender: 'male',
-    id: '64db7ee5875a68f80712bf84',
-    name: 'Вячеслав',
-    phone_number: null,
-    surname: 'Калугин',
-  },
-}

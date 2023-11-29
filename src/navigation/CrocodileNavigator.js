@@ -69,7 +69,6 @@ const CrocodileNavigator = () => {
   const allPlayersLengthRef = useRef(0)
 
   const callBackFunc = async (e) => {
-    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
       case 'new_user':
         dispatch(setPlayersInGame(e?.crocodile_game?.players))
@@ -156,7 +155,6 @@ const CrocodileNavigator = () => {
             allPlayersLengthRef.current > 0
           ) {
             waitEndRoundPlayersRef.current = []
-            console.log('end_time emit')
             dispatch(setWaitEndRound(null))
             socketRef.current?.emit('end_time', {})
           } else if (e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length) {
@@ -171,7 +169,6 @@ const CrocodileNavigator = () => {
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {
-    console.log('crocodileGameId -' + DeviceInfo.getDeviceId(), crocodileGameId)
     if (socketRef.current || !crocodileGameId) return
 
     socketRef.current = io(
@@ -238,7 +235,6 @@ const CrocodileNavigator = () => {
 
   useEffect(() => {
     if (explainYou == true || explainerUser !== null) {
-      console.log('navigate to GameStart')
       navigation.navigate('GameStart')
     }
   }, [explainerUser, explainYou])
@@ -248,7 +244,6 @@ const CrocodileNavigator = () => {
       let waitPlayers = [...waitEndRoundPlayersRef.current, user?._id]
       if (allPlayersLengthRef.current == waitPlayers.length) {
         waitEndRoundPlayersRef.current = []
-        console.log('send end_time emit')
         dispatch(setWaitEndRound(null))
         socketRef.current?.emit('end_time', {})
       } else {

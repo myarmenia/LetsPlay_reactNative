@@ -119,7 +119,6 @@ export const getNotifications = () => (dispatch) => {
       dispatch(setNotifications(response.data?.datas))
     })
     .catch((err) => {
-      console.log(err, 'err')
     })
 }
 export const deleteNotification = (id) => (dispatch) => {

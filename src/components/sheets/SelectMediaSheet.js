@@ -13,7 +13,6 @@ import { setFinishPhoto } from '@/store/Slices/TournamentReducer/TournamentSlice
 const SelectMediaSheet = (props) => {
   const { mediaForTournament } = useSelector(({ tournament }) => tournament)
 
-  console.log(mediaForTournament, 'mediaForTournament');
 
 
   const dispatch = useDispatch()
@@ -42,12 +41,9 @@ const SelectMediaSheet = (props) => {
                 }
               })
             } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
-              console.log('result', result)
             } else {
-              console.log('else result', result)
             }
           } catch (error) {
-            console.log('catch', error)
           }
         },
         (error) => {
@@ -55,7 +51,6 @@ const SelectMediaSheet = (props) => {
           onCatch(cb)
         },
       )
-      console.log('chose')
     })
 
   const _onTake = (mediaType) =>
@@ -75,16 +70,12 @@ const SelectMediaSheet = (props) => {
                   dispatch(setGameFinishPhoto(e?.assets?.[0]))
                 }
               }
-              console.log('launchCamera', e?.assets?.[0]?.uri)
             })
             // } else if ([RESULTS.BLOCKED, RESULTS.DENIED].includes(result)) {
-            //   console.log('result', result)
             //   // alert(JSON.stringify(result))
             // } else {
-            //   console.log('else result', result)
             // }
           } catch (error) {
-            console.log('catch', error)
           }
         },
         (error) => {

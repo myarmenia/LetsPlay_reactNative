@@ -13,8 +13,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGames } from '@/store/Slices/GamesSlice'
 import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
 
-const JoinGame = ({ route }) => {
-  const props = route?.params
+const JoinGame = () => {
+  const { address, longitude, latitude } = useSelector(({ address }) => address)
+
   const dispatch = useDispatch()
   const games = useSelector(({ games }) => games.games)
 
@@ -31,8 +32,7 @@ const JoinGame = ({ route }) => {
 
   //states
   const [showGameTypes, setShowGameTypes] = useState(false)
-  const [addressName, setAddressName] = useState(route?.params?.address_name)
-  const [addressError, setAddressError] = useState()
+  const [addressError, setAddressError] = useState(false)
 
   const [gameTypes, setGameTypes] = useState()
   const [list, setList] = useState(chooseGameType)
@@ -50,34 +50,29 @@ const JoinGame = ({ route }) => {
     } else {
       setErrorMessage(false)
     }
-    if (!addressName.address_name) {
+    if (!address) {
       setAddressError('Обязательное поле для заполнения')
+    } else if (!longitude || !latitude) {
+      setAddressError('Укажите точный адрес')
     } else {
-      setAddressError(null)
+      setAddressError(false)
     }
-    if (addressName.address_name && startDate <= endDate) {
+    if (address && latitude && longitude && startDate <= endDate) {
       let ids = gameTypes?.filter((el) => el?.checked).map((el) => el?.id)
       const formData = {
-        latitude: addressName?.latitude,
-        longitude: addressName?.longitude,
-        address_name: addressName?.address_name,
+        latitude: latitude,
+        longitude: longitude,
+        address_name: address,
         game_of_your_choice: !list[1].checked,
         date_from: startDate.toISOString().substring(0, 10),
         data_to: endDate.toISOString().substring(0, 10),
         games: ids,
       }
-      console.log(formData, 'formdata');
       dispatch(searchGame(formData, navigation, setError))
     } else {
-      console.log('error')
     }
   }
-  useEffect(() => {
-    if (route.params?.fromMap) {
-      setAddressName(route.params)
-      route.params = {}
-    }
-  }, [route.params?.fromMap])
+
   useEffect(() => {
     dispatch(setFindedGames([]))
   }, [])
@@ -139,12 +134,7 @@ const JoinGame = ({ route }) => {
             </View>
           </View>
 
-          <SearchAddresses
-            navigateTo="Join"
-            setAddressName={setAddressName}
-            addressName={addressName}
-            show={false}
-          />
+          <SearchAddresses />
           {addressError && <Text style={styles.errorText}>{addressError}</Text>}
         </View>
       </ScrollView>

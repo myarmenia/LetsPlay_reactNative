@@ -70,7 +70,6 @@ const InputPlayer = ({ voicePath, onPressDelete, stop, setStop }) => {
           }
         })
       } catch (err) {
-        console.log('startPlayer error', err)
       }
     }
   }
@@ -91,7 +90,6 @@ const InputPlayer = ({ voicePath, onPressDelete, stop, setStop }) => {
 
   useEffect(() => {
     if (playMessageId == 'stop') {
-      console.log('useEffect stop')
       onStopPlay()
     }
   }, [playMessageId])

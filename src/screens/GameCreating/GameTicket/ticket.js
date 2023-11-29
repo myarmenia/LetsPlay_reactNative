@@ -10,8 +10,7 @@ import { useSelector } from 'react-redux'
 import dateFormater from '@/helpers/dateFormater'
 import useExtractLinksFromText from '@/helpers/useExtractLinksFromText'
 
-function Ticket({ game, initialState, name, dates }) {
-  console.log(dates, 'dates');
+function Ticket({ game, initialState, name, dates, address }) {
   const { game_name, game_description } = useSelector((state) => state.game)
 
   return (
@@ -73,7 +72,7 @@ function Ticket({ game, initialState, name, dates }) {
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Адрес проведения игры:</Text>
-          <Text style={styles.ticketTextTwo}>{initialState?.address_name}</Text>
+          <Text style={styles.ticketTextTwo}>{address}</Text>
         </View>
         <View style={styles.ticketTextBlock}>
           <Text style={styles.ticketText}>Дата и время окончания поиска игроков:</Text>

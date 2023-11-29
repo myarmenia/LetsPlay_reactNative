@@ -1,28 +1,31 @@
 import { ImageBackground, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useDebugValue, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import { font, RH, RW } from '@/theme/utils'
-import { BACKGROUND, ICON, WHITE } from '@/theme/colors'
+import { BACKGROUND, ICON, WHITE, RED } from '@/theme/colors'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
 import { launchImageLibrary } from 'react-native-image-picker'
 import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
-import { editMyTeam } from '@/store/Slices/TeamSlice'
 import { useDispatch, useSelector } from 'react-redux'
+import { setAddress } from '@/store/Slices/AddressSlice'
+import { setModalOptions } from '@/store/Slices/AppSlice'
 
 const EditTeamInfo = ({ route }) => {
+  const dispatch = useDispatch()
+  const { address, longitude, latitude } = useSelector(({ address }) => address)
   const command = route.params
-  const address_name = command?.address_name
 
 
-  const [addresName, setAddressName] = useState('')
+
+
   const [name, setName] = useState(command?.name)
+  const [addressError, setAddressError] = useState(false)
   const [photo, setPhoto] = useState({ uri: _storageUrl + command?.img })
   const { token } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
-  const dispatch = useDispatch()
   const uploadPhoto = async () => {
     await launchImageLibrary({
       mediaType: 'photo',
@@ -39,22 +42,32 @@ const EditTeamInfo = ({ route }) => {
   const hundleSubmit = () => {
     const formData = new FormData()
     formData.append('name', name)
-    photo?.fileName && formData.append('image', {
-      name: photo?.fileName,
-      type: photo?.type,
-      uri: photo?.uri,
-    })
-
-    console.log(addresName, 'addressName');
-    formData.append('img', command?.img)
-
-
-    if (addresName?.address_name) {
-      formData.append('address_name', addresName?.address_name)
-      formData.append('latitude', addresName?.lat)
-      formData.append('longitude', addresName?.lng)
+    if (photo?.fileName) {
+      formData.append('image', {
+        name: photo?.fileName,
+        type: photo?.type,
+        uri: photo?.uri,
+      })
+    } else {
+      const img = photo.uri.split('.')
+      formData.append('image', {
+        name: 'team_photo',
+        type: `image/${img[img.length - 1]}`,
+        uri: photo?.uri,
+      })
     }
-    
+    if (!address) {
+      setAddressError('Обязательное поле для заполнения')
+      return
+    } else if (!longitude || !latitude) {
+      setAddressError('Укажите точный адрес')
+      return
+    } else {
+      setAddressError(false)
+      formData.append('address_name', address)
+      formData.append('latitude', latitude)
+      formData.append('longitude', longitude)
+    }
     let myHeaders = new Headers()
     myHeaders.append('Content-Type', 'multipart/form-data')
     myHeaders.append('Authorization', `Bearer ${token}`)
@@ -73,22 +86,39 @@ const EditTeamInfo = ({ route }) => {
     )
       .then((result) => result.json())
       .then((result) => {
-        console.log(result, 'result');
 
-        navigation.navigate('MyTeamInfo', {
-          command: {
-            ...command,
-            name: result?.data?.name,
-            address_name: result?.data?.address_name,
-            img: result?.data?.img,
-          },
-        })
+        if (result.message === "Команда с таким именем уже существует!") {
+          dispatch(
+            setModalOptions({
+              visible: true,
+              type: 'error',
+              body: "Команда с таким именем уже существует!",
+            }),
+          )
+        } else if (result.statusCode === 200) {
+          navigation.navigate('MyTeamInfo', {
+            command: {
+              ...command,
+              name: result?.data?.name,
+              address_name: result?.data?.address_name,
+              img: result?.data?.img,
+            },
+          })
+        }
+
       })
-      .catch((error) => console.log('error', error))
+      .catch((error) =>{})
   }
-  // useEffect(() => {
-  //   if (address_name) setAddressName(address_name)
-  // }, [address_name])
+
+
+  useEffect(() => {
+    dispatch(setAddress({
+      address: command?.address_name,
+      longitude: command?.location.coordinates[1],
+      latitude: command?.location.coordinates[0],
+    }))
+  }, [])
+
   return (
     <ScreenMask>
       <View style={styles.row}>
@@ -106,19 +136,13 @@ const EditTeamInfo = ({ route }) => {
       </View>
       <View style={styles.colBox}>
         <Text style={styles.text}>Адрес нахождения команды:</Text>
-        <SearchAddresses
-          addressName={addresName}
-          setAddressName={setAddressName}
-          navigateTo="EditTeam"
-          command={command}
-          show={true}
-        />
+        <SearchAddresses />
+        {addressError && <Text style={styles.errorText}>{addressError}</Text>}
       </View>
       <View style={styles.bottomBox}>
         <LightButton
           label={'Сохранить'}
           size={{ width: RW(366), height: RH(50) }}
-          // onPress={() => navigation.navigate('MyTeamInfo', command)}
           onPress={hundleSubmit}
         />
       </View>
@@ -144,6 +168,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  errorText: {
+    ...font('medium', 18, RED),
+    top: RH(15),
+    left: RW(20),
   },
   input: {
     backgroundColor: BACKGROUND,

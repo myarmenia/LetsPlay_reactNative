@@ -14,10 +14,6 @@ const SearchedUserInfo = ({ route }) => {
   const { command, member } = route.params
   const dispatch = useDispatch()
   const handleInvite = () => {
-    console.log({
-      team_id: command,
-      user_id: member._id,
-    })
     dispatch(
       inviteUserToTeam(
         {

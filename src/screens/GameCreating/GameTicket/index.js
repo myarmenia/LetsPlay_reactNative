@@ -13,12 +13,19 @@ import { createGame } from '@/store/Slices/GameCreatingSlice'
 
 function Index({ route }) {
   const navigation = useNavigation()
-  const { game, data, initialState, name, dates } = route?.params?.params
+  const { game, data, initialState, name, dates, longitude, latitude, address } = route?.params?.params
+
   const dispatch = useDispatch()
   return (
     <ScreenMask style={{ paddingHorizontal: 0 }}>
       <View>
-        <Ticket data={data} game={game} initialState={initialState} name={name} dates={dates} />
+        <Ticket
+          data={data}
+          game={game}
+          initialState={initialState}
+          address={address}
+          name={name}
+          dates={dates} />
       </View>
       <View style={styles.gameTicketButtonsBlock}>
         <TouchableOpacity
@@ -37,6 +44,9 @@ function Index({ route }) {
               createGame(
                 {
                   ...initialState,
+                  latitude,
+                  longitude,
+                  address_name: address,
                   start_date: dates?.[0],
                   end_date: dates?.[1],
                 },

@@ -71,7 +71,6 @@ const AliasNavigator = () => {
   const allPlayersLengthRef = useRef(0)
 
   const callBackFunc = async (e) => {
-    console.log(`message  from : ${DeviceInfo.getDeviceId()}, ${JSON.stringify(e, null, 5)}`)
     switch (e.type) {
       case 'new_user':
         dispatch(setPlayersInGame(e?.alias_game?.players))
@@ -157,7 +156,6 @@ const AliasNavigator = () => {
             allPlayersLengthRef.current > 0
           ) {
             waitEndRoundPlayersRef.current = []
-            console.log('end_time emit')
             dispatch(setWaitEndRound(null))
             socketRef.current?.emit('end_time', {})
           } else if (e.data?.waitPlayers.length > waitEndRoundPlayersRef.current.length) {
@@ -172,7 +170,6 @@ const AliasNavigator = () => {
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
 
   useEffect(() => {
-    console.log('aliasGameId -' + DeviceInfo.getDeviceId(), aliasGameId)
     if (socketRef.current || !aliasGameId) return
 
     socketRef.current = io(
@@ -248,7 +245,6 @@ const AliasNavigator = () => {
       let waitPlayers = [...waitEndRoundPlayersRef.current, user?._id]
       if (allPlayersLengthRef.current == waitPlayers.length) {
         waitEndRoundPlayersRef.current = []
-        console.log('end_time emit')
         dispatch(setWaitEndRound(null))
         socketRef.current?.emit('end_time', {})
       } else {

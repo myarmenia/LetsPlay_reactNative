@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useMemo, useRef, useState } from 'react'
 import {
   Animated,
   PanResponder,
@@ -15,33 +15,21 @@ import DeleteIconSVg from '@/assets/svgs/DeleteIconSVG'
 import { _storageUrl } from '@/constants'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
-import { deleteChat, deleteMemberChat } from '@/store/Slices/ChatsSlice'
+import { deleteGameChat, deleteTeamCreateGameChat, deleteTourneyChat, deleteTeamChat } from '@/store/Slices/ChatsSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { setTookPartGames } from '@/store/Slices/AuthSlice'
-import { deletePlayerFromTeam, setMyTeams } from '@/store/Slices/TeamSlice'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
 import { DARK_BLUE, ICON, LIGHT_GRAY, LIGHT_RED, WHITE } from '@/theme/colors'
 import moment from 'moment'
 
 function ChatItem({ item, type, playersLength }) {
-
-
-  const gameData = `${moment(item?.createdAt).format('DD.MM.YYYY, hh:mm')}, ${item?.address_name}`
-  const teamData = `${item?.team?.name}, ${item?.address_name}`
-
-  const tournirData = `${moment(item?.createdAt).format('DD.MM.YYYY, hh:mm')}, ${item?.address_name}`
-
-  const tournireImage = item?.team_tourney ? require('../../../../assets/imgs/tournir.png') : require('../../../../assets/imgs/team_tourney.png')
-
   const navigation = useNavigation()
   const [animation] = useState(new Animated.Value(RW(95)))
   const [swipeDirection, setSwipeDirection] = useState(null)
-  const [deleting, setDeleting] = useState(null)
+  const [deleting, setDeleting] = useState(false)
   const [back, setBack] = useState(false)
 
   const { user } = useSelector(({ auth }) => auth)
-  const { myTeams } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const panResponder = useRef(
     PanResponder.create({
@@ -75,8 +63,62 @@ function ChatItem({ item, type, playersLength }) {
       },
     }),
   ).current
+
   const lastMessageTime = moment(item.last_message).format('HH.mm')
   const createAtTime = moment(item?.createdAt).format('HH.mm')
+  const gameData = `${moment(item?.createdAt).format('DD.MM.YYYY, hh:mm')}, ${item?.address_name}`
+  const tournirData = `${moment(item?.createdAt).format('DD.MM.YYYY, hh:mm')}, ${item?.address_name}`
+  const teamData = `${item.name}, ${item.address_name}, (ID${item._id})`
+  const tournireImage = item?.team_tourney ? require('../../../../assets/imgs/tournir.png') : require('../../../../assets/imgs/team_tourney.png')
+
+
+  const deleteText = useMemo(() => {
+    if (type === 'game') {
+      if (user._id !== item?.user?.id) {
+        return 'Вы точно хотите покинуть чат и игру?'
+      } else {
+        return 'Вы точно хотите удалить чат и игру?'
+      }
+    } else if (type === 'team') {
+      if (user._id === item?.user?._id) {
+        return 'Вы точно хотите покинуть чат и выйти из числа игроков?'
+      } else {
+        return 'Вы точно хотите покинуть чат и команду?'
+      }
+    } else if (type === 'tournament') {
+      if (user._id === item?.user?._id) {
+        return 'Вы точно хотите удалить чат и турнир?'
+      } else {
+        return 'Вы точно хотите покинуть чат и турнир?'
+      }
+    }
+    else if (type === 'team_game') {
+      if (user._id !== item?.user?.id) {
+        return 'Вы точно хотите покинуть чат и командную игру?'
+      } else {
+        return 'Вы точно хотите удалить чат и командную игру?'
+      }
+    }
+  }, [type, item?.user])
+
+
+
+  const deleteSingleChat = () => {
+    if (type == 'game') {
+      dispatch(deleteGameChat(item?._id, setDeleting))
+    } else if (type === 'team') {
+      dispatch(deleteTeamChat({
+        team_id: item?._id.toString(),
+        playerId: user._id.toString()
+      }))
+
+    } else if (type === 'tournament') {
+      dispatch(deleteTourneyChat(item?._id, setDeleting))
+    } else {
+      dispatch(deleteTeamCreateGameChat(item?._id, setDeleting))
+    }
+  }
+
 
   return (
     <View style={styles.layer}>
@@ -166,11 +208,11 @@ function ChatItem({ item, type, playersLength }) {
             resizeMode="cover"
             source={
               type === 'tournament' ? tournireImage : {
-                uri: _storageUrl + (type === 'game' ? item?.game?.img : item?.team?.img),
+                uri: _storageUrl + ((type === 'game' || type === 'team_game') ? item?.game?.img : item?.img)
               }}
           />
-          <Text style={styles.itemData}>
-            {type === 'game' ? gameData : type === 'team' ? teamData : tournirData}
+          <Text style={styles.itemData} numberOfLines={3}>
+            {(type === 'game' || type === 'team_game') ? gameData : type === 'team' ? teamData : tournirData}
 
           </Text>
           <View>
@@ -187,14 +229,15 @@ function ChatItem({ item, type, playersLength }) {
         </Pressable>
       </Animated.View>
       {deleting && (
-        <Modal 
+        <Modal
           modalVisible={deleting}
           setIsVisible={setDeleting}
           btnClose={false}
           item={
             <View style={styles.modalBlock}>
               <Text style={styles.modalText}>
-                {`Вы точно хотите удалить ${type === 'tournament' ? 'турнир' : 'игру'} и чат?`}</Text>
+                {deleteText}
+              </Text>
               <View
                 style={{
                   flexDirection: 'row',
@@ -205,21 +248,7 @@ function ChatItem({ item, type, playersLength }) {
                 }}
               >
                 <LightButton
-                  onPress={() => {
-                    if (type == 'Игра') {
-                      dispatch(deleteChat(item?._id, () => setDeleting(false)))
-                    } else if (type == 'Участник') {
-                      dispatch(deleteMemberChat(item?._id, setDeleting))
-                      dispatch(
-                        setTookPartGames(
-                          user?.took_part_games?.filter((elm) => elm._id !== item?._id),
-                        ),
-                      )
-                    } else if (type == 'team') {
-                      dispatch(deletePlayerFromTeam(item?.id, () => setDeleting(false)))
-                      dispatch(setMyTeams(myTeams?.filter((elm) => elm._id !== item?._id)))
-                    }
-                  }}
+                  onPress={deleteSingleChat}
                   size={{ width: 100, height: 36 }}
                   label={'Да'}
                 />

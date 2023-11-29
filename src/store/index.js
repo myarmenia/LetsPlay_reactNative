@@ -8,6 +8,7 @@ import AliasSlice from './Slices/AliasSlice'
 import AuthSlice from './Slices/AuthSlice'
 import TeamSlice from './Slices/TeamSlice'
 import AppSlice from './Slices/AppSlice'
+import AddressSlice from './Slices/AddressSlice'
 import TournamentSlice from './Slices/TournamentReducer/TournamentSlice'
 
 const store = configureStore({
@@ -22,6 +23,7 @@ const store = configureStore({
     alias: AliasSlice,
     crocodile: CrocodileSlice,
     tournament: TournamentSlice,
+    address: AddressSlice
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({
     serializableCheck: false,

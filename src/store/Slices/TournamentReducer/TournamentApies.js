@@ -71,40 +71,6 @@ export const joinTeam = createAsyncThunk('tournament/teamJoin', async (obj) => {
   }
 })
 
-
-
-export const getAllChats = createAsyncThunk('tournament/getAllChats', async () => {
-  try {
-    const chats = await axiosInstance.get('api/create/game/to_play/allChats')
-    return chats.data.datas
-  } catch (error) {
-    console.log(error, 'error')
-  }
-})
-
-
-export const getTourneyChat = createAsyncThunk('tournament/getTourneyChat',
-  async (id) => {
-    try {
-      const chat = await axiosInstance.get(`api/tourney/chat/${id}`)
-      return chat.data
-
-    } catch (error) {
-      console.log(error, 'error');
-    }
-  })
-
-
-export const sendTourneyMessage = createAsyncThunk('tournament/sendMessage',
-  async (obj) => {
-    try {
-      const data = await axiosInstance.post('api/tourney/chat', obj)
-      return data.data
-    } catch (error) {
-    }
-  })
-
-
 export const confirmQR = createAsyncThunk(
   'tournament/confirmQR',
   async (id) => {
@@ -208,13 +174,23 @@ export const rateOrganizerAfterTourney = createAsyncThunk(
       const data = await axiosInstance.post('api/tourney/tourney_game/organizer_rating', obj)
       return data.data
     } catch (error) {
+    }
+  }
+)
 
+
+export const getMyTeams = createAsyncThunk(
+  'tournament/getMyTeams',
+  async () => {
+    try {
+      const data = await axiosInstance.get('api/team/my/teams')
+      return data.data
+    } catch (error) {
+      console.log(error, 'error');
     }
 
   }
-
 )
-
 
 
 

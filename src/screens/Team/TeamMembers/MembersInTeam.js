@@ -20,7 +20,7 @@ const MembersInTeam = ({ route }) => {
     return (
       <Pressable style={{ margin: RW(5) }}>
         <View style={{ top: RH(15), left: RW(5) }}>
-          {elm?.role == 'player' ? <OrganizerSvg /> : <View style={{ height: RH(24) }} />}
+          {elm?._id === command?.user?._id ? <OrganizerSvg /> : <View style={{ height: RH(24) }} />}
         </View>
         <User
           user={elm}

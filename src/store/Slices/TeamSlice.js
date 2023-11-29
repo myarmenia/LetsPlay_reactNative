@@ -263,9 +263,11 @@ export const createTeam = (data, token, setModalVisible = () => { }) => {
     })
 }
 export const createTeamGame = (data, setModalVisible) => (dispatch) => {
+  console.log(data, 'data');
   axiosInstance
     .post('api/team/create/game', data)
     .then((response) => {
+      console.log(response, 'response');
       setModalVisible([true, 'ok'])
     })
     .catch((err) => {

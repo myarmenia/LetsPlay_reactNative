@@ -52,7 +52,6 @@ const SignUp = () => {
 
   useEffect(() => {
     if (signUpError?.length) {
-      console.log(signUpError, 'signUpError')
       if (signUpError == 'Электронная почта, уже используемая') {
         handlerMessage(messageDefault.usedEmail)
         handlerMessage({

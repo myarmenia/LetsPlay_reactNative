@@ -11,9 +11,10 @@ function RadioBlock({
   editable = true,
   titleStyle,
   left = RW(20),
+  containerStyle
 }) {
   return (
-    <View>
+    <View style={containerStyle}>
       <Text style={[styles.inputTitle, titleStyle]}>{title}</Text>
       {list.map((ev, index) => (
         <Pressable

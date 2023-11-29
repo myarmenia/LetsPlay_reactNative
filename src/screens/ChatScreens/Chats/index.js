@@ -6,14 +6,11 @@ import { useIsFocused } from '@react-navigation/native'
 import { RH, RW, font } from '@/theme/utils'
 import { LIGHT_GRAY, WHITE } from '@/theme/colors'
 import { getMyTeams, getMyJoinedTeams } from '@/store/Slices/TeamSlice'
-import { getTourneyChats } from '@/store/Slices/TournamentReducer/TournamentApies'
-import { getAllGameChats, getAllTeamChats } from '@/store/Slices/ChatsSlice'
-import { getAllChats } from '@/store/Slices/TournamentReducer/TournamentApies'
+import { getAllChats } from '@/store/Slices/ChatsSlice'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 const ChatScreen = () => {
-  const { chats } = useSelector(({ tournament }) => tournament)
-  console.log(chats, 'chats');
+  const { chats } = useSelector(({ chats }) => chats)
   const dispatch = useDispatch()
   const isFocused = useIsFocused()
 
@@ -30,17 +27,21 @@ const ChatScreen = () => {
           <Text style={styles.title}>Чат</Text>
           {chats?.length ? (
             <View>
-              {chats?.map((singleChat) => {
-                let type = singleChat?.hasOwnProperty('team_tourney')
-                  ? 'tournament'
-                  : singleChat?.hasOwnProperty('team')
-                    ? 'team'
-                    : 'game'
+              {chats.map((singleChat) => {
+                let type =
+                  singleChat?.hasOwnProperty('team_tourney')
+                    ? 'tournament'
+                    : singleChat?.hasOwnProperty('team')
+                      ? 'team_game'
+                      : singleChat.hasOwnProperty('name')
+                        ? 'team'
+                        : 'game'
 
                 return (
                   <ChatItem
                     item={singleChat}
-                    playersLength={singleChat?.players?.length}
+                    playersLength={type === 'team' ? singleChat?.invited_players?.length
+                      : singleChat?.players?.length}
                     key={singleChat?._id}
                     type={type}
                   />

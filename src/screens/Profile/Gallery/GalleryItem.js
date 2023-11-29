@@ -42,12 +42,6 @@ const GalleryItem = ({ item, isMe, canDelete }) => {
         />
       ) : item.video_path ? (
         <Video
-          // onVideoLoadStart={(e) => {
-          //   console.log('onVideoLoadStart', e)
-          // }}
-          // onVideoLoad={(e) => {
-          //   console.log('onVideoLoad', e)
-          // }}
           style={styles.image}
           paused
           controls={false}

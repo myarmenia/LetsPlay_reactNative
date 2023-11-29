@@ -17,9 +17,9 @@ import moment from 'moment'
 import { chooseGameType, format } from './info'
 
 
-const SearchTournament = ({ route }) => {
+const SearchTournament = () => {
   const dispatch = useDispatch()
-
+  const address = useSelector(({ address }) => address)
 
 
   const games = useSelector(({ games }) => games.games)
@@ -28,7 +28,6 @@ const SearchTournament = ({ route }) => {
 
   //states
   const [showGameTypes, setShowGameTypes] = useState(false)
-  const [addressName, setAddressName] = useState(null)
   const [addressError, setAddressError] = useState(false)
   const [tournamentFormat, setTournamentFormat] = useState(format)
 
@@ -42,7 +41,7 @@ const SearchTournament = ({ route }) => {
   const [notFoundError, setNotFoundError] = useState(false)
 
   const handleSubmit = () => {
-    if (!addressName.address_name) {
+    if (!address.address) {
       setAddressError(true)
     } else {
       setAddressError(false)
@@ -53,8 +52,8 @@ const SearchTournament = ({ route }) => {
         team_tourney: !tournamentFormat[0].checked,
         date_from: moment(startDate).format('YYYY-MM-DD'),
         date_to: moment(endDate).format('YYYY-MM-DD'),
-        latitude: addressName?.lat,
-        longitude: addressName?.lng,
+        latitude: address?.latitude,
+        longitude: address?.longitude,
         games: ids,
       }
       dispatch(searchTourney(formData))
@@ -79,8 +78,6 @@ const SearchTournament = ({ route }) => {
         tournamentFormat[0],
         { id: 2, text: 'Командный', checked: false, disable: true },])
     }
-
-
   }, [])
 
   useEffect(() => {
@@ -97,20 +94,6 @@ const SearchTournament = ({ route }) => {
     })
     setGameTypes(gameTypesData)
   }, [games])
-
-
-  useEffect(() => {
-    setAddressName({
-      address_name: route?.params?.address_name,
-      lat: route?.params?.latitude,
-      lng: route?.params?.longitude,
-    })
-
-  }, [route?.params?.address_name])
-
-
-
-
 
 
   return (
@@ -163,12 +146,7 @@ const SearchTournament = ({ route }) => {
             </View>
           </View>
 
-          <SearchAddresses
-            navigateTo="SearchTournament"
-            setAddressName={setAddressName}
-            addressName={addressName}
-            command={null}
-          />
+          <SearchAddresses />
           {addressError ? <Text style={styles.errorText}>Выберите аддрес</Text> : null}
         </View>
       </ScrollView>

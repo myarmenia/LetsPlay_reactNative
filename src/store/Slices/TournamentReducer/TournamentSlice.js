@@ -6,8 +6,7 @@ import {
   joinPlayer,
   joinTeam,
   getPlayers,
-  getAllChats,
-  getTourneyChat,
+  getMyTeams
 } from './TournamentApies'
 import { tournirData } from './info'
 
@@ -15,8 +14,6 @@ const initialState = {
   singleTournir: tournirData,
   needToEdit: false,
   selectedTournament: {},
-  chats: [],
-  singleChat: [],
   choosenTournir: {},
   tournamentList: [],
   selectedTeam: {},
@@ -25,6 +22,7 @@ const initialState = {
   mediaForTournament: false,
   tournamentFinishPhoto: null,
   playersForRating: null,
+  myTeams: [],
   loading: false,
   error: false,
 }
@@ -49,6 +47,7 @@ const TournamentSlice = createSlice({
       state.singleTournir.game = action.payload._id
       state.singleTournir.imagePath = action.payload.img
       state.singleTournir.tournamentGameType = action.payload.name
+      state.singleTournir.gameInfo = action.payload
     },
     choosenTournir: (state, action) => {
       state.choosenTournir = action.payload
@@ -73,8 +72,14 @@ const TournamentSlice = createSlice({
       state.selectedTeam = action.payload
     },
     addPlayerRating: (state, action) => {
-      const index = state.playersForRating.players.findIndex(item => item._id === action.payload.id)
-      state.playersForRating.players[index].rating = action.payload.rate
+      if (state.playersForRating.team_tourney) {
+        const index = state.playersForRating?.teams[0]?.players.findIndex(item => item._id === action.payload.id)
+        state.playersForRating.teams[0].players[index].rating = action.payload.rate
+      } else {
+        const index = state.playersForRating.players.findIndex(item => item._id === action.payload.id)
+        state.playersForRating.players[index].rating = action.payload.rate
+      }
+
     },
     setJoinedTeamInfo: (state, action) => {
       state.joinedTeamInfo = action.payload
@@ -138,33 +143,6 @@ const TournamentSlice = createSlice({
       state.rejected = false
       state.joinStatus = action.payload.data.message
     })
-
-    builder.addCase(getAllChats.rejected, (state, action) => {
-      state.loading = false
-      state.rejected = true
-    })
-    builder.addCase(getAllChats.pending, (state) => {
-      state.loading = true
-      state.rejected = false
-    })
-    builder.addCase(getAllChats.fulfilled, (state, action) => {
-      state.loading = false
-      state.rejected = false
-      state.chats = action.payload.reverse()
-    })
-    builder.addCase(getTourneyChat.rejected, (state, action) => {
-      state.loading = false
-      state.rejected = true
-    })
-    builder.addCase(getTourneyChat.pending, (state) => {
-      state.loading = true
-      state.rejected = false
-    })
-    builder.addCase(getTourneyChat.fulfilled, (state, action) => {
-      state.loading = false
-      state.rejected = false
-      state.singleChat = action.payload.datas
-    })
     builder.addCase(getSingleTournament.rejected, (state, action) => {
       state.loading = false
       state.rejected = true
@@ -190,6 +168,21 @@ const TournamentSlice = createSlice({
       state.loading = false
       state.rejected = false
       state.playersForRating = action.payload.data
+    })
+
+
+    builder.addCase(getMyTeams.rejected, (state, action) => {
+      state.loading = false
+      state.rejected = true
+    })
+    builder.addCase(getMyTeams.pending, (state, action) => {
+      state.loading = true
+      state.rejected = false
+    })
+    builder.addCase(getMyTeams.fulfilled, (state, action) => {
+      state.loading = false
+      state.rejected = false
+      state.myTeams = action.payload.datas
     })
 
   },

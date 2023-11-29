@@ -25,29 +25,23 @@ const TeamInfo = ({ route }) => {
             style={styles.img}
           />
           <Text style={styles.text}>
-            Соперник:{' '}
+            Соперник :{'  '}
             {sendingData?.enemy_team_name ? sendingData?.enemy_team_name : sendingData?.enemy_team}
           </Text>
-          <Text style={styles.text}>Дата и время игры: {sendingData?.start_date}</Text>
+          <Text style={styles.text}>Дата и время игры :  {sendingData?.start_date}</Text>
           <Text style={styles.text}>Адрес проведения игры: {sendingData?.address_name} </Text>
-          {/* <Text style={styles.text}>
-            Стоимость входного билета на игру:{' '}
-            {sendingData?.ticket_price ? sendingData?.ticket_price : 0}
-          </Text> */}
           <View style={{ flexDirection: 'row', width: '35%', alignItems: 'center' }}>
-            <Text style={styles.text}>Организатор игры:</Text>
+            <Text style={styles.text}>Организатор игры :</Text>
             <User size={30} />
           </View>
         </View>
         <View style={styles.rowBox}>
           <LightButton
             label={'Редактировать'}
-            size={{ width: 192, height: 36 }}
             onPress={() => navigation.goBack()}
           />
           <LightButton
-            label={'Далее>>'}
-            style={{ width: 166, height: 36 }}
+            label={'Далее >>'}
             onPress={() =>
               navigation.navigate('EditTeamPlayers', { teamImg: gameId.img, sendingData })
             }
@@ -78,14 +72,15 @@ const styles = StyleSheet.create({
     paddingVertical: RH(8),
     ...font('medium', 15.5, WHITE),
     width: '100%',
+    marginRight: RH(30)
   },
   rowBox: {
     width: '100%',
     flexDirection: 'row',
-    alignSelf: 'center',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-between',
     position: 'absolute',
+    paddingHorizontal: RH(15),
     bottom: RH(25),
   },
 })

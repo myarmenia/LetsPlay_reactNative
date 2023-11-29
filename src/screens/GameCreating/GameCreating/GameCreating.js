@@ -25,12 +25,14 @@ const GameCreating = ({ route }) => {
   let { game, response, name, editData } = route?.params
   const navigation = useNavigation()
 
+  const { address, longitude, latitude } = useSelector(({ address }) => address)
+
+
   //states
   const initialState = useSelector((state) => state.game)
 
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
-  const [addressName, setAddressName] = useState('')
 
   // error messages
   const [startDateError, setStartDateError] = useState(false)
@@ -101,11 +103,15 @@ const GameCreating = ({ route }) => {
     else {
       setPlayersCuntError(null)
     }
-    if (!initialState?.latitude || !initialState?.longitude || !initialState.address_name) {
+
+    if (!address) {
       setAddressError('Обязательное поле для заполнения')
+    } else if (!longitude || !latitude) {
+      setAddressError('Укажите точный адрес')
     } else {
-      setAddressError(null)
+      setAddressError(false)
     }
+
     if (
       startDate &&
       endDate &&
@@ -117,7 +123,7 @@ const GameCreating = ({ route }) => {
       +initialState.age_restrictions_from < +initialState?.age_restrictions_to &&
       +initialState?.number_of_players_from > 1 &&
       +initialState?.number_of_players_from < +initialState?.number_of_players_to &&
-      ((initialState?.latitude && initialState?.longitude) || initialState.address_name)
+      (latitude && longitude && address)
     ) {
 
 
@@ -130,6 +136,9 @@ const GameCreating = ({ route }) => {
       navigation.navigate('GameTicket', {
         params: {
           initialState,
+          longitude,
+          latitude,
+          address,
           game,
           name: game?.name || name,
           dates: [start_date, end_date],
@@ -165,7 +174,6 @@ const GameCreating = ({ route }) => {
         { id: 1, text: 'Участвует', checked: editData.organizer_in_the_game },
         { id: 2, text: 'Не участвует', checked: !editData.organizer_in_the_game },
       ])
-      // setAddressName(editData.address_name)
     }
   }, [editData])
 
@@ -217,12 +225,7 @@ const GameCreating = ({ route }) => {
           list={genderList}
           titleStyle={{ ...styles.titles, marginBottom: RW(10) }}
         />
-        <SearchAddresses
-          game={game}
-          setAddressName={setAddressName}
-          addressName={addressName}
-          command={null}
-        />
+        <SearchAddresses />
         {addressError && <Text style={styles.errorText}>{addressError}</Text>}
 
         <DateComponent

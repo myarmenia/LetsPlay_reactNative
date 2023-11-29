@@ -12,23 +12,32 @@ import { createTeam } from '@/store/Slices/TeamSlice'
 import { useSelector } from 'react-redux'
 import FastImage from 'react-native-fast-image'
 
-const CreateTeamTitle = ({ route }) => {
+const CreateTeamTitle = () => {
   const [avatar, setAvatar] = useState('')
+  const { address, longitude, latitude } = useSelector(({ address }) => address)
+
+
   const [modalVisible, setModalVisible] = useState(false)
   const [teamName, setTeamName] = useState('')
   const [teamNameError, setTeamNameError] = useState(false)
-  const [addressNameError, setAddressNameError] = useState(false)
+  const [addressError, setAddressError] = useState(false)
   const [avatarError, setAvatarError] = useState(false)
-  const [addressName, setAddressName] = useState('')
-  const response = route?.params?.response
+
+
   const { token } = useSelector(({ auth }) => auth)
   const formdata = new FormData()
+
   const handleCreate = () => {
-    if (!addressName) {
-      setAddressNameError(true)
+    if (!address) {
+      setAddressError('Обязательное поле для заполнения')
+    } else if (!longitude || !latitude) {
+      setAddressError('Укажите точный адрес')
     } else {
-      setAddressNameError(false)
+      setAddressError(false)
     }
+
+
+
     if (!teamName) {
       setTeamNameError(true)
     } else {
@@ -39,11 +48,11 @@ const CreateTeamTitle = ({ route }) => {
     } else {
       setAvatarError(false)
     }
-    if (addressName?.address_name && teamName && avatar?.assets?.[0].uri) {
+    if (address && longitude && latitude && teamName && avatar?.assets?.[0].uri) {
       formdata.append('name', teamName)
-      formdata.append('address_name', addressName?.address_name)
-      formdata.append('latitude', addressName?.lat ? addressName?.lat : addressName?.latitude)
-      formdata.append('longitude', addressName?.lng ? addressName?.lng : addressName?.longitude)
+      formdata.append('address_name', address)
+      formdata.append('latitude', latitude)
+      formdata.append('longitude', longitude)
       formdata.append('image', {
         name: avatar?.assets?.[0].fileName,
         type: avatar?.assets?.[0].type,
@@ -69,21 +78,7 @@ const CreateTeamTitle = ({ route }) => {
       }
     })
   }
-  useEffect(() => {
-    if (response?.fromMap) {
-      setAddressName({
-        address_name: response?.address_name,
-        latitude: response?.latitude,
-        longitude: response?.longitude,
-      })
-      if (response?.avatar) {
-        setAvatar(response.avatar)
-      }
-      if (response?.teamName) {
-        setTeamName(response.teamName)
-      }
-    }
-  }, [response])
+ 
 
   return (
     <ScreenMask>
@@ -104,19 +99,9 @@ const CreateTeamTitle = ({ route }) => {
             )}
           </View>
           <View style={styles.colBox}>
-            <View style={styles.inputBlock}>
-              <SearchAddresses
-                setAddressName={setAddressName}
-                addressName={addressName}
-                navigateTo="CreateTeamTitle"
-                props={{
-                  avatar,
-                  teamName,
-                }}
-              />
-            </View>
-            {addressNameError && (
-              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
+            <SearchAddresses />
+            {addressError && (
+              <Text style={styles.errorText}>{addressError}</Text>
             )}
           </View>
         </View>

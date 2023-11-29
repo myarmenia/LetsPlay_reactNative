@@ -54,7 +54,6 @@ const MafiaNavigator = () => {
   const navigation = useNavigation()
 
   const callBackFunc = async (e) => {
-    console.log(`socket message`, JSON.stringify(e, null, 4))
     switch (e?.type) {
       case 'new_user':
         dispatch(setPlayers(e.mafia_game.players))
@@ -191,7 +190,6 @@ const MafiaNavigator = () => {
     }
     if (socketRef.current || !mafiaGameId) return
 
-    console.log('mafiaGameId -', mafiaGameId)
     socketRef.current = io(
       // `https://2dff-37-252-82-211.eu.ngrok.io/mafia?room=${mafiaGameId}`,
       `${Platform.OS == 'ios' ? 'wss' : 'ws'}://to-play.ru/mafia?room=${mafiaGameId}`,
@@ -210,7 +208,6 @@ const MafiaNavigator = () => {
   useEffect(() => {
     return () => {
       socketRef?.current?.disconnect()
-      console.log('useEffect clearAllDatas')
       dispatch(clearAllDatas())
     }
   }, [])

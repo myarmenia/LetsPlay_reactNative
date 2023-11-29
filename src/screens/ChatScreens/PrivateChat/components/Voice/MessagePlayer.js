@@ -51,7 +51,6 @@ const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
           }
         })
       } catch (err) {
-        console.log('startPlayer error', err)
       }
     }
   }

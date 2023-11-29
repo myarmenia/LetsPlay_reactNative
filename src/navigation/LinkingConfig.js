@@ -49,7 +49,6 @@ export default {
   },
   subscribe(listener) {
     const onReceiveURL = ({ url }) => {
-      console.log(url, 'url');
       listener(url)
     }
 

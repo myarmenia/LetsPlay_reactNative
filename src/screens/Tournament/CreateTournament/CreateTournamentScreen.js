@@ -26,7 +26,6 @@ const CreateTournament = () => {
   const initialState = useSelector(({ tournament }) => tournament)
   const { user } = useSelector(({ auth }) => auth)
 
-  
   const count_from = initialState?.singleTournir?.team_tourney
     ?
     initialState?.singleTournir?.number_of_teams_from
@@ -73,6 +72,11 @@ const CreateTournament = () => {
             <Text style={styles.eachInfo}>Тип игры: </Text>
             <Text style={styles.eachInfoTwo}>{initialState?.singleTournir?.tournamentGameType}</Text>
           </Row>
+          {initialState?.singleTournir?.format && <Row>
+            <View style={{ paddingVertical: RH(20) }}></View>
+            <Text style={styles.eachInfo}>Формат игры: </Text>
+            <Text style={styles.eachInfoTwo}>{initialState?.singleTournir?.format}</Text>
+          </Row>}
           <Row>
             <View style={{ paddingVertical: RH(20) }}></View>
             <Text style={styles.eachInfo}>Описание турнира: </Text>

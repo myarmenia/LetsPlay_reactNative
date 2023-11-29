@@ -15,6 +15,8 @@ import Modal from '@/components/modal'
 const CommandLeadCreate = ({ route }) => {
   const props = route.params
   const navigation = useNavigation()
+  const { address, longitude, latitude } = useSelector(({ address }) => address)
+
   useEffect(() => {
     setGameId(props?._id)
   }, [])
@@ -35,14 +37,11 @@ const CommandLeadCreate = ({ route }) => {
   // const [radioPrice, setRadioPrice] = useState(priceList)
   const [radioPlayers, setRadioPlayers] = useState(playersChoose)
   const [gameId, setGameId] = useState()
-  const [addressName, setAddressName] = useState('')
   const [price, setPrice] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
-  // states end
-  // errors
-  const [mapError, setMapError] = useState(false)
-  // const [priceError, setPriceError] = useState(false)
-  // errors end
+
+  const [addressError, setAddressError] = useState(false)
+
 
   const dispatch = useDispatch()
   const { betweenPlayers, savedTeam } = useSelector(({ teams }) => teams)
@@ -79,9 +78,9 @@ const CommandLeadCreate = ({ route }) => {
     .concat(' ' + timeFormat(startDate))
 
   const sendingData = {
-    address_name: props?.address_name ? props?.address_name : addressName?.address_name,
-    latitude: props?.fromMap ? props?.latitude : addressName.lat,
-    longitude: props?.fromMap ? props?.longitude : addressName.lng,
+    address_name: address,
+    latitude,
+    longitude,
     between_players: betweenPlayers,
     all_players: radioPlayers[0].checked ? true : false,
     ticket_price: price ? +price : 0,
@@ -90,26 +89,28 @@ const CommandLeadCreate = ({ route }) => {
     players: ['64219136e3a868ee5e71a799'],
     start_date: changedStartDate,
   }
+
+
+
   const handleCreate = () => {
+
+    if (!address) {
+      setAddressError('Обязательное поле для заполнения')
+      return
+    } else if (!longitude || !latitude) {
+      setAddressError('Укажите точный адрес')
+      return
+    } else {
+      setAddressError(false)
+    }
+
     if (radioPlayers[1].checked) {
       navigation.navigate('ChoosePlayers', {
         savedTeam: savedTeam,
         sendingData: sendingData,
       })
     } else {
-      if (addressName.address_name && !props.latitude) {
-        setMapError(false)
-      } else {
-        setMapError(true)
-      }
-      if (props.latitude) {
-        setMapError(false)
-      }
-      if (!mapError) {
-        dispatch(createTeamGame(sendingData, setModalVisible))
-      } else {
-        return null
-      }
+      dispatch(createTeamGame(sendingData, setModalVisible))
     }
   }
   return (
@@ -119,14 +120,9 @@ const CommandLeadCreate = ({ route }) => {
           <DateComponent showTime={true} title="Дата и время начала игры"></DateComponent>
         </View>
         <View style={styles.mapBox}>
-          <SearchAddresses
-            navigateTo="CommandLeadCreate"
-            setAddressName={setAddressName}
-            addressName={addressName}
-            show={false}
-          />
+          <SearchAddresses />
         </View>
-        {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
+        {addressError && <Text style={styles.errorText}>{addressError}</Text>}
 
         {/* <RadioBlock
           list={radioPrice}

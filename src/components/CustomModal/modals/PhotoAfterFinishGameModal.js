@@ -26,10 +26,8 @@ const PhotoAfterFinishGameModal = ({ body }) => {
       ) : video_path ? (
         <Video
           onVideoLoadStart={(e) => {
-            console.log('onVideoLoadStart', e)
           }}
           onVideoLoad={(e) => {
-            console.log('onVideoLoad', e)
           }}
           style={styles.image}
           paused

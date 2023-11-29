@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useSelector, useDispatch } from 'react-redux'
 import { choosenTournir } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import moment from 'moment'
+import { getMyTeams } from '@/store/Slices/TournamentReducer/TournamentApies'
 
 const TournamentList = () => {
   const navigation = useNavigation()
@@ -22,11 +23,9 @@ const TournamentList = () => {
 
   const handleClick = (elm) => {
     dispatch(choosenTournir(elm))
+    dispatch(getMyTeams())
     if (elm?.team_tourney) {
-      navigation.navigate('TeamNavigator', {
-        screen: 'MyTeam',
-        params: { fromJoinTournament: true },
-      })
+      navigation.navigate('MyCreatedTeams', { fromJoinTournament: true })
     } else {
       navigation.navigate('JoinTournament')
     }
@@ -167,7 +166,7 @@ const TournamentList = () => {
 export default TournamentList
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     paddingVertical: RH(20),
   },
   gameItemContainer: {

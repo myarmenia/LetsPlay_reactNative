@@ -15,9 +15,13 @@ import FastImage from 'react-native-fast-image'
 
 const EditTeamPlayers = ({ route }) => {
   const { teamImg, sendingData } = route.params
+
+
+
   const [modalVisible, setModalVisible] = useState(false)
-  const [acceptedPlayers, setAcceptedPlayers] = useState([1])
+  const [acceptedPlayers, setAcceptedPlayers] = useState([])
   const { choosedTeamGame, savedTeam } = useSelector(({ teams }) => teams)
+
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -26,23 +30,23 @@ const EditTeamPlayers = ({ route }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.rowBox}>
           <Text style={styles.topTitle}>
-            {sendingData?.enemy_team_name ? sendingData?.enemy_team_name : sendingData?.enemy_team}
+            {savedTeam?.name}
           </Text>
           <FastImage
             style={styles.commandImg}
-            source={{ uri: _storageUrl + teamImg }}
+            source={{ uri: _storageUrl + savedTeam?.img }}
             resizeMode="cover"
           />
         </View>
         <View style={styles.gridBox}>
-          
+
           {savedTeam.invited_players.map((elm, i) => {
             return (
-              <EachUser
+              <SingleUser
                 elm={elm}
                 key={i}
-                acceptedPlayers={acceptedPlayers}
                 setAcceptedPlayers={setAcceptedPlayers}
+                acceptedPlayers={acceptedPlayers}
               />
             )
           })}
@@ -53,38 +57,32 @@ const EditTeamPlayers = ({ route }) => {
           label={'Подтвердить'}
           size={{ width: 284, height: 48 }}
           onPress={() => {
-            dispatch(createTeamGame(sendingData, setModalVisible))
+            const arr=[]
+            savedTeam?.invited_players.forEach((item)=>{arr.push(item._id)})
+            const players = acceptedPlayers.length ? acceptedPlayers : arr
+              dispatch(createTeamGame({ ...sendingData, players }, setModalVisible))
           }}
         />
-        {choosedTeamGame?.schema_img ? (
+        {choosedTeamGame?.schema_img &&
           <View style={{ marginTop: RH(15) }}>
             <LightButton
               label={'Схема игры'}
               size={{ width: 284, height: 48 }}
               onPress={() => {
                 navigation.navigate('TeamNavigator',
-                {
-                  screen: 'TeamSchemes',
-                  params: {
-                    players: savedTeam?.invited_players,
-                    schemaImg: choosedTeamGame?.schema_img,
-                    teamImg: teamImg,
-                    teamName: sendingData?.enemy_team_name,
-                    sendingData: sendingData,
+                  {
+                    screen: 'TeamSchemes',
+                    params: {
+                      players: savedTeam?.invited_players,
+                      teamImg: teamImg,
+                      sendingData: sendingData,
+                    }
                   }
-                }
-              )
-                // navigation.navigate('TeamSchemes', {
-                //   players: savedTeam?.invited_players,
-                //   schemaImg: choosedTeamGame?.schema_img,
-                //   teamImg: teamImg,
-                //   teamName: sendingData?.enemy_team_name,
-                //   sendingData: sendingData,
-                // })
+                )
               }}
             />
           </View>
-        ) : null}
+        }
       </View>
 
       {!!modalVisible[0] && (
@@ -107,28 +105,41 @@ const EditTeamPlayers = ({ route }) => {
   )
 }
 
-export default EditTeamPlayers
-
-const EachUser = ({ elm, acceptedPlayers, setAcceptedPlayers }) => {
+const SingleUser = ({ elm, setAcceptedPlayers, acceptedPlayers }) => {
   const [visible, setVisible] = useState(false)
-  const handleClick = (elm) => {
+  const handleClick = () => {
     setVisible(!visible)
-    setAcceptedPlayers(acceptedPlayers.concat(elm))
+    if (!visible) {
+      setAcceptedPlayers([...acceptedPlayers, elm._id])
+    } else {
+      setAcceptedPlayers(acceptedPlayers.filter(item => item !== elm._id))
+    }
   }
   return (
     <Pressable
-      style={{ alignItems: 'center', justifyContent: 'center', padding: RH(3) }}
-      onPress={() => {
-        handleClick(elm)
-      }}
+      style={{ alignItems: 'center', justifyContent: 'center', padding: RH(3), }}
     >
       <BorderGradient height={142} width={105} opacity={visible ? 1 : 0} />
       <View style={{ position: 'absolute' }}>
-        <User size={120} user={elm} />
+        <User
+          size={120}
+          user={elm}
+          onPressItem={{
+            item: <User size={390} />,
+            modalClose: false,
+            onClickFunc: () => { handleClick() }
+          }}
+        />
       </View>
     </Pressable>
   )
 }
+
+
+
+export default EditTeamPlayers
+
+
 
 const styles = StyleSheet.create({
   topTitle: {

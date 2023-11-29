@@ -174,7 +174,6 @@ export const signIn = (data) => (dispatch) => {
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
     .catch((err) => {
-      console.log(err, 'err')
       // console.error('Error: request', err.request._response)
 
       // dispatch(
@@ -328,7 +327,6 @@ export const changeUserPreferences = (data) => (dispatch) => {
   axiosInstance
     .post('api/user/preferences', data)
     .then((response) => {
-      // console.log('changeUserPreferences response ', response.data)
     })
     .catch((err) => {
       console.error('Error: changeUserPreferences', err.request?._response)

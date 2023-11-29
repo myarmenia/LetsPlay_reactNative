@@ -22,7 +22,6 @@ const SchemeUsers = ({
   initialCordinates,
   players
 }) => {
-  console.log(players, 'players');
   const [screenX, setScreenX] = useState(0)
   const componentWidth = useRef(0)
   const refsArray = useRef([])
@@ -118,7 +117,6 @@ const SchemeUsers = ({
               return updatedplayingPlayers
             })
           } else {
-            console.log('else')
             setReplacementPlayers((prevplayingPlayers) => {
               const updatedplayingPlayers = [...prevplayingPlayers]
               updatedplayingPlayers[index] = {

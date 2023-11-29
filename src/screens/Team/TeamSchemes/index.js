@@ -12,9 +12,7 @@ import { useSelector } from 'react-redux'
 
 const TeamSchemes = ({ route }) => {
   const { players, sendingData, teamImg,  } = route.params
-  console.log(route.params, 'params');
 
-  console.log(replacementPlayers, 'replacment players');
   const [replacementPlayers, setReplacementPlayers] = useState(
     new Array(players?.length).fill({
       x: 0,
@@ -117,7 +115,6 @@ const TeamSchemes = ({ route }) => {
       </View>
       <LightButton
         onPress={() => {
-          // navigation.navigate('ViewSchemes', { replacementPlayers })
           navigation.navigate('EditTeamPlayers', {
             teamImg,
             sendingData: { ...sendingData, game_schema: JSON.stringify(replacementPlayers) },

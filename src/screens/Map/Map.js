@@ -5,16 +5,15 @@ import { RH, RW } from '@/theme/utils'
 import Geolocation from '@react-native-community/geolocation'
 import GeolocationIcon from '@/assets/svgs/GeoloactionIcon'
 import MapView, { Marker, PROVIDER_DEFAULT, PROVIDER_GOOGLE } from 'react-native-maps'
-import { setLatitude, setLongitude, setPlaceName } from '@/store/Slices/GameCreatingSlice'
 import { useDispatch } from 'react-redux'
 import { fetchAddress } from './fetchAddress'
 import { useNavigation } from '@react-navigation/native'
+import { setAddress } from '@/store/Slices/AddressSlice'
 
-const Map = ({ route }) => {
+const Map = () => {
   const mapRef = useRef()
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { game, command, navigateTo, props } = route.params
   const [userPosition, setUserPosition] = useState({
     latitude: 55.751244,
     longitude: 37.618423,
@@ -22,6 +21,8 @@ const Map = ({ route }) => {
     longitudeDelta: 0.1,
   })
   const [markers, setMarkers] = useState([])
+
+  
   const getPosition = () => {
     Geolocation.getCurrentPosition((position) => {
       const currentLatitude = position.coords.latitude
@@ -42,16 +43,8 @@ const Map = ({ route }) => {
     })
   }
 
-  const onMapPress = (e) => {
-    dispatch(setLatitude(e.nativeEvent.coordinate.latitude))
-    dispatch(setLongitude(e.nativeEvent.coordinate.longitude))
-    setMarkers([
-      {
-        latitude: e.nativeEvent.coordinate.latitude,
-        longitude: e.nativeEvent.coordinate.longitude,
-      },
-    ])
-    fetchAddress(
+  const onMapPress = async (e) => {
+    await fetchAddress(
       true,
       e.nativeEvent.coordinate.latitude,
       e.nativeEvent.coordinate.longitude,
@@ -62,98 +55,19 @@ const Map = ({ route }) => {
           return r.json()
         })
         .then((s) => {
-          let response = s.results[0]?.formatted_address
-          dispatch(setPlaceName(response))
-          game
-            ? navigation.navigate('GameCreating', {
-              game: game,
-              response: response,
-              fromMap: true,
-            })
-            : null
-          navigateTo == 'CreateTeamTitle'
-            ? navigation.navigate('CreateTeamTitle', {
-              response: {
-                address_name: response,
-                latitude: s.results[0].geometry.location.lat,
-                longitude: s.results[0].geometry.location.lng,
-                fromMap: true,
-                ...props,
-              },
-            })
-            : null
-          navigateTo == 'EditTeam'
-            ? navigation.navigate('EditTeamInfo', {
-              ...command,
-              address_name: response,
-              latitude: s.results[0].geometry.location.lat,
-              longitude: s.results[0].geometry.location.lng,
-            })
-            : null
-          navigateTo == 'Join'
-            ? navigation.navigate('JoinGame', {
-              address_name: response,
-              latitude: s.results[0].geometry.location.lat,
-              longitude: s.results[0].geometry.location.lng,
-              fromMap: true,
-            })
-            : null
-          navigateTo == 'CommandLeadCreate'
-            ? navigation.navigate(navigateTo, {
-              address_name: response,
-              latitude: s.results[0].geometry.location.lat,
-              longitude: s.results[0].geometry.location.lng,
-              fromMap: true,
-            })
-            : null
-          navigateTo == 'JoinTournament'
-            ? navigation.navigate('TournamentNavigator', {
-              screen: navigateTo,
-              params: {
-                address_name: response,
-                latitude: s.results[0].geometry.location.lat,
-                longitude: s.results[0].geometry.location.lng,
-                fromMap: true,
-              },
-            })
-            : null
-          navigateTo == 'CreateTournamentInfo'
-            ? navigation.navigate('TournamentNavigator', {
-              screen: 'CreateTournamentInfo',
-              params: {
-                address_name: response,
-                latitude: s.results[0].geometry.location.lat,
-                longitude: s.results[0].geometry.location.lng,
-                fromMap: true,
-              },
-            })
-            : null
-
-          navigateTo == 'CommandLeadNotCreate'
-            ? navigation.navigate(navigateTo, {
-              address_name: response,
-              latitude: s.results[0].geometry.location.lat,
-              longitude: s.results[0].geometry.location.lng,
-              fromMap: true,
-            })
-            : null
-
-          navigateTo == 'SearchTournament'
-            ? navigation.navigate(navigateTo, {
-              address_name: response,
-              latitude: s.results[0].geometry.location.lat,
-              longitude: s.results[0].geometry.location.lng,
-              fromMap: true,
-            })
-            : null
-
-          navigateTo == 'TournamentInfo'
-            ? navigation.navigate(navigateTo, {
-              address_name: response,
-              latitude: s.results[0].geometry.location.lat,
-              longitude: s.results[0].geometry.location.lng,
-            })
-            : null
+          let response = s.results[0]
+          dispatch(setAddress({
+            address: response?.formatted_address,
+            longitude: response?.geometry?.location?.lat,
+            latitude: response?.geometry?.location?.lng,
+          }))
+          setMarkers([
+            {
+              latitude: response?.geometry?.location?.lat,
+              longitude: response?.geometry?.location?.lng,
+            },
+          ])
+          navigation.goBack()
         })
     })
   }

@@ -52,7 +52,7 @@ const AddPhoto = ({ route }) => {
         }
         dispatch(setGameFinishPhoto(null))
       })
-      .catch((error) => console.log('error', error))
+      .catch((error) =>{})
   }
   return (
     <ScreenMask>

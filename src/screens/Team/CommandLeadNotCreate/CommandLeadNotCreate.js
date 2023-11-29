@@ -13,33 +13,33 @@ import { useNavigation } from '@react-navigation/native'
 import { getMembersList, searchTeam, setFindedTeam } from '@/store/Slices/TeamSlice'
 
 const CommandLeadNotCreate = ({ route }) => {
+  const { address, longitude, latitude } = useSelector(({ address }) => address)
+
   const item = route.params
   const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
   const { betweenPlayers, findedTeam, savedTeam } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  //states ===================================
   const [gameId, setGameId] = useState(null)
-  const [enemyTeam, setEnemyTeam] = useState('')
+  const [enemyTeam, setEnemyTeam] = useState(null)
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
-  const [addresName, setAddressName] = useState('')
-  // const [price, setPrice] = useState('')
+
+
   const [formats, setFormats] = useState(
-    choosedTeamGame?.formats?.map((elm, i) => {
-      return { id: i, text: elm, checked: false }
-    }),
+    choosedTeamGame?.formats?.map((elm, i) =>
+    ({
+      id: i,
+      text: elm,
+      checked: !i ? true : false
+    })
+    ),
   )
-  // const [priceList, setPriceList] = useState([
-  //   { id: 1, text: 'Бесплатно', checked: true },
-  //   { id: 2, text: 'Платно', checked: false },
-  // ])
-  // states end ================================
-  // error states =============================
+
+
   const [enemyTeamError, setEnemyTeamError] = useState(false)
-  // const [formatError, setFormatError] = useState(false)
-  const [mapError, setMapError] = useState(false)
-  // const [priceError, setPriceError] = useState(false)
-  // error states end =========================
+  const [addressError, setAddressError] = useState(false)
+
+
   const timeFormat = (date) => {
     if (
       date.time.toLocaleTimeString().split(' ')[1] == 'PM' &&
@@ -72,52 +72,37 @@ const CommandLeadNotCreate = ({ route }) => {
     .concat(' ' + timeFormat(startDate))
 
   let sendingData = {
-    address_name: item?.fromMap ? item?.address_name : addresName?.address_name,
-    latitude: item?.fromMap ? item?.latitude : addresName?.lat,
-    longitude: item?.fromMap ? item?.longitude : addresName?.lng,
+    address_name: address,
+    latitude: latitude,
+    longitude: longitude,
     between_players: betweenPlayers,
     all_players: false,
-    ticket_price: 0, //price ? price : 0
+    ticket_price: 0,
     team: savedTeam?._id,
-    // gtac team i id
-    //  enemy_team: findedTeam?._id
-    // enemy_team_name: enemyTeam,
     game: gameId?.id,
-    // players id
-    players: ['64219136e3a868ee5e71a799'],
-    // savedTeam?.players?.map(elm => elm?._id),
+    players: [],
     start_date: changedStartDate,
-    // svoya igra i jamanaka drvum
     name: '',
     description: '',
   }
+
+
   const handleSubmit = () => {
     if (!enemyTeam?.length) {
       setEnemyTeamError(true)
     } else {
       setEnemyTeamError(false)
     }
-    if (addresName?.address_name && !item?.latitude) {
-      setMapError(false)
+    if (!address) {
+      setAddressError('Обязательное поле для заполнения')
+    } else if (!longitude || !latitude) {
+      setAddressError('Укажите точный адрес')
     } else {
-      setMapError(true)
+      setAddressError(false)
     }
-    if (item?.latitude) {
-      setMapError(false)
-    }
-    // if (priceList?.find((elm) => elm?.checked)?.text == 'Платно' && !price?.length) {
-    //   setPriceError(true)
-    // } else {
-    //   setPriceError(false)
-    // }
-    if (
-      Boolean(
-        addresName?.address_name || item?.latitude,
-        0, //price
-        enemyTeam,
-        formats?.filter((elm) => elm?.checked)?.length,
-      )
-    ) {
+
+
+    if (address && longitude && latitude && enemyTeam && formats?.filter((elm) => elm?.checked)?.length) {
       sendingData.enemy_team_name = enemyTeam
       navigation.navigate('TeamInfo', { sendingData, gameId })
     }
@@ -141,6 +126,8 @@ const CommandLeadNotCreate = ({ route }) => {
     }
   }, [findedTeam])
 
+
+
   return (
     <ScreenMask>
       <ScrollView style={{ flex: 1.1 }}>
@@ -160,13 +147,13 @@ const CommandLeadNotCreate = ({ route }) => {
           <TouchableOpacity
             style={styles.searchIcon}
             onPress={() => {
-              dispatch(searchTeam(enemyTeam, () => {}, navigation, 'SearchTeamInvite', sendingData))
+              dispatch(searchTeam(enemyTeam, () => { }, navigation, 'SearchTeamInvite', sendingData))
             }}
           >
             <SearchSvg />
           </TouchableOpacity>
         </View>
-        {!!enemyTeamError && <Text style={styles.errorText}>Обязательное поле</Text>}
+        {enemyTeamError && <Text style={styles.errorText}>Обязательное поле</Text>}
         <View>
           {formats?.length ? (
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
@@ -190,32 +177,9 @@ const CommandLeadNotCreate = ({ route }) => {
           />
         </View>
         <View style={styles.mapBox}>
-          <SearchAddresses
-            size={380}
-            navigateTo="CommandLeadNotCreate"
-            setAddressName={setAddressName}
-            addressName={addresName}
-            show={false}
-          />
-          {!!mapError && <Text style={styles.errorText}>Обязательное поле</Text>}
+          <SearchAddresses />
+          {addressError && <Text style={styles.errorText}>{addressError}</Text>}
         </View>
-        {/* {priceList?.length ? (
-          <RadioBlock
-            title={'Стоимость входного билета в игру'}
-            list={priceList}
-            onChange={setPriceList}
-            titleStyle={styles.searchTitle}
-          />
-        ) : null}
-
-        {!!priceList[1]?.checked && (
-          <View style={styles.priceInput}>
-            <TextInput value={price} onChangeText={(e) => setPrice(e)} style={styles.price} />
-          </View>
-        )}
-        {!!priceError && !!priceList[1].checked && (
-          <Text style={styles.errorText}>Заполните поле</Text>
-        )} */}
       </ScrollView>
       <View style={{ right: RW(10), bottom: RH(20), position: 'absolute' }}>
         <LightButton label={'Готово'} onPress={handleSubmit} />

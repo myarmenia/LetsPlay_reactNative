@@ -25,8 +25,11 @@ const JoinTournament = ({ route }) => {
   const [errorText, setErrorText] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
   const { choosenTournir, joinedTeamInfo } = useSelector(({ tournament }) => tournament)
+
   const countFrom = choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_from : choosenTournir.number_of_participants_from
   const countTo = choosenTournir?.team_tourney ? choosenTournir?.number_of_teams_to : choosenTournir.number_of_participants_to
+
+
 
 
 
@@ -79,12 +82,6 @@ const JoinTournament = ({ route }) => {
             <Text style={styles.eachInfo}>Название турнира :</Text>
             <Text style={styles.eachInfoTwo}>{choosenTournir?.name}</Text>
           </Row>
-
-          <Row wrapper={{ marginBottom: RW(16) }}>
-            <Text style={styles.eachInfo}>Тип игры :</Text>
-            <Text style={styles.eachInfoTwo}>{choosenTournir?.game?.name}</Text>
-          </Row>
-
           <Row wrapper={{ marginBottom: RW(16) }}>
             <Text
               style={[styles.eachInfo]}
@@ -95,6 +92,17 @@ const JoinTournament = ({ route }) => {
               </Text>
             </Text>
           </Row>
+
+          <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Тип игры :</Text>
+            <Text style={styles.eachInfoTwo}>{choosenTournir?.game?.name}</Text>
+          </Row>
+          {choosenTournir?.format && <Row wrapper={{ marginBottom: RW(16) }}>
+            <Text style={styles.eachInfo}>Формат игры :</Text>
+            <Text style={styles.eachInfoTwo}>{choosenTournir?.format}</Text>
+          </Row>}
+
+
           <Row wrapper={{ marginBottom: RW(16) }}>
             <Text style={styles.eachInfo}>
               Количество {choosenTournir.team_tourney ? 'команд' : 'игроков'} :
@@ -146,9 +154,7 @@ const JoinTournament = ({ route }) => {
                 {choosenTournir.address_name}
               </Text>
             </Text>
-
           </Row>
-
           <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
             <Text style={styles.eachInfo}>Организатор турнира:</Text>
             <View style={{ width: RW(60), paddingBottom: RH(20) }}>
@@ -157,7 +163,6 @@ const JoinTournament = ({ route }) => {
                 onPressItem={{
                   item: <User size={390} pressedUser={!route?.params?.fromCalendar ? user : route?.params?.elm?.user} />,
                   modalClose: false,
-                  // onClickFunc: handleClick,
                 }}
                 pressedUser={!route?.params?.fromCalendar ? user : route?.params?.elm?.user}
               />

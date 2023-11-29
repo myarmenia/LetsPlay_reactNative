@@ -14,6 +14,7 @@ import CreateTournament from '@/screens/Tournament/CreateTournament/CreateTourna
 import AddTournamentPhoto from '@/screens/Tournament/FinishTournament/AddPhoto/AddTournamentPhoto'
 import RateTourneyPlayers from '@/screens/Tournament/FinishTournament/RatePlayers'
 import TeamSchema from '@/screens/Tournament/SchemaScreen/TeamSchema'
+import MyCreatedTeams from '@/screens/Tournament/MyCreatedTeams/MyTeams'
 
 const Stack = createNativeStackNavigator()
 
@@ -32,8 +33,7 @@ function TournamentNavigator() {
       <Stack.Screen name="AddTournamentPhoto" component={AddTournamentPhoto} />
       <Stack.Screen name="RateTourneyPlayers" component={RateTourneyPlayers} />
       <Stack.Screen name="TeamSchema" component={TeamSchema} />
-
-
+      <Stack.Screen name="MyCreatedTeams" component={MyCreatedTeams} />
     </Stack.Navigator>
   )
 }

@@ -17,9 +17,7 @@ const ChoosePlayers = ({ route }) => {
   const [data, setData] = useState({ ...sendingData, players: [] })
   const dispatch = useDispatch()
 
-  console.log(savedTeam, 'savedTeam');
   const UserItem = ({ user }) => {
-    const [visible, setVisible] = useState(false)
     return (
       <>
         <View style={styles.eachUser}>
@@ -65,9 +63,9 @@ const ChoosePlayers = ({ route }) => {
             />
           </View>
           <View style={styles.playersContainer}>
-            {savedTeam?.players.map((elm, i) => {
+            {savedTeam?.invited_players.map((elm, i) => {
 
-              return <UserItem key={i} user={elm.user} />
+              return <UserItem key={i} user={elm} />
             })}
           </View>
         </View>

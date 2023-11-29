@@ -113,7 +113,6 @@ function Index() {
       }
     } catch (err) {
       socket.off('message')
-      console.log('err', err)
     }
   }
   const uploadPhoto = async () => {
@@ -152,7 +151,7 @@ function Index() {
       .then((result) => {
         dispatch(setImage(JSON.parse(result).avatar))
       })
-      .catch((error) => console.log('error', error))
+      .catch((error) => {})
       .finally(() => dispatch(setPending(false)), setEditable(false))
   }
 

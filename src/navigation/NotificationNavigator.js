@@ -14,7 +14,6 @@ const NotificationNavigator = () => {
   const socketRef = useRef(null)
   const token = useSelector(({ auth }) => auth.token)
   const callBackFunc = (e) => {
-    console.log('notifcation socket ', e)
   }
   const {} = useGameSocketHelper(socketRef.current, callBackFunc)
   const dispatch = useDispatch()
@@ -35,7 +34,6 @@ const NotificationNavigator = () => {
   useEffect(() => {
     return () => {
       socketRef.current.disconnect()
-      console.log('useEffect clearAllDatas')
       // dispatch(clearAllDatas())
     }
   }, [])

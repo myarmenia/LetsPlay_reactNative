@@ -21,6 +21,7 @@ const RateTourneyPlayers = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch()
   const { playersForRating } = useSelector(({ tournament }) => tournament)
+
   const addRating = (item, elm) => {
     dispatch(addPlayerRating({
       id: item._id,
@@ -29,10 +30,6 @@ const RateTourneyPlayers = ({ route }) => {
   }
 
 
-  // useEffect(()=>{
-
-
-  // }, [route?.params?.sendInvitation])
 
 
   useEffect(() => {
@@ -53,7 +50,7 @@ const RateTourneyPlayers = ({ route }) => {
         <Text style={styles.title}>Оцените {playersForRating.team_tourney ? 'игрока команды' : 'участника'} </Text>
 
         <FlatList
-          data={!playersForRating.team_tourney ? playersForRating.players : []}
+          data={!playersForRating.team_tourney ? playersForRating.players : playersForRating?.teams[0].players}
           style={styles.flatList}
           contentContainerStyle={styles.flatListContent}
           numColumns={3}
@@ -82,9 +79,11 @@ const RateTourneyPlayers = ({ route }) => {
                         width={10}
                         height={9.5} />
                     </Pressable>
-
                   })}
                 </Row>
+
+
+
                 <RatePlayerModal
                   item={item}
                   visible={modalVisible}
@@ -107,7 +106,8 @@ const RateTourneyPlayers = ({ route }) => {
             "rating": {}
           }
 
-          const arr = [...playersForRating.players]
+
+          const arr = playersForRating?.team_tourney ? [...playersForRating?.teams[0].players] : [...playersForRating.players]
 
           arr.forEach((item) => {
             obj.rating = {
@@ -124,7 +124,6 @@ const RateTourneyPlayers = ({ route }) => {
               })
             }
           }).catch((error) => {
-            console.log(error, 'err');
           })
         }}
         style={{ alignSelf: 'center', marginBottom: RH(30) }}

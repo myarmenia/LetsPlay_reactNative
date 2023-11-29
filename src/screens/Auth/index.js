@@ -79,7 +79,6 @@ const AuthHome = () => {
       }
     } catch (err) {
       socket.off('message')
-      console.log('err', err)
     }
   }
 

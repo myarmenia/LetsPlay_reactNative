@@ -155,10 +155,10 @@ export default SelectMembers
 const styles = StyleSheet.create({
   commandImg: {
     width: RW(40),
-    height: RH(40),
+    aspectRatio: 1,
     borderRadius: RW(20),
     right: '20%',
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: WHITE,
   },
   headerChild: {

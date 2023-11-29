@@ -11,6 +11,5 @@ export const openMap = async (address) => {
         const supported = await Linking.canOpenURL(link);
         if (supported) Linking.openURL(link);
     } catch (error) {
-        console.log(error);
     }
 }

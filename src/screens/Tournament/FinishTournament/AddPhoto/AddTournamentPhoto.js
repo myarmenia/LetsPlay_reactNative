@@ -54,7 +54,7 @@ const AddTournamentPhoto = () => {
             dispatch(setFinishPhoto(null))
           }
         })
-        .catch((error) => console.log('error', error))
+        .catch((error) =>{})
     }
   }
   return (

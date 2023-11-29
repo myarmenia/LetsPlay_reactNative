@@ -12,12 +12,7 @@ import moment from 'moment'
 const TournamentInfoModal = ({ modalVisible, setModalVisible, id }) => {
 
     const { selectedTournament } = useSelector(({ tournament }) => tournament)
-    console.log(selectedTournament, 'selected');
     const genders = { m: 'М', f: 'Ж', 'm/f': 'Без ограничений' }
-
-
-
-
     const share = async () => {
         try {
             const result = await Share.share({

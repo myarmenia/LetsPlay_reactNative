@@ -8,16 +8,13 @@ const requestUserPermission = async (openModalFunc) => {
     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
     authStatus === messaging.AuthorizationStatus.PROVISIONAL
   if (enabled) {
-    // console.log('Authorization status:', authStatus)
     getFcmToken(openModalFunc)
   }
 }
 const notificationListener = async (openModalFunc, callBack) => {
   messaging().onNotificationOpenedApp((remoteMessage) => {
-    console.log('Notification caused app to open from background state:', remoteMessage)
   })
   messaging().setBackgroundMessageHandler(async (remoteMessage) => {
-    console.log('Message handled in the background!', remoteMessage)
 
     PushNotification.setApplicationIconBadgeNumber(
       PushNotification.getApplicationIconBadgeNumber() + 1,
@@ -25,7 +22,6 @@ const notificationListener = async (openModalFunc, callBack) => {
   })
 
   messaging().onMessage(async (remoteMessage) => {
-    // console.log('Recived in foreground', remoteMessage)
     callBack()
     if (Platform.OS == 'android') {
       openModalFunc(
@@ -34,13 +30,8 @@ const notificationListener = async (openModalFunc, callBack) => {
       )
     }
   })
-  messaging()
-    .getInitialNotification()
-    .then((remoteMessage) => {
-      if (remoteMessage) {
-        console.log('Notification caused app to open from quit state:', remoteMessage.notification)
-      }
-    })
+  messaging().getInitialNotification()
+    
 }
 const getFcmToken = async (openModalFunc) => {
   try {
@@ -48,14 +39,11 @@ const getFcmToken = async (openModalFunc) => {
     // await messaging().registerDeviceForRemoteMessages()
     if (!token) {
       let fcmToken = await messaging().getToken()
-      console.log(fcmToken, 'fcmToken')
       if (fcmToken) {
-        // console.log('The new generated fcmToken', fcmToken)
         await AsyncStorage.setItem('fcmToken', fcmToken)
       }
     }
   } catch (error) {
-    console.log(error, 'error')
     // alert('Error in notification service')
     openModalFunc('Error in notification service', 'error')
   }

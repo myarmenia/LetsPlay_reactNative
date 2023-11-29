@@ -2,34 +2,43 @@ import React, { memo, useEffect, useRef, useState } from 'react'
 import { FlatList, Platform, View } from 'react-native'
 import { RH } from '@/theme/utils'
 import { useDispatch, useSelector } from 'react-redux'
-import { getChats, getTeamChats, sendTeamMessage } from '@/store/Slices/ChatsSlice'
-import { sendMessage } from '../../../store/Slices/ChatsSlice'
 import { io } from 'socket.io-client'
 import CustomInput from './components/Input'
 import Message from './components/container/message'
 import { IS_IOS } from '@/constants'
-import { setPausedMessageId, setPlayMessageId } from '../../../store/Slices/ChatsSlice'
 import PrivateChatHeader from './components/PrivateChatHeader'
 import ScreenMask2 from '@/components/wrappers/screen2'
-import { getTourneyChat } from '@/store/Slices/TournamentReducer/TournamentApies'
-import { sendTourneyMessage, getSingleTournament } from '@/store/Slices/TournamentReducer/TournamentApies'
+import {
+  getTourneyChatMessages,
+  sendTourneyChatMessage,
 
-function Index(props) {
-  const [messageState, setMessageState] = useState([])
-  const [voiceMessage, setVoiceMessage] = useState('')
+  getTeamChatMessages,
+  sendTeamChatMessage,
 
-  const { user, token } = useSelector(({ auth }) => auth)
-  const { voiceDuration, chats } = useSelector(({ chats }) => chats)
-  const { singleChat } = useSelector(({ tournament }) => tournament)
+  getTeamCreateGameChatMessages,
+  sendTeamCreateGameChatMessage,
+
+  getGameChatMessages,
+  sendGameChatMessage,
+
+  setPausedMessageId,
+  setPlayMessageId,
+  addSingleMessage
+} from '@/store/Slices/ChatsSlice'
+import { getSingleTournament } from '@/store/Slices/TournamentReducer/TournamentApies'
+import { protocol, voiceMessageRequestBody, chatIdKey, socketBody } from './helpers'
+
+function Index({ route }) {
+  const { id, type, playersLength, team } = route?.params
 
   const dispatch = useDispatch()
-  const chatId = props.route.params.id
-  const type = props.route.params.type
-  const playersLength = props.route.params?.playersLength
-  const team = props.route.params?.team
+  const { user, token } = useSelector(({ auth }) => auth)
+  const { voiceDuration, chatMessages } = useSelector(({ chats }) => chats)
+  const [voiceMessage, setVoiceMessage] = useState('')
 
-  const api = `${Platform.OS === 'ios' ? 'wss' : 'ws'}://to-play.ru${type === 'team' ? '/team/create_game' : type === 'tournament' ? '/tourney' : ''
-    }/chat?room=${chatId}`
+  const api = `${Platform.OS === 'ios' ? 'wss' : 'ws'}://to-play.ru${socketBody(type)}/chat?room=${id}`
+
+  console.log(api, 'api');
 
   const options = {
     transportOptions: {
@@ -43,10 +52,9 @@ function Index(props) {
 
 
   const socket = io(api, options)
-
   const scrollViewRef = useRef(null)
 
-  const sendFunc = (text) => {
+  const sendFunc = async (text) => {
     dispatch(setPlayMessageId('stop'))
     dispatch(setPausedMessageId(null))
 
@@ -57,7 +65,9 @@ function Index(props) {
         type: IS_IOS ? 'audio/m4a' : 'video/mp4',
         name: IS_IOS ? 'audio.m4a' : 'audio.mp4',
       })
-      formdata.append(type === 'team' ? 'team' : type === 'game' ? 'create_game' : 'tourney', chatId)
+
+
+      formdata.append(chatIdKey(), id)
       formdata.append('file_length', voiceDuration)
 
       let myHeaders = new Headers()
@@ -69,78 +79,67 @@ function Index(props) {
         headers: myHeaders,
         body: formdata,
       }
-      fetch(
-        `${Platform.OS == 'ios' ? 'https' : 'http'}://to-play.ru/api${type == 'team' ? '/team/chat' : type === 'game' ? '/create/game/chat/' : '/tourney/chat'
-        }`,
-        requestOptions,
-      )
-        .then((res) => {
-          setVoiceMessage(null)
-        })
+      await fetch(`${protocol}://to-play.ru/api${voiceMessageRequestBody(type)}`, requestOptions)
+      setVoiceMessage(null)
     } else {
       if (type === 'team') {
+        dispatch(sendTeamChatMessage({
+          message: text,
+          team: id,
+        }))
+      } else if (type === 'team_game') {
         dispatch(
-          sendTeamMessage({
+          sendTeamCreateGameChatMessage({
             message: text,
-            team_create_game: chatId,
+            team_create_game: id,
           }),
         )
       } else if (type === 'game') {
         dispatch(
-          sendMessage({
+          sendGameChatMessage({
             message: text,
-            create_game: chatId,
+            create_game: id,
           }),
         )
       } else {
-        dispatch(sendTourneyMessage({
+        dispatch(sendTourneyChatMessage({
           message: text,
-          tourney: chatId,
+          tourney: id,
         }))
       }
     }
   }
+
+
+
   const memoSocketFunc = (message) => {
     if (message.file || message.message) {
-      setMessageState((lastState) => {
-        if (!lastState?.find((item) => item?.id == message?.id)) {
-          return lastState?.concat(message)
-        } else {
-          return lastState
-        }
-      })
+      console.log(message, 'message');
+      dispatch(addSingleMessage(message))
     }
   }
 
   socket.on('message', memoSocketFunc)
 
   useEffect(() => {
-    // messageState
     if (type == 'team') {
-      dispatch(getTeamChats(chatId))
+      dispatch(getTeamChatMessages(id))
+    } else if (type === 'team_game') {
+      dispatch(getTeamCreateGameChatMessages(id))
     } else if (type === 'game') {
-      dispatch(getChats(chatId))
+      dispatch(getGameChatMessages(id))
     } else {
-      dispatch(getTourneyChat(chatId))
-      dispatch(getSingleTournament(chatId))
-
+      dispatch(getTourneyChatMessages(id))
+      dispatch(getSingleTournament(id))
     }
     return () => {
-      console.log('chat socket disconnect')
       socket.disconnect()
     }
   }, [])
 
-
-  useEffect(() => {
-    setMessageState(type === 'tournament' ? singleChat : chats)
-  }, [chats, singleChat])
-
-
-
   useEffect(() => {
     scrollViewRef?.current?.scrollToOffset({ animated: true, offset: 0 })
-  }, [messageState?.length])
+  }, [chatMessages?.length])
   const memoRenderItem = ({ item, index }) => {
     return (
       <Message
@@ -157,9 +156,9 @@ function Index(props) {
 
   return (
     <ScreenMask2>
-      <PrivateChatHeader type={type} chatId={chatId} playersLength={playersLength} team={team} />
+      <PrivateChatHeader type={type} id={id} playersLength={playersLength} team={team} />
       <FlatList
-        data={[...messageState]?.reverse()}
+        data={chatMessages}
         style={{ marginBottom: RH(25) }}
         inverted
         refreshing
