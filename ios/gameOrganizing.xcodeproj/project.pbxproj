@@ -19,6 +19,7 @@
 		79690F9EF5C9464EA9A3331E /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C6258B5FF4C8288C7F7FE /* Inter-Light.ttf */; };
 		8121331C7DDF8248ABFC01B0 /* libPods-gameOrganizing.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-gameOrganizing.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		889BEB532B18A0190074D34D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 889BEB512B18A0190074D34D /* main.jsbundle */; };
 		BC47F2B94002465AB6EB12A4 /* Inter-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 01728D889DF945ED8CA70232 /* Inter-Regular.ttf */; };
 		BFA087941F0A499B8B825B63 /* OpenSans-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D9476C837C824FCFB70B1B47 /* OpenSans-Medium.ttf */; };
 		CF7BB28BB32949A7A9C1C426 /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3CBA279922743798A4F19D8 /* Inter-Medium.ttf */; };
@@ -77,6 +78,7 @@
 		5DCACB8F33CDC322A6C60F78 /* libPods-gameOrganizing.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-gameOrganizing.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		69DC6A850F3041A0A026C4AA /* Inter-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Black.ttf"; path = "../src/assets/fonts/Inter-Black.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = gameOrganizing/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		889BEB512B18A0190074D34D /* main.jsbundle */ = {isa = PBXFileReference; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-gameOrganizing-gameOrganizingTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-gameOrganizing-gameOrganizingTests.release.xcconfig"; path = "Target Support Files/Pods-gameOrganizing-gameOrganizingTests/Pods-gameOrganizing-gameOrganizingTests.release.xcconfig"; sourceTree = "<group>"; };
 		D05ED33E2C87421E960A5C77 /* Inter-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-ExtraBold.ttf"; path = "../src/assets/fonts/Inter-ExtraBold.ttf"; sourceTree = "<group>"; };
 		D9476C837C824FCFB70B1B47 /* OpenSans-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Medium.ttf"; path = "../src/assets/fonts/OpenSans-Medium.ttf"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				889BEB512B18A0190074D34D /* main.jsbundle */,
 				3A4C4AAA2A56DFE400F09852 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* gameOrganizing */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -354,6 +357,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				889BEB532B18A0190074D34D /* main.jsbundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3228BBC72D184D59A9F4DFD0 /* Inter-Bold.ttf in Resources */,
@@ -717,6 +721,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -742,6 +747,11 @@
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
@@ -784,6 +794,10 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = i386;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION,
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -806,6 +820,11 @@
 					"-DFOLLY_NO_CONFIG",
 					"-DFOLLY_MOBILE=1",
 					"-DFOLLY_USE_LIBCPP=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-Wl",
+					"-ld_classic",
 				);
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;

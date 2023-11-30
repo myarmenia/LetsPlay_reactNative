@@ -12,15 +12,15 @@ import dateFormater from '../../../../../helpers/dateFormater'
 const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
+  console.log(took_part_games, 'tookpartgames')
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
 
   const share = async () => {
     try {
       const result = await Share.share({
-        message:
-          'React Native | A framework for building native apps using React',
-      });
+        message: 'React Native | A framework for building native apps using React',
+      })
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
           // shared with activity type of result.activityType
@@ -31,9 +31,9 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
         // dismissed
       }
     } catch (error) {
-      Alert.alert(error.message);
+      Alert.alert(error.message)
     }
-  };
+  }
   return (
     <Modal
       modalVisible={modalVisible}
@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-end',
-
   },
   titleColumnBox: {
     flexDirection: 'column',
