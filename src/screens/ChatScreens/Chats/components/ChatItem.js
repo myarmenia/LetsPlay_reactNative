@@ -159,7 +159,7 @@ function ChatItem({ item, type, playersLength }) {
               id: item._id,
               type: type,
               playersLength: playersLength,
-              team: item.team,
+              team: item,
             })
           }
           style={styles.chatItemBlock}

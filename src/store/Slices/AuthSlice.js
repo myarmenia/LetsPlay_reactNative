@@ -170,10 +170,12 @@ export const signIn = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/sign_in', data)
     .then((response) => {
+      console.log(response, 'response');
       dispatch(setExpiredToken(response.data.expired_token))
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
     .catch((err) => {
+      console.log(err, 'error');
       // console.error('Error: request', err.request._response)
 
       // dispatch(
@@ -213,7 +215,7 @@ export const signIn2 = (data) => async (dispatch) => {
 export const forgitPassword = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/password_reset', data)
-    .then((response) => {})
+    .then((response) => { })
     .catch((err) => {
       console.error('Error: request forgitPassword', err.request?._response)
     })

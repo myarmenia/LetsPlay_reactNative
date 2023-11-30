@@ -10,7 +10,8 @@ import GameInfoModal from './GameInfoModal'
 import TeamInfoModal from './TeamInfoModal'
 import TournamentInfoModal from './TournamentInfoModal'
 
-const PrivateChatHeader = ({ gameID, playersLength, type, team }) => {
+const PrivateChatHeader = ({ id, playersLength, type, team }) => {
+  console.log(id, type,'id');
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   return (
@@ -41,23 +42,23 @@ const PrivateChatHeader = ({ gameID, playersLength, type, team }) => {
           <TeamInfoModal
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
-            Team={team}
+            team={team}
           />
         ) :
-          type === 'game'
+          (type === 'game' || type === 'team_game')
             ?
             (
               <GameInfoModal
                 modalVisible={modalVisible}
                 setModalVisible={setModalVisible}
-                gameID={gameID}
+                gameID={id}
               />
             )
             :
             <TournamentInfoModal
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
-              id={gameID}
+              id={id}
             />
       ) : null}
     </View>

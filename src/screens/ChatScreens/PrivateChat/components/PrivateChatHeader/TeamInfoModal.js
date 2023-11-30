@@ -9,10 +9,11 @@ import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
 
-const TeamInfoModal = ({ modalVisible, setModalVisible, Team }) => {
+const TeamInfoModal = ({ modalVisible, setModalVisible, team }) => {
   const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
   const teams = [...myTeams, ...myJoinedTeams]
-  const teamInfo = teams.find(item => item._id === Team._id)
+  console.log(team, 'team');
+  const teamInfo = teams.find(item => item._id === team._id)
 
   const share = async () => {
     try {

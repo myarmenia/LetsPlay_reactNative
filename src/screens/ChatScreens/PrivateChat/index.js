@@ -79,7 +79,6 @@ function Index({ route }) {
         body: formdata,
       }
       const data = await fetch(`${protocol}://to-play.ru/api${voiceMessageRequestBody(type)}`, requestOptions)
-      console.log(data, 'data');
       setVoiceMessage(null)
     } else {
       if (type === 'team') {

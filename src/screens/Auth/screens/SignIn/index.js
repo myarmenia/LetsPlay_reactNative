@@ -46,7 +46,6 @@ const SignIn = (props) => {
           handlerMessage(messageDefault.emailError)
           handlerMessage(messageDefault.email)
         }
-
         break
       case 'PASSWORD':
         dispatch(signIn2({ expired_token: expired_token, password: text.toLocaleLowerCase() }))
