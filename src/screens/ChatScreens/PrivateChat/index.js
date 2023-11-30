@@ -38,7 +38,6 @@ function Index({ route }) {
 
   const api = `${Platform.OS === 'ios' ? 'wss' : 'ws'}://to-play.ru${socketBody(type)}/chat?room=${id}`
 
-  console.log(api, 'api');
 
   const options = {
     transportOptions: {
@@ -67,7 +66,7 @@ function Index({ route }) {
       })
 
 
-      formdata.append(chatIdKey(), id)
+      formdata.append(chatIdKey(type), id)
       formdata.append('file_length', voiceDuration)
 
       let myHeaders = new Headers()
@@ -79,7 +78,8 @@ function Index({ route }) {
         headers: myHeaders,
         body: formdata,
       }
-      await fetch(`${protocol}://to-play.ru/api${voiceMessageRequestBody(type)}`, requestOptions)
+      const data = await fetch(`${protocol}://to-play.ru/api${voiceMessageRequestBody(type)}`, requestOptions)
+      console.log(data, 'data');
       setVoiceMessage(null)
     } else {
       if (type === 'team') {
@@ -114,7 +114,6 @@ function Index({ route }) {
 
   const memoSocketFunc = (message) => {
     if (message.file || message.message) {
-      console.log(message, 'message');
       dispatch(addSingleMessage(message))
     }
   }

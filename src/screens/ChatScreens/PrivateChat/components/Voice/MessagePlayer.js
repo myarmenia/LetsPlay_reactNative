@@ -81,7 +81,7 @@ const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
         </Pressable>
       )}
 
-      <View style={{ height: '100%', justifyContent: 'space-between' }}>
+      <View style={{ height: '100%', justifyContent: 'space-between', }}>
         <Pressable style={styles.viewBarWrapper}>
           <View style={styles.viewBar}>
             <View

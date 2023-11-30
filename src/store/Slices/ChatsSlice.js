@@ -81,8 +81,6 @@ export const getAllChats = () => async (dispatch) => {
 }
 
 
-
-
 export const getTourneyChatMessages = (id) => async (dispatch) => {
   try {
     const messages = await axiosInstance.get(`api/tourney/chat/${id}`)
@@ -165,14 +163,12 @@ export const sendTeamChatMessage = (data) => () => {
     })
 }
 export const deleteTeamChat = (body, callBack) => (dispatch) => {
-  console.log(body, 'body');
   axiosInstance
-    .delete('api/team/delete/player', body)
+    .put('api/team/delete/team/player', body)
     .then((res) => {
-      console.log(res, 'res');
       if (res.data.statusCode === 200) {
         callBack(false)
-        dispatch(setDeleteChat(gameId))
+        dispatch(setDeleteChat(body.team_id))
       }
     })
     .catch((err) => {
@@ -211,29 +207,6 @@ export const deleteTeamCreateGameChat = (gameId, callBack) => (dispatch) => {
     })
     .catch((err) => {
       console.error('Error: createGame', err)
-    })
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-export const deleteOrganizerChat = (chatId, setDeleting) => (dispatch) => {
-  axiosInstance
-    .delete(`/api/create/game/${chatId}`)
-    .then((response) => {
-      setDeleting(false)
-    })
-    .catch((err) => {
-      console.error('Error: deleting chat deleteOrganizerChat', err)
     })
 }
 

@@ -108,10 +108,9 @@ function ChatItem({ item, type, playersLength }) {
       dispatch(deleteGameChat(item?._id, setDeleting))
     } else if (type === 'team') {
       dispatch(deleteTeamChat({
-        team_id: item?._id.toString(),
-        playerId: user._id.toString()
-      }))
-
+        team_id: item?._id,
+        playerId: user._id
+      }, setDeleting))
     } else if (type === 'tournament') {
       dispatch(deleteTourneyChat(item?._id, setDeleting))
     } else {

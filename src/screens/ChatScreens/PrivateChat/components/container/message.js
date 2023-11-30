@@ -26,7 +26,8 @@ const Message = ({ item, id, myMessage }) => {
             </Row>
           </View>
         ) : (
-          <View style={[styles.right, { marginTop: RH(25) }]} key={id}>
+          <View style={styles.voiceContainer} key={id}>
+            <Text style={[styles.messageTime, { alignSelf: 'flex-end', marginRight: RH(10) }]}>{messageTime}</Text>
             <MessagePlayer path={item?.file?.path} messageId={id} duration={item?.file?.length} />
           </View>
         )}
@@ -37,8 +38,9 @@ const Message = ({ item, id, myMessage }) => {
   return (
     <>
       {item?.link || item?.file ? (
-        <View style={[styles.left, { marginTop: RH(25) }]} key={id}>
+        <View style={[styles.left, { marginTop: RH(25), flexDirection: 'row' }]} key={id}>
           <MessagePlayer path={item?.file?.path} messageId={id} duration={item?.file?.length} />
+          <Text style={[styles.messageTime, { alignSelf: 'flex-end', marginLeft: RH(10) }]}>{messageTime}</Text>
         </View>
       ) : (
         <Row>
@@ -81,7 +83,11 @@ const styles = StyleSheet.create({
   right: {
     alignSelf: 'flex-end',
     borderBottomRightRadius: 0,
-
+  },
+  voiceContainer: {
+    marginTop: RH(25),
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   label: {
     ...font('regular', 16, WHITE),
