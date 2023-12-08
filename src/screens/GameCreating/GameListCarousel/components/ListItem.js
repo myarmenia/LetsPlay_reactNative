@@ -12,7 +12,7 @@ import { setQrGame, setRules } from '@/store/Slices/MafiaSlice'
 import Modal from '@/components/modal'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
-import { setBetweenPlayers, setChoosedTeamGame } from '@/store/Slices/TeamSlice'
+import { setBetweenPlayers, setChoosedTeamGame, setCreateGameInfo } from '@/store/Slices/TeamSlice'
 import { addTournamentGameInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import FastImage from 'react-native-fast-image'
 
@@ -158,9 +158,12 @@ function ListItem({ game, pressable, qrGame, fromTournament }) {
                       label={'Нет'}
                       size={{ width: 100 }}
                       onPress={() => {
-                        dispatch(setChoosedTeamGame(game))
-                        navigation.navigate('CommandLeadNotCreate', game)
-                        dispatch(setBetweenPlayers(false))
+                        navigation.navigate('CommandLeadNotCreate')
+                        dispatch(setCreateGameInfo(
+                          {
+                            game: game,
+                            between_players: false,
+                          }))
                         setModalVisible(false)
                       }}
                     />

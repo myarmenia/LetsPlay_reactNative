@@ -9,9 +9,9 @@ import { useNavigation } from '@react-navigation/native'
 import GameInfoModal from './GameInfoModal'
 import TeamInfoModal from './TeamInfoModal'
 import TournamentInfoModal from './TournamentInfoModal'
+import TeamGameInfoModal from './TeamGameInfoModal'
 
 const PrivateChatHeader = ({ id, playersLength, type, team }) => {
-  console.log(id, type,'id');
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   return (
@@ -37,30 +37,39 @@ const PrivateChatHeader = ({ id, playersLength, type, team }) => {
       <Pressable onPress={() => setModalVisible(true)}>
         <InfoSvg />
       </Pressable>
-      {modalVisible ? (
-        type === 'team' ? (
-          <TeamInfoModal
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-            team={team}
-          />
-        ) :
-          (type === 'game' || type === 'team_game')
-            ?
-            (
-              <GameInfoModal
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-                gameID={id}
-              />
-            )
-            :
-            <TournamentInfoModal
+      {modalVisible &&
+        (
+          type === 'team' ? (
+            <TeamInfoModal
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
-              id={id}
+              team={team}
             />
-      ) : null}
+          ) :
+            type === 'game'
+              ?
+              (
+                <GameInfoModal
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                  gameID={id}
+                  item={team}
+                />
+              )
+              :
+              type === 'tournament' ? (
+                <TournamentInfoModal
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                  id={id}
+                />
+              )
+                : <TeamGameInfoModal
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                  item={team} />
+        )
+      }
     </View>
   )
 }

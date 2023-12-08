@@ -14,7 +14,9 @@ const screenWidth = Dimensions.get('screen').width
 
 const audioRecorderPlayer = new AudioRecorderPlayer()
 audioRecorderPlayer.setSubscriptionDuration(0.05)
-const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
+
+
+const MessagePlayer = ({ messageId, path, background, duration = '00:00:00' }) => {
   const [playTime, setPlayTime] = useState('00:00:00')
   const [playWidth, setPlayWidth] = useState(0)
   const [stoped, setStoped] = useState(true)
@@ -62,7 +64,7 @@ const MessagePlayer = ({ messageId, path, duration = '00:00:00' }) => {
   }
 
   return (
-    <Row wrapper={styles.container}>
+    <Row wrapper={[styles.container, { backgroundColor: background ? background : BACKGROUND }]}>
       {playMessageId == messageId && pausedMessageId != messageId ? (
         <Pressable
           onPress={() => {

@@ -11,9 +11,7 @@ import dateFormater from '../../../../../helpers/dateFormater'
 
 const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
-  console.log(took_part_games, 'took_part_games');
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
-  console.log(gameInfo, 'gameInfo');
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
 

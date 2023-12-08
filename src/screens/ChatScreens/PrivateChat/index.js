@@ -30,6 +30,7 @@ import { protocol, voiceMessageRequestBody, chatIdKey, socketBody } from './help
 
 function Index({ route }) {
   const { id, type, playersLength, team } = route?.params
+  console.log(team, 'team');
 
   const dispatch = useDispatch()
   const { user, token } = useSelector(({ auth }) => auth)
@@ -78,7 +79,7 @@ function Index({ route }) {
         headers: myHeaders,
         body: formdata,
       }
-      const data = await fetch(`${protocol}://to-play.ru/api${voiceMessageRequestBody(type)}`, requestOptions)
+      await fetch(`${protocol}://to-play.ru/api${voiceMessageRequestBody(type)}`, requestOptions)
       setVoiceMessage(null)
     } else {
       if (type === 'team') {

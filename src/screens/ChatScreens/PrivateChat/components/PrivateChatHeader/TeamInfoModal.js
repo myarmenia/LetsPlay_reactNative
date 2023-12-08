@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
 
 const TeamInfoModal = ({ modalVisible, setModalVisible, team }) => {
+  console.log(team, 'team');
   const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
   const teams = [...myTeams, ...myJoinedTeams]
   console.log(team, 'team');

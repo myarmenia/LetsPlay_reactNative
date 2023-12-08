@@ -13,7 +13,7 @@ import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 function Index({ route }) {
-  const {params} = route
+  const { params } = route
 
   const navigation = useNavigation()
   const [modalVisible, setModalVisible] = useState(false)
@@ -68,9 +68,7 @@ function Index({ route }) {
 
 
   return (
-    <ScreenMask2
-    // style={{borderWidth: 10, borderColor: 'red'}}
-    >
+    <ScreenMask2>
       {modalVisible && (
         <Modal
           modalVisible={modalVisible}

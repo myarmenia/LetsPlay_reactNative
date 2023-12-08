@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { _storageUrl } from '@/constants'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
@@ -6,15 +6,29 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import LightButton from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import ScreenMask from '@/components/wrappers/screen'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { deletePlayerFromTeam, setPlayerAdmin } from '@/store/Slices/TeamSlice'
 import FastImage from 'react-native-fast-image'
+import { useNavigation } from '@react-navigation/native'
 import Modal from '@/components/modal'
 
 const EachMember = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false)
-  const command = route?.params?.command
-  const user = route?.params.user
+  const signInUser = useSelector(({ auth }) => auth.user)
+  const navigation = useNavigation()
+
+
+
+  const { command, user } = route?.params
+  const isAdmin = useMemo(() => {
+    const index = command.admins.findIndex(item => item._id === user._id)
+    console.log(index, 'index');
+    if (index === -1) {
+      return false
+    } else {
+      return true
+    }
+  }, [user._id])
   const dispatch = useDispatch()
 
   const submitAdmin = () => {
@@ -31,26 +45,22 @@ const EachMember = ({ route }) => {
   const handleDelete = () => {
     const obj = {
       team_id: command?._id,
-      user_id: user?._id,
+      playerId: user?._id,
+    }
+    const goBack = () => {
+      navigation.navigate('MembersInTeam')
     }
     dispatch(
-      deletePlayerFromTeam(
-        obj,
-        setModalVisible,
-      ),
+      deletePlayerFromTeam(obj, goBack),
     )
   }
   return (
     <ScreenMask>
       <Pressable
         style={{
-          width: '100%',
-          alignSelf: 'center',
+          flex: 1,
           alignItems: 'center',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          height: '95%',
-          zIndex: 15,
+          position: 'relative'
         }}
       >
         <View style={styles.rowBox}>
@@ -62,18 +72,18 @@ const EachMember = ({ route }) => {
           />
         </View>
         <User user={user} size={390} />
-        <View style={styles.btnsBox}>
-          <LightButton
+        {(signInUser._id === command.user._id && signInUser._id !== user._id) && <View style={styles.btnsBox}>
+          {!isAdmin && <LightButton
             label={'Сделать администратором'}
             size={{ width: 308, height: 45 }}
             onPress={submitAdmin}
-          />
+          />}
           <LightButton
             label={'Удалить из команды'}
             size={{ width: 308, height: 45 }}
             onPress={handleDelete}
           />
-        </View>
+        </View>}
       </Pressable>
       <Modal
         item={
@@ -82,6 +92,7 @@ const EachMember = ({ route }) => {
           </View>
         }
         modalVisible={modalVisible}
+        onModalClose={() => { navigation.goBack() }}
         setIsVisible={setModalVisible}
       />
     </ScreenMask>
@@ -90,6 +101,8 @@ const EachMember = ({ route }) => {
 const styles = StyleSheet.create({
   btnsBox: {
     width: '100%',
+    position: 'absolute',
+    bottom: RH(30),
     alignItems: 'center',
     flexDirection: 'column',
     alignSelf: 'center',
@@ -112,10 +125,10 @@ const styles = StyleSheet.create({
   rowBox: {
     width: '100%',
     flexDirection: 'row',
-    alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    top: RH(15),
+    marginTop: RH(30),
+    marginBottom: RH(50)
   },
   modal: {
     width: RW(306),

@@ -68,9 +68,7 @@ const MyCreatedTeams = ({ route }) => {
 
 
     return (
-        <ScreenMask2
-        // style={{borderWidth: 10, borderColor: 'red'}}
-        >
+        <ScreenMask2>
             {modalVisible && (
                 <Modal
                     modalVisible={modalVisible}

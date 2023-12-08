@@ -10,23 +10,17 @@ import ScreenMask from '@/components/wrappers/screen'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
-import { getMembersList, searchTeam, setFindedTeam } from '@/store/Slices/TeamSlice'
+import { searchTeam, setCreateGameInfo, setFindedTeam } from '@/store/Slices/TeamSlice'
 
-const CommandLeadNotCreate = ({ route }) => {
+const CommandLeadNotCreate = () => {
   const { address, longitude, latitude } = useSelector(({ address }) => address)
-
-  const item = route.params
-  const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
-  const { betweenPlayers, findedTeam, savedTeam } = useSelector(({ teams }) => teams)
+  const { createGameInfo, findedTeam } = useSelector(({ teams }) => teams)
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const [gameId, setGameId] = useState(null)
   const [enemyTeam, setEnemyTeam] = useState(null)
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
-
-
   const [formats, setFormats] = useState(
-    choosedTeamGame?.formats?.map((elm, i) =>
+    createGameInfo?.game?.formats?.map((elm, i) =>
     ({
       id: i,
       text: elm,
@@ -34,8 +28,6 @@ const CommandLeadNotCreate = ({ route }) => {
     })
     ),
   )
-
-
   const [enemyTeamError, setEnemyTeamError] = useState(false)
   const [addressError, setAddressError] = useState(false)
 
@@ -71,20 +63,6 @@ const CommandLeadNotCreate = ({ route }) => {
     .substring(0, 10)
     .concat(' ' + timeFormat(startDate))
 
-  let sendingData = {
-    address_name: address,
-    latitude: latitude,
-    longitude: longitude,
-    between_players: betweenPlayers,
-    all_players: false,
-    ticket_price: 0,
-    team: savedTeam?._id,
-    game: gameId?.id,
-    players: [],
-    start_date: changedStartDate,
-    name: '',
-    description: '',
-  }
 
 
   const handleSubmit = () => {
@@ -100,29 +78,24 @@ const CommandLeadNotCreate = ({ route }) => {
     } else {
       setAddressError(false)
     }
-
-
-    if (address && longitude && latitude && enemyTeam && formats?.filter((elm) => elm?.checked)?.length) {
-      sendingData.enemy_team_name = enemyTeam
-      navigation.navigate('TeamInfo', { sendingData, gameId })
+    if (address && longitude && latitude && enemyTeam) {
+      let sendingData = {
+        address_name: address,
+        latitude: latitude,
+        longitude: longitude,
+        format: formats.length ? formats?.filter((elm) => elm?.checked)[0].text : null,
+        start_date: changedStartDate,
+        enemy_team: findedTeam?.id ? findedTeam?.id : null,
+        enemy_team_name: enemyTeam,
+      }
+      dispatch(setCreateGameInfo(sendingData))
+      navigation.navigate('TeamInfo')
     }
   }
-  useEffect(() => {
-    if (item?._id && item?.img) {
-      setGameId({ id: item?._id, img: item?.img })
-    }
-  }, [item])
-  useEffect(() => {
-    if (savedTeam?._id) {
-      dispatch(getMembersList(savedTeam?._id))
-    }
-  }, [savedTeam])
 
   useEffect(() => {
     if (findedTeam) {
       setEnemyTeam(findedTeam?.name)
-      sendingData.enemy_team = findedTeam?._id
-      delete sendingData.enemy_team_name
     }
   }, [findedTeam])
 
@@ -141,13 +114,12 @@ const CommandLeadNotCreate = ({ route }) => {
             onChangeText={(e) => {
               setEnemyTeam(e)
               dispatch(setFindedTeam(''))
-              delete sendingData.enemy_team
             }}
           />
           <TouchableOpacity
             style={styles.searchIcon}
             onPress={() => {
-              dispatch(searchTeam(enemyTeam, () => { }, navigation, 'SearchTeamInvite', sendingData))
+              dispatch(searchTeam(enemyTeam, () => { }, navigation, 'SearchTeamInvite'))
             }}
           >
             <SearchSvg />

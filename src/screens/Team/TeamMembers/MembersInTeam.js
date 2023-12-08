@@ -9,11 +9,14 @@ import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import OrganizerSvg from '@/assets/svgs/OrganizatorSvg'
 import FastImage from 'react-native-fast-image'
+import { useSelector } from 'react-redux'
 
 
 
-const MembersInTeam = ({ route }) => {
-  const command = route.params
+const MembersInTeam = () => {
+  const command = useSelector(({ teams }) => teams.savedTeam)
+  console.log(command, 'command');
+  const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
   const UserItem = ({ elm }) => {
@@ -28,9 +31,7 @@ const MembersInTeam = ({ route }) => {
           size={110}
           onPressItem={{
             modalClose: false,
-            onClickFunc: () => {
-              navigation.navigate('EachMember', { user: elm, command: command })
-            },
+            onClickFunc: () => { navigation.navigate('EachMember', { user: elm, command: command }) },
           }}
         />
       </Pressable>
@@ -53,13 +54,13 @@ const MembersInTeam = ({ route }) => {
           })}
         </View>
       </ScrollView>
-      <View style={styles.btnBox}>
+      {user._id === command.user._id && <View style={styles.btnBox}>
         <LightButton
           label={'Пригласить игрока'}
           size={{ width: 380, height: 45 }}
           onPress={() => navigation.navigate('SearchTeamMembers', command)}
         />
-      </View>
+      </View>}
     </ScreenMask>
   )
 }

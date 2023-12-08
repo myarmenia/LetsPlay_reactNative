@@ -20,8 +20,9 @@ import RadioBlock from '@/components/RadioBlock'
 import User from '@/components/User/user'
 import LinearGradient from 'react-native-linear-gradient'
 import FastImage from 'react-native-fast-image'
-const SearchTeamMembers = ({ route }) => {
-  const command = route.params
+const SearchTeamMembers = () => {
+  const command = useSelector(({ teams }) => teams.savedTeam)
+
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
@@ -92,7 +93,7 @@ const SearchTeamMembers = ({ route }) => {
           }}
         >
           <View style={{ marginLeft: RW(15) }}>
-            <User size={90} pressedUser={member} />
+            <User size={RH(90)} pressedUser={member} />
           </View>
           <Text style={styles.userID}>ID{member?.id}</Text>
         </View>

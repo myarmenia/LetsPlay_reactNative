@@ -39,7 +39,11 @@ const Message = ({ item, id, myMessage }) => {
     <>
       {item?.link || item?.file ? (
         <View style={[styles.left, { marginTop: RH(25), flexDirection: 'row' }]} key={id}>
-          <MessagePlayer path={item?.file?.path} messageId={id} duration={item?.file?.length} />
+          <MessagePlayer
+            path={item?.file?.path}
+            messageId={id}
+            duration={item?.file?.length}
+          />
           <Text style={[styles.messageTime, { alignSelf: 'flex-end', marginLeft: RH(10) }]}>{messageTime}</Text>
         </View>
       ) : (

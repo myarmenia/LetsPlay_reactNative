@@ -17,9 +17,7 @@ const CommandLeadCreate = ({ route }) => {
   const navigation = useNavigation()
   const { address, longitude, latitude } = useSelector(({ address }) => address)
 
-  useEffect(() => {
-    setGameId(props?._id)
-  }, [])
+
   const playersChoose = [
     {
       id: 1,
@@ -36,7 +34,7 @@ const CommandLeadCreate = ({ route }) => {
   const [startDate, setStartDate] = useState({ date: new Date(), time: new Date() })
   // const [radioPrice, setRadioPrice] = useState(priceList)
   const [radioPlayers, setRadioPlayers] = useState(playersChoose)
-  const [gameId, setGameId] = useState()
+
   const [price, setPrice] = useState('')
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -85,7 +83,7 @@ const CommandLeadCreate = ({ route }) => {
     all_players: radioPlayers[0].checked ? true : false,
     ticket_price: price ? +price : 0,
     team: savedTeam?._id,
-    game: gameId,
+    game: props?._id,
     players: ['64219136e3a868ee5e71a799'],
     start_date: changedStartDate,
   }

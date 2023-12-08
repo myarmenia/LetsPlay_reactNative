@@ -1,5 +1,5 @@
-import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useCallback, useEffect, useState } from 'react'
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useState } from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
@@ -13,18 +13,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 
-const EditTeamPlayers = ({ route }) => {
-  const { teamImg, sendingData } = route.params
+const EditTeamPlayers = () => {
 
-
-
+  const { savedTeam, createGameInfo } = useSelector(({ teams }) => teams)
   const [modalVisible, setModalVisible] = useState(false)
   const [acceptedPlayers, setAcceptedPlayers] = useState([])
-  const { choosedTeamGame, savedTeam } = useSelector(({ teams }) => teams)
-
-
+  console.log(acceptedPlayers, 'acceptedPlayers');
   const dispatch = useDispatch()
   const navigation = useNavigation()
+
+
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -57,28 +55,39 @@ const EditTeamPlayers = ({ route }) => {
           label={'Подтвердить'}
           size={{ width: 284, height: 48 }}
           onPress={() => {
-            const arr=[]
-            savedTeam?.invited_players.forEach((item)=>{arr.push(item._id)})
+            const arr = []
+            savedTeam?.invited_players.forEach((item) => { arr.push(item._id) })
             const players = acceptedPlayers.length ? acceptedPlayers : arr
-              dispatch(createTeamGame({ ...sendingData, players }, setModalVisible))
+            dispatch(createTeamGame({
+              players,
+              all_players: false,
+              team: savedTeam?._id,
+              address_name: createGameInfo.address_name,
+              latitude: createGameInfo.latitude,
+              longitude: createGameInfo.longitude,
+              between_players: false,
+              ticket_price: 0,
+              enemy_team: createGameInfo.enemy_team,
+              enemy_team_name: createGameInfo.enemy_team_name,
+              game: createGameInfo?.game?._id,
+              format: createGameInfo.format,
+              start_date: createGameInfo.start_date,
+              name: null,
+              description: null
+            }, setModalVisible))
           }}
         />
-        {choosedTeamGame?.schema_img &&
+        {createGameInfo?.format &&
           <View style={{ marginTop: RH(15) }}>
             <LightButton
               label={'Схема игры'}
               size={{ width: 284, height: 48 }}
               onPress={() => {
-                navigation.navigate('TeamNavigator',
-                  {
-                    screen: 'TeamSchemes',
-                    params: {
-                      players: savedTeam?.invited_players,
-                      teamImg: teamImg,
-                      sendingData: sendingData,
-                    }
-                  }
-                )
+                const arr = []
+                savedTeam?.invited_players.forEach((item) => { arr.push(item) })
+
+                const players = acceptedPlayers.length ? acceptedPlayers : arr
+                navigation.navigate('TeamSchemes', players)
               }}
             />
           </View>
@@ -110,9 +119,9 @@ const SingleUser = ({ elm, setAcceptedPlayers, acceptedPlayers }) => {
   const handleClick = () => {
     setVisible(!visible)
     if (!visible) {
-      setAcceptedPlayers([...acceptedPlayers, elm._id])
+      setAcceptedPlayers([...acceptedPlayers, elm])
     } else {
-      setAcceptedPlayers(acceptedPlayers.filter(item => item !== elm._id))
+      setAcceptedPlayers(acceptedPlayers.filter(item => item._id !== elm._id))
     }
   }
   return (

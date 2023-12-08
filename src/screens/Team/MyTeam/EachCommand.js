@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import { RH, RW, font } from '@/theme/utils'
 import { _storageUrl } from '@/constants'
@@ -10,12 +10,30 @@ import { useDispatch } from 'react-redux'
 import { addSelectedTeam } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { addToTeam } from '@/store/Slices/TournamentReducer/TournamentApies'
 import { setModalOptions } from '@/store/Slices/AppSlice'
+import OrganizatorSvg from '@/assets/svgs/OrganizatorSvg'
+import { useSelector } from 'react-redux'
+import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
 
 const EachCommand = ({ command, data }) => {
 
-  const dispatch = useDispatch()
   const [back, setBack] = useState(false)
+  const { user } = useSelector(({ auth }) => auth)
+  const needAdminIcon = useMemo(() => {
+    if (command.user._id === user._id) {
+      return true
+    } else {
+      const index = command.admins.findIndex(item => item._id === user._id)
+      if (index === -1) {
+        return false
+      } else {
+        return true
+      }
+    }
+  }, [command.user._id, user._id])
+
+  const dispatch = useDispatch()
   const navigation = useNavigation()
+
   return (
     <Pressable
       style={styles.homeBlock}
@@ -28,46 +46,10 @@ const EachCommand = ({ command, data }) => {
             screen: 'RatePlayers',
             params: { ...data.body, navigateFrom: 'MyTeam', inviteCommand: command },
           })
-        }
-        else if (data?.navigateFrom == 'addToTeamFromTournament') {
-          const index = command?.invited_players.findIndex(item => item._id === data.id)
-          if (index !== -1) {
-            dispatch(
-              setModalOptions({
-                visible: true,
-                type: 'error',
-                body: 'пользователь уже находится в команде',
-              }))
-          } else {
-            const obj = {
-              team_id: command._id,
-              user_id: data.id
-            }
-            dispatch(addToTeam(obj))
-              .unwrap()
-              .then((res) => {
-                if (res?.statusCode === 200) {
-                  navigation.navigate('TournamentNavigator', {
-                    screen: 'RateTourneyPlayers',
-                    params: { sendInvitation: true }
-                  })
-                }
-              })
-          }
-        }
-        else if (data?.fromTournament || data?.fromJoinTournament) {
-          navigation.navigate('TournamentNavigator',
-            {
-              screen: 'SelectMembers',
-              params: data
-            }
-          )
-          dispatch(addSelectedTeam(command))
+        } else {
           setBack(false)
-        }
-        else {
-          setBack(false)
-          navigation.navigate('MyTeamInfo', { command })
+          dispatch(saveTeamDataForCreating(command))
+          navigation.navigate('MyTeamInfo')
         }
       }}
     >
@@ -129,6 +111,7 @@ const EachCommand = ({ command, data }) => {
           <Text style={styles.text}>{command.id}</Text>
         </View>
       </View>
+      {needAdminIcon && <View style={styles.organaizerSGV}><OrganizatorSvg /></View>}
     </Pressable>
   )
 }
@@ -140,6 +123,7 @@ const styles = StyleSheet.create({
     marginVertical: RW(6),
     alignItems: 'flex-start',
     justifyContent: 'center',
+    position: 'relative',
   },
   imageBlock: {
     width: RW(80),
@@ -167,6 +151,11 @@ const styles = StyleSheet.create({
     width: '100%',
     marginLeft: RW(15),
   },
+  organaizerSGV: {
+    position: 'absolute',
+    top: RH(8),
+    right: RH(8)
+  }
 })
 
 export default EachCommand

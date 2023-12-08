@@ -86,7 +86,6 @@ const EditTeamInfo = ({ route }) => {
     )
       .then((result) => result.json())
       .then((result) => {
-
         if (result.message === "Команда с таким именем уже существует!") {
           dispatch(
             setModalOptions({

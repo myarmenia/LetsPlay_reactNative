@@ -16,10 +16,10 @@ import FastImage from 'react-native-fast-image'
 
 function SearchedTeamSubmit({ route }) {
   const item = route.params
+  console.log(item, 'item');
   const [modalVisible, setModalVisible] = useState(false)
   const navigation = useNavigation()
   const dispatch = useDispatch()
-  //640b2c8d9f063da9a3cf6b7e
   const handleJoin = () => {
     dispatch(setFindedTeam(item))
     navigation.navigate('CommandLeadNotCreate', item)
@@ -43,25 +43,32 @@ function SearchedTeamSubmit({ route }) {
         <View style={{ marginLeft: RW(15) }}>
           <User
             size={40}
+            user={item.user}
             onPressItem={{
-              item: <User size={390} />,
+              item: <User user={item.user} size={390} />,
               modalClose: false,
             }}
           />
         </View>
       </View>
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: RH(15) }}>
+      {item.admins.length ? <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: RH(15) }}>
         <Text style={{ ...style.text, marginLeft: RW(15) }}>Администратор команды:</Text>
-        <View style={{ marginLeft: RW(15) }}>
-          <User
-            size={40}
-            onPressItem={{
-              item: <User size={390} />,
-              modalClose: false,
-            }}
-          />
+        <View style={{ marginLeft: RW(15), flexDirection: 'row' }}>
+          {item.admins.map((user) => {
+            return <User
+              size={40}
+              style={{marginRight: RH(10)}}
+              key={user._id}
+              user={user}
+              onPressItem={{
+                item: <User user={user} size={390} />,
+                modalClose: false,
+              }}
+            />
+          })}
+
         </View>
-      </View>
+      </View> : null}
       <View style={style.btn}>
         <Button
           onPress={handleJoin}

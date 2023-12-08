@@ -14,6 +14,7 @@ const initialState = {
   searchPending: false,
   myTeams: [],
   myJoinedTeams: [],
+  createGameInfo: {}
 }
 export const TeamSlice = createSlice({
   name: 'teamSlice',
@@ -24,6 +25,9 @@ export const TeamSlice = createSlice({
         ...store,
         teamChatsList: action.payload,
       }
+    },
+    setCreateGameInfo: (store, action) => {
+      store.createGameInfo = { ...store.createGameInfo, ...action.payload }
     },
     setFindedTeam: (store, action) => {
       return {
@@ -85,6 +89,10 @@ export const TeamSlice = createSlice({
         myJoinedTeams: action.payload,
       }
     },
+    removePlayer: (store, action) => {
+      const data = store.savedTeam.invited_players.filter(item => item._id !== action.payload)
+      store.savedTeam.invited_players = data
+    }
   },
 })
 export const getTeams = (setModalVisible) => (dispatch) => {
@@ -136,7 +144,6 @@ export const inviteUserToTeam =
       axiosInstance
         .patch('/api/team/invite', data)
         .then((e) => {
-          console.log('inviteUserToTeam', e.data)
           setModalVisible(true)
         })
 
@@ -145,7 +152,6 @@ export const inviteUserToTeam =
         })
     }
 export const joinPlayerTeam = (data) => (dispatch) => {
-  console.log('joinPlayerTeam', data)
   axiosInstance
     .put('/api/team/join/player', data)
     .then((e) => {
@@ -167,25 +173,27 @@ export const setPlayerAdmin = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .patch('/api/team/become_admin', data)
     .then((response) => {
-      if (response.data.message) setModalVisible(response.data.message)
+      if (response.data.statusCode===200){
+        dispatch(saveTeamDataForCreating(response.data.data))
+      } setModalVisible(response.data.message)
     })
     .catch((err) => {
-      console.error('Error: set user admin :', err.request?._response)
+      console.log('Error', err)
     })
 }
-export const deletePlayerFromTeam =
-  (data, callback = () => { }) =>
-    (dispatch) => {
-      axiosInstance
-        .delete('/api/team/players', data)
-        .then((response) => {
-          callback()
-        })
-        .catch((err) => {
-          console.log(err, 'err');
-          console.error('Error: delete user from team :', err.request?._response)
-        })
-    }
+export const deletePlayerFromTeam = (data, callback) => async (dispatch) => {
+  await axiosInstance
+    .put('/api/team/delete/team/player', data)
+    .then((res) => {
+      if (res.data.statusCode === 200) {
+        dispatch(removePlayer(data.playerId))
+        callback()
+      }
+    })
+    .catch((err) => {
+      console.log(err, 'err');
+    })
+}
 export const searchTeam =
   (teamId, isEmpty = () => { }, nav, navText, sendingData) =>
     async (dispatch) => {
@@ -303,5 +311,7 @@ export const {
   setSearchPending,
   setMyTeams,
   setMyJoinedTeams,
+  setCreateGameInfo,
+  removePlayer
 } = TeamSlice.actions
 export default TeamSlice.reducer

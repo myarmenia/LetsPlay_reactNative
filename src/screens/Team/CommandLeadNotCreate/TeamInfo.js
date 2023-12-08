@@ -9,10 +9,11 @@ import LightButton from '@/components/buttons/Button'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 import FastImage from 'react-native-fast-image'
+import moment from 'moment'
 
-const TeamInfo = ({ route }) => {
-  const { sendingData, gameId } = route.params
-  const choosedTeamGame = useSelector(({ teams }) => teams.choosedTeamGame)
+const TeamInfo = () => {
+
+  const { savedTeam, createGameInfo } = useSelector(({ teams }) => teams)
   const navigation = useNavigation()
 
   return (
@@ -20,19 +21,20 @@ const TeamInfo = ({ route }) => {
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <FastImage
-            source={{ uri: _storageUrl + choosedTeamGame?.img }}
+            source={{ uri: _storageUrl + savedTeam?.img }}
             resizeMode="contain"
             style={styles.img}
           />
           <Text style={styles.text}>
             Соперник :{'  '}
-            {sendingData?.enemy_team_name ? sendingData?.enemy_team_name : sendingData?.enemy_team}
+            {createGameInfo?.enemy_team_name}
           </Text>
-          <Text style={styles.text}>Дата и время игры :  {sendingData?.start_date}</Text>
-          <Text style={styles.text}>Адрес проведения игры: {sendingData?.address_name} </Text>
+          <Text style={styles.text}>Дата и время игры :  {moment(createGameInfo?.start_date).format('DD.MM.YYYY, HH:MM')}</Text>
+          <Text style={styles.text}>Адрес проведения игры: {createGameInfo?.address_name} </Text>
           <View style={{ flexDirection: 'row', width: '35%', alignItems: 'center' }}>
             <Text style={styles.text}>Организатор игры :</Text>
-            <User size={30} />
+            <User
+              size={30} />
           </View>
         </View>
         <View style={styles.rowBox}>
@@ -43,7 +45,7 @@ const TeamInfo = ({ route }) => {
           <LightButton
             label={'Далее >>'}
             onPress={() =>
-              navigation.navigate('EditTeamPlayers', { teamImg: gameId.img, sendingData })
+              navigation.navigate('EditTeamPlayers')
             }
           />
         </View>

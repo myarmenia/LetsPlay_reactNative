@@ -36,11 +36,14 @@ const SchemeUsers = ({
       useNativeDriver: true,
     }).start()
   }, [screenX])
-  const panResponders = replacementPlayers?.map((item, index) => {
+
+
+  const panResponders = replacementPlayers?.map((userInfo, index) => {
     return PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderMove: (event, gesture) => {
+        console.log(event, 'event');
         const { dx, dy } = gesture
 
         setReplacementPlayers((prevplayingPlayers) => {
@@ -57,7 +60,7 @@ const SchemeUsers = ({
             moveX: gesture.moveX,
             moveY: gesture.moveY,
           }
-  
+
           return updatedplayingPlayers
         })
       },
@@ -69,10 +72,9 @@ const SchemeUsers = ({
             px - initialCordinates.x <= fieldSize?.width - RW(38) &&
             py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05) >= 0 &&
             py - initialCordinates.y1 - initialCordinates.y2 - StatusBarHeight + RW(21.05) <=
-              fieldSize?.height - RW(56)
+            fieldSize?.height - RW(56)
           ) {
             const currentComponent = replacementPlayers[index]
-
             replacementPlayers.forEach((item, i) => {
               if (item?.moveX && i !== index) {
                 const differenceX = currentComponent.moveX - item.moveX
@@ -163,37 +165,38 @@ const SchemeUsers = ({
         >
           {replacementPlayers?.map((user, index) => {
             return (
-            <Animated.View
-              key={index}
-      
-              ref={(elRef) => refsArray.current[index] = elRef}
-              onLayout={(e) => {
-                if (!componentWidth.current) componentWidth.current = e.nativeEvent.layout.width
-              }}
-              style={[
-                {
-                  zIndex: user.small ? 9 : user?.inGame ? 999 : 99,
-                  position: user.inGame ? 'absolute' : 'relative',
-                  paddingVertical: user.small ? RW(21.05) : 0,
-                  paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
-                },
-                user.inGame
-                  ? {
+              <Animated.View
+                key={index}
+
+                ref={(elRef) => refsArray.current[index] = elRef}
+                onLayout={(e) => {
+                  if (!componentWidth.current) componentWidth.current = e.nativeEvent.layout.width
+                }}
+                style={[
+                  {
+                    zIndex: user.small ? 9 : user?.inGame ? 999 : 99,
+                    position: user.inGame ? 'absolute' : 'relative',
+                    paddingVertical: user.small ? RW(21.05) : 0,
+                    paddingHorizontal: user.small ? RW(20.15) : RW(2.2),
+                  },
+                  user.inGame
+                    ? {
                       transform: [{ translateX: user.x }, { translateY: user.y }],
                     }
-                  : {
+                    : {
                       transform: [
                         {
                           translateX: animatedScrollX,
                         },
                       ],
                     },
-              ]}
-              {...panResponders[index]?.panHandlers}
-            >
-              <User user={players[index]} size={user.small ? RW(45) : RW(90)} />
-            </Animated.View>
-          )})}
+                ]}
+                {...panResponders[index]?.panHandlers}
+              >
+                <User user={players[index]} size={user.small ? RW(45) : RW(90)} />
+              </Animated.View>
+            )
+          })}
         </Row>
       </View>
 
@@ -205,7 +208,7 @@ const SchemeUsers = ({
             if (
               screenX <
               Math.floor(outGamePlayers.length / 4) * componentWidth.current * 4 -
-                (outGamePlayers.length % 4 == 0 ? componentWidth.current * 4 : 0)
+              (outGamePlayers.length % 4 == 0 ? componentWidth.current * 4 : 0)
             ) {
               setScreenX(screenX + componentWidth.current * 4)
             }
