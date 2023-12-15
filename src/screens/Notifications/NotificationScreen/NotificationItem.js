@@ -14,7 +14,7 @@ import {
   setModalVisible,
   setNotifications,
 } from '@/store/Slices/AppSlice'
-import { joinPlayerTeam } from '@/store/Slices/TeamSlice'
+import { joinPlayerTeam, rejectTeamCreateGame, saveTeamDataForCreating, setCreateGameInfo } from '@/store/Slices/TeamSlice'
 import { useNavigation } from '@react-navigation/native'
 import { callEndGame, getGameById } from '@/store/Slices/GamesSlice'
 import { confirmJoin, rejectJoin, getPlayers } from '@/store/Slices/TournamentReducer/TournamentApies'
@@ -31,12 +31,12 @@ const NotificationItem = ({ elm }) => {
 
   const buttonOptions = {
     team_inite: {
-      secondaryClick: true,
+      secondaryClick: false,
       label: 'Присоединиться',
       onPress: () => {
         dispatch(
           joinPlayerTeam({
-            team_id: elm.team,
+            team_id: elm.team._id,
           }),
         )
       },
@@ -164,7 +164,7 @@ const NotificationItem = ({ elm }) => {
             visible: true,
             type: 'BestPlayer',
             body: {
-              best_players: {...elm?.best_players, fromTourney: true},
+              best_players: { ...elm?.best_players, fromTourney: true },
             },
           }),
         )
@@ -183,8 +183,19 @@ const NotificationItem = ({ elm }) => {
         )
       },
     },
-
-
+    confirm_enemy_team_create_game: {
+      label: 'Принять',
+      secondaryClick: false,
+      onPress: () => {
+        const team = {
+          ...elm.team,
+          notificationData: elm,
+        }
+        dispatch(saveTeamDataForCreating(team))
+        dispatch(setCreateGameInfo(elm?.team_create_game))
+        navigation.navigate('TeamNavigator', { screen: 'EditTeamPlayers' })
+      },
+    }
   }
 
   useEffect(() => {
@@ -208,7 +219,7 @@ const NotificationItem = ({ elm }) => {
               <Row wrapper={styles.buttonComponent}>
                 <LightButton
                   onPress={() => {
-                    if (!buttonOptions[elm?.type].secondaryClick && !elm?.click) {
+                    if (!buttonOptions[elm?.type].secondaryClick && !elm?.click && elm.type !== 'confirm_enemy_team_create_game') {
                       dispatch(notificationButtonClciked(elm?._id))
                     }
                     if (!elm?.click || buttonOptions[elm?.type].secondaryClick) {
@@ -224,27 +235,32 @@ const NotificationItem = ({ elm }) => {
                   size={{ width: RH(172) }}
                 />
 
-                {elm.type === 'confirm_tourney' && 
-                <LightButton
-                  onPress={() => {
-                    if (!elm?.click) {
-                      dispatch(rejectJoin(elm?.tourney))
-                        .unwrap()
-                        .then((res) => {
-                          if (res.status === 201) {
-                            dispatch(notificationButtonClciked(elm?._id))
-                          }
-                        }).catch((err) => {
-                        })
-                    }
-                  }}
-                  label={'Отклонить'}
-                  labelStyle={{ ...font('bold', 17, '#001034') }}
-                  style={{
-                    opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1, marginLeft: 15
-                  }}
-                  size={{ width: RH(172) }}
-                />}
+                {(elm.type === 'confirm_tourney' || elm.type === 'confirm_enemy_team_create_game') &&
+                  <LightButton
+                    onPress={() => {
+                      if (elm.type === 'confirm_tourney') {
+                        dispatch(rejectJoin(elm?.tourney))
+                          .unwrap()
+                          .then((res) => {
+                            if (res.status === 201) {
+                              dispatch(notificationButtonClciked(elm?._id))
+                            }
+                          }).catch((err) => {
+                          })
+                      } else {
+                        dispatch(rejectTeamCreateGame(elm.team_create_game))
+                        dispatch(notificationButtonClciked(elm?._id))
+                      }
+
+
+                    }}
+                    label={'Отклонить'}
+                    labelStyle={{ ...font('bold', 17, '#001034') }}
+                    style={{
+                      opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1, marginLeft: 15
+                    }}
+                    size={{ width: RH(172) }}
+                  />}
 
               </Row>}
           </View>

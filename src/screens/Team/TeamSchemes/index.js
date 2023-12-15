@@ -8,11 +8,14 @@ import SchemeUsers from './components/SchemeUsers'
 import { useNavigation } from '@react-navigation/native'
 import LightButton from '@/components/buttons/Button'
 import FastImage from 'react-native-fast-image'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addSchemeToTeam } from '@/store/Slices/TeamSlice'
 
 const TeamSchemes = ({ route }) => {
   const players = route.params
+  const dispatch = useDispatch()
   const { savedTeam, createGameInfo } = useSelector(({ teams }) => teams)
+
 
 
   const [replacementPlayers, setReplacementPlayers] = useState(
@@ -131,7 +134,8 @@ const TeamSchemes = ({ route }) => {
       </View>
       <LightButton
         onPress={() => {
-          navigation.navigate('EditTeamPlayers', JSON.stringify(replacementPlayers))
+          dispatch(addSchemeToTeam(replacementPlayers))
+          navigation.navigate('EditTeamPlayers')
         }}
         style={{ alignSelf: 'flex-end', position: 'absolute', bottom: RH(30) }}
         label="Сохранить"

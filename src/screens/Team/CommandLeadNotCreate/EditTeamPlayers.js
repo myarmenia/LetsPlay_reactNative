@@ -8,17 +8,19 @@ import User from '@/components/User/user'
 import Modal from '@/components/modal'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import LightButton from '@/components/buttons/Button'
-import { createTeamGame } from '@/store/Slices/TeamSlice'
+import { confirmTeamCreateGame, createTeamGame } from '@/store/Slices/TeamSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
+import { notificationButtonClciked } from '@/store/Slices/AppSlice'
 
 const EditTeamPlayers = () => {
 
   const { savedTeam, createGameInfo } = useSelector(({ teams }) => teams)
+  console.log(savedTeam, createGameInfo, 'savedTeam');
+
   const [modalVisible, setModalVisible] = useState(false)
   const [acceptedPlayers, setAcceptedPlayers] = useState([])
-  console.log(acceptedPlayers, 'acceptedPlayers');
   const dispatch = useDispatch()
   const navigation = useNavigation()
 
@@ -56,25 +58,36 @@ const EditTeamPlayers = () => {
           size={{ width: 284, height: 48 }}
           onPress={() => {
             const arr = []
-            savedTeam?.invited_players.forEach((item) => { arr.push(item._id) })
-            const players = acceptedPlayers.length ? acceptedPlayers : arr
-            dispatch(createTeamGame({
-              players,
-              all_players: false,
-              team: savedTeam?._id,
-              address_name: createGameInfo.address_name,
-              latitude: createGameInfo.latitude,
-              longitude: createGameInfo.longitude,
-              between_players: false,
-              ticket_price: 0,
-              enemy_team: createGameInfo.enemy_team,
-              enemy_team_name: createGameInfo.enemy_team_name,
-              game: createGameInfo?.game?._id,
-              format: createGameInfo.format,
-              start_date: createGameInfo.start_date,
-              name: null,
-              description: null
-            }, setModalVisible))
+            if (acceptedPlayers.length) {
+              acceptedPlayers.forEach((item) => { arr.push(item._id) })
+            } else {
+              savedTeam?.invited_players.forEach((item) => { arr.push(item._id) })
+            }
+            const players = arr
+            console.log(players);
+            if (!savedTeam.hasOwnProperty('notificationData')) {
+              dispatch(createTeamGame({
+                players,
+                all_players: false,
+                team: savedTeam?._id,
+                address_name: createGameInfo.address_name,
+                latitude: createGameInfo.latitude,
+                longitude: createGameInfo.longitude,
+                between_players: false,
+                ticket_price: 0,
+                enemy_team: createGameInfo.enemy_team,
+                enemy_team_name: createGameInfo.enemy_team_name,
+                game: createGameInfo?.game?._id,
+                format: createGameInfo.format,
+                start_date: createGameInfo.start_date,
+                name: null,
+                description: null
+              }, setModalVisible))
+            } else {
+              const disableClick = () => { dispatch(notificationButtonClciked(savedTeam.notificationData._id)) }
+              dispatch(confirmTeamCreateGame(createGameInfo?._id, { players }, setModalVisible, disableClick))
+            }
+
           }}
         />
         {createGameInfo?.format &&
@@ -85,7 +98,6 @@ const EditTeamPlayers = () => {
               onPress={() => {
                 const arr = []
                 savedTeam?.invited_players.forEach((item) => { arr.push(item) })
-
                 const players = acceptedPlayers.length ? acceptedPlayers : arr
                 navigation.navigate('TeamSchemes', players)
               }}
@@ -93,7 +105,6 @@ const EditTeamPlayers = () => {
           </View>
         }
       </View>
-
       {!!modalVisible[0] && (
         <Modal
           modalVisible={modalVisible[0]}
@@ -102,9 +113,9 @@ const EditTeamPlayers = () => {
           item={
             <View style={styles.modal}>
               <Text style={styles.successTeam}>
-                {!acceptedPlayers.length && modalVisible[1] !== 'ok'
-                  ? 'Необходимо утвердить состав игроков команды на игру!'
-                  : 'Вы успешно создали командную игру!'}
+                {modalVisible[1] !== 'ok'
+                  ? 'Что то пошло не так!'
+                  : (!savedTeam.hasOwnProperty('notificationData') ? 'Вы успешно создали командную игру!' : 'Вы приняли приглашение игры')}
               </Text>
             </View>
           }

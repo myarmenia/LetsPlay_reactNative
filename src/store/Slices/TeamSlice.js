@@ -59,6 +59,9 @@ export const TeamSlice = createSlice({
         savedTeam: action.payload,
       }
     },
+    addSchemeToTeam: (store, action) => {
+      store.savedTeam.scheme = action.payload
+    },
     setFindedPlayers: (store, action) => {
       return {
         ...store,
@@ -173,7 +176,7 @@ export const setPlayerAdmin = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .patch('/api/team/become_admin', data)
     .then((response) => {
-      if (response.data.statusCode===200){
+      if (response.data.statusCode === 200) {
         dispatch(saveTeamDataForCreating(response.data.data))
       } setModalVisible(response.data.message)
     })
@@ -275,14 +278,39 @@ export const createTeamGame = (data, setModalVisible) => (dispatch) => {
   axiosInstance
     .post('api/team/create/game', data)
     .then((response) => {
-      console.log(response, 'response');
       setModalVisible([true, 'ok'])
     })
     .catch((err) => {
       setModalVisible([true, 'error'])
-      console.error('Error: creating game with team :', err.request?._response)
+      console.error('Error: creating game with team :', err)
     })
 }
+export const confirmTeamCreateGame = (id, body, setModalVisible, disableClick) => async () => {
+  console.log(body, 'body');
+  try {
+    const data = await axiosInstance.post(`/api/team/create/game/enemy/confirm/${id}`, body)
+    if (data.data.statusCode === 200) {
+      disableClick()
+      setModalVisible([true, 'ok'])
+    }
+    console.log(data, 'data');
+
+  } catch (error) {
+    setModalVisible([true, 'error'])
+    console.log(error, 'error');
+  }
+}
+
+export const rejectTeamCreateGame = (id) => async () => {
+  try {
+    await axiosInstance.post(`/api/team/create/game/enemy/reject/${id}`)
+  } catch (error) {
+    console.log(error, 'error');
+  }
+}
+
+
+
 export const getMyTeams = (setModalVisible) => (dispatch) => {
   axiosInstance
     .get('/api/team/my_teams')
@@ -312,6 +340,7 @@ export const {
   setMyTeams,
   setMyJoinedTeams,
   setCreateGameInfo,
-  removePlayer
+  removePlayer,
+  addSchemeToTeam
 } = TeamSlice.actions
 export default TeamSlice.reducer
