@@ -56,7 +56,7 @@ const EditTeamPlayers = () => {
         <LightButton
           label={'Подтвердить'}
           size={{ width: 284, height: 48 }}
-          onPress={() => {
+          onPress={() => { 
             const arr = []
             if (acceptedPlayers.length) {
               acceptedPlayers.forEach((item) => { arr.push(item._id) })

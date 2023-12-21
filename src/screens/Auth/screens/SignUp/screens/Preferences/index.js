@@ -7,49 +7,35 @@ import Button from '@/components/buttons/Button'
 import { changeUserPreferences, setToken } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { addAsyncStorage } from '@/helpers/asyncStore'
-import { getGamesOnlyNames, setNames } from '@/store/Slices/GamesSlice'
+import { getGames, setGames } from '@/store/Slices/GamesSlice'
 
 const Preferences = () => {
-  const list = [
-    { id: 1, text: 'Футбол', checked: false },
-    { id: 2, text: 'Навес', checked: false },
-    { id: 3, text: 'Триста', checked: false },
-    { id: 4, text: 'Баскетбол', checked: false },
-    { id: 5, text: 'Волейбол', checked: false },
-    { id: 6, text: 'Пионербол', checked: false },
-    { id: 7, text: 'Хоккей', checked: false },
-    { id: 8, text: 'Элиас', checked: false },
-    { id: 9, text: 'Покер', checked: false },
-    { id: 10, text: 'Монополия', checked: false },
-    { id: 11, text: 'Крокодил', checked: false },
-    { id: 12, text: 'Мафия', checked: false },
-    { id: 13, text: 'Своя игра', checked: false },
-  ]
 
-  const [game, setGame] = useState([])
   const dispatch = useDispatch()
   const { expired_token } = useSelector(({ auth }) => auth)
-  const { nameOfGames } = useSelector((gameSlice) => gameSlice.games)
+  console.log(expired_token, 'expired_token');
+  const { games } = useSelector((gameSlice) => gameSlice.games)
+
   useLayoutEffect(() => {
-    !nameOfGames?.length && dispatch(getGamesOnlyNames())
+    !games?.length && dispatch(getGames())
   }, [])
-  const checkItem = useCallback(
-    (id) => {
-      dispatch(
-        setNames([
-          ...nameOfGames?.map((elm) => (elm.id == id ? { ...elm, checked: !elm.checked } : elm)),
-        ]),
-      )
-    },
-    [nameOfGames],
+
+  const checkItem = useCallback((id) => {
+    dispatch(setGames([
+      ...games?.map((elm) => (elm._id === id ? { ...elm, checked: !elm.checked } : elm)),
+    ]),
+    )
+  },
+    [games],
   )
+
 
   const savePreferences = () => {
     dispatch(
-      changeUserPreferences(
-        nameOfGames.filter((elm) => elm.checked).map((el) => el.id),
-        expired_token,
-      ),
+      changeUserPreferences({
+        addPreferences: games.filter((elm) => elm.checked).map((el) => el._id),
+        deletePreferences: [],
+      }),
     )
   }
 
@@ -58,11 +44,11 @@ const Preferences = () => {
       <Text style={[styles.title, styles.mt60]}>Введите ваши предпочтения</Text>
       <Text style={[styles.subTitle, styles.mt40]}>Выбрать предпочтения</Text>
       <View style={styles.flatListBlock}>
-        {nameOfGames?.map((elm) => {
+        {games?.map((elm) => {
           return (
             <TouchableOpacity
-              key={elm.id}
-              onPress={() => checkItem(elm.id)}
+              key={elm._id}
+              onPress={() => checkItem(elm._id)}
               style={[
                 styles.gameBtn,
                 {
@@ -81,8 +67,8 @@ const Preferences = () => {
           size={{ width: 171, height: 36 }}
           onPress={async () => {
             dispatch(setToken(expired_token))
+            await addAsyncStorage('token', expired_token)
             savePreferences()
-            addAsyncStorage('token', expired_token)
           }}
         />
       </View>

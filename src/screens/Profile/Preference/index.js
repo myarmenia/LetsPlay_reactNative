@@ -12,9 +12,12 @@ import ScreenMask2 from '@/components/wrappers/screen2'
 function Index() {
   const [myPreferencesActive, setMyPreferencesActive] = useState([])
   const [myPreferencesDesktop, setMyPreferencesDesktop] = useState([])
+  console.log(myPreferencesActive, myPreferencesDesktop, 'check');
 
   const games = useSelector((gameSlice) => gameSlice.games.games)
+  console.log(games, 'games');
   const { preferences } = useSelector(({ auth }) => auth.user)
+  console.log(preferences, 'preference');
 
   const [modalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch()
@@ -28,7 +31,7 @@ function Index() {
   }, [isFocused])
 
   useEffect(() => {
-    if (games.length && preferences.length) {
+    if (games.length) {
       let myPreferencesData = {
         active: [],
         desktop: [],
@@ -51,19 +54,20 @@ function Index() {
   const checkItem = (id, type) => {
     if (type === 'desktop') {
       setMyPreferencesDesktop(prevState => {
+
         prevState.map(item => item.id === id ? item.checked = !item.checked : item)
         return [...prevState]
 
       })
     } else {
       setMyPreferencesActive((prevState) => {
-        prevState.map(item => item.id === id ? item.checked = !item.checked : item)
+        prevState.map(item => item.id === id ? item.checked = !item.checked : item.checked)
         return [...prevState]
       })
     }
   }
 
-  const savePreferences = () => {
+  const savePreferences = () => { 
     const changedPreferences = [
       ...myPreferencesActive.filter((elm) => elm.checked).map((elm) => elm.id),
       ...myPreferencesDesktop.filter((elm) => elm.checked).map((elm) => elm.id),
@@ -92,6 +96,7 @@ function Index() {
           <Text style={styles.gameNamesTitle}>Настольные игры</Text>
           <View style={styles.gamesBox}>
             {myPreferencesDesktop?.map((elm, i) => {
+              console.log(elm, 'elm');
               return (
                 <TouchableOpacity
                   key={elm?.id}

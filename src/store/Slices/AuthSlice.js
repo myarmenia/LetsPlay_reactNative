@@ -325,13 +325,14 @@ export const signUp4 = (data) => async (dispatch) => {
       )
     })
 }
-export const changeUserPreferences = (data) => (dispatch) => {
+export const changeUserPreferences = (data,token) => (dispatch) => {
   axiosInstance
-    .post('api/user/preferences', data)
+    .post('api/user/preferences/', data)
     .then((response) => {
+      console.log(response, 'response');
     })
     .catch((err) => {
-      console.error('Error: changeUserPreferences', err.request?._response)
+      console.error('Error: changeUserPreferences', err)
     })
 }
 

@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native'
 import { callEndGame, getGameById } from '@/store/Slices/GamesSlice'
 import { confirmJoin, rejectJoin, getPlayers } from '@/store/Slices/TournamentReducer/TournamentApies'
 import { changeMediaForTournament } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import axiosInstance from '@/store/Api'
 
 const NotificationItem = ({ elm }) => {
   const { notifications } = useSelector(({ app }) => app)
@@ -120,6 +121,7 @@ const NotificationItem = ({ elm }) => {
     },
     confirm_tourney: {
       label: 'Принять',
+      secondButton: true,
       onPress: async () => {
         dispatch(confirmJoin(elm?.tourney))
           .unwrap()
@@ -127,6 +129,16 @@ const NotificationItem = ({ elm }) => {
           }).catch((err) => {
           })
       },
+      onSecondButtonPress: () => {
+        dispatch(rejectJoin(elm?.tourney))
+          .unwrap()
+          .then((res) => {
+            if (res.status === 201) {
+              dispatch(notificationButtonClciked(elm?._id))
+            }
+          }).catch((err) => {
+          })
+      }
     },
     end_tourney_game: {
       label: 'Завершить',
@@ -185,6 +197,7 @@ const NotificationItem = ({ elm }) => {
     },
     confirm_enemy_team_create_game: {
       label: 'Принять',
+      secondButton: true,
       secondaryClick: false,
       onPress: () => {
         const team = {
@@ -195,6 +208,22 @@ const NotificationItem = ({ elm }) => {
         dispatch(setCreateGameInfo(elm?.team_create_game))
         navigation.navigate('TeamNavigator', { screen: 'EditTeamPlayers' })
       },
+      onSecondButtonPress: () => {
+        dispatch(rejectTeamCreateGame(elm.team_create_game))
+        dispatch(notificationButtonClciked(elm?._id))
+      }
+    },
+    follow: {
+      label: 'Принять',
+      secondButton: true,
+      secondaryClick: false,
+      onPress: async () => {
+        await axiosInstance.post(`api/participate/${elm.create_game}`)
+      },
+      onSecondButtonPress: () => {
+        dispatch(notificationButtonClciked(elm?._id))
+      }
+
     }
   }
 
@@ -235,25 +264,9 @@ const NotificationItem = ({ elm }) => {
                   size={{ width: RH(172) }}
                 />
 
-                {(elm.type === 'confirm_tourney' || elm.type === 'confirm_enemy_team_create_game') &&
+                {(buttonOptions[elm?.type].secondButton) &&
                   <LightButton
-                    onPress={() => {
-                      if (elm.type === 'confirm_tourney') {
-                        dispatch(rejectJoin(elm?.tourney))
-                          .unwrap()
-                          .then((res) => {
-                            if (res.status === 201) {
-                              dispatch(notificationButtonClciked(elm?._id))
-                            }
-                          }).catch((err) => {
-                          })
-                      } else {
-                        dispatch(rejectTeamCreateGame(elm.team_create_game))
-                        dispatch(notificationButtonClciked(elm?._id))
-                      }
-
-
-                    }}
+                    onPress={buttonOptions[elm?.type].onSecondButtonPress}
                     label={'Отклонить'}
                     labelStyle={{ ...font('bold', 17, '#001034') }}
                     style={{
