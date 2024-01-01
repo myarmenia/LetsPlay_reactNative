@@ -325,7 +325,7 @@ export const signUp4 = (data) => async (dispatch) => {
       )
     })
 }
-export const changeUserPreferences = (data,token) => (dispatch) => {
+export const changeUserPreferences = (data, token) => (dispatch) => {
   axiosInstance
     .post('api/user/preferences/', data)
     .then((response) => {
@@ -341,6 +341,18 @@ export const getDocumentRules = () => (dispatch) => {
     .get('api/document-rules')
     .then((response) => {
       dispatch(setDocumentRules(response.data?.datas))
+    })
+    .catch((err) => {
+      console.error('Error: request response', err.request._response)
+    })
+}
+
+export const getSingleRule = (path) => (dispatch) => {
+  axiosInstance.get(`document/${path}`)
+    .then(async (response) => {
+      console.log(response.data, 'response');
+      const data = await response.data.readDoubleLE()
+      console.log(data, 'data');
     })
     .catch((err) => {
       console.error('Error: request response', err.request._response)

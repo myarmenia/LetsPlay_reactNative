@@ -5,9 +5,10 @@ import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import Toggle from '@/components/ToggleSwitch'
-import { notificationSettings } from '@/store/Slices/AppSlice'
+import { calendarSettings, getCalendarGames } from '@/store/Slices/AppSlice'
 import { changeChatSettings } from '@/store/Slices/AuthSlice'
 import { useDispatch, useSelector } from 'react-redux'
+// import moment from 'moment'
 
 function CalendarSettings() {
   const chatSettings = useSelector(({ auth }) => auth.user.chat_settings)
@@ -15,12 +16,19 @@ function CalendarSettings() {
 
 
   useEffect(() => {
-    needRender.current && dispatch(notificationSettings(chatSettings))
+    needRender.current && dispatch(calendarSettings(chatSettings))
   }, [chatSettings])
+
+  // useEffect(()=>{
+  //   return ()=>{
+  //     dispatch(getCalendarGames({ date: moment(new Date).format('YYYY-MM-DD') }))
+
+  //   }
+  // },[])
 
 
   const dispatch = useDispatch()
-  return (
+  return (+
     <ScreenMask>
       <View style={styles.container}>
         <Text style={styles.title}>Настройки</Text>

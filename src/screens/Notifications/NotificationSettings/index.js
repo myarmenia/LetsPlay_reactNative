@@ -24,8 +24,11 @@ function NotificationScettings() {
   }
 
   useEffect(() => {
-    needRender.current && dispatch(notificationSettings(user.user.notification_settings))
-  }, [user.user.notification_settings])
+    if (needRender.current) {
+      dispatch(notificationSettings(user.user.notification_settings))
+      needRender.current = false
+    }
+  }, [user.user.notification_settings, needRender.current])
 
 
 

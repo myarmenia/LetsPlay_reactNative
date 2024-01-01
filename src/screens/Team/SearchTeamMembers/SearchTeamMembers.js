@@ -7,6 +7,7 @@ import {
   View,
   Pressable,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native'
 import { _storageUrl } from '@/constants'
 import { font, RH, RW } from '@/theme/utils'
@@ -103,6 +104,7 @@ const SearchTeamMembers = () => {
 
   const handleSearch = async () => {
     const radioValue = list.find((elm) => elm.checked).label
+    Keyboard.dismiss()
     dispatch(setFindedPlayers([]))
     dispatch(
       searchPlayer({

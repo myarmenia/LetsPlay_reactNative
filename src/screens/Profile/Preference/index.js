@@ -12,12 +12,9 @@ import ScreenMask2 from '@/components/wrappers/screen2'
 function Index() {
   const [myPreferencesActive, setMyPreferencesActive] = useState([])
   const [myPreferencesDesktop, setMyPreferencesDesktop] = useState([])
-  console.log(myPreferencesActive, myPreferencesDesktop, 'check');
 
   const games = useSelector((gameSlice) => gameSlice.games.games)
-  console.log(games, 'games');
   const { preferences } = useSelector(({ auth }) => auth.user)
-  console.log(preferences, 'preference');
 
   const [modalVisible, setModalVisible] = useState(false)
   const dispatch = useDispatch()

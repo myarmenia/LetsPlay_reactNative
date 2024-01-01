@@ -8,21 +8,27 @@ import FastImage from 'react-native-fast-image'
 import { RH, RW, font } from '@/theme/utils'
 import { DARK_BLUE, ICON, WHITE } from '@/theme/colors'
 import ScreenMask2 from '@/components/wrappers/screen2'
+import { getDocumentRules } from '@/store/Slices/AuthSlice'
+import { useDispatch } from 'react-redux'
 
 const index = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
   const { avatar, name, surname, _id } = useSelector(({ auth }) => auth.user)
 
   const list = [
     { id: 1, text: 'Мои данные', navigateTo: 'MyDetails' },
     { id: 2, text: 'Моя галерея', navigateTo: 'Gallery', params: { isMe: true, canDelete: true } },
     { id: 3, text: 'Мои предпочтения', navigateTo: 'Preference' },
-    { id: 5, text: 'Условия использования' },
+    { id: 5, text: 'Условия использования', navigateTo: 'Rules' },
     { id: 6, text: 'Обратная связь', navigateTo: 'Feedback' },
   ]
   const forNavigate = (item) => {
     if (item.id !== 5) {
       navigation.navigate('ProfileNavigator', { screen: item.navigateTo, params: item?.params })
+    } else {
+      navigation.navigate('ProfileNavigator', { screen: item.navigateTo, params: item?.params })
+      dispatch(getDocumentRules())
     }
   }
 

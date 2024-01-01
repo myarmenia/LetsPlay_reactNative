@@ -30,6 +30,7 @@ const GameCreating = ({ route }) => {
 
   //states
   const initialState = useSelector((state) => state.game)
+  console.log(initialState, 'initialState');
 
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
@@ -81,17 +82,22 @@ const GameCreating = ({ route }) => {
     } else {
       setEndDateError(null)
     }
-    if (!initialState.age_restrictions_from || !initialState?.age_restrictions_to) {
+    if (
+      (!initialState.age_restrictions_from || !initialState?.age_restrictions_to) &&
+      (initialState.age_restrictions_from !== 0 && initialState?.age_restrictions_to !== 0)) {
       setAgeError('Обязательное поле для заполнения')
     } else if (
-      +initialState?.age_restrictions_from < 0 ||
+      +initialState?.age_restrictions_from < 1 ||
       +initialState?.age_restrictions_from > +initialState?.age_restrictions_to
     ) {
       setAgeError('Введите корректный возраст')
     } else {
       setAgeError(null)
     }
-    if (!initialState.number_of_players_from || !initialState?.number_of_players_to) {
+
+    if ((!initialState.number_of_players_from || !initialState?.number_of_players_to)
+      && (initialState.number_of_players_from !== 0 && initialState?.number_of_players_to !== 0)
+    ) {
       setPlayersCuntError('Обязательное поле для заполнения')
     } else if (
       +initialState?.number_of_players_from < 2) {
@@ -111,21 +117,23 @@ const GameCreating = ({ route }) => {
     } else {
       setAddressError(false)
     }
-
     if (
-      startDate &&
-      endDate &&
+      startDate && endDate
+      &&
       ((startDate.date.getDate() == endDate.date.getDate() &&
         startDate.time.getTime() >= endDate.time.getTime()) ||
-        startDate.date.getDate() != endDate.date.getDate()) &&
-      initialState.age_restrictions_from &&
-      initialState?.age_restrictions_to &&
-      +initialState.age_restrictions_from < +initialState?.age_restrictions_to &&
-      +initialState?.number_of_players_from > 1 &&
-      +initialState?.number_of_players_from < +initialState?.number_of_players_to &&
+        startDate.date.getDate() > endDate.date.getDate())
+      &&
+      (initialState.age_restrictions_from &&
+        initialState?.age_restrictions_to &&
+        +initialState.age_restrictions_from <= +initialState?.age_restrictions_to)
+      &&
+      +initialState?.number_of_players_from > 1
+      &&
+      +initialState?.number_of_players_from <= +initialState?.number_of_players_to
+      &&
       (latitude && longitude && address)
     ) {
-
 
       let start_date = startDate.date
       start_date.getTime(startDate.time)

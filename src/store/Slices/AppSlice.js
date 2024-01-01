@@ -95,8 +95,17 @@ export const AppSlice = createSlice({
 
 export const notificationSettings = (data) => (dispatch) => {
   axiosInstance
+    .post('api/profile/notification', data)
+    .then((response) => {
+    })
+    .catch((err) => {
+      console.error('Error: request notification', err.request?._response)
+    })
+}
+export const calendarSettings = (data) => (dispatch) => {
+  axiosInstance
     .post('api/profile/chat/settings', data)
-    .then((response) => {})
+    .then((response) => { })
     .catch((err) => {
       console.error('Error: request notification', err.request?._response)
     })

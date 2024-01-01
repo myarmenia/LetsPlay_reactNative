@@ -15,7 +15,8 @@ export const ChatsSlice = createSlice({
   initialState,
   reducers: {
     setChats: (store, action) => {
-      store.chats = action.payload
+      const sortedData = action.payload.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+      store.chats = sortedData
     },
 
     setMessages: (store, action) => {
