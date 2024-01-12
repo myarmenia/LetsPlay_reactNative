@@ -15,6 +15,7 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import Button from '@/components/buttons/Button'
 import { useState } from 'react'
 import Modal from '@/components/modal'
+import axiosInstance from '@/store/Api'
 
 function Index(props) {
   const { navigation } = props
@@ -22,12 +23,22 @@ function Index(props) {
   const [value, setValue] = useState('')
   const [secondValue, setSecondValue] = useState('')
   const [errorText, setErrorText] = useState(false)
-  const handleClick = () => {
+  const handleClick = async () => {
     if (value && secondValue) {
-      setIsVisible(true)
-      setTimeout(() => {
-        navigation.navigate('Home')
-      }, 3000)
+      try {
+        const data = await axiosInstance.post('/feedback', {
+          "title": value,
+          "text": secondValue
+        })
+        if (data.data.message === "success") {
+          setIsVisible(true)
+          setTimeout(() => {
+            navigation.navigate('Home')
+          }, 2500)
+        }
+      } catch (error) {
+      }
+
     } else {
       setErrorText(true)
     }

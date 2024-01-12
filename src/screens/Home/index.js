@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { getMessagesCount, getNotificationCount } from '@/store/Slices/AppSlice'
 import { getCalendarGames } from '@/store/Slices/AppSlice'
 import moment from 'moment'
+import { getProfileInfo } from '@/store/Slices/AuthSlice'
 
 
 const HomeScreen = ({ route }) => {
@@ -28,6 +29,7 @@ const HomeScreen = ({ route }) => {
   }, [propsGameId])
   useEffect(() => {
     if (isFocused) {
+      dispatch(getProfileInfo())
       dispatch(getNotificationCount())
       dispatch(getMessagesCount())
     }

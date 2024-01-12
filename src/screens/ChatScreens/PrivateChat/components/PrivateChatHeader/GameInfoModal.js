@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Share } from 'react-native'
+import { Pressable, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { RW } from '@/theme/utils'
@@ -8,31 +8,42 @@ import Modal from '@/components/modal'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
+import { _storageUrl } from '@/constants'
+import Share from 'react-native-share'
+import ViewShot from "react-native-view-shot";
+
+
+
 
 const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
   const took_part_games = useSelector(({ auth }) => auth.user.took_part_games)
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
+    const ref=React.useRef()
 
-  const share = async () => {
-    try {
-      const result = await Share.share({
-        message: 'React Native | A framework for building native apps using React',
-      })
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      Alert.alert(error.message)
+
+
+    const ModalBody=()=>{
+      
     }
-  }
+
+
+
+
+  const shareImage = async () => {
+
+    // Share.open({
+    //   url: ShareComp,
+    //   message: `Eggirl`,
+    // }).catch(err => err && console.log(err));
+
+  };
+
+
+
+
+
   return (
     <Modal
       modalVisible={modalVisible}
@@ -42,7 +53,8 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
         <View style={styles.modalWrapper}>
           <View style={styles.regulationBlock}>
             <View style={styles.rowBox}>
-              <Pressable onPress={share}>
+
+              <Pressable onPress={shareImage}>
                 <ArrowRight />
               </Pressable>
             </View>
@@ -92,6 +104,11 @@ const styles = StyleSheet.create({
     top: '-5%',
     padding: RW(30),
     alignSelf: 'center',
+  },
+  generatedImage: {
+    width: 300,
+    height: 300,
+    resizeMode: 'contain',
   },
   rowBox: {
     flexDirection: 'row',

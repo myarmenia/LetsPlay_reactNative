@@ -14,6 +14,7 @@ import FastImage from 'react-native-fast-image'
 function Index({ size, size2, onPressImg, userProps, pressedUser }) {
   let authedUser = useSelector(({ auth }) => auth.user)
   let user = pressedUser ? pressedUser : authedUser
+
   if (userProps) {
     user = userProps
   }

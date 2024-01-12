@@ -3,6 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getUniqueId } from 'react-native-device-info'
 import axiosInstance from '../Api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Buffer } from 'react-native-buffer'
+console.log(Buffer, 'buffer');
 
 const initialState = {
   user: {
@@ -163,6 +165,12 @@ export const AuthSlice = createSlice({
         },
       }
     },
+    setSingleRule: (store, action) => {
+      return {
+        ...store,
+        singleRule: action.payload,
+      }
+    }
   },
 })
 
@@ -170,7 +178,6 @@ export const signIn = (data) => (dispatch) => {
   axiosInstance
     .post('api/auth/sign_in', data)
     .then((response) => {
-      console.log(response, 'response');
       dispatch(setExpiredToken(response.data.expired_token))
       dispatch(setSignInStep('EMAIL_SUCCESS'))
     })
@@ -350,12 +357,23 @@ export const getDocumentRules = () => (dispatch) => {
 export const getSingleRule = (path) => (dispatch) => {
   axiosInstance.get(`document/${path}`)
     .then(async (response) => {
-      console.log(response.data, 'response');
-      const data = await response.data.readDoubleLE()
-      console.log(data, 'data');
+      console.log(response, 'response');
+      let arr = Buffer.from(response.data)
+      console.log(arr, 'string');
+
+      let decoder = new TextDecoder("utf-8");
+      // Using decode method to get string output
+      let str = decoder.decode(arr);
+      // Display the output
+      console.log(str, 'str');
+
+
+
+      dispatch(setSingleRule(response.data))
+
     })
     .catch((err) => {
-      console.error('Error: request response', err.request._response)
+      console.error('Error: request response', err)
     })
 }
 
@@ -416,5 +434,6 @@ export const {
   setTookPartGames,
   changeNotificationData,
   changeChatSettings,
+  setSingleRule
 } = AuthSlice.actions
 export default AuthSlice.reducer

@@ -21,6 +21,8 @@ function Index({ size, userProps, pressedUser }) {
     user = user.user
   }
 
+
+
   const { name, surname, vk_id, avatar, vk_uri } = user || {}
   const fontSizeTitle = size < RW(50) ? RW(1.5) : size > 100 ? size / RW(36) : size / RW(51)
   const fontSizeCount = size < RW(50) ? RW(1) : size > 100 ? size / RW(23) : size / RW(30)
@@ -48,15 +50,15 @@ function Index({ size, userProps, pressedUser }) {
         onPress={
           size > 100
             ? () => {
-                navigation.navigate('ProfileNavigator', {
-                  screen: 'Gallery',
-                  params: {
-                    isMe,
-                    userId: user?._id,
-                    canDelete: false,
-                  },
-                })
-              }
+              navigation.navigate('ProfileNavigator', {
+                screen: 'Gallery',
+                params: {
+                  isMe,
+                  userId: user?._id,
+                  canDelete: false,
+                },
+              })
+            }
             : null
         }
         style={{
@@ -78,13 +80,13 @@ function Index({ size, userProps, pressedUser }) {
                   ? screenWidth >= 380
                     ? size / 4.5
                     : Platform.OS == 'android'
-                    ? size * 1.5
-                    : size / 7.5
+                      ? size * 1.5
+                      : size / 7.5
                   : size < 50
-                  ? size / 10
-                  : size < 100
-                  ? size / 25
-                  : size / 40,
+                    ? size / 10
+                    : size < 100
+                      ? size / 25
+                      : size / 40,
               left: Platform.OS == 'android' && size <= RW(30) ? RW(-0.2) : 0,
             },
           ]}
@@ -93,8 +95,8 @@ function Index({ size, userProps, pressedUser }) {
             !avatar
               ? require('../../../assets/defualtUser.png')
               : avatar.startsWith('https://')
-              ? { uri: avatar }
-              : {
+                ? { uri: avatar }
+                : {
                   uri: _storageUrl + avatar, //userNow.avatar
                 }
           }
@@ -108,8 +110,8 @@ function Index({ size, userProps, pressedUser }) {
               name?.length > 15 || surname?.length > 15
                 ? size / RW(25)
                 : size > 150
-                ? size / RW(20)
-                : size / RW(25),
+                  ? size / RW(20)
+                  : size / RW(25),
               WHITE,
             ),
             { maxHeight: RH(30), maxWidth: RW(220) },
@@ -124,8 +126,8 @@ function Index({ size, userProps, pressedUser }) {
               name?.length > 15 || surname?.length > 15
                 ? size / RW(25)
                 : size > 150
-                ? size / RW(20)
-                : size / RW(25),
+                  ? size / RW(20)
+                  : size / RW(25),
               WHITE,
             ),
             { maxHeight: RH(30), maxWidth: RW(220) },
@@ -204,7 +206,7 @@ function Index({ size, userProps, pressedUser }) {
         }
         modalVisible={modalVisible}
         setIsVisible={setModalVisible}
-        // navigationText={'Home'}
+      // navigationText={'Home'}
       />
       <VkPressableComponent
         onPress={() => {
@@ -227,21 +229,21 @@ function Index({ size, userProps, pressedUser }) {
               ? screenWidth > 400
                 ? size / RH(2.5)
                 : screenWidth > 380
-                ? size / RH(3)
-                : size / RH(4)
+                  ? size / RH(3)
+                  : size / RH(4)
               : size > 100
-              ? screenWidth > 400
-                ? size / RH(5.5)
-                : screenWidth > 380
-                ? size / RH(7.5)
-                : size / RH(10)
-              : screenWidth > 400
-              ? size / RH(4)
-              : screenWidth > 380
-              ? Platform.OS == 'ios'
-                ? size / RH(4.5)
-                : size / RH(6.5)
-              : size / RH(10),
+                ? screenWidth > 400
+                  ? size / RH(5.5)
+                  : screenWidth > 380
+                    ? size / RH(7.5)
+                    : size / RH(10)
+                : screenWidth > 400
+                  ? size / RH(4)
+                  : screenWidth > 380
+                    ? Platform.OS == 'ios'
+                      ? size / RH(4.5)
+                      : size / RH(6.5)
+                    : size / RH(10),
         }}
       >
         <Vk size={size / (screenWidth <= 375 ? RH(15) : RH(12))} />

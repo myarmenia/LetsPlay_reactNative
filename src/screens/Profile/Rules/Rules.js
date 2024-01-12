@@ -8,6 +8,7 @@ import ScreenMask from '@/components/wrappers/screen'
 import FileIcon from '@/assets/svgs/fileIcon'
 import { getSingleRule } from '../../../store/Slices/AuthSlice'
 
+
 function Rules() {
     const dispatch = useDispatch()
     let documentRules = useSelector(({ auth }) => auth.documentRules)
@@ -16,7 +17,7 @@ function Rules() {
         dispatch(getSingleRule(item.path))
         navigation.navigate('SingleRule')
     }
-    const RenderItem = ({ item }) => {
+    const renderItem = ({ item }) => {
         return (
             <View style={styles.itemContainer}>
                 <FileIcon />
@@ -35,7 +36,7 @@ function Rules() {
                 <FlatList
                     style={styles.flatListStyle}
                     data={documentRules}
-                    renderItem={RenderItem}
+                    renderItem={renderItem}
                     keyExtractor={(item) => item._id}
                 />
             </View>
