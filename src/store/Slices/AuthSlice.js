@@ -3,8 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 import { getUniqueId } from 'react-native-device-info'
 import axiosInstance from '../Api'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Buffer } from 'react-native-buffer'
-console.log(Buffer, 'buffer');
 
 const initialState = {
   user: {
@@ -354,23 +352,13 @@ export const getDocumentRules = () => (dispatch) => {
     })
 }
 
-export const getSingleRule = (path) => (dispatch) => {
-  axiosInstance.get(`document/${path}`)
+export const getSingleRule = (data) => (dispatch) => {
+  axiosInstance.get(`document/info/${data.path}`)
     .then(async (response) => {
-      console.log(response, 'response');
-      let arr = Buffer.from(response.data)
-      console.log(arr, 'string');
-
-      let decoder = new TextDecoder("utf-8");
-      // Using decode method to get string output
-      let str = decoder.decode(arr);
-      // Display the output
-      console.log(str, 'str');
-
-
-
-      dispatch(setSingleRule(response.data))
-
+      dispatch(setSingleRule({
+        title: data.title,
+        body: response.data
+      }))
     })
     .catch((err) => {
       console.error('Error: request response', err)

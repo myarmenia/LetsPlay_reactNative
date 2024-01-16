@@ -12,16 +12,18 @@ import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import { addTournamentInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
 import { getMyTeams } from '@/store/Slices/TournamentReducer/TournamentApies'
+import { setAddress } from '@/store/Slices/AddressSlice'
 
 
 const TournamentInfo = () => {
+  const { needToEdit, singleTournir } = useSelector(({ tournament }) => tournament)
+
 
   const { address, longitude, latitude } = useSelector(({ address }) => address)
 
 
   const dispatch = useDispatch()
   const navigation = useNavigation()
-  const { singleTournir } = useSelector(({ tournament }) => tournament)
 
   const [startDate, setStartDate] = useState(new Date)
   const [endDate, setEndDate] = useState(new Date)
@@ -30,6 +32,7 @@ const TournamentInfo = () => {
     from: null,
     to: null
   })
+
   const [age, setAge] = useState({
     from: null,
     to: null,
@@ -46,11 +49,6 @@ const TournamentInfo = () => {
     })
     )
   )
-
-
-
-
-
   //errors
   const [ageError, setAgeError] = useState(false)
   const [countError, setCountError] = useState(false)
@@ -148,6 +146,25 @@ const TournamentInfo = () => {
   }
 
 
+
+
+  useEffect(() => {
+    if (needToEdit) {
+      setCount({
+        ...count,
+        from: +singleTournir.number_of_participants_from,
+        to: +singleTournir.number_of_participants_to
+      })
+      dispatch(setAddress({
+        address: singleTournir.address,
+        longitude: singleTournir.longitude,
+        latitude: singleTournir.latitude,
+      }))
+
+    }
+  }, [needToEdit])
+
+
   return (
     <ScreenMask>
       <ScrollView
@@ -174,6 +191,7 @@ const TournamentInfo = () => {
             Количество {!singleTournir?.team_tourney ? 'участников' : 'команд'}
           </Text>
           <View style={styles.countBlock}>
+            {console.log(count, 'count')}
             <TextInput
               value={count.from}
               onChangeText={(e) => {

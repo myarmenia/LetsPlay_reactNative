@@ -13,7 +13,6 @@ import ScreenMask2 from '@/components/wrappers/screen2'
 
 function NotificationScreen() {
   const { notifications } = useSelector(({ app }) => app)
-  console.log(notifications, 'notifications');
 
 
 

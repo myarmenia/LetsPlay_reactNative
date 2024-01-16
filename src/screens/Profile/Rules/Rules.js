@@ -14,7 +14,10 @@ function Rules() {
     let documentRules = useSelector(({ auth }) => auth.documentRules)
     const navigation = useNavigation()
     const goToSingleRule = (item) => {
-        dispatch(getSingleRule(item.path))
+        dispatch(getSingleRule({
+            path: item.path,
+            title: item.name
+        }))
         navigation.navigate('SingleRule')
     }
     const renderItem = ({ item }) => {

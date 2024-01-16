@@ -90,6 +90,7 @@ const NotificationItem = ({ elm }) => {
     },
     edit_game: {
       label: 'Изменить',
+      secondaryClick: true,
       onPress: () => {
         dispatch(
           getGameById(elm?.create_game, (game, editData) => {

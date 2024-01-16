@@ -30,7 +30,6 @@ const GameCreating = ({ route }) => {
 
   //states
   const initialState = useSelector((state) => state.game)
-  console.log(initialState, 'initialState');
 
   const [modalOpen, setModalOpen] = useState(true)
   const [isVisible, setIsVisible] = useState(false)
@@ -44,14 +43,10 @@ const GameCreating = ({ route }) => {
 
   //redux
   const dispatch = useDispatch()
-  const [startDate, setStartDate] = useState({
-    date: new Date(),
-    time: new Date(),
-  })
-  const [endDate, setEndDate] = useState({
-    date: new Date(new Date().setDate(startDate.date.getDate())),
-    time: new Date(new Date().setTime(startDate.date.getTime())),
-  })
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(new Date())
+
+
   const [organizer_in_the_game, setOrganizer_in_the_gameState] = useState([
     { id: 1, text: 'Участвует', checked: true },
     { id: 2, text: 'Не участвует', checked: false },
@@ -64,24 +59,20 @@ const GameCreating = ({ route }) => {
 
   const handleClick = () => {
 
-    if (!startDate) {
-      setStartDateError('Обязательное поле для заполнения')
+    // ամսաթվի ստուգում
+    if (startDate < new Date()) {
+      setStartDateError(true)
     } else {
-      setStartDateError(null)
+      setStartDateError(false)
     }
-    if (!endDate) {
-      setEndDateError('Обязательное поле для заполнения')
-    } else if (
-      !(
-        (startDate.date.getDate() == endDate.date.getDate() &&
-          startDate.time.getTime() >= endDate.time.getTime()) ||
-        startDate.date.getDate() != endDate.date.getDate()
-      )
-    ) {
-      setEndDateError('Введите корректную дату')
+
+    if (startDate <= endDate) {
+      setEndDateError(true)
     } else {
-      setEndDateError(null)
+      setEndDateError(false)
     }
+
+
     if (
       (!initialState.age_restrictions_from || !initialState?.age_restrictions_to) &&
       (initialState.age_restrictions_from !== 0 && initialState?.age_restrictions_to !== 0)) {
@@ -118,11 +109,7 @@ const GameCreating = ({ route }) => {
       setAddressError(false)
     }
     if (
-      startDate && endDate
-      &&
-      ((startDate.date.getDate() == endDate.date.getDate() &&
-        startDate.time.getTime() >= endDate.time.getTime()) ||
-        startDate.date.getDate() > endDate.date.getDate())
+      (startDate > endDate && startDate >= new Date())
       &&
       (initialState.age_restrictions_from &&
         initialState?.age_restrictions_to &&
@@ -135,12 +122,8 @@ const GameCreating = ({ route }) => {
       (latitude && longitude && address)
     ) {
 
-      let start_date = startDate.date
-      start_date.getTime(startDate.time)
-      let end_date = endDate.date
-      end_date.getTime(endDate.time)
-
-
+      let start_date = startDate
+      let end_date = endDate
       navigation.navigate('GameTicket', {
         params: {
           initialState,
@@ -164,15 +147,10 @@ const GameCreating = ({ route }) => {
   }, [])
 
   useEffect(() => {
+    console.log(editData, 'editData');
     if (Object.values(editData || {}).length) {
-      setStartDate({
-        date: new Date(editData.start_date),
-        time: new Date(editData.start_date),
-      })
-      setEndDate({
-        date: new Date(editData.end_date),
-        time: new Date(editData.end_date),
-      })
+      setStartDate(new Date(editData.start_date))
+      setEndDate(new Date(editData.end_date))
       setGenderList([
         { id: 1, text: 'М', checked: editData.players_gender == 'm', label: 'm' },
         { id: 2, text: 'Ж', checled: editData.players_gender == 'f', label: 'f' },
@@ -198,14 +176,12 @@ const GameCreating = ({ route }) => {
           rowStyle={{
             justifyContent: 'flex-start',
           }}
-          dateValue={startDate.date}
-          timeValue={startDate.time}
-          setDate={(date) => {
-            setStartDate({ ...startDate, date })
-          }}
-          setTime={(time) => setStartDate({ ...startDate, time })}
+          dateValue={startDate}
+          timeValue={startDate}
+          setDate={(date) => { setStartDate(new Date(date)) }}
+          setTime={(time) => { setStartDate(new Date(time)) }}
         />
-        {startDateError && <Text style={styles.errorText}>{startDateError}</Text>}
+        {startDateError && <Text style={styles.errorText}>Введите корректную дату</Text>}
 
 
         <SecondBlock
@@ -246,12 +222,12 @@ const GameCreating = ({ route }) => {
           rowStyle={{
             justifyContent: 'flex-start',
           }}
-          dateValue={endDate.date}
-          timeValue={endDate.time}
-          setDate={(date) => setEndDate({ ...endDate, date })}
-          setTime={(time) => setEndDate({ ...endDate, time })}
+          dateValue={endDate}
+          timeValue={endDate}
+          setDate={(date) => { setEndDate(new Date(date)) }}
+          setTime={(time) => { setEndDate(new Date(time)) }}
         />
-        {endDateError ? <Text style={styles.errorText}>{endDateError}</Text> : null}
+        {endDateError ? <Text style={styles.errorText}>Введите корректную дату</Text> : null}
         <RadioBlock
           onChange={(list) => {
             setOrganizer_in_the_gameState(list)

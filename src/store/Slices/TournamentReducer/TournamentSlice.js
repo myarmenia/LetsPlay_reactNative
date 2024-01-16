@@ -52,8 +52,8 @@ const TournamentSlice = createSlice({
     choosenTournir: (state, action) => {
       state.choosenTournir = action.payload
     },
-    editTournametInfo: (state) => {
-      state.needToEdit = true
+    editTournametInfo: (state, action) => {
+      state.needToEdit = action.payload
     },
     resetSingleTournirData: (state) => {
       state.singleTournir = tournirData

@@ -7,10 +7,10 @@ import RadioBlock from '@/components/RadioBlock'
 import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setTourneyInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
+import { editTournametInfo, setTourneyInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 
-const TournamentName = ({ route }) => {
-  const initialState = useSelector(({ tournament }) => tournament)
+const TournamentName = () => {
+  const { needToEdit, singleTournir } = useSelector(({ tournament }) => tournament)
   const [formatList, setFormatList] = useState([
     {
       id: 1,
@@ -24,6 +24,44 @@ const TournamentName = ({ route }) => {
     },
   ])
 
+
+  useEffect(() => {
+    if (needToEdit) {
+      setTourName(singleTournir?.name)
+      setDescription(singleTournir?.description)
+      if (singleTournir?.team_tourney) {
+        setFormatList([
+          {
+            id: 1,
+            text: 'Индивидуальный',
+            checked: false,
+          },
+          {
+            id: 2,
+            text: 'Командный',
+            checked: true,
+          },
+        ])
+      } else {
+        setFormatList([
+          {
+            id: 1,
+            text: 'Индивидуальный',
+            checked: true,
+          },
+          {
+            id: 2,
+            text: 'Командный',
+            checked: false,
+          },
+        ])
+      }
+    }
+
+  }, [needToEdit])
+
+
+
   const [tourName, setTourName] = useState(null)
   const [description, setDescription] = useState(null)
 
@@ -32,8 +70,16 @@ const TournamentName = ({ route }) => {
   const [error, setError] = useState(false)
 
   const handleClick = () => {
+
     if (tourName) {
       setError(false)
+      if (needToEdit) {
+        const lastFormat = singleTournir.team_tourney ? 'team' : 'individual'
+        const currentFormat = formatList[0].checked ? 'individual' : 'team'
+        if (lastFormat !== currentFormat) {
+          dispatch(editTournametInfo(false))
+        }
+      }
       dispatch(
         setTourneyInfo({
           name: tourName,

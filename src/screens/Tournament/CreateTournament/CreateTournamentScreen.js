@@ -41,7 +41,7 @@ const CreateTournament = () => {
 
 
   const onEditPress = () => {
-    dispatch(editTournametInfo())
+    dispatch(editTournametInfo(true))
     navigation.navigate('TournamentName')
   }
   return (
