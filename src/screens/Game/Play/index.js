@@ -16,6 +16,7 @@ function Index() {
           <LightButton
             onPress={() => {
               navigation.navigate('CreateGameNavigator')
+              dispatch(saveTeamDataForCreating(null))
             }}
             label={'Создать игру'}
             size={{ width: 281, height: 50 }}
@@ -24,7 +25,8 @@ function Index() {
         <View>
           <LightButton
             onPress={() => {
-              navigation.navigate('JoinGame'), dispatch(saveTeamDataForCreating({}))
+              navigation.navigate('JoinGame')
+              dispatch(saveTeamDataForCreating({}))
             }}
             label={'Принять участие в игре'}
             size={{ width: 281, height: 50 }}

@@ -1,15 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axiosInstance from '../Api'
 import { setModalOptions } from './AppSlice'
-import {
-  setAge_restrictions_from,
-  setAge_restrictions_to,
-  setNumber_of_players_from,
-  setNumber_of_players_to,
-  setOrganizer_in_the_game,
-  setPlaceName,
-  setPlayers_gender,
-} from './GameCreatingSlice'
+
 
 const initialState = {
   games: [],
@@ -47,7 +39,6 @@ export const getGames = () => (dispatch) => {
 }
 
 export const joinGame = (gameId, nav, setError, setModalVisible) => async (dispatch) => {
-  console.log('gameId', gameId)
   axiosInstance
     .post(`api/participate/${gameId}`)
     .then((response) => {
@@ -132,31 +123,19 @@ export const followUser = (data) => (dispatch) => {
     })
 }
 export const getGameById =
-  (create_game_id, callBack = () => {}) =>
-  async (dispatch) => {
-    await axiosInstance
-      .get(`api/create/game/${create_game_id}`)
-      .then((response) => {
-        if (response.data.data) {
-          dispatch(setAge_restrictions_from(response.data.data.age_restrictions_from))
-          dispatch(setAge_restrictions_to(response.data.data.age_restrictions_to))
-          dispatch(setNumber_of_players_from(response.data.data.number_of_players_from))
-          dispatch(setNumber_of_players_to(response.data.data.number_of_players_to))
-          dispatch(setPlaceName(response.data.data.address_name))
-          dispatch(setPlayers_gender(response.data.data.players_gender))
-          dispatch(setOrganizer_in_the_game(response.data.data.organizer_in_the_game))
-          callBack(response.data.data.game, {
-            start_date: response.data.data.start_date,
-            players_gender: response.data.data.players_gender,
-            end_date: response.data.data.end_date,
-            organizer_in_the_game: response.data.data.organizer_in_the_game,
-          })
-        }
-      })
-      .catch((err) => {
-        console.error('Error: getGameById', err.request._response)
-      })
-  }
+  (create_game_id, callBack = () => { }) =>
+    async () => {
+      await axiosInstance
+        .get(`api/create/game/${create_game_id}`)
+        .then((response) => {
+          if (response.data.data) {
+            callBack(response.data.data.game, response.data.data)
+          }
+        })
+        .catch((err) => {
+          console.error('Error: getGameById', err.request._response)
+        })
+    }
 
 export const { setGames, setGameFinishPhoto } = GameSlice.actions
 export default GameSlice.reducer

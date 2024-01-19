@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import Row from '@/components/wrappers/row'
 import FilterSvg from '@/assets/svgs/FilterSvg'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteAllNotifications, getNotifications } from '@/store/Slices/AppSlice'
-import Modal from '@/components/modal'
-import { ICON, LIGHT_LABEL, WHITE } from '@/theme/colors'
+import { ICON, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import NotificationItem from './NotificationItem'
 import ScreenMask2 from '@/components/wrappers/screen2'
 
 function NotificationScreen() {
   const { notifications } = useSelector(({ app }) => app)
+  console.log(notifications);
 
 
 

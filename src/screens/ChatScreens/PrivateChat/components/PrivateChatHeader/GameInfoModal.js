@@ -20,23 +20,22 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
   const gameInfo = took_part_games.find((elm) => elm.id == gameID)
   const gameGender =
     gameInfo?.players_gender == 'm/f' ? 'М/Ж' : gameInfo?.players_gender == 'm' ? 'М' : 'Ж'
-    const ref=React.useRef()
+  const viewShot = React.useRef();
 
 
-
-    const ModalBody=()=>{
-      
-    }
 
 
 
 
   const shareImage = async () => {
-
-    // Share.open({
-    //   url: ShareComp,
-    //   message: `Eggirl`,
-    // }).catch(err => err && console.log(err));
+    viewShot.current.capture().then(async (uri) => {
+      const shareOptions = {
+        message: 'Информация об игре',
+        url: uri,
+      };
+      await Share.open(shareOptions);
+    }),
+      (error) => console.error("Oops, snapshot failed", error);
 
   };
 
@@ -50,46 +49,55 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
       setIsVisible={setModalVisible}
       btnClose={false}
       item={
-        <View style={styles.modalWrapper}>
-          <View style={styles.regulationBlock}>
-            <View style={styles.rowBox}>
+        <ViewShot
+          ref={viewShot}
+          options={{
+            format: "jpg",
+            quality: 0.9,
+            fileName: 'Информация об игре'
+          }}
+        >
+          <View style={styles.modalWrapper}>
+            <View style={styles.regulationBlock}>
+              <View style={styles.rowBox}>
 
-              <Pressable onPress={shareImage}>
-                <ArrowRight />
-              </Pressable>
-            </View>
-            <View style={styles.titleColumnBox}>
-              <Text style={styles.title}>Тип игры: {gameInfo?.game?.name}</Text>
-              <Text style={styles.title}>
-                Дата и время игры: {dateFormater(gameInfo?.start_date)}
-              </Text>
-              <Text style={styles.title}>
-                Количество игроков: от {gameInfo?.number_of_players_from} до{' '}
-                {gameInfo?.number_of_players_to}
-              </Text>
-              <Text style={styles.title}>
-                Возраст игроков: {gameInfo?.age_restrictions_from}-{gameInfo?.age_restrictions_to}
-              </Text>
-              <Text style={styles.title}>Половой признак игроков: {gameGender}</Text>
-              <Text style={styles.title}>Адрес проведения игры: {gameInfo?.address_name}</Text>
-              <Text style={styles.title}>
-                Дата и время окончания поиска игроков: {dateFormater(gameInfo?.end_date)}
-              </Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.title}>Организатор игры:</Text>
-                <View style={{ left: 10 }}>
-                  <User
-                    size={30}
-                    onPressItem={{
-                      item: <User size={370} />,
-                      modalClose: false,
-                    }}
-                  />
+                <Pressable onPress={shareImage}>
+                  <ArrowRight />
+                </Pressable>
+              </View>
+              <View style={styles.titleColumnBox}>
+                <Text style={styles.title}>Тип игры: {gameInfo?.game?.name}</Text>
+                <Text style={styles.title}>
+                  Дата и время игры: {dateFormater(gameInfo?.start_date)}
+                </Text>
+                <Text style={styles.title}>
+                  Количество игроков: от {gameInfo?.number_of_players_from} до{' '}
+                  {gameInfo?.number_of_players_to}
+                </Text>
+                <Text style={styles.title}>
+                  Возраст игроков: {gameInfo?.age_restrictions_from}-{gameInfo?.age_restrictions_to}
+                </Text>
+                <Text style={styles.title}>Половой признак игроков: {gameGender}</Text>
+                <Text style={styles.title}>Адрес проведения игры: {gameInfo?.address_name}</Text>
+                <Text style={styles.title}>
+                  Дата и время окончания поиска игроков: {dateFormater(gameInfo?.end_date)}
+                </Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.title}>Организатор игры:</Text>
+                  <View style={{ left: 10 }}>
+                    <User
+                      size={30}
+                      onPressItem={{
+                        item: <User size={370} />,
+                        modalClose: false,
+                      }}
+                    />
+                  </View>
                 </View>
               </View>
             </View>
           </View>
-        </View>
+        </ViewShot>
       }
     />
   )

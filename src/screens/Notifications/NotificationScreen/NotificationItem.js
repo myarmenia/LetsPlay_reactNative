@@ -225,6 +225,20 @@ const NotificationItem = ({ elm }) => {
         dispatch(notificationButtonClciked(elm?._id))
       }
 
+    },
+    feedback: {
+      label: 'Ответить',
+      secondButton: false,
+      secondaryClick: true,
+      onPress: () => {
+        dispatch(
+          setModalOptions({
+            visible: true,
+            type: 'FeedbackAnswerModal',
+            body: elm.text
+          }),
+        )
+      },
     }
   }
 

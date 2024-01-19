@@ -13,6 +13,7 @@ import GaleryOpenPhoto from './modals/GaleryOpenPhoto'
 import BestPlayer from './modals/BestPlayer'
 import RateOrganizerModal from './modals/RateOrganizerModal'
 import UserInfo from './modals/UserInfoModal'
+import FeedbackAnswerModal from './modals/FeedbackAnswerModal'
 
 const CustomModal = () => {
   const modalOptions = useSelector(({ app }) => app.modalOptions)
@@ -68,6 +69,8 @@ const CustomModal = () => {
                 return <GaleryOpenPhoto body={modalOptions.body} />
               case 'BestPlayer':
                 return <BestPlayer body={modalOptions.body} />
+              case 'FeedbackAnswerModal':
+                return <FeedbackAnswerModal message={modalOptions.body} />
               default:
                 break
             }

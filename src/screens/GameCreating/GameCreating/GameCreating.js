@@ -14,17 +14,22 @@ import { ICON, LIGHT_LABEL, LIGHT_RED, WHITE } from '@/theme/colors'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   clearInitialState,
+  setAge_restrictions_from,
+  setAge_restrictions_to,
   setGame,
+  setNumber_of_players_from,
+  setNumber_of_players_to,
   setOrganizer_in_the_game,
   setPlayers_gender,
 } from '@/store/Slices/GameCreatingSlice'
 import RadioBlock from '@/components/RadioBlock'
 import DateComponent from '@/components/DateComponent'
+import { setAddress } from '@/store/Slices/AddressSlice'
+
 
 const GameCreating = ({ route }) => {
   let { game, response, name, editData } = route?.params
   const navigation = useNavigation()
-
   const { address, longitude, latitude } = useSelector(({ address }) => address)
 
 
@@ -147,7 +152,6 @@ const GameCreating = ({ route }) => {
   }, [])
 
   useEffect(() => {
-    console.log(editData, 'editData');
     if (Object.values(editData || {}).length) {
       setStartDate(new Date(editData.start_date))
       setEndDate(new Date(editData.end_date))
@@ -160,6 +164,15 @@ const GameCreating = ({ route }) => {
         { id: 1, text: 'Участвует', checked: editData.organizer_in_the_game },
         { id: 2, text: 'Не участвует', checked: !editData.organizer_in_the_game },
       ])
+      dispatch(setAddress({
+        address: editData.address_name,
+        longitude: editData.location.coordinates[0],
+        latitude: editData.location.coordinates[1],
+      }))
+      dispatch(setNumber_of_players_from(editData.number_of_players_from))
+      dispatch(setNumber_of_players_to(editData.number_of_players_to))
+      dispatch(setAge_restrictions_from(editData.age_restrictions_from))
+      dispatch(setAge_restrictions_to(editData.age_restrictions_to))
     }
   }, [editData])
 

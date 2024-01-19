@@ -8,12 +8,13 @@ import ScreenMask2 from '@/components/wrappers/screen2'
 
 function SingleRule() {
     let singleRule = useSelector(({ auth }) => auth.singleRule)
+    console.log(singleRule, 'singleRule');
     return (
         <ScreenMask2>
             <View style={styles.container}>
-                <Text style={styles.titleStyle}>{singleRule.title}</Text>
+                <Text style={styles.titleStyle}>{singleRule?.title}</Text>
                 <ScrollView>
-                    <Text style={styles.bodyStyle}>{singleRule.body}</Text>
+                    <Text style={styles.bodyStyle}>{singleRule?.body}</Text>
                 </ScrollView>
 
             </View>

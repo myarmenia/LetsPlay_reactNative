@@ -7,7 +7,7 @@ import DateComponent from '@/components/DateComponent'
 import RadioBlock from '@/components/RadioBlock'
 import SearchAddresses from '@/screens/Map/SearchAddresses'
 import LightButton from '@/components/buttons/Button'
-import { gender, organizerData, priceFondData, start_date, end_date } from '../info'
+import { gender, organizerData, priceFondData } from '../info'
 import { BACKGROUND, ICON, LIGHT_LABEL, RED, WHITE } from '@/theme/colors'
 import { addTournamentInfo } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import { useNavigation } from '@react-navigation/native'
@@ -74,7 +74,7 @@ const TournamentInfo = () => {
       setStartDateError(false)
     }
 
-    if (startDate <= endDate) {
+    if (startDate < endDate) {
       setEndDateError(true)
     } else {
       setEndDateError(false)
@@ -150,16 +150,74 @@ const TournamentInfo = () => {
 
   useEffect(() => {
     if (needToEdit) {
-      setCount({
-        ...count,
-        from: +singleTournir.number_of_participants_from,
-        to: +singleTournir.number_of_participants_to
-      })
+      setStartDate(new Date(singleTournir.start_date))
+      setEndDate(new Date(singleTournir.end_search_date))
       dispatch(setAddress({
-        address: singleTournir.address,
+        address: singleTournir.address_name,
         longitude: singleTournir.longitude,
         latitude: singleTournir.latitude,
       }))
+      setOrganizerJoin((prev) => {
+        if (singleTournir.organizer_status) {
+          prev[0].checked = true
+          prev[1].checked = false
+        } else {
+          prev[0].checked = false
+          prev[1].checked = true
+        }
+        return prev
+      })
+      setPriceFond((prev) => {
+        if (singleTournir.prize_fund) {
+          prev[0].checked = true
+          prev[1].checked = false
+        } else {
+          prev[0].checked = false
+          prev[1].checked = true
+        }
+        return prev
+      })
+      if (singleTournir.team_tourney) {
+        setCount({
+          from: String(singleTournir.number_of_teams_from),
+          to: String(singleTournir.number_of_teams_to)
+        })
+        if (singleTournir.format) {
+          setFormats((prev) => {
+            const updatedData = [...prev]
+            updatedData.forEach((item) => {
+              if (item.text === singleTournir.format) {
+                item.checked = true
+              } else {
+                item.checked = false
+              }
+            })
+            return updatedData
+          })
+        }
+
+      } else {
+        setCount({
+          from: singleTournir.number_of_participants_from.toString(),
+          to: singleTournir.number_of_participants_to.toString()
+        })
+        setAge({
+          from: String(singleTournir.age_restrictions_from),
+          to: String(singleTournir.age_restrictions_to),
+        })
+        setGenderList((prev) => {
+          prev.forEach((item) => {
+            if (item.label === singleTournir.players_gender) {
+              item.checked = true
+            } else {
+              item.checked = false
+            }
+          })
+          return prev
+        })
+
+      }
+
 
     }
   }, [needToEdit])
@@ -191,7 +249,7 @@ const TournamentInfo = () => {
             Количество {!singleTournir?.team_tourney ? 'участников' : 'команд'}
           </Text>
           <View style={styles.countBlock}>
-            {console.log(count, 'count')}
+
             <TextInput
               value={count.from}
               onChangeText={(e) => {

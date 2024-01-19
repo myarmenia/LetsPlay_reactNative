@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Share, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { RH, RW } from '@/theme/utils'
@@ -8,33 +8,28 @@ import Modal from '@/components/modal'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
+import Share from 'react-native-share'
+import ViewShot from "react-native-view-shot";
 
 const TeamInfoModal = ({ modalVisible, setModalVisible, team }) => {
-  console.log(team, 'team');
   const { myTeams, myJoinedTeams } = useSelector(({ teams }) => teams)
   const teams = [...myTeams, ...myJoinedTeams]
-  console.log(team, 'team');
   const teamInfo = teams.find(item => item._id === team._id)
 
+  const viewShot = React.useRef();
+
+
   const share = async () => {
-    try {
-      const result = await Share.share({
-        message:
-          'React Native | A framework for building native apps using React',
-      });
-      if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-          // shared with activity type of result.activityType
-        } else {
-          // shared
-        }
-      } else if (result.action === Share.dismissedAction) {
-        // dismissed
-      }
-    } catch (error) {
-      Alert.alert(error.message);
-    }
-  };
+    viewShot.current.capture().then(async (uri) => {
+      const shareOptions = {
+        message: 'Информация о команде',
+        url: uri,
+      };
+      await Share.open(shareOptions);
+    }),
+      (error) => console.error("Oops, snapshot failed", error);
+
+  }
 
   return (
     <Modal
@@ -42,64 +37,73 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, team }) => {
       setIsVisible={setModalVisible}
       btnClose={false}
       item={
-        <View style={styles.modalWrapper}>
-          <View style={styles.regulationBlock}>
-            <View style={styles.rowBox}>
-              <Pressable onPress={share}>
-                <ArrowRight />
-              </Pressable>
+        <ViewShot
+          ref={viewShot}
+          options={{
+            format: "jpg",
+            quality: 0.9,
+            fileName: 'Информация о команде'
+          }}
+        >
+          <View style={styles.modalWrapper}>
+            <View style={styles.regulationBlock}>
+              <View style={styles.rowBox}>
+                <Pressable onPress={share}>
+                  <ArrowRight />
+                </Pressable>
 
-            </View>
-            <View style={styles.titleColumnBox}>
-              <Text style={styles.title}>Имя команды: {teamInfo?.name}</Text>
-              <Text style={styles.title}>
-                Дата и время создание команды: {dateFormater(teamInfo?.createdAt)}
-              </Text>
-              <Text style={styles.title}>Адрес: {teamInfo?.address_name}</Text>
-
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.title}>Организатор команды:</Text>
-                <View style={{ left: 10 }}>
-                  <User
-                    size={30}
-                    user={teamInfo?.user}
-                    onPressItem={{
-                      item: <User size={370} user={teamInfo?.user} />,
-                      modalClose: false,
-                    }}
-                  />
-                </View>
               </View>
-              {teamInfo.invited_players?.length ? (
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(5) }}>
-                  <Text style={styles.title}>Игроки команды:</Text>
+              <View style={styles.titleColumnBox}>
+                <Text style={styles.title}>Имя команды: {teamInfo?.name}</Text>
+                <Text style={styles.title}>
+                  Дата и время создание команды: {dateFormater(teamInfo?.createdAt)}
+                </Text>
+                <Text style={styles.title}>Адрес: {teamInfo?.address_name}</Text>
 
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      flexWrap: 'wrap',
-                      width: 150,
-                      left: 10,
-                    }}
-                  >
-                    {teamInfo.invited_players.map((player) => (
-                      <User
-                        key={player?._id}
-                        size={30}
-                        user={player}
-                        style={{ marginLeft: RW(5) }}
-                        onPressItem={{
-                          item: <User size={370} user={player} />,
-                          modalClose: false,
-                        }}
-                      />
-                    ))}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Text style={styles.title}>Организатор команды:</Text>
+                  <View style={{ left: 10 }}>
+                    <User
+                      size={30}
+                      user={teamInfo?.user}
+                      onPressItem={{
+                        item: <User size={370} user={teamInfo?.user} />,
+                        modalClose: false,
+                      }}
+                    />
                   </View>
                 </View>
-              ) : null}
+                {teamInfo.invited_players?.length ? (
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(5) }}>
+                    <Text style={styles.title}>Игроки команды:</Text>
+
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        flexWrap: 'wrap',
+                        width: 150,
+                        left: 10,
+                      }}
+                    >
+                      {teamInfo.invited_players.map((player) => (
+                        <User
+                          key={player?._id}
+                          size={30}
+                          user={player}
+                          style={{ marginLeft: RW(5) }}
+                          onPressItem={{
+                            item: <User size={370} user={player} />,
+                            modalClose: false,
+                          }}
+                        />
+                      ))}
+                    </View>
+                  </View>
+                ) : null}
+              </View>
             </View>
           </View>
-        </View>
+        </ViewShot>
       }
     />
   )

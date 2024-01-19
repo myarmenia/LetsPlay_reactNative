@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, Share } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
 import { RW } from '@/theme/utils'
@@ -8,27 +8,23 @@ import Modal from '@/components/modal'
 import User from '@/components/User/user'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
+import Share from 'react-native-share'
+import ViewShot from "react-native-view-shot";
 
 const TeamitemModal = ({ modalVisible, setModalVisible, item }) => {
-    console.log(item, 'item');
+    const viewShot = React.useRef();
+
 
     const share = async () => {
-        try {
-            const result = await Share.share({
-                message: 'React Native | A framework for building native apps using React',
-            })
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    // shared with activity type of result.activityType
-                } else {
-                    // shared
-                }
-            } else if (result.action === Share.dismissedAction) {
-                // dismissed
-            }
-        } catch (error) {
-            Alert.alert(error.message)
-        }
+        viewShot.current.capture().then(async (uri) => {
+            const shareOptions = {
+                message: 'Информация о командной игре',
+                url: uri,
+            };
+            await Share.open(shareOptions);
+        }),
+            (error) => console.error("Oops, snapshot failed", error);
+
     }
     return (
         <Modal
@@ -36,72 +32,81 @@ const TeamitemModal = ({ modalVisible, setModalVisible, item }) => {
             setIsVisible={setModalVisible}
             btnClose={false}
             item={
-                <View style={styles.modalWrapper}>
-                    <View style={styles.regulationBlock}>
-                        <View style={styles.rowBox}>
-                            <Pressable onPress={share}>
-                                <ArrowRight />
-                            </Pressable>
-                        </View>
-                        <View style={styles.titleColumnBox}>
-                            <Text style={styles.title}>
-                                Имя команды: {item?.team?.name}
-                            </Text>
-                            <Text style={styles.title}>
-                                {
-                                    item?.between_players ?
-                                        'Формат игры: Между игроками команды' :
-                                        `Соперник :  ${item.enemy_team_name}`
-                                }
-                            </Text>
-                            <Text style={styles.title}>Тип игры: {item?.game?.name}</Text>
-                            {item.format && <Text style={styles.title}>Схема игры: {item?.format}</Text>}
+                <ViewShot
+                    ref={viewShot}
+                    options={{
+                        format: "jpg",
+                        quality: 0.9,
+                        fileName: 'Информация о командной игре'
+                    }}
+                >
+                    <View style={styles.modalWrapper}>
+                        <View style={styles.regulationBlock}>
+                            <View style={styles.rowBox}>
+                                <Pressable onPress={share}>
+                                    <ArrowRight />
+                                </Pressable>
+                            </View>
+                            <View style={styles.titleColumnBox}>
+                                <Text style={styles.title}>
+                                    Имя команды: {item?.team?.name}
+                                </Text>
+                                <Text style={styles.title}>
+                                    {
+                                        item?.between_players ?
+                                            'Формат игры: Между игроками команды' :
+                                            `Соперник :  ${item.enemy_team_name}`
+                                    }
+                                </Text>
+                                <Text style={styles.title}>Тип игры: {item?.game?.name}</Text>
+                                {item.format && <Text style={styles.title}>Схема игры: {item?.format}</Text>}
 
 
-                            <Text style={styles.title}>
-                                Дата и время игры: {dateFormater(item?.start_date)}
-                            </Text>
+                                <Text style={styles.title}>
+                                    Дата и время игры: {dateFormater(item?.start_date)}
+                                </Text>
 
-                            <Text style={styles.title}>
-                                Адрес проведения игры: {item?.address_name}
-                            </Text>
+                                <Text style={styles.title}>
+                                    Адрес проведения игры: {item?.address_name}
+                                </Text>
 
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={styles.title}>Участники:</Text>
-                                <View style={{ left: 10, flexDirection: 'row' }}>
-                                    {[...item.players, ...item.enemy_players].map((item) => {
-                                        return <User
-                                            size={31}
-                                            key={item._id}
-                                            user={item}
-                                            pressedUser={item}
-                                            style={{marginRight: 10}}
-                                            onPressItem={{
-                                                item: <User 
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={styles.title}>Участники:</Text>
+                                    <View style={{ left: 10, flexDirection: 'row' }}>
+                                        {[...item.players, ...item.enemy_players].map((item) => {
+                                            return <User
+                                                size={31}
+                                                key={item._id}
                                                 user={item}
-                                                size={370} />,
+                                                pressedUser={item}
+                                                style={{ marginRight: 10 }}
+                                                onPressItem={{
+                                                    item: <User
+                                                        user={item}
+                                                        size={370} />,
+                                                    modalClose: false,
+                                                }}
+                                            />
+                                        })}
+                                    </View>
+                                </View>
+
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Text style={styles.title}>Организатор игры:</Text>
+                                    <View style={{ left: 10 }}>
+                                        <User
+                                            size={31}
+                                            onPressItem={{
+                                                item: <User size={370} />,
                                                 modalClose: false,
                                             }}
                                         />
-                                    })}
-                                </View>
-                            </View>
-
-                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Text style={styles.title}>Организатор игры:</Text>
-                                <View style={{ left: 10 }}>
-                                    <User
-                                        size={31}
-                                        onPressItem={{
-                                            item: <User size={370} />,
-                                            modalClose: false,
-                                        }}
-                                    />
+                                    </View>
                                 </View>
                             </View>
                         </View>
                     </View>
-                </View>
+                </ViewShot>
             }
         />
     )

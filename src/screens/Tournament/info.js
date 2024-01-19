@@ -10,6 +10,6 @@ export const organizerData = [
     { id: 2, text: 'Не Участвует', checked: false },
 ]
 export const priceFondData = [
-    { id: 1, text: 'Да', checked: false },
-    { id: 2, text: 'Нет', checked: true },
+    { id: 1, text: 'Да', checked: true },
+    { id: 2, text: 'Нет', checked: false },
 ]
