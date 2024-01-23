@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { RH, RW, font } from '@/theme/utils'
 import DotSvg from './assets/DotSvg'
 import Row from '@/components/wrappers/row'
@@ -20,6 +20,8 @@ import { callEndGame, getGameById } from '@/store/Slices/GamesSlice'
 import { confirmJoin, rejectJoin, getPlayers } from '@/store/Slices/TournamentReducer/TournamentApies'
 import { changeMediaForTournament } from '@/store/Slices/TournamentReducer/TournamentSlice'
 import axiosInstance from '@/store/Api'
+import Modal from '@/components/modal'
+import FeedbackAnswerModal from '@/components/CustomModal/modals/FeedbackAnswerModal'
 
 const NotificationItem = ({ elm }) => {
   const { notifications } = useSelector(({ app }) => app)
@@ -29,6 +31,7 @@ const NotificationItem = ({ elm }) => {
   const updated = updateDateArray[0] + ':' + updateDateArray[1]
   const navigation = useNavigation()
   const dispatch = useDispatch()
+  const [isVisible, setIsVisible] = useState(false)
 
   const buttonOptions = {
     team_inite: {
@@ -231,13 +234,7 @@ const NotificationItem = ({ elm }) => {
       secondButton: false,
       secondaryClick: true,
       onPress: () => {
-        dispatch(
-          setModalOptions({
-            visible: true,
-            type: 'FeedbackAnswerModal',
-            body: elm.text
-          }),
-        )
+        setIsVisible(true)
       },
     }
   }
@@ -308,6 +305,11 @@ const NotificationItem = ({ elm }) => {
           <Text style={styles.time}>{updated}</Text>
         </View>
       </Row>
+      <Modal
+        modalVisible={isVisible}
+        setIsVisible={setIsVisible}
+        item={<FeedbackAnswerModal body={elm} close={setIsVisible} />}
+      />
     </View>
   )
 }

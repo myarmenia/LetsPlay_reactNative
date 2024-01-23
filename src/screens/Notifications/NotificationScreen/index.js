@@ -9,6 +9,7 @@ import { ICON, WHITE } from '@/theme/colors'
 import { font, RH, RW } from '@/theme/utils'
 import NotificationItem from './NotificationItem'
 import ScreenMask2 from '@/components/wrappers/screen2'
+import FeedbackAnswerModal from '@/components/CustomModal/modals/FeedbackAnswerModal'
 
 function NotificationScreen() {
   const { notifications } = useSelector(({ app }) => app)

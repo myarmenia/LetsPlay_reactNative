@@ -1,67 +1,71 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View, TextInput, Pressable, Keyboard } from 'react-native'
+import React, { useState } from 'react'
 import { RW, font, RH } from '@/theme/utils'
 import { LIGHT_LABEL, WHITE, BACKGROUND, ICON, RED } from '@/theme/colors'
 import Row from '@/components/wrappers/row'
 import CloseSvg from '@/assets/svgs/closeSvg'
 import Button from '@/components/buttons/Button'
-import { useDispatch } from 'react-redux'
-import { setModalOptions } from '@/store/Slices/AppSlice'
 import axiosInstance from '@/store/Api'
-const FeedbackAnswerModal = ({ message }) => {
-    const dispatch = useDispatch()
+import Modal from '@/components/modal'
+import { useNavigation } from '@react-navigation/native'
+
+
+
+
+const successText = `Спасибо за ваше сообщение. В ближайшее время с вами свяжется менеджер приложения
+«Играем».`
+const failText = `Извините, что-то пошло не так, попробуйте повторить позднее`
+
+const FeedbackAnswerModal = ({ body, close }) => {
+    const navigation = useNavigation()
     const [errorText, setErrorText] = useState(false)
     const [value, setValue] = useState(null)
+    const [modalText, setModalText] = useState(successText)
+    const [isVisible, setIsVisible] = useState(false)
 
     const handleClick = async () => {
         if (!value) {
             setErrorText(true)
         } else {
             try {
-                const data = await axiosInstance.post('/feedback', {
-                    "title": 'description',
-                    "text": value
+                const data = await axiosInstance.put('/feedback', {
+                    text: value,
+                    feedbackId: body.feedback
                 })
-
                 if (data.data.message === "success") {
-                    setTimeout(() => {
-                        closeModal()
-                    }, 1500)
+                    setModalText(successText)
+                    setIsVisible(true)
+                    setErrorText(false)
                 }
             } catch (error) {
-                console.log(error, 'error');
+                setIsVisible(true)
+                setModalText(failText)
+            } finally {
+                setTimeout(() => {
+                    setIsVisible(false)
+                    navigation.navigate('Home')
+                    setValue('')
+                }, 2500)
+
             }
 
         }
-
     }
 
-    const closeModal = () => {
-        dispatch(
-            setModalOptions({
-                visible: false,
-            }),
-        )
-    }
-
-    useEffect(() => {
-        return () => {
-            setErrorText(false)
-            setValue('')
-        }
-    }, [])
 
 
     return (
         <View style={styles.modal}>
             <Row wrapper={styles.header}>
                 <Text style={styles.text}>Oтвет от службы поддержки</Text>
-                <Pressable onPress={closeModal}>
+                <Pressable onPress={() => {
+                    close(false)
+                }}>
                     <CloseSvg />
                 </Pressable>
 
             </Row>
-            <Text style={styles.message}>{message}</Text>
+            <Text style={styles.message}>{body.text}</Text>
             <View style={styles.inputBlock}>
                 <TextInput
                     onChangeText={setValue}
@@ -78,8 +82,19 @@ const FeedbackAnswerModal = ({ message }) => {
                 ) : null}
             </View>
             <View style={styles.buttonBlock}>
-                <Button onPress={handleClick} size={{ height: 32 }} label={'Отправить'} />
+                <Button onPress={handleClick} style={{ width: 140 }} size={{ height: 32 }} label={'Отправить'} />
             </View>
+            <Modal
+                modalVisible={isVisible}
+                setIsVisible={setIsVisible}
+                item={
+                    <View style={styles.feedbackModal}>
+                        <Text style={styles.modalText}>
+                            {modalText}
+                        </Text>
+                    </View>
+                }
+            />
         </View>
     )
 }
@@ -88,6 +103,7 @@ export default FeedbackAnswerModal
 
 const styles = StyleSheet.create({
     modal: {
+        alignSelf: 'center',
         width: RW(356),
         backgroundColor: LIGHT_LABEL,
         borderRadius: RW(20),
@@ -120,5 +136,21 @@ const styles = StyleSheet.create({
         color: ICON,
         borderRadius: RW(10),
         paddingHorizontal: RW(20),
+    },
+    feedbackModal: {
+        width: RW(289),
+        height: RH(199),
+        paddingHorizontal: RW(26),
+        paddingTop: RH(48),
+        backgroundColor: LIGHT_LABEL,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        borderRadius: RW(20),
+        alignItems: 'center',
+    },
+    modalText: {
+        ...font('regular', 16, WHITE, 24),
+        textAlign: 'center',
+        width: RW(235),
     },
 })

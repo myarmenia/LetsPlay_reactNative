@@ -32,7 +32,7 @@ const CustomModal = () => {
   return (
     <TouchableWithoutFeedback
       onPress={() => {
-        if (modalOptions?.type !== 'RateOrganizerModal') dispatch(setModalVisible(false))
+        if (modalOptions?.type !== 'RateOrganizerModal') { dispatch(setModalVisible(false)) }
       }}
     >
       <Animated.View
@@ -69,8 +69,6 @@ const CustomModal = () => {
                 return <GaleryOpenPhoto body={modalOptions.body} />
               case 'BestPlayer':
                 return <BestPlayer body={modalOptions.body} />
-              case 'FeedbackAnswerModal':
-                return <FeedbackAnswerModal message={modalOptions.body} />
               default:
                 break
             }
