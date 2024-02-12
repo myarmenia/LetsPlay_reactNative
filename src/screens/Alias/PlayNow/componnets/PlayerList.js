@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, TouchableOpacity, View, StyleSheet } from 'react-native'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { font, RH, RW } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 

@@ -1,11 +1,12 @@
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
 function UserEmptyIcon(props) {
   return (
     <Svg
-      width={54}
-      height={81}
+      width={RH(54)}
+      height={RH(81)}
       viewBox="0 0 54 81"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

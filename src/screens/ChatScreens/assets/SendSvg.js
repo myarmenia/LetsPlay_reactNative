@@ -1,12 +1,13 @@
 import * as React from 'react'
 import Svg, { G, Path } from 'react-native-svg'
 import { memo } from 'react'
+import { RH } from '@/theme/utils'
 
 const SendSvg = () => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width={23}
-    height={23}
+    width={RH(23)}
+    height={RH(23)}
     viewBox="0 0 280 280"
     xmlSpace="preserve"
   >

@@ -6,7 +6,7 @@ import { Pressable, Text, View, StyleSheet, Animated, Dimensions } from 'react-n
 import { useDispatch, useSelector } from 'react-redux'
 import PlayingInstructionSVG from '../assets/PlayingInstructionSVG'
 import TypeButton from '@/screens/Game/components/TypeButton'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { ICON, WHITE } from '@/theme/colors'
 import { setStoping } from '@/store/Slices/CrocodileSlice'
 

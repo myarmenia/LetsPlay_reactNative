@@ -13,11 +13,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getGames } from '@/store/Slices/GamesSlice'
 import { searchTourney } from '@/store/Slices/TournamentReducer/TournamentApies'
 import moment from 'moment'
+import { isTabletDevice } from '@/helpers/helpFunctions'
+
 
 import { chooseGameType, format } from './info'
 
 
 const SearchTournament = () => {
+
   const dispatch = useDispatch()
   const address = useSelector(({ address }) => address)
 
@@ -97,7 +100,7 @@ const SearchTournament = () => {
 
 
   return (
-    <ScreenMask>
+    <ScreenMask style={styles.container}>
       <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
         <View style={styles.gameTypesContainer}>
           <RadioBlock
@@ -150,23 +153,15 @@ const SearchTournament = () => {
           {addressError ? <Text style={styles.errorText}>Выберите аддрес</Text> : null}
         </View>
       </ScrollView>
-      {notFoundError ? <Text style={styles.errorText}>Турниров не найдено</Text> : null}
-      <View
-        style={[
-          styles.bottomButton,
-          {
-            bottom: RH(35),
-            height: RH(36),
-            width: '100%',
-            alignItems: 'flex-end',
-            backgroundColor: 'transparent',
-          },
-        ]}
-      >
+
+      <View style={styles.bottomButton}>
+        <View>
+          {notFoundError ? <Text style={styles.errorText}>Турниров не найдено</Text> : null}
+        </View>
         <LightButton
           label={'Готово'}
           onPress={handleSubmit}
-          size={{ width: RW(144), height: '100%', }}
+          size={{ width: isTabletDevice ? RH(100) : RW(144) }}
         />
       </View>
     </ScreenMask>
@@ -176,6 +171,10 @@ const SearchTournament = () => {
 export default SearchTournament
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
   gameTypesContainer: {
     marginTop: '10%',
     left: RW(18),
@@ -186,8 +185,8 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...font('medium', 18, RED),
-    top: RH(15),
-    left: RW(20),
+    marginBottom: RH(45)
+
   },
   openedGameBtn: {
     borderRadius: RW(10),
@@ -219,6 +218,7 @@ const styles = StyleSheet.create({
     marginLeft: RW(10),
     alignSelf: 'flex-start',
     top: '15%',
+    fontSize: RH(15)
   },
   datesContainer: {
     flexDirection: 'row',
@@ -237,9 +237,11 @@ const styles = StyleSheet.create({
     borderRadius: RW(2),
   },
   bottomButton: {
-    marginLeft: 'auto',
-    marginRight: RW(10),
-    backgroundColor: 'transparent',
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginVertical: RH(20),
+    alignItems: 'flex-end',
   },
   loading: {
     ...font('regular', 15, WHITE),

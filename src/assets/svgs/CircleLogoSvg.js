@@ -9,8 +9,9 @@ import Svg, {
   ClipPath,
 } from 'react-native-svg'
 import { memo } from 'react'
+import { RH } from '@/theme/utils'
 const CircleLogoSvg = (props) => (
-  <Svg xmlns="http://www.w3.org/2000/svg" width={384} height={384} fill="none" {...props}>
+  <Svg xmlns="http://www.w3.org/2000/svg" width={RH(384)} height={RH(384)} fill="none" {...props}>
     <G clipPath="url(#a)">
       <Path
         fill="#3EC9F4"

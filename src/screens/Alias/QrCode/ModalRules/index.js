@@ -18,6 +18,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#001034',
     borderRadius: 20,
     padding: 25,
+    width: RH(357),
+    alignSelf: 'center'
   },
   title: {
     color: WHITE,
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
   text: {
     color: WHITE,
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: RH(16),
     marginBottom: RH(6),
   },
 })

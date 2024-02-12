@@ -8,13 +8,13 @@ import Svg, {
     RadialGradient,
     ClipPath
 } from "react-native-svg";
-import {RW} from '@/theme/utils'
+import { RH } from '@/theme/utils'
 
 function SvgComponent(props) {
     return (
         <Svg
-            width={RW(200)}
-            height={RW(200)}
+            width={RH(200)}
+            height={RH(200)}
             viewBox="0 0 455 456"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

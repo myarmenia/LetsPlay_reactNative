@@ -10,6 +10,7 @@
 #import <React/RCTRootView.h>
 #import <React/RCTAppSetupUtils.h>
 #import <React/RCTLinkingManager.h>
+#import "Orientation.h"
 
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
@@ -32,6 +33,10 @@
 #endif
 
 @implementation AppDelegate
+
+ - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+  return [Orientation getOrientation];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {

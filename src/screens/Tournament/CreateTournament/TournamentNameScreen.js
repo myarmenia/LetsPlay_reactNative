@@ -141,11 +141,13 @@ const styles = StyleSheet.create({
     height: RH(48),
     color: ICON,
     paddingLeft: RW(24),
+    fontSize: RH(16)
   },
   inputMulti: {
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     width: RW(363),
+    fontSize: RH(16),
     color: ICON,
     paddingHorizontal: RW(24),
     marginTop: RH(15),

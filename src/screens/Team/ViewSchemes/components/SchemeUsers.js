@@ -1,7 +1,7 @@
 import { RW } from '@/theme/utils'
 import React from 'react'
 import { View, Pressable, StyleSheet, Animated } from 'react-native'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import ArrowSvg from './assets/ArrowSvg'
 import { BACKGROUND } from '@/theme/colors'
 import Row from '@/components/wrappers/row'

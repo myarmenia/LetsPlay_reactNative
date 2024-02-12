@@ -5,7 +5,7 @@ import { RH, RW } from '@/theme/utils'
 import { FONT_INTER_REGULAR } from '@/theme/fonts'
 import ArrowRight from '@/assets/svgs/ArrowRight'
 import Modal from '@/components/modal'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 import Share from 'react-native-share'
@@ -23,8 +23,8 @@ const TournamentInfoModal = ({ modalVisible, setModalVisible, id }) => {
                 url: uri,
             };
             await Share.open(shareOptions);
-        }),
-            (error) => console.error("Oops, snapshot failed", error);
+        }).catch((err) => {
+        })
 
     }
 
@@ -87,12 +87,10 @@ const TournamentInfoModal = ({ modalVisible, setModalVisible, id }) => {
                                     style={styles.title}>
                                     Адрес проведения турнира: {selectedTournament?.address_name}
                                 </Text>
-                                {/* <Text style={styles.title}>
-                                Плата за участие: 500 руб.
-                            </Text> */}
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.title}>Организатор турнира:</Text>
+
+                                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(10) }}>
+                                    <Text style={[styles.title, { paddingTop: 0 }]}>Организатор турнира:</Text>
                                     <View style={{ left: 10 }}>
                                         <User
                                             size={30}

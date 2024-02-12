@@ -114,7 +114,7 @@ const AuthHome = () => {
               openLink(`https://to-play.ru/vk/auth.html?${expiredToken}`)
             }}
           >
-            <VKIcon />
+            <VKIcon/>
           </Pressable>
         </View>
       </View>

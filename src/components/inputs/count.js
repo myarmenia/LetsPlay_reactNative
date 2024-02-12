@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     color: ICON,
+    fontSize: RH(16)
   },
 })
 

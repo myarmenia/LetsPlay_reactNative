@@ -78,32 +78,31 @@ const CreateTeamTitle = () => {
       }
     })
   }
- 
+
 
   return (
     <ScreenMask>
       <View style={{ height: '100%' }}>
-        <View style={styles.inputsView}>
-          <View style={styles.colBox}>
-            <View style={styles.inputBlock}>
-              <TextInput
-                placeholder={'Название команды'}
-                placeholderTextColor={ICON}
-                maxLength={30}
-                style={styles.inputs}
-                onChangeText={(value) => setTeamName(value)}
-              />
-            </View>
-            {teamNameError && (
-              <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
-            )}
+        <View style={styles.inputContainer}>
+          <View style={styles.inputBlock}>
+            <TextInput
+              placeholder={'Название команды'}
+              placeholderTextColor={ICON}
+              maxLength={30}
+              style={styles.inputs}
+              onChangeText={(value) => setTeamName(value)}
+            />
+
           </View>
-          <View style={styles.colBox}>
+          {teamNameError && (
+            <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
+          )}
+          <View style={styles.inputBlock}>
             <SearchAddresses />
-            {addressError && (
-              <Text style={styles.errorText}>{addressError}</Text>
-            )}
           </View>
+          {addressError && (
+            <Text style={styles.errorText}>{addressError}</Text>
+          )}
         </View>
         <View style={styles.uploadBox}>
           <TouchableOpacity style={styles.downloadingImg} onPress={uploadImageHandle}>
@@ -153,13 +152,11 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     height: '100%',
   },
-  inputsView: {
+  inputContainer: {
     width: '100%',
     marginTop: RH(60),
   },
-  colBox: {
-    flexDirection: 'column',
-  },
+
   uploadBox: {
     flexDirection: 'row',
     justifyContent: 'space-around',
@@ -173,22 +170,19 @@ const styles = StyleSheet.create({
     borderRadius: RW(44),
     marginHorizontal: RW(20),
   },
+
+  inputBlock: {
+    backgroundColor: BACKGROUND,
+    flexDirection: 'row',
+    borderRadius: RW(10),
+    marginTop: RH(30),
+    alignItems: 'center',
+  },
   inputs: {
     color: ICON,
     width: '80%',
     marginLeft: RW(20),
     fontSize: RW(16),
-  },
-  inputBlock: {
-    backgroundColor: BACKGROUND,
-    width: RW(380),
-    height: RH(50),
-    alignSelf: 'center',
-    flexDirection: 'row',
-    zIndex: 89,
-    borderRadius: RW(10),
-    margin: RH(10),
-    alignItems: 'center',
   },
   downloadingImg: {
     flexDirection: 'row',
@@ -230,7 +224,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...font('regular', 16, RED, 24),
-    marginLeft: RW(14),
+    marginLeft: RW(10)
   },
 })
 export default memo(CreateTeamTitle)

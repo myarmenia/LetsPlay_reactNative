@@ -1,11 +1,12 @@
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Rect, Defs, LinearGradient, Stop } from 'react-native-svg'
 
 function BorderGradient({ height = 144, width = 95, opacity = 1 }) {
   return (
     <Svg
-      width={width}
-      height={height}
+      width={RH(width)}
+      height={RH(height)}
       viewBox="0 0 95 144"
       fill="none"
       opacity={opacity}

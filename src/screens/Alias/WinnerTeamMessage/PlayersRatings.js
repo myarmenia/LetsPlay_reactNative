@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { useDispatch, useSelector } from 'react-redux'
 import LightButton from '@/components/buttons/Button'
 import { RH, RW, font } from '@/theme/utils'

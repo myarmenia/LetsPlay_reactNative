@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   labelStyle: {
-    fontWeight: '700',
     ...font('bold', 18, LIGHT_LABEL, 24),
   },
 })

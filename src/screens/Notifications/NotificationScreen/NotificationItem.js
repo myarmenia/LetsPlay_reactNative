@@ -273,7 +273,7 @@ const NotificationItem = ({ elm }) => {
                   style={{
                     opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1,
                   }}
-                  size={{ width: RH(172) }}
+                  size={{ width: 144 }}
                 />
 
                 {(buttonOptions[elm?.type].secondButton) &&
@@ -284,7 +284,7 @@ const NotificationItem = ({ elm }) => {
                     style={{
                       opacity: !buttonOptions[elm?.type]?.secondaryClick && elm?.click ? 0.5 : 1, marginLeft: 15
                     }}
-                    size={{ width: RH(172) }}
+                    size={{ width: 144 }}
                   />}
 
               </Row>}

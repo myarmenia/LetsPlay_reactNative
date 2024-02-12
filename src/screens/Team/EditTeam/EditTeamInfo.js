@@ -12,6 +12,7 @@ import UploadIcon from '@/assets/svgs/uploadPhotoIcon'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAddress } from '@/store/Slices/AddressSlice'
 import { setModalOptions } from '@/store/Slices/AppSlice'
+import { isTabletDevice } from '@/helpers/helpFunctions'
 
 const EditTeamInfo = ({ route }) => {
   const dispatch = useDispatch()
@@ -32,10 +33,11 @@ const EditTeamInfo = ({ route }) => {
       quality: 1,
       includeBase64: false,
     }).then((result) => {
+      if (result.didCancel) {
+        return
+      }
       if (result?.assets?.[0]?.uri) {
         setPhoto(result.assets[0])
-      } else {
-        setPhoto(null)
       }
     })
   }
@@ -106,7 +108,7 @@ const EditTeamInfo = ({ route }) => {
         }
 
       })
-      .catch((error) =>{})
+      .catch((error) => { })
   }
 
 
@@ -131,7 +133,11 @@ const EditTeamInfo = ({ route }) => {
             <UploadIcon />
           </Pressable>
         </ImageBackground>
-        <TextInput style={styles.input} value={name} onChangeText={(e) => setName(e)} />
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={(e) => setName(e)}
+        />
       </View>
       <View style={styles.colBox}>
         <Text style={styles.text}>Адрес нахождения команды:</Text>
@@ -141,7 +147,10 @@ const EditTeamInfo = ({ route }) => {
       <View style={styles.bottomBox}>
         <LightButton
           label={'Сохранить'}
-          size={{ width: RW(366), height: RH(50) }}
+          size={{
+            width: isTabletDevice ? RH(250) : RW(366),
+            height: isTabletDevice ? RH(40) : RH(50)
+          }}
           onPress={hundleSubmit}
         />
       </View>
@@ -182,6 +191,7 @@ const styles = StyleSheet.create({
     color: ICON,
     top: '4%',
     paddingLeft: RW(24),
+    fontSize: RH(16)
   },
   row: {
     flexDirection: 'row',

@@ -26,8 +26,8 @@ const CircleButton = ({ isHome, setIsHome, tabBarHidden }) => {
 
 const styles = StyleSheet.create({
   circleContainer: {
-    width: RW(78),
     height: RW(78),
+    aspectRatio: 1,
     bottom: TAB_BAR_HEIGHT - RW(78) / 2,
     padding: RW(8),
     alignSelf: 'center',

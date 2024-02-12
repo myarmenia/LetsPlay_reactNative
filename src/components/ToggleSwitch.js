@@ -6,13 +6,13 @@ import LinearGradient from 'react-native-linear-gradient'
 
 const Toggle = ({ isOn, setIsOn }) => {
   // const [isOn, setIsOn] = useState(false)
-  const value = useRef(new Animated.Value(isOn ? 37 : 0)).current
+  const value = useRef(new Animated.Value(isOn ? RH(37) : 0)).current
 
   function toggleHandle() {
     setIsOn(!isOn)
 
     Animated.spring(value, {
-      toValue: !isOn ? 37 : 0,
+      toValue: !isOn ? RH(37) : 0,
       useNativeDriver: false,
     }).start()
   }
@@ -26,8 +26,8 @@ const Toggle = ({ isOn, setIsOn }) => {
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         colors={isOn ? ['rgba(125, 206, 138, 1)', 'rgba(77, 124, 254, 1)'] : ['#b3b7c2', '#b3b7c2']}
-        style={{ width: RW(65), height: RH(24), borderRadius: RH(12) }}
-      ></LinearGradient>
+        style={{ width: RH(65), height: RH(24), borderRadius: RH(12) }}
+      />
       <Animated.View
         style={{
           shadowColor: '#000',
@@ -48,11 +48,11 @@ const Toggle = ({ isOn, setIsOn }) => {
           end={{ x: 0, y: 0 }}
           colors={['rgba(125, 206, 138, 1)', 'rgba(77, 124, 254, 1)']}
           style={{
-            width: RW(30),
+            width: RH(30),
             height: RH(30),
             borderRadius: RH(15),
           }}
-        ></LinearGradient>
+        />
       </Animated.View>
     </Pressable>
   )

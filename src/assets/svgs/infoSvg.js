@@ -1,11 +1,12 @@
 import * as React from 'react'
 import Svg, { G, Path, Defs, LinearGradient, Stop, ClipPath } from 'react-native-svg'
+import { RH } from '@/theme/utils'
 
 function InfoSvg(props) {
   return (
     <Svg
-      width={38}
-      height={38}
+      width={RH(38)}
+      height={RH(38)}
       viewBox="0 0 41 41"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -20,10 +21,10 @@ function InfoSvg(props) {
       <Defs>
         <LinearGradient
           id="paint0_linear_1517_19554"
-          x1={0.500977}
-          y1={23.6459}
-          x2={40.5012}
-          y2={23.6614}
+          x1={RH(0.500977)}
+          y1={RH(23.6459)}
+          x2={RH(40.5012)}
+          y2={RH(23.6614)}
           gradientUnits="userSpaceOnUse"
         >
           <Stop stopColor="#7DCE8A" />

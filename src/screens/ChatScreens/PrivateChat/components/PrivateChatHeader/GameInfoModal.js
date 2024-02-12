@@ -1,11 +1,11 @@
 import { Pressable, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
-import { RW } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 import { FONT_INTER_REGULAR } from '@/theme/fonts'
 import ArrowRight from '@/assets/svgs/ArrowRight'
 import Modal from '@/components/modal'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
 import { _storageUrl } from '@/constants'
@@ -28,14 +28,15 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
 
 
   const shareImage = async () => {
-    viewShot.current.capture().then(async (uri) => {
-      const shareOptions = {
-        message: 'Информация об игре',
-        url: uri,
-      };
-      await Share.open(shareOptions);
-    }),
-      (error) => console.error("Oops, snapshot failed", error);
+    viewShot.current.capture()
+      .then(async (uri) => {
+        const shareOptions = {
+          message: 'Информация об игре',
+          url: uri,
+        };
+        await Share.open(shareOptions);
+      }).catch((err) => {
+      })
 
   };
 
@@ -82,8 +83,8 @@ const GameInfoModal = ({ modalVisible, setModalVisible, gameID }) => {
                 <Text style={styles.title}>
                   Дата и время окончания поиска игроков: {dateFormater(gameInfo?.end_date)}
                 </Text>
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.title}>Организатор игры:</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(10) }}>
+                  <Text style={[styles.title, { paddingTop: 0 }]}>Организатор игры:</Text>
                   <View style={{ left: 10 }}>
                     <User
                       size={30}

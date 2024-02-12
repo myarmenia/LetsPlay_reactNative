@@ -1,4 +1,6 @@
-import { Linking, Platform } from "react-native";
+import { Linking, Platform, Dimensions } from "react-native";
+import { isTablet } from 'react-native-device-info';
+
 
 
 
@@ -13,3 +15,9 @@ export const openMap = async (address) => {
     } catch (error) {
     }
 }
+
+
+export const isTabletDevice = isTablet();
+export const deviceWidth = Dimensions.get('screen').width
+export const deviceHeight = Dimensions.get('screen').height
+

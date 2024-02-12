@@ -5,7 +5,7 @@ import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg'
 function LogoSvg({ width = 277, height = 184 }) {
   return (
     <Svg
-      width={RW(width)}
+      width={RH(width)}
       height={RH(height)}
       viewBox="0 0 277 184"
       fill="none"

@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
     borderRadius: RW(10),
     paddingLeft: RW(20),
     color: ICON,
+    fontSize: RH(16)
   },
   inputBlock: {
-    marginBottom: RH(14),
+    marginBottom: RW(14),
   },
 })
 

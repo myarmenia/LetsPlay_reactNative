@@ -15,15 +15,22 @@ import {
 } from '@/store/Slices/AliasSlice'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
 import { setPending } from '@/store/Slices/AuthSlice'
 import Modal from '@/components/modal'
 import CloseSVG from './components/CloseSVG'
+import { isTabletDevice } from '@/helpers/helpFunctions'
+
+
+
 // import CloseSVG from './components/CloseSVG'
 
 const IniviteTeamPlayers = ({ route }) => {
+
+
+
   const navigation = useNavigation()
   const props = route.params
   const {
@@ -138,7 +145,7 @@ const IniviteTeamPlayers = ({ route }) => {
   return (
     <ScreenMask>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ justifyContent: 'center' }}>
+        <View style={{ alignItems: 'center' }}>
           <View style={styles.mainContainer}>
             {userIsOrganizer ? (
               playersInGame.length >= 4 ? (
@@ -160,20 +167,19 @@ const IniviteTeamPlayers = ({ route }) => {
                   playersInGame?.map((elm, j) => {
                     return (
                       <View
-                        style={{
-                          opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1,
-                        }}
+                        style={{ opacity: reservedUsers?.includes(elm?._id) ? 0.5 : 1 }}
                         key={j}
                       >
                         <View
                           style={{
                             alignItems: 'center',
                             justifyContent: 'center',
+                            padding: RH(10)
                           }}
                         >
                           <BorderGradient
-                            height={142}
-                            width={105}
+                            height={RH(142)}
+                            width={RH(105)}
                             opacity={
                               allTeams?.[i]?.members?.includes(elm?._id) && userIsOrganizer ? 1 : 0
                             }
@@ -204,6 +210,7 @@ const IniviteTeamPlayers = ({ route }) => {
                   <View
                     style={{
                       opacity: reservedUsers?.includes(user?._id) ? 0.5 : 1,
+                      padding: RH(10)
                     }}
                   >
                     <View
@@ -213,8 +220,8 @@ const IniviteTeamPlayers = ({ route }) => {
                       }}
                     >
                       <BorderGradient
-                        height={142}
-                        width={105}
+                        height={RH(142)}
+                        width={RH(105)}
                         opacity={
                           allTeams?.[i]?.members?.includes(user?._id) && userIsOrganizer ? 1 : 0
                         }
@@ -261,14 +268,14 @@ const IniviteTeamPlayers = ({ route }) => {
             <View style={styles.btnBox}>
               <LightButton
                 label={'Продолжить'}
-                size={{ width: RW(310), height: RH(50) }}
+                size={{ width: isTabletDevice ? RW(180) : RW(310), height: RH(50) }}
                 onPress={handleSubmit}
               />
             </View>
             <View style={styles.btnBox}>
               <DarkButton
                 label={'Пригласить игроков'}
-                size={{ width: RW(310), height: RH(50) }}
+                size={{ width: isTabletDevice ? RW(180) : RW(310), height: RH(50) }}
                 onPress={() => navigation.goBack()}
               />
             </View>
@@ -284,7 +291,6 @@ export default IniviteTeamPlayers
 const styles = StyleSheet.create({
   title: {
     ...font('medium', 24, WHITE),
-    textAlign: 'center',
     paddingVertical: RH(8),
   },
   errorModalBox: {
@@ -302,20 +308,18 @@ const styles = StyleSheet.create({
   },
   commandName: {
     ...font('medium', 24, ICON),
-    textAlign: 'center',
     paddingVertical: RH(8),
   },
   mainContainer: {
-    width: '90%',
-    zIndex: 200,
-    overflow: 'visible',
-    flex: 1,
-    paddingTop: '22%',
-    alignSelf: 'center',
+    width: '100%',
+    paddingTop: RW(40),
+    paddingHorizontal: RW(15),
+    alignItems: 'center',
   },
 
   gridBox: {
     width: '100%',
+
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

@@ -4,7 +4,7 @@ import { RW, font } from '@/theme/utils'
 import { LIGHT_LABEL } from '@/theme/colors'
 import { _storageUrl } from '@/constants'
 import { useSelector } from 'react-redux'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 
 const UserInfo = ({ body }) => {
 

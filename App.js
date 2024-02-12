@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { Provider, useDispatch } from 'react-redux'
 import MyApp from '@/index'
@@ -8,6 +8,8 @@ import { LogBox } from 'react-native'
 import LinkingConfig from '@/navigation/LinkingConfig'
 import { SheetProvider } from 'react-native-actions-sheet'
 import '@/components/sheets'
+import Orientation from 'react-native-orientation-locker';
+import { isTabletDevice } from '@/helpers/helpFunctions'
 
 LogBox.ignoreLogs([
   'Sending `rn-recordback` with no listeners registered.',
@@ -17,6 +19,15 @@ LogBox.ignoreLogs([
 ])
 
 const App = () => {
+  useLayoutEffect(() => {
+    Orientation.lockToPortrait()
+    // if (isTabletDevice) {
+    //   Orientation.lockToLandscape()
+    // } else {
+    //   Orientation.lockToPortrait()
+    // }
+
+  }, [])
   return (
     <NavigationContainer linking={LinkingConfig}>
       <Provider store={store}>

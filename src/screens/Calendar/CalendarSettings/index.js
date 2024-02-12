@@ -28,7 +28,7 @@ function CalendarSettings() {
 
 
   const dispatch = useDispatch()
-  return (+
+  return (
     <ScreenMask>
       <View style={styles.container}>
         <Text style={styles.title}>Настройки</Text>

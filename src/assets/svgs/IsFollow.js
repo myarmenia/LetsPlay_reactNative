@@ -1,3 +1,4 @@
+import { RH } from "@/theme/utils"
 import * as React from "react"
 import Svg, {
     Path,
@@ -10,8 +11,8 @@ import Svg, {
 function IsFollow(props) {
     return (
         <Svg
-            width={34}
-            height={33}
+            width={RH(34)}
+            height={RH(33)}
             viewBox="0 0 34 33"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

@@ -1,11 +1,11 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
-import {RH, RW} from "@/theme/utils";
+import { RH, RW } from "@/theme/utils";
 
 function EditSvg(props) {
     return (
         <Svg
-            width={RW(22)}
+            width={RH(22)}
             height={RH(22)}
             viewBox="0 0 22 22"
             fill="none"

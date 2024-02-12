@@ -5,7 +5,7 @@ import Row from '@/components/wrappers/row'
 import { _storageUrl } from '@/constants'
 import { RH, RW, font } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import FastImage from 'react-native-fast-image'
 
 const ViewSchemes = ({ route }) => {

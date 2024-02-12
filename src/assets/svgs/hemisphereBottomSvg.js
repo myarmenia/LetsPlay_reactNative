@@ -5,7 +5,7 @@ import { RH, RW } from '@/theme/utils'
 function SvgComponent(props) {
   return (
     <Svg
-      width={RW(429)}
+      width={RH(429)}
       height={RH(258)}
       viewBox="0 0 429 258"
       fill="none"

@@ -26,7 +26,7 @@ function Index() {
               <View style={{ zIndex: 1, flexDirection: 'row', alignItems: 'center' }}>
                 <View style={styles.imageBlock}>
                   <FastImage
-                    resizeMode="contain"
+                    resizeMode="cover"
                     style={styles.image}
                     source={{ uri: _storageUrl + item?.img }}
                   />

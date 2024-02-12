@@ -5,7 +5,7 @@ import { font, RH } from '@/theme/utils'
 import { ICON, WHITE } from '@/theme/colors'
 import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { useDispatch, useSelector } from 'react-redux'
 import { setStart, startCrocodileGame } from '@/store/Slices/CrocodileSlice'
 

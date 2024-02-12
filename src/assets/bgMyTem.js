@@ -6,7 +6,7 @@ import { Text } from 'react-native'
 function SvgComponent({ children = null }) {
   return (
     <Svg
-      width={RW(395)}
+      width={RH(395)}
       height={RH(111)}
       viewBox={'0 0 ' + RW(395) + ' ' + RH(111)}
       fill="none"

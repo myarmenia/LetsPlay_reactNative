@@ -82,10 +82,11 @@ function DateComponent({
                     onChange: (_, data) => {
                       setDate(data)
                     },
+                    style: { backgroundColor: 'white' }
                   })
               }}
             >
-              <DateSvg style={styles.dateSvg} />
+              <DateSvg />
               <Text style={styles.dateText}>{dateLocalizaded}</Text>
             </Pressable>
           </View>
@@ -93,6 +94,7 @@ function DateComponent({
 
         {showTime && (
           <>
+
             {Platform.OS == 'ios' ? (
               <View
                 style={[
@@ -101,7 +103,7 @@ function DateComponent({
                     width: RW(78),
                     height: RH(41),
                     justifyContent: 'center',
-                    paddingRight: 10,
+                    paddingRight: RH(15),
                     marginLeft: RW(20),
                     backgroundColor: editable ? BACKGROUND : null,
                   },
@@ -149,7 +151,7 @@ function DateComponent({
                       })
                   }}
                 >
-                  <TimeSvg style={styles.dateSvg} />
+                  <TimeSvg />
                   <Text style={styles.dateText}>{moment(timeValue).format('HH:mm')}</Text>
                 </Pressable>
               </View>
@@ -174,7 +176,7 @@ const styles = StyleSheet.create({
   },
 
   dateText: {
-    ...font('regular', 18, ICON, 19),
+    ...font('regular', 17, ICON, 19),
     letterSpacing: 1.5,
     color: '#657AC5',
   },

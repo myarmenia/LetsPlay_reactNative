@@ -1,10 +1,11 @@
+import { RH } from "@/theme/utils"
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 
 const SvgComponent = (props) => (
     <Svg
-        width={378}
-        height={3}
+        width={RH(378)}
+        height={RH(3)}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         {...props}

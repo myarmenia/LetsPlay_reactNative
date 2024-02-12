@@ -189,11 +189,24 @@ export const getOtherUserGalleries = (user_id) => (dispatch) => {
 export const deleteGalleryFile = (data) => (dispatch) => {
   axiosInstance
     .put('api/create/game/delete/create_game_file', data)
-    .then(() => {
+    .then((res) => {
+      console.log(res, 'res');
       dispatch(setDeleteGalleryFile(data.file_id))
     })
     .catch((err) => {
-      console.error('Error: request notification', err.request?._response)
+
+      console.error(err, 'Error',)
+    })
+}
+
+export const deleteGaleryTeamCreateGameFile = (data) => (dispatch) => {
+  axiosInstance
+    .put('api/team/create/game/delete/team_create_game_file', data)
+    .then((res) => {
+      dispatch(setDeleteGalleryFile(data.file_id))
+    })
+    .catch((err) => {
+      console.error(err, 'Error',)
     })
 }
 export const getNotificationCount = (data) => (dispatch) => {

@@ -1,14 +1,15 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 import { memo } from 'react'
+import { RH } from '@/theme/utils'
 const StarSvg = ({ fill, width = 25, height = 24 }) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     preserveAspectRatio="xMinYMin slice"
     // viewBox={`0 0 ${width} ${height}`}
     viewBox={`0 0 25 24`}
-    width={width}
-    height={height}
+    width={RH(width)}
+    height={RH(height)}
     fill="none"
   >
     <Path

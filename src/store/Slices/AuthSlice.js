@@ -13,6 +13,7 @@ const initialState = {
     preferences: [],
     took_part_games: [],
     vk_uri: '',
+    vk_id: null,
     notification_settings: [],
     chat_settings: [],
   },
@@ -35,6 +36,9 @@ export const AuthSlice = createSlice({
         ...store,
         token: action.payload,
       }
+    },
+    connectVK: (store, action) => {
+      store.user.vk_id = action.payload
     },
     changeNotificationData: (store, action) => {
       store.user.notification_settings[action.payload].checked =
@@ -422,6 +426,7 @@ export const {
   setTookPartGames,
   changeNotificationData,
   changeChatSettings,
-  setSingleRule
+  setSingleRule,
+  connectVK
 } = AuthSlice.actions
 export default AuthSlice.reducer

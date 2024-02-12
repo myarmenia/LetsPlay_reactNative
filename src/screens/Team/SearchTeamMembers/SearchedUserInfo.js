@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import ScreenMask from '@/components/wrappers/screen'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import LightButton from '@/components/buttons/Button'
 import Modal from '@/components/modal'
 import { useDispatch } from 'react-redux'

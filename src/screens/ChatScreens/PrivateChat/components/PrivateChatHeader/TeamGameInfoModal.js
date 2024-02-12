@@ -1,11 +1,11 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { LIGHT_LABEL, WHITE } from '@/theme/colors'
-import { RW } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 import { FONT_INTER_REGULAR } from '@/theme/fonts'
 import ArrowRight from '@/assets/svgs/ArrowRight'
 import Modal from '@/components/modal'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
 import Share from 'react-native-share'
@@ -16,14 +16,15 @@ const TeamitemModal = ({ modalVisible, setModalVisible, item }) => {
 
 
     const share = async () => {
-        viewShot.current.capture().then(async (uri) => {
-            const shareOptions = {
-                message: 'Информация о командной игре',
-                url: uri,
-            };
-            await Share.open(shareOptions);
-        }),
-            (error) => console.error("Oops, snapshot failed", error);
+        viewShot.current.capture()
+            .then(async (uri) => {
+                const shareOptions = {
+                    message: 'Информация о командной игре',
+                    url: uri,
+                };
+                await Share.open(shareOptions);
+            }).catch((err) => {
+            })
 
     }
     return (
@@ -70,20 +71,19 @@ const TeamitemModal = ({ modalVisible, setModalVisible, item }) => {
                                     Адрес проведения игры: {item?.address_name}
                                 </Text>
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.title}>Участники:</Text>
-                                    <View style={{ left: 10, flexDirection: 'row' }}>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: RH(5) }}>
+                                    <Text style={[styles.title, { paddingTop: 0 }]}>Участники:</Text>
+                                    <View style={{ marginLeft: 10, flexDirection: 'row', }}>
                                         {[...item.players, ...item.enemy_players].map((item) => {
+
                                             return <User
                                                 size={31}
                                                 key={item._id}
                                                 user={item}
                                                 pressedUser={item}
-                                                style={{ marginRight: 10 }}
+                                                style={{ marginRight: 10, }}
                                                 onPressItem={{
-                                                    item: <User
-                                                        user={item}
-                                                        size={370} />,
+                                                    item: <User user={item} size={370} />,
                                                     modalClose: false,
                                                 }}
                                             />
@@ -91,8 +91,8 @@ const TeamitemModal = ({ modalVisible, setModalVisible, item }) => {
                                     </View>
                                 </View>
 
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Text style={styles.title}>Организатор игры:</Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: RH(5) }}>
+                                    <Text style={[styles.title, { paddingTop: 0 }]}>Организатор игры:</Text>
                                     <View style={{ left: 10 }}>
                                         <User
                                             size={31}

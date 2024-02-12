@@ -101,13 +101,12 @@ const styles = StyleSheet.create({
   imageBlock: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: '20%',
+    width: RW(87),
   },
   image: {
     width: '100%',
-    // height: '100%',
     aspectRatio: 1,
-    borderRadius: 43.5,
+    borderRadius: RW(43.5),
     alignSelf: 'center',
   },
 

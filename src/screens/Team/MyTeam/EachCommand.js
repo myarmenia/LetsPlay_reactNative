@@ -7,9 +7,6 @@ import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 import { WHITE } from '@/theme/colors'
 import { useDispatch } from 'react-redux'
-import { addSelectedTeam } from '@/store/Slices/TournamentReducer/TournamentSlice'
-import { addToTeam } from '@/store/Slices/TournamentReducer/TournamentApies'
-import { setModalOptions } from '@/store/Slices/AppSlice'
 import OrganizatorSvg from '@/assets/svgs/OrganizatorSvg'
 import { useSelector } from 'react-redux'
 import { saveTeamDataForCreating } from '@/store/Slices/TeamSlice'
@@ -36,7 +33,7 @@ const EachCommand = ({ command, data }) => {
 
   return (
     <Pressable
-      style={styles.homeBlock}
+      style={styles.container}
       onPressIn={() => {
         setBack(true)
       }}
@@ -53,109 +50,78 @@ const EachCommand = ({ command, data }) => {
         }
       }}
     >
-      {!back ? (
-        <LinearGradient
-          colors={['#7DCE8A', '#4D7CFE']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 0 }}
-          useAngle={true}
-          angle={105}
-          angleCenter={{ x: 0.5, y: 0.5 }}
-          style={{
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-            alignSelf: 'center',
-            opacity: 0.6,
-            position: 'absolute',
-            borderRadius: RW(10),
-          }}
-        ></LinearGradient>
-      ) : (
-        <LinearGradient
-          colors={['#7DCE8A', '#4D7CFE']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 0 }}
-          useAngle={true}
-          angle={105}
-          angleCenter={{ x: 0.5, y: 0.5 }}
-          style={{
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-            alignSelf: 'center',
-            position: 'absolute',
-            opacity: 0.8,
-            borderRadius: RW(10),
-          }}
-        ></LinearGradient>
-      )}
-      <View
-        style={{
-          zIndex: 1,
-          marginLeft: RW(10),
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <View style={styles.imageBlock}>
+
+      <LinearGradient
+        colors={['#7DCE8A', '#4D7CFE']}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 0 }}
+        useAngle={true}
+        angle={105}
+        angleCenter={{ x: 0.5, y: 0.5 }}
+        style={[styles.gradientStyle, { opacity: !back ? 0.8 : 0.6 }]}>
+        <View style={styles.teamContainer}>
           <FastImage
             style={styles.image}
             source={{ uri: _storageUrl + command?.img }}
             resizeMode="cover"
           />
+          <View style={styles.textBlock}>
+            <Text style={styles.text} numberOfLines={1}>{command.name} </Text>
+            <Text style={styles.text} numberOfLines={1}>{command.address_name}</Text>
+            <Text style={styles.text} numberOfLines={1}>{command.id}</Text>
+          </View>
         </View>
-        <View style={styles.textBlock}>
-          <Text style={styles.text}>{command.name}</Text>
-          <Text style={styles.text}>{command.address_name}</Text>
-          <Text style={styles.text}>{command.id}</Text>
-        </View>
-      </View>
-      {needAdminIcon && <View style={styles.organaizerSGV}><OrganizatorSvg /></View>}
+        {needAdminIcon && <View style={styles.organaizerSGV}><OrganizatorSvg /></View>}
+      </LinearGradient>
     </Pressable>
   )
 }
 
 const styles = StyleSheet.create({
-  homeBlock: {
+  container: {
     width: RW(395),
     height: RH(111),
     marginVertical: RW(6),
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'center',
-    position: 'relative',
   },
-  imageBlock: {
-    width: RW(80),
-    height: RW(80),
-    borderWidth: 1,
-    borderRadius: 50,
-    borderColor: WHITE,
-    marginTop: 'auto',
-    marginBottom: 'auto',
-  },
-  image: {
-    borderWidth: 1,
-    borderRadius: RW(50),
+  gradientStyle: {
     width: '100%',
     height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: RW(10),
+    paddingHorizontal: RH(5),
+    paddingVertical: RH(10),
+  },
+  teamContainer: {
+    width: '100%',
+    height: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  image: {
+    height: RH(80),
+    aspectRatio: 1,
+    borderRadius: RH(40),
   },
   text: {
-    marginVertical: RH(3),
     ...font('bold', 14, WHITE),
-    flexGrow: 1,
-    flexWrap: 'nowrap',
-    width: '74%',
   },
   textBlock: {
-    width: '100%',
+    flex: 1,
+    height: '100%',
+    justifyContent: 'space-around',
     marginLeft: RW(15),
+
   },
   organaizerSGV: {
     position: 'absolute',
     top: RH(8),
     right: RH(8)
-  }
+  },
+
+
 })
 
 export default EachCommand

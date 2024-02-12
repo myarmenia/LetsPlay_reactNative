@@ -1,11 +1,12 @@
 import * as React from 'react'
 import Svg, { Path, Mask } from 'react-native-svg'
+import { RH } from '@/theme/utils'
 
 function VoiceSvg(props) {
   return (
     <Svg
-      width={19}
-      height={28}
+      width={RH(19)}
+      height={RH(28)}
       viewBox="0 0 19 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

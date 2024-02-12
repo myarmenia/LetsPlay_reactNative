@@ -131,7 +131,10 @@ const styles = StyleSheet.create({
     ...font('bold', 24, WHITE),
     textAlign: 'center',
   },
-
+  body: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   timeTitle: {
     ...font('bold', 20, WHITE),
     marginBottom: RH(8),

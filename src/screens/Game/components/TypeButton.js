@@ -13,7 +13,7 @@ import {
 } from 'react-native-svg'
 
 import { LIGHT_LABEL } from '@/theme/colors'
-import { font, RW } from '@/theme/utils'
+import { font, RW, RH } from '@/theme/utils'
 import QuestionSvg from './QuestionSvg'
 
 const TypeButton = ({ title, size = 207, onPress, wrapper, labelStyle }) => {
@@ -21,11 +21,11 @@ const TypeButton = ({ title, size = 207, onPress, wrapper, labelStyle }) => {
     <Pressable
       onPress={onPress && onPress}
       activeOpacity={0.7}
-      style={{ borderRadius: RW(size / 2) }}
+      style={{ borderRadius: RH(size / 2) }}
     >
       <Svg
-        width={RW(size)}
-        height={RW(size)}
+        width={RH(size)}
+        height={RH(size)}
         viewBox="0 0 207 207"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"

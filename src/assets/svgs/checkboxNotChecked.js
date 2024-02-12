@@ -1,11 +1,12 @@
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
 function CheckboxNotChecked(props) {
   return (
     <Svg
-      width={17}
-      height={17}
+      width={RH(17)}
+      height={RH(17)}
       viewBox="0 0 17 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

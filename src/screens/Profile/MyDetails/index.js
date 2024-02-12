@@ -71,11 +71,7 @@ function Index() {
         if (data.vkAuthInfo && data.token == token) {
           InAppBrowser.close()
           const vkAuthInfo = JSON.parse(data.vkAuthInfo)
-          dispatch(
-            connectVK({
-              id: vkAuthInfo.id,
-            }),
-          )
+          dispatch(connectVK(vkAuthInfo.id))
         }
       })
       const canOpenURL = await Linking.canOpenURL(url)
@@ -107,7 +103,8 @@ function Index() {
             endEnter: 'slide_in_bottom',
             endExit: 'slide_out_right',
           },
-        }).then(() => {
+        }).then((res) => {
+          console.log(res, 'res');
           socket.off('message')
         })
       }
@@ -151,7 +148,7 @@ function Index() {
       .then((result) => {
         dispatch(setImage(JSON.parse(result).avatar))
       })
-      .catch((error) => {})
+      .catch((error) => { })
       .finally(() => dispatch(setPending(false)), setEditable(false))
   }
 
@@ -195,8 +192,8 @@ function Index() {
               !avatar
                 ? require('../../../assets/defualtUser.png')
                 : avatar.startsWith('https://')
-                ? { uri: avatar }
-                : {
+                  ? { uri: avatar }
+                  : {
                     uri: _storageUrl + avatar,
                   }
             }
@@ -219,7 +216,12 @@ function Index() {
           </Pressable>
         </View>
         <View style={styles.formBlock}>
-          <InputBlock text={'Имя:'} value={nameState} setValue={setNameState} editable={editable} />
+          <InputBlock
+            text={'Имя:'}
+            value={nameState}
+            setValue={setNameState}
+            editable={editable}
+          />
           <InputBlock
             text={'Фамилия:'}
             value={surNameState}
@@ -231,6 +233,7 @@ function Index() {
             title={'Пол:'}
             onChange={setGenderState}
             editable={editable}
+            left={10}
           />
 
           <DateComponent
@@ -266,10 +269,10 @@ function Index() {
             />
           ) : (
             <Pressable
-              style={{ paddingTop: RH(10) }}
+              style={{ paddingTop: RH(10), }}
               onPress={() => openLink(`https://to-play.ru/vk/auth.html?${token}`)}
             >
-              <VKIcon />
+              <VKIcon  />
             </Pressable>
           )}
           <TouchableOpacity onPress={() => setIsVisible(true)} style={styles.logOut}>

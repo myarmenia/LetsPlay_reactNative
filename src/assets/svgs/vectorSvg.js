@@ -5,7 +5,7 @@ import { RH, RW } from '@/theme/utils'
 const VectorIcon = ({ size }) => {
   return (
     <Svg
-      width={RW(size?.width) || RW(42)}
+      width={RH(size?.width) || RH(42)}
       height={RH(size?.height) || RH(42)}
       viewBox="0 0 42 42"
       fill="none"

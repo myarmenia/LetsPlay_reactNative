@@ -10,13 +10,13 @@ import {
   RadialGradient,
   ClipPath,
 } from 'react-native-svg'
-import { RW } from '@/theme/utils'
+import { RW, RH } from '@/theme/utils'
 
 const CircleMain = ({ size = 207, onPress, label, isAdd = false }) => {
   return (
     <Svg
-      width={RW(size)}
-      height={RW(size)}
+      width={RH(size)}
+      height={RH(size)}
       viewBox="0 0 207 207"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

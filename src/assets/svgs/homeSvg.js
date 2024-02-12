@@ -6,7 +6,7 @@ function SvgComponent(props) {
     return (
         <Svg
             width={RH(20)}
-            height={RW(23)}
+            height={RH(23)}
             viewBox="0 0 20 23"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

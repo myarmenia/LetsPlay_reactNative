@@ -1,10 +1,11 @@
 import { DARK_BLUE } from '@/theme/colors'
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Circle, Path } from 'react-native-svg'
 
 function GeolocationIcon() {
   return (
-    <Svg width={32} height={33} viewBox="0 0 32 33" fill="none">
+    <Svg width={RH(32)} height={RH(33)} viewBox="0 0 32 33" fill="none">
       <Circle
         cx={16.2581}
         cy={16.5104}

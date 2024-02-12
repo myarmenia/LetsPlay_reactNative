@@ -1,9 +1,10 @@
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Path, Rect, Defs, LinearGradient, Stop } from 'react-native-svg'
 
 function CircleAdd(props) {
   return (
-    <Svg width={37} height={37} viewBox="0 0 37 37" fill="none">
+    <Svg width={RH(37)} height={RH(37)} viewBox="0 0 37 37" fill="none">
       <Path
         d="M18.333 12.973v11.232M23.949 18.59H12.716"
         stroke="#fff"

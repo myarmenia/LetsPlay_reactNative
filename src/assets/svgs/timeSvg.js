@@ -1,11 +1,12 @@
 import * as React from 'react'
 import Svg, { Rect, Path } from 'react-native-svg'
+import { RH } from '@/theme/utils'
 
 function timeSvg(props) {
   return (
     <Svg
-      width={16}
-      height={17}
+      width={RH(16)}
+      height={RH(17)}
       viewBox="0 0 16 17"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -1,11 +1,12 @@
+import { RH } from "@/theme/utils"
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 
 function SvgForTariff(props) {
     return (
         <Svg
-            width={14}
-            height={16}
+            width={RH(14)}
+            height={RH(16)}
             viewBox="0 0 14 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

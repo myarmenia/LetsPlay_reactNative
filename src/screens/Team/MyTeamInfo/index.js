@@ -30,17 +30,17 @@ function Index() {
   }, [savedTeam.user._id, user._id])
 
   const navigation = useNavigation()
-  const dispatch = useDispatch()
   return (
     <ScreenMask>
       <View style={styles.rowBox}>
         <Text style={styles.team}>{savedTeam?.name}</Text>
-        {user._id === savedTeam.user._id && <TouchableOpacity
-          onPress={() => navigation.navigate('EditTeamInfo', savedTeam)}
-          style={styles.editBtn}
-        >
-          <UserEditSvg />
-        </TouchableOpacity>}
+        {user._id === savedTeam.user._id &&
+          <TouchableOpacity
+            onPress={() => navigation.navigate('EditTeamInfo', savedTeam)}
+            style={styles.editBtn}
+          >
+            <UserEditSvg />
+          </TouchableOpacity>}
       </View>
       <View style={styles.imageBlock}>
         <FastImage

@@ -407,6 +407,7 @@ const styles = StyleSheet.create({
   countInput: {
     height: RH(50),
     width: RW(110),
+    fontSize: RH(16),
     backgroundColor: BACKGROUND,
     borderRadius: RW(10),
     paddingLeft: RW(24),

@@ -3,8 +3,8 @@ import { RH, RW } from '@/theme/utils'
 import Svg, { Circle, G, Path, Defs, ClipPath } from 'react-native-svg'
 
 function OrganizatorSvg({ size }) {
-  const width = RW(size?.width) || RW(24)
-  const height = RH(size?.height) || RH(24)
+  const width = RH(size?.width) || RH(20)
+  const height = RH(size?.height) || RH(20)
   return (
     <Svg
       width={width}

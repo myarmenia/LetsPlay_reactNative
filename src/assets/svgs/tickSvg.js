@@ -1,11 +1,12 @@
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
 function TickSvg(props) {
   return (
     <Svg
-      width={25}
-      height={20}
+      width={RH(25)}
+      height={RH(20)}
       viewBox="0 0 25 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

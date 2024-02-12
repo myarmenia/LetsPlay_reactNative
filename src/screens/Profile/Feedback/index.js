@@ -52,7 +52,7 @@ function Index(props) {
       >
         <TouchableNativeFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.container}>
-            <Text style={{ ...styles.title, marginTop: RH(53), marginBottom: RH(83) }}>
+            <Text style={{ ...styles.title, marginTop: RH(53), marginBottom: RH(63) }}>
               Обратная связь
             </Text>
             <View style={styles.inputBlock}>
@@ -60,7 +60,7 @@ function Index(props) {
                 onChangeText={(ev) => setValue(ev)}
                 placeholderTextColor={ICON}
                 placeholder={'Тема'}
-                style={[styles.input, Platform.OS == 'ios' && { fontSize: 16, height: 51 }]}
+                style={[styles.input, Platform.OS == 'ios' && { fontSize: RH(16), height: RH(51) }]}
               />
               {errorText && !value ? (
                 <Text style={styles.errorText}>Обязательное поле для заполнения</Text>
@@ -116,6 +116,8 @@ const styles = StyleSheet.create({
     color: ICON,
     borderRadius: RW(10),
     paddingHorizontal: RW(20),
+    fontSize: RH(16),
+    height: RH(51)
   },
   buttonBlock: {
     marginTop: RH(55),

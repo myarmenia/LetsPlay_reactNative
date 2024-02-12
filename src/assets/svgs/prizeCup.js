@@ -5,8 +5,8 @@ import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg'
 function PrizeCup(props) {
   return (
     <Svg
-      width={props.width}
-      height={props.height}
+      width={RH(props.width)}
+      height={RH(props.height)}
       viewBox={props.viewBox}
       fill="none"
       style={{ top: RH(7) }}

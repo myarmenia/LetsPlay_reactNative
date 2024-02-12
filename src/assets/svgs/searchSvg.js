@@ -5,7 +5,7 @@ import {RH, RW} from "@/theme/utils";
 function SearchSvg(props) {
     return (
         <Svg
-            width={RW(34)}
+            width={RH(34)}
             height={RH(33)}
             viewBox="0 0 34 33"
             fill="none"

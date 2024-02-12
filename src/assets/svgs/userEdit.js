@@ -1,15 +1,15 @@
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 
-function UserEditSvg(props) {
+function UserEditSvg() {
   return (
     <Svg
-      width={22}
-      height={21}
+      width={RH(22)}
+      height={RH(21)}
       viewBox="0 0 22 21"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      {...props}
     >
       <Path
         d="M16.939 10.108c-.188 0 .132-.136 0 0-.133.137 0 .807 0 1v7c0 .193-.868-.137-1 0-.133.137.187 1 0 1h-13c-.187 0 .132-.863 0-1-.133-.137-1 .193-1 0v-15c0-.193.867.137 1 0 .132-.137-.187-1 0-1h9c.187 0-.133.137 0 0 .132-.137 0 .193 0 0s.132-.863 0-1c-.133-.137.187 0 0 0h-9c-.562 0-.603.59-1 1-.397.41-1 .42-1 1v15c0 .58.603.59 1 1 .397.41.438 1 1 1h13c.561 0 .603-.59 1-1 .397-.41 1-.42 1-1v-7c0-.193.132-.863 0-1-.133-.136-.813 0-1 0z"

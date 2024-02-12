@@ -306,9 +306,9 @@ const styles = StyleSheet.create({
     marginBottom: RW(27),
   },
   chatItemImg: {
-    width: RW(42),
-    height: RH(43),
-    borderRadius: RH(22),
+    width: RW(44),
+    aspectRatio: 1,
+    borderRadius: RW(22),
   },
   chatItemBlock: {
     backgroundColor: ICON,
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   itemData: {
-    ...font('bold', 18, WHITE, 20),
+    ...font('bold', 17, WHITE, 20),
     width: RW(245),
   },
   time: {

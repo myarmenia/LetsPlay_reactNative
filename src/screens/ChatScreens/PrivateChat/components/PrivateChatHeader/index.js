@@ -4,7 +4,7 @@ import LeftArrow from '../../../../../assets/svgs/leftArrow'
 import InfoSvg from '@/assets/svgs/infoSvg'
 import Row from '@/components/wrappers/row'
 import CircleSvg from '@/assets/svgs/CircleSvg'
-import { RW } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 import { useNavigation } from '@react-navigation/native'
 import GameInfoModal from './GameInfoModal'
 import TeamInfoModal from './TeamInfoModal'
@@ -16,15 +16,7 @@ const PrivateChatHeader = ({ id, playersLength, type, team }) => {
   const navigation = useNavigation()
   return (
     <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'space-around',
-        justifyContent: 'space-between',
-        // position: 'absolute',
-        width: '100%',
-        top: '3%',
-        zIndex: 9999,
-      }}
+      style={styles.container}
     >
       <Pressable onPress={() => navigation.goBack()}>
         <Row>
@@ -76,4 +68,14 @@ const PrivateChatHeader = ({ id, playersLength, type, team }) => {
 
 export default PrivateChatHeader
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    top: '3%',
+    zIndex: 9999,
+    height: RH(44),
+  }
+})

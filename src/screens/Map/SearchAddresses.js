@@ -20,7 +20,7 @@ import MapSvg from '@/assets/svgs/mapSvg'
 import { setModalOptions } from '@/store/Slices/AppSlice'
 import { setAddress, resetAddress, changeAddressName } from '@/store/Slices/AddressSlice'
 
-const SearchAddresses = () => {
+const SearchAddresses = ({ style }) => {
   const inp = useRef()
   const [addressList, setAddresssList] = useState(null)
   const [value, setValue] = useState('')
@@ -130,9 +130,8 @@ const SearchAddresses = () => {
 
 
   return (
-    <View style={styles.container}>
-      <View style={[
-        styles.inputContainer, addressList && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
+    <View style={[styles.container, style]}>
+      <View style={[styles.inputContainer, addressList && { borderBottomLeftRadius: 0, borderBottomRightRadius: 0 },
       ]}
       >
         <TextInput
@@ -175,9 +174,8 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     backgroundColor: BACKGROUND,
-    width: RW(380),
+    width: '100%',
     height: RH(50),
-    flexDirection: 'row',
     zIndex: 89,
     borderRadius: RW(10),
     flexDirection: 'row',

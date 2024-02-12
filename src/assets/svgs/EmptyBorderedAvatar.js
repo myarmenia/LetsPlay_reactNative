@@ -1,11 +1,12 @@
+import { RH } from '@/theme/utils'
 import * as React from 'react'
 import Svg, { Path, Defs, LinearGradient, Stop } from 'react-native-svg'
 
 function EmptyBorderedAvatar() {
   return (
     <Svg
-      width={90}
-      height={124}
+      width={RH(90)}
+      height={RH(124)}
       viewBox="0 0 270 414"
       fill="rgba(204, 204, 204, 0.3)"
       xmlns="http://www.w3.org/2000/svg"

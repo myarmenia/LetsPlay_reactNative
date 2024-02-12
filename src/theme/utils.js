@@ -12,7 +12,7 @@ import {
   FONT_OPEN_SANS_MEDIUM,
 } from './fonts'
 
-const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
+export const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get('window')
 
 export const RatioH = SCREEN_HEIGHT / 926
 export const RatioW = SCREEN_WIDTH / 428

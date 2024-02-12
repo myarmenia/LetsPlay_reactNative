@@ -3,32 +3,32 @@ import React from 'react'
 import ScreenMask from '@/components/wrappers/screen'
 import { font, RH, RW } from '@/theme/utils'
 import { SCREEN_BACKGROUND, WHITE } from '@/theme/colors'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import LightButton from '@/components/buttons/Button'
 import { useNavigation } from '@react-navigation/native'
 import { _storageUrl } from '@/constants'
 import OrganizerSvg from '@/assets/svgs/OrganizatorSvg'
 import FastImage from 'react-native-fast-image'
 import { useSelector } from 'react-redux'
+import { isTabletDevice } from '@/helpers/helpFunctions'
 
 
 
 const MembersInTeam = () => {
   const command = useSelector(({ teams }) => teams.savedTeam)
-  console.log(command, 'command');
   const { user } = useSelector(({ auth }) => auth)
   const navigation = useNavigation()
 
   const UserItem = ({ elm }) => {
     return (
-      <Pressable style={{ margin: RW(5) }}>
-        <View style={{ top: RH(15), left: RW(5) }}>
-          {elm?._id === command?.user?._id ? <OrganizerSvg /> : <View style={{ height: RH(24) }} />}
+      <Pressable style={{ position: 'relative', }}>
+        <View style={{ position: 'absolute', top: -RH(5), left: -RH(7) }}>
+          {elm?._id === command?.user?._id && <OrganizerSvg />}
         </View>
         <User
           user={elm}
           pressedUser={elm}
-          size={110}
+          size={100}
           onPressItem={{
             modalClose: false,
             onClickFunc: () => { navigation.navigate('EachMember', { user: elm, command: command }) },
@@ -57,7 +57,7 @@ const MembersInTeam = () => {
       {user._id === command.user._id && <View style={styles.btnBox}>
         <LightButton
           label={'Пригласить игрока'}
-          size={{ width: 380, height: 45 }}
+          size={{ width: isTabletDevice ? 280 : 360, height: 45 }}
           onPress={() => navigation.navigate('SearchTeamMembers', command)}
         />
       </View>}

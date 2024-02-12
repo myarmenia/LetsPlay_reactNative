@@ -4,7 +4,7 @@ import NotificationIcon from '@/assets/imgs/NotificationIcon'
 import ScreenMask from '@/components/wrappers/screen'
 import CalendarIcon from '@/assets/imgs/CalendarIcon'
 import { RH, RW, font } from '@/theme/utils'
-import User from '@/components/User/user'
+import User from '../../components/User/User'
 import LogoSvg from '@/assets/LogoSvg'
 import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { participateToGame } from '@/store/Slices/GamesSlice'
@@ -66,7 +66,7 @@ const HomeScreen = ({ route }) => {
       </View>
 
       <View style={styles.detailContainer}>
-        <User size={370} />
+        <User size={414} />
       </View>
     </ScreenMask>
   )

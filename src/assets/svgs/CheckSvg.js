@@ -1,12 +1,12 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
 import { memo } from 'react'
-import { RW } from '@/theme/utils'
+import { RH, RW } from '@/theme/utils'
 const CheckSvg = (props) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width={24}
-    height={16}
+    width={RH(24)}
+    height={RH(16)}
     viewBox="0 0 30 22"
     fill="none"
     style={{ left: RW(5) }}

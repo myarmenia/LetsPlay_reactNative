@@ -12,9 +12,13 @@ import LightButton from '@/components/buttons/Button'
 import { useDispatch, useSelector } from 'react-redux'
 import { getGames } from '@/store/Slices/GamesSlice'
 import { searchGame, setFindedGames } from '@/store/Slices/TeamSlice'
+import { isTablet } from 'react-native-device-info';
+
 
 const JoinGame = () => {
   const { address, longitude, latitude } = useSelector(({ address }) => address)
+  const isTabletDevice = isTablet();
+
 
   const dispatch = useDispatch()
   const games = useSelector(({ games }) => games.games)
@@ -154,7 +158,7 @@ const JoinGame = () => {
         <LightButton
           label={'Готово'}
           onPress={showHideError}
-          size={{ width: RW(144), height: '100%' }}
+          size={{ width: isTabletDevice ? RH(120) : RW(144), height: '100%' }}
         />
       </View>
     </ScreenMask>
@@ -174,8 +178,6 @@ const styles = StyleSheet.create({
   },
   errorText: {
     ...font('medium', 18, RED),
-    top: RH(15),
-    left: RW(20),
   },
   openedGameBtn: {
     borderRadius: RW(10),

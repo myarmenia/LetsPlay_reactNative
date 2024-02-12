@@ -5,7 +5,7 @@ import CircleSlide from '@/assets/imgs/CircleSlide.png'
 import { RH, RW, font } from '@/theme/utils'
 import { WHITE } from '@/theme/colors'
 import { setCountWords } from '@/store/Slices/AliasSlice'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 function Index({
   maxValue = 90,
@@ -17,7 +17,6 @@ function Index({
   containerStyle = {},
 }) {
   const dispatch = useDispatch()
-  const { countWords } = useSelector(({ alias }) => alias)
   const renderScaleLabels = () => {
     const labels = () => {
       let newArr = []

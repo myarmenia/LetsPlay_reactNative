@@ -5,7 +5,7 @@ import { RH, RW } from '@/theme/utils'
 import { FONT_INTER_REGULAR } from '@/theme/fonts'
 import ArrowRight from '@/assets/svgs/ArrowRight'
 import Modal from '@/components/modal'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import { useSelector } from 'react-redux'
 import dateFormater from '../../../../../helpers/dateFormater'
 import Share from 'react-native-share'
@@ -20,15 +20,15 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, team }) => {
 
 
   const share = async () => {
-    viewShot.current.capture().then(async (uri) => {
+    try {
+      const uri = await viewShot.current.capture()
       const shareOptions = {
         message: 'Информация о команде',
         url: uri,
       };
       await Share.open(shareOptions);
-    }),
-      (error) => console.error("Oops, snapshot failed", error);
-
+    } catch (error) {
+    }
   }
 
   return (
@@ -60,8 +60,8 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, team }) => {
                 </Text>
                 <Text style={styles.title}>Адрес: {teamInfo?.address_name}</Text>
 
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Text style={styles.title}>Организатор команды:</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center',  marginTop: RH(10) }}>
+                  <Text style={[styles.title, { paddingTop: 0 }]}>Организатор команды:</Text>
                   <View style={{ left: 10 }}>
                     <User
                       size={30}
@@ -74,14 +74,13 @@ const TeamInfoModal = ({ modalVisible, setModalVisible, team }) => {
                   </View>
                 </View>
                 {teamInfo.invited_players?.length ? (
-                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(5) }}>
-                    <Text style={styles.title}>Игроки команды:</Text>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: RH(10) }}>
+                    <Text style={[styles.title, { paddingTop: 0 }]}>Игроки команды:</Text>
 
                     <View
                       style={{
                         flexDirection: 'row',
                         flexWrap: 'wrap',
-                        width: 150,
                         left: 10,
                       }}
                     >

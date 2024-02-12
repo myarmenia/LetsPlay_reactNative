@@ -10,6 +10,7 @@ import ScreenMask2 from '@/components/wrappers/screen2'
 
 function Index({ route }) {
   const { userGalleries, otherUserGalleries } = useSelector(({ app }) => app)
+  console.log(userGalleries, 'galleries');
   const dispatch = useDispatch()
   const isMe = route.params?.isMe
   const canDelete = route.params.canDelete
@@ -50,8 +51,9 @@ function Index({ route }) {
 }
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
+    flex: 1,
     paddingTop: RW(27),
+    paddingBottom: RH(10),
     alignItems: 'center',
   },
   title: {

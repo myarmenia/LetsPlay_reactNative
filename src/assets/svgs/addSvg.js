@@ -5,7 +5,7 @@ import { RH, RW } from '@/theme/utils'
 function SvgComponent({ width, height, strokeWidth, plusColor = '#0A0D3A' }) {
   return (
     <Svg
-      width={width || RW(26)}
+      width={width || RH(26)}
       height={height || RH(26)}
       viewBox="0 0 26 26"
       fill="none"

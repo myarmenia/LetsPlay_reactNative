@@ -5,7 +5,7 @@ import { RH, RW } from '@/theme/utils'
 function DateSvg(props) {
   return (
     <Svg
-      width={RW(18)}
+      width={RH(18)}
       height={RH(17)}
       viewBox="0 0 18 17"
       fill="none"

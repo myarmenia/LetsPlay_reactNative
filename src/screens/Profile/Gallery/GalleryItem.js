@@ -5,8 +5,9 @@ import FastImage from 'react-native-fast-image'
 import Video from 'react-native-video'
 import { RH, RW } from '@/theme/utils'
 import CloseSvg from '@/assets/svgs/closeSvg'
-import { deleteGalleryFile, setModalOptions } from '@/store/Slices/AppSlice'
+import { deleteGaleryTeamCreateGameFile, deleteGalleryFile, setDeleteGalleryFile, setModalOptions } from '@/store/Slices/AppSlice'
 import { useDispatch } from 'react-redux'
+import { rejectImage } from '@/store/Slices/TournamentReducer/TournamentApies'
 
 const GalleryItem = ({ item, isMe, canDelete }) => {
   const dispatch = useDispatch()
@@ -27,7 +28,20 @@ const GalleryItem = ({ item, isMe, canDelete }) => {
     >
       {isMe && canDelete ? (
         <Pressable
-          onPress={() => dispatch(deleteGalleryFile({ file_id: item?._id }))}
+          onPress={() => {
+            if (item.tourney) {
+              dispatch(rejectImage({ file_id: item?._id })).unwrap().then((res) => {
+                if (res.data.statusCode === 200) {
+                  dispatch(setDeleteGalleryFile(item?._id))
+                }
+              })
+            } else if (item.create_game) {
+              dispatch(deleteGalleryFile({ file_id: item?._id }))
+            } else {
+              deleteGaleryTeamCreateGameFile({ file_id: item?._id })
+            }
+
+          }}
           style={styles.deleteBtn}
         >
           <CloseSvg color="#000" />

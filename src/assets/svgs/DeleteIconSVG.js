@@ -5,7 +5,7 @@ import Svg, { G, Path, Defs, ClipPath } from 'react-native-svg'
 const DeleteIconSVG = ({ color = '#fff', style = {} }) => (
   <Svg
     viewBox="0 0 25 28"
-    width={RW(35)}
+    width={RH(35)}
     height={RH(38)}
     fill="none"
     style={{ right: RW(-23), zIndex: 99, ...style }}

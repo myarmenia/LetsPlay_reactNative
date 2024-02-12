@@ -14,7 +14,7 @@ import {
 } from '@/store/Slices/CrocodileSlice'
 import LightButton from '@/components/buttons/Button'
 import DarkButton from '@/components/buttons/DarkButton'
-import User from '@/components/User/user'
+import User from '@/components/User/User'
 import BorderGradient from '@/assets/svgs/BorderGradiend'
 import ScreenMask from '@/components/wrappers/screen'
 import { setPending } from '@/store/Slices/AuthSlice'

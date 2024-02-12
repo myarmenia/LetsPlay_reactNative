@@ -44,7 +44,7 @@ function Index({ route }) {
               setModalVisible(false)
               navigation.navigate('CreateTeamTitle')
             }}
-          ></LightButton>
+          />
           <DarkButton
             label={'Нет'}
             size={{ width: 100 }}

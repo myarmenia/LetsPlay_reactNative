@@ -42,7 +42,7 @@ function RadioBlock({
               alignItems: 'center',
               justifyContent: 'center',
               width: RW(16),
-              height: RW(16),
+              aspectRatio: 1,
               borderRadius: RW(16),
             }}
           >
@@ -56,7 +56,7 @@ function RadioBlock({
                   alignItems: 'center',
                   justifyContent: 'center',
                   width: RW(10),
-                  height: RH(10),
+                  aspectRatio: 1,
                   borderRadius: RW(10),
                 }}
               ></LinearGradient>
@@ -68,7 +68,7 @@ function RadioBlock({
                   backgroundColor: LIGHT_LABEL,
                   justifyContent: 'center',
                   width: RW(10),
-                  height: RH(10),
+                  aspectRatio: 1,
                   borderRadius: RW(10),
                 }}
               ></View>
